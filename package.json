@@ -15,6 +15,7 @@
         "copyright:check": "npx license-check-and-add check -f ./licence-check-and-add-config.json",
         "copyright:fix": "npx license-check-and-add add -f ./licence-check-and-add-config.json",
         "test": "npx jest",
+        "precheckin": "npm-run-all --serial format:check cbuild lint test",
         "watch:test": "npx jest --watch"
     },
     "repository": {
