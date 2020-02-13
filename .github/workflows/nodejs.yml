@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 name: Build
 
 on: 
@@ -49,11 +52,16 @@ jobs:
     
     - name: Install dependencies
       run: yarn install --frozen-lockfile
-     
+    
     - name: Run tests
-      uses: ziishaned/jest-reporter-action@v0.0.1
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        test-command: "yarn jest --ci --coverage"
+      run: yarn jest --ci --coverage
       env:
         NODE_OPTIONS: --max_old_space_size=4096
+     
+    - name: Publish code coverage
+      uses: 5monkeys/cobertura-action@master
+      with:
+        path: ${{ github.workspace }}/test-results/unit/coverage/cobertura-coverage.xml
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        minimum_coverage: 0
+
