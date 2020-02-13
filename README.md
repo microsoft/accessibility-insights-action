@@ -4,7 +4,8 @@ Licensed under the MIT License.
 -->
 
 # Accessibility Insights Action
-Accessibility Insights Action helps integrate automated accessibility tests in GitHub workflow. 
+
+Accessibility Insights Action helps integrate automated accessibility tests in GitHub workflow.
 
 **This is a pre-release version and therefore not production ready yet.**
 
