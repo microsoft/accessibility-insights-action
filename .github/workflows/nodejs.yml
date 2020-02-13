@@ -1,4 +1,4 @@
-name: Node ${{ GITHUB_EVENT_NAME }}
+name: Build
 
 on: 
   push:
