@@ -62,6 +62,6 @@ jobs:
       uses: 5monkeys/cobertura-action@master
       with:
         path: ${{ github.workspace }}/test-results/unit/coverage/cobertura-coverage.xml
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
         minimum_coverage: 0
 
