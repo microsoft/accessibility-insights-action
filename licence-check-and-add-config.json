@@ -1,0 +1,21 @@
+{
+    "ignore": [".git", "**/yarn.lock", "package.json", "**/node_modules", "**/.gitattributes", "**/test-results", "**/dist"],
+    "license": "./copyright-header.txt",
+    "licenseFormats": {
+        "yaml|npmrc|yml|ps1|gitignore|dockerignore|prettierignore|yarnrc|nsh|sh": {
+            "eachLine": {
+                "prepend": "# "
+            }
+        },
+        "ts|tsx|d.ts|js|scss|css": {
+            "eachLine": {
+                "prepend": "// "
+            }
+        },
+        "md": {
+            "prepend": "<!--",
+            "append": "-->"
+        }
+    },
+    "trailingWhitespace": "TRIM"
+}
