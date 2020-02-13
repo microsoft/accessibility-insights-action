@@ -59,6 +59,7 @@ jobs:
         NODE_OPTIONS: --max_old_space_size=4096
      
     - name: Publish code coverage
+      if: github.event_name == 'pull_request'
       uses: 5monkeys/cobertura-action@master
       with:
         path: ${{ github.workspace }}/test-results/unit/coverage/cobertura-coverage.xml
