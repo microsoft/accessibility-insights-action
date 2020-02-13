@@ -3,6 +3,13 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License.
 -->
 
+# Accessibility Insights Action
+Accessibility Insights Action helps integrate automated accessibility tests in GitHub workflow. 
+
+**This is a pre-release version and therefore not production ready yet.**
+
+**This repo does not assume any responsibility for supporting issues that might be caused due to its use at this point in time.**
+
 # Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
