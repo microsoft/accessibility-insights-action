@@ -1,0 +1,59 @@
+name: Node ${{ GITHUB_EVENT_NAME }}
+
+on: 
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches: 
+      - '**'  
+jobs:
+  build:
+    name: Build & check code styling
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+        
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Check copyright headers
+      run: yarn copyright:check
+    
+    - name: Check code formatting
+      run: yarn format:check
+    
+    - name: Build
+      run: yarn cbuild
+    
+    - name: Check for lint errors
+      run: yarn lint
+  
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+     
+    - name: Run tests
+      uses: ziishaned/jest-reporter-action@v0.0.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        test-command: "yarn jest --ci --coverage"
+      env:
+        NODE_OPTIONS: --max_old_space_size=4096
