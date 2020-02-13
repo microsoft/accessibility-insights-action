@@ -63,5 +63,5 @@ jobs:
       with:
         path: ${{ github.workspace }}/test-results/unit/coverage/cobertura-coverage.xml
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        minimum_coverage: 0
+        minimum_coverage: 85%
 
