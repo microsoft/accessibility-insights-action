@@ -68,4 +68,43 @@ describe(ConsoleLoggerClient, ()=> {
         });
     });
 
+    describe('trackException', () => {
+        it('log data without properties', async () => {
+            await testSubject.setup(null);
+            const error = new Error('error1');
+
+            testSubject.trackException(error);
+
+            consoleMock.verify(c => c.log(`[Exception] === ${util.inspect(error, { depth: null })}`), Times.once());
+        });
+
+        it('log data with base properties', async () => {
+            const baseProps: BaseTelemetryProperties = { foo: 'bar', source: 'test-source' };
+            await testSubject.setup(baseProps);
+            const error = new Error('error1');
+
+            testSubject.trackException(error);
+
+            consoleMock.verify(
+                c => c.log(`[Exception][properties - ${util.inspect(baseProps)}] === ${util.inspect(error, { depth: null })}`),
+                Times.once(),
+            );
+        });
+
+        it('log data with custom runtime properties', async () => {
+            const baseProps: BaseTelemetryProperties = { source: 'test-source' };
+            const customProps: LoggerProperties = { scanId: 'scan-id', batchRequestId: 'batch-req-id' };
+            const mergedProps = { source: 'test-source', scanId: 'scan-id', batchRequestId: 'batch-req-id' };
+            await testSubject.setup(baseProps);
+            const error = new Error('error1');
+
+            testSubject.setCustomProperties(customProps);
+            testSubject.trackException(error);
+
+            consoleMock.verify(
+                c => c.log(`[Exception][properties - ${util.inspect(mergedProps)}] === ${util.inspect(error, { depth: null })}`),
+                Times.once(),
+            );
+        });
+    });
 } );
