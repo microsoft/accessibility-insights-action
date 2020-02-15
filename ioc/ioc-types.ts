@@ -5,4 +5,7 @@ export const iocTypes = {
     Process: 'Process',
     Console: 'Console',
     ReporterFactory: 'ReporterFactory',
+    GetPort: 'GetPort',
+    Express: 'Express',
+    ServeStatic: 'ServeStatic',
 };

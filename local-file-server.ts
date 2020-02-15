@@ -9,6 +9,7 @@ import * as getPort from 'get-port';
 import { Logger } from './logger/logger';
 import { Server } from 'http';
 import { isNil } from 'lodash';
+import { iocTypes } from './ioc/ioc-types';
 
 @injectable()
 export class LocalFileServer {
@@ -16,7 +17,13 @@ export class LocalFileServer {
     private startServerPromise: Promise<string>;
 
     private isRunning: boolean;
-    constructor(@inject(TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger) {}
+    constructor(
+        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(Logger) private readonly logger: Logger,
+        @inject(iocTypes.GetPort) private readonly getPortFunc: typeof getPort,
+        @inject(iocTypes.Express) private readonly expressFunc : typeof express,
+        @inject(iocTypes.ServeStatic) private readonly serveStaticFunc : typeof serveStatic,
+    ) {}
 
     public async start(): Promise<string> {
         if (isNil(this.startServerPromise)) {
@@ -29,11 +36,11 @@ export class LocalFileServer {
     private async startServer(): Promise<string> {
         this.isRunning = true;
 
-        const port = await getPort();
+        const port = await this.getPortFunc();
         this.logger.logInfo(`Using port ${port}`);
 
-        const app = express();
-        app.use(serveStatic(this.taskConfig.getSiteDir()));
+        const app = this.expressFunc();
+        app.use(this.serveStaticFunc(this.taskConfig.getSiteDir()));
 
         this.server = app.listen(port);
 
