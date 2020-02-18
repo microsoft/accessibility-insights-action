@@ -15,8 +15,7 @@ import { iocTypes } from './ioc/ioc-types';
 export class LocalFileServer {
     private server: Server;
     private startServerPromise: Promise<string>;
-
-    private isRunning: boolean;
+    
     constructor(
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(Logger) private readonly logger: Logger,
@@ -34,8 +33,6 @@ export class LocalFileServer {
     }
 
     private async startServer(): Promise<string> {
-        this.isRunning = true;
-
         const port = await this.getPortFunc();
         this.logger.logInfo(`Using port ${port}`);
 

@@ -8,7 +8,7 @@ import { Express, Handler } from 'express-serve-static-core';
 import getPort = require('get-port');
 import { Server } from 'http';
 import serveStatic = require('serve-static');
-import { IMock, It, Mock, Times } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 
 import { LocalFileServer } from './local-file-server';
 import { Logger } from './logger/logger';
@@ -52,6 +52,60 @@ describe('LocalFileServer', () => {
         serverMock = Mock.ofType<Server>();
         appMock = Mock.ofType<MockableExpress>();
         appHandler = () => {};
+        
+        localFileServer = new LocalFileServer(
+            taskConfigMock.object,
+            loggerMock.object,
+            getPortMock.object,
+            expressMock.object,
+            serverStaticMock.object,
+        );
+    });
+    
+    it('should create instance', () => {
+        expect(localFileServer).not.toBeNull();
+    });
+
+    describe('start', () => {
+        beforeEach(() => {
+            setupMocksForLocalFileServerStart();
+        });
+
+        it('start', async () => {
+            await localFileServer.start();
+            verifyMocks();
+        });
+
+        it('should get the same instance when start is called multiple times', async () => {
+            const promiseFunc1 = await localFileServer.start();
+            const promiseFunc2 = await localFileServer.start();
+            
+            expect(promiseFunc1).toEqual(promiseFunc2);
+        });
+
+    });
+
+    describe('stop', () => {
+        it('should do nothing if server is not started yet', () => {
+            serverMock.setup(sm => sm.close()).verifiable(Times.never());
+            localFileServer.stop();
+
+            verifyMocks();
+        })
+
+        it('should close server', async () => {
+            setupMocksForLocalFileServerStart();
+            serverMock.setup(sm => sm.close()).verifiable(Times.once());
+            
+            await localFileServer.start();
+            localFileServer.stop();
+
+
+            verifyMocks();
+        })
+    });
+
+    function setupMocksForLocalFileServerStart(): void {
         taskConfigMock
             .setup(tm => tm.getSiteDir())
             .returns(() => scanUrl)
@@ -80,25 +134,7 @@ describe('LocalFileServer', () => {
             .setup(am => am.listen(port))
             .returns(() => serverMock.object)
             .verifiable();
-
-        localFileServer = new LocalFileServer(
-            taskConfigMock.object,
-            loggerMock.object,
-            getPortMock.object,
-            expressMock.object,
-            serverStaticMock.object,
-        );
-    });
-
-    it('should create instance', () => {
-        expect(localFileServer).not.toBeNull();
-    });
-
-    it('start', async () => {
-        const promiseFunc = await localFileServer.start();
-         
-        verifyMocks();
-    });
+    }
 
     function verifyMocks(): void {
         taskConfigMock.verifyAll();
