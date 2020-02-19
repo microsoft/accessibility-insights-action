@@ -4,7 +4,6 @@ import { VError } from 'verror';
 
 import { LoggerClient, LogLevel } from './logger-client';
 
-
 export class Logger {
     protected initialized: boolean = false;
     protected isDebugEnabled: boolean = false;
