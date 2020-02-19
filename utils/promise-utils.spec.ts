@@ -18,7 +18,9 @@ describe(PromiseUtils, () => {
 
     beforeEach(() => {
         promiseUtils = new PromiseUtils();
-        errorHandleMock = Mock.ofInstance(() => {return null; });
+        errorHandleMock = Mock.ofInstance(() => {
+            return null;
+        });
         waitOneSecond = new Promise<string>((resolve, reject) => {
             setTimeout(() => {
                 resolve(resolvedMsg);
@@ -39,9 +41,7 @@ describe(PromiseUtils, () => {
         });
 
         it('promise timed out', async () => {
-            errorHandleMock
-                .setup(em => em())
-                .verifiable();
+            errorHandleMock.setup(em => em()).verifiable();
 
             const res = await promiseUtils.waitFor(waitOneSecond, 0, onTimeoutCallback);
 
