@@ -3,7 +3,7 @@
 module.exports = {
     clearMocks: true,
     collectCoverage: true,
-    displayName: 'all unit tests',
+    displayName: 'unit tests',
     globals: {
         'ts-jest': {
             tsConfig: '<rootDir>/tsconfig.json',
@@ -15,7 +15,7 @@ module.exports = {
     // See https://github.com/facebook/jest/issues/2713
     testRunner: 'jest-circus/runner',
     transform: {
-        '^.+\\.(ts)$': 'ts-jest',
+        '^.+\\.(ts|tsx)$': 'ts-jest',
     },
     testMatch: ['**/*.spec.[tj]s'],
     testPathIgnorePatterns: ['/dist/', '/out/'],
@@ -32,10 +32,7 @@ module.exports = {
         '!<rootDir>/**/webpack.config.js',
         '!<rootDir>/**/node_modules/**',
         '!<rootDir>/**/test-results/**',
-        '!<rootDir>/**/test-utilities/**',
-        '!<rootDir>/**/dev-scripts/**',
-        '!<rootDir>/**/jump-consistent-hash.*',
-        '!<rootDir>/**/guid-generator.*',
+        '!<rootDir>/**/utils/**',
     ],
     reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/test-results/unit', outputName: 'junit.xml' }]],
     testEnvironment: 'node',
