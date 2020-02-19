@@ -4,10 +4,11 @@ import * as actionCore from '@actions/core';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
 import * as process from 'process';
+import { iocTypes } from './ioc/ioc-types';
 
 @injectable()
 export class TaskConfig {
-    constructor(private readonly processObj: typeof process, private readonly actionCoreObj = actionCore) {}
+    constructor(@inject(iocTypes.Process)private readonly processObj: typeof process, private readonly actionCoreObj = actionCore) {}
 
     public getReportOutDir(): string {
         return path.join(this.processObj.env.GITHUB_WORKSPACE, '_accessibility-reports');
