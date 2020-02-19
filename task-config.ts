@@ -8,7 +8,7 @@ import { iocTypes } from './ioc/ioc-types';
 
 @injectable()
 export class TaskConfig {
-    constructor(@inject(iocTypes.Process)private readonly processObj: typeof process, private readonly actionCoreObj = actionCore) {}
+    constructor(@inject(iocTypes.Process) private readonly processObj: typeof process, private readonly actionCoreObj = actionCore) {}
 
     public getReportOutDir(): string {
         return path.join(this.processObj.env.GITHUB_WORKSPACE, '_accessibility-reports');
