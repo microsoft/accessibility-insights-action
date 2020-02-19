@@ -9,7 +9,6 @@ import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 
-
 @injectable()
 export class Scanner {
     constructor(
@@ -17,7 +16,7 @@ export class Scanner {
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
-        @inject(iocTypes.Process)protected readonly currentProcess: typeof process,
+        @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
     ) {}
 
     public async scan(): Promise<void> {

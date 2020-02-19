@@ -10,7 +10,7 @@
             "name": "Debug current unit test file",
             "program": "${workspaceFolder}/node_modules/jest/bin/jest",
             "args": ["${fileBasename}", "--runInBand", "--coverage=false"],
-            
+
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "cwd": "${fileDirname}"

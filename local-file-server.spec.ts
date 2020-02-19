@@ -52,7 +52,7 @@ describe('LocalFileServer', () => {
         serverMock = Mock.ofType<Server>();
         appMock = Mock.ofType<MockableExpress>();
         appHandler = () => {};
-        
+
         localFileServer = new LocalFileServer(
             taskConfigMock.object,
             loggerMock.object,
@@ -61,7 +61,7 @@ describe('LocalFileServer', () => {
             serverStaticMock.object,
         );
     });
-    
+
     it('should create instance', () => {
         expect(localFileServer).not.toBeNull();
     });
@@ -79,10 +79,9 @@ describe('LocalFileServer', () => {
         it('should get the same instance when start is called multiple times', async () => {
             const promiseFunc1 = await localFileServer.start();
             const promiseFunc2 = await localFileServer.start();
-            
+
             expect(promiseFunc1).toEqual(promiseFunc2);
         });
-
     });
 
     describe('stop', () => {
@@ -91,18 +90,17 @@ describe('LocalFileServer', () => {
             localFileServer.stop();
 
             verifyMocks();
-        })
+        });
 
         it('should close server', async () => {
             setupMocksForLocalFileServerStart();
             serverMock.setup(sm => sm.close()).verifiable(Times.once());
-            
+
             await localFileServer.start();
             localFileServer.stop();
 
-
             verifyMocks();
-        })
+        });
     });
 
     function setupMocksForLocalFileServerStart(): void {

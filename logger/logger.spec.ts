@@ -57,7 +57,6 @@ describe(Logger, () => {
         });
     });
 
-
     describe('log', () => {
         it('throw if called before setup', () => {
             expect(() => {

@@ -9,16 +9,13 @@ import { BaseTelemetryProperties } from './base-telemetry-properties';
 import * as util from 'util';
 import { LoggerProperties } from './logger-properties';
 
-
 // tslint:disable: no-null-keyword no-object-literal-type-assertion no-any no-void-expression no-empty
 
-
-describe(ConsoleLoggerClient, ()=> {
+describe(ConsoleLoggerClient, () => {
     let testSubject: ConsoleLoggerClient;
     let consoleMock: IMock<typeof console>;
 
     beforeEach(() => {
-
         consoleMock = Mock.ofInstance({ log: () => {} } as typeof console);
 
         testSubject = new ConsoleLoggerClient(consoleMock.object);
@@ -107,4 +104,4 @@ describe(ConsoleLoggerClient, ()=> {
             );
         });
     });
-} );
+});

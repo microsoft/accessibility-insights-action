@@ -15,13 +15,13 @@ import { iocTypes } from './ioc/ioc-types';
 export class LocalFileServer {
     private server: Server;
     private startServerPromise: Promise<string>;
-    
+
     constructor(
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(Logger) private readonly logger: Logger,
         @inject(iocTypes.GetPort) private readonly getPortFunc: typeof getPort,
-        @inject(iocTypes.Express) private readonly expressFunc : typeof express,
-        @inject(iocTypes.ServeStatic) private readonly serveStaticFunc : typeof serveStatic,
+        @inject(iocTypes.Express) private readonly expressFunc: typeof express,
+        @inject(iocTypes.ServeStatic) private readonly serveStaticFunc: typeof serveStatic,
     ) {}
 
     public async start(): Promise<string> {

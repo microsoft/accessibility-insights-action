@@ -39,7 +39,10 @@ describe('Scanner', () => {
             .setup(tm => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)
             .verifiable();
-        localFileServerMock.setup(async lfs => lfs.start()).returns(() => Promise.resolve(baseUrl)).verifiable();
+        localFileServerMock
+            .setup(async lfs => lfs.start())
+            .returns(() => Promise.resolve(baseUrl))
+            .verifiable();
         localFileServerMock.setup(lfs => lfs.stop()).verifiable();
     });
 
@@ -69,7 +72,9 @@ describe('Scanner', () => {
                     throw error;
                 });
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
-            loggerMock.setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`)).verifiable(Times.once());
+            loggerMock
+                .setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
+                .verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${undefined} completed.`)).verifiable(Times.once());
 
             setupWaitForPromisetoReturnOriginalPromise();

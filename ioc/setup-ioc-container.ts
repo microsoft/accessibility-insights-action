@@ -13,7 +13,6 @@ import { Scanner } from '../scanner/scanner';
 import { TaskConfig } from '../task-config';
 import { iocTypes } from './ioc-types';
 
-
 export function setupIocContainer(): inversify.Container {
     const container = new inversify.Container({ autoBindInjectable: true });
     container
