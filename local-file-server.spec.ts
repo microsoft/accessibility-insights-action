@@ -4,10 +4,11 @@
 import 'reflect-metadata';
 
 import * as express from 'express';
+// tslint:disable-next-line:no-implicit-dependencies
 import { Express, Handler } from 'express-serve-static-core';
-import getPort = require('get-port');
+import * as getPort from 'get-port';
 import { Server } from 'http';
-import serveStatic = require('serve-static');
+import * as serveStatic from 'serve-static';
 import { IMock, Mock, Times } from 'typemoq';
 
 import { LocalFileServer } from './local-file-server';
@@ -23,11 +24,11 @@ interface ExpressInterface {
 
 class MockableExpress implements ExpressInterface {
     public use(handler: any): ExpressInterface {
-        return null;
+        return undefined;
     }
 
     public listen(port: number): Server {
-        return null;
+        return undefined;
     }
 }
 
@@ -52,7 +53,7 @@ describe('LocalFileServer', () => {
         expressMock = Mock.ofType<typeof express>();
         serverMock = Mock.ofType<Server>();
         appMock = Mock.ofType<MockableExpress>();
-        appHandler = () => {};
+        appHandler = () => undefined;
 
         localFileServer = new LocalFileServer(
             taskConfigMock.object,

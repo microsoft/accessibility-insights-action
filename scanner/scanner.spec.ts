@@ -29,7 +29,7 @@ describe('Scanner', () => {
         taskConfigMock = Mock.ofType(TaskConfig);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         localFileServerMock = Mock.ofType(LocalFileServer);
-        exitMock = Mock.ofInstance((code: number) => {});
+        exitMock = Mock.ofInstance((code: number) => undefined);
         processStub = {
             exit: exitMock.object,
         } as typeof process;
