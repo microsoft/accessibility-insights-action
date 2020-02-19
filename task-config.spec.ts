@@ -4,6 +4,8 @@
 import 'reflect-metadata';
 
 import * as actionCore from '@actions/core';
+import * as path from 'path';
+import * as process from 'process';
 import { IMock, Mock, Times } from 'typemoq';
 
 import { TaskConfig } from './task-config';
@@ -29,7 +31,7 @@ describe(TaskConfig, () => {
 
     it('getReportOutDir', () => {
         const dir = taskConfig.getReportOutDir();
-        expect(dir).toBe(`${workspace}\\_accessibility-reports`);
+        expect(dir).toBe(path.join(workspace, '_accessibility-reports'));
     });
 
     it('getSiteDir', () => {
@@ -46,15 +48,15 @@ describe(TaskConfig, () => {
     });
 
     it('getScanUrlRelativePath', () => {
-        const path = 'path';
+        const relativePath = 'path';
         actionCoreMock
             .setup(am => am.getInput('scan-url-relative-path'))
-            .returns(() => path)
+            .returns(() => relativePath)
             .verifiable(Times.once());
 
         const res = taskConfig.getScanUrlRelativePath();
 
-        expect(res).toBe(path);
+        expect(res).toBe(relativePath);
         actionCoreMock.verifyAll();
     });
 
