@@ -32,7 +32,7 @@ class MockableExpress implements ExpressInterface {
     }
 }
 
-describe('LocalFileServer', () => {
+describe(LocalFileServer, () => {
     let localFileServer: LocalFileServer;
     let loggerMock: IMock<Logger>;
     let taskConfigMock: IMock<TaskConfig>;
