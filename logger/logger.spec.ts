@@ -311,25 +311,6 @@ describe(Logger, () => {
         });
     });
 
-    describe('flush', () => {
-        it('throw if called before setup', () => {
-            expect(() => {
-                testSubject.flush();
-            }).toThrowError(
-                'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
-            );
-        });
-
-        it('flushes events', async () => {
-            setupCallsForTelemetrySetup();
-            await testSubject.setup();
-
-            invokeAllLoggerClientMocks(m => m.setup(c => c.flush()).verifiable(Times.once()));
-
-            testSubject.flush();
-        });
-    });
-
     function verifyMocks(): void {
         loggerClient1Mock.verifyAll();
         loggerClient2Mock.verifyAll();

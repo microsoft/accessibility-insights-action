@@ -27,9 +27,6 @@ export class ConsoleLoggerClient implements LoggerClient {
         this.logInConsole(`[Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
     }
 
-    // tslint:disable-next-line: no-empty
-    public flush(): void {}
-
     public setCustomProperties(properties: LoggerProperties): void {
         this.baseProperties = { ...this.baseProperties, ...properties };
     }

@@ -60,12 +60,6 @@ export class Logger {
         this.trackException(new VError(parsedErrorObject, message));
     }
 
-    public flush(): void {
-        this.ensureInitialized();
-
-        this.invokeLoggerClient(client => client.flush());
-    }
-
     public setCustomProperties(properties: LoggerProperties): void {
         this.invokeLoggerClient(client => client.setCustomProperties(properties));
     }

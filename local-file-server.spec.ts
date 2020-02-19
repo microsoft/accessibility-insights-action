@@ -74,7 +74,8 @@ describe(LocalFileServer, () => {
         });
 
         it('start', async () => {
-            await localFileServer.start();
+            const host = await localFileServer.start();
+            expect(host).toBe(`http://localhost:${port}`);
             verifyMocks();
         });
 
