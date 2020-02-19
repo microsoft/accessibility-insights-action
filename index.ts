@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-// import * as core from '@actions/core';
-//import * as github from '@actions/github';
 import { setupIocContainer } from './ioc/setup-ioc-container';
 import { Logger } from './logger/logger';
 import { Scanner } from './scanner/scanner';
