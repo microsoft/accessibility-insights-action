@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import 'reflect-metadata';
-import { ConsoleLoggerClient } from './console-logger-client';
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
-import { LogLevel } from './logger-client';
-import { BaseTelemetryProperties } from './base-telemetry-properties';
 import * as util from 'util';
+import { BaseTelemetryProperties } from './base-telemetry-properties';
+import { ConsoleLoggerClient } from './console-logger-client';
+import { LogLevel } from './logger-client';
 import { LoggerProperties } from './logger-properties';
 
 // tslint:disable: no-null-keyword no-object-literal-type-assertion no-any no-void-expression no-empty

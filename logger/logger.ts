@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { VError } from 'verror';
 import { LoggerClient, LogLevel } from './logger-client';
 import { LoggerProperties } from './logger-properties';
-import { VError } from 'verror';
 
 export class Logger {
     protected initialized: boolean = false;

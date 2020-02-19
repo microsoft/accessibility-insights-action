@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import * as express from 'express';
-import * as serveStatic from 'serve-static';
-import { injectable, inject } from 'inversify';
-import { TaskConfig } from './task-config';
 import * as getPort from 'get-port';
-import { Logger } from './logger/logger';
 import { Server } from 'http';
+import { inject, injectable } from 'inversify';
 import { isNil } from 'lodash';
+import * as serveStatic from 'serve-static';
 import { iocTypes } from './ioc/ioc-types';
+import { Logger } from './logger/logger';
+import { TaskConfig } from './task-config';
 
 @injectable()
 export class LocalFileServer {
@@ -32,6 +32,13 @@ export class LocalFileServer {
         return this.startServerPromise;
     }
 
+    public stop(): void {
+        if (!isNil(this.startServerPromise)) {
+            this.startServerPromise = undefined;
+            this.server.close();
+        }
+    }
+
     private async startServer(): Promise<string> {
         const port = await this.getPortFunc();
         this.logger.logInfo(`Using port ${port}`);
@@ -42,12 +49,5 @@ export class LocalFileServer {
         this.server = app.listen(port);
 
         return `http://localhost:${port}`;
-    }
-
-    public stop(): void {
-        if (!isNil(this.startServerPromise)) {
-            this.startServerPromise = undefined;
-            this.server.close();
-        }
     }
 }

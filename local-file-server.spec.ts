@@ -17,14 +17,15 @@ import { TaskConfig } from './task-config';
 // tslint:disable: no-object-literal-type-assertion no-unsafe-any
 
 interface ExpressInterface {
-    use: (handler: any) => ExpressInterface;
-    listen: (port: number) => Server;
+    use(handler: any): ExpressInterface;
+    listen(port: number): Server;
 }
 
 class MockableExpress implements ExpressInterface {
     public use(handler: any): ExpressInterface {
         return null;
     }
+
     public listen(port: number): Server {
         return null;
     }

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { inject, injectable } from 'inversify';
+import { isEmpty } from 'lodash';
+import * as util from 'util';
+import { iocTypes } from '../ioc/ioc-types';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
 import { LoggerClient, LogLevel } from './logger-client';
-import * as util from 'util';
 import { LoggerProperties } from './logger-properties';
-import { isEmpty } from 'lodash';
-import { injectable, inject } from 'inversify';
-import { iocTypes } from '../ioc/ioc-types';
 
 @injectable()
 export class ConsoleLoggerClient implements LoggerClient {
