@@ -18,14 +18,13 @@ describe(TaskConfig, () => {
 
     beforeEach(() => {
         processStub = {
-            env : {
+            env: {
                 GITHUB_WORKSPACE: workspace,
-            }
+            },
         } as any;
         actionCoreMock = Mock.ofType<typeof actionCore>();
 
         taskConfig = new TaskConfig(processStub, actionCoreMock.object);
-
     });
 
     it('getReportOutDir', () => {
@@ -71,5 +70,4 @@ describe(TaskConfig, () => {
         expect(res).toBe(token);
         actionCoreMock.verifyAll();
     });
-
 });
