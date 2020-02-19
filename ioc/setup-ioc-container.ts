@@ -14,7 +14,7 @@ import { TaskConfig } from '../task-config';
 import { iocTypes } from './ioc-types';
 
 
-export function setupCliContainer(): inversify.Container {
+export function setupIocContainer(): inversify.Container {
     const container = new inversify.Container({ autoBindInjectable: true });
     container
         .bind(Scanner)
