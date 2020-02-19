@@ -60,10 +60,6 @@ export class Logger {
         this.trackException(new VError(parsedErrorObject, message));
     }
 
-    public setCustomProperties(properties: LoggerProperties): void {
-        this.invokeLoggerClient(client => client.setCustomProperties(properties));
-    }
-
     private invokeLoggerClient(action: (loggerClient: LoggerClient) => void): void {
         this.loggerClients.forEach(client => {
             action(client);
