@@ -4,6 +4,7 @@
         "**/yarn.lock",
         "**/CODEOWNERS",
         "package.json",
+        "cred-scan-suppressions.json",
         "**/node_modules",
         "**/.gitattributes",
         "**/test-results",
