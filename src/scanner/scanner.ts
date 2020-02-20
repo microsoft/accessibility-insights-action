@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
+import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as url from 'url';
-
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
@@ -13,6 +14,7 @@ import { PromiseUtils } from '../utils/promise-utils';
 export class Scanner {
     constructor(
         @inject(Logger) private readonly logger: Logger,
+        @inject(AIScanner) private readonly scanner: AIScanner,
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
@@ -34,6 +36,8 @@ export class Scanner {
             scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
+
+            await this.scanner.scan(scanUrl);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
         } finally {

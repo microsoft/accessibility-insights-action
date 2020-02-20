@@ -38,6 +38,7 @@
         "@types/puppeteer-core": "^2.0.0",
         "@types/serve-static": "^1.13.3",
         "@types/verror": "^1.10.3",
+        "accessibility-insights-scan": "^0.2.0",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
         "copy-webpack-plugin": "^5.1.1",
         "fork-ts-checker-webpack-plugin": "^4.0.3",

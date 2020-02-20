@@ -5,6 +5,8 @@ import 'reflect-metadata';
 
 import { IMock, It, Mock, Times } from 'typemoq';
 
+import { AIScanner } from 'accessibility-insights-scan';
+import { url } from 'inspector';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
@@ -15,6 +17,7 @@ import { Scanner } from './scanner';
 
 describe('Scanner', () => {
     let scanner: Scanner;
+    let scannerMock: IMock<AIScanner>;
     let loggerMock: IMock<Logger>;
     let promiseUtilsMock: IMock<PromiseUtils>;
     let taskConfigMock: IMock<TaskConfig>;
@@ -25,6 +28,7 @@ describe('Scanner', () => {
     const baseUrl = 'base';
 
     beforeEach(() => {
+        scannerMock = Mock.ofType(AIScanner);
         loggerMock = Mock.ofType(Logger);
         taskConfigMock = Mock.ofType(TaskConfig);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
@@ -33,7 +37,14 @@ describe('Scanner', () => {
         processStub = {
             exit: exitMock.object,
         } as typeof process;
-        scanner = new Scanner(loggerMock.object, taskConfigMock.object, localFileServerMock.object, promiseUtilsMock.object, processStub);
+        scanner = new Scanner(
+            loggerMock.object,
+            scannerMock.object,
+            taskConfigMock.object,
+            localFileServerMock.object,
+            promiseUtilsMock.object,
+            processStub,
+        );
 
         taskConfigMock
             .setup(tm => tm.getScanUrlRelativePath())
@@ -52,6 +63,7 @@ describe('Scanner', () => {
 
     describe('scan', () => {
         it('should log info', async () => {
+            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
 
@@ -71,6 +83,7 @@ describe('Scanner', () => {
                 .callback(() => {
                     throw error;
                 });
+            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.never());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
             loggerMock
                 .setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
@@ -86,6 +99,7 @@ describe('Scanner', () => {
 
         it('should return timeout promise', async () => {
             const errorMessage: string = `Unable to scan before timeout`;
+            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup(em => em(1)).verifiable(Times.once());
 
@@ -116,6 +130,7 @@ describe('Scanner', () => {
     });
 
     function verifyMocks(): void {
+        scannerMock.verifyAll();
         taskConfigMock.verifyAll();
         promiseUtilsMock.verifyAll();
         localFileServerMock.verifyAll();
