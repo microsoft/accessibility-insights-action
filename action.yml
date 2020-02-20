@@ -1,0 +1,19 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+name: 'Accessibility Scan'
+description: 'Task to scan for accessibility issues'
+inputs:
+    site-dir:
+        description: 'folder containing site content'
+        default: ${{ github.workspace }}
+        required: true
+    scan-url-relative-path:
+        description: 'relative path from url domain. Eg: /index.html'
+        required: true
+        default: '/'
+    repo-token:
+        description: 'github token'
+        required: true
+runs:
+    using: 'node12'
+    main: 'dist/index.js'

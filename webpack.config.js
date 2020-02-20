@@ -6,6 +6,7 @@ const webpack = require('webpack');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const copyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = env => {
     const version = env ? env.version : 'dev';
@@ -13,9 +14,9 @@ module.exports = env => {
     return {
         devtool: 'cheap-source-map',
         entry: {
-            ['index']: path.resolve('./src/index.ts'),
+            ['index']: path.resolve('./index.ts'),
         },
-        mode: 'production',
+        mode: 'development',
         module: {
             rules: [
                 {
@@ -48,6 +49,14 @@ module.exports = env => {
             }),
             new ForkTsCheckerWebpackPlugin(),
             new CaseSensitivePathsPlugin(),
+            new copyWebpackPlugin([
+                {
+                    context: './',
+                    from: 'node_modules/axe-core/axe.min.js',
+                    to: 'axe.js',
+                    ignore: ['dist/**'],
+                },
+            ]),
         ],
         resolve: {
             extensions: ['.ts', '.js', '.json'],
