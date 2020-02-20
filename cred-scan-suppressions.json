@@ -3,7 +3,7 @@
     "suppressions": [
         {
             "file": "\\dist\\index.js",
-            "_justification": "False positive!"
+            "_justification": "False positive, this authorization header is created by an external package while compiling the code!"
         }
     ]
 }
