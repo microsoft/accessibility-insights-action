@@ -16,12 +16,14 @@ describe(TaskConfig, () => {
     let processStub: typeof process;
     let actionCoreMock: IMock<typeof actionCore>;
     let taskConfig: TaskConfig;
+    const runId = 789;
     const workspace = 'some-workspace';
 
     beforeEach(() => {
         processStub = {
             env: {
                 GITHUB_WORKSPACE: workspace,
+                GITHUB_RUN_ID: `${runId}`,
             },
         } as any;
         actionCoreMock = Mock.ofType<typeof actionCore>();
@@ -70,6 +72,13 @@ describe(TaskConfig, () => {
         const res = taskConfig.getToken();
 
         expect(res).toBe(token);
+        actionCoreMock.verifyAll();
+    });
+
+    it('getRunId', () => {
+        const res = taskConfig.getRunId();
+
+        expect(res).toBe(runId);
         actionCoreMock.verifyAll();
     });
 });
