@@ -21,27 +21,24 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
+
+    - name: Install dependencies
+      run: yarn install
           
+    - name: Release
+      run: yarn semantic-release
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      
     - name: Scan for A11y issues
       uses: microsoft/accessibility-insights-action@testV7
       with:
         scan-url-relative-path: /
         repo-token: ${{ secrets.GITHUB_TOKEN }}    
-        
-#     - name: Upload report artifact
-#       uses: actions/upload-artifact@v1.0.0
-#       with:
-#       # Artifact name
-#         name: reports
-#       # Directory containing files to upload
-#         path: ${{ github.workspace }}/_accessibility-reports
-    - name: Install dependencies
-      run: yarn install
 
-    - name: Release
-      #uses: brpaz/action-semantic-release@v1
-      run: yarn semantic-release
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    
+    # - name: Upload report artifact
+    #   uses: actions/upload-artifact@v1.0.0
+    #   with:
+    #       name: reports
+    #       path: ${{ github.workspace }}/_accessibility-reports
