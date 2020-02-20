@@ -14,7 +14,7 @@ module.exports = env => {
     return {
         devtool: 'cheap-source-map',
         entry: {
-            ['index']: path.resolve('./index.ts'),
+            ['index']: path.resolve('./src/index.ts'),
         },
         mode: 'development',
         module: {
