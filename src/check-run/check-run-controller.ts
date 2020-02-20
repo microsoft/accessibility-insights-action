@@ -56,29 +56,7 @@ export class CheckRunController {
             name: A11Y_CHECK_NAME,
             status: 'completed',
             conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
-            output: {
-                title: A11Y_REPORT_TITLE,
-                summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
-                annotations: [
-                    {
-                        title: 'sample annotation with some unknown path - error',
-                        message: 'fix2',
-                        annotation_level: 'failure',
-                        end_line: 12,
-                        path: '/sample/path',
-                        start_line: 1,
-                    },
-                ],
-                text: stripIndent`
-                    ARTIFACTS:
-                    ${util.inspect(artifacts)}
-
-                    FAILED RULES:
-
-                    ${this.printRuleCount(axeScanResults)}
-
-                `,
-            },
+            output: this.getScanOutput(artifacts, axeScanResults),
         });
     }
 
@@ -98,6 +76,35 @@ export class CheckRunController {
                 ${message}`,
             },
         });
+    }
+
+    private getScanOutput(
+        artifacts: Octokit.ActionsListWorkflowRunArtifactsResponse,
+        axeScanResults: AxeScanResults,
+    ): Octokit.ChecksUpdateParamsOutput {
+        return {
+            title: A11Y_REPORT_TITLE,
+            summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
+            annotations: [
+                {
+                    title: 'sample annotation with some unknown path - error',
+                    message: 'fix2',
+                    annotation_level: 'failure',
+                    end_line: 12,
+                    path: '/sample/path',
+                    start_line: 1,
+                },
+            ],
+            text: stripIndent`
+                ARTIFACTS:
+                ${util.inspect(artifacts)}
+
+                FAILED RULES:
+
+                ${this.printRuleCount(axeScanResults)}
+
+            `,
+        };
     }
 
     private printRuleCount(axeScanResults: AxeScanResults): string {
