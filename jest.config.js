@@ -23,8 +23,8 @@ module.exports = {
     coverageDirectory: '<rootDir>/test-results/unit/coverage',
     coverageReporters: ['json', 'lcov', 'text', 'cobertura'],
     collectCoverageFrom: [
-        '<rootDir>/**/*.js',
-        '<rootDir>/**/*.ts',
+        '<rootDir>/src/**/*.js',
+        '<rootDir>/src/**/*.ts',
         '!<rootDir>/dist/**',
         '!<rootDir>/out/**',
         '!<rootDir>/**/jest.config.js',
