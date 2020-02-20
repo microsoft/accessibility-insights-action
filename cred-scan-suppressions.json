@@ -2,7 +2,7 @@
     "tool": "Credential Scanner",
     "suppressions": [
         {
-            "folder": "./dist/index.js",
+            "file": "./dist/index.js",
             "_justification": "False positive!"
         }
     ]
