@@ -3,6 +3,7 @@
 
 import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
+import { isNil } from 'lodash';
 import * as url from 'url';
 import { BrowserPathProvider } from '../browser/browser-path-provider';
 import { iocTypes } from '../ioc/ioc-types';
@@ -41,7 +42,7 @@ export class Scanner {
 
             let chromePath;
             chromePath = this.taskConfig.getChromePath();
-            if (chromePath === undefined) {
+            if (isNil(chromePath)) {
                 chromePath = this.browserPathProvider.getChromePath();
             }
 
