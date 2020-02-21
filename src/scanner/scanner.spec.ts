@@ -6,7 +6,7 @@ import 'reflect-metadata';
 import { IMock, It, Mock, Times } from 'typemoq';
 
 import { AIScanner } from 'accessibility-insights-scan';
-import { url } from 'inspector';
+import { BrowserPathProvider } from '../browser/browser-path-provider';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
@@ -22,6 +22,7 @@ describe('Scanner', () => {
     let promiseUtilsMock: IMock<PromiseUtils>;
     let taskConfigMock: IMock<TaskConfig>;
     let localFileServerMock: IMock<LocalFileServer>;
+    let browserPathProvider: IMock<BrowserPathProvider>;
     let processStub: typeof process;
     let exitMock: IMock<(code: number) => any>;
     const scanUrl = 'localhost';
@@ -33,6 +34,7 @@ describe('Scanner', () => {
         taskConfigMock = Mock.ofType(TaskConfig);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         localFileServerMock = Mock.ofType(LocalFileServer);
+        browserPathProvider = Mock.ofType(BrowserPathProvider);
         exitMock = Mock.ofInstance((code: number) => undefined);
         processStub = {
             exit: exitMock.object,
@@ -44,6 +46,7 @@ describe('Scanner', () => {
             localFileServerMock.object,
             promiseUtilsMock.object,
             processStub,
+            browserPathProvider.object,
         );
 
         taskConfigMock

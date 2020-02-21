@@ -4,6 +4,7 @@
 import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as url from 'url';
+import { BrowserPathProvider } from '../browser/browser-path-provider';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
@@ -19,6 +20,7 @@ export class Scanner {
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
+        @inject(BrowserPathProvider) private readonly browserPathProvider: BrowserPathProvider,
     ) {}
 
     public async scan(): Promise<void> {
@@ -36,6 +38,12 @@ export class Scanner {
             scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
+
+            let chromePath;
+            chromePath = this.taskConfig.getChromePath();
+            if (chromePath === undefined) {
+                chromePath = this.browserPathProvider.getChromePath();
+            }
 
             await this.scanner.scan(scanUrl);
         } catch (error) {

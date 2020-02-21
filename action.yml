@@ -11,6 +11,9 @@ inputs:
         description: 'relative path from url domain. Eg: /index.html'
         required: true
         default: '/'
+    chrome-path:
+        description: 'path to chrome executable'
+        required: false
     repo-token:
         description: 'github token'
         required: true

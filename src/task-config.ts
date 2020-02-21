@@ -26,6 +26,10 @@ export class TaskConfig {
         return this.actionCoreObj.getInput('repo-token');
     }
 
+    public getChromePath(): string {
+        return this.actionCoreObj.getInput('chrome-path');
+    }
+
     public getRunId(): number {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
     }
