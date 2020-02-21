@@ -27,7 +27,7 @@ describe(CheckRunCreator, () => {
     let octokitStub: Octokit;
     let createCheckMock: IMock<CreateCheck>;
     let updateCheckMock: IMock<UpdateCheck>;
-    let checkRunController: CheckRunCreator;
+    let checkRunCreator: CheckRunCreator;
     let githubStub: typeof github;
     let checkStub: Octokit.ChecksCreateResponse;
     const owner = 'owner';
@@ -64,17 +64,17 @@ describe(CheckRunCreator, () => {
         checkStub = {
             id: 1234,
         } as Octokit.ChecksCreateResponse;
-        checkRunController = new CheckRunCreator(taskConfigMock.object, loggerMock.object, octokitStub, githubStub);
+        checkRunCreator = new CheckRunCreator(taskConfigMock.object, loggerMock.object, octokitStub, githubStub);
     });
 
     it('should create instance', () => {
-        expect(checkRunController).not.toBeNull();
+        expect(checkRunCreator).not.toBeNull();
     });
 
     it('createRun', async () => {
         setupMocksForCreateCheck();
 
-        const res = await checkRunController.createRun();
+        const res = await checkRunCreator.createRun();
 
         expect(res).toBe(checkStub);
         verifyMocks();
@@ -102,17 +102,13 @@ describe(CheckRunCreator, () => {
 
         updateCheckMock.setup(um => um(expectedParam)).verifiable(Times.once());
 
-        await checkRunController.createRun();
-        await checkRunController.failRun(message);
+        await checkRunCreator.createRun();
+        await checkRunCreator.failRun(message);
 
         verifyMocks();
     });
 
     it('completeRun', async () => {
-        const artifacts: Octokit.ActionsListWorkflowRunArtifactsResponse = {
-            artifacts: [],
-            total_count: 0,
-        };
         const axeScanResults: AxeScanResults = {
             results: {
                 violations: [
@@ -148,8 +144,8 @@ ${table([
         setupMocksForCreateCheck();
         updateCheckMock.setup(um => um(expectedUpdateParam)).verifiable(Times.once());
 
-        const res = await checkRunController.createRun();
-        await checkRunController.completeRun(axeScanResults);
+        const res = await checkRunCreator.createRun();
+        await checkRunCreator.completeRun(axeScanResults);
 
         expect(res).toBe(checkStub);
         verifyMocks();
