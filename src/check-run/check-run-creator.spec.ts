@@ -122,20 +122,8 @@ describe(CheckRunCreator, () => {
                 ],
             },
         } as AxeScanResults;
+        const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, axeScanResults);
 
-        const expectedUpdateParam: UpdateCheckParams = {
-            owner: owner,
-            repo: repo,
-            check_run_id: checkStub.id,
-            name: a11yCheckName,
-            status: 'completed',
-            conclusion: 'failure',
-            output: {
-                title: a11yReportTitle,
-                summary: `Scan completed with failed rules count - 1`,
-                text: markdown,
-            },
-        };
         setupMocksForCreateCheck();
         convertorMock
             .setup(cm => cm.convert(axeScanResults))
@@ -149,6 +137,45 @@ describe(CheckRunCreator, () => {
         expect(res).toBe(checkStub);
         verifyMocks();
     });
+
+    it('completeRun with no failed rules', async () => {
+        const markdown = 'markdown';
+        const axeScanResults: AxeScanResults = {
+            results: {
+                violations: [],
+            },
+        } as AxeScanResults;
+
+        const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, axeScanResults);
+        setupMocksForCreateCheck();
+        convertorMock
+            .setup(cm => cm.convert(axeScanResults))
+            .returns(() => markdown)
+            .verifiable(Times.once());
+        updateCheckMock.setup(um => um(expectedUpdateParam)).verifiable(Times.once());
+
+        const res = await checkRunCreator.createRun();
+        await checkRunCreator.completeRun(axeScanResults);
+
+        expect(res).toBe(checkStub);
+        verifyMocks();
+    });
+
+    function getExpectedUpdateParam(markdown: string, axeScanResults: AxeScanResults) : UpdateCheckParams {
+        return {
+            owner: owner,
+            repo: repo,
+            check_run_id: checkStub.id,
+            name: a11yCheckName,
+            status: 'completed',
+            conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
+            output: {
+                title: a11yReportTitle,
+                summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
+                text: markdown,
+            },
+        };
+    }
 
     function setupMocksForCreateCheck(): void {
         const expectedParam: CreateCheckParams = {
