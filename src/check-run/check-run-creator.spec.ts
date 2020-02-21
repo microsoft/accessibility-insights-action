@@ -161,7 +161,7 @@ describe(CheckRunCreator, () => {
         verifyMocks();
     });
 
-    function getExpectedUpdateParam(markdown: string, axeScanResults: AxeScanResults) : UpdateCheckParams {
+    function getExpectedUpdateParam(markdown: string, axeScanResults: AxeScanResults): UpdateCheckParams {
         return {
             owner: owner,
             repo: repo,
