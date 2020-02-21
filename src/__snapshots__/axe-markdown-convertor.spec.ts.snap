@@ -2,7 +2,7 @@
 
 exports[`AxeMarkdownConvertor convert returns congrats message when no failure found 1`] = `
 "Congratulations!
-No failed automated checks were found by Accessibility Insights Action"
+No failed automated checks were found by Accessibility Insights Action."
 `;
 
 exports[`AxeMarkdownConvertor convert returns failure details 1`] = `
