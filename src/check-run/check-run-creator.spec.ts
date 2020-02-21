@@ -13,30 +13,26 @@ import * as util from 'util';
 import { Logger } from '../logger/logger';
 import { AxeScanResults } from '../scanner/axe-scan-results';
 import { TaskConfig } from '../task-config';
-import { CheckRunController } from './check-run-controller';
+import { CheckRunCreator } from './check-run-creator';
 
 // tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 type CreateCheckParams = Octokit.RequestOptions & Octokit.ChecksCreateParams;
 type UpdateCheckParams = Octokit.RequestOptions & Octokit.ChecksUpdateParams;
-type ListArtifactsParams = Octokit.RequestOptions & Octokit.ActionsListWorkflowRunArtifactsParams;
 type CreateCheck = (params: CreateCheckParams) => Promise<Octokit.Response<Octokit.ChecksCreateResponse>>;
 type UpdateCheck = (params: UpdateCheckParams) => Promise<Octokit.Response<Octokit.ChecksUpdateResponse>>;
-type ListArtifacts = (params: ListArtifactsParams) => Promise<Octokit.Response<Octokit.ActionsListWorkflowRunArtifactsResponse>>;
 
-describe(CheckRunController, () => {
+describe(CheckRunCreator, () => {
     let loggerMock: IMock<Logger>;
     let taskConfigMock: IMock<TaskConfig>;
     let octokitStub: Octokit;
     let createCheckMock: IMock<CreateCheck>;
     let updateCheckMock: IMock<UpdateCheck>;
-    let listWorkflowRunArtifactsMock: IMock<ListArtifacts>;
-    let checkRunController: CheckRunController;
+    let checkRunController: CheckRunCreator;
     let githubStub: typeof github;
     let checkStub: Octokit.ChecksCreateResponse;
     const owner = 'owner';
     const repo = 'repo';
     const sha = 'sha';
-    const runId = 1;
     const a11yCheckName = 'Accessibility Checks';
     const a11yReportTitle = 'Accessibility Checks Report';
 
@@ -49,16 +45,11 @@ describe(CheckRunController, () => {
         updateCheckMock = Mock.ofInstance(() => {
             return null;
         });
-        listWorkflowRunArtifactsMock = Mock.ofInstance(() => {
-            return null;
-        });
+
         octokitStub = {
             checks: {
                 create: createCheckMock.object,
                 update: updateCheckMock.object,
-            },
-            actions: {
-                listWorkflowRunArtifacts: listWorkflowRunArtifactsMock.object,
             },
         } as any;
         githubStub = {
@@ -73,7 +64,7 @@ describe(CheckRunController, () => {
         checkStub = {
             id: 1234,
         } as Octokit.ChecksCreateResponse;
-        checkRunController = new CheckRunController(taskConfigMock.object, loggerMock.object, octokitStub, githubStub);
+        checkRunController = new CheckRunCreator(taskConfigMock.object, loggerMock.object, octokitStub, githubStub);
     });
 
     it('should create instance', () => {
@@ -132,11 +123,7 @@ describe(CheckRunController, () => {
                 ],
             },
         } as AxeScanResults;
-        const expectedListParam: ListArtifactsParams = {
-            owner: owner,
-            repo: repo,
-            run_id: runId,
-        };
+
         const expectedUpdateParam: UpdateCheckParams = {
             owner: owner,
             repo: repo,
@@ -147,20 +134,7 @@ describe(CheckRunController, () => {
             output: {
                 title: a11yReportTitle,
                 summary: `Scan completed with failed rules count - 1`,
-                annotations: [
-                    {
-                        title: 'sample annotation with some unknown path - error',
-                        message: 'fix2',
-                        annotation_level: 'failure',
-                        end_line: 12,
-                        path: '/sample/path',
-                        start_line: 1,
-                    },
-                ],
                 text: stripIndent`
-ARTIFACTS:
-${util.inspect(artifacts)}
-
 FAILED RULES:
 
 ${table([
@@ -172,17 +146,6 @@ ${table([
             },
         };
         setupMocksForCreateCheck();
-        taskConfigMock
-            .setup(tcm => tcm.getRunId())
-            .returns(() => runId)
-            .verifiable(Times.once());
-        listWorkflowRunArtifactsMock
-            .setup(lm => lm(expectedListParam))
-            .returns(async () => {
-                return Promise.resolve({ data: artifacts } as any);
-            })
-            .verifiable(Times.once());
-        loggerMock.setup(lm => lm.logInfo(`Fetch artifacts - ${util.inspect(artifacts)}`)).verifiable(Times.once());
         updateCheckMock.setup(um => um(expectedUpdateParam)).verifiable(Times.once());
 
         const res = await checkRunController.createRun();
@@ -214,7 +177,6 @@ ${table([
         taskConfigMock.verifyAll();
         createCheckMock.verifyAll();
         updateCheckMock.verifyAll();
-        listWorkflowRunArtifactsMock.verifyAll();
         loggerMock.verifyAll();
     }
 });

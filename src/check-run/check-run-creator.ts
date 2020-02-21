@@ -5,7 +5,6 @@ import { Octokit } from '@octokit/rest';
 import { stripIndent } from 'common-tags';
 import { inject, injectable } from 'inversify';
 import * as table from 'markdown-table';
-import * as util from 'util';
 
 import { iocTypes } from '../ioc/ioc-types';
 import { Logger } from '../logger/logger';
@@ -16,7 +15,7 @@ const A11Y_CHECK_NAME = 'Accessibility Checks';
 const A11Y_REPORT_TITLE = 'Accessibility Checks Report';
 
 @injectable()
-export class CheckRunController {
+export class CheckRunCreator {
     private a11yCheck: Octokit.ChecksCreateResponse;
 
     constructor(
@@ -41,14 +40,6 @@ export class CheckRunController {
     }
 
     public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
-        const { data: artifacts } = await this.octokit.actions.listWorkflowRunArtifacts({
-            run_id: this.taskConfig.getRunId(),
-            owner: this.githubObj.context.repo.owner,
-            repo: this.githubObj.context.repo.repo,
-        });
-
-        this.logger.logInfo(`Fetch artifacts - ${util.inspect(artifacts)}`);
-
         await this.octokit.checks.update({
             owner: this.githubObj.context.repo.owner,
             repo: this.githubObj.context.repo.repo,
@@ -56,7 +47,7 @@ export class CheckRunController {
             name: A11Y_CHECK_NAME,
             status: 'completed',
             conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
-            output: this.getScanOutput(artifacts, axeScanResults),
+            output: this.getScanOutput(axeScanResults),
         });
     }
 
@@ -79,26 +70,12 @@ export class CheckRunController {
     }
 
     private getScanOutput(
-        artifacts: Octokit.ActionsListWorkflowRunArtifactsResponse,
         axeScanResults: AxeScanResults,
     ): Octokit.ChecksUpdateParamsOutput {
         return {
             title: A11Y_REPORT_TITLE,
             summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
-            annotations: [
-                {
-                    title: 'sample annotation with some unknown path - error',
-                    message: 'fix2',
-                    annotation_level: 'failure',
-                    end_line: 12,
-                    path: '/sample/path',
-                    start_line: 1,
-                },
-            ],
             text: stripIndent`
-ARTIFACTS:
-${util.inspect(artifacts)}
-
 FAILED RULES:
 
 ${this.printRuleCount(axeScanResults)}
