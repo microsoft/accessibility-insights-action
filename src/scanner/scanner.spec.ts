@@ -15,7 +15,7 @@ import { Scanner } from './scanner';
 
 // tslint:disable: no-object-literal-type-assertion no-unsafe-any
 
-describe('Scanner', () => {
+describe(Scanner, () => {
     let scanner: Scanner;
     let scannerMock: IMock<AIScanner>;
     let loggerMock: IMock<Logger>;
@@ -107,6 +107,23 @@ describe('Scanner', () => {
             exitMock.setup(em => em(1)).verifiable(Times.once());
 
             setupWaitForPromiseToReturnTimeoutPromise();
+
+            await scanner.scan();
+
+            verifyMocks();
+        });
+
+        it('chrome path is undefined', async () => {
+            const chromePath = 'path';
+            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.once());
+            loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
+            loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
+            taskConfigMock
+                .setup(tcm => tcm.getChromePath())
+                .returns(() => chromePath)
+                .verifiable(Times.once());
+
+            setupWaitForPromisetoReturnOriginalPromise();
 
             await scanner.scan();
 
