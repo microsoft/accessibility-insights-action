@@ -26,7 +26,7 @@ jobs:
       run: yarn install
 
     - name: Scan for A11y issues
-      uses: microsoft/accessibility-insights-action@add-chrome-path-parameter
+      uses: microsoft/accessibility-insights-action@testV10
       with:
         scan-url-relative-path: /
         repo-token: ${{ secrets.GITHUB_TOKEN }}    
