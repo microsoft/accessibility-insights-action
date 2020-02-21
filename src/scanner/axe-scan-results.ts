@@ -23,7 +23,6 @@ export interface ScanError {
 export interface AxeScanResults {
     results?: AxeResults;
     error?: string | ScanError;
-    pageResponseCode: number;
     unscannable?: boolean;
     scannedUrl?: string;
     pageTitle?: string;
