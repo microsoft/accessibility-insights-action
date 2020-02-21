@@ -12,7 +12,6 @@ import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 
-
 @injectable()
 export class Scanner {
     constructor(
