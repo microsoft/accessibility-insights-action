@@ -22,7 +22,7 @@ export class AxeMarkdownConvertor {
         return stripIndent`
         FAILED RULES:
 
-        ${this.getFailedRuleTable(axeScanResults)}
+${this.getFailedRuleTable(axeScanResults)}
         `;
     }
 

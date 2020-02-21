@@ -8,7 +8,7 @@ No failed automated checks were found by Accessibility Insights Action"
 exports[`AxeMarkdownConvertor convert returns failure details 1`] = `
 "FAILED RULES:
 
-        | Rule           | Count |
+| Rule           | Count |
 | -------------- | ----- |
 | color-contrast | 1     |
 | duplicate-id   | 1     |"
