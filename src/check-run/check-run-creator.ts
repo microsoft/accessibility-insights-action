@@ -69,9 +69,7 @@ export class CheckRunCreator {
         });
     }
 
-    private getScanOutput(
-        axeScanResults: AxeScanResults,
-    ): Octokit.ChecksUpdateParamsOutput {
+    private getScanOutput(axeScanResults: AxeScanResults): Octokit.ChecksUpdateParamsOutput {
         return {
             title: A11Y_REPORT_TITLE,
             summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
