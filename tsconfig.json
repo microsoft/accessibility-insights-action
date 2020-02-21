@@ -10,7 +10,8 @@
         "resolveJsonModule": true,
         "sourceMap": true,
         "declaration": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true
     },
     "awesomeTypescriptLoaderOptions": {
         "usePrecompiledFiles": true,

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { reporterFactory } from 'accessibility-insights-report';
 import * as express from 'express';
@@ -26,6 +27,7 @@ export function setupIocContainer(): inversify.Container {
     container.bind(iocTypes.Express).toConstantValue(express);
     container.bind(iocTypes.ServeStatic).toConstantValue(serveStatic);
     container.bind(iocTypes.ReporterFactory).toConstantValue(reporterFactory);
+    container.bind(iocTypes.Github).toConstantValue(github);
 
     container
         .bind(Octokit)
