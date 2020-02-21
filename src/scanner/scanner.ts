@@ -42,9 +42,13 @@ export class Scanner {
 
             let chromePath;
             chromePath = this.taskConfig.getChromePath();
+            this.logger.logInfo(`taskConfig.getChromePath() ${chromePath}.`);
             if (isNil(chromePath)) {
                 chromePath = this.browserPathProvider.getChromePath();
+                this.logger.logInfo(`browserPathProvider.getChromePath() ${chromePath}.`);
             }
+
+            this.logger.logInfo(`chromePath ${chromePath}.`);
 
             await this.scanner.scan(scanUrl, chromePath);
         } catch (error) {
