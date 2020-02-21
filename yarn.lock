@@ -973,10 +973,10 @@ accessibility-insights-report@^1.0.0:
     react-helmet "^5.2.0"
     uuid "^3.4.0"
 
-accessibility-insights-scan@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-0.2.1.tgz#65a26670b50ed620a76c9c2d827321d732b4481a"
-  integrity sha512-Btd5eQGR9Nd96DLhvlNb8yjM0ML+GKVWbUsqN+Vrh5Wf8Sy0rqs+H/Z6Kmhcc6Yfv/fNvzbR1f/+34gJy51RtA==
+accessibility-insights-scan@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-0.2.2.tgz#55bdcffd3d8eb464cdac3b449510a5c67c0fe1db"
+  integrity sha512-Ldeighol/3GMvVUee0DdH6tmjdr/uWqXrywlY5fEhkBbVgntjXIPK8xh6jEhiUr2M/eeOaD2YSY4e/5q85V1CA==
   dependencies:
     accessibility-insights-report "^1.0.0"
     axe-core "3.3.2"

@@ -46,7 +46,7 @@ export class Scanner {
                 chromePath = this.browserPathProvider.getChromePath();
             }
 
-            await this.scanner.scan(scanUrl);
+            await this.scanner.scan(scanUrl, chromePath);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
         } finally {

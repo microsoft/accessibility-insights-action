@@ -66,7 +66,7 @@ describe(Scanner, () => {
 
     describe('scan', () => {
         it('should log info', async () => {
-            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
 
@@ -86,7 +86,7 @@ describe(Scanner, () => {
                 .callback(() => {
                     throw error;
                 });
-            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.never());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined)).verifiable(Times.never());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
             loggerMock
                 .setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
@@ -102,7 +102,7 @@ describe(Scanner, () => {
 
         it('should return timeout promise', async () => {
             const errorMessage: string = `Unable to scan before timeout`;
-            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup(em => em(1)).verifiable(Times.once());
 
@@ -115,7 +115,7 @@ describe(Scanner, () => {
 
         it('chrome path is undefined', async () => {
             const chromePath = 'path';
-            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, chromePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
             taskConfigMock
