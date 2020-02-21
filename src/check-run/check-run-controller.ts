@@ -96,12 +96,12 @@ export class CheckRunController {
                 },
             ],
             text: stripIndent`
-                ARTIFACTS:
-                ${util.inspect(artifacts)}
+ARTIFACTS:
+${util.inspect(artifacts)}
 
-                FAILED RULES:
+FAILED RULES:
 
-                ${this.printRuleCount(axeScanResults)}
+${this.printRuleCount(axeScanResults)}
 
             `,
         };

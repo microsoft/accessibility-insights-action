@@ -22,6 +22,7 @@ type ListArtifactsParams = Octokit.RequestOptions & Octokit.ActionsListWorkflowR
 type CreateCheck = (params: CreateCheckParams) => Promise<Octokit.Response<Octokit.ChecksCreateResponse>>;
 type UpdateCheck = (params: UpdateCheckParams) => Promise<Octokit.Response<Octokit.ChecksUpdateResponse>>;
 type ListArtifacts = (params: ListArtifactsParams) => Promise<Octokit.Response<Octokit.ActionsListWorkflowRunArtifactsResponse>>;
+
 describe(CheckRunController, () => {
     let loggerMock: IMock<Logger>;
     let taskConfigMock: IMock<TaskConfig>;
@@ -157,15 +158,15 @@ describe(CheckRunController, () => {
                     },
                 ],
                 text: stripIndent`
-                    ARTIFACTS:
-                    ${util.inspect(artifacts)}
+ARTIFACTS:
+${util.inspect(artifacts)}
 
-                    FAILED RULES:
+FAILED RULES:
 
-                    ${table([
-                        ['Rule', 'Count'],
-                        ['color-contrast', '1'],
-                    ])}
+${table([
+    ['Rule', 'Count'],
+    ['color-contrast', '1'],
+])}
 
                 `,
             },
