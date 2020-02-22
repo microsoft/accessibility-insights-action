@@ -31,7 +31,7 @@ export class Scanner {
     private async invokeScan(): Promise<void> {
         let scanUrl: string;
 
-        try {
+        try { 
             const baseUrl = await this.fileServer.start();
             scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
 
