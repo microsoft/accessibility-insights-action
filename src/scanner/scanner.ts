@@ -3,7 +3,7 @@
 
 import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import { isNil } from 'lodash';
+import { isNil, isEmpty } from 'lodash';
 import * as url from 'url';
 import { BrowserPathProvider } from '../browser/browser-path-provider';
 import { iocTypes } from '../ioc/ioc-types';
@@ -43,7 +43,8 @@ export class Scanner {
             let chromePath;
             chromePath = this.taskConfig.getChromePath();
             this.logger.logInfo(`taskConfig.getChromePath() ${chromePath}.`);
-            if (isNil(chromePath)) {
+
+            if (isNil(chromePath) || isEmpty(chromePath)) {
                 chromePath = this.browserPathProvider.getChromePath();
                 this.logger.logInfo(`browserPathProvider.getChromePath() ${chromePath}.`);
             }
