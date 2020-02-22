@@ -29,7 +29,8 @@ jobs:
       uses: microsoft/accessibility-insights-action@testV11
       with:
         scan-url-relative-path: /
-        repo-token: ${{ secrets.GITHUB_TOKEN }}    
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        chrome-path: ${{ CHROME_BIN }}
 
     # - name: Upload report artifact
     #   uses: actions/upload-artifact@v1.0.0
