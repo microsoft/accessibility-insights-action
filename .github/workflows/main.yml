@@ -30,7 +30,7 @@ jobs:
       with:
         scan-url-relative-path: /
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        chrome-path: ${{ process.env.CHROME_BIN }}
+        chrome-path: ${{ CHROME_BIN }}
 
     # - name: Upload report artifact
     #   uses: actions/upload-artifact@v1.0.0
