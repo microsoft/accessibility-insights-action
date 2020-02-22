@@ -28,7 +28,7 @@ jobs:
     - name: Scan for A11y issues
       uses: microsoft/accessibility-insights-action@testV11
       with:
-        scan-url-relative-path: src/
+        scan-url-relative-path: /
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         chrome-path: ${{ env.CHROME_BIN }}
 
