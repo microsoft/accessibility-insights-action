@@ -26,11 +26,10 @@ jobs:
       run: yarn install
 
     - name: Scan for A11y issues
-      uses: microsoft/accessibility-insights-action@testV12
+      uses: microsoft/accessibility-insights-action@testV13
       with:
         scan-url-relative-path: /
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        chrome-path: ${{ env:CHROME_BIN }}
 
     # - name: Upload report artifact
     #   uses: actions/upload-artifact@v1.0.0
