@@ -109,6 +109,23 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
+        it('chrome path is undefined', async () => {
+            const chromePath = 'path';
+            scannerMock.setup(sm => sm.scan(scanUrl, chromePath)).verifiable(Times.once());
+            loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
+            loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
+            taskConfigMock
+                .setup(tcm => tcm.getChromePath())
+                .returns(() => chromePath)
+                .verifiable(Times.once());
+
+            setupWaitForPromisetoReturnOriginalPromise();
+
+            await scanner.scan();
+
+            verifyMocks();
+        });
+
         function setupWaitForPromisetoReturnOriginalPromise(): void {
             promiseUtilsMock
                 .setup(s => s.waitFor(It.isAny(), 90000, It.isAny()))
