@@ -49,14 +49,7 @@ module.exports = env => {
             }),
             new ForkTsCheckerWebpackPlugin(),
             new CaseSensitivePathsPlugin(),
-            new copyWebpackPlugin([
-                {
-                    context: './',
-                    from: 'node_modules/axe-core/axe.min.js',
-                    to: 'axe.js',
-                    ignore: ['dist/**'],
-                },
-            ]),
+            new copyWebpackPlugin(),
         ],
         resolve: {
             extensions: ['.ts', '.js', '.json'],

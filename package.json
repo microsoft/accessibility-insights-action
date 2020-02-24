@@ -80,8 +80,5 @@
         "typemoq": "^2.1.0",
         "verror": "^1.10.0",
         "webpack": "^4.41.5"
-    },
-    "resolutions": {
-        "axe-core": "3.3.2"
     }
 }
