@@ -3,9 +3,7 @@
 
 import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import { isNil, isEmpty } from 'lodash';
 import * as url from 'url';
-import { BrowserPathProvider } from '../browser/browser-path-provider';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
@@ -21,7 +19,6 @@ export class Scanner {
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
-        @inject(BrowserPathProvider) private readonly browserPathProvider: BrowserPathProvider,
     ) {}
 
     public async scan(): Promise<void> {
@@ -42,14 +39,7 @@ export class Scanner {
 
             let chromePath;
             chromePath = this.taskConfig.getChromePath();
-            this.logger.logInfo(`taskConfig.getChromePath() ${chromePath}.`);
-
-            if (isNil(chromePath) || isEmpty(chromePath)) {
-                chromePath = this.browserPathProvider.getChromePath();
-                this.logger.logInfo(`browserPathProvider.getChromePath() ${chromePath}.`);
-            }
-
-            this.logger.logInfo(`chromePath ${chromePath}.`);
+            this.logger.logInfo(`chromePath: ${chromePath}.`);
 
             await this.scanner.scan(scanUrl, chromePath);
         } catch (error) {

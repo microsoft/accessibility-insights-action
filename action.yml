@@ -13,7 +13,8 @@ inputs:
         default: '/'
     chrome-path:
         description: 'path to chrome executable'
-        required: false
+        required: true
+        default: '/usr/bin/google-chrome'
     repo-token:
         description: 'github token'
         required: true
