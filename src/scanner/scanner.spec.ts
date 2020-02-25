@@ -26,6 +26,7 @@ describe(Scanner, () => {
     const scanUrl = 'localhost';
     const baseUrl = 'base';
     const axeSourcePath = 'axe.js';
+    const chromeBin = process.env.CHROME_BIN;
 
     beforeEach(() => {
         scannerMock = Mock.ofType(AIScanner);
@@ -67,7 +68,7 @@ describe(Scanner, () => {
 
     describe('scan', () => {
         it('should log info', async () => {
-            scannerMock.setup(sm => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, chromeBin, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
 
@@ -103,7 +104,7 @@ describe(Scanner, () => {
 
         it('should return timeout promise', async () => {
             const errorMessage: string = `Unable to scan before timeout`;
-            scannerMock.setup(sm => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, chromeBin, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup(em => em(1)).verifiable(Times.once());
 
@@ -141,7 +142,7 @@ describe(Scanner, () => {
                 .setup(tcm => tcm.getAxeCoreSourcePath())
                 .returns(() => undefined)
                 .verifiable(Times.once());
-            scannerMock.setup(sm => sm.scan(scanUrl, undefined, path.resolve(__dirname, axeSourcePath))).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, chromeBin, path.resolve(__dirname, axeSourcePath))).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
 
