@@ -8,7 +8,8 @@
         "**/node_modules",
         "**/.gitattributes",
         "**/test-results",
-        "**/dist"
+        "**/dist",
+        "**/*.snap"
     ],
     "license": "./copyright-header.txt",
     "licenseFormats": {
