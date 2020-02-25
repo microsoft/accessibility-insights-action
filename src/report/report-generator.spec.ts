@@ -91,7 +91,6 @@ describe('ReportGenerator', () => {
 
         fsMock
             .setup(fsm => fsm.writeFileSync(fileName, htmlReportString))
-            .returns(() => true)
             .verifiable(Times.once());
 
         if (!directoryExists) {
