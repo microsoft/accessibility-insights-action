@@ -8,7 +8,7 @@ import { AxeResults } from 'axe-core';
 import * as filenamifyUrl from 'filenamify-url';
 import * as fs from 'fs';
 import * as MockDate from 'mockdate';
-import { IMock, Mock, Times, MockBehavior } from 'typemoq';
+import { IMock, Mock, MockBehavior, Times } from 'typemoq';
 import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
 import { ReportGenerator } from './report-generator';
