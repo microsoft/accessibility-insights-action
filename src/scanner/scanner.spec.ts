@@ -68,6 +68,10 @@ describe(Scanner, () => {
             .setup(tm => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)
             .verifiable();
+        taskConfigMock
+            .setup(tcm => tcm.getChromePath())
+            .returns(() => chromeBin)
+            .verifiable(Times.once());
         localFileServerMock
             .setup(async lfs => lfs.start())
             .returns(() => Promise.resolve(baseUrl))
@@ -131,40 +135,6 @@ describe(Scanner, () => {
             exitMock.setup(em => em(1)).verifiable(Times.once());
 
             setupWaitForPromiseToReturnTimeoutPromise();
-
-            await scanner.scan();
-
-            verifyMocks();
-        });
-
-        it('chrome path is not empty', async () => {
-            const chromePath = 'path';
-            scannerMock.setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
-            taskConfigMock
-                .setup(tcm => tcm.getChromePath())
-                .returns(() => chromePath)
-                .verifiable(Times.once());
-
-            setupWaitForPromisetoReturnOriginalPromise();
-
-            await scanner.scan();
-
-            verifyMocks();
-        });
-
-        it('axe source path is empty', async () => {
-            taskConfigMock.reset();
-            taskConfigMock
-                .setup(tm => tm.getScanUrlRelativePath())
-                .returns(() => scanUrl)
-                .verifiable();
-            scannerMock.setup(sm => sm.scan(scanUrl, chromeBin, path.resolve(__dirname, axeSourcePath))).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
-
-            setupWaitForPromisetoReturnOriginalPromise();
 
             await scanner.scan();
 
