@@ -33,16 +33,20 @@ describe(AxeMarkdownConvertor, () => {
         });
 
         it('returns failure details', async () => {
-            axeScanResults.results.violations = [
-                {
-                    id: 'color-contrast',
-                    nodes: [{ html: 'html1' }],
-                },
-                {
-                    id: 'duplicate-id',
-                    nodes: [{ html: 'html2' }],
-                },
-            ] as any;
+            axeScanResults.results = {
+                violations: [
+                    {
+                        id: 'color-contrast',
+                        nodes: [{ html: 'html1' }, { html: 'html2' }],
+                    },
+                    {
+                        id: 'duplicate-id',
+                        nodes: [{ html: 'html3' }, { html: 'html4' }, { html: 'html5' }],
+                    },
+                ],
+                passes: [{ html: 'passed' }],
+                inapplicable: [{ html: 'inapplicable' }],
+            } as any;
 
             const res = axeMarkdownConvertor.convert(axeScanResults);
 

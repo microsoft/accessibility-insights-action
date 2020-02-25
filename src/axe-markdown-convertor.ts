@@ -29,7 +29,7 @@ ${this.getFailedRuleTable(axeScanResults)}
     private getCongratsText(): string {
         return stripIndent`
             Congratulations!
-            No failed automated checks were found by ${toolName}.
+            No failed automated checks were found.
         `;
     }
 

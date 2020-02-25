@@ -2,7 +2,7 @@
 
 exports[`AxeMarkdownConvertor convert returns congrats message when no failure found 1`] = `
 "Congratulations!
-No failed automated checks were found by Accessibility Insights Action."
+No failed automated checks were found."
 `;
 
 exports[`AxeMarkdownConvertor convert returns failure details 1`] = `
@@ -10,6 +10,6 @@ exports[`AxeMarkdownConvertor convert returns failure details 1`] = `
 
 | Rule           | Count |
 | -------------- | ----- |
-| color-contrast | 1     |
-| duplicate-id   | 1     |"
+| color-contrast | 2     |
+| duplicate-id   | 3     |"
 `;
