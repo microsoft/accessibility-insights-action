@@ -5,13 +5,13 @@ import 'reflect-metadata';
 
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
+import { AxeScanResults } from 'accessibility-insights-scan';
 import { stripIndent } from 'common-tags';
 import * as table from 'markdown-table';
 import { IMock, Mock, Times } from 'typemoq';
-import * as util from 'util';
 
+import { AxeMarkdownConvertor } from '../axe-markdown-convertor';
 import { Logger } from '../logger/logger';
-import { AxeScanResults } from '../scanner/axe-scan-results';
 import { TaskConfig } from '../task-config';
 import { CheckRunCreator } from './check-run-creator';
 
@@ -30,6 +30,7 @@ describe(CheckRunCreator, () => {
     let checkRunCreator: CheckRunCreator;
     let githubStub: typeof github;
     let checkStub: Octokit.ChecksCreateResponse;
+    let convertorMock: IMock<AxeMarkdownConvertor>;
     const owner = 'owner';
     const repo = 'repo';
     const sha = 'sha';
@@ -39,6 +40,7 @@ describe(CheckRunCreator, () => {
     beforeEach(() => {
         loggerMock = Mock.ofType(Logger);
         taskConfigMock = Mock.ofType(TaskConfig);
+        convertorMock = Mock.ofType(AxeMarkdownConvertor);
         createCheckMock = Mock.ofInstance(() => {
             return null;
         });
@@ -64,7 +66,7 @@ describe(CheckRunCreator, () => {
         checkStub = {
             id: 1234,
         } as Octokit.ChecksCreateResponse;
-        checkRunCreator = new CheckRunCreator(taskConfigMock.object, loggerMock.object, octokitStub, githubStub);
+        checkRunCreator = new CheckRunCreator(taskConfigMock.object, loggerMock.object, convertorMock.object, octokitStub, githubStub);
     });
 
     it('should create instance', () => {
@@ -109,6 +111,7 @@ describe(CheckRunCreator, () => {
     });
 
     it('completeRun', async () => {
+        const markdown = 'markdown';
         const axeScanResults: AxeScanResults = {
             results: {
                 violations: [
@@ -119,29 +122,13 @@ describe(CheckRunCreator, () => {
                 ],
             },
         } as AxeScanResults;
+        const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, axeScanResults);
 
-        const expectedUpdateParam: UpdateCheckParams = {
-            owner: owner,
-            repo: repo,
-            check_run_id: checkStub.id,
-            name: a11yCheckName,
-            status: 'completed',
-            conclusion: 'failure',
-            output: {
-                title: a11yReportTitle,
-                summary: `Scan completed with failed rules count - 1`,
-                text: stripIndent`
-FAILED RULES:
-
-${table([
-    ['Rule', 'Count'],
-    ['color-contrast', '1'],
-])}
-
-                `,
-            },
-        };
         setupMocksForCreateCheck();
+        convertorMock
+            .setup(cm => cm.convert(axeScanResults))
+            .returns(() => markdown)
+            .verifiable(Times.once());
         updateCheckMock.setup(um => um(expectedUpdateParam)).verifiable(Times.once());
 
         const res = await checkRunCreator.createRun();
@@ -150,6 +137,45 @@ ${table([
         expect(res).toBe(checkStub);
         verifyMocks();
     });
+
+    it('completeRun with no failed rules', async () => {
+        const markdown = 'markdown';
+        const axeScanResults: AxeScanResults = {
+            results: {
+                violations: [],
+            },
+        } as AxeScanResults;
+
+        const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, axeScanResults);
+        setupMocksForCreateCheck();
+        convertorMock
+            .setup(cm => cm.convert(axeScanResults))
+            .returns(() => markdown)
+            .verifiable(Times.once());
+        updateCheckMock.setup(um => um(expectedUpdateParam)).verifiable(Times.once());
+
+        const res = await checkRunCreator.createRun();
+        await checkRunCreator.completeRun(axeScanResults);
+
+        expect(res).toBe(checkStub);
+        verifyMocks();
+    });
+
+    function getExpectedUpdateParam(markdown: string, axeScanResults: AxeScanResults): UpdateCheckParams {
+        return {
+            owner: owner,
+            repo: repo,
+            check_run_id: checkStub.id,
+            name: a11yCheckName,
+            status: 'completed',
+            conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
+            output: {
+                title: a11yReportTitle,
+                summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
+                text: markdown,
+            },
+        };
+    }
 
     function setupMocksForCreateCheck(): void {
         const expectedParam: CreateCheckParams = {
@@ -171,6 +197,7 @@ ${table([
 
     function verifyMocks(): void {
         taskConfigMock.verifyAll();
+        convertorMock.verifyAll();
         createCheckMock.verifyAll();
         updateCheckMock.verifyAll();
         loggerMock.verifyAll();
