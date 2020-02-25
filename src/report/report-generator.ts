@@ -17,8 +17,8 @@ export class ReportGenerator {
         @inject(iocTypes.ReporterFactory)
         private readonly reporterFactoryFunc: ReporterFactory,
         @inject(Logger) private readonly logger: Logger,
-        private readonly filenamify: typeof filenamifyUrl = filenamifyUrl,
         private readonly fileSystemObj: typeof fs = fs,
+        private readonly filenamify: typeof filenamifyUrl = filenamifyUrl,
     ) {}
 
     public generateReport(axeResults: AxeScanResults): string {
@@ -48,8 +48,8 @@ export class ReportGenerator {
 
         // tslint:disable-next-line: non-literal-fs-path
         if (!this.fileSystemObj.existsSync(outDirectory)) {
-            console.log('output directory does not exists.');
-            console.log(`creating output directory - ${outDirectory}`);
+            this.logger.logInfo('output directory does not exists.');
+            this.logger.logInfo(`creating output directory - ${outDirectory}`);
             // tslint:disable-next-line: non-literal-fs-path
             this.fileSystemObj.mkdirSync(outDirectory);
         }

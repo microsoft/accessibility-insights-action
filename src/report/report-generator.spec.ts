@@ -8,7 +8,7 @@ import { AxeResults } from 'axe-core';
 import * as filenamifyUrl from 'filenamify-url';
 import * as fs from 'fs';
 import * as MockDate from 'mockdate';
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, Mock, Times, MockBehavior } from 'typemoq';
 import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
 import { ReportGenerator } from './report-generator';
@@ -27,7 +27,6 @@ describe('ReportGenerator', () => {
     let reportGenerationTime: Date;
     let loggerMock: IMock<Logger>;
     let taskConfigMock: IMock<TaskConfig>;
-    let filenamifyMock: IMock<typeof filenamifyUrl>;
     let fsMock: IMock<typeof fs>;
     // tslint:disable-next-line:mocha-no-side-effect-code
     const fileName = `${outputDir}/${filenamifyUrl(scanUrl, {
@@ -38,17 +37,10 @@ describe('ReportGenerator', () => {
         loggerMock = Mock.ofType<Logger>();
         taskConfigMock = Mock.ofType<TaskConfig>();
         reporterMock = Mock.ofType<Reporter>();
-        filenamifyMock = Mock.ofType<typeof filenamifyUrl>();
-        fsMock = Mock.ofType<typeof fs>();
+        fsMock = Mock.ofInstance(fs, MockBehavior.Strict);
         const reporterFactory: ReporterFactory = () => reporterMock.object;
 
-        reportGenerator = new ReportGenerator(
-            taskConfigMock.object,
-            reporterFactory,
-            loggerMock.object,
-            filenamifyMock.object,
-            fsMock.object,
-        );
+        reportGenerator = new ReportGenerator(taskConfigMock.object, reporterFactory, loggerMock.object, fsMock.object);
         htmlReport = {
             asHTML: () => htmlReportString,
         };
@@ -65,7 +57,7 @@ describe('ReportGenerator', () => {
             .verifiable(Times.once());
     });
 
-    test.each([true, false])('generate report', (directoryExists: boolean) => {
+    test.each([true, false])('generate report - %o', (directoryExists: boolean) => {
         const params = {
             pageTitle: axeScanResults.pageTitle,
         };
@@ -89,8 +81,6 @@ describe('ReportGenerator', () => {
             .returns(() => directoryExists)
             .verifiable(Times.once());
 
-        fsMock.setup(fsm => fsm.writeFileSync(fileName, htmlReportString)).verifiable(Times.once());
-
         loggerMock.setup(lm => lm.logInfo(`scan report saved successfully ${fileName}`)).verifiable(Times.once());
 
         if (!directoryExists) {
@@ -98,6 +88,8 @@ describe('ReportGenerator', () => {
             loggerMock.setup(lm => lm.logInfo('output directory does not exists.')).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`creating output directory - ${outputDir}`)).verifiable(Times.once());
         }
+
+        fsMock.setup(fsm => fsm.writeFileSync(fileName, htmlReportString)).verifiable(Times.once());
 
         reportGenerator.generateReport(axeScanResults);
 
