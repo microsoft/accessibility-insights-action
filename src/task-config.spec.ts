@@ -89,7 +89,9 @@ describe(TaskConfig, () => {
     });
 
     it('getChromePath returns empty', () => {
-        const chromePath = process.env.CHROME_BIN;
+        const chromePath = 'some path';
+        process.env.CHROME_BIN = chromePath;
+
         actionCoreMock
             .setup(am => am.getInput('chrome-path'))
             .returns(() => '')

@@ -31,7 +31,7 @@ describe(Scanner, () => {
     const baseUrl = 'base';
     // tslint:disable-next-line:mocha-no-side-effect-code
     const axeSourcePath = path.resolve(__dirname, 'axe.js');
-    const chromeBin = process.env.CHROME_BIN;
+    const chromePath = 'chrome path';
 
     beforeEach(() => {
         scannerMock = Mock.ofType(AIScanner);
@@ -70,7 +70,7 @@ describe(Scanner, () => {
             .verifiable();
         taskConfigMock
             .setup(tcm => tcm.getChromePath())
-            .returns(() => chromeBin)
+            .returns(() => chromePath)
             .verifiable(Times.once());
         localFileServerMock
             .setup(async lfs => lfs.start())
@@ -86,7 +86,7 @@ describe(Scanner, () => {
     describe('scan', () => {
         it('should log info and create/complete check run', async () => {
             scannerMock
-                .setup(sm => sm.scan(scanUrl, chromeBin, axeSourcePath))
+                .setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath))
                 .returns(async () => {
                     return Promise.resolve(axeScanResults);
                 })
@@ -130,7 +130,7 @@ describe(Scanner, () => {
 
         it('should return timeout promise', async () => {
             const errorMessage: string = `Unable to scan before timeout`;
-            scannerMock.setup(sm => sm.scan(scanUrl, chromeBin, axeSourcePath)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup(em => em(1)).verifiable(Times.once());
 
