@@ -43,21 +43,8 @@ export class Scanner {
             chromePath = this.taskConfig.getChromePath();
             this.logger.logInfo(`this.taskConfig.getChromePath() ${chromePath}.`);
 
-            if (isEmpty(chromePath)) {
-                chromePath = process.env.CHROME_BIN;
-                this.logger.logInfo(`process.env.CHROME_BIN ${chromePath}.`);
-            }
-
-            let axeCoreSourcePath;
-            axeCoreSourcePath = this.taskConfig.getAxeCoreSourcePath();
-            this.logger.logInfo(`this.taskConfig.getAxeCoreSourcePath() ${axeCoreSourcePath}.`);
-
-            if (isEmpty(axeCoreSourcePath)) {
-                axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
-                this.logger.logInfo(`path.resolve(__dirname, 'axe.js') ${axeCoreSourcePath}.`);
-            }
-
-            this.logger.logInfo(`axeCoreSourcePath: ${axeCoreSourcePath}.`);
+            const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
+            this.logger.logInfo(`path.resolve(__dirname, 'axe.js') ${axeCoreSourcePath}.`);
 
             await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
         } catch (error) {

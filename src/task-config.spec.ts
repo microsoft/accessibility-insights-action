@@ -88,16 +88,16 @@ describe(TaskConfig, () => {
         actionCoreMock.verifyAll();
     });
 
-    it('getAxeCoreSourcePath', () => {
-        const axeCoreSourcePath = 'axe-core-source-path';
+    it('getChromePath returns empty', () => {
+        const chromePath = process.env.CHROME_BIN;
         actionCoreMock
-            .setup(am => am.getInput('axe-core-source-path'))
-            .returns(() => axeCoreSourcePath)
+            .setup(am => am.getInput('chrome-path'))
+            .returns(() => '')
             .verifiable(Times.once());
 
-        const res = taskConfig.getAxeCoreSourcePath();
+        const res = taskConfig.getChromePath();
 
-        expect(res).toBe(axeCoreSourcePath);
+        expect(res).toBe(chromePath);
         actionCoreMock.verifyAll();
     });
 

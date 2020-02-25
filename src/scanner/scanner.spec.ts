@@ -25,7 +25,8 @@ describe(Scanner, () => {
     let exitMock: IMock<(code: number) => any>;
     const scanUrl = 'localhost';
     const baseUrl = 'base';
-    const axeSourcePath = 'axe.js';
+    // tslint:disable-next-line:mocha-no-side-effect-code
+    const axeSourcePath = path.resolve(__dirname, 'axe.js');
     const chromeBin = process.env.CHROME_BIN;
 
     beforeEach(() => {
@@ -50,10 +51,6 @@ describe(Scanner, () => {
         taskConfigMock
             .setup(tm => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)
-            .verifiable();
-        taskConfigMock
-            .setup(tm => tm.getAxeCoreSourcePath())
-            .returns(() => axeSourcePath)
             .verifiable();
         localFileServerMock
             .setup(async lfs => lfs.start())
@@ -138,10 +135,6 @@ describe(Scanner, () => {
                 .setup(tm => tm.getScanUrlRelativePath())
                 .returns(() => scanUrl)
                 .verifiable();
-            taskConfigMock
-                .setup(tcm => tcm.getAxeCoreSourcePath())
-                .returns(() => undefined)
-                .verifiable(Times.once());
             scannerMock.setup(sm => sm.scan(scanUrl, chromeBin, path.resolve(__dirname, axeSourcePath))).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
