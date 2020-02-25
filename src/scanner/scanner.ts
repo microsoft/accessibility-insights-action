@@ -42,13 +42,13 @@ export class Scanner {
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
 
-            let chromePath;
-            chromePath = this.taskConfig.getChromePath();
+            const chromePath = this.taskConfig.getChromePath();
             this.logger.logInfo(`this.taskConfig.getChromePath() ${chromePath}.`);
 
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
             this.logger.logInfo(`path.resolve(__dirname, 'axe.js') ${axeCoreSourcePath}.`);
 
+            // tslint:disable-next-line: no-unsafe-any
             const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
             await this.checkRunCreator.completeRun(axeScanResults);
