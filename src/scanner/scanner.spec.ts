@@ -10,10 +10,10 @@ import * as util from 'util';
 import { CheckRunCreator } from '../check-run/check-run-creator';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
+import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 import { Scanner } from './scanner';
-import { ReportGenerator } from '../report/report-generator';
 
 // tslint:disable: no-object-literal-type-assertion no-unsafe-any
 
