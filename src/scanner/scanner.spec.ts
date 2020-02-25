@@ -4,9 +4,9 @@
 import 'reflect-metadata';
 
 import { AIScanner, AxeScanResults } from 'accessibility-insights-scan';
+import * as path from 'path';
 import { IMock, It, Mock, Times } from 'typemoq';
 import * as util from 'util';
-
 import { CheckRunCreator } from '../check-run/check-run-creator';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
@@ -16,7 +16,7 @@ import { Scanner } from './scanner';
 
 // tslint:disable: no-object-literal-type-assertion no-unsafe-any
 
-describe('Scanner', () => {
+describe(Scanner, () => {
     let scanner: Scanner;
     let scannerMock: IMock<AIScanner>;
     let loggerMock: IMock<Logger>;
@@ -29,6 +29,9 @@ describe('Scanner', () => {
     let axeScanResults: AxeScanResults;
     const scanUrl = 'localhost';
     const baseUrl = 'base';
+    // tslint:disable-next-line:mocha-no-side-effect-code
+    const axeSourcePath = path.resolve(__dirname, 'axe.js');
+    const chromePath = 'chrome path';
 
     beforeEach(() => {
         scannerMock = Mock.ofType(AIScanner);
@@ -65,6 +68,10 @@ describe('Scanner', () => {
             .setup(tm => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)
             .verifiable();
+        taskConfigMock
+            .setup(tcm => tcm.getChromePath())
+            .returns(() => chromePath)
+            .verifiable(Times.once());
         localFileServerMock
             .setup(async lfs => lfs.start())
             .returns(() => Promise.resolve(baseUrl))
@@ -79,7 +86,7 @@ describe('Scanner', () => {
     describe('scan', () => {
         it('should log info and create/complete check run', async () => {
             scannerMock
-                .setup(sm => sm.scan(scanUrl))
+                .setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath))
                 .returns(async () => {
                     return Promise.resolve(axeScanResults);
                 })
@@ -104,7 +111,7 @@ describe('Scanner', () => {
                 .callback(() => {
                     throw error;
                 });
-            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.never());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.never());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
             loggerMock
                 .setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
@@ -123,7 +130,7 @@ describe('Scanner', () => {
 
         it('should return timeout promise', async () => {
             const errorMessage: string = `Unable to scan before timeout`;
-            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup(em => em(1)).verifiable(Times.once());
 

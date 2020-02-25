@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import * as actionCore from '@actions/core';
 import { inject, injectable } from 'inversify';
+import { isEmpty } from 'lodash';
 import * as path from 'path';
 import * as process from 'process';
 import { iocTypes } from './ioc/ioc-types';
@@ -24,6 +25,17 @@ export class TaskConfig {
 
     public getToken(): string {
         return this.actionCoreObj.getInput('repo-token');
+    }
+
+    public getChromePath(): string {
+        let chromePath;
+        chromePath = this.actionCoreObj.getInput('chrome-path');
+
+        if (isEmpty(chromePath)) {
+            chromePath = process.env.CHROME_BIN;
+        }
+
+        return chromePath;
     }
 
     public getRunId(): number {

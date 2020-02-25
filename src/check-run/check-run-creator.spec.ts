@@ -22,8 +22,6 @@ type CreateCheck = (params: CreateCheckParams) => Promise<Octokit.Response<Octok
 type UpdateCheck = (params: UpdateCheckParams) => Promise<Octokit.Response<Octokit.ChecksUpdateResponse>>;
 
 describe(CheckRunCreator, () => {
-    let loggerMock: IMock<Logger>;
-    let taskConfigMock: IMock<TaskConfig>;
     let octokitStub: Octokit;
     let createCheckMock: IMock<CreateCheck>;
     let updateCheckMock: IMock<UpdateCheck>;
@@ -38,8 +36,6 @@ describe(CheckRunCreator, () => {
     const a11yReportTitle = 'Accessibility Checks Report';
 
     beforeEach(() => {
-        loggerMock = Mock.ofType(Logger);
-        taskConfigMock = Mock.ofType(TaskConfig);
         convertorMock = Mock.ofType(AxeMarkdownConvertor);
         createCheckMock = Mock.ofInstance(() => {
             return null;
@@ -66,7 +62,7 @@ describe(CheckRunCreator, () => {
         checkStub = {
             id: 1234,
         } as Octokit.ChecksCreateResponse;
-        checkRunCreator = new CheckRunCreator(taskConfigMock.object, loggerMock.object, convertorMock.object, octokitStub, githubStub);
+        checkRunCreator = new CheckRunCreator(convertorMock.object, octokitStub, githubStub);
     });
 
     it('should create instance', () => {
@@ -196,10 +192,8 @@ describe(CheckRunCreator, () => {
     }
 
     function verifyMocks(): void {
-        taskConfigMock.verifyAll();
         convertorMock.verifyAll();
         createCheckMock.verifyAll();
         updateCheckMock.verifyAll();
-        loggerMock.verifyAll();
     }
 });

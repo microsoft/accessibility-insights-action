@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
+import * as path from 'path';
 import * as url from 'url';
 import * as util from 'util';
 
@@ -41,7 +42,14 @@ export class Scanner {
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
 
-            const axeScanResults = await this.scanner.scan(scanUrl);
+            const chromePath = this.taskConfig.getChromePath();
+            this.logger.logInfo(`this.taskConfig.getChromePath() ${chromePath}.`);
+
+            const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
+            this.logger.logInfo(`path.resolve(__dirname, 'axe.js') ${axeCoreSourcePath}.`);
+
+            // tslint:disable-next-line: no-unsafe-any
+            const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
             await this.checkRunCreator.completeRun(axeScanResults);
         } catch (error) {
