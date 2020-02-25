@@ -13,7 +13,7 @@ inputs:
         default: '/'
     chrome-path:
         description: 'path to chrome executable'
-        required: true
+        required: false
     repo-token:
         description: 'github token'
         required: true
