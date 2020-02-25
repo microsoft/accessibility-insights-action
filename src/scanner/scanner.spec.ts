@@ -3,9 +3,9 @@
 // tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
-import { IMock, It, Mock, Times } from 'typemoq';
-
 import { AIScanner } from 'accessibility-insights-scan';
+import * as path from 'path';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
@@ -25,6 +25,7 @@ describe(Scanner, () => {
     let exitMock: IMock<(code: number) => any>;
     const scanUrl = 'localhost';
     const baseUrl = 'base';
+    const axeSourcePath = 'axe.js';
 
     beforeEach(() => {
         scannerMock = Mock.ofType(AIScanner);
@@ -49,6 +50,10 @@ describe(Scanner, () => {
             .setup(tm => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)
             .verifiable();
+        taskConfigMock
+            .setup(tm => tm.getAxeCoreSourcePath())
+            .returns(() => axeSourcePath)
+            .verifiable();
         localFileServerMock
             .setup(async lfs => lfs.start())
             .returns(() => Promise.resolve(baseUrl))
@@ -62,7 +67,7 @@ describe(Scanner, () => {
 
     describe('scan', () => {
         it('should log info', async () => {
-            scannerMock.setup(sm => sm.scan(scanUrl, undefined)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
 
@@ -82,7 +87,7 @@ describe(Scanner, () => {
                 .callback(() => {
                     throw error;
                 });
-            scannerMock.setup(sm => sm.scan(scanUrl, undefined)).verifiable(Times.never());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.never());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
             loggerMock
                 .setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
@@ -98,7 +103,7 @@ describe(Scanner, () => {
 
         it('should return timeout promise', async () => {
             const errorMessage: string = `Unable to scan before timeout`;
-            scannerMock.setup(sm => sm.scan(scanUrl, undefined)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup(em => em(1)).verifiable(Times.once());
 
@@ -109,15 +114,36 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
-        it('chrome path is undefined', async () => {
+        it('chrome path is not empty', async () => {
             const chromePath = 'path';
-            scannerMock.setup(sm => sm.scan(scanUrl, chromePath)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
             taskConfigMock
                 .setup(tcm => tcm.getChromePath())
                 .returns(() => chromePath)
                 .verifiable(Times.once());
+
+            setupWaitForPromisetoReturnOriginalPromise();
+
+            await scanner.scan();
+
+            verifyMocks();
+        });
+
+        it('axe source path is empty', async () => {
+            taskConfigMock.reset();
+            taskConfigMock
+                .setup(tm => tm.getScanUrlRelativePath())
+                .returns(() => scanUrl)
+                .verifiable();
+            taskConfigMock
+                .setup(tcm => tcm.getAxeCoreSourcePath())
+                .returns(() => undefined)
+                .verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined, path.resolve(__dirname, axeSourcePath))).verifiable(Times.once());
+            loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
+            loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
 
             setupWaitForPromisetoReturnOriginalPromise();
 

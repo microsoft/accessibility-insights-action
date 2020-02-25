@@ -26,6 +26,10 @@ export class TaskConfig {
         return this.actionCoreObj.getInput('repo-token');
     }
 
+    public getAxeCoreSourcePath(): string {
+        return this.actionCoreObj.getInput('axe-core-source-path');
+    }
+
     public getChromePath(): string {
         return this.actionCoreObj.getInput('chrome-path');
     }

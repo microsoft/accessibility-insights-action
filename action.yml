@@ -14,6 +14,9 @@ inputs:
     chrome-path:
         description: 'path to chrome executable'
         required: true
+    axe-core-source-path:
+        description: 'path to axe.js source code file'
+        required: true
     repo-token:
         description: 'github token'
         required: true

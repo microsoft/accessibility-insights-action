@@ -3,7 +3,8 @@
 
 import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import { isNil, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
+import * as path from 'path';
 import * as url from 'url';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
@@ -42,14 +43,23 @@ export class Scanner {
             chromePath = this.taskConfig.getChromePath();
             this.logger.logInfo(`this.taskConfig.getChromePath() ${chromePath}.`);
 
-            if (isNil(chromePath) || isEmpty(chromePath)) {
+            if (isEmpty(chromePath)) {
                 chromePath = process.env.CHROME_BIN;
                 this.logger.logInfo(`process.env.CHROME_BIN ${chromePath}.`);
             }
 
-            this.logger.logInfo(`chromePath: ${chromePath}.`);
+            let axeCoreSourcePath;
+            axeCoreSourcePath = this.taskConfig.getAxeCoreSourcePath();
+            this.logger.logInfo(`this.taskConfig.getAxeCoreSourcePath() ${axeCoreSourcePath}.`);
 
-            await this.scanner.scan(scanUrl, chromePath);
+            if (isEmpty(axeCoreSourcePath)) {
+                axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
+                this.logger.logInfo(`path.resolve(__dirname, 'axe.js') ${axeCoreSourcePath}.`);
+            }
+
+            this.logger.logInfo(`axeCoreSourcePath: ${axeCoreSourcePath}.`);
+
+            await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
         } finally {

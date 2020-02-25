@@ -75,6 +75,32 @@ describe(TaskConfig, () => {
         actionCoreMock.verifyAll();
     });
 
+    it('getChromePath', () => {
+        const chromePath = 'chrome-path';
+        actionCoreMock
+            .setup(am => am.getInput('chrome-path'))
+            .returns(() => chromePath)
+            .verifiable(Times.once());
+
+        const res = taskConfig.getChromePath();
+
+        expect(res).toBe(chromePath);
+        actionCoreMock.verifyAll();
+    });
+
+    it('getAxeCoreSourcePath', () => {
+        const axeCoreSourcePath = 'axe-core-source-path';
+        actionCoreMock
+            .setup(am => am.getInput('axe-core-source-path'))
+            .returns(() => axeCoreSourcePath)
+            .verifiable(Times.once());
+
+        const res = taskConfig.getAxeCoreSourcePath();
+
+        expect(res).toBe(axeCoreSourcePath);
+        actionCoreMock.verifyAll();
+    });
+
     it('getRunId', () => {
         const res = taskConfig.getRunId();
 
