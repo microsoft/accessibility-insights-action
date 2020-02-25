@@ -22,17 +22,17 @@ jobs:
       with:
         node-version: 12.x
 
-    - name: Install dependencies
-      run: yarn install
+    # - name: Install dependencies
+    #   run: yarn install
 
     - name: Scan for A11y issues
-      uses: microsoft/accessibility-insights-action@testV15
+      uses: microsoft/accessibility-insights-action@testV16
       with:
         scan-url-relative-path: /
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-    # - name: Upload report artifact
-    #   uses: actions/upload-artifact@v1.0.0
-    #   with:
-    #       name: reports
-    #       path: ${{ github.workspace }}/_accessibility-reports
+    - name: Upload report artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+          name: reports
+          path: ${{ github.workspace }}/_accessibility-reports
