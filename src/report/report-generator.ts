@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { AxeReportParameters, ReporterFactory } from 'accessibility-insights-report';
+import { AxeScanResults } from 'accessibility-insights-scan';
 import * as filenamifyUrl from 'filenamify-url';
 import * as fs from 'fs';
 import { inject, injectable } from 'inversify';
 import { iocTypes } from '../ioc/ioc-types';
 import { Logger } from '../logger/logger';
-import { AxeScanResults } from '../scanner/axe-scan-results';
 import { TaskConfig } from '../task-config';
 
 @injectable()

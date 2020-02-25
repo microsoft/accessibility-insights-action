@@ -3,13 +3,13 @@
 import 'reflect-metadata';
 
 import { AxeReportParameters, Report, Reporter, ReporterFactory } from 'accessibility-insights-report';
+import { AxeScanResults } from 'accessibility-insights-scan';
 import { AxeResults } from 'axe-core';
 import * as filenamifyUrl from 'filenamify-url';
 import * as fs from 'fs';
 import * as MockDate from 'mockdate';
 import { IMock, Mock, Times } from 'typemoq';
 import { Logger } from '../logger/logger';
-import { AxeScanResults } from '../scanner/axe-scan-results';
 import { TaskConfig } from '../task-config';
 import { ReportGenerator } from './report-generator';
 

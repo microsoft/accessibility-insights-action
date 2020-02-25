@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
+import { AxeScanResults } from 'accessibility-insights-scan';
 import { stripIndent } from 'common-tags';
 import { inject, injectable } from 'inversify';
-import * as table from 'markdown-table';
 
+import { AxeMarkdownConvertor } from '../axe-markdown-convertor';
 import { iocTypes } from '../ioc/ioc-types';
 import { Logger } from '../logger/logger';
-import { AxeScanResults } from '../scanner/axe-scan-results';
 import { TaskConfig } from '../task-config';
 
 const A11Y_CHECK_NAME = 'Accessibility Checks';
@@ -19,8 +19,7 @@ export class CheckRunCreator {
     private a11yCheck: Octokit.ChecksCreateResponse;
 
     constructor(
-        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
-        @inject(Logger) private readonly logger: Logger,
+        @inject(AxeMarkdownConvertor) private readonly axeMarkdownConvertor: AxeMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(iocTypes.Github) private readonly githubObj: typeof github,
     ) {}
@@ -73,25 +72,7 @@ export class CheckRunCreator {
         return {
             title: A11Y_REPORT_TITLE,
             summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
-            text: stripIndent`
-FAILED RULES:
-
-${this.printRuleCount(axeScanResults)}
-
-            `,
+            text: this.axeMarkdownConvertor.convert(axeScanResults),
         };
-    }
-
-    private printRuleCount(axeScanResults: AxeScanResults): string {
-        const tableContent: string[][] = [['Rule', 'Count']];
-
-        const violations = axeScanResults.results.violations;
-
-        violations.forEach(violation => {
-            const row: string[] = [violation.id, violation.nodes.length.toString()];
-            tableContent.push(row);
-        });
-
-        return table(tableContent);
     }
 }
