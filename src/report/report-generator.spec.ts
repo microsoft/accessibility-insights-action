@@ -91,8 +91,12 @@ describe('ReportGenerator', () => {
 
         fsMock.setup(fsm => fsm.writeFileSync(fileName, htmlReportString)).verifiable(Times.once());
 
+        loggerMock.setup(lm => lm.logInfo(`scan report saved successfully ${fileName}`)).verifiable(Times.once());
+
         if (!directoryExists) {
             fsMock.setup(fsm => fsm.mkdirSync(outputDir)).verifiable(Times.once());
+            loggerMock.setup(lm => lm.logInfo('output directory does not exists.')).verifiable(Times.once());
+            loggerMock.setup(lm => lm.logInfo(`creating output directory - ${outputDir}`)).verifiable(Times.once());
         }
 
         reportGenerator.generateReport(axeScanResults);
