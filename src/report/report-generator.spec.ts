@@ -89,9 +89,7 @@ describe('ReportGenerator', () => {
             .returns(() => directoryExists)
             .verifiable(Times.once());
 
-        fsMock
-            .setup(fsm => fsm.writeFileSync(fileName, htmlReportString))
-            .verifiable(Times.once());
+        fsMock.setup(fsm => fsm.writeFileSync(fileName, htmlReportString)).verifiable(Times.once());
 
         if (!directoryExists) {
             fsMock.setup(fsm => fsm.mkdirSync(outputDir)).verifiable(Times.once());
@@ -101,5 +99,4 @@ describe('ReportGenerator', () => {
 
         reporterMock.verifyAll();
     });
-
 });
