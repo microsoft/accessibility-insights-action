@@ -40,7 +40,7 @@ describe(CheckResultMarkdownBuilder, () => {
             browserSpec: 'browserSpec',
         } as any;
 
-        expect(checkResultMarkdownBuilder.getFailureDetails(axeScanResults)).toMatchSnapshot();
+        expect(checkResultMarkdownBuilder.failureDetails(axeScanResults)).toMatchSnapshot();
     });
 
     it('errorContent', () => {

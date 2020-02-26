@@ -8,17 +8,17 @@ import { CheckResultMarkdownBuilder } from './check-result-markdown-builder';
 
 @injectable()
 export class AxeMarkdownConvertor {
-    constructor(@inject(CheckResultMarkdownBuilder) private readonly checkResultMarkdownGenerator: CheckResultMarkdownBuilder) {}
+    constructor(@inject(CheckResultMarkdownBuilder) private readonly checkResultMarkdownBuilder: CheckResultMarkdownBuilder) {}
 
     public convert(axeScanResults: AxeScanResults): string {
         if (isEmpty(axeScanResults.results.violations)) {
-            return this.checkResultMarkdownGenerator.congratsContent(axeScanResults);
+            return this.checkResultMarkdownBuilder.congratsContent(axeScanResults);
         } else {
-            return this.checkResultMarkdownGenerator.getFailureDetails(axeScanResults);
+            return this.checkResultMarkdownBuilder.failureDetails(axeScanResults);
         }
     }
 
     public getErrorMarkdown(): string {
-        return this.checkResultMarkdownGenerator.errorContent();
+        return this.checkResultMarkdownBuilder.errorContent();
     }
 }

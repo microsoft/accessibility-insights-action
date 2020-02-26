@@ -7,7 +7,6 @@ The Accessibility Insights Service ran a set of automated checks to help find so
 ### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: All applicable checks passed
 * **1 check(s) passed**, and 1 were not applicable
 * Download the **Accessibility Insights** artifact to view the detailed results of these checks.
-
 ---
 This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with the following browsers: browserSpec."
 `;
@@ -30,7 +29,6 @@ The Accessibility Insights Service ran a set of automated checks to help find so
 ### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 * **2 check(s) failed**, 1 passed, and 1 were not applicable
 * Download the **Accessibility Insights** artifact to view the detailed results of these checks.
-
 #### Failed instances
 * **2 × color-contrast**:  color-contrast is important
 * **3 × duplicate-id**:  duplicate-id is even more important

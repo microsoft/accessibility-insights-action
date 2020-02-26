@@ -53,7 +53,7 @@ describe(AxeMarkdownConvertor, () => {
                 passes: [{ html: 'passed' }],
                 inapplicable: [{ html: 'inapplicable' }],
             } as any;
-            markdownBuilderMock.setup(mm => mm.getFailureDetails(axeScanResults)).verifiable(Times.once());
+            markdownBuilderMock.setup(mm => mm.failureDetails(axeScanResults)).verifiable(Times.once());
 
             axeMarkdownConvertor.convert(axeScanResults);
 
