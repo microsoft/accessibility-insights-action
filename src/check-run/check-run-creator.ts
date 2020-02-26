@@ -5,11 +5,9 @@ import { Octokit } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
+import { checkRunDetailsTitle, checkRunName, checkRunSummaryMd } from '../content/strings';
 import { iocTypes } from '../ioc/ioc-types';
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
-
-const A11Y_CHECK_NAME = 'Accessibility Checks';
-const A11Y_REPORT_TITLE = 'Accessibility Checks Report';
 
 @injectable()
 export class CheckRunCreator {
@@ -26,7 +24,7 @@ export class CheckRunCreator {
             await this.octokit.checks.create({
                 owner: this.githubObj.context.repo.owner,
                 repo: this.githubObj.context.repo.repo,
-                name: A11Y_CHECK_NAME,
+                name: checkRunName,
                 status: 'in_progress',
                 head_sha: this.githubObj.context.sha,
             })
@@ -40,7 +38,7 @@ export class CheckRunCreator {
             owner: this.githubObj.context.repo.owner,
             repo: this.githubObj.context.repo.repo,
             check_run_id: this.a11yCheck.id,
-            name: A11Y_CHECK_NAME,
+            name: checkRunName,
             status: 'completed',
             conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
             output: this.getScanOutput(axeScanResults),
@@ -52,12 +50,12 @@ export class CheckRunCreator {
             owner: this.githubObj.context.repo.owner,
             repo: this.githubObj.context.repo.repo,
             check_run_id: this.a11yCheck.id,
-            name: A11Y_CHECK_NAME,
+            name: checkRunName,
             status: 'completed',
             conclusion: 'failure',
             output: {
-                title: A11Y_REPORT_TITLE,
-                summary: `Unable to scan`,
+                title: checkRunDetailsTitle,
+                summary: checkRunSummaryMd,
                 annotations: [],
                 text: this.axeMarkdownConvertor.getErrorMarkdown(),
             },
@@ -66,8 +64,8 @@ export class CheckRunCreator {
 
     private getScanOutput(axeScanResults: AxeScanResults): Octokit.ChecksUpdateParamsOutput {
         return {
-            title: A11Y_REPORT_TITLE,
-            summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
+            title: checkRunDetailsTitle,
+            summary: checkRunSummaryMd,
             text: this.axeMarkdownConvertor.convert(axeScanResults),
         };
     }

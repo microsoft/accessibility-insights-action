@@ -57,28 +57,7 @@ export class CheckResultMarkdownBuilder {
     };
 
     private readonly scanResultDetails = (scanResult: string, footer?: string): string => {
-        const lines = [
-            heading('Accessibility Automated Checks Results', 2),
-            sectionSeparator(),
-
-            `The Accessibility Insights Service ran a set of automated checks to help find some of the most common accessibility issues. The best way to evaluate web accessibility compliance is to complete a ${link(
-                // tslint:disable-next-line: no-http-string
-                'http://aka.ms/AccessibilityInsights',
-                'WCAG 2.1 compliance assessment',
-            )}.`,
-            sectionSeparator(),
-
-            heading('DETAILS', 6),
-            sectionSeparator(),
-
-            scanResult,
-            sectionSeparator(),
-
-            footerSeparator(),
-            sectionSeparator(),
-
-            footer,
-        ];
+        const lines = [scanResult, sectionSeparator(), footerSeparator(), sectionSeparator(), footer];
 
         return lines.join('');
     };
