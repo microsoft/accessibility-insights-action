@@ -73,6 +73,6 @@ jobs:
     #     repo_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Publish code coverage to codecov
-      run: yarn publish-code-coverage -t $(CODECOV_TOKEN)
+      run: yarn publish-code-coverage -t ${{ secrets.GITHUB_TOKEN }}
   
 
