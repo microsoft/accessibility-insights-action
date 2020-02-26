@@ -17,7 +17,7 @@ jobs:
         node-version: 12.x
 
     - name: Scan for A11y issues
-      uses: microsoft/accessibility-insights-action@v123
+      uses: microsoft/accessibility-insights-action@16ec91afdc5f16b66de15acc32e37dc53ad99357
       with:
         scan-url-relative-path: /
         repo-token: ${{ secrets.GITHUB_TOKEN }}
