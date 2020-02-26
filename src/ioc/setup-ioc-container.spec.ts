@@ -18,64 +18,25 @@ import { setupIocContainer } from './setup-ioc-container';
 // tslint:disable: no-any no-unsafe-any no-object-literal-type-assertion
 
 describe(setupIocContainer, () => {
-    it('resolves scanner dependency', () => {
-        const container = setupIocContainer();
+    let testSubject: Container;
 
-        verifySingletonDependencyResolution(container, Scanner);
+    beforeEach(() => {
+        testSubject = setupIocContainer();
     });
 
-    it('resolves console dependency', () => {
-        const container = setupIocContainer();
-
-        expect(container.get(iocTypes.Console)).toBe(console);
+    test.each([Scanner, Octokit, Logger])('verify singleton resolution %o', (key: any) => {
+        verifySingletonDependencyResolution(testSubject, key);
     });
-
-    it('resolves process dependency', () => {
-        const container = setupIocContainer();
-
-        expect(container.get(iocTypes.Process)).toBe(process);
-    });
-
-    it('resolves GetPort dependency', () => {
-        const container = setupIocContainer();
-
-        expect(container.get(iocTypes.GetPort)).toBe(getPort);
-    });
-
-    it('resolves express dependency', () => {
-        const container = setupIocContainer();
-
-        expect(container.get(iocTypes.Express)).toBe(express);
-    });
-
-    it('resolves ServeStatic dependency', () => {
-        const container = setupIocContainer();
-
-        expect(container.get(iocTypes.ServeStatic)).toBe(serveStatic);
-    });
-
-    it('resolves ServeStatic dependency', () => {
-        const container = setupIocContainer();
-
-        expect(container.get(iocTypes.ReporterFactory)).toBe(reporterFactory);
-    });
-
-    it('resolves github dependency', () => {
-        const container = setupIocContainer();
-
-        expect(container.get(iocTypes.Github)).toBe(github);
-    });
-
-    it('resolves Octokit dependency', () => {
-        const container = setupIocContainer();
-
-        verifySingletonDependencyResolution(container, Octokit);
-    });
-
-    it('resolves Logger dependency', () => {
-        const container = setupIocContainer();
-
-        verifySingletonDependencyResolution(container, Logger);
+    test.each([
+        { key: iocTypes.Console, value: console },
+        { key: iocTypes.Process, value: process },
+        { key: iocTypes.GetPort, value: getPort },
+        { key: iocTypes.Express, value: express },
+        { key: iocTypes.ServeStatic, value: serveStatic },
+        { key: iocTypes.ReporterFactory, value: reporterFactory },
+        { key: iocTypes.Github, value: github },
+    ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
+        expect(testSubject.get(pair.key)).toBe(pair.value);
     });
 
     function verifySingletonDependencyResolution(container: Container, key: any): void {
