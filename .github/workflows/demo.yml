@@ -1,15 +1,33 @@
-name: Demo
+name: Demo Workflow
 
 on: [push]
 
 jobs:
   build:
 
+    name: Demo Job
     runs-on: ubuntu-latest
 
     steps:
     - name: checkout repo
       uses: actions/checkout@v2
 
-    - name: A task for Manish
-      run: echo Hello Manish!
+    - name: setup node
+      uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Scan for A11y issues
+      uses: microsoft/accessibility-insights-action@demo
+      with:
+        scan-url-relative-path: /
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload report artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+          name: reports
+          path: ${{ github.workspace }}/_accessibility-reports
