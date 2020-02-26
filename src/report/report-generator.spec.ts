@@ -93,6 +93,12 @@ describe('ReportGenerator', () => {
 
         reportGenerator.generateReport(axeScanResults);
 
-        reporterMock.verifyAll();
+        verifyMocks();
     });
+
+    function verifyMocks(): void {
+        reporterMock.verifyAll();
+        loggerMock.verifyAll();
+        taskConfigMock.verifyAll();
+    }
 });
