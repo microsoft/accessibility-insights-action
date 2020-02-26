@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { brand, brandLogoImg } from '../content/strings';
-
 export const snippet = (text: string): string => {
     return `\`${text}\``;
 };
@@ -26,7 +24,7 @@ export const bold = (text: string) => {
     return `**${text}**`;
 };
 
-export const productTitle = () => {
+export const productTitle = (brand: string, brandLogoImg: string) => {
     return `${image(`${brand}`, brandLogoImg)} ${brand}`;
 };
 

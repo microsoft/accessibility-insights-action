@@ -9,6 +9,7 @@ import { AxeScanResults } from 'accessibility-insights-scan';
 import { stripIndent } from 'common-tags';
 import { IMock, Mock, Times } from 'typemoq';
 
+import { checkRunDetailsTitle, disclaimerText } from '../content/strings';
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 import { CheckRunCreator } from './check-run-creator';
 
@@ -30,7 +31,6 @@ describe(CheckRunCreator, () => {
     const repo = 'repo';
     const sha = 'sha';
     const a11yCheckName = 'Accessibility Checks';
-    const a11yReportTitle = 'Accessibility Checks Report';
 
     beforeEach(() => {
         convertorMock = Mock.ofType(AxeMarkdownConvertor);
@@ -85,8 +85,8 @@ describe(CheckRunCreator, () => {
             status: 'completed',
             conclusion: 'failure',
             output: {
-                title: a11yReportTitle,
-                summary: `Unable to scan`,
+                title: checkRunDetailsTitle,
+                summary: disclaimerText,
                 annotations: [],
                 text: stripIndent`
                 ${message}`,
@@ -166,8 +166,8 @@ describe(CheckRunCreator, () => {
             status: 'completed',
             conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
             output: {
-                title: a11yReportTitle,
-                summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
+                title: checkRunDetailsTitle,
+                summary: disclaimerText,
                 text: markdown,
             },
         };
