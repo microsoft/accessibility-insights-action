@@ -3,6 +3,8 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License.
 -->
 
+[![Actions Status](https://github.com/microsoft/accessibility-insights-action/workflows/Build/badge.svg)](https://github.com/microsoft/accessibility-insights-action/actions)
+
 # Accessibility Insights Action
 
 Accessibility Insights Action helps integrate automated accessibility tests in GitHub workflow.
