@@ -4,19 +4,19 @@
     "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
     "main": "dist/index.js",
     "scripts": {
-        "build": "npx webpack --config ./webpack.config.js --colors",
-        "watch:build": "npx webpack --config ./webpack.config.js --colors --watch",
+        "build": "webpack --config ./webpack.config.js --colors",
+        "watch:build": "webpack --config ./webpack.config.js --colors --watch",
         "cbuild": "npm-run-all --serial clean build",
         "clean": "rimraf dist test-results",
-        "format": "npx prettier --write \"**/*\"",
-        "format:check": "npx prettier --check \"**/*\"",
-        "lint": "npx tslint -c ./tslint.json -p ./tsconfig.json",
-        "lint:fix": "npx tslint --fix -c ./tslint.json -p ./tsconfig.json",
-        "copyright:check": "npx license-check-and-add check -f ./licence-check-and-add-config.json",
-        "copyright:fix": "npx license-check-and-add add -f ./licence-check-and-add-config.json",
-        "test": "npx jest",
+        "format": "prettier --write \"**/*\"",
+        "format:check": "prettier --check \"**/*\"",
+        "lint": "tslint -c ./tslint.json -p ./tsconfig.json",
+        "lint:fix": "tslint --fix -c ./tslint.json -p ./tsconfig.json",
+        "copyright:check": "license-check-and-add check -f ./licence-check-and-add-config.json",
+        "copyright:fix": "license-check-and-add add -f ./licence-check-and-add-config.json",
+        "test": "jest",
         "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint test",
-        "watch:test": "npx jest --watch"
+        "watch:test": "jest --watch"
     },
     "repository": {
         "type": "git",
@@ -48,7 +48,6 @@
         "jest-junit": "^8.0.0",
         "mockdate": "^2.0.5",
         "npm-run-all": "^4.1.5",
-        "npx": "^10.2.2",
         "prettier": "^1.19.1",
         "rimraf": "^3.0.1",
         "ts-jest": "^24.0.0",
@@ -57,7 +56,8 @@
         "tslint-lines-between-class-members": "^1.3.6",
         "tslint-microsoft-contrib": "^6.2.0",
         "typescript": "^3.7.5",
-        "webpack-cli": "^3.3.10"
+        "webpack-cli": "^3.3.10",
+        "license-check-and-add": "^3.0.4"
     },
     "dependencies": {
         "@actions/core": "^1.2.2",
