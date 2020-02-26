@@ -9,7 +9,7 @@ import { AxeScanResults } from 'accessibility-insights-scan';
 import { stripIndent } from 'common-tags';
 import { IMock, Mock, Times } from 'typemoq';
 
-import { checkRunDetailsTitle, checkRunSummaryMd } from '../content/strings';
+import { checkRunDetailsTitle, disclaimerText } from '../content/strings';
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 import { CheckRunCreator } from './check-run-creator';
 
@@ -86,7 +86,7 @@ describe(CheckRunCreator, () => {
             conclusion: 'failure',
             output: {
                 title: checkRunDetailsTitle,
-                summary: checkRunSummaryMd,
+                summary: disclaimerText,
                 annotations: [],
                 text: stripIndent`
                 ${message}`,
@@ -167,7 +167,7 @@ describe(CheckRunCreator, () => {
             conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
             output: {
                 title: checkRunDetailsTitle,
-                summary: checkRunSummaryMd,
+                summary: disclaimerText,
                 text: markdown,
             },
         };

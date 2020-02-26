@@ -4,7 +4,7 @@ import { AxeScanResults } from 'accessibility-insights-scan';
 import * as axe from 'axe-core';
 import { injectable } from 'inversify';
 
-import { brand } from '../content/strings';
+import { brand, brandLogoImg } from '../content/strings';
 import { bold, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from '../utils/markdown-formatter';
 
 @injectable()
@@ -30,7 +30,7 @@ export class CheckResultMarkdownBuilder {
 
     public errorContent = (): string => {
         const lines = [
-            heading(`${productTitle()}: Something went wrong`, 3),
+            heading(`${productTitle(brand, brandLogoImg)}: Something went wrong`, 3),
             sectionSeparator(),
 
             `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
@@ -44,7 +44,7 @@ export class CheckResultMarkdownBuilder {
         const passed = axeScanResults.results.passes.length;
         const inapplicable = axeScanResults.results.inapplicable.length;
         const lines = [
-            heading(`${productTitle()}: All applicable checks passed`, 3),
+            heading(`${productTitle(brand, brandLogoImg)}: All applicable checks passed`, 3),
             sectionSeparator(),
 
             listItem(`${bold(`${passed} check(s) passed`)}, and ${inapplicable} were not applicable`),
@@ -67,12 +67,12 @@ export class CheckResultMarkdownBuilder {
         const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
         const axeLink = link(axeCoreUrl, `axe-core ${axeVersion}`);
 
-        return `This scan used ${axeLink} with the following browsers: ${axeScanResults.browserSpec}.`;
+        return `This scan used ${axeLink} with ${axeScanResults.browserSpec}.`;
     };
 
     private readonly failureSummary = (failed: number, passed: number, inapplicable: number) => {
         const lines = [
-            heading(`${productTitle()}`, 3),
+            heading(`${productTitle(brand, brandLogoImg)}`, 3),
             sectionSeparator(),
 
             listItem(`${bold(`${failed} check(s) failed`)}, ${passed} passed, and ${inapplicable} were not applicable`),

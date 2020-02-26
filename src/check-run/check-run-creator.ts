@@ -5,7 +5,7 @@ import { Octokit } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
-import { checkRunDetailsTitle, checkRunName, checkRunSummaryMd } from '../content/strings';
+import { checkRunDetailsTitle, checkRunName, disclaimerText } from '../content/strings';
 import { iocTypes } from '../ioc/ioc-types';
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 
@@ -55,7 +55,7 @@ export class CheckRunCreator {
             conclusion: 'failure',
             output: {
                 title: checkRunDetailsTitle,
-                summary: checkRunSummaryMd,
+                summary: disclaimerText,
                 annotations: [],
                 text: this.axeMarkdownConvertor.getErrorMarkdown(),
             },
@@ -65,7 +65,7 @@ export class CheckRunCreator {
     private getScanOutput(axeScanResults: AxeScanResults): Octokit.ChecksUpdateParamsOutput {
         return {
             title: checkRunDetailsTitle,
-            summary: checkRunSummaryMd,
+            summary: disclaimerText,
             text: this.axeMarkdownConvertor.convert(axeScanResults),
         };
     }

@@ -5,7 +5,7 @@ exports[`CheckResultMarkdownBuilder congratsContent 1`] = `
 * **1 check(s) passed**, and 1 were not applicable
 * Download the **Accessibility Insights** artifact to view the detailed results of these checks.
 ---
-This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with the following browsers: browserSpec."
+This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with browserSpec."
 `;
 
 exports[`CheckResultMarkdownBuilder errorContent 1`] = `
@@ -25,5 +25,5 @@ exports[`CheckResultMarkdownBuilder getFailureDetails 1`] = `
 * **3 × duplicate-id**:  duplicate-id is even more important
 
 ---
-This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with the following browsers: browserSpec."
+This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with browserSpec."
 `;
