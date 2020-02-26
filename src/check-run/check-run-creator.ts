@@ -5,7 +5,7 @@ import { Octokit } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
-import { AxeMarkdownConvertor } from '../axe-markdown-convertor';
+import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 import { iocTypes } from '../ioc/ioc-types';
 
 const A11Y_CHECK_NAME = 'Accessibility Checks';
