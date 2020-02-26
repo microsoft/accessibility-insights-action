@@ -69,5 +69,10 @@ jobs:
     - name: Codecov
       uses: codecov/codecov-action@v1.0.5
       with: 
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage.xml #optional
+        flags: unittests #optional
+        name: codecov-umbrella #optional
+        yml: ./codecov.yml #optional
+        fail_ci_if_error: true #optional (default = false)
 
