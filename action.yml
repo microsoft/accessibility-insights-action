@@ -3,6 +3,10 @@
 name: 'Accessibility Scan'
 description: 'Task to scan for accessibility issues'
 inputs:
+    output-dir:
+        description: 'folder containing the generated report'
+        default: '_accessibility-reports'
+        required: true
     site-dir:
         description: 'folder containing site content'
         default: ${{ github.workspace }}

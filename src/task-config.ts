@@ -12,7 +12,7 @@ export class TaskConfig {
     constructor(@inject(iocTypes.Process) private readonly processObj: typeof process, private readonly actionCoreObj = actionCore) {}
 
     public getReportOutDir(): string {
-        return path.join(this.processObj.env.GITHUB_WORKSPACE, '_accessibility-reports');
+        return this.actionCoreObj.getInput('output-dir');
     }
 
     public getSiteDir(): string {
