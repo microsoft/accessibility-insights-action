@@ -100,5 +100,6 @@ describe('ReportGenerator', () => {
         reporterMock.verifyAll();
         loggerMock.verifyAll();
         taskConfigMock.verifyAll();
+        fsMock.verifyAll();
     }
 });
