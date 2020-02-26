@@ -7,12 +7,9 @@ import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { stripIndent } from 'common-tags';
-import * as table from 'markdown-table';
 import { IMock, Mock, Times } from 'typemoq';
 
-import { AxeMarkdownConvertor } from '../axe-markdown-convertor';
-import { Logger } from '../logger/logger';
-import { TaskConfig } from '../task-config';
+import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 import { CheckRunCreator } from './check-run-creator';
 
 // tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
@@ -97,7 +94,10 @@ describe(CheckRunCreator, () => {
         };
 
         setupMocksForCreateCheck();
-
+        convertorMock
+            .setup(cm => cm.getErrorMarkdown())
+            .returns(() => message)
+            .verifiable(Times.once());
         updateCheckMock.setup(um => um(expectedParam)).verifiable(Times.once());
 
         await checkRunCreator.createRun();

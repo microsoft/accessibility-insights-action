@@ -3,13 +3,10 @@
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
-import { stripIndent } from 'common-tags';
 import { inject, injectable } from 'inversify';
 
-import { AxeMarkdownConvertor } from '../axe-markdown-convertor';
 import { iocTypes } from '../ioc/ioc-types';
-import { Logger } from '../logger/logger';
-import { TaskConfig } from '../task-config';
+import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 
 const A11Y_CHECK_NAME = 'Accessibility Checks';
 const A11Y_REPORT_TITLE = 'Accessibility Checks Report';
@@ -62,8 +59,7 @@ export class CheckRunCreator {
                 title: A11Y_REPORT_TITLE,
                 summary: `Unable to scan`,
                 annotations: [],
-                text: stripIndent`
-                ${message}`,
+                text: this.axeMarkdownConvertor.getErrorMarkdown(),
             },
         });
     }
