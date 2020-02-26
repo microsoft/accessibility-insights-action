@@ -11,6 +11,7 @@ import { IMock, Mock, Times } from 'typemoq';
 
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 import { CheckRunCreator } from './check-run-creator';
+import { checkRunDetailsTitle, checkRunSummaryMd } from '../content/strings';
 
 // tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 type CreateCheckParams = Octokit.RequestOptions & Octokit.ChecksCreateParams;
@@ -30,7 +31,6 @@ describe(CheckRunCreator, () => {
     const repo = 'repo';
     const sha = 'sha';
     const a11yCheckName = 'Accessibility Checks';
-    const a11yReportTitle = 'Accessibility Checks Report';
 
     beforeEach(() => {
         convertorMock = Mock.ofType(AxeMarkdownConvertor);
@@ -85,8 +85,8 @@ describe(CheckRunCreator, () => {
             status: 'completed',
             conclusion: 'failure',
             output: {
-                title: a11yReportTitle,
-                summary: `Unable to scan`,
+                title: checkRunDetailsTitle,
+                summary: checkRunSummaryMd,
                 annotations: [],
                 text: stripIndent`
                 ${message}`,
@@ -166,8 +166,8 @@ describe(CheckRunCreator, () => {
             status: 'completed',
             conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
             output: {
-                title: a11yReportTitle,
-                summary: `Scan completed with failed rules count - ${axeScanResults.results.violations.length}`,
+                title: checkRunDetailsTitle,
+                summary: checkRunSummaryMd,
                 text: markdown,
             },
         };
