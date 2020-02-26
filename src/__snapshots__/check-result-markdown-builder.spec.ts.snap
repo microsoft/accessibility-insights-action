@@ -27,7 +27,7 @@ exports[`CheckResultMarkdownBuilder getFailureDetails 1`] = `
 The Accessibility Insights Service ran a set of automated checks to help find some of the most common accessibility issues. The best way to evaluate web accessibility compliance is to complete a [WCAG 2.1 compliance assessment](http://aka.ms/AccessibilityInsights).
 ###### DETAILS
 ### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
-* **2 check(s) failed**, 1 passed, and 1 were not applicable
+* **2 check(s) failed**, 2 passed, and 2 were not applicable
 * Download the **Accessibility Insights** artifact to view the detailed results of these checks.
 #### Failed instances
 * **2 × color-contrast**:  color-contrast is important

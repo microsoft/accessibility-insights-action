@@ -34,8 +34,30 @@ describe(CheckResultMarkdownBuilder, () => {
                         description: 'duplicate-id is even more important',
                     },
                 ],
-                passes: [{ html: 'passed' }],
-                inapplicable: [{ html: 'inapplicable' }],
+                passes: [
+                    {
+                        id: 'passed rule 1',
+                        nodes: [{ html: 'html1' }, { html: 'html2' }],
+                        description: 'passed rule 1 is important',
+                    },
+                    {
+                        id: 'passed rule 2',
+                        nodes: [{ html: 'html3' }, { html: 'html4' }, { html: 'html5' }],
+                        description: 'passed rule 2 is even more important',
+                    },
+                ],
+                inapplicable: [
+                    {
+                        id: 'inapplicable rule 1',
+                        nodes: [{ html: 'html1' }, { html: 'html2' }],
+                        description: 'inapplicable rule 1 is important',
+                    },
+                    {
+                        id: 'inapplicable rule 2',
+                        nodes: [{ html: 'html3' }, { html: 'html4' }, { html: 'html5' }],
+                        description: 'inapplicable rule 2 is even more important',
+                    },
+                ],
             },
             browserSpec: 'browserSpec',
         } as any;

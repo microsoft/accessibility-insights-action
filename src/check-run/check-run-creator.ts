@@ -3,13 +3,10 @@
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
-import { stripIndent } from 'common-tags';
 import { inject, injectable } from 'inversify';
 
 import { AxeMarkdownConvertor } from '../axe-markdown-convertor';
 import { iocTypes } from '../ioc/ioc-types';
-import { Logger } from '../logger/logger';
-import { TaskConfig } from '../task-config';
 
 const A11Y_CHECK_NAME = 'Accessibility Checks';
 const A11Y_REPORT_TITLE = 'Accessibility Checks Report';

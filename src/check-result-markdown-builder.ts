@@ -11,7 +11,7 @@ import { bold, footerSeparator, heading, link, listItem, productTitle, sectionSe
 export class CheckResultMarkdownBuilder {
     public failureDetails = (axeScanResults: AxeScanResults) => {
         const failedRulesList = axeScanResults.results.violations.map((rule: axe.Result) => {
-            return [this.failedRuleListItem(rule.nodes.length, rule.id, rule.description),  sectionSeparator()].join('');
+            return [this.failedRuleListItem(rule.nodes.length, rule.id, rule.description), sectionSeparator()].join('');
         });
         const sections = [
             this.failureSummary(
@@ -50,7 +50,7 @@ export class CheckResultMarkdownBuilder {
             listItem(`${bold(`${passed} check(s) passed`)}, and ${inapplicable} were not applicable`),
             sectionSeparator(),
 
-            listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.`),
+            this.downloadArtifacts(),
         ];
 
         return this.scanResultDetails(lines.join(''), this.scanResultFooter(axeScanResults));
@@ -98,7 +98,7 @@ export class CheckResultMarkdownBuilder {
 
             listItem(`${bold(`${failed} check(s) failed`)}, ${passed} passed, and ${inapplicable} were not applicable`),
             sectionSeparator(),
-            listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.`),
+            this.downloadArtifacts(),
         ];
 
         return lines.join('');
@@ -106,5 +106,9 @@ export class CheckResultMarkdownBuilder {
 
     private readonly failedRuleListItem = (failureCount: number, ruleId: string, description: string) => {
         return listItem(`${bold(`${failureCount} × ${ruleId}`)}:  ${description}`);
+    };
+
+    private readonly downloadArtifacts = () => {
+        return listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.`);
     };
 }
