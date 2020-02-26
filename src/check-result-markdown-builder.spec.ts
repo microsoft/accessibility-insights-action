@@ -30,7 +30,7 @@ describe(CheckResultMarkdownBuilder, () => {
                     },
                     {
                         id: 'duplicate-id',
-                        nodes: [{ html: 'html3',  }, { html: 'html4' }, { html: 'html5' }],
+                        nodes: [{ html: 'html3' }, { html: 'html4' }, { html: 'html5' }],
                         description: 'duplicate-id is even more important',
                     },
                 ],

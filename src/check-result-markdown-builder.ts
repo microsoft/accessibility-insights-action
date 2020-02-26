@@ -34,6 +34,7 @@ export class CheckResultMarkdownBuilder {
             sectionSeparator(),
 
             `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
+            sectionSeparator(),
         ];
 
         return this.scanResultDetails(lines.join(''));
@@ -46,8 +47,8 @@ export class CheckResultMarkdownBuilder {
             heading(`${productTitle()}: All applicable checks passed`, 3),
             sectionSeparator(),
 
-            listItem(`${bold(`${passed} check(s) passed`)}, and ${inapplicable} were not applicable`),
-            listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.`),
+            listItem(`${bold(`${passed} check(s) passed`)}, and ${inapplicable} were not applicable\n`),
+            listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.\n`),
         ];
 
         return this.scanResultDetails(lines.join(''), this.scanResultFooter(axeScanResults));
@@ -65,7 +66,7 @@ export class CheckResultMarkdownBuilder {
             )}.`,
             sectionSeparator(),
 
-            heading('DETAILS', 5),
+            heading('DETAILS', 6),
             sectionSeparator(),
 
             scanResult,
@@ -83,7 +84,7 @@ export class CheckResultMarkdownBuilder {
     private readonly scanResultFooter = (axeScanResults: AxeScanResults): string => {
         const axeVersion = axeScanResults.results.testEngine.version;
         const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
-        const axeLink = link(axeCoreUrl, axeVersion);
+        const axeLink = link(axeCoreUrl, `axe-core ${axeVersion}`);
 
         return `This scan used ${axeLink} with the following browsers: ${axeScanResults.browserSpec}.`;
     };
@@ -93,8 +94,8 @@ export class CheckResultMarkdownBuilder {
             heading(`${productTitle()}`, 3),
             sectionSeparator(),
 
-            listItem(`${bold(`${failed} check(s) failed`)}, ${passed} passed, and ${inapplicable} were not applicable`),
-            listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.`),
+            listItem(`${bold(`${failed} check(s) failed`)}, ${passed} passed, and ${inapplicable} were not applicable\n`),
+            listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.\n`),
         ];
 
         return lines.join('');

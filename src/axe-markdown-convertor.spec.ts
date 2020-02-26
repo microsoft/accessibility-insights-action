@@ -4,7 +4,7 @@
 import 'reflect-metadata';
 
 import { AxeScanResults } from 'accessibility-insights-scan';
-import { IMock, Mock, Times, It } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 
 import { AxeMarkdownConvertor } from './axe-markdown-convertor';
 import { CheckResultMarkdownBuilder } from './check-result-markdown-builder';

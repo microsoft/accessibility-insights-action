@@ -11,7 +11,7 @@ export const link = (href: string, text: string): string => {
 };
 
 export const image = (altText: string, src: string): string => {
-    return `![${altText}(${src})]`;
+    return `![${altText}](${src})`;
 };
 
 export const listItem = (text: string): string => {
@@ -27,7 +27,7 @@ export const bold = (text: string) => {
 };
 
 export const productTitle = () => {
-    return image(`${brand}`, brandLogoImg);
+    return `${image(`${brand}`, brandLogoImg)} ${brand}`;
 };
 
 export const footerSeparator = () => `---`;
