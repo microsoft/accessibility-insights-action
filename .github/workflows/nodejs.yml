@@ -66,9 +66,13 @@ jobs:
     #     repo_token: ${{ secrets.GITHUB_TOKEN }}
     #     minimum_coverage: 85%
     
-    - name: Codecov
-      uses: codecov/codecov-action@v1.0.5
-      with: 
-        token: ${{ secrets.CODECOV_TOKEN }}
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Codecov
+    #   uses: codecov/codecov-action@v1.0.5
+    #   with: 
+    #     token: ${{ secrets.CODECOV_TOKEN }}
+    #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish code coverage to codecov
+      run: yarn publish-code-coverage -t $(CODECOV_TOKEN)
+  
 
