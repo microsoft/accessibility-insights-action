@@ -10,6 +10,7 @@ import * as util from 'util';
 import { CheckRunCreator } from '../check-run/check-run-creator';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
+import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 import { Scanner } from './scanner';
@@ -19,6 +20,7 @@ import { Scanner } from './scanner';
 describe(Scanner, () => {
     let scanner: Scanner;
     let scannerMock: IMock<AIScanner>;
+    let reportGeneratorMock: IMock<ReportGenerator>;
     let loggerMock: IMock<Logger>;
     let promiseUtilsMock: IMock<PromiseUtils>;
     let taskConfigMock: IMock<TaskConfig>;
@@ -35,6 +37,7 @@ describe(Scanner, () => {
 
     beforeEach(() => {
         scannerMock = Mock.ofType(AIScanner);
+        reportGeneratorMock = Mock.ofType(ReportGenerator);
         loggerMock = Mock.ofType(Logger);
         taskConfigMock = Mock.ofType(TaskConfig);
         checkRunCreatorMock = Mock.ofType(CheckRunCreator);
@@ -57,6 +60,7 @@ describe(Scanner, () => {
         scanner = new Scanner(
             loggerMock.object,
             scannerMock.object,
+            reportGeneratorMock.object,
             taskConfigMock.object,
             checkRunCreatorMock.object,
             localFileServerMock.object,
@@ -91,6 +95,7 @@ describe(Scanner, () => {
                     return Promise.resolve(axeScanResults);
                 })
                 .verifiable(Times.once());
+            reportGeneratorMock.setup(rgm => rgm.generateReport(axeScanResults)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
             checkRunCreatorMock.setup(cm => cm.createRun()).verifiable(Times.once());
@@ -162,6 +167,7 @@ describe(Scanner, () => {
 
     function verifyMocks(): void {
         scannerMock.verifyAll();
+        reportGeneratorMock.verifyAll();
         taskConfigMock.verifyAll();
         checkRunCreatorMock.verifyAll();
         promiseUtilsMock.verifyAll();
