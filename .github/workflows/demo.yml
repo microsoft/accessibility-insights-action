@@ -14,8 +14,8 @@ jobs:
 
     - name: setup node
       uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
+      with:
+      node-version: 12.x
 
     - name: Install dependencies
       run: yarn install
@@ -29,5 +29,5 @@ jobs:
     - name: Upload report artifact
       uses: actions/upload-artifact@v1.0.0
       with:
-          name: reports
-          path: ${{ github.workspace }}/_accessibility-reports
+        name: reports
+        path: ${{ github.workspace }}/_accessibility-reports
