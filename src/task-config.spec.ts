@@ -32,8 +32,13 @@ describe(TaskConfig, () => {
     });
 
     it('getReportOutDir', () => {
+        const outputDir = 'output-dir';
+        actionCoreMock
+            .setup(am => am.getInput('output-dir'))
+            .returns(() => outputDir)
+            .verifiable(Times.once());
         const dir = taskConfig.getReportOutDir();
-        expect(dir).toBe(path.join(workspace, '_accessibility-reports'));
+        expect(dir).toBe(outputDir);
     });
 
     it('getSiteDir', () => {
