@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
+import * as path from 'path';
 import * as url from 'url';
 import * as util from 'util';
 
@@ -9,6 +10,7 @@ import { CheckRunCreator } from '../check-run/check-run-creator';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
+import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 
@@ -17,6 +19,7 @@ export class Scanner {
     constructor(
         @inject(Logger) private readonly logger: Logger,
         @inject(AIScanner) private readonly scanner: AIScanner,
+        @inject(ReportGenerator) private readonly reportGenerator: ReportGenerator,
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(CheckRunCreator) private readonly checkRunCreator: CheckRunCreator,
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
@@ -41,7 +44,14 @@ export class Scanner {
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
 
-            const axeScanResults = await this.scanner.scan(scanUrl);
+            const chromePath = this.taskConfig.getChromePath();
+            const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
+
+            // tslint:disable-next-line: no-unsafe-any
+            const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
+
+            // tslint:disable-next-line: no-unsafe-any
+            this.reportGenerator.generateReport(axeScanResults);
 
             await this.checkRunCreator.completeRun(axeScanResults);
         } catch (error) {

@@ -973,10 +973,10 @@ accessibility-insights-report@^1.0.0:
     react-helmet "^5.2.0"
     uuid "^3.4.0"
 
-accessibility-insights-scan@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-0.2.1.tgz#65a26670b50ed620a76c9c2d827321d732b4481a"
-  integrity sha512-Btd5eQGR9Nd96DLhvlNb8yjM0ML+GKVWbUsqN+Vrh5Wf8Sy0rqs+H/Z6Kmhcc6Yfv/fNvzbR1f/+34gJy51RtA==
+accessibility-insights-scan@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-0.2.3.tgz#c6098193083948b759654115fb76288fab001264"
+  integrity sha512-zv1WKGoutIoIlMjFVwNKitiWAvQ9X7c4beFTVIE3JJntPSRXOsdgBd83B7FZGCoQpZn58S08y8qpTtLNhZ+dwg==
   dependencies:
     accessibility-insights-report "^1.0.0"
     axe-core "3.3.2"
@@ -5189,13 +5189,6 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-table@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-2.0.0.tgz#194a90ced26d31fe753d8b9434430214c011865b"
-  integrity sha512-Ezda85ToJUBhM6WGaG6veasyym+Tbs3cMAw/ZhOPqXiYsr0jgocBV3j3nx+4lk47plLlIqjwuTm/ywVI+zjJ/A==
-  dependencies:
-    repeat-string "^1.0.0"
-
 md5.js@^1.3.4:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"
@@ -5416,6 +5409,11 @@ mkdirp@0.5.1, mkdirp@0.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+mockdate@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-2.0.5.tgz#70c6abf9ed4b2dae65c81dfc170dd1a5cec53620"
+  integrity sha512-ST0PnThzWKcgSLyc+ugLVql45PvESt3Ul/wrdV/OPc/6Pr8dbLAIJsN1cIp41FLzbN+srVTNIRn+5Cju0nyV6A==
 
 moment@^2.24.0:
   version "2.24.0"
@@ -6843,7 +6841,7 @@ repeat-element@^1.1.2:
   resolved "https://registry.yarnpkg.com/repeat-element/-/repeat-element-1.1.3.tgz#782e0d825c0c5a3bb39731f84efee6b742e6b1ce"
   integrity sha512-ahGq0ZnV5m5XtZLMb+vP76kcAM5nkLqk0lpqAuojSKGgQtn4eRi4ZZGm2olo2zKFH+sMsWaqOCW1dqAnOru72g==
 
-repeat-string@^1.0.0, repeat-string@^1.6.1:
+repeat-string@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=

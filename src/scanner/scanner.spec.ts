@@ -4,21 +4,23 @@
 import 'reflect-metadata';
 
 import { AIScanner, AxeScanResults } from 'accessibility-insights-scan';
+import * as path from 'path';
 import { IMock, It, Mock, Times } from 'typemoq';
 import * as util from 'util';
-
 import { CheckRunCreator } from '../check-run/check-run-creator';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
+import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 import { Scanner } from './scanner';
 
 // tslint:disable: no-object-literal-type-assertion no-unsafe-any
 
-describe('Scanner', () => {
+describe(Scanner, () => {
     let scanner: Scanner;
     let scannerMock: IMock<AIScanner>;
+    let reportGeneratorMock: IMock<ReportGenerator>;
     let loggerMock: IMock<Logger>;
     let promiseUtilsMock: IMock<PromiseUtils>;
     let taskConfigMock: IMock<TaskConfig>;
@@ -29,9 +31,13 @@ describe('Scanner', () => {
     let axeScanResults: AxeScanResults;
     const scanUrl = 'localhost';
     const baseUrl = 'base';
+    // tslint:disable-next-line:mocha-no-side-effect-code
+    const axeSourcePath = path.resolve(__dirname, 'axe.js');
+    const chromePath = 'chrome path';
 
     beforeEach(() => {
         scannerMock = Mock.ofType(AIScanner);
+        reportGeneratorMock = Mock.ofType(ReportGenerator);
         loggerMock = Mock.ofType(Logger);
         taskConfigMock = Mock.ofType(TaskConfig);
         checkRunCreatorMock = Mock.ofType(CheckRunCreator);
@@ -54,6 +60,7 @@ describe('Scanner', () => {
         scanner = new Scanner(
             loggerMock.object,
             scannerMock.object,
+            reportGeneratorMock.object,
             taskConfigMock.object,
             checkRunCreatorMock.object,
             localFileServerMock.object,
@@ -65,6 +72,10 @@ describe('Scanner', () => {
             .setup(tm => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)
             .verifiable();
+        taskConfigMock
+            .setup(tcm => tcm.getChromePath())
+            .returns(() => chromePath)
+            .verifiable(Times.once());
         localFileServerMock
             .setup(async lfs => lfs.start())
             .returns(() => Promise.resolve(baseUrl))
@@ -79,11 +90,12 @@ describe('Scanner', () => {
     describe('scan', () => {
         it('should log info and create/complete check run', async () => {
             scannerMock
-                .setup(sm => sm.scan(scanUrl))
+                .setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath))
                 .returns(async () => {
                     return Promise.resolve(axeScanResults);
                 })
                 .verifiable(Times.once());
+            reportGeneratorMock.setup(rgm => rgm.generateReport(axeScanResults)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
             checkRunCreatorMock.setup(cm => cm.createRun()).verifiable(Times.once());
@@ -104,7 +116,7 @@ describe('Scanner', () => {
                 .callback(() => {
                     throw error;
                 });
-            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.never());
+            scannerMock.setup(sm => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.never());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
             loggerMock
                 .setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
@@ -123,7 +135,7 @@ describe('Scanner', () => {
 
         it('should return timeout promise', async () => {
             const errorMessage: string = `Unable to scan before timeout`;
-            scannerMock.setup(sm => sm.scan(scanUrl)).verifiable(Times.once());
+            scannerMock.setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup(em => em(1)).verifiable(Times.once());
 
@@ -155,6 +167,7 @@ describe('Scanner', () => {
 
     function verifyMocks(): void {
         scannerMock.verifyAll();
+        reportGeneratorMock.verifyAll();
         taskConfigMock.verifyAll();
         checkRunCreatorMock.verifyAll();
         promiseUtilsMock.verifyAll();

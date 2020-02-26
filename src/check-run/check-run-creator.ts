@@ -19,8 +19,6 @@ export class CheckRunCreator {
     private a11yCheck: Octokit.ChecksCreateResponse;
 
     constructor(
-        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
-        @inject(Logger) private readonly logger: Logger,
         @inject(AxeMarkdownConvertor) private readonly axeMarkdownConvertor: AxeMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(iocTypes.Github) private readonly githubObj: typeof github,
