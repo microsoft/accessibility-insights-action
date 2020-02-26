@@ -1,21 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CheckResultMarkdownBuilder congratsContent 1`] = `
-"## Accessibility Automated Checks Results
-The Accessibility Insights Service ran a set of automated checks to help find some of the most common accessibility issues. The best way to evaluate web accessibility compliance is to complete a [WCAG 2.1 compliance assessment](http://aka.ms/AccessibilityInsights).
-###### DETAILS
-### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: All applicable checks passed
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: All applicable checks passed
 * **1 check(s) passed**, and 1 were not applicable
 * Download the **Accessibility Insights** artifact to view the detailed results of these checks.
 ---
-This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with the following browsers: browserSpec."
+This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with browserSpec."
 `;
 
 exports[`CheckResultMarkdownBuilder errorContent 1`] = `
-"## Accessibility Automated Checks Results
-The Accessibility Insights Service ran a set of automated checks to help find some of the most common accessibility issues. The best way to evaluate web accessibility compliance is to complete a [WCAG 2.1 compliance assessment](http://aka.ms/AccessibilityInsights).
-###### DETAILS
-### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: Something went wrong
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: Something went wrong
 You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.
 
 ---
@@ -23,10 +17,7 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 `;
 
 exports[`CheckResultMarkdownBuilder getFailureDetails 1`] = `
-"## Accessibility Automated Checks Results
-The Accessibility Insights Service ran a set of automated checks to help find some of the most common accessibility issues. The best way to evaluate web accessibility compliance is to complete a [WCAG 2.1 compliance assessment](http://aka.ms/AccessibilityInsights).
-###### DETAILS
-### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 * **2 check(s) failed**, 2 passed, and 2 were not applicable
 * Download the **Accessibility Insights** artifact to view the detailed results of these checks.
 #### Failed instances
@@ -34,5 +25,5 @@ The Accessibility Insights Service ran a set of automated checks to help find so
 * **3 × duplicate-id**:  duplicate-id is even more important
 
 ---
-This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with the following browsers: browserSpec."
+This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with browserSpec."
 `;
