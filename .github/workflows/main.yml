@@ -1,0 +1,29 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+name: Node CI
+
+on: [push]
+
+jobs:
+  build:
+    name: first build job
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2  
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: Scan for A11y issues
+      uses: microsoft/accessibility-insights-action@v123
+      with:
+        scan-url-relative-path: /
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload report artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+          name: reports
+          path: ${{ github.workspace }}/_accessibility-reports 
