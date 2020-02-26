@@ -88,6 +88,6 @@ export class CheckResultMarkdownBuilder {
     };
 
     private readonly downloadArtifacts = () => {
-        return listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.`);
+        return listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks`);
     };
 }

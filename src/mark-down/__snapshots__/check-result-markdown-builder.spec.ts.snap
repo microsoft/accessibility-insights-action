@@ -3,7 +3,7 @@
 exports[`CheckResultMarkdownBuilder congratsContent 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: All applicable checks passed
 * **1 check(s) passed**, and 1 were not applicable
-* Download the **Accessibility Insights** artifact to view the detailed results of these checks.
+* Download the **Accessibility Insights** artifact to view the detailed results of these checks
 ---
 This scan used [axe-core 1.0.1](https://github.com/dequelabs/axe-core/releases/tag/v1.0.1) with browserSpec."
 `;
@@ -19,7 +19,7 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 exports[`CheckResultMarkdownBuilder getFailureDetails 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 * **2 check(s) failed**, 2 passed, and 2 were not applicable
-* Download the **Accessibility Insights** artifact to view the detailed results of these checks.
+* Download the **Accessibility Insights** artifact to view the detailed results of these checks
 #### Failed instances
 * **2 × color-contrast**:  color-contrast is important
 * **3 × duplicate-id**:  duplicate-id is even more important
