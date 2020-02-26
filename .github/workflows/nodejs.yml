@@ -65,4 +65,7 @@ jobs:
         path: ${{ github.workspace }}/test-results/unit/coverage/cobertura-coverage.xml
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         minimum_coverage: 85%
+    
+    - name: Codecov
+      uses: codecov/codecov-action@v1.0.5
 
