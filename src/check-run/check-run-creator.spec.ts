@@ -101,7 +101,10 @@ describe(CheckRunCreator, () => {
         };
 
         setupMocksForCreateCheck();
-
+        convertorMock
+            .setup(cm => cm.getErrorMarkdown())
+            .returns(() => message)
+            .verifiable(Times.once());
         updateCheckMock.setup(um => um(expectedParam)).verifiable(Times.once());
 
         await checkRunCreator.createRun();

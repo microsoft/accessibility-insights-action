@@ -64,8 +64,7 @@ export class CheckRunCreator {
                 title: A11Y_REPORT_TITLE,
                 summary: `Unable to scan`,
                 annotations: [],
-                text: stripIndent`
-                ${message}`,
+                text: this.axeMarkdownConvertor.getErrorMarkdown(),
             },
         });
     }

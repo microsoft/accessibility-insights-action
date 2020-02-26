@@ -1,0 +1,106 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+import { AxeScanResults } from 'accessibility-insights-scan';
+import * as axe from 'axe-core';
+import { injectable } from 'inversify';
+
+import { brand } from './content/strings';
+import { bold, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './utils/markdown-formatter';
+
+@injectable()
+export class CheckResultMarkdownBuilder {
+    public getFailureDetails = (axeScanResults: AxeScanResults) => {
+        const failedRulesList = axeScanResults.results.violations.map((rule: axe.Result) => {
+            return this.failedRuleListItem(rule.nodes.length, rule.id, rule.description);
+        });
+        const sections = [
+            this.failureSummary(
+                axeScanResults.results.violations.length,
+                axeScanResults.results.passes.length,
+                axeScanResults.results.inapplicable.length,
+            ),
+            sectionSeparator(),
+
+            `${heading('Failed instances', 4)}`,
+            sectionSeparator(),
+        ];
+
+        return this.scanResultDetails(sections.concat(failedRulesList).join(''), this.scanResultFooter(axeScanResults));
+    };
+
+    public errorContent = (): string => {
+        const lines = [
+            heading(`${productTitle()}: Something went wrong`, 3),
+            sectionSeparator(),
+
+            `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
+        ];
+
+        return this.scanResultDetails(lines.join(''));
+    };
+
+    public congratsContent = (axeScanResults: AxeScanResults) => {
+        const passed = axeScanResults.results.passes.length;
+        const inapplicable = axeScanResults.results.inapplicable.length;
+        const lines = [
+            heading(`${productTitle()}: All applicable checks passed`, 3),
+            sectionSeparator(),
+
+            listItem(`${bold(`${passed} check(s) passed`)}, and ${inapplicable} were not applicable`),
+            listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.`),
+        ];
+
+        return this.scanResultDetails(lines.join(''), this.scanResultFooter(axeScanResults));
+    };
+
+    private readonly scanResultDetails = (scanResult: string, footer?: string): string => {
+        const lines = [
+            heading('Accessibility Automated Checks Results', 2),
+            sectionSeparator(),
+
+            `The Accessibility Insights Service ran a set of automated checks to help find some of the most common accessibility issues. The best way to evaluate web accessibility compliance is to complete a ${link(
+                // tslint:disable-next-line: no-http-string
+                'http://aka.ms/AccessibilityInsights',
+                'WCAG 2.1 compliance assessment',
+            )}.`,
+            sectionSeparator(),
+
+            heading('DETAILS', 5),
+            sectionSeparator(),
+
+            scanResult,
+            sectionSeparator(),
+
+            footerSeparator(),
+            sectionSeparator(),
+
+            footer,
+        ];
+
+        return lines.join('');
+    };
+
+    private readonly scanResultFooter = (axeScanResults: AxeScanResults): string => {
+        const axeVersion = axeScanResults.results.testEngine.version;
+        const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
+        const axeLink = link(axeCoreUrl, axeVersion);
+
+        return `This scan used ${axeLink} with the following browsers: ${axeScanResults.browserSpec}.`;
+    };
+
+    private readonly failureSummary = (failed: number, passed: number, inapplicable: number) => {
+        const lines = [
+            heading(`${productTitle()}`, 3),
+            sectionSeparator(),
+
+            listItem(`${bold(`${failed} check(s) failed`)}, ${passed} passed, and ${inapplicable} were not applicable`),
+            listItem(`Download the ${bold(brand)} artifact to view the detailed results of these checks.`),
+        ];
+
+        return lines.join('');
+    };
+
+    private readonly failedRuleListItem = (failureCount: number, ruleId: string, description: string) => {
+        return listItem(`${bold(`${failureCount} × ${ruleId}`)}:  ${description}\n`);
+    };
+}

@@ -4,16 +4,20 @@
 import 'reflect-metadata';
 
 import { AxeScanResults } from 'accessibility-insights-scan';
+import { IMock, Mock, Times, It } from 'typemoq';
 
 import { AxeMarkdownConvertor } from './axe-markdown-convertor';
+import { CheckResultMarkdownBuilder } from './check-result-markdown-builder';
 
 // tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 describe(AxeMarkdownConvertor, () => {
     let axeMarkdownConvertor: AxeMarkdownConvertor;
+    let markdownBuilderMock: IMock<CheckResultMarkdownBuilder>;
     let axeScanResults: AxeScanResults;
 
     beforeEach(() => {
-        axeMarkdownConvertor = new AxeMarkdownConvertor();
+        markdownBuilderMock = Mock.ofType(CheckResultMarkdownBuilder);
+        axeMarkdownConvertor = new AxeMarkdownConvertor(markdownBuilderMock.object);
         axeScanResults = {
             results: {
                 violations: [],
@@ -27,9 +31,11 @@ describe(AxeMarkdownConvertor, () => {
 
     describe('convert', () => {
         it('returns congrats message when no failure found', async () => {
-            const res = axeMarkdownConvertor.convert(axeScanResults);
+            markdownBuilderMock.setup(mm => mm.congratsContent(axeScanResults)).verifiable(Times.once());
 
-            expect(res).toMatchSnapshot();
+            axeMarkdownConvertor.convert(axeScanResults);
+
+            markdownBuilderMock.verifyAll();
         });
 
         it('returns failure details', async () => {
@@ -47,10 +53,19 @@ describe(AxeMarkdownConvertor, () => {
                 passes: [{ html: 'passed' }],
                 inapplicable: [{ html: 'inapplicable' }],
             } as any;
+            markdownBuilderMock.setup(mm => mm.getFailureDetails(axeScanResults)).verifiable(Times.once());
 
-            const res = axeMarkdownConvertor.convert(axeScanResults);
+            axeMarkdownConvertor.convert(axeScanResults);
 
-            expect(res).toMatchSnapshot();
+            markdownBuilderMock.verifyAll();
         });
+    });
+
+    it('getErrorMarkdown', () => {
+        markdownBuilderMock.setup(mm => mm.errorContent()).verifiable(Times.once());
+
+        axeMarkdownConvertor.getErrorMarkdown();
+
+        markdownBuilderMock.verifyAll();
     });
 });
