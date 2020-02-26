@@ -1,17 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { brand, brandLogoImg } from '../content/strings';
-import {
-    bold,
-    footerSeparator,
-    heading,
-    image,
-    link,
-    listItem,
-    productTitle,
-    sectionSeparator,
-    snippet,
-} from './markdown-formatter';
+import { bold, footerSeparator, heading, image, link, listItem, productTitle, sectionSeparator, snippet } from './markdown-formatter';
 
 describe('MarkdownFormatter', () => {
     it('snippet', () => {
