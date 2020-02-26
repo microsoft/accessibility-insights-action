@@ -14,6 +14,7 @@
         "lint:fix": "npx tslint --fix -c ./tslint.json -p ./tsconfig.json",
         "copyright:check": "npx license-check-and-add check -f ./licence-check-and-add-config.json",
         "copyright:fix": "npx license-check-and-add add -f ./licence-check-and-add-config.json",
+        "publish-code-coverage": "npx codecov",
         "test": "npx jest",
         "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint test",
         "watch:test": "npx jest --watch"
@@ -40,6 +41,7 @@
         "@types/verror": "^1.10.3",
         "accessibility-insights-scan": "^0.2.3",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
+        "codecov": "^3.6.5",
         "copy-webpack-plugin": "^5.1.1",
         "fork-ts-checker-webpack-plugin": "^4.0.3",
         "jest": "^25.1.0",
