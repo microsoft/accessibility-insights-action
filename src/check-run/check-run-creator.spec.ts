@@ -9,9 +9,9 @@ import { AxeScanResults } from 'accessibility-insights-scan';
 import { stripIndent } from 'common-tags';
 import { IMock, Mock, Times } from 'typemoq';
 
+import { checkRunDetailsTitle, checkRunSummaryMd } from '../content/strings';
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 import { CheckRunCreator } from './check-run-creator';
-import { checkRunDetailsTitle, checkRunSummaryMd } from '../content/strings';
 
 // tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 type CreateCheckParams = Octokit.RequestOptions & Octokit.ChecksCreateParams;
