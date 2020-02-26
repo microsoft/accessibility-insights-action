@@ -1,6 +1,6 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-name: 'Accessibility Scan'
+name: 'Accessibility Insights Action'
 description: 'Task to scan for accessibility issues'
 inputs:
     output-dir:
