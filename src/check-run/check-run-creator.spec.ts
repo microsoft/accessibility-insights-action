@@ -11,9 +11,11 @@ import { IMock, Mock, Times } from 'typemoq';
 
 import { checkRunDetailsTitle, disclaimerText } from '../content/strings';
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
+import { PullRequestCommentCreator } from '../pull-request-comment-creator';
 import { CheckRunCreator } from './check-run-creator';
 
 // tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
+
 type CreateCheckParams = Octokit.RequestOptions & Octokit.ChecksCreateParams;
 type UpdateCheckParams = Octokit.RequestOptions & Octokit.ChecksUpdateParams;
 type CreateCheck = (params: CreateCheckParams) => Promise<Octokit.Response<Octokit.ChecksCreateResponse>>;
@@ -27,6 +29,7 @@ describe(CheckRunCreator, () => {
     let githubStub: typeof github;
     let checkStub: Octokit.ChecksCreateResponse;
     let convertorMock: IMock<AxeMarkdownConvertor>;
+    let pullRequestCommentCreatorMock: IMock<PullRequestCommentCreator>;
     const owner = 'owner';
     const repo = 'repo';
     const sha = 'sha';
@@ -34,6 +37,7 @@ describe(CheckRunCreator, () => {
 
     beforeEach(() => {
         convertorMock = Mock.ofType(AxeMarkdownConvertor);
+        pullRequestCommentCreatorMock = Mock.ofType(PullRequestCommentCreator);
         createCheckMock = Mock.ofInstance(() => {
             return null;
         });
@@ -54,12 +58,13 @@ describe(CheckRunCreator, () => {
                     repo,
                 },
                 sha,
+                payload: {},
             },
         } as typeof github;
         checkStub = {
             id: 1234,
         } as Octokit.ChecksCreateResponse;
-        checkRunCreator = new CheckRunCreator(convertorMock.object, octokitStub, githubStub);
+        checkRunCreator = new CheckRunCreator(convertorMock.object, pullRequestCommentCreatorMock.object, octokitStub, githubStub);
     });
 
     it('should create instance', () => {
