@@ -3,9 +3,10 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License.
 -->
 
+# ![Product Logo](./icons/brand-blue-48px.png) Accessibility Insights Action
 [![Actions Status](https://github.com/microsoft/accessibility-insights-action/workflows/Build/badge.svg)](https://github.com/microsoft/accessibility-insights-action/actions)
-
-# Accessibility Insights Action
+[![codecov](https://codecov.io/gh/microsoft/accessibility-insights-action/branch/master/graph/badge.svg)](https://codecov.io/gh/microsoft/accessibility-insights-action)
+![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=microsoft/accessibility-insights-action)
 
 Accessibility Insights Action helps integrate automated accessibility tests in GitHub workflow.
 
