@@ -1,6 +1,7 @@
 {
     "ignore": [
         ".git",
+        "./.dependabot",
         "**/yarn.lock",
         "**/.github/pull_request_template.md",
         "**/CODEOWNERS",
