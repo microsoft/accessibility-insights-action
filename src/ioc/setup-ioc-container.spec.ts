@@ -24,7 +24,7 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([Scanner, Octokit, Logger])('verify singleton resolution %o', (key: any) => {
+    test.each([Scanner, Octokit, Logger])('verify singleton resolution %p', (key: any) => {
         verifySingletonDependencyResolution(testSubject, key);
     });
     test.each([
