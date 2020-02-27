@@ -1,8 +1,3 @@
-<!--
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the MIT License.
--->
-
 #### Description of changes
 
 (Give an overview. Add a technical description describing your changes.)
