@@ -12,8 +12,8 @@
         "format:check": "prettier --check \"**/*\"",
         "lint": "tslint -c ./tslint.json -p ./tsconfig.json",
         "lint:fix": "tslint --fix -c ./tslint.json -p ./tsconfig.json",
-        "copyright:check": "license-check-and-add check -f ./licence-check-and-add-config.json",
-        "copyright:fix": "license-check-and-add add -f ./licence-check-and-add-config.json",
+        "copyright:check": "license-check-and-add check -f ./license-check-and-add-config.json",
+        "copyright:fix": "license-check-and-add add -f ./license-check-and-add-config.json",
         "test": "jest",
         "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint test",
         "watch:test": "jest --watch"
