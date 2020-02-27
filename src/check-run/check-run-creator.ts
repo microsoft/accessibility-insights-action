@@ -6,8 +6,10 @@ import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
 import { isNil } from 'lodash';
+import * as util from 'util';
 import { checkRunDetailsTitle, checkRunName, disclaimerText } from '../content/strings';
 import { iocTypes } from '../ioc/ioc-types';
+import { Logger } from '../logger/logger';
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 import { PullRequestCommentCreator } from '../pull-request-comment-creator';
 
@@ -20,6 +22,7 @@ export class CheckRunCreator {
         @inject(PullRequestCommentCreator) private readonly pullRequestCommentCreator: PullRequestCommentCreator,
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(iocTypes.Github) private readonly githubObj: typeof github,
+        @inject(Logger) private readonly logger: Logger,
     ) {}
 
     public async createRun(): Promise<Octokit.ChecksCreateResponse> {
@@ -76,7 +79,14 @@ export class CheckRunCreator {
     }
 
     private isPullRequest(): boolean {
+        this.logMessage(`pull request object - ${util.inspect(this.githubObj.context.payload.pull_request)}`);
+        this.logMessage(`event name - ${this.githubObj.context.eventName}`);
+
         return !isNil(this.githubObj.context.payload.pull_request);
+    }
+
+    private logMessage(message: string): void {
+        this.logger.logInfo(`[CheckRunCreator] ${message}`);
     }
 
     private getScanOutput(axeScanResults: AxeScanResults): Octokit.ChecksUpdateParamsOutput {

@@ -10,6 +10,7 @@ import { stripIndent } from 'common-tags';
 import { IMock, Mock, Times } from 'typemoq';
 
 import { checkRunDetailsTitle, disclaimerText } from '../content/strings';
+import { Logger } from '../logger/logger';
 import { AxeMarkdownConvertor } from '../mark-down/axe-markdown-convertor';
 import { PullRequestCommentCreator } from '../pull-request-comment-creator';
 import { CheckRunCreator } from './check-run-creator';
@@ -30,6 +31,7 @@ describe(CheckRunCreator, () => {
     let checkStub: Octokit.ChecksCreateResponse;
     let convertorMock: IMock<AxeMarkdownConvertor>;
     let pullRequestCommentCreatorMock: IMock<PullRequestCommentCreator>;
+    let loggerMock: IMock<Logger>;
     const owner = 'owner';
     const repo = 'repo';
     const sha = 'sha';
@@ -38,6 +40,7 @@ describe(CheckRunCreator, () => {
     beforeEach(() => {
         convertorMock = Mock.ofType(AxeMarkdownConvertor);
         pullRequestCommentCreatorMock = Mock.ofType(PullRequestCommentCreator);
+        loggerMock = Mock.ofType(Logger);
         createCheckMock = Mock.ofInstance(() => {
             return null;
         });
@@ -64,7 +67,14 @@ describe(CheckRunCreator, () => {
         checkStub = {
             id: 1234,
         } as Octokit.ChecksCreateResponse;
-        checkRunCreator = new CheckRunCreator(convertorMock.object, pullRequestCommentCreatorMock.object, octokitStub, githubStub);
+
+        checkRunCreator = new CheckRunCreator(
+            convertorMock.object,
+            pullRequestCommentCreatorMock.object,
+            octokitStub,
+            githubStub,
+            loggerMock.object,
+        );
     });
 
     it('should create instance', () => {
