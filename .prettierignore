@@ -8,7 +8,7 @@ LICENSE
 yarn.lock
 
 **/.gitignore
-test-results/
+**/test-results/
 **/obj/
 **/bin/
 **/*.dat
