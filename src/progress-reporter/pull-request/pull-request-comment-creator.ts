@@ -6,6 +6,7 @@ import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
 import { isEmpty, isNil } from 'lodash';
+import * as util from 'util';
 import { iocTypes } from '../../ioc/ioc-types';
 import { Logger } from '../../logger/logger';
 import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
@@ -60,7 +61,9 @@ export class PullRequestCommentCreator implements ProgressReporter {
         });
         const comments = commentsResponse.data;
 
-        return comments.find(c => !isEmpty(c.body) && c.body.includes(productTitle()));
+        return comments.find(
+            c => !isEmpty(c.body) && !isEmpty(c.user) && c.user.login === 'github-actions[bot]' && c.body.includes(productTitle()),
+        );
     }
 
     private logMessage(message: string): void {

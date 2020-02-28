@@ -96,6 +96,17 @@ describe(PullRequestCommentCreator, () => {
                         id: 12,
                         body: 'some content',
                     },
+                    {
+                        id: 13,
+                        body: `existing action comment ${productTitle()} not created by github actions bot user`,
+                        user: {
+                            login: 'unknown user',
+                        },
+                    },
+                    {
+                        id: 14,
+                        body: `existing action comment without user context ${productTitle()}`,
+                    },
                 ] as Octokit.IssuesListCommentsResponseItem[],
             },
         ])('creates new comment, when existing comments - %j', async testCase => {
@@ -131,6 +142,9 @@ describe(PullRequestCommentCreator, () => {
             const existingActionComment = {
                 id: 34,
                 body: `existing action comment ${productTitle()} with previous data`,
+                user: {
+                    login: 'github-actions[bot]',
+                },
             } as Octokit.IssuesListCommentsResponseItem;
 
             const allExistingComments = [
