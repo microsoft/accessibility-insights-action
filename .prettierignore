@@ -2,20 +2,21 @@
 # Licensed under the MIT License.
   
 .gitattributes
+**/.gitignore
 .github
 .prettierignore
 LICENSE
 yarn.lock
 
-**/.gitignore
-**/test-results/
+dist/
 **/obj/
 **/bin/
+**/test-results/
 **/*.dat
 **/*.png
 **/*.sh
 **/*.pbix
-dist/
+
 **/yarn-*.log
 **/*.ts.snap
 copyright-header.txt
