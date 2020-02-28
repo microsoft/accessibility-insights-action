@@ -7,9 +7,11 @@ import { AIScanner, AxeScanResults } from 'accessibility-insights-scan';
 import * as path from 'path';
 import { IMock, It, Mock, Times } from 'typemoq';
 import * as util from 'util';
-import { CheckRunCreator } from '../check-run/check-run-creator';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
+import { CheckRunCreator } from '../progress-reporter/check-run/check-run-creator';
+import { ProgressReporter } from '../progress-reporter/progress-reporter';
+import { ProgressReporterProvider } from '../progress-reporter/progress-reporter-provider';
 import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
@@ -24,7 +26,8 @@ describe(Scanner, () => {
     let loggerMock: IMock<Logger>;
     let promiseUtilsMock: IMock<PromiseUtils>;
     let taskConfigMock: IMock<TaskConfig>;
-    let checkRunCreatorMock: IMock<CheckRunCreator>;
+    let progressReporterMock: IMock<ProgressReporter>;
+    let progressReporterProvider: IMock<ProgressReporterProvider>;
     let localFileServerMock: IMock<LocalFileServer>;
     let processStub: typeof process;
     let exitMock: IMock<(code: number) => any>;
@@ -40,7 +43,8 @@ describe(Scanner, () => {
         reportGeneratorMock = Mock.ofType(ReportGenerator);
         loggerMock = Mock.ofType(Logger);
         taskConfigMock = Mock.ofType(TaskConfig);
-        checkRunCreatorMock = Mock.ofType(CheckRunCreator);
+        progressReporterProvider = Mock.ofType(ProgressReporterProvider);
+        progressReporterMock = Mock.ofType(CheckRunCreator);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         localFileServerMock = Mock.ofType(LocalFileServer);
         exitMock = Mock.ofInstance((code: number) => undefined);
@@ -62,12 +66,13 @@ describe(Scanner, () => {
             scannerMock.object,
             reportGeneratorMock.object,
             taskConfigMock.object,
-            checkRunCreatorMock.object,
+            progressReporterProvider.object,
             localFileServerMock.object,
             promiseUtilsMock.object,
             processStub,
         );
 
+        progressReporterProvider.setup(p => p.getInstance()).returns(() => progressReporterMock.object);
         taskConfigMock
             .setup(tm => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)
@@ -98,8 +103,8 @@ describe(Scanner, () => {
             reportGeneratorMock.setup(rgm => rgm.generateReport(axeScanResults)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
-            checkRunCreatorMock.setup(cm => cm.createRun()).verifiable(Times.once());
-            checkRunCreatorMock.setup(cm => cm.completeRun(axeScanResults)).verifiable(Times.once());
+            progressReporterMock.setup(p => p.start()).verifiable(Times.once());
+            progressReporterMock.setup(p => p.completeRun(axeScanResults)).verifiable(Times.once());
             setupWaitForPromisetoReturnOriginalPromise();
 
             await scanner.scan();
@@ -122,9 +127,9 @@ describe(Scanner, () => {
                 .setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
                 .verifiable(Times.once());
             loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${undefined} completed.`)).verifiable(Times.once());
-            checkRunCreatorMock.setup(cm => cm.createRun()).verifiable(Times.once());
-            checkRunCreatorMock.setup(cm => cm.completeRun(It.isAny())).verifiable(Times.never());
-            checkRunCreatorMock.setup(cm => cm.failRun(util.inspect(error))).verifiable(Times.once());
+            progressReporterMock.setup(p => p.start()).verifiable(Times.once());
+            progressReporterMock.setup(p => p.completeRun(It.isAny())).verifiable(Times.never());
+            progressReporterMock.setup(p => p.failRun(util.inspect(error))).verifiable(Times.once());
 
             setupWaitForPromisetoReturnOriginalPromise();
 
@@ -169,7 +174,7 @@ describe(Scanner, () => {
         scannerMock.verifyAll();
         reportGeneratorMock.verifyAll();
         taskConfigMock.verifyAll();
-        checkRunCreatorMock.verifyAll();
+        progressReporterMock.verifyAll();
         promiseUtilsMock.verifyAll();
         localFileServerMock.verifyAll();
         loggerMock.verifyAll();

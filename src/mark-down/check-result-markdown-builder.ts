@@ -30,7 +30,7 @@ export class CheckResultMarkdownBuilder {
 
     public errorContent = (): string => {
         const lines = [
-            heading(`${productTitle(brand, brandLogoImg)}: Something went wrong`, 3),
+            heading(`${productTitle()}: Something went wrong`, 3),
             sectionSeparator(),
 
             `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
@@ -44,7 +44,7 @@ export class CheckResultMarkdownBuilder {
         const passed = axeScanResults.results.passes.length;
         const inapplicable = axeScanResults.results.inapplicable.length;
         const lines = [
-            heading(`${productTitle(brand, brandLogoImg)}: All applicable checks passed`, 3),
+            heading(`${productTitle()}: All applicable checks passed`, 3),
             sectionSeparator(),
 
             listItem(`${bold(`${passed} check(s) passed`)}, and ${inapplicable} were not applicable`),
@@ -72,7 +72,7 @@ export class CheckResultMarkdownBuilder {
 
     private readonly failureSummary = (failed: number, passed: number, inapplicable: number) => {
         const lines = [
-            heading(`${productTitle(brand, brandLogoImg)}`, 3),
+            heading(`${productTitle()}`, 3),
             sectionSeparator(),
 
             listItem(`${bold(`${failed} check(s) failed`)}, ${passed} passed, and ${inapplicable} were not applicable`),
