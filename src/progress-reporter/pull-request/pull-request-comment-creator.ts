@@ -30,7 +30,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
         const existingComment = await this.findComment(pullRequest.number);
 
         if (isNil(existingComment)) {
-            this.logMessage('Updating existing comment');
+            this.logMessage('Creating new comment');
             await this.octokit.issues.createComment({
                 owner: this.githubObj.context.repo.owner,
                 repo: this.githubObj.context.repo.repo,
@@ -38,7 +38,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
                 issue_number: pullRequest.number,
             });
         } else {
-            this.logMessage('Creating new comment');
+            this.logMessage('Updating existing comment');
             await this.octokit.issues.updateComment({
                 owner: this.githubObj.context.repo.owner,
                 repo: this.githubObj.context.repo.repo,
