@@ -60,7 +60,7 @@
         "license-check-and-add": "^3.0.4"
     },
     "dependencies": {
-        "@actions/core": "^1.2.2",
+        "@actions/core": "^1.2.3",
         "@actions/github": "^2.1.1",
         "@octokit/rest": "^16.43.1",
         "@types/common-tags": "^1.8.0",
