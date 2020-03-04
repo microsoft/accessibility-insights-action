@@ -64,7 +64,7 @@
         "@actions/github": "^2.1.1",
         "@octokit/rest": "^16.43.1",
         "@types/common-tags": "^1.8.0",
-        "accessibility-insights-report": "^1.0.0",
+        "accessibility-insights-report": "^1.0.1",
         "axe-core": "3.3.2",
         "axe-puppeteer": "^1.0.0",
         "common-tags": "^1.8.0",
