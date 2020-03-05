@@ -27,6 +27,10 @@ export class PullRequestCommentCreator implements ProgressReporter {
     }
 
     public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
+        if (!this.isSupported()) {
+            return;
+        }
+
         const pullRequest = this.githubObj.context.payload.pull_request;
         const existingComment = await this.findComment(pullRequest.number);
 
@@ -50,7 +54,15 @@ export class PullRequestCommentCreator implements ProgressReporter {
     }
 
     public async failRun(message: string): Promise<void> {
+        if (!this.isSupported()) {
+            return;
+        }
+
         throw message;
+    }
+
+    private isSupported(): boolean {
+        return this.githubObj.context.eventName === 'pull_request';
     }
 
     private async findComment(pullRequestNumber: number): Promise<Octokit.IssuesListCommentsResponseItem> {

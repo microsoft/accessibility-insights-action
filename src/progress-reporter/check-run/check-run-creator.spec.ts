@@ -31,12 +31,14 @@ describe(CheckRunCreator, () => {
     let checkStub: Octokit.ChecksCreateResponse;
     let convertorMock: IMock<AxeMarkdownConvertor>;
     let loggerMock: IMock<Logger>;
+    let sha: string;
+
     const owner = 'owner';
     const repo = 'repo';
-    const sha = 'sha';
     const a11yCheckName = 'Accessibility Checks';
 
     beforeEach(() => {
+        sha = 'sha';
         convertorMock = Mock.ofType(AxeMarkdownConvertor);
         loggerMock = Mock.ofType(Logger);
         createCheckMock = Mock.ofInstance(() => {
@@ -74,6 +76,21 @@ describe(CheckRunCreator, () => {
     });
 
     it('createRun', async () => {
+        setupMocksForCreateCheck();
+
+        await checkRunCreator.start();
+
+        verifyMocks();
+    });
+
+    it('createRun for pull request', async () => {
+        sha = 'pull request sha';
+        githubStub.context.payload.pull_request = {
+            head: {
+                sha: sha,
+            },
+        } as any;
+
         setupMocksForCreateCheck();
 
         await checkRunCreator.start();
