@@ -38,7 +38,7 @@
         "@types/puppeteer-core": "^2.0.0",
         "@types/serve-static": "^1.13.3",
         "@types/verror": "^1.10.3",
-        "accessibility-insights-scan": "^0.2.3",
+        "accessibility-insights-scan": "^0.2.5",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
         "copy-webpack-plugin": "^5.1.1",
         "fork-ts-checker-webpack-plugin": "^4.0.5",
@@ -64,8 +64,8 @@
         "@actions/github": "^2.1.1",
         "@octokit/rest": "^16.43.1",
         "@types/common-tags": "^1.8.0",
-        "accessibility-insights-report": "^1.0.1",
-        "axe-core": "3.3.2",
+        "accessibility-insights-report": "^1.0.2",
+        "axe-core": "3.5.1",
         "axe-puppeteer": "^1.0.0",
         "common-tags": "^1.8.0",
         "express": "^4.17.1",
@@ -82,6 +82,6 @@
         "webpack": "^4.42.0"
     },
     "resolutions": {
-        "axe-core": "3.3.2"
+        "axe-core": "3.5.1"
     }
 }
