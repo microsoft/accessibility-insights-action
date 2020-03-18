@@ -83,9 +83,20 @@ describe(PullRequestCommentCreator, () => {
             const errorMessage = 'some error message';
             await expect(testSubject.failRun(errorMessage)).rejects.toBe(errorMessage);
         });
+
+        it('does nothing if not supported', async () => {
+            githubStub.context.eventName = 'push';
+            const errorMessage = 'some error message';
+            await testSubject.failRun(errorMessage);
+        });
     });
 
     describe('completeRun', () => {
+        it('does nothing if not supported', async () => {
+            githubStub.context.eventName = 'push';
+            await testSubject.completeRun(axeScanResults);
+        });
+
         test.each([
             {
                 values: [] as Octokit.IssuesListCommentsResponseItem[],

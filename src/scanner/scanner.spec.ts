@@ -9,9 +9,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import * as util from 'util';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
-import { CheckRunCreator } from '../progress-reporter/check-run/check-run-creator';
-import { ProgressReporter } from '../progress-reporter/progress-reporter';
-import { ProgressReporterProvider } from '../progress-reporter/progress-reporter-provider';
+import { AllProgressReporter } from '../progress-reporter/all-progress-reporter';
 import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
@@ -26,8 +24,7 @@ describe(Scanner, () => {
     let loggerMock: IMock<Logger>;
     let promiseUtilsMock: IMock<PromiseUtils>;
     let taskConfigMock: IMock<TaskConfig>;
-    let progressReporterMock: IMock<ProgressReporter>;
-    let progressReporterProvider: IMock<ProgressReporterProvider>;
+    let progressReporterMock: IMock<AllProgressReporter>;
     let localFileServerMock: IMock<LocalFileServer>;
     let processStub: typeof process;
     let exitMock: IMock<(code: number) => any>;
@@ -43,8 +40,7 @@ describe(Scanner, () => {
         reportGeneratorMock = Mock.ofType(ReportGenerator);
         loggerMock = Mock.ofType(Logger);
         taskConfigMock = Mock.ofType(TaskConfig);
-        progressReporterProvider = Mock.ofType(ProgressReporterProvider);
-        progressReporterMock = Mock.ofType(CheckRunCreator);
+        progressReporterMock = Mock.ofType(AllProgressReporter);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         localFileServerMock = Mock.ofType(LocalFileServer);
         exitMock = Mock.ofInstance((code: number) => undefined);
@@ -66,13 +62,12 @@ describe(Scanner, () => {
             scannerMock.object,
             reportGeneratorMock.object,
             taskConfigMock.object,
-            progressReporterProvider.object,
+            progressReporterMock.object,
             localFileServerMock.object,
             promiseUtilsMock.object,
             processStub,
         );
 
-        progressReporterProvider.setup(p => p.getInstance()).returns(() => progressReporterMock.object);
         taskConfigMock
             .setup(tm => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)

@@ -5,6 +5,7 @@ import { Octokit } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
+import { isNil } from 'lodash';
 import { disclaimerText } from '../../content/mark-down-strings';
 import { checkRunDetailsTitle, checkRunName } from '../../content/strings';
 import { iocTypes } from '../../ioc/ioc-types';
@@ -31,7 +32,10 @@ export class CheckRunCreator implements ProgressReporter {
                 repo: this.githubObj.context.repo.repo,
                 name: checkRunName,
                 status: 'in_progress',
-                head_sha: this.githubObj.context.sha,
+                head_sha: isNil(this.githubObj.context.payload.pull_request)
+                    ? this.githubObj.context.sha
+                    : // tslint:disable-next-line: no-unsafe-any
+                      this.githubObj.context.payload.pull_request.head.sha,
             })
         ).data;
     }
