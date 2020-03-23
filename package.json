@@ -82,6 +82,8 @@
         "webpack": "^4.42.0"
     },
     "resolutions": {
-        "axe-core": "3.5.1"
+        "axe-core": "3.5.1",
+        "minimist": "1.2.2",
+        "acorn": "7.1.1"
     }
 }
