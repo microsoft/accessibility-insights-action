@@ -62,7 +62,7 @@
     "dependencies": {
         "@actions/core": "^1.2.3",
         "@actions/github": "^2.1.1",
-        "@octokit/rest": "^16.43.1",
+        "@octokit/rest": "^17.1.1",
         "@types/common-tags": "^1.8.0",
         "accessibility-insights-report": "^1.0.2",
         "axe-core": "3.5.1",
