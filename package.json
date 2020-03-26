@@ -42,7 +42,7 @@
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
         "copy-webpack-plugin": "^5.1.1",
         "fork-ts-checker-webpack-plugin": "^4.1.1",
-        "jest": "^25.1.0",
+        "jest": "^25.2.1",
         "jest-circus": "^25.1.0",
         "jest-extended": "^0.11.5",
         "jest-junit": "^10.0.0",
