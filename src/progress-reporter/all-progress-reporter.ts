@@ -23,15 +23,15 @@ export class AllProgressReporter implements ProgressReporter {
     }
 
     public async start(): Promise<void> {
-        await this.execute(r => r.start());
+        await this.execute((r) => r.start());
     }
 
     public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
-        await this.execute(r => r.completeRun(axeScanResults));
+        await this.execute((r) => r.completeRun(axeScanResults));
     }
 
     public async failRun(message: string): Promise<void> {
-        await this.execute(r => r.failRun(message));
+        await this.execute((r) => r.failRun(message));
     }
 
     private async execute(callback: (reporter: ProgressReporter) => Promise<void>): Promise<void> {

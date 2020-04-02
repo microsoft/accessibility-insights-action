@@ -16,10 +16,7 @@ import { iocTypes } from './ioc-types';
 
 export function setupIocContainer(): inversify.Container {
     const container = new inversify.Container({ autoBindInjectable: true });
-    container
-        .bind(Scanner)
-        .toSelf()
-        .inSingletonScope();
+    container.bind(Scanner).toSelf().inSingletonScope();
 
     container.bind(iocTypes.Console).toConstantValue(console);
     container.bind(iocTypes.Process).toConstantValue(process);
@@ -31,7 +28,7 @@ export function setupIocContainer(): inversify.Container {
 
     container
         .bind(Octokit)
-        .toDynamicValue(context => {
+        .toDynamicValue((context) => {
             const taskConfig = context.container.get(TaskConfig);
 
             return new Octokit({ auth: taskConfig.getToken() });
@@ -40,7 +37,7 @@ export function setupIocContainer(): inversify.Container {
 
     container
         .bind(Logger)
-        .toDynamicValue(context => {
+        .toDynamicValue((context) => {
             const consoleLoggerClient = context.container.get(ConsoleLoggerClient);
 
             return new Logger([consoleLoggerClient], context.container.get(iocTypes.Process));

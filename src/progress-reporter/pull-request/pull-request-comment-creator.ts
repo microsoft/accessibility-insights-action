@@ -74,7 +74,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
         const comments = commentsResponse.data;
 
         return comments.find(
-            c => !isEmpty(c.body) && !isEmpty(c.user) && c.user.login === 'github-actions[bot]' && c.body.includes(productTitle()),
+            (c) => !isEmpty(c.body) && !isEmpty(c.user) && c.user.login === 'github-actions[bot]' && c.body.includes(productTitle()),
         );
     }
 

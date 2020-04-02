@@ -27,7 +27,7 @@ describe(ConsoleLoggerClient, () => {
 
             testSubject.log('trace1', LogLevel.verbose);
 
-            consoleMock.verify(c => c.log('[Trace][verbose] === trace1'), Times.once());
+            consoleMock.verify((c) => c.log('[Trace][verbose] === trace1'), Times.once());
         });
 
         it('log data with base properties', async () => {
@@ -36,7 +36,7 @@ describe(ConsoleLoggerClient, () => {
 
             testSubject.log('trace1', LogLevel.warn);
 
-            consoleMock.verify(c => c.log(`[Trace][warn][properties - ${util.inspect(baseProps)}] === trace1`), Times.once());
+            consoleMock.verify((c) => c.log(`[Trace][warn][properties - ${util.inspect(baseProps)}] === trace1`), Times.once());
         });
 
         it('log data with custom runtime properties', async () => {
@@ -48,7 +48,7 @@ describe(ConsoleLoggerClient, () => {
 
             testSubject.log('trace1', LogLevel.warn);
 
-            consoleMock.verify(c => c.log(`[Trace][warn][properties - ${util.inspect(mergedProps)}] === trace1`), Times.once());
+            consoleMock.verify((c) => c.log(`[Trace][warn][properties - ${util.inspect(mergedProps)}] === trace1`), Times.once());
         });
 
         it('log data with event properties', async () => {
@@ -59,7 +59,7 @@ describe(ConsoleLoggerClient, () => {
             testSubject.log('trace1', LogLevel.warn, traceProps);
 
             consoleMock.verify(
-                c => c.log(`[Trace][warn][properties - ${util.inspect({ ...baseProps, ...traceProps })}] === trace1`),
+                (c) => c.log(`[Trace][warn][properties - ${util.inspect({ ...baseProps, ...traceProps })}] === trace1`),
                 Times.once(),
             );
         });
@@ -72,7 +72,7 @@ describe(ConsoleLoggerClient, () => {
 
             testSubject.trackException(error);
 
-            consoleMock.verify(c => c.log(`[Exception] === ${util.inspect(error, { depth: null })}`), Times.once());
+            consoleMock.verify((c) => c.log(`[Exception] === ${util.inspect(error, { depth: null })}`), Times.once());
         });
 
         it('log data with base properties', async () => {
@@ -83,7 +83,7 @@ describe(ConsoleLoggerClient, () => {
             testSubject.trackException(error);
 
             consoleMock.verify(
-                c => c.log(`[Exception][properties - ${util.inspect(baseProps)}] === ${util.inspect(error, { depth: null })}`),
+                (c) => c.log(`[Exception][properties - ${util.inspect(baseProps)}] === ${util.inspect(error, { depth: null })}`),
                 Times.once(),
             );
         });
@@ -99,7 +99,7 @@ describe(ConsoleLoggerClient, () => {
             testSubject.trackException(error);
 
             consoleMock.verify(
-                c => c.log(`[Exception][properties - ${util.inspect(mergedProps)}] === ${util.inspect(error, { depth: null })}`),
+                (c) => c.log(`[Exception][properties - ${util.inspect(mergedProps)}] === ${util.inspect(error, { depth: null })}`),
                 Times.once(),
             );
         });

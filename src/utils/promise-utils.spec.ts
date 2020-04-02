@@ -41,7 +41,7 @@ describe(PromiseUtils, () => {
         });
 
         it('promise timed out', async () => {
-            errorHandleMock.setup(em => em()).verifiable();
+            errorHandleMock.setup((em) => em()).verifiable();
 
             const res = await promiseUtils.waitFor(waitOneSecond, 0, onTimeoutCallback);
 

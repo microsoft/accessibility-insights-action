@@ -67,7 +67,7 @@ describe(PullRequestCommentCreator, () => {
             },
         } as typeof github;
 
-        axeMarkdownConvertorMock.setup(a => a.convert(axeScanResults)).returns(() => markdownContent);
+        axeMarkdownConvertorMock.setup((a) => a.convert(axeScanResults)).returns(() => markdownContent);
 
         testSubject = new PullRequestCommentCreator(axeMarkdownConvertorMock.object, octokitStub, githubStub, loggerMock.object);
     });
@@ -120,7 +120,7 @@ describe(PullRequestCommentCreator, () => {
                     },
                 ] as Octokit.IssuesListCommentsResponseItem[],
             },
-        ])('creates new comment, when existing comments - %j', async testCase => {
+        ])('creates new comment, when existing comments - %j', async (testCase) => {
             const response = {
                 data: testCase.values,
                 headers: undefined,
@@ -128,12 +128,12 @@ describe(PullRequestCommentCreator, () => {
             } as Octokit.Response<Octokit.IssuesListCommentsResponse>;
 
             listCommentsMock
-                .setup(l => l({ issue_number: pullRequestNumber, owner: ownerName, repo: repoName }))
+                .setup((l) => l({ issue_number: pullRequestNumber, owner: ownerName, repo: repoName }))
                 .returns(() => Promise.resolve(response))
                 .verifiable(Times.once());
 
             createCommentMock
-                .setup(c =>
+                .setup((c) =>
                     c({
                         owner: ownerName,
                         repo: repoName,
@@ -176,12 +176,12 @@ describe(PullRequestCommentCreator, () => {
             } as Octokit.Response<Octokit.IssuesListCommentsResponse>;
 
             listCommentsMock
-                .setup(l => l({ issue_number: pullRequestNumber, owner: ownerName, repo: repoName }))
+                .setup((l) => l({ issue_number: pullRequestNumber, owner: ownerName, repo: repoName }))
                 .returns(() => Promise.resolve(response))
                 .verifiable(Times.once());
 
             updateCommentMock
-                .setup(u =>
+                .setup((u) =>
                     u({
                         owner: ownerName,
                         repo: repoName,

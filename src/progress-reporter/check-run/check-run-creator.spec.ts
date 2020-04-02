@@ -118,10 +118,10 @@ describe(CheckRunCreator, () => {
 
         setupMocksForCreateCheck();
         convertorMock
-            .setup(cm => cm.getErrorMarkdown())
+            .setup((cm) => cm.getErrorMarkdown())
             .returns(() => message)
             .verifiable(Times.once());
-        updateCheckMock.setup(um => um(expectedParam)).verifiable(Times.once());
+        updateCheckMock.setup((um) => um(expectedParam)).verifiable(Times.once());
 
         await checkRunCreator.start();
         await checkRunCreator.failRun(message);
@@ -145,10 +145,10 @@ describe(CheckRunCreator, () => {
 
         setupMocksForCreateCheck();
         convertorMock
-            .setup(cm => cm.convert(axeScanResults))
+            .setup((cm) => cm.convert(axeScanResults))
             .returns(() => markdown)
             .verifiable(Times.once());
-        updateCheckMock.setup(um => um(expectedUpdateParam)).verifiable(Times.once());
+        updateCheckMock.setup((um) => um(expectedUpdateParam)).verifiable(Times.once());
 
         await checkRunCreator.start();
         await checkRunCreator.completeRun(axeScanResults);
@@ -167,10 +167,10 @@ describe(CheckRunCreator, () => {
         const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, axeScanResults);
         setupMocksForCreateCheck();
         convertorMock
-            .setup(cm => cm.convert(axeScanResults))
+            .setup((cm) => cm.convert(axeScanResults))
             .returns(() => markdown)
             .verifiable(Times.once());
-        updateCheckMock.setup(um => um(expectedUpdateParam)).verifiable(Times.once());
+        updateCheckMock.setup((um) => um(expectedUpdateParam)).verifiable(Times.once());
 
         await checkRunCreator.start();
         await checkRunCreator.completeRun(axeScanResults);
@@ -205,7 +205,7 @@ describe(CheckRunCreator, () => {
         const response: Octokit.Response<Octokit.ChecksCreateResponse> = { data: checkStub } as any;
 
         createCheckMock
-            .setup(cm => cm(expectedParam))
+            .setup((cm) => cm(expectedParam))
             .returns(async () => {
                 return Promise.resolve(response);
             })

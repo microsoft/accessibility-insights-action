@@ -8,7 +8,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = env => {
+module.exports = (env) => {
     const version = env ? env.version : 'dev';
     console.log(`Building for version : ${version}`);
     return {

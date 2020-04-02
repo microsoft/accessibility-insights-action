@@ -52,7 +52,7 @@ describe('ReportGenerator', () => {
         reportGenerationTime = new Date(2019, 2, 3);
         MockDate.set(reportGenerationTime);
         taskConfigMock
-            .setup(tcm => tcm.getReportOutDir())
+            .setup((tcm) => tcm.getReportOutDir())
             .returns(() => outputDir)
             .verifiable(Times.once());
     });
@@ -72,24 +72,24 @@ describe('ReportGenerator', () => {
             },
         };
         reporterMock
-            .setup(rm => rm.fromAxeResult(htmlReportParams))
+            .setup((rm) => rm.fromAxeResult(htmlReportParams))
             .returns(() => htmlReport)
             .verifiable(Times.once());
 
         fsMock
-            .setup(fsm => fsm.existsSync(outputDir))
+            .setup((fsm) => fsm.existsSync(outputDir))
             .returns(() => directoryExists)
             .verifiable(Times.once());
 
-        loggerMock.setup(lm => lm.logInfo(`scan report saved successfully ${fileName}`)).verifiable(Times.once());
+        loggerMock.setup((lm) => lm.logInfo(`scan report saved successfully ${fileName}`)).verifiable(Times.once());
 
         if (!directoryExists) {
-            fsMock.setup(fsm => fsm.mkdirSync(outputDir)).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo('output directory does not exists.')).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo(`creating output directory - ${outputDir}`)).verifiable(Times.once());
+            fsMock.setup((fsm) => fsm.mkdirSync(outputDir)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo('output directory does not exists.')).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`creating output directory - ${outputDir}`)).verifiable(Times.once());
         }
 
-        fsMock.setup(fsm => fsm.writeFileSync(fileName, htmlReportString)).verifiable(Times.once());
+        fsMock.setup((fsm) => fsm.writeFileSync(fileName, htmlReportString)).verifiable(Times.once());
 
         reportGenerator.generateReport(axeScanResults);
 
