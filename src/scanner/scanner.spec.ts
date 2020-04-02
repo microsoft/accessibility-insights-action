@@ -69,18 +69,18 @@ describe(Scanner, () => {
         );
 
         taskConfigMock
-            .setup(tm => tm.getScanUrlRelativePath())
+            .setup((tm) => tm.getScanUrlRelativePath())
             .returns(() => scanUrl)
             .verifiable();
         taskConfigMock
-            .setup(tcm => tcm.getChromePath())
+            .setup((tcm) => tcm.getChromePath())
             .returns(() => chromePath)
             .verifiable(Times.once());
         localFileServerMock
-            .setup(async lfs => lfs.start())
+            .setup(async (lfs) => lfs.start())
             .returns(() => Promise.resolve(baseUrl))
             .verifiable();
-        localFileServerMock.setup(lfs => lfs.stop()).verifiable();
+        localFileServerMock.setup((lfs) => lfs.stop()).verifiable();
     });
 
     it('should create instance', () => {
@@ -90,16 +90,16 @@ describe(Scanner, () => {
     describe('scan', () => {
         it('should log info and create/complete check run', async () => {
             scannerMock
-                .setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath))
+                .setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath))
                 .returns(async () => {
                     return Promise.resolve(axeScanResults);
                 })
                 .verifiable(Times.once());
-            reportGeneratorMock.setup(rgm => rgm.generateReport(axeScanResults)).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
-            progressReporterMock.setup(p => p.start()).verifiable(Times.once());
-            progressReporterMock.setup(p => p.completeRun(axeScanResults)).verifiable(Times.once());
+            reportGeneratorMock.setup((rgm) => rgm.generateReport(axeScanResults)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
+            progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
+            progressReporterMock.setup((p) => p.completeRun(axeScanResults)).verifiable(Times.once());
             setupWaitForPromisetoReturnOriginalPromise();
 
             await scanner.scan();
@@ -112,19 +112,19 @@ describe(Scanner, () => {
             const error = new Error(errorMessage);
             taskConfigMock.reset();
             taskConfigMock
-                .setup(tm => tm.getScanUrlRelativePath())
+                .setup((tm) => tm.getScanUrlRelativePath())
                 .callback(() => {
                     throw error;
                 });
-            scannerMock.setup(sm => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.never());
-            loggerMock.setup(lm => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
+            scannerMock.setup((sm) => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.never());
+            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
             loggerMock
-                .setup(lm => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
+                .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
                 .verifiable(Times.once());
-            loggerMock.setup(lm => lm.logInfo(`Accessibility scanning of URL ${undefined} completed.`)).verifiable(Times.once());
-            progressReporterMock.setup(p => p.start()).verifiable(Times.once());
-            progressReporterMock.setup(p => p.completeRun(It.isAny())).verifiable(Times.never());
-            progressReporterMock.setup(p => p.failRun(util.inspect(error))).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL ${undefined} completed.`)).verifiable(Times.once());
+            progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
+            progressReporterMock.setup((p) => p.completeRun(It.isAny())).verifiable(Times.never());
+            progressReporterMock.setup((p) => p.failRun(util.inspect(error))).verifiable(Times.once());
 
             setupWaitForPromisetoReturnOriginalPromise();
 
@@ -135,9 +135,9 @@ describe(Scanner, () => {
 
         it('should return timeout promise', async () => {
             const errorMessage: string = `Unable to scan before timeout`;
-            scannerMock.setup(sm => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
-            loggerMock.setup(lm => lm.logError(errorMessage)).verifiable(Times.once());
-            exitMock.setup(em => em(1)).verifiable(Times.once());
+            scannerMock.setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
+            exitMock.setup((em) => em(1)).verifiable(Times.once());
 
             setupWaitForPromiseToReturnTimeoutPromise();
 
@@ -148,7 +148,7 @@ describe(Scanner, () => {
 
         function setupWaitForPromisetoReturnOriginalPromise(): void {
             promiseUtilsMock
-                .setup(s => s.waitFor(It.isAny(), 90000, It.isAny()))
+                .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
                     return scanPromiseObj;
                 })
@@ -157,7 +157,7 @@ describe(Scanner, () => {
 
         function setupWaitForPromiseToReturnTimeoutPromise(): void {
             promiseUtilsMock
-                .setup(s => s.waitFor(It.isAny(), 90000, It.isAny()))
+                .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
                     return timeoutCb();
                 })

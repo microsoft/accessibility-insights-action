@@ -15,7 +15,7 @@ export class Logger {
             return;
         }
 
-        this.invokeLoggerClient(async client => {
+        this.invokeLoggerClient(async (client) => {
             await client.setup(baseProperties);
         });
         this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
@@ -25,7 +25,7 @@ export class Logger {
     public log(message: string, logLevel: LogLevel, properties?: { [name: string]: string }): void {
         this.ensureInitialized();
 
-        this.invokeLoggerClient(client => client.log(message, logLevel, properties));
+        this.invokeLoggerClient((client) => client.log(message, logLevel, properties));
     }
 
     public logInfo(message: string, properties?: { [name: string]: string }): void {
@@ -48,7 +48,7 @@ export class Logger {
 
     public trackException(error: Error): void {
         this.ensureInitialized();
-        this.invokeLoggerClient(client => client.trackException(error));
+        this.invokeLoggerClient((client) => client.trackException(error));
     }
 
     // tslint:disable-next-line: no-any
@@ -60,7 +60,7 @@ export class Logger {
     }
 
     private invokeLoggerClient(action: (loggerClient: LoggerClient) => void): void {
-        this.loggerClients.forEach(client => {
+        this.loggerClients.forEach((client) => {
             action(client);
         });
     }

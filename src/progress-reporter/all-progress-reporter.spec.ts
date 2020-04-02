@@ -25,9 +25,9 @@ describe(AllProgressReporter, () => {
     });
 
     it('start should invoke all reporters', async () => {
-        executeOnReporter(reporter => {
+        executeOnReporter((reporter) => {
             reporter
-                .setup(p => p.start())
+                .setup((p) => p.start())
                 .returns(async () => Promise.resolve(undefined))
                 .verifiable(Times.once());
         });
@@ -37,9 +37,9 @@ describe(AllProgressReporter, () => {
 
     it('complete should invoke all reporters', async () => {
         const axeResults = 'axe results' as any;
-        executeOnReporter(reporter => {
+        executeOnReporter((reporter) => {
             reporter
-                .setup(p => p.completeRun(axeResults))
+                .setup((p) => p.completeRun(axeResults))
                 .returns(async () => Promise.resolve(undefined))
                 .verifiable(Times.once());
         });
@@ -49,9 +49,9 @@ describe(AllProgressReporter, () => {
 
     it('failRun should invoke all reporters', async () => {
         const error = 'scan error';
-        executeOnReporter(reporter => {
+        executeOnReporter((reporter) => {
             reporter
-                .setup(p => p.failRun(error))
+                .setup((p) => p.failRun(error))
                 .returns(async () => Promise.resolve(undefined))
                 .verifiable(Times.once());
         });

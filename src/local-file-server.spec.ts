@@ -89,7 +89,7 @@ describe(LocalFileServer, () => {
 
     describe('stop', () => {
         it('should do nothing if server is not started yet', () => {
-            serverMock.setup(sm => sm.close()).verifiable(Times.never());
+            serverMock.setup((sm) => sm.close()).verifiable(Times.never());
             localFileServer.stop();
 
             verifyMocks();
@@ -97,7 +97,7 @@ describe(LocalFileServer, () => {
 
         it('should close server', async () => {
             setupMocksForLocalFileServerStart();
-            serverMock.setup(sm => sm.close()).verifiable(Times.once());
+            serverMock.setup((sm) => sm.close()).verifiable(Times.once());
 
             await localFileServer.start();
             localFileServer.stop();
@@ -108,31 +108,31 @@ describe(LocalFileServer, () => {
 
     function setupMocksForLocalFileServerStart(): void {
         taskConfigMock
-            .setup(tm => tm.getSiteDir())
+            .setup((tm) => tm.getSiteDir())
             .returns(() => scanUrl)
             .verifiable();
 
         getPortMock
-            .setup(async gm => gm())
+            .setup(async (gm) => gm())
             .returns(() => Promise.resolve(port))
             .verifiable();
 
-        loggerMock.setup(lm => lm.logInfo(`Using port ${port}`)).verifiable(Times.once());
+        loggerMock.setup((lm) => lm.logInfo(`Using port ${port}`)).verifiable(Times.once());
 
         expressMock
-            .setup(em => em())
+            .setup((em) => em())
             .returns(() => appMock.object as Express)
             .verifiable();
 
         serverStaticMock
-            .setup(sm => sm(scanUrl))
+            .setup((sm) => sm(scanUrl))
             .returns(() => appHandler)
             .verifiable();
 
-        appMock.setup(am => am.use(appHandler)).verifiable();
+        appMock.setup((am) => am.use(appHandler)).verifiable();
 
         appMock
-            .setup(am => am.listen(port))
+            .setup((am) => am.listen(port))
             .returns(() => serverMock.object)
             .verifiable();
     }

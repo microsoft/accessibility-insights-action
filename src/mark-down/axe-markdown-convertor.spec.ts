@@ -31,7 +31,7 @@ describe(AxeMarkdownConvertor, () => {
 
     describe('convert', () => {
         it('returns congrats message when no failure found', async () => {
-            markdownBuilderMock.setup(mm => mm.congratsContent(axeScanResults)).verifiable(Times.once());
+            markdownBuilderMock.setup((mm) => mm.congratsContent(axeScanResults)).verifiable(Times.once());
 
             axeMarkdownConvertor.convert(axeScanResults);
 
@@ -53,7 +53,7 @@ describe(AxeMarkdownConvertor, () => {
                 passes: [{ html: 'passed' }],
                 inapplicable: [{ html: 'inapplicable' }],
             } as any;
-            markdownBuilderMock.setup(mm => mm.failureDetails(axeScanResults)).verifiable(Times.once());
+            markdownBuilderMock.setup((mm) => mm.failureDetails(axeScanResults)).verifiable(Times.once());
 
             axeMarkdownConvertor.convert(axeScanResults);
 
@@ -62,7 +62,7 @@ describe(AxeMarkdownConvertor, () => {
     });
 
     it('getErrorMarkdown', () => {
-        markdownBuilderMock.setup(mm => mm.errorContent()).verifiable(Times.once());
+        markdownBuilderMock.setup((mm) => mm.errorContent()).verifiable(Times.once());
 
         axeMarkdownConvertor.getErrorMarkdown();
 
