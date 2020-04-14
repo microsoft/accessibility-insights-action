@@ -71,7 +71,6 @@
         "express": "^4.17.1",
         "filenamify-url": "^2.1.1",
         "get-port": "^5.1.1",
-        "http-server": "^0.12.1",
         "inversify": "^5.0.1",
         "lodash": "^4.17.15",
         "puppeteer-core": "^2.1.1",
@@ -83,7 +82,7 @@
     },
     "resolutions": {
         "axe-core": "3.5.1",
-        "minimist": "1.2.2",
-        "acorn": "7.1.1"
+        "minimist": "^1.2.3",
+        "acorn": "^7.1.1"
     }
 }
