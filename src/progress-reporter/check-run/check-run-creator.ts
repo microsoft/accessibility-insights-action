@@ -13,9 +13,12 @@ import { Logger } from '../../logger/logger';
 import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { ProgressReporter } from '../progress-reporter';
 
+type UpdateCheckOutputParameter = RestEndpointMethodTypes['checks']['update']['parameters']['output'];
+type CreateCheckResponseData = RestEndpointMethodTypes['checks']['create']['response']['data'];
+
 @injectable()
 export class CheckRunCreator implements ProgressReporter {
-    private a11yCheck: RestEndpointMethodTypes['checks']['create']['response']['data'];
+    private a11yCheck: CreateCheckResponseData;
 
     constructor(
         @inject(AxeMarkdownConvertor) private readonly axeMarkdownConvertor: AxeMarkdownConvertor,
@@ -75,7 +78,7 @@ export class CheckRunCreator implements ProgressReporter {
         this.logger.logInfo(`[CheckRunCreator] ${message}`);
     }
 
-    private getScanOutput(axeScanResults: AxeScanResults): RestEndpointMethodTypes['checks']['update']['parameters']['output'] {
+    private getScanOutput(axeScanResults: AxeScanResults): UpdateCheckOutputParameter {
         return {
             title: checkRunDetailsTitle,
             summary: disclaimerText,

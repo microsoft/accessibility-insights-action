@@ -12,7 +12,7 @@ import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { productTitle } from '../../utils/markdown-formatter';
 import { ProgressReporter } from '../progress-reporter';
 
-type CommentDataItem = RestEndpointMethodTypes['issues']['listComments']['response']['data'][0];
+type ListCommentsResponseItem = RestEndpointMethodTypes['issues']['listComments']['response']['data'][0];
 
 @injectable()
 export class PullRequestCommentCreator implements ProgressReporter {
@@ -66,7 +66,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
         return this.githubObj.context.eventName === 'pull_request';
     }
 
-    private async findComment(pullRequestNumber: number): Promise<CommentDataItem> {
+    private async findComment(pullRequestNumber: number): Promise<ListCommentsResponseItem> {
         const commentsResponse = await this.octokit.issues.listComments({
             issue_number: pullRequestNumber,
             owner: this.githubObj.context.repo.owner,
