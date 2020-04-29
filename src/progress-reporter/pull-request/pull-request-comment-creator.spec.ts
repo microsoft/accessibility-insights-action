@@ -4,7 +4,7 @@
 import 'reflect-metadata';
 
 import * as github from '@actions/github';
-import { Octokit } from '@octokit/rest';
+import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
@@ -15,15 +15,27 @@ import { PullRequestCommentCreator } from './pull-request-comment-creator';
 
 // tslint:disable: no-object-literal-type-assertion no-empty no-any no-unsafe-any
 
+type CreateCommentParams = RestEndpointMethodTypes['issues']['createComment']['parameters'];
+type CreateCommentResponse = RestEndpointMethodTypes['issues']['createComment']['response'];
+type CreateComment = (params: CreateCommentParams) => Promise<CreateCommentResponse>;
+
+type UpdateCommentParams = RestEndpointMethodTypes['issues']['updateComment']['parameters'];
+type UpdateCommentResponse = RestEndpointMethodTypes['issues']['updateComment']['response'];
+type UpdateComment = (params: UpdateCommentParams) => Promise<UpdateCommentResponse>;
+
+type ListCommentsParams = RestEndpointMethodTypes['issues']['listComments']['parameters'];
+type ListCommentsResponse = RestEndpointMethodTypes['issues']['listComments']['response'];
+type ListComments = (params: ListCommentsParams) => Promise<ListCommentsResponse>;
+
+type ListCommentsResponseItem = ListCommentsResponse['data'][0];
+
 describe(PullRequestCommentCreator, () => {
     let testSubject: PullRequestCommentCreator;
 
     let axeMarkdownConvertorMock: IMock<AxeMarkdownConvertor>;
-    let createCommentMock: IMock<(params: Octokit.RequestOptions & Octokit.IssuesCreateCommentParams) => Promise<Octokit.Response<any>>>;
-    let updateCommentMock: IMock<(params: Octokit.RequestOptions & Octokit.IssuesUpdateCommentParams) => Promise<Octokit.Response<any>>>;
-    let listCommentsMock: IMock<(
-        params: Octokit.RequestOptions & Octokit.IssuesListCommentsParams,
-    ) => Promise<Octokit.Response<Octokit.IssuesListCommentsResponse>>>;
+    let createCommentMock: IMock<CreateComment>;
+    let updateCommentMock: IMock<UpdateComment>;
+    let listCommentsMock: IMock<ListComments>;
     let loggerMock: IMock<Logger>;
 
     let octokitStub: Octokit;
@@ -99,7 +111,7 @@ describe(PullRequestCommentCreator, () => {
 
         test.each([
             {
-                values: [] as Octokit.IssuesListCommentsResponseItem[],
+                values: [] as ListCommentsResponseItem[],
             },
             {
                 values: [
@@ -118,14 +130,14 @@ describe(PullRequestCommentCreator, () => {
                         id: 14,
                         body: `existing action comment without user context ${productTitle()}`,
                     },
-                ] as Octokit.IssuesListCommentsResponseItem[],
+                ] as ListCommentsResponseItem[],
             },
         ])('creates new comment, when existing comments - %j', async (testCase) => {
             const response = {
                 data: testCase.values,
                 headers: undefined,
                 status: undefined,
-            } as Octokit.Response<Octokit.IssuesListCommentsResponse>;
+            } as ListCommentsResponse;
 
             listCommentsMock
                 .setup((l) => l({ issue_number: pullRequestNumber, owner: ownerName, repo: repoName }))
@@ -156,7 +168,7 @@ describe(PullRequestCommentCreator, () => {
                 user: {
                     login: 'github-actions[bot]',
                 },
-            } as Octokit.IssuesListCommentsResponseItem;
+            } as ListCommentsResponseItem;
 
             const allExistingComments = [
                 {
@@ -168,12 +180,12 @@ describe(PullRequestCommentCreator, () => {
                     ...existingActionComment,
                     id: existingActionComment.id + 1,
                 },
-            ] as Octokit.IssuesListCommentsResponseItem[];
+            ] as ListCommentsResponseItem[];
             const response = {
                 data: allExistingComments,
                 headers: undefined,
                 status: undefined,
-            } as Octokit.Response<Octokit.IssuesListCommentsResponse>;
+            } as ListCommentsResponse;
 
             listCommentsMock
                 .setup((l) => l({ issue_number: pullRequestNumber, owner: ownerName, repo: repoName }))

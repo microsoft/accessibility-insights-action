@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import * as github from '@actions/github';
-import { Octokit } from '@octokit/rest';
+import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
 import { isEmpty, isNil } from 'lodash';
-import * as util from 'util';
 import { iocTypes } from '../../ioc/ioc-types';
 import { Logger } from '../../logger/logger';
 import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { productTitle } from '../../utils/markdown-formatter';
 import { ProgressReporter } from '../progress-reporter';
+
+type CommentDataItem = RestEndpointMethodTypes['issues']['listComments']['response']['data'][0];
 
 @injectable()
 export class PullRequestCommentCreator implements ProgressReporter {
@@ -65,7 +66,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
         return this.githubObj.context.eventName === 'pull_request';
     }
 
-    private async findComment(pullRequestNumber: number): Promise<Octokit.IssuesListCommentsResponseItem> {
+    private async findComment(pullRequestNumber: number): Promise<CommentDataItem> {
         const commentsResponse = await this.octokit.issues.listComments({
             issue_number: pullRequestNumber,
             owner: this.githubObj.context.repo.owner,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import * as github from '@actions/github';
-import { Octokit } from '@octokit/rest';
+import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
@@ -15,7 +15,7 @@ import { ProgressReporter } from '../progress-reporter';
 
 @injectable()
 export class CheckRunCreator implements ProgressReporter {
-    private a11yCheck: Octokit.ChecksCreateResponse;
+    private a11yCheck: RestEndpointMethodTypes['checks']['create']['response']['data'];
 
     constructor(
         @inject(AxeMarkdownConvertor) private readonly axeMarkdownConvertor: AxeMarkdownConvertor,
@@ -75,7 +75,7 @@ export class CheckRunCreator implements ProgressReporter {
         this.logger.logInfo(`[CheckRunCreator] ${message}`);
     }
 
-    private getScanOutput(axeScanResults: AxeScanResults): Octokit.ChecksUpdateParamsOutput {
+    private getScanOutput(axeScanResults: AxeScanResults): RestEndpointMethodTypes['checks']['update']['parameters']['output'] {
         return {
             title: checkRunDetailsTitle,
             summary: disclaimerText,

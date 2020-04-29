@@ -4,7 +4,7 @@
 import 'reflect-metadata';
 
 import * as github from '@actions/github';
-import { Octokit } from '@octokit/rest';
+import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { stripIndent } from 'common-tags';
 import { IMock, Mock, Times } from 'typemoq';
@@ -17,10 +17,13 @@ import { CheckRunCreator } from './check-run-creator';
 
 // tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 
-type CreateCheckParams = Octokit.RequestOptions & Octokit.ChecksCreateParams;
-type UpdateCheckParams = Octokit.RequestOptions & Octokit.ChecksUpdateParams;
-type CreateCheck = (params: CreateCheckParams) => Promise<Octokit.Response<Octokit.ChecksCreateResponse>>;
-type UpdateCheck = (params: UpdateCheckParams) => Promise<Octokit.Response<Octokit.ChecksUpdateResponse>>;
+type CreateCheckParams = RestEndpointMethodTypes['checks']['create']['parameters'];
+type CreateCheckResponse = RestEndpointMethodTypes['checks']['create']['response'];
+type CreateCheck = (params: CreateCheckParams) => Promise<CreateCheckResponse>;
+
+type UpdateCheckParams = RestEndpointMethodTypes['checks']['update']['parameters'];
+type UpdateCheckResponse = RestEndpointMethodTypes['checks']['update']['response'];
+type UpdateCheck = (params: UpdateCheckParams) => Promise<UpdateCheckResponse>;
 
 describe(CheckRunCreator, () => {
     let octokitStub: Octokit;
@@ -28,7 +31,7 @@ describe(CheckRunCreator, () => {
     let updateCheckMock: IMock<UpdateCheck>;
     let checkRunCreator: CheckRunCreator;
     let githubStub: typeof github;
-    let checkStub: Octokit.ChecksCreateResponse;
+    let checkStub: CreateCheckResponse['data'];
     let convertorMock: IMock<AxeMarkdownConvertor>;
     let loggerMock: IMock<Logger>;
     let sha: string;
@@ -66,7 +69,7 @@ describe(CheckRunCreator, () => {
         } as typeof github;
         checkStub = {
             id: 1234,
-        } as Octokit.ChecksCreateResponse;
+        } as CreateCheckResponse['data'];
 
         checkRunCreator = new CheckRunCreator(convertorMock.object, octokitStub, githubStub, loggerMock.object);
     });
@@ -202,7 +205,7 @@ describe(CheckRunCreator, () => {
             status: 'in_progress',
             head_sha: sha,
         };
-        const response: Octokit.Response<Octokit.ChecksCreateResponse> = { data: checkStub } as any;
+        const response: CreateCheckResponse = { data: checkStub } as any;
 
         createCheckMock
             .setup((cm) => cm(expectedParam))
