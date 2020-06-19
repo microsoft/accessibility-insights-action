@@ -41,7 +41,7 @@
         "accessibility-insights-scan": "^0.2.5",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
         "copy-webpack-plugin": "^6.0.2",
-        "fork-ts-checker-webpack-plugin": "^5.0.1",
+        "fork-ts-checker-webpack-plugin": "^5.0.2",
         "license-check-and-add": "^3.0.4",
         "jest": "^26.0.1",
         "jest-circus": "^26.0.1",
