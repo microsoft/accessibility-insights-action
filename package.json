@@ -40,7 +40,7 @@
         "@types/verror": "^1.10.4",
         "accessibility-insights-scan": "^0.2.5",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
-        "copy-webpack-plugin": "^6.0.2",
+        "copy-webpack-plugin": "^6.0.3",
         "fork-ts-checker-webpack-plugin": "^5.0.5",
         "license-check-and-add": "^3.0.4",
         "jest": "^26.1.0",
