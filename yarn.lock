@@ -1196,20 +1196,20 @@ accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
-accessibility-insights-report@^1.0.2, accessibility-insights-report@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-1.0.3.tgz#5a3caf37664eb49a10f1fdacdc984ff0de160b6b"
-  integrity sha512-uZ/IBn7X0+v856nF3y8f6Ir9ESz79TAG9rV4DHtBtYhuMU2SZBkg/fX5fD+WXQ5x6705dhatRVWu5IFBdGNmag==
+accessibility-insights-report@^1.0.2, accessibility-insights-report@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-2.0.0.tgz#ae1afe391e4ba2b56d60e35f5f0f7925095c9b87"
+  integrity sha512-LmRWlIwZ9AV6vi5pqqsogFmyWrz8UVjxPrUolKkSGmEki8me3irrWxOXsvk1Au8Kcfn8IR7TkKoTewvuv6BitQ==
   dependencies:
-    axe-core "3.5.1"
+    axe-core "4.0.1"
     classnames "^2.2.6"
-    lodash "^4.17.15"
-    moment "^2.25.3"
+    lodash "^4.17.20"
+    moment "^2.27.0"
     office-ui-fabric-react "7.98.0"
     react "^16.13.1"
     react-dom "^16.13.1"
-    react-helmet "^6.0.0"
-    uuid "^8.0.0"
+    react-helmet "^6.1.0"
+    uuid "^8.3.0"
 
 accessibility-insights-scan@^0.2.5:
   version "0.2.5"
@@ -1444,7 +1444,7 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.9.1.tgz#7e33d8f7d449b3f673cd72deb9abdc552dbe528e"
   integrity sha512-wMHVg2EOHaMRxbzgFJ9gtjOOCrI80OHLG14rxi28XwOW8ux6IiEbRCGGGqCtdAIg4FQCbW20k9RsT4y3gJlFug==
 
-axe-core@3.5.1, axe-core@^3.5.3, axe-core@^4.0.1:
+axe-core@3.5.1, axe-core@4.0.1, axe-core@^3.5.3, axe-core@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.0.1.tgz#e337c2ed1e6fe73920166d8b0b0b352e1b50d8ae"
   integrity sha512-OSCABHvSNDleKqJP7DUwEBvMVbr/gtOj2vCDoKKz967fxe9WqtCZLo3IRNOO2fJcu+eSFsu8aAToHfIY7sPLaw==
@@ -4874,10 +4874,10 @@ mockdate@^3.0.2:
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.2.tgz#a5a7bb5820da617747af424d7a4dcb22c6c03d79"
   integrity sha512-ldfYSUW1ocqSHGTK6rrODUiqAFPGAg0xaHqYJ5tvj1hQyFsjuHpuWgWFTZWwDVlzougN/s2/mhDr8r5nY5xDpA==
 
-moment@^2.25.3:
-  version "2.25.3"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.25.3.tgz#252ff41319cf41e47761a1a88cab30edfe9808c0"
-  integrity sha512-PuYv0PHxZvzc15Sp8ybUCoQ+xpyPWvjOuK72a5ovzp2LI32rJXOiIfyoFoYvG3s6EwwrdkMyWuRiEHSZRLJNdg==
+moment@^2.27.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -5685,10 +5685,15 @@ react-dom@^16.13.1:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
-react-fast-compare@^2.0.2, react-fast-compare@^2.0.4:
+react-fast-compare@^2.0.2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
+
+react-fast-compare@^3.1.1:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
+  integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
 react-helmet@^5.2.0:
   version "5.2.1"
@@ -5700,14 +5705,14 @@ react-helmet@^5.2.0:
     react-fast-compare "^2.0.2"
     react-side-effect "^1.1.0"
 
-react-helmet@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.0.0.tgz#fcb93ebaca3ba562a686eb2f1f9d46093d83b5f8"
-  integrity sha512-My6S4sa0uHN/IuVUn0HFmasW5xj9clTkB9qmMngscVycQ5vVG51Qp44BEvLJ4lixupTwDlU9qX1/sCrMN4AEPg==
+react-helmet@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
+  integrity sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==
   dependencies:
     object-assign "^4.1.1"
     prop-types "^15.7.2"
-    react-fast-compare "^2.0.4"
+    react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
 
 react-is@^16.12.0, react-is@^16.8.1, react-is@^16.8.4:
@@ -7033,11 +7038,6 @@ uuid@^3.3.2, uuid@^3.3.3:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
-
-uuid@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.0.0.tgz#bc6ccf91b5ff0ac07bbcdbf1c7c4e150db4dbb6c"
-  integrity sha512-jOXGuXZAWdsTH7eZLtyXMqUb9EcWMGZNbL9YcGBJl4MH4nrxHmZJhEHvyLFrkxo+28uLb/NYRcStH48fnD0Vzw==
 
 uuid@^8.3.0:
   version "8.3.0"
