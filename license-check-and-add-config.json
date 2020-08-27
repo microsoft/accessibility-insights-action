@@ -11,7 +11,8 @@
         "**/.gitattributes",
         "**/test-results",
         "**/dist",
-        "**/*.snap"
+        "**/*.snap",
+        "NOTICES.txt"
     ],
     "license": "./copyright-header.txt",
     "licenseFormats": {
