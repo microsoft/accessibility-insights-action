@@ -1201,10 +1201,10 @@ accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
-accessibility-insights-report@2.0.0, accessibility-insights-report@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-2.0.0.tgz#ae1afe391e4ba2b56d60e35f5f0f7925095c9b87"
-  integrity sha512-LmRWlIwZ9AV6vi5pqqsogFmyWrz8UVjxPrUolKkSGmEki8me3irrWxOXsvk1Au8Kcfn8IR7TkKoTewvuv6BitQ==
+accessibility-insights-report@2.0.0, accessibility-insights-report@^2.0.0, accessibility-insights-report@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-2.1.0.tgz#8a250f6cca216b4e8624caade0442d854922a0f5"
+  integrity sha512-aItALwBDR2v4cCATrbxLFmFD6Qwg1a0axHyMvLkqAOnMOHnKCcFsrYLphG4RxKuTLloA1dOg0p6z/tZV8FgZAA==
   dependencies:
     axe-core "4.0.1"
     classnames "^2.2.6"
