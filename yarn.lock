@@ -1201,15 +1201,15 @@ accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
-accessibility-insights-report@2.0.0, accessibility-insights-report@^2.0.0, accessibility-insights-report@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-2.1.0.tgz#8a250f6cca216b4e8624caade0442d854922a0f5"
-  integrity sha512-aItALwBDR2v4cCATrbxLFmFD6Qwg1a0axHyMvLkqAOnMOHnKCcFsrYLphG4RxKuTLloA1dOg0p6z/tZV8FgZAA==
+accessibility-insights-report@2.0.0, accessibility-insights-report@^2.0.0, accessibility-insights-report@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-2.1.1.tgz#248a5a32a48ecbecccef5df3c59e50033e1b1cc2"
+  integrity sha512-0dWxT7Jk4cDLMaXIFe1iXeUHZbuJI8NTyk7x0pI5/hmBilXd4OR/Hwg5Dqqo65JSqHdikb7XXM2RnXRr4AN5mw==
   dependencies:
     axe-core "4.0.1"
     classnames "^2.2.6"
     lodash "^4.17.20"
-    moment "^2.27.0"
+    luxon "^1.25.0"
     office-ui-fabric-react "7.98.0"
     react "^16.13.1"
     react-dom "^16.13.1"
@@ -4654,6 +4654,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+luxon@^1.25.0:
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.25.0.tgz#d86219e90bc0102c0eb299d65b2f5e95efe1fe72"
+  integrity sha512-hEgLurSH8kQRjY6i4YLey+mcKVAWXbDNlZRmM6AgWDJ1cY3atl8Ztf5wEY7VBReFbmGnwQPz7KYJblL8B2k0jQ==
+
 macos-release@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/macos-release/-/macos-release-2.3.0.tgz#eb1930b036c0800adebccd5f17bc4c12de8bb71f"
@@ -4937,11 +4942,6 @@ mockdate@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.2.tgz#a5a7bb5820da617747af424d7a4dcb22c6c03d79"
   integrity sha512-ldfYSUW1ocqSHGTK6rrODUiqAFPGAg0xaHqYJ5tvj1hQyFsjuHpuWgWFTZWwDVlzougN/s2/mhDr8r5nY5xDpA==
-
-moment@^2.27.0:
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
-  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
