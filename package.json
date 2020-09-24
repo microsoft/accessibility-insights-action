@@ -58,7 +58,7 @@
         "tslint-lines-between-class-members": "^1.3.6",
         "tslint-microsoft-contrib": "^6.2.0",
         "typemoq": "^2.1.0",
-        "typescript": "^4.0.2",
+        "typescript": "^4.0.3",
         "webpack": "^4.44.2",
         "webpack-cli": "^3.3.12"
     },
