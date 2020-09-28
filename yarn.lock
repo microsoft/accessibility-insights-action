@@ -24,13 +24,6 @@
   dependencies:
     tunnel "0.0.6"
 
-"@axe-core/puppeteer@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@axe-core/puppeteer/-/puppeteer-4.0.0.tgz#4e6dcddb774b7a89430d51dd203baa182415f427"
-  integrity sha512-APFc2iRmrmUfqdBUevjsMxJliDudWPwvCU5Pzw2uKZ0sMVtW3rQuElTcfJCHFq8KOZSSO0BPD+lK+pXOx1ta5Q==
-  dependencies:
-    axe-core "^4.0.1"
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.8.3.tgz#33e25903d7481181534e12ec0a25f16b6fcf419e"
@@ -1467,12 +1460,7 @@ axe-core@4.0.1, axe-core@^3.5.3, axe-core@^4.0.1:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.0.1.tgz#e337c2ed1e6fe73920166d8b0b0b352e1b50d8ae"
   integrity sha512-OSCABHvSNDleKqJP7DUwEBvMVbr/gtOj2vCDoKKz967fxe9WqtCZLo3IRNOO2fJcu+eSFsu8aAToHfIY7sPLaw==
 
-axe-core@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.0.2.tgz#c7cf7378378a51fcd272d3c09668002a4990b1cb"
-  integrity sha512-arU1h31OGFu+LPrOLGZ7nB45v940NMDMEJeNmbutu57P+UFDVnkZg3e+J1I2HJRZ9hT7gO8J91dn/PMrAiKakA==
-
-axe-puppeteer@^1.1.0:
+axe-puppeteer@^1.0.0, axe-puppeteer@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/axe-puppeteer/-/axe-puppeteer-1.1.0.tgz#efcf0666a7d8fefec6930b4b6ec3476c403d1b91"
   integrity sha512-VS17Y1rDQe6A0PdeTPxwOSBfmOdj6efgxyre9cN1du1snnVilczSDtQsgifBKBlzoL/3DKfGpgIi+N+zrzODOg==
