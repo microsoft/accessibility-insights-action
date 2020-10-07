@@ -1636,40 +1636,7 @@ apify-client@^0.6.0:
     type-check "^0.3.2"
     underscore "^1.9.1"
 
-apify-shared@^0.1.45:
-  version "0.1.72"
-  resolved "https://registry.yarnpkg.com/apify-shared/-/apify-shared-0.1.72.tgz#d7ce18c8020462c5cee2c1962c367798c98ee31d"
-  integrity sha512-zpuh+S9XUvwQOG3A+IVZAZowplefmSKoZDXINqlShO84BDVVY6LdwmEMSwC7QyELYAMP+Dg9OvY8lgK9g1yMKA==
-  dependencies:
-    bluebird "^3.7.2"
-    clone "^2.1.1"
-    is-buffer "^2.0.3"
-    request "^2.88.0"
-    slugg "^1.2.1"
-    underscore "^1.9.1"
-    url "^0.11.0"
-
-apify-shared@^0.4.0:
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/apify-shared/-/apify-shared-0.4.6.tgz#7ffae412cea4f0b356f9cc971869158349f38a83"
-  integrity sha512-cueAN+upCanQVaKAH3taJBBlh2eUVi/kNtBsQLOYw1ezffgn+nACRGJKWKv6JtJnM1PMtr+rp4ihgePzQUMVYQ==
-  dependencies:
-    axios "^0.19.2"
-    bluebird "^3.7.2"
-    chalk "^4.0.0"
-    cherow "^1.6.9"
-    clone "^2.1.1"
-    countries-list "^2.5.1"
-    is-buffer "^2.0.3"
-    marked "^1.1.0"
-    match-all "^1.2.6"
-    moment "^2.27.0"
-    request "^2.88.0"
-    slugg "^1.2.1"
-    underscore "^1.9.1"
-    url "^0.11.0"
-
-apify-shared@^0.5.0:
+apify-shared@>=0.5.0, apify-shared@^0.1.45, apify-shared@^0.4.0, apify-shared@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/apify-shared/-/apify-shared-0.5.0.tgz#b3263428a30abf427dbf4f7da59340f9d90e2bf4"
   integrity sha512-Hjax9+8kkYIH7dpdG7wam6H2VTquiGKiryQKSx0IsDZ1sXzpLExT/n+gZXxgIbkjCCtQxFyudrbl+lf31zBZFQ==
@@ -2054,7 +2021,7 @@ bluebird@^2.9.34:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
   integrity sha1-U0uQM8AiyVecVro7Plpcqvu2UOE=
 
-bluebird@^3.5.5, bluebird@^3.7.2:
+bluebird@^3.5.5:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -7770,11 +7737,6 @@ slice-ansi@^2.1.0:
     ansi-styles "^3.2.0"
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
-
-slugg@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/slugg/-/slugg-1.2.1.tgz#e752af2241af3f2714463c5de225cea47608740a"
-  integrity sha1-51KvIkGvPycURjxd4iXOpHYIdAo=
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
