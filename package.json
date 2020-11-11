@@ -37,7 +37,7 @@
         "@types/jest": "^26.0.15",
         "@types/lodash": "^4.14.165",
         "@types/puppeteer-core": "^2.0.0",
-        "@types/serve-static": "^1.13.6",
+        "@types/serve-static": "^1.13.7",
         "@types/verror": "^1.10.4",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
         "common-tags": "^1.8.0",
