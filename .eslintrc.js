@@ -20,7 +20,8 @@ module.exports = {
     plugins: ['@typescript-eslint', 'security'],
     rules: {
         // Disabled because we don't think the rule is valuable
-        '@typescript-eslint/no-inferrable-types': 'off',
+        '@typescript-eslint/no-inferrable-types': 'off', // Explicitness for readability is fine
+        'security/detect-object-injection': 'off', // Too many false positives
         // Disabled due to number of pre-existing violations
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
@@ -31,6 +32,5 @@ module.exports = {
         '@typescript-eslint/no-unsafe-member-access': 'off',
         '@typescript-eslint/restrict-template-expressions': 'off',
         '@typescript-eslint/require-await': 'off',
-        'security/detect-object-injection': 'off',
     },
 };
