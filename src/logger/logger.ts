@@ -52,8 +52,7 @@ export class Logger {
         this.invokeLoggerClient((client) => client.trackException(error));
     }
 
-    // tslint:disable-next-line: no-any
-    public trackExceptionAny(underlyingErrorData: any | Error, message: string): void {
+    public trackExceptionAny(underlyingErrorData: unknown | Error, message: string): void {
         const parsedErrorObject =
             underlyingErrorData instanceof Error ? underlyingErrorData : new Error(JSON.stringify(underlyingErrorData));
 

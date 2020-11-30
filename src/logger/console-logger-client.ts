@@ -40,9 +40,7 @@ export class ConsoleLoggerClient implements LoggerClient {
         return isEmpty(allProperties) ? '' : `[properties - ${this.getPrintableString(allProperties)}]`;
     }
 
-    // tslint:disable-next-line: no-any
-    private getPrintableString(obj: any): string {
-        // tslint:disable-next-line: no-null-keyword
+    private getPrintableString(obj: unknown): string {
         return util.inspect(obj, { depth: null });
     }
 
