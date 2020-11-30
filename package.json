@@ -15,7 +15,7 @@
         "copyright:check": "license-check-and-add check -f ./license-check-and-add-config.json",
         "copyright:fix": "license-check-and-add add -f ./license-check-and-add-config.json",
         "test": "jest",
-        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint test",
+        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test",
         "watch:test": "jest --watch"
     },
     "repository": {
