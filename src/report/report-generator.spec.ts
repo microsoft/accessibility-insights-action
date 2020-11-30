@@ -13,6 +13,7 @@ import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
 import { ReportGenerator } from './report-generator';
 
+/* eslint-disable security/detect-non-literal-fs-filename */
 // tslint:disable: no-object-literal-type-assertion no-unsafe-any
 
 describe('ReportGenerator', () => {
