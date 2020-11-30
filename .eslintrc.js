@@ -19,9 +19,8 @@ module.exports = {
     },
     plugins: ['@typescript-eslint', 'security'],
     rules: {
-        // Disabled because we don't think the rule is valuable
-        '@typescript-eslint/no-inferrable-types': 'off', // Explicitness for readability is fine
-        'security/detect-object-injection': 'off', // Too many false positives
+        // Too many false positives; see https://github.com/nodesecurity/eslint-plugin-security/issues/21#issuecomment-326031625
+        'security/detect-object-injection': 'off',
         // Disabled due to number of pre-existing violations
         '@typescript-eslint/require-await': 'off',
     },

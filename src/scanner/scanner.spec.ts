@@ -108,7 +108,7 @@ describe(Scanner, () => {
         });
 
         it('should trackException on error', async () => {
-            const errorMessage: string = 'some err';
+            const errorMessage = 'some err';
             const error = new Error(errorMessage);
             taskConfigMock.reset();
             taskConfigMock
@@ -134,7 +134,7 @@ describe(Scanner, () => {
         });
 
         it('should return timeout promise', async () => {
-            const errorMessage: string = `Unable to scan before timeout`;
+            const errorMessage = `Unable to scan before timeout`;
             scannerMock.setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup((em) => em(1)).verifiable(Times.once());

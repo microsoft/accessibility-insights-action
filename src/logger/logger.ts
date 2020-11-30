@@ -5,8 +5,8 @@ import { VError } from 'verror';
 import { LoggerClient, LogLevel } from './logger-client';
 
 export class Logger {
-    protected initialized: boolean = false;
-    protected isDebugEnabled: boolean = false;
+    protected initialized = false;
+    protected isDebugEnabled = false;
 
     constructor(protected readonly loggerClients: LoggerClient[], protected readonly currentProcess: typeof process) {}
 
