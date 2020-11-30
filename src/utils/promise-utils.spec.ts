@@ -11,7 +11,7 @@ import { PromiseUtils } from './promise-utils';
 describe(PromiseUtils, () => {
     let promiseUtils: PromiseUtils;
     let waitOneSecond: Promise<string>;
-    let errorHandleMock: IMock<() => {}>;
+    let errorHandleMock: IMock<() => null>;
     let onTimeoutCallback: () => Promise<string>;
     const resolvedMsg = 'waited for one second';
     const timedOutMsg = 'timed out';
