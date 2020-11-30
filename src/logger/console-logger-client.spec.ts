@@ -14,7 +14,11 @@ describe(ConsoleLoggerClient, () => {
     let consoleMock: IMock<typeof console>;
 
     beforeEach(() => {
-        consoleMock = Mock.ofInstance({ log: () => { /* noop */ } } as typeof console);
+        consoleMock = Mock.ofInstance({
+            log: () => {
+                /* noop */
+            },
+        } as typeof console);
 
         testSubject = new ConsoleLoggerClient(consoleMock.object);
     });

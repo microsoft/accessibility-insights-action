@@ -47,9 +47,24 @@ describe(PullRequestCommentCreator, () => {
 
     beforeEach(() => {
         axeMarkdownConvertorMock = Mock.ofType(AxeMarkdownConvertor);
-        createCommentMock = Mock.ofInstance((() => { /* noop */ }) as any, MockBehavior.Strict);
-        listCommentsMock = Mock.ofInstance((() => { /* noop */ }) as any, MockBehavior.Strict);
-        updateCommentMock = Mock.ofInstance((() => { /* noop */ }) as any, MockBehavior.Strict);
+        createCommentMock = Mock.ofInstance(
+            (() => {
+                /* noop */
+            }) as any,
+            MockBehavior.Strict,
+        );
+        listCommentsMock = Mock.ofInstance(
+            (() => {
+                /* noop */
+            }) as any,
+            MockBehavior.Strict,
+        );
+        updateCommentMock = Mock.ofInstance(
+            (() => {
+                /* noop */
+            }) as any,
+            MockBehavior.Strict,
+        );
         loggerMock = Mock.ofType(Logger);
 
         octokitStub = {

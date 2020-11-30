@@ -39,7 +39,9 @@ describe(Scanner, () => {
         progressReporterMock = Mock.ofType(AllProgressReporter);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         localFileServerMock = Mock.ofType(LocalFileServer);
-        exitMock = Mock.ofInstance((code: number) => { /* noop */ });
+        exitMock = Mock.ofInstance((code: number) => {
+            /* noop */
+        });
         axeScanResults = {
             results: {
                 violations: [

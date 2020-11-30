@@ -15,9 +15,11 @@ export class Logger {
             return;
         }
 
-        await Promise.all(this.loggerClients.map(async (client) => {
-            await client.setup(baseProperties);
-        }));
+        await Promise.all(
+            this.loggerClients.map(async (client) => {
+                await client.setup(baseProperties);
+            }),
+        );
         this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
         this.initialized = true;
     }
