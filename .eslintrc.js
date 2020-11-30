@@ -23,7 +23,6 @@ module.exports = {
         '@typescript-eslint/no-inferrable-types': 'off', // Explicitness for readability is fine
         'security/detect-object-injection': 'off', // Too many false positives
         // Disabled due to number of pre-existing violations
-        '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/require-await': 'off',
     },
     overrides: [
@@ -33,6 +32,8 @@ module.exports = {
                 // Test stubs are allowed to use "as any" assignments
                 '@typescript-eslint/no-explicit-any': 'off',
                 '@typescript-eslint/no-unsafe-assignment': 'off',
+                // Test stub functions are allowed to ignore parameters
+                '@typescript-eslint/no-unused-vars': 'off',
             },
         },
     ],

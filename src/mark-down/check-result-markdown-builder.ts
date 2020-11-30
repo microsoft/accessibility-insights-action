@@ -4,7 +4,7 @@ import { AxeScanResults } from 'accessibility-insights-scan';
 import * as axe from 'axe-core';
 import { injectable } from 'inversify';
 
-import { brand, brandLogoImg } from '../content/strings';
+import { brand } from '../content/strings';
 import { bold, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from '../utils/markdown-formatter';
 
 @injectable()

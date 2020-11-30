@@ -55,7 +55,7 @@ export class CheckRunCreator implements ProgressReporter {
         });
     }
 
-    public async failRun(message: string): Promise<void> {
+    public async failRun(): Promise<void> {
         this.logMessage('Updating check run with status as failed');
         await this.octokit.checks.update({
             owner: this.githubObj.context.repo.owner,
