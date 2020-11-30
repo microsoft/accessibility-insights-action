@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import * as github from '@actions/github';
@@ -14,8 +13,6 @@ import { checkRunDetailsTitle } from '../../content/strings';
 import { Logger } from '../../logger/logger';
 import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { CheckRunCreator } from './check-run-creator';
-
-// tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 
 type CreateCheckParams = RestEndpointMethodTypes['checks']['create']['parameters'];
 type CreateCheckResponse = RestEndpointMethodTypes['checks']['create']['response'];

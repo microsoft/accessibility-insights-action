@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import { IMock, Mock } from 'typemoq';
 import { PromiseUtils } from './promise-utils';
-
-// tslint:disable: no-unsafe-any no-null-keyword
 
 describe(PromiseUtils, () => {
     let promiseUtils: PromiseUtils;

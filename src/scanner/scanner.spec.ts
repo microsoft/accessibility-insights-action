@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import { AIScanner, AxeScanResults } from 'accessibility-insights-scan';
@@ -14,8 +13,6 @@ import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 import { Scanner } from './scanner';
-
-// tslint:disable: no-object-literal-type-assertion no-unsafe-any
 
 describe(Scanner, () => {
     let scanner: Scanner;
@@ -31,7 +28,6 @@ describe(Scanner, () => {
     let axeScanResults: AxeScanResults;
     const scanUrl = 'localhost';
     const baseUrl = 'base';
-    // tslint:disable-next-line:mocha-no-side-effect-code
     const axeSourcePath = path.resolve(__dirname, 'axe.js');
     const chromePath = 'chrome path';
 

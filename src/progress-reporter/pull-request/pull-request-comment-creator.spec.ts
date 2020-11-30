@@ -13,8 +13,6 @@ import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { productTitle } from '../../utils/markdown-formatter';
 import { PullRequestCommentCreator } from './pull-request-comment-creator';
 
-// tslint:disable: no-object-literal-type-assertion no-empty no-any no-unsafe-any
-
 type CreateCommentParams = RestEndpointMethodTypes['issues']['createComment']['parameters'];
 type CreateCommentResponse = RestEndpointMethodTypes['issues']['createComment']['response'];
 type CreateComment = (params: CreateCommentParams) => Promise<CreateCommentResponse>;
@@ -45,8 +43,6 @@ describe(PullRequestCommentCreator, () => {
     const repoName = 'test repo';
     const ownerName = 'test owner';
     const markdownContent = 'test markdown content';
-
-    // tslint:disable-next-line: mocha-no-side-effect-code
     const axeScanResults = ('test axe scan results' as any) as AxeScanResults;
 
     beforeEach(() => {

@@ -15,8 +15,6 @@ import { Scanner } from '../scanner/scanner';
 import { iocTypes } from './ioc-types';
 import { setupIocContainer } from './setup-ioc-container';
 
-// tslint:disable: no-any no-unsafe-any no-object-literal-type-assertion
-
 describe(setupIocContainer, () => {
     let testSubject: Container;
 

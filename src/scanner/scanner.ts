@@ -48,10 +48,8 @@ export class Scanner {
             const chromePath = this.taskConfig.getChromePath();
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
 
-            // tslint:disable-next-line: no-unsafe-any
             const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
-            // tslint:disable-next-line: no-unsafe-any
             this.reportGenerator.generateReport(axeScanResults);
 
             await this.allProgressReporter.completeRun(axeScanResults);

@@ -9,8 +9,6 @@ import { ConsoleLoggerClient } from './console-logger-client';
 import { LogLevel } from './logger-client';
 import { LoggerProperties } from './logger-properties';
 
-// tslint:disable: no-null-keyword no-object-literal-type-assertion no-any no-void-expression no-empty
-
 describe(ConsoleLoggerClient, () => {
     let testSubject: ConsoleLoggerClient;
     let consoleMock: IMock<typeof console>;

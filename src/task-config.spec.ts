@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import * as actionCore from '@actions/core';
-import * as path from 'path';
 import * as process from 'process';
 import { IMock, Mock, Times } from 'typemoq';
 
 import { TaskConfig } from './task-config';
-
-// tslint:disable: no-object-literal-type-assertion no-unsafe-any
 
 describe(TaskConfig, () => {
     let processStub: typeof process;

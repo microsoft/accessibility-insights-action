@@ -10,8 +10,6 @@ import { ConsoleLoggerClient } from './console-logger-client';
 import { Logger } from './logger';
 import { LoggerClient, LogLevel } from './logger-client';
 
-// tslint:disable: no-null-keyword no-object-literal-type-assertion no-any no-void-expression
-
 describe(Logger, () => {
     let loggerClient1Mock: IMock<LoggerClient>;
     let loggerClient2Mock: IMock<LoggerClient>;
