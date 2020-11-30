@@ -15,6 +15,7 @@ export class Logger {
             return;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.invokeLoggerClient(async (client) => {
             await client.setup(baseProperties);
         });
