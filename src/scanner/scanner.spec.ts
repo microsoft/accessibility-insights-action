@@ -149,8 +149,8 @@ describe(Scanner, () => {
         function setupWaitForPromisetoReturnOriginalPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
+                // eslint-disable-next-line @typescript-eslint/require-await
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                     return scanPromiseObj;
                 })
                 .verifiable();
@@ -159,8 +159,8 @@ describe(Scanner, () => {
         function setupWaitForPromiseToReturnTimeoutPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
+                // eslint-disable-next-line @typescript-eslint/require-await
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
                     return timeoutCb();
                 })
                 .verifiable();

@@ -21,16 +21,16 @@ module.exports = {
     rules: {
         // Too many false positives; see https://github.com/nodesecurity/eslint-plugin-security/issues/21#issuecomment-326031625
         'security/detect-object-injection': 'off',
-        // Disabled due to number of pre-existing violations
-        '@typescript-eslint/require-await': 'off',
     },
     overrides: [
         {
             files: ['src/**/*.spec.ts'],
             rules: {
-                // Test stubs are allowed to use "as any" assignments
+                // Test stubs are allowed to use "as any" assignments/calls/returns
                 '@typescript-eslint/no-explicit-any': 'off',
                 '@typescript-eslint/no-unsafe-assignment': 'off',
+                '@typescript-eslint/no-unsafe-call': 'off',
+                '@typescript-eslint/no-unsafe-return': 'off',
                 // Test stub functions are allowed to ignore parameters
                 '@typescript-eslint/no-unused-vars': 'off',
             },

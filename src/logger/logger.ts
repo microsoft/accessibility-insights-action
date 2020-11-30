@@ -15,10 +15,9 @@ export class Logger {
             return;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        this.invokeLoggerClient(async (client) => {
+        await Promise.all(this.loggerClients.map(async (client) => {
             await client.setup(baseProperties);
-        });
+        }));
         this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
         this.initialized = true;
     }

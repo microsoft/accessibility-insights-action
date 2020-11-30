@@ -28,6 +28,7 @@ export class Scanner {
     ) {}
 
     public async scan(): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/require-await
         await this.promiseUtils.waitFor(this.invokeScan(), 90000, async () => {
             this.logger.logError('Unable to scan before timeout');
             this.currentProcess.exit(1);

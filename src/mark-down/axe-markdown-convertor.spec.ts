@@ -30,7 +30,7 @@ describe(AxeMarkdownConvertor, () => {
     });
 
     describe('convert', () => {
-        it('returns congrats message when no failure found', async () => {
+        it('returns congrats message when no failure found', () => {
             markdownBuilderMock.setup((mm) => mm.congratsContent(axeScanResults)).verifiable(Times.once());
 
             axeMarkdownConvertor.convert(axeScanResults);
@@ -38,7 +38,7 @@ describe(AxeMarkdownConvertor, () => {
             markdownBuilderMock.verifyAll();
         });
 
-        it('returns failure details', async () => {
+        it('returns failure details', () => {
             axeScanResults.results = {
                 violations: [
                     {
