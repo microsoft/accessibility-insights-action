@@ -11,8 +11,6 @@ import { CheckRunCreator } from './check-run/check-run-creator';
 import { ProgressReporter } from './progress-reporter';
 import { PullRequestCommentCreator } from './pull-request/pull-request-comment-creator';
 
-// tslint:disable: no-object-literal-type-assertion no-empty no-any no-unsafe-any
-
 describe(AllProgressReporter, () => {
     let testSubject: AllProgressReporter;
     let pullRequestCommentCreator: IMock<PullRequestCommentCreator>;
@@ -28,7 +26,7 @@ describe(AllProgressReporter, () => {
         executeOnReporter((reporter) => {
             reporter
                 .setup((p) => p.start())
-                .returns(async () => Promise.resolve(undefined))
+                .returns(() => Promise.resolve())
                 .verifiable(Times.once());
         });
 
@@ -40,7 +38,7 @@ describe(AllProgressReporter, () => {
         executeOnReporter((reporter) => {
             reporter
                 .setup((p) => p.completeRun(axeResults))
-                .returns(async () => Promise.resolve(undefined))
+                .returns(() => Promise.resolve())
                 .verifiable(Times.once());
         });
 
@@ -52,7 +50,7 @@ describe(AllProgressReporter, () => {
         executeOnReporter((reporter) => {
             reporter
                 .setup((p) => p.failRun(error))
-                .returns(async () => Promise.resolve(undefined))
+                .returns(() => Promise.resolve())
                 .verifiable(Times.once());
         });
 

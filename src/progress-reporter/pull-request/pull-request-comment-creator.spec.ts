@@ -153,7 +153,7 @@ describe(PullRequestCommentCreator, () => {
                         issue_number: pullRequestNumber,
                     }),
                 )
-                .returns(() => Promise.resolve(undefined))
+                .returns(() => Promise.resolve({} as CreateCommentResponse))
                 .verifiable(Times.once());
 
             await testSubject.completeRun(axeScanResults);
@@ -201,7 +201,7 @@ describe(PullRequestCommentCreator, () => {
                         comment_id: existingActionComment.id,
                     }),
                 )
-                .returns(() => Promise.resolve(undefined))
+                .returns(() => Promise.resolve({} as UpdateCommentResponse))
                 .verifiable(Times.once());
 
             await testSubject.completeRun(axeScanResults);

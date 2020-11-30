@@ -27,7 +27,7 @@ describe(Scanner, () => {
     let progressReporterMock: IMock<AllProgressReporter>;
     let localFileServerMock: IMock<LocalFileServer>;
     let processStub: typeof process;
-    let exitMock: IMock<(code: number) => any>;
+    let exitMock: IMock<(code: number) => void>;
     let axeScanResults: AxeScanResults;
     const scanUrl = 'localhost';
     const baseUrl = 'base';
@@ -43,7 +43,7 @@ describe(Scanner, () => {
         progressReporterMock = Mock.ofType(AllProgressReporter);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         localFileServerMock = Mock.ofType(LocalFileServer);
-        exitMock = Mock.ofInstance((code: number) => undefined);
+        exitMock = Mock.ofInstance((code: number) => { /* noop */ });
         axeScanResults = {
             results: {
                 violations: [
@@ -150,6 +150,7 @@ describe(Scanner, () => {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                     return scanPromiseObj;
                 })
                 .verifiable();
@@ -159,6 +160,7 @@ describe(Scanner, () => {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                     return timeoutCb();
                 })
                 .verifiable();
