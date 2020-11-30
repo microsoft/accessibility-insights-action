@@ -100,7 +100,7 @@ describe(CheckRunCreator, () => {
     });
 
     it('failRun', async () => {
-        const message = 'something went wrong';
+        const stubErrorMarkdown = 'something went wrong';
         const expectedParam: UpdateCheckParams = {
             owner: owner,
             repo: repo,
@@ -112,20 +112,19 @@ describe(CheckRunCreator, () => {
                 title: checkRunDetailsTitle,
                 summary: disclaimerText,
                 annotations: [],
-                text: stripIndent`
-                ${message}`,
+                text: stubErrorMarkdown,
             },
         };
 
         setupMocksForCreateCheck();
         convertorMock
             .setup((cm) => cm.getErrorMarkdown())
-            .returns(() => message)
+            .returns(() => stubErrorMarkdown)
             .verifiable(Times.once());
         updateCheckMock.setup((um) => um(expectedParam)).verifiable(Times.once());
 
         await checkRunCreator.start();
-        await checkRunCreator.failRun(message);
+        await checkRunCreator.failRun();
 
         verifyMocks();
     });
