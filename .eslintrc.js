@@ -25,7 +25,15 @@ module.exports = {
         // Disabled due to number of pre-existing violations
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
         '@typescript-eslint/require-await': 'off',
     },
+    overrides: [
+        {
+            files: ['src/**/*.spec.ts'],
+            rules: {
+                // Test stubs are allowed to use "as any" assignments
+                '@typescript-eslint/no-unsafe-assignment': 'off',
+            },
+        },
+    ],
 };

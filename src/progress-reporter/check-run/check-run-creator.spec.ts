@@ -56,7 +56,7 @@ describe(CheckRunCreator, () => {
                 create: createCheckMock.object,
                 update: updateCheckMock.object,
             },
-        } as any;
+        } as Octokit;
         githubStub = {
             context: {
                 repo: {
@@ -89,10 +89,11 @@ describe(CheckRunCreator, () => {
     it('createRun for pull request', async () => {
         sha = 'pull request sha';
         githubStub.context.payload.pull_request = {
+            number: 1,
             head: {
                 sha: sha,
             },
-        } as any;
+        };
 
         setupMocksForCreateCheck();
 
@@ -205,7 +206,7 @@ describe(CheckRunCreator, () => {
             status: 'in_progress',
             head_sha: sha,
         };
-        const response: CreateCheckResponse = { data: checkStub } as any;
+        const response = { data: checkStub } as CreateCheckResponse;
 
         createCheckMock
             .setup((cm) => cm(expectedParam))
