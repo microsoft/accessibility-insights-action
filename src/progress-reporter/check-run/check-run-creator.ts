@@ -37,7 +37,7 @@ export class CheckRunCreator implements ProgressReporter {
                 status: 'in_progress',
                 head_sha: isNil(this.githubObj.context.payload.pull_request)
                     ? this.githubObj.context.sha
-                    : // tslint:disable-next-line: no-unsafe-any
+                    : // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                       this.githubObj.context.payload.pull_request.head.sha,
             })
         ).data;
