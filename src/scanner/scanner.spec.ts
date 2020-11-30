@@ -160,7 +160,7 @@ describe(Scanner, () => {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
                     return timeoutCb();
                 })
                 .verifiable();
