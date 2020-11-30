@@ -117,11 +117,11 @@ describe(Scanner, () => {
                     throw error;
                 });
             scannerMock.setup((sm) => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.never());
-            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
+            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL undefined.`)).verifiable(Times.never());
             loggerMock
-                .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
+                .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page undefined.`))
                 .verifiable(Times.once());
-            loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL ${undefined} completed.`)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL undefined completed.`)).verifiable(Times.once());
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
             progressReporterMock.setup((p) => p.completeRun(It.isAny())).verifiable(Times.never());
             progressReporterMock.setup((p) => p.failRun(util.inspect(error))).verifiable(Times.once());
