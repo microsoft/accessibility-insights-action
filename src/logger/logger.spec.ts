@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as _ from 'lodash';
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
 import { VError } from 'verror';
 import { BaseTelemetryProperties } from './base-telemetry-properties';

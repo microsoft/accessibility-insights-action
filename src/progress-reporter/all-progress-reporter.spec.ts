@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import 'reflect-metadata';
-
-import * as github from '@actions/github';
 
 import { IMock, Mock, Times } from 'typemoq';
 import { AllProgressReporter } from './all-progress-reporter';

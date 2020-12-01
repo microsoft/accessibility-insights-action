@@ -18,7 +18,7 @@ describe(PromiseUtils, () => {
         errorHandleMock = Mock.ofInstance(() => {
             return null;
         });
-        waitOneSecond = new Promise<string>((resolve, reject) => {
+        waitOneSecond = new Promise<string>((resolve) => {
             setTimeout(() => {
                 resolve(resolvedMsg);
             }, 1000);

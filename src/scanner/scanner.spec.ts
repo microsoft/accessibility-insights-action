@@ -39,6 +39,7 @@ describe(Scanner, () => {
         progressReporterMock = Mock.ofType(AllProgressReporter);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         localFileServerMock = Mock.ofType(LocalFileServer);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         exitMock = Mock.ofInstance((code: number) => {
             /* noop */
         });
@@ -147,7 +148,7 @@ describe(Scanner, () => {
         function setupWaitForPromisetoReturnOriginalPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
-                // eslint-disable-next-line @typescript-eslint/require-await
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
                     return scanPromiseObj;
                 })

@@ -31,8 +31,6 @@ module.exports = {
                 '@typescript-eslint/no-unsafe-assignment': 'off',
                 '@typescript-eslint/no-unsafe-call': 'off',
                 '@typescript-eslint/no-unsafe-return': 'off',
-                // Test stub functions are allowed to ignore parameters
-                '@typescript-eslint/no-unused-vars': 'off',
             },
         },
     ],

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import 'reflect-metadata';
-import { IMock, Mock, MockBehavior, Times } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import * as util from 'util';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
 import { ConsoleLoggerClient } from './console-logger-client';

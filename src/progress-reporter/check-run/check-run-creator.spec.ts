@@ -5,7 +5,6 @@ import 'reflect-metadata';
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
-import { stripIndent } from 'common-tags';
 import { IMock, Mock, Times } from 'typemoq';
 
 import { disclaimerText } from '../../content/mark-down-strings';

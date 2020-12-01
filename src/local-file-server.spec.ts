@@ -19,10 +19,12 @@ interface ExpressInterface {
 }
 
 class MockableExpress implements ExpressInterface {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public use(handler: any): ExpressInterface {
         return undefined;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public listen(port: number): Server {
         return undefined;
     }
