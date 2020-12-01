@@ -9,7 +9,7 @@ export class PromiseUtils {
         let timeoutHandle: NodeJS.Timeout;
         let hasTimedOut = false;
 
-        const timeoutPromise = new Promise<Y>((resolve, reject) => {
+        const timeoutPromise = new Promise<void>((resolve, reject) => {
             timeoutHandle = setTimeout(() => {
                 hasTimedOut = true;
                 resolve();

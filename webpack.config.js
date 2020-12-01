@@ -8,7 +8,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = env => {
+module.exports = (env) => {
     const version = env ? env.version : 'dev';
     console.log(`Building for version : ${version}`);
     return {
@@ -49,14 +49,15 @@ module.exports = env => {
             }),
             new ForkTsCheckerWebpackPlugin(),
             new CaseSensitivePathsPlugin(),
-            new copyWebpackPlugin([
-                {
-                    context: './',
-                    from: 'node_modules/axe-core/axe.min.js',
-                    to: 'axe.js',
-                    ignore: ['dist/**'],
-                },
-            ]),
+            new copyWebpackPlugin({
+                patterns: [
+                    {
+                        context: './',
+                        from: 'node_modules/axe-core/axe.min.js',
+                        to: 'axe.js',
+                    },
+                ],
+            }),
         ],
         resolve: {
             extensions: ['.ts', '.js', '.json'],

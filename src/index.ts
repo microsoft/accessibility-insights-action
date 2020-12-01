@@ -13,7 +13,7 @@ import { Scanner } from './scanner/scanner';
 
     const scanner = container.get(Scanner);
     await scanner.scan();
-})().catch(error => {
+})().catch((error) => {
     console.log('Exception thrown in action: ', error);
     process.exit(1);
 });

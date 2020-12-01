@@ -32,14 +32,19 @@ describe(TaskConfig, () => {
     });
 
     it('getReportOutDir', () => {
+        const outputDir = 'output-dir';
+        actionCoreMock
+            .setup((am) => am.getInput('output-dir'))
+            .returns(() => outputDir)
+            .verifiable(Times.once());
         const dir = taskConfig.getReportOutDir();
-        expect(dir).toBe(path.join(workspace, '_accessibility-reports'));
+        expect(dir).toBe(outputDir);
     });
 
     it('getSiteDir', () => {
         const siteDir = 'site';
         actionCoreMock
-            .setup(am => am.getInput('site-dir'))
+            .setup((am) => am.getInput('site-dir'))
             .returns(() => siteDir)
             .verifiable(Times.once());
 
@@ -52,7 +57,7 @@ describe(TaskConfig, () => {
     it('getScanUrlRelativePath', () => {
         const relativePath = 'path';
         actionCoreMock
-            .setup(am => am.getInput('scan-url-relative-path'))
+            .setup((am) => am.getInput('scan-url-relative-path'))
             .returns(() => relativePath)
             .verifiable(Times.once());
 
@@ -65,7 +70,7 @@ describe(TaskConfig, () => {
     it('getToken', () => {
         const token = 'repo-token';
         actionCoreMock
-            .setup(am => am.getInput('repo-token'))
+            .setup((am) => am.getInput('repo-token'))
             .returns(() => token)
             .verifiable(Times.once());
 
@@ -78,7 +83,7 @@ describe(TaskConfig, () => {
     it('getChromePath', () => {
         const chromePath = 'chrome-path';
         actionCoreMock
-            .setup(am => am.getInput('chrome-path'))
+            .setup((am) => am.getInput('chrome-path'))
             .returns(() => chromePath)
             .verifiable(Times.once());
 
@@ -93,7 +98,7 @@ describe(TaskConfig, () => {
         process.env.CHROME_BIN = chromePath;
 
         actionCoreMock
-            .setup(am => am.getInput('chrome-path'))
+            .setup((am) => am.getInput('chrome-path'))
             .returns(() => '')
             .verifiable(Times.once());
 

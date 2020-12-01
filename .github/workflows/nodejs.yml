@@ -55,15 +55,11 @@ jobs:
       run: yarn install --frozen-lockfile
     
     - name: Run tests
-      run: yarn jest --ci --coverage
+      run: yarn test --ci --coverage
       env:
         NODE_OPTIONS: --max_old_space_size=4096
-     
-    - name: Publish code coverage
-      if: github.event_name == 'pull_request'
-      uses: 5monkeys/cobertura-action@master
-      with:
-        path: ${{ github.workspace }}/test-results/unit/coverage/cobertura-coverage.xml
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        minimum_coverage: 85%
 
+    - name: Publish code coverage to codecov
+      uses: codecov/codecov-action@v1.0.5
+      with: 
+        token: ${{ secrets.CODECOV_TOKEN }}

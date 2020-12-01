@@ -1,0 +1,18 @@
+version: 1
+update_configs:
+    - package_manager: 'javascript'
+      directory: '/'
+      update_schedule: 'daily'
+      version_requirement_updates: 'increase_versions'
+      default_labels:
+          - 'category: engineering'
+          - 'dependencies'
+      commit_message:
+          prefix: 'chore'
+          include_scope: true
+      ignored_updates:
+          - match:
+                # axe-core updates require enough extra validation
+                # on false positives and breaking ai-web, so avoiding
+                # dependabot auto-update for them like other deps.
+                dependency_name: 'axe-core'
