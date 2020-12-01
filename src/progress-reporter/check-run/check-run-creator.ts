@@ -37,8 +37,7 @@ export class CheckRunCreator implements ProgressReporter {
                 status: 'in_progress',
                 head_sha: isNil(this.githubObj.context.payload.pull_request)
                     ? this.githubObj.context.sha
-                    : // tslint:disable-next-line: no-unsafe-any
-                      this.githubObj.context.payload.pull_request.head.sha,
+                    : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
             })
         ).data;
     }
@@ -56,7 +55,7 @@ export class CheckRunCreator implements ProgressReporter {
         });
     }
 
-    public async failRun(message: string): Promise<void> {
+    public async failRun(): Promise<void> {
         this.logMessage('Updating check run with status as failed');
         await this.octokit.checks.update({
             owner: this.githubObj.context.repo.owner,

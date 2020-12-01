@@ -2,15 +2,12 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as _ from 'lodash';
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
 import { VError } from 'verror';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
 import { ConsoleLoggerClient } from './console-logger-client';
 import { Logger } from './logger';
 import { LoggerClient, LogLevel } from './logger-client';
-
-// tslint:disable: no-null-keyword no-object-literal-type-assertion no-any no-void-expression
 
 describe(Logger, () => {
     let loggerClient1Mock: IMock<LoggerClient>;

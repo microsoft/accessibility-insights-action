@@ -54,6 +54,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async failRun(message: string): Promise<void> {
         if (!this.isSupported()) {
             return;

@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
-import { stripIndent } from 'common-tags';
 import { IMock, Mock, Times } from 'typemoq';
 
 import { disclaimerText } from '../../content/mark-down-strings';
@@ -14,8 +12,6 @@ import { checkRunDetailsTitle } from '../../content/strings';
 import { Logger } from '../../logger/logger';
 import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { CheckRunCreator } from './check-run-creator';
-
-// tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 
 type CreateCheckParams = RestEndpointMethodTypes['checks']['create']['parameters'];
 type CreateCheckResponse = RestEndpointMethodTypes['checks']['create']['response'];
@@ -56,7 +52,7 @@ describe(CheckRunCreator, () => {
                 create: createCheckMock.object,
                 update: updateCheckMock.object,
             },
-        } as any;
+        } as Octokit;
         githubStub = {
             context: {
                 repo: {
@@ -89,10 +85,11 @@ describe(CheckRunCreator, () => {
     it('createRun for pull request', async () => {
         sha = 'pull request sha';
         githubStub.context.payload.pull_request = {
+            number: 1,
             head: {
                 sha: sha,
             },
-        } as any;
+        };
 
         setupMocksForCreateCheck();
 
@@ -102,7 +99,7 @@ describe(CheckRunCreator, () => {
     });
 
     it('failRun', async () => {
-        const message = 'something went wrong';
+        const stubErrorMarkdown = 'something went wrong';
         const expectedParam: UpdateCheckParams = {
             owner: owner,
             repo: repo,
@@ -114,20 +111,19 @@ describe(CheckRunCreator, () => {
                 title: checkRunDetailsTitle,
                 summary: disclaimerText,
                 annotations: [],
-                text: stripIndent`
-                ${message}`,
+                text: stubErrorMarkdown,
             },
         };
 
         setupMocksForCreateCheck();
         convertorMock
             .setup((cm) => cm.getErrorMarkdown())
-            .returns(() => message)
+            .returns(() => stubErrorMarkdown)
             .verifiable(Times.once());
         updateCheckMock.setup((um) => um(expectedParam)).verifiable(Times.once());
 
         await checkRunCreator.start();
-        await checkRunCreator.failRun(message);
+        await checkRunCreator.failRun();
 
         verifyMocks();
     });
@@ -205,7 +201,7 @@ describe(CheckRunCreator, () => {
             status: 'in_progress',
             head_sha: sha,
         };
-        const response: CreateCheckResponse = { data: checkStub } as any;
+        const response = { data: checkStub } as CreateCheckResponse;
 
         createCheckMock
             .setup((cm) => cm(expectedParam))

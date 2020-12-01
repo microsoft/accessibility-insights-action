@@ -13,7 +13,7 @@ import { Logger } from '../logger/logger';
 import { TaskConfig } from '../task-config';
 import { ReportGenerator } from './report-generator';
 
-// tslint:disable: no-object-literal-type-assertion no-unsafe-any
+/* eslint-disable security/detect-non-literal-fs-filename */
 
 describe('ReportGenerator', () => {
     let reportGenerator: ReportGenerator;
@@ -28,7 +28,6 @@ describe('ReportGenerator', () => {
     let loggerMock: IMock<Logger>;
     let taskConfigMock: IMock<TaskConfig>;
     let fsMock: IMock<typeof fs>;
-    // tslint:disable-next-line:mocha-no-side-effect-code
     const fileName = `${outputDir}/${filenamifyUrl(scanUrl, {
         replacement: '_',
     })}.html`;

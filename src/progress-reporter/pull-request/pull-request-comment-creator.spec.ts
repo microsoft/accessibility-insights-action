@@ -13,8 +13,6 @@ import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { productTitle } from '../../utils/markdown-formatter';
 import { PullRequestCommentCreator } from './pull-request-comment-creator';
 
-// tslint:disable: no-object-literal-type-assertion no-empty no-any no-unsafe-any
-
 type CreateCommentParams = RestEndpointMethodTypes['issues']['createComment']['parameters'];
 type CreateCommentResponse = RestEndpointMethodTypes['issues']['createComment']['response'];
 type CreateComment = (params: CreateCommentParams) => Promise<CreateCommentResponse>;
@@ -45,15 +43,28 @@ describe(PullRequestCommentCreator, () => {
     const repoName = 'test repo';
     const ownerName = 'test owner';
     const markdownContent = 'test markdown content';
-
-    // tslint:disable-next-line: mocha-no-side-effect-code
     const axeScanResults = ('test axe scan results' as any) as AxeScanResults;
 
     beforeEach(() => {
         axeMarkdownConvertorMock = Mock.ofType(AxeMarkdownConvertor);
-        createCommentMock = Mock.ofInstance((() => {}) as any, MockBehavior.Strict);
-        listCommentsMock = Mock.ofInstance((() => {}) as any, MockBehavior.Strict);
-        updateCommentMock = Mock.ofInstance((() => {}) as any, MockBehavior.Strict);
+        createCommentMock = Mock.ofInstance(
+            (() => {
+                /* noop */
+            }) as any,
+            MockBehavior.Strict,
+        );
+        listCommentsMock = Mock.ofInstance(
+            (() => {
+                /* noop */
+            }) as any,
+            MockBehavior.Strict,
+        );
+        updateCommentMock = Mock.ofInstance(
+            (() => {
+                /* noop */
+            }) as any,
+            MockBehavior.Strict,
+        );
         loggerMock = Mock.ofType(Logger);
 
         octokitStub = {
@@ -153,7 +164,7 @@ describe(PullRequestCommentCreator, () => {
                         issue_number: pullRequestNumber,
                     }),
                 )
-                .returns(() => Promise.resolve(undefined))
+                .returns(() => Promise.resolve({} as CreateCommentResponse))
                 .verifiable(Times.once());
 
             await testSubject.completeRun(axeScanResults);
@@ -201,7 +212,7 @@ describe(PullRequestCommentCreator, () => {
                         comment_id: existingActionComment.id,
                     }),
                 )
-                .returns(() => Promise.resolve(undefined))
+                .returns(() => Promise.resolve({} as UpdateCommentResponse))
                 .verifiable(Times.once());
 
             await testSubject.completeRun(axeScanResults);

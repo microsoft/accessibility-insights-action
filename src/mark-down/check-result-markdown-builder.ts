@@ -4,12 +4,12 @@ import { AxeScanResults } from 'accessibility-insights-scan';
 import * as axe from 'axe-core';
 import { injectable } from 'inversify';
 
-import { brand, brandLogoImg } from '../content/strings';
+import { brand } from '../content/strings';
 import { bold, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from '../utils/markdown-formatter';
 
 @injectable()
 export class CheckResultMarkdownBuilder {
-    public failureDetails = (axeScanResults: AxeScanResults) => {
+    public failureDetails = (axeScanResults: AxeScanResults): string => {
         const failedRulesList = axeScanResults.results.violations.map((rule: axe.Result) => {
             return [this.failedRuleListItem(rule.nodes.length, rule.id, rule.description), sectionSeparator()].join('');
         });
@@ -40,7 +40,7 @@ export class CheckResultMarkdownBuilder {
         return this.scanResultDetails(lines.join(''));
     };
 
-    public congratsContent = (axeScanResults: AxeScanResults) => {
+    public congratsContent = (axeScanResults: AxeScanResults): string => {
         const passed = axeScanResults.results.passes.length;
         const inapplicable = axeScanResults.results.inapplicable.length;
         const lines = [

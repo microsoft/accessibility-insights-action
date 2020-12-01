@@ -46,11 +46,11 @@ export class ReportGenerator {
             replacement: '_',
         })}.html`;
 
-        // tslint:disable-next-line: non-literal-fs-path
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         if (!this.fileSystemObj.existsSync(outDirectory)) {
             this.logger.logInfo('output directory does not exists.');
             this.logger.logInfo(`creating output directory - ${outDirectory}`);
-            // tslint:disable-next-line: non-literal-fs-path
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
             this.fileSystemObj.mkdirSync(outDirectory);
         }
 
@@ -60,7 +60,7 @@ export class ReportGenerator {
     }
 
     private saveHtmlReport(fileName: string, content: string): void {
-        // tslint:disable-next-line: non-literal-fs-path
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         this.fileSystemObj.writeFileSync(fileName, content);
         this.logger.logInfo(`scan report saved successfully ${fileName}`);
     }

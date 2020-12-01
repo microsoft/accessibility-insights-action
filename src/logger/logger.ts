@@ -5,8 +5,8 @@ import { VError } from 'verror';
 import { LoggerClient, LogLevel } from './logger-client';
 
 export class Logger {
-    protected initialized: boolean = false;
-    protected isDebugEnabled: boolean = false;
+    protected initialized = false;
+    protected isDebugEnabled = false;
 
     constructor(protected readonly loggerClients: LoggerClient[], protected readonly currentProcess: typeof process) {}
 
@@ -15,9 +15,11 @@ export class Logger {
             return;
         }
 
-        this.invokeLoggerClient(async (client) => {
-            await client.setup(baseProperties);
-        });
+        await Promise.all(
+            this.loggerClients.map(async (client) => {
+                await client.setup(baseProperties);
+            }),
+        );
         this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
         this.initialized = true;
     }
@@ -51,8 +53,7 @@ export class Logger {
         this.invokeLoggerClient((client) => client.trackException(error));
     }
 
-    // tslint:disable-next-line: no-any
-    public trackExceptionAny(underlyingErrorData: any | Error, message: string): void {
+    public trackExceptionAny(underlyingErrorData: unknown | Error, message: string): void {
         const parsedErrorObject =
             underlyingErrorData instanceof Error ? underlyingErrorData : new Error(JSON.stringify(underlyingErrorData));
 

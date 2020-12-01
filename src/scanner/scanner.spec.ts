@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import { AIScanner, AxeScanResults } from 'accessibility-insights-scan';
@@ -15,8 +14,6 @@ import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 import { Scanner } from './scanner';
 
-// tslint:disable: no-object-literal-type-assertion no-unsafe-any
-
 describe(Scanner, () => {
     let scanner: Scanner;
     let scannerMock: IMock<AIScanner>;
@@ -27,11 +24,10 @@ describe(Scanner, () => {
     let progressReporterMock: IMock<AllProgressReporter>;
     let localFileServerMock: IMock<LocalFileServer>;
     let processStub: typeof process;
-    let exitMock: IMock<(code: number) => any>;
+    let exitMock: IMock<(code: number) => void>;
     let axeScanResults: AxeScanResults;
     const scanUrl = 'localhost';
     const baseUrl = 'base';
-    // tslint:disable-next-line:mocha-no-side-effect-code
     const axeSourcePath = path.resolve(__dirname, 'axe.js');
     const chromePath = 'chrome path';
 
@@ -43,7 +39,10 @@ describe(Scanner, () => {
         progressReporterMock = Mock.ofType(AllProgressReporter);
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         localFileServerMock = Mock.ofType(LocalFileServer);
-        exitMock = Mock.ofInstance((code: number) => undefined);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        exitMock = Mock.ofInstance((code: number) => {
+            /* noop */
+        });
         axeScanResults = {
             results: {
                 violations: [
@@ -108,7 +107,7 @@ describe(Scanner, () => {
         });
 
         it('should trackException on error', async () => {
-            const errorMessage: string = 'some err';
+            const errorMessage = 'some err';
             const error = new Error(errorMessage);
             taskConfigMock.reset();
             taskConfigMock
@@ -117,11 +116,11 @@ describe(Scanner, () => {
                     throw error;
                 });
             scannerMock.setup((sm) => sm.scan(scanUrl, undefined, axeSourcePath)).verifiable(Times.never());
-            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL ${undefined}.`)).verifiable(Times.never());
+            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL undefined.`)).verifiable(Times.never());
             loggerMock
-                .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page ${undefined}.`))
+                .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page undefined.`))
                 .verifiable(Times.once());
-            loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL ${undefined} completed.`)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL undefined completed.`)).verifiable(Times.once());
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
             progressReporterMock.setup((p) => p.completeRun(It.isAny())).verifiable(Times.never());
             progressReporterMock.setup((p) => p.failRun(util.inspect(error))).verifiable(Times.once());
@@ -134,7 +133,7 @@ describe(Scanner, () => {
         });
 
         it('should return timeout promise', async () => {
-            const errorMessage: string = `Unable to scan before timeout`;
+            const errorMessage = `Unable to scan before timeout`;
             scannerMock.setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup((em) => em(1)).verifiable(Times.once());
@@ -149,6 +148,7 @@ describe(Scanner, () => {
         function setupWaitForPromisetoReturnOriginalPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
                     return scanPromiseObj;
                 })
@@ -158,6 +158,7 @@ describe(Scanner, () => {
         function setupWaitForPromiseToReturnTimeoutPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
+                // eslint-disable-next-line @typescript-eslint/require-await
                 .returns(async (scanPromiseObj, timeout, timeoutCb) => {
                     return timeoutCb();
                 })

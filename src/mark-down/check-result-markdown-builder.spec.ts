@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import { AxeScanResults } from 'accessibility-insights-scan';
 
 import { CheckResultMarkdownBuilder } from './check-result-markdown-builder';
 
-// tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 describe(CheckResultMarkdownBuilder, () => {
     let checkResultMarkdownBuilder: CheckResultMarkdownBuilder;
     let axeScanResults: AxeScanResults;

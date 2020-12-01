@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import * as express from 'express';
-// tslint:disable-next-line:no-implicit-dependencies
 import { Express, Handler } from 'express-serve-static-core';
 import * as getPort from 'get-port';
 import { Server } from 'http';
@@ -15,18 +13,18 @@ import { LocalFileServer } from './local-file-server';
 import { Logger } from './logger/logger';
 import { TaskConfig } from './task-config';
 
-// tslint:disable: no-object-literal-type-assertion no-unsafe-any
-
 interface ExpressInterface {
     use(handler: any): ExpressInterface;
     listen(port: number): Server;
 }
 
 class MockableExpress implements ExpressInterface {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public use(handler: any): ExpressInterface {
         return undefined;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public listen(port: number): Server {
         return undefined;
     }

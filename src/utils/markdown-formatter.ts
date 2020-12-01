@@ -19,18 +19,18 @@ export const listItem = (text: string): string => {
     return `* ${text}`;
 };
 
-export const heading = (text: string, headingLevel: number) => {
+export const heading = (text: string, headingLevel: number): string => {
     return `${'#'.repeat(headingLevel)} ${text}`;
 };
 
-export const bold = (text: string) => {
+export const bold = (text: string): string => {
     return `**${text}**`;
 };
 
-export const productTitle = () => {
+export const productTitle = (): string => {
     return `${image(`${brand}`, brandLogoImg)} ${brand}`;
 };
 
-export const footerSeparator = () => `---`;
+export const footerSeparator = (): string => `---`;
 
-export const sectionSeparator = () => '\n';
+export const sectionSeparator = (): string => '\n';

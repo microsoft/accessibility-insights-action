@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// tslint:disable:no-import-side-effect no-any
 import 'reflect-metadata';
 
 import { AxeScanResults } from 'accessibility-insights-scan';
@@ -9,7 +8,6 @@ import { IMock, Mock, Times } from 'typemoq';
 import { AxeMarkdownConvertor } from './axe-markdown-convertor';
 import { CheckResultMarkdownBuilder } from './check-result-markdown-builder';
 
-// tslint:disable: no-unsafe-any no-null-keyword no-object-literal-type-assertion
 describe(AxeMarkdownConvertor, () => {
     let axeMarkdownConvertor: AxeMarkdownConvertor;
     let markdownBuilderMock: IMock<CheckResultMarkdownBuilder>;
@@ -30,7 +28,7 @@ describe(AxeMarkdownConvertor, () => {
     });
 
     describe('convert', () => {
-        it('returns congrats message when no failure found', async () => {
+        it('returns congrats message when no failure found', () => {
             markdownBuilderMock.setup((mm) => mm.congratsContent(axeScanResults)).verifiable(Times.once());
 
             axeMarkdownConvertor.convert(axeScanResults);
@@ -38,7 +36,7 @@ describe(AxeMarkdownConvertor, () => {
             markdownBuilderMock.verifyAll();
         });
 
-        it('returns failure details', async () => {
+        it('returns failure details', () => {
             axeScanResults.results = {
                 violations: [
                     {

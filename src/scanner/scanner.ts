@@ -28,6 +28,7 @@ export class Scanner {
     ) {}
 
     public async scan(): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/require-await
         await this.promiseUtils.waitFor(this.invokeScan(), 90000, async () => {
             this.logger.logError('Unable to scan before timeout');
             this.currentProcess.exit(1);
@@ -47,10 +48,8 @@ export class Scanner {
             const chromePath = this.taskConfig.getChromePath();
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
 
-            // tslint:disable-next-line: no-unsafe-any
             const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
-            // tslint:disable-next-line: no-unsafe-any
             this.reportGenerator.generateReport(axeScanResults);
 
             await this.allProgressReporter.completeRun(axeScanResults);

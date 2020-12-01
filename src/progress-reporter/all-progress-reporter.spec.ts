@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import 'reflect-metadata';
-
-import * as github from '@actions/github';
 
 import { IMock, Mock, Times } from 'typemoq';
 import { AllProgressReporter } from './all-progress-reporter';
 import { CheckRunCreator } from './check-run/check-run-creator';
 import { ProgressReporter } from './progress-reporter';
 import { PullRequestCommentCreator } from './pull-request/pull-request-comment-creator';
-
-// tslint:disable: no-object-literal-type-assertion no-empty no-any no-unsafe-any
 
 describe(AllProgressReporter, () => {
     let testSubject: AllProgressReporter;
@@ -28,7 +23,7 @@ describe(AllProgressReporter, () => {
         executeOnReporter((reporter) => {
             reporter
                 .setup((p) => p.start())
-                .returns(async () => Promise.resolve(undefined))
+                .returns(() => Promise.resolve())
                 .verifiable(Times.once());
         });
 
@@ -40,7 +35,7 @@ describe(AllProgressReporter, () => {
         executeOnReporter((reporter) => {
             reporter
                 .setup((p) => p.completeRun(axeResults))
-                .returns(async () => Promise.resolve(undefined))
+                .returns(() => Promise.resolve())
                 .verifiable(Times.once());
         });
 
@@ -52,7 +47,7 @@ describe(AllProgressReporter, () => {
         executeOnReporter((reporter) => {
             reporter
                 .setup((p) => p.failRun(error))
-                .returns(async () => Promise.resolve(undefined))
+                .returns(() => Promise.resolve())
                 .verifiable(Times.once());
         });
 
