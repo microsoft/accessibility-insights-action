@@ -65,7 +65,7 @@
         "@actions/core": "^1.2.6",
         "@actions/github": "^4.0.0",
         "@octokit/rest": "^18.0.12",
-        "accessibility-insights-report": "^2.2.1",
+        "accessibility-insights-report": "^3.1.0",
         "accessibility-insights-scan": "^0.5.1",
         "axe-core": "4.0.2",
         "express": "^4.17.1",
