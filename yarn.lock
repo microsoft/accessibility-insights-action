@@ -1474,10 +1474,10 @@ accessibility-insights-report@3.0.1, accessibility-insights-report@^2.0.0:
     react-helmet "^6.1.0"
     uuid "^8.3.0"
 
-accessibility-insights-report@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-3.1.0.tgz#53bd1923d07f078c0df29d8b8a2fcb95c96c6953"
-  integrity sha512-7NpmeArNA3sXi+uWF/VjIniiqITkYDHmm2hoK+EPsQA0sr7vHqgsiS10ZEuiMpv+Vmtcfo/bOGGmML7ojN3UFg==
+accessibility-insights-report@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.0.0.tgz#4b9d7009697500e2356eb6b704e0d845f4270ef5"
+  integrity sha512-y6vtJZ797xqJpgYRYL8EmpcAD2PXmZz0AfWkHjaUYSw5syViXyxJgJJDbUh0oeKEBDIgRW1fWJ2WSdOsePx9fA==
   dependencies:
     axe-core "4.1.1"
     classnames "^2.2.6"
@@ -1487,7 +1487,7 @@ accessibility-insights-report@^3.1.0:
     react "^16.14.0"
     react-dom "^16.14.0"
     react-helmet "^6.1.0"
-    uuid "^8.3.1"
+    uuid "^8.3.2"
 
 accessibility-insights-scan@^0.5.1:
   version "0.5.1"
@@ -7597,10 +7597,10 @@ uuid@^8.3.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.0.tgz#ab738085ca22dc9a8c92725e459b1d507df5d6ea"
   integrity sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==
 
-uuid@^8.3.1:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.1.tgz#2ba2e6ca000da60fce5a196954ab241131e05a31"
-  integrity sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg==
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@^2.0.3, v8-compile-cache@^2.2.0:
   version "2.2.0"
