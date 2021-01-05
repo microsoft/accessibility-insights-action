@@ -67,7 +67,7 @@
         "@octokit/rest": "^18.0.12",
         "accessibility-insights-report": "^2.2.1",
         "accessibility-insights-scan": "^0.5.1",
-        "axe-core": "4.0.2",
+        "axe-core": "4.1.1",
         "express": "^4.17.1",
         "filenamify-url": "^2.1.1",
         "get-port": "^5.1.1",
