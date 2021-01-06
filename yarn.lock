@@ -1476,22 +1476,7 @@ accepts@~1.3.4, accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
-accessibility-insights-report@4.0.0, accessibility-insights-report@^2.0.0:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-2.2.1.tgz#a3dad84b9c3dc9b346a6dd234d49ad0047bd4aa6"
-  integrity sha512-+/nQY8MF5bB6Jg6MEQkIeTn6m+KdrShpqEr8FC6yD0wf2D13MEsDMHSSb5u31sd0ZpWwtYbLmH34bK2aIa0xzg==
-  dependencies:
-    axe-core "4.0.2"
-    classnames "^2.2.6"
-    lodash "^4.17.20"
-    luxon "^1.25.0"
-    office-ui-fabric-react "7.98.0"
-    react "^16.13.1"
-    react-dom "^16.13.1"
-    react-helmet "^6.1.0"
-    uuid "^8.3.0"
-
-accessibility-insights-report@^4.0.0:
+accessibility-insights-report@4.0.0, accessibility-insights-report@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.0.0.tgz#4b9d7009697500e2356eb6b704e0d845f4270ef5"
   integrity sha512-y6vtJZ797xqJpgYRYL8EmpcAD2PXmZz0AfWkHjaUYSw5syViXyxJgJJDbUh0oeKEBDIgRW1fWJ2WSdOsePx9fA==
@@ -1852,11 +1837,6 @@ aws4@^1.8.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.9.1.tgz#7e33d8f7d449b3f673cd72deb9abdc552dbe528e"
   integrity sha512-wMHVg2EOHaMRxbzgFJ9gtjOOCrI80OHLG14rxi28XwOW8ux6IiEbRCGGGqCtdAIg4FQCbW20k9RsT4y3gJlFug==
-
-axe-core@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.0.2.tgz#c7cf7378378a51fcd272d3c09668002a4990b1cb"
-  integrity sha512-arU1h31OGFu+LPrOLGZ7nB45v940NMDMEJeNmbutu57P+UFDVnkZg3e+J1I2HJRZ9hT7gO8J91dn/PMrAiKakA==
 
 axe-core@4.1.1, axe-core@^4.1.1:
   version "4.1.1"
@@ -6238,16 +6218,6 @@ raw-body@^2.4.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-dom@^16.13.1:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
-  integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
-
 react-dom@^16.14.0:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
@@ -6287,15 +6257,6 @@ react-side-effect@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.0.tgz#1ce4a8b4445168c487ed24dab886421f74d380d3"
   integrity sha512-IgmcegOSi5SNX+2Snh1vqmF0Vg/CbkycU9XZbOHJlZ6kMzTmi3yc254oB1WCkgA7OQtIAoLmcSFuHTc/tlcqXg==
-
-react@^16.13.1:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
-  integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
 
 react@^16.14.0:
   version "16.14.0"
