@@ -2,6 +2,7 @@
 # Licensed under the MIT License.
 
 node_modules/
+!/dist/node_modules/
 drop/
 test-results/
 out/
