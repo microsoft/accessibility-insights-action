@@ -5986,7 +5986,7 @@ SOFTWARE.
 
 ---------------------------------------------------------
 
-axios 0.19.2 - MIT
+axios 0.21.1 - MIT
 https://github.com/axios/axios
 
 Copyright (c) 2014-present Matt Zabriskie
@@ -8708,7 +8708,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---------------------------------------------------------
 
-follow-redirects 1.5.10 - MIT
+follow-redirects 1.13.1 - MIT
 https://github.com/follow-redirects/follow-redirects
 
 Copyright 2014-present Olivier Lalonde <olalonde@gmail.com> , James Talmage <james@talmage.io> , Ruben Verborgh
