@@ -3,7 +3,6 @@
 import 'reflect-metadata';
 
 import { AIScanner, AxeScanResults } from 'accessibility-insights-scan';
-import * as path from 'path';
 import { IMock, It, Mock, Times } from 'typemoq';
 import * as util from 'util';
 import { LocalFileServer } from '../local-file-server';
@@ -28,7 +27,7 @@ describe(Scanner, () => {
     let axeScanResults: AxeScanResults;
     const scanUrl = 'localhost';
     const baseUrl = 'base';
-    const axeSourcePath = path.resolve(__dirname, 'axe.js');
+    const axeSourcePath = require.resolve('axe-core/axe.min.js');
     const chromePath = 'chrome path';
 
     beforeEach(() => {

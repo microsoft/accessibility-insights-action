@@ -16,6 +16,10 @@ module.exports = (env) => {
         entry: {
             ['index']: path.resolve('./src/index.ts'),
         },
+        // We special case MPL-licensed deps because we want to avoid including their source in
+        // the same file as non-MPL code. Note that each entry here should have a corresponding
+        // entry in copyWebpackPlugin config to copy the non-bundled forms to /dist.
+        externals: ['axe-core', '@axe-core/puppeteer'],
         mode: 'development',
         module: {
             rules: [
@@ -51,11 +55,8 @@ module.exports = (env) => {
             new CaseSensitivePathsPlugin(),
             new copyWebpackPlugin({
                 patterns: [
-                    {
-                        context: './',
-                        from: 'node_modules/axe-core/axe.min.js',
-                        to: 'axe.js',
-                    },
+                    `node_modules/axe-core/*`, // we only use the root-level axe.min.js and the package metadata/LICENSE stuff
+                    `node_modules/@axe-core/puppeteer/**/*`,
                 ],
             }),
         ],

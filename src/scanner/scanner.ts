@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import * as path from 'path';
 import * as url from 'url';
 import * as util from 'util';
 
@@ -46,7 +45,7 @@ export class Scanner {
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
 
             const chromePath = this.taskConfig.getChromePath();
-            const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
+            const axeCoreSourcePath = require.resolve('axe-core/axe.min.js');
 
             const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
