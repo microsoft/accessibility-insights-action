@@ -6,7 +6,7 @@ module.exports = {
     displayName: 'unit tests',
     globals: {
         'ts-jest': {
-            tsConfig: '<rootDir>/tsconfig.json',
+            tsconfig: '<rootDir>/tsconfig.json',
         },
     },
     moduleDirectories: ['node_modules'],
