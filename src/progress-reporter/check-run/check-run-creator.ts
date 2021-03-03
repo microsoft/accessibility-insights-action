@@ -54,8 +54,7 @@ export class CheckRunCreator implements ProgressReporter {
             head_sha: isNil(this.githubObj.context.payload.pull_request)
                 ? this.githubObj.context.sha
                 : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
-        })) as // The "as" is only necessary until https://github.com/octokit/rest.js/issues/2000 is resolved
-        CreateCheckResponse).data;
+        })) as CreateCheckResponse).data; // The "as" is only necessary until https://github.com/octokit/rest.js/issues/2000 is resolved
     }
 
     public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
