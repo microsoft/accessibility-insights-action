@@ -13,8 +13,25 @@ import { Logger } from '../../logger/logger';
 import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { ProgressReporter } from '../progress-reporter';
 
-type UpdateCheckOutputParameter = RestEndpointMethodTypes['checks']['update']['parameters']['output'];
-type CreateCheckResponseData = RestEndpointMethodTypes['checks']['create']['response']['data'];
+// Pulling these types from RestEndpointMethodTypes would be better, but we can't do so until
+// https://github.com/octokit/rest.js/issues/2000 is resolved. The better versions would be:
+//
+// type UpdateCheckOutputParameter = RestEndpointMethodTypes['checks']['update']['parameters']['output'];
+// type CreateCheckResponseData = RestEndpointMethodTypes['checks']['create']['response']['data'];
+//
+// In the meantime, we have these temporary types (these are not complete type descriptions of the GitHub
+// APIs, just the subsets we use).
+type CreateCheckResponseData = {
+    id: number,
+};
+type CreateCheckResponse = {
+    data: CreateCheckResponseData,
+};
+type UpdateCheckOutputParameter = {
+    title?: string;
+    summary: string;
+    text?: string;
+};
 
 @injectable()
 export class CheckRunCreator implements ProgressReporter {
@@ -29,7 +46,7 @@ export class CheckRunCreator implements ProgressReporter {
 
     public async start(): Promise<void> {
         this.logMessage('Creating check run with status as in_progress');
-        this.a11yCheck = (
+        this.a11yCheck = ((
             await this.octokit.checks.create({
                 owner: this.githubObj.context.repo.owner,
                 repo: this.githubObj.context.repo.repo,
@@ -39,7 +56,8 @@ export class CheckRunCreator implements ProgressReporter {
                     ? this.githubObj.context.sha
                     : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
             })
-        ).data;
+        // The "as" is only necessary until https://github.com/octokit/rest.js/issues/2000 is resolved
+        ) as CreateCheckResponse).data;
     }
 
     public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
