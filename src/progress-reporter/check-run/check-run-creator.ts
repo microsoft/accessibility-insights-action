@@ -22,10 +22,10 @@ import { ProgressReporter } from '../progress-reporter';
 // In the meantime, we have these temporary types (these are not complete type descriptions of the GitHub
 // APIs, just the subsets we use).
 type CreateCheckResponseData = {
-    id: number,
+    id: number;
 };
 type CreateCheckResponse = {
-    data: CreateCheckResponseData,
+    data: CreateCheckResponseData;
 };
 type UpdateCheckOutputParameter = {
     title?: string;
@@ -46,18 +46,16 @@ export class CheckRunCreator implements ProgressReporter {
 
     public async start(): Promise<void> {
         this.logMessage('Creating check run with status as in_progress');
-        this.a11yCheck = ((
-            await this.octokit.checks.create({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                name: checkRunName,
-                status: 'in_progress',
-                head_sha: isNil(this.githubObj.context.payload.pull_request)
-                    ? this.githubObj.context.sha
-                    : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
-            })
-        // The "as" is only necessary until https://github.com/octokit/rest.js/issues/2000 is resolved
-        ) as CreateCheckResponse).data;
+        this.a11yCheck = ((await this.octokit.checks.create({
+            owner: this.githubObj.context.repo.owner,
+            repo: this.githubObj.context.repo.repo,
+            name: checkRunName,
+            status: 'in_progress',
+            head_sha: isNil(this.githubObj.context.payload.pull_request)
+                ? this.githubObj.context.sha
+                : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
+        })) as // The "as" is only necessary until https://github.com/octokit/rest.js/issues/2000 is resolved
+        CreateCheckResponse).data;
     }
 
     public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
