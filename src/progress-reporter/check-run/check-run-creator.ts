@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import * as github from '@actions/github';
-import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
+import { Octokit } from '@octokit/rest';
 import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 
