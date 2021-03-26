@@ -64,7 +64,7 @@
     "dependencies": {
         "@actions/core": "^1.2.6",
         "@actions/github": "^4.0.0",
-        "@octokit/rest": "^18.4.0",
+        "@octokit/rest": "^18.5.0",
         "accessibility-insights-report": "^4.0.1",
         "accessibility-insights-scan": "^0.6.0",
         "axe-core": "4.1.1",
