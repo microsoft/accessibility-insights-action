@@ -19,8 +19,8 @@ Accessibility Insights Action helps integrate automated accessibility tests in G
 
 To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
 
-* `microsoft/accessibility-insights-action@v1` is updated with each `v1.x.y` release to refer to the most recent API-compatible version.
-* `microsoft/accessibility-insights-action@v1.0.0` refers to the exact version `v1.0.0`; use this to pin to a specific version.
+-   `microsoft/accessibility-insights-action@v1` is updated with each `v1.x.y` release to refer to the most recent API-compatible version.
+-   `microsoft/accessibility-insights-action@v1.0.0` refers to the exact version `v1.0.0`; use this to pin to a specific version.
 
 Avoid refering to `@main` directly; it may contain undocumented breaking changes.
 
