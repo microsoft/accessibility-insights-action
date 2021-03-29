@@ -15,7 +15,16 @@ Accessibility Insights Action helps integrate automated accessibility tests in G
 
 **This repo does not assume any responsibility for supporting issues that might be caused due to its use at this point in time.**
 
-# Contributing
+## Usage
+
+To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
+
+-   `microsoft/accessibility-insights-action@v1` is updated with each `v1.x.y` release to refer to the most recent API-compatible version.
+-   `microsoft/accessibility-insights-action@v1.0.0` refers to the exact version `v1.0.0`; use this to pin to a specific version.
+
+Avoid refering to `@main` directly; it may contain undocumented breaking changes.
+
+## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
@@ -28,3 +37,5 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details.
