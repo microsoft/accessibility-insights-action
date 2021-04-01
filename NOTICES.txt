@@ -13526,7 +13526,7 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ---------------------------------------------------------
 
-underscore 1.11.0 - MIT
+underscore 1.12.1 - MIT
 https://underscorejs.org/
 
 
