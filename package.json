@@ -38,7 +38,7 @@
         "@types/puppeteer-core": "^5.4.0",
         "@types/serve-static": "^1.13.9",
         "@types/verror": "^1.10.4",
-        "@typescript-eslint/eslint-plugin": "^4.20.0",
+        "@typescript-eslint/eslint-plugin": "^4.21.0",
         "@typescript-eslint/parser": "^4.21.0",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
         "copy-webpack-plugin": "^6.3.2",
