@@ -62,7 +62,7 @@
         "webpack-cli": "^4.6.0"
     },
     "dependencies": {
-        "@actions/core": "^1.2.6",
+        "@actions/core": "^1.2.7",
         "@actions/github": "^4.0.0",
         "@octokit/rest": "^18.5.2",
         "accessibility-insights-report": "^4.0.1",
