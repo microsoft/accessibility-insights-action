@@ -43,8 +43,8 @@ jobs:
       with:
         author_name: Your Name
         author_email: mail@example.com
-        message: 'Your commit message'
-        add: 'node_modules/accepts --force'
+        message: 'Check in external node_modules & dist folder'
+        add: ['node_modules/accepts --force', 'node_modules/abab --force']
 
   
   
