@@ -32,8 +32,8 @@ jobs:
     # - name: Check code formatting
     #   run: yarn format:check
     
-    # - name: Build
-    #   run: yarn cbuild
+    - name: Build
+      run: yarn cbuild
     
     # - name: Check for lint errors
     #   run: yarn lint:check
@@ -45,9 +45,6 @@ jobs:
         author_email: mail@example.com
         message: 'Check in external node_modules & dist folder'
         add: 'node_modules/accepts node_modules/abab dist/ --force'
-
-    - name: Build
-      run: yarn cbuild
 
   
   
