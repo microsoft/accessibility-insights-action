@@ -44,7 +44,7 @@ jobs:
         author_name: Your Name
         author_email: mail@example.com
         message: 'Your commit message'
-        add: 'node_modules/accepts'
+        add: 'node_modules/accepts --force'
 
   
   
