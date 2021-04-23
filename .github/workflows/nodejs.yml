@@ -26,17 +26,26 @@ jobs:
     - name: Install dependencies
       run: yarn install --frozen-lockfile
       
-    - name: Check copyright headers
-      run: yarn copyright:check
+    # - name: Check copyright headers
+    #   run: yarn copyright:check
     
-    - name: Check code formatting
-      run: yarn format:check
+    # - name: Check code formatting
+    #   run: yarn format:check
     
-    - name: Build
-      run: yarn cbuild
+    # - name: Build
+    #   run: yarn cbuild
     
-    - name: Check for lint errors
-      run: yarn lint:check
+    # - name: Check for lint errors
+    #   run: yarn lint:check
+
+    - name: Add & Commit
+      uses: EndBug/add-and-commit@v7.2.0
+      with:
+        author_name: Your Name
+        author_email: mail@example.com
+        message: 'Your commit message'
+        add: 'node_modules/accepts'
+
   
   
   test:
