@@ -50,7 +50,7 @@ jobs:
         message: 'Check in external node_modules & dist folder'
         pull_strategy: '--rebase'
         add: 'node_modules/ dist/ --force'
-        remove: 'node_modules/puppeteer/.local-chromium'
+        remove: 'node_modules/puppeteer/.local-chromium --force'
 
   
   
