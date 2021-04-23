@@ -39,13 +39,18 @@ jobs:
       run: yarn lint:check
 
     - name: Generate package.json for externals packages only
-      run: node create-package-json-for-externals.js 
+      run: node create-package-json-for-externals.js
+
+    - name: Install external dependencies
+      run: yarn install --frozen-lockfile
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v7.2.0
       with:
         message: 'Check in external node_modules & dist folder'
-        add: 'dist/ --force'
+        pull_strategy: '--rebase'
+        add: 'node_modules/ dist/ --force'
+        remove: 'node_modules/puppeteer/.local-chromium'
 
   
   

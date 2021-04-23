@@ -25,8 +25,6 @@ const newPackageJson = {
     devDependencies: undefined,
 };
 
-console.log(JSON.stringify(newPackageJson, undefined, 4));
-
 fs.rmdirSync('./node_modules', { recursive: true });
 fs.rmdirSync('./package.json', { recursive: true });
 fs.writeFileSync('./package.json', JSON.stringify(newPackageJson, undefined, 4));
