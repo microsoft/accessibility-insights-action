@@ -44,7 +44,7 @@ jobs:
         author_name: Your Name
         author_email: mail@example.com
         message: 'Check in external node_modules & dist folder'
-        add: 'node_modules/accepts --force'
+        add: 'node_modules/accepts node_modules/abab --force'
 
     - name: Build
       run: yarn cbuild
