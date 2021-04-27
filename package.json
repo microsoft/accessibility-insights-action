@@ -10,14 +10,15 @@
         "clean": "rimraf dist test-results",
         "format:check": "prettier --check \"**/*\"",
         "format:fix": "prettier --write \"**/*\"",
-        "lint:check": "eslint src/**/*.{js,ts}",
-        "lint:fix": "eslint src/**/*.{js,ts} --quiet --fix",
+        "lint:check": "eslint \"src/**/*.{js,ts}\"",
+        "lint:fix": "eslint \"src/**/*.{js,ts}\" --quiet --fix",
         "copyright:check": "license-check-and-add check -f ./license-check-and-add-config.json",
         "copyright:fix": "license-check-and-add add -f ./license-check-and-add-config.json",
         "test": "jest",
         "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test",
         "watch:test": "jest --watch",
-        "publish-code-coverage": "npx codecov"
+        "publish-code-coverage": "npx codecov",
+        "act": "rimraf ./accessibility-insights-action/dist && mkdir -p ./accessibility-insights-action/ && cp -r ./dist ./accessibility-insights-action/dist && act -W \"./dev/github/workflows/\" -b"
     },
     "repository": {
         "type": "git",

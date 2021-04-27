@@ -6,6 +6,7 @@ node_modules/
 drop/
 test-results/
 out/
+accessibility-insights-action/
 
 **/.secrets
 **/dev.DockerFile
