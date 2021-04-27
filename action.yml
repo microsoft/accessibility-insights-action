@@ -21,6 +21,9 @@ inputs:
     repo-token:
         description: 'github token'
         required: true
+    url:
+        description: 'remote site url'
+        required: false
 runs:
     using: 'node12'
     main: 'dist/index.js'

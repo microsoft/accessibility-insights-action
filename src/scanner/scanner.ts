@@ -40,8 +40,15 @@ export class Scanner {
 
         try {
             await this.allProgressReporter.start();
-            const baseUrl = await this.fileServer.start();
-            scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
+
+            const remoteUrl: string = this.taskConfig.getUrl();
+            if(remoteUrl) {
+                scanUrl = remoteUrl;
+            }
+            else {
+                const baseUrl = await this.fileServer.start();
+                scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
+            }
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
 
