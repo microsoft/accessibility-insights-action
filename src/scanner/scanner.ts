@@ -42,10 +42,9 @@ export class Scanner {
             await this.allProgressReporter.start();
 
             const remoteUrl: string = this.taskConfig.getUrl();
-            if(remoteUrl) {
+            if (remoteUrl) {
                 scanUrl = remoteUrl;
-            }
-            else {
+            } else {
                 const baseUrl = await this.fileServer.start();
                 scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
             }
