@@ -70,6 +70,7 @@
         "accessibility-insights-report": "^4.0.1",
         "accessibility-insights-scan": "^0.7.0",
         "axe-core": "4.1.1",
+        "@axe-core/puppeteer": "4.1.1",
         "express": "^4.17.1",
         "filenamify-url": "^2.1.1",
         "get-port": "^5.1.1",
