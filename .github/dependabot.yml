@@ -1,0 +1,57 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "13:00"
+  labels:
+  - "category: engineering"
+  - dependencies
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: axe-core
+    versions:
+    - ">= 0"
+  - dependency-name: webpack
+    versions:
+    - 5.24.1
+    - 5.25.1
+    - 5.26.0
+    - 5.28.0
+    - 5.30.0
+    - 5.31.0
+    - 5.31.2
+    - 5.32.0
+    - 5.33.2
+    - 5.34.0
+    - 5.35.0
+    - 5.35.1
+    - 5.36.0
+  - dependency-name: ts-loader
+    versions:
+    - 9.0.0
+    - 9.0.2
+    - 9.1.0
+    - 9.1.1
+  - dependency-name: puppeteer-core
+    versions:
+    - 6.0.0
+    - 7.0.0
+    - 7.0.1
+    - 7.0.4
+    - 7.1.0
+    - 8.0.0
+    - 9.0.0
+  - dependency-name: "@octokit/rest"
+    versions:
+    - 18.0.15
+    - 18.1.0
+    - 18.1.1
+    - 18.2.0
+    - 18.2.1
+    - 18.3.0
+    - 18.3.1
+  commit-message:
+    prefix: chore
+    include: scope
