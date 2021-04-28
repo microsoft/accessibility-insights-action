@@ -24,7 +24,7 @@ inputs:
 runs:
     using: 'composite'
     steps:
-        - run: cd dist && npm install
+        - run: set && ls #npm install
           shell: bash
         - run: |
             if [[ $ACT == true ]]; then
