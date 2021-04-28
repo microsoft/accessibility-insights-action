@@ -22,5 +22,19 @@ inputs:
         description: 'github token'
         required: true
 runs:
-    using: 'node12'
-    main: 'dist/index.js'
+    using: 'composite'
+    steps:
+        - run: cd dist && npm install
+          shell: bash
+        - run: |
+            if [[ $ACT == true ]]; then
+              apt-get update \
+              && apt-get install -y curl gnupg \
+              && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+              && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+              && apt-get install -y ./google-chrome-stable_current_amd64.deb \
+              && rm ./google-chrome-stable_current_amd64.deb
+            fi
+          shell: bash
+        - run: node ./dist/index.js
+          shell: bash

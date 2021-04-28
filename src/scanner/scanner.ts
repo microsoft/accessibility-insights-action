@@ -4,12 +4,12 @@ import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
 import * as url from 'url';
-import * as util from 'util';
+// import * as util from 'util';
 
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
-import { AllProgressReporter } from '../progress-reporter/all-progress-reporter';
+// import { AllProgressReporter } from '../progress-reporter/all-progress-reporter';
 import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
@@ -21,7 +21,7 @@ export class Scanner {
         @inject(AIScanner) private readonly scanner: AIScanner,
         @inject(ReportGenerator) private readonly reportGenerator: ReportGenerator,
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
-        @inject(AllProgressReporter) private readonly allProgressReporter: AllProgressReporter,
+        // @inject(AllProgressReporter) private readonly allProgressReporter: AllProgressReporter,
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
@@ -39,7 +39,7 @@ export class Scanner {
         let scanUrl: string;
 
         try {
-            await this.allProgressReporter.start();
+            // await this.allProgressReporter.start();
             const baseUrl = await this.fileServer.start();
             scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
 
@@ -53,10 +53,10 @@ export class Scanner {
 
             this.reportGenerator.generateReport(axeScanResults);
 
-            await this.allProgressReporter.completeRun(axeScanResults);
+            // await this.allProgressReporter.completeRun(axeScanResults);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
-            await this.allProgressReporter.failRun(util.inspect(error));
+            // await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
