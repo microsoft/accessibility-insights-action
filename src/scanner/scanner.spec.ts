@@ -26,7 +26,7 @@ describe(Scanner, () => {
     let processStub: typeof process;
     let exitMock: IMock<(code: number) => void>;
     let axeScanResults: AxeScanResults;
-    const scanUrl = 'localhost';
+    let scanUrl: string;
     const baseUrl = 'base';
     const axeSourcePath = path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.min.js');
     const chromePath = 'chrome path';
@@ -53,6 +53,7 @@ describe(Scanner, () => {
                 ],
             },
         } as AxeScanResults;
+        scanUrl = 'localhost';
         processStub = {
             exit: exitMock.object,
         } as typeof process;
@@ -67,10 +68,6 @@ describe(Scanner, () => {
             processStub,
         );
 
-        taskConfigMock
-            .setup((tm) => tm.getScanUrlRelativePath())
-            .returns(() => scanUrl)
-            .verifiable();
         taskConfigMock
             .setup((tcm) => tcm.getChromePath())
             .returns(() => chromePath)
@@ -88,6 +85,10 @@ describe(Scanner, () => {
 
     describe('scan', () => {
         it('should log info and create/complete check run', async () => {
+            taskConfigMock
+                .setup((tm) => tm.getScanUrlRelativePath())
+                .returns(() => scanUrl)
+                .verifiable();
             scannerMock
                 .setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath))
                 .returns(async () => {
@@ -134,11 +135,42 @@ describe(Scanner, () => {
 
         it('should return timeout promise', async () => {
             const errorMessage = `Unable to scan before timeout`;
+            taskConfigMock
+                .setup((tm) => tm.getScanUrlRelativePath())
+                .returns(() => scanUrl)
+                .verifiable();
             scannerMock.setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup((em) => em(1)).verifiable(Times.once());
 
             setupWaitForPromiseToReturnTimeoutPromise();
+
+            await scanner.scan();
+
+            verifyMocks();
+        });
+
+        it('should scan a remote url when it is specified', async () => {
+            scanUrl = 'remote-url';
+            taskConfigMock
+                .setup((tm) => tm.getUrl())
+                .returns(() => scanUrl)
+                .verifiable();
+            taskConfigMock.setup((tm) => tm.getScanUrlRelativePath()).verifiable(Times.never());
+            localFileServerMock.reset();
+            localFileServerMock.setup(async (lfs) => lfs.start()).verifiable(Times.never());
+            scannerMock
+                .setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath))
+                .returns(async () => {
+                    return Promise.resolve(axeScanResults);
+                })
+                .verifiable(Times.once());
+            reportGeneratorMock.setup((rgm) => rgm.generateReport(axeScanResults)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
+            progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
+            progressReporterMock.setup((p) => p.completeRun(axeScanResults)).verifiable(Times.once());
+            setupWaitForPromisetoReturnOriginalPromise();
 
             await scanner.scan();
 
