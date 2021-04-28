@@ -19,7 +19,7 @@ module.exports = (env) => {
         // We special case MPL-licensed deps because we want to avoid including their source in
         // the same file as non-MPL code. Note that each entry here should have a corresponding
         // entry in copyWebpackPlugin config to copy the non-bundled forms to /dist.
-        externals: ['axe-core', '@axe-core/puppeteer'],
+        externals: ['apify', 'leveldown'],
         mode: 'development',
         module: {
             rules: [
