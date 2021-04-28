@@ -37,6 +37,10 @@ export class TaskConfig {
         return chromePath;
     }
 
+    public getUrl(): string {
+        return this.actionCoreObj.getInput('url');
+    }
+
     public getRunId(): number {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
     }

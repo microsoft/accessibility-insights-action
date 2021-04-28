@@ -104,6 +104,19 @@ describe(TaskConfig, () => {
         actionCoreMock.verifyAll();
     });
 
+    it('getUrl', () => {
+        const remoteUrl = 'remote-url';
+        actionCoreMock
+            .setup((am) => am.getInput('url'))
+            .returns(() => remoteUrl)
+            .verifiable(Times.once());
+
+        const res = taskConfig.getUrl();
+
+        expect(res).toBe(remoteUrl);
+        actionCoreMock.verifyAll();
+    });
+
     it('getRunId', () => {
         const res = taskConfig.getRunId();
 
