@@ -24,7 +24,7 @@ inputs:
 runs:
     using: 'composite'
     steps:
-        - run: ls ${{ github.action_path }} #npm install
+        - run: npm --prefix ${{ github.action_path }}/dist install
           shell: bash
         - run: |
             if [[ $ACT == true ]]; then
@@ -36,5 +36,5 @@ runs:
               && rm ./google-chrome-stable_current_amd64.deb
             fi
           shell: bash
-        - run: node ./dist/index.js
+        - run: node ${{ github.action_path }}/dist/index.js
           shell: bash

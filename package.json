@@ -18,7 +18,9 @@
         "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test",
         "watch:test": "jest --watch",
         "publish-code-coverage": "npx codecov",
-        "act": "act -W \"./dev/github/workflows/\" -b -r --env CHROME_BIN=/usr/bin/google-chrome-stable"
+        "deploy": "rimraf ./accessibility-insights-action/dist && mkdir -p ./accessibility-insights-action/ && cp -r ./dist ./accessibility-insights-action/dist || xcopy ./dist ./accessibility-insights-action/dist /s /e /r /y /q",
+        "act": "act -W \"./dev/github/workflows/\" -b -r --env CHROME_BIN=/usr/bin/google-chrome-stable",
+        "cact": "npm-run-all --serial deploy act"
     },
     "repository": {
         "type": "git",

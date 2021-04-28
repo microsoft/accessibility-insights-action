@@ -5,6 +5,8 @@
 drop/
 test-results/
 out/
+accessibility-insights-action/
+_accessibility-reports/
 
 **/.secrets
 **/dev.DockerFile
