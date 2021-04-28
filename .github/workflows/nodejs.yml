@@ -30,6 +30,7 @@ jobs:
         default_author: github_actions
         message: 'Remove external node_modules & dist folder'
         remove: 'node_modules/ -r'
+        add: ''
     
     - name: Install dependencies
       run: yarn install --frozen-lockfile
