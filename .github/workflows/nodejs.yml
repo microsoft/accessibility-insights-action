@@ -15,6 +15,7 @@ jobs:
   build:
     name: Clean dist & node modules folders
     runs-on: ubuntu-latest
+    steps:
     - name: Remove & Commit generated files
       uses: EndBug/add-and-commit@v7.2.0
       with:
