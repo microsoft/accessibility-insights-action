@@ -84,22 +84,29 @@ describe(Scanner, () => {
     });
 
     describe('scan', () => {
-        it('should log info and create/complete check run', async () => {
+        it('should log info and create/complete check run for local URL', async () => {
             taskConfigMock
                 .setup((tm) => tm.getScanUrlRelativePath())
                 .returns(() => scanUrl)
                 .verifiable();
-            scannerMock
-                .setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath))
-                .returns(async () => {
-                    return Promise.resolve(axeScanResults);
-                })
-                .verifiable(Times.once());
-            reportGeneratorMock.setup((rgm) => rgm.generateReport(axeScanResults)).verifiable(Times.once());
-            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`)).verifiable(Times.once());
-            loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
-            progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
-            progressReporterMock.setup((p) => p.completeRun(axeScanResults)).verifiable(Times.once());
+            setupMocksForSuccessfulScan();
+            setupWaitForPromisetoReturnOriginalPromise();
+
+            await scanner.scan();
+
+            verifyMocks();
+        });
+
+        it('should log info and create/complete check run for remote URL when it is specified', async () => {
+            scanUrl = 'remote-url';
+            taskConfigMock
+                .setup((tm) => tm.getUrl())
+                .returns(() => scanUrl)
+                .verifiable();
+            taskConfigMock.setup((tm) => tm.getScanUrlRelativePath()).verifiable(Times.never());
+            localFileServerMock.reset();
+            localFileServerMock.setup(async (lfs) => lfs.start()).verifiable(Times.never());
+            setupMocksForSuccessfulScan();
             setupWaitForPromisetoReturnOriginalPromise();
 
             await scanner.scan();
@@ -150,15 +157,7 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
-        it('should scan a remote url when it is specified', async () => {
-            scanUrl = 'remote-url';
-            taskConfigMock
-                .setup((tm) => tm.getUrl())
-                .returns(() => scanUrl)
-                .verifiable();
-            taskConfigMock.setup((tm) => tm.getScanUrlRelativePath()).verifiable(Times.never());
-            localFileServerMock.reset();
-            localFileServerMock.setup(async (lfs) => lfs.start()).verifiable(Times.never());
+        function setupMocksForSuccessfulScan(): void {
             scannerMock
                 .setup((sm) => sm.scan(scanUrl, chromePath, axeSourcePath))
                 .returns(async () => {
@@ -170,12 +169,7 @@ describe(Scanner, () => {
             loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`)).verifiable(Times.once());
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
             progressReporterMock.setup((p) => p.completeRun(axeScanResults)).verifiable(Times.once());
-            setupWaitForPromisetoReturnOriginalPromise();
-
-            await scanner.scan();
-
-            verifyMocks();
-        });
+        }
 
         function setupWaitForPromisetoReturnOriginalPromise(): void {
             promiseUtilsMock
