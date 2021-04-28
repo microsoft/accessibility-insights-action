@@ -12,7 +12,9 @@ on:
       - '**'
 
 jobs:
-  clean:
+  build:
+    name: Clean dist & node modules folders
+    runs-on: ubuntu-latest
     - name: Remove & Commit generated files
       uses: EndBug/add-and-commit@v7.2.0
       with:
@@ -20,7 +22,6 @@ jobs:
         message: 'Remove node_modules & dist folders'
         remove: 'node_modules/ dist/ -r --force'
 
-  build:
     name: Build & check code styling
     runs-on: ubuntu-latest
     steps:
