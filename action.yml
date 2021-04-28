@@ -24,7 +24,7 @@ inputs:
 runs:
     using: 'composite'
     steps:
-        - run: set && ls #npm install
+        - run: ls ${{ github.action_path }} #npm install
           shell: bash
         - run: |
             if [[ $ACT == true ]]; then
