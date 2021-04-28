@@ -13,16 +13,6 @@ on:
 
 jobs:
   build:
-    name: Clean dist & node modules folders
-    runs-on: ubuntu-latest
-    steps:
-    - name: Remove & Commit generated files
-      uses: EndBug/add-and-commit@v7.2.0
-      with:
-        default_author: github_actions
-        message: 'Remove node_modules & dist folders'
-        remove: 'node_modules/ dist/ -r --force'
-
     name: Build & check code styling
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +23,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-        
+    
+    - name: Remove & Commit generated files
+      uses: EndBug/add-and-commit@v7.2.0
+      with:
+        default_author: github_actions
+        message: 'Remove node_modules & dist folders'
+        remove: 'node_modules/ dist/ -r --force'
+      
     - name: Install dependencies
       run: yarn install --frozen-lockfile
       
