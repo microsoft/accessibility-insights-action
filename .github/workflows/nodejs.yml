@@ -31,7 +31,7 @@ jobs:
         message: 'Check in external node_modules & dist folder'
         remove: 'node_modules/ dist/ -r --force'
     
-        - name: Install dependencies
+    - name: Install dependencies
       run: yarn install --frozen-lockfile
       
     - name: Check copyright headers
