@@ -1,40 +1,41 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
+
 name: 'Accessibility Insights Action'
 description: 'Task to scan for accessibility issues'
 inputs:
-    output-dir:
-        description: 'folder containing the generated report'
-        default: '_accessibility-reports'
-        required: true
-    site-dir:
-        description: 'folder containing site content'
-        default: ${{ github.workspace }}
-        required: true
-    scan-url-relative-path:
-        description: 'relative path from url domain. Eg: /index.html'
-        required: true
-        default: '/'
-    chrome-path:
-        description: 'path to chrome executable'
-        required: false
-    repo-token:
-        description: 'github token'
-        required: true
+  output-dir:
+    description: 'folder containing the generated    scan report'
+    default: '_accessibility-reports'
+    required: true
+  site-dir:
+    description: 'folder containing website content'
+    default: ${{ github.workspace }}
+    required: true
+  scan-url-relative-path:
+    description: 'relative path from URL domain. Eg: /index.html'
+    required: true
+    default: '/'
+  chrome-path:
+    description: 'path to Chrome executable'
+    required: false
+  repo-token:
+    description: 'GitHub access token'
+    required: true
 runs:
-    using: 'composite'
-    steps:
-        - run: npm --prefix ${{ github.action_path }}/dist install
-          shell: bash
-        - run: |
-            if [[ $ACT == true ]]; then
-              apt-get update \
-              && apt-get install -y curl gnupg \
-              && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-              && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-              && apt-get install -y ./google-chrome-stable_current_amd64.deb \
-              && rm ./google-chrome-stable_current_amd64.deb
-            fi
-          shell: bash
-        - run: node ${{ github.action_path }}/dist/index.js
-          shell: bash
+  using: 'composite'
+  steps:
+    - run: npm --prefix ${{ github.action_path }}/dist install
+      shell: bash
+    - run: |
+        if [[ $ACT == true ]]; then
+          apt-get update \
+          && apt-get install -y curl gnupg \
+          && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+          && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+          && apt-get install -y ./google-chrome-stable_current_amd64.deb \
+          && rm ./google-chrome-stable_current_amd64.deb
+        fi
+      shell: bash
+    - run: node ${{ github.action_path }}/dist/index.js
+      shell: bash
