@@ -24,12 +24,12 @@ jobs:
       with:
         node-version: 12.x
     
-    - name: Remove & Commit generated files
-      uses: EndBug/add-and-commit@v7.2.0
-      with:
-        default_author: github_actions
-        message: 'Remove external node_modules & dist folder'
-        remove: 'node_modules/ dist/ -r'
+    # - name: Remove & Commit generated files
+    #   uses: EndBug/add-and-commit@v7.2.0
+    #   with:
+    #     default_author: github_actions
+    #     message: 'Remove external node_modules & dist folder'
+    #     remove: 'node_modules/ dist/ -r'
     
     - name: Install dependencies
       run: yarn install --frozen-lockfile
@@ -58,6 +58,7 @@ jobs:
         default_author: github_actions
         message: 'Add external node_modules & dist folder'
         add: 'node_modules/ dist/ --force'
+        remove: 'node_modules/puppeteer/.local-chromium -r'
     
   
   
