@@ -27,21 +27,28 @@ runs:
   steps:
     - run: npm --prefix ${{ github.action_path }}/dist install
       shell: bash
+    #- run: |
+    #    if [[ $ACT == true ]]; then
+    #      apt-get update \
+    #      && apt-get install -y curl gnupg \
+    #      && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    #      && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    #      && apt-get install -y ./google-chrome-stable_current_amd64.deb \
+    #      && rm ./google-chrome-stable_current_amd64.deb
+    #    fi
+    #  shell: bash
     - run: |
-        if [[ $ACT == true ]]; then
-          apt-get update \
-          && apt-get install -y curl gnupg \
-          && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-          && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-          && apt-get install -y ./google-chrome-stable_current_amd64.deb \
-          && rm ./google-chrome-stable_current_amd64.deb
-        fi
+        echo "INPUT_OUTPUT-DIR=${{ inputs.output-dir }}" >> $GITHUB_ENV
+        echo "INPUT_SITE-DIR=${{ inputs.site-dir }}" >> $GITHUB_ENV
+        echo "INPUT_SCAN-URL-RELATIVE-PATH=${{ inputs.scan-url-relative-path }}" >> $GITHUB_ENV
+        echo "INPUT_CHROME-PATH=${{ inputs.chrome-path }}" >> $GITHUB_ENV
+        echo "INPUT_REPO-TOKEN=${{ inputs.repo-token }}" >> $GITHUB_ENV
       shell: bash
     - run: node ${{ github.action_path }}/dist/index.js
       shell: bash
-      env:
-        INPUT_OUTPUT-DIR: ${{ inputs.output-dir }}
-        INPUT_SITE-DIR: ${{ inputs.site-dir }}
-        INPUT_SCAN-URL-RELATIVE-PATH: ${{ inputs.scan-url-relative-path }}
-        INPUT_CHROME-PATH: ${{ inputs.chrome-path }}
-        INPUT_REPO-TOKEN: ${{ inputs.repo-token }}
+      # env:
+      #   INPUT_OUTPUT-DIR: ${{ inputs.output-dir }}
+      #   INPUT_SITE-DIR: ${{ inputs.site-dir }}
+      #   INPUT_SCAN-URL-RELATIVE-PATH: ${{ inputs.scan-url-relative-path }}
+      #   INPUT_CHROME-PATH: ${{ inputs.chrome-path }}
+      #   INPUT_REPO-TOKEN: ${{ inputs.repo-token }}
