@@ -62,6 +62,11 @@ runs:
         echo "INPUT_SCAN-URL-RELATIVE-PATH=${{ inputs.scan-url-relative-path }}" >> $GITHUB_ENV
         echo "INPUT_CHROME-PATH=${{ inputs.chrome-path }}" >> $GITHUB_ENV
         echo "INPUT_REPO-TOKEN=${{ inputs.repo-token }}" >> $GITHUB_ENV
+        echo "INPUT_URL=${{ inputs.url }}" >> $GITHUB_ENV
+        echo "INPUT_MAX-URLS=${{ inputs.max-urls }}" >> $GITHUB_ENV
+        echo "INPUT_DISCOVERY-PATTERNS=${{ inputs.discovery-patterns }}" >> $GITHUB_ENV
+        echo "INPUT_INPUT-FILE=${{ inputs.input-file }}" >> $GITHUB_ENV
+        echo "INPUT_INPUT-URLS=${{ inputs.input-urls }}" >> $GITHUB_ENV
       shell: bash
     - name: Run action
       run: node ${{ github.action_path }}/dist/index.js
