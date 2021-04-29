@@ -7,16 +7,20 @@ import { AllProgressReporter } from './all-progress-reporter';
 import { CheckRunCreator } from './check-run/check-run-creator';
 import { ProgressReporter } from './progress-reporter';
 import { PullRequestCommentCreator } from './pull-request/pull-request-comment-creator';
+import { Logger } from '../logger/logger';
 
 describe(AllProgressReporter, () => {
     let testSubject: AllProgressReporter;
     let pullRequestCommentCreator: IMock<PullRequestCommentCreator>;
     let checkRunCreatorMock: IMock<CheckRunCreator>;
+    let loggerMock: IMock<Logger>;
 
     beforeEach(() => {
         checkRunCreatorMock = Mock.ofType(CheckRunCreator);
         pullRequestCommentCreator = Mock.ofType(PullRequestCommentCreator);
-        testSubject = new AllProgressReporter(pullRequestCommentCreator.object, checkRunCreatorMock.object);
+        loggerMock = Mock.ofType(Logger);
+
+        testSubject = new AllProgressReporter(pullRequestCommentCreator.object, checkRunCreatorMock.object, loggerMock.object);
     });
 
     it('start should invoke all reporters', async () => {

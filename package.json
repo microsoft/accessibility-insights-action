@@ -7,7 +7,7 @@
         "build": "webpack --config ./webpack.config.js && node create-image-package-json.js",
         "watch:build": "webpack --config ./webpack.config.js --watch",
         "cbuild": "npm-run-all --serial clean build",
-        "clean": "rimraf dist test-results",
+        "clean": "rimraf dist test-results accessibility-insights-action/dist",
         "format:check": "prettier --check \"**/*\"",
         "format:fix": "prettier --write \"**/*\"",
         "lint:check": "eslint \"src/**/*.{js,ts}\"",
@@ -18,9 +18,9 @@
         "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test",
         "watch:test": "jest --watch",
         "publish-code-coverage": "npx codecov",
-        "deploy": "rimraf ./accessibility-insights-action/dist && mkdir -p ./accessibility-insights-action/ && cp -r ./dist ./accessibility-insights-action/dist || xcopy ./dist ./accessibility-insights-action/dist /s /e /r /y /q",
-        "act": "act -W \"./dev/github/workflows/\" -b -r --env CHROME_BIN=/usr/bin/google-chrome-stable",
-        "cact": "npm-run-all --serial deploy act"
+        "deploy": "mkdir -p ./accessibility-insights-action/ && cp -r ./dist ./accessibility-insights-action/dist || xcopy ./dist ./accessibility-insights-action/dist /s /e /r /y /q",
+        "act:run": "act -W \"./dev/github/workflows/\" -b -r --env CHROME_BIN=/usr/bin/google-chrome-stable",
+        "act": "npm-run-all --serial deploy act:run"
     },
     "repository": {
         "type": "git",

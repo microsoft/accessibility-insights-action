@@ -57,7 +57,7 @@ module.exports = (env) => {
                 __IMAGE_VERSION__: JSON.stringify(version),
             }),
             new ForkTsCheckerWebpackPlugin(),
-            new CaseSensitivePathsPlugin(),            
+            new CaseSensitivePathsPlugin(),
         ],
         resolve: {
             extensions: ['.ts', '.js', '.json'],
