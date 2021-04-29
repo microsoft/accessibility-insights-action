@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { VError } from 'verror';
 
+import { VError } from 'verror';
+import * as utils from 'util';
 import { LoggerClient, LogLevel } from './logger-client';
+import { serializeError as serializeErrorExt } from 'serialize-error';
 
 export class Logger {
     protected initialized = false;
@@ -53,11 +55,14 @@ export class Logger {
         this.invokeLoggerClient((client) => client.trackException(error));
     }
 
-    public trackExceptionAny(underlyingErrorData: unknown | Error, message: string): void {
+    public trackExceptionAny(underlyingErrorData: any | Error, message: string): void {
         const parsedErrorObject =
-            underlyingErrorData instanceof Error ? underlyingErrorData : new Error(JSON.stringify(underlyingErrorData));
-
+            underlyingErrorData instanceof Error ? underlyingErrorData : new Error(this.serializeError(underlyingErrorData));
         this.trackException(new VError(parsedErrorObject, message));
+    }
+
+    public serializeError(error: any): string {
+        return utils.inspect(serializeErrorExt(error), false, null);
     }
 
     private invokeLoggerClient(action: (loggerClient: LoggerClient) => void): void {

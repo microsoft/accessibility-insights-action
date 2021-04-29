@@ -30,14 +30,14 @@ runs:
       shell: bash
     - name: Setup local docker container
       run: |
-       if [[ $ACT == true && ! -f '/usr/bin/google-chrome-stable' ]]; then
-         apt-get update \
-         && apt-get install -y curl gnupg \
-         && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-         && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-         && apt-get install -y ./google-chrome-stable_current_amd64.deb \
-         && rm ./google-chrome-stable_current_amd64.deb
-       fi
+        if [[ $ACT == true && ! -f '/usr/bin/google-chrome-stable' ]]; then
+          apt-get update \
+          && apt-get install -y curl gnupg \
+          && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+          && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+          && apt-get install -y ./google-chrome-stable_current_amd64.deb \
+          && rm ./google-chrome-stable_current_amd64.deb
+        fi
       shell: bash
     - name: Map action inputs into inner steps
       run: |
