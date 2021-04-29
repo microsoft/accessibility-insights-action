@@ -38,6 +38,6 @@ runs:
         fi
       shell: bash
     - run: node ${{ github.action_path }}/dist/index.js
+      shell: bash
       env:
         INPUT_SITE-DIR: ${{ inputs.site-dir }}
-      shell: bash
