@@ -30,7 +30,7 @@ export class Scanner {
         @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
-  ) {}
+    ) {}
 
     public async scan(): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/require-await
@@ -72,9 +72,9 @@ export class Scanner {
                 localOutputDir: this.taskConfig.getReportOutDir(),
             });
             const scanEnded = new Date();
-            
+
             const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
-            this.reportGenerator.generateReport(convertedData); 
+            this.reportGenerator.generateReport(convertedData);
 
             // await this.allProgressReporter.completeRun(axeScanResults);
         } catch (error) {
@@ -96,7 +96,7 @@ export class Scanner {
             urlCount: combinedScanResult.urlCount,
             scanStarted,
             scanEnded,
-            browserResolution: '' // TODO
+            browserResolution: '', // TODO
         };
 
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);

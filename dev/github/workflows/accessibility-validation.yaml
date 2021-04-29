@@ -4,12 +4,12 @@
 on: [push]
 
 jobs:
-  local_action_run:
-    runs-on: ubuntu-latest
-    name: Run action in a local dev environment
-    steps:
-    - name: Scan local website for accessibility issues
-      uses: ./
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        site-dir: ${{ github.workspace }}/dev/website-root
+    local_action_run:
+        runs-on: ubuntu-latest
+        name: Run action in a local dev environment
+        steps:
+            - name: Scan local website for accessibility issues
+              uses: ./
+              with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  site-dir: ${{ github.workspace }}/dev/website-root

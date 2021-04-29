@@ -14,17 +14,8 @@ module.exports = (env) => {
         entry: {
             ['index']: path.resolve('./src/index.ts'),
         },
-        // We special case MPL-licensed deps because we want to avoid including their source in
-        // the same file as non-MPL code. Note that each entry here should have a corresponding
-        // entry in copyWebpackPlugin config to copy the non-bundled forms to /dist.
-        externals: [
-            'puppeteer-core',
-            'axe-core',
-            '@axe-core/puppeteer',
-            'accessibility-insights-report',
-            'apify',
-            'leveldown',
-        ],
+        // We special case MPL-licensed dependencies ('axe-core', '@axe-core/puppeteer') because we want to avoid including their source in the same file as non-MPL code.
+        externals: ['puppeteer-core', 'axe-core', '@axe-core/puppeteer', 'accessibility-insights-report', 'apify', 'leveldown'],
         mode: 'development',
         module: {
             rules: [

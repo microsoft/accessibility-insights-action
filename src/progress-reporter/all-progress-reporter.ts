@@ -33,7 +33,7 @@ export class AllProgressReporter implements ProgressReporter {
     }
 
     private async execute(callback: (reporter: ProgressReporter) => Promise<void>): Promise<void> {
-        if (process.env['ACT'] === 'true'){
+        if (process.env['ACT'] === 'true') {
             this.logger.logInfo(`Detected local act environment. Skip running progress reporters.`);
 
             return;
