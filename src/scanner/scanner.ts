@@ -68,8 +68,8 @@ export class Scanner {
             });
             const scanEnded = new Date();
             
-            // const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
-            // this.reportGenerator.generateReport(convertedData); 
+            const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
+            this.reportGenerator.generateReport(convertedData); 
 
             // await this.allProgressReporter.completeRun(axeScanResults);
         } catch (error) {
