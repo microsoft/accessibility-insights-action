@@ -1,25 +1,26 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
+
 name: 'Accessibility Insights Action'
 description: 'Task to scan for accessibility issues'
 inputs:
     output-dir:
-        description: 'folder containing the generated report'
+        description: 'Folder containing the scan report.'
         default: '_accessibility-reports'
         required: true
     site-dir:
-        description: 'folder containing site content'
+        description: 'Folder containing website content.'
         default: ${{ github.workspace }}
         required: true
     scan-url-relative-path:
-        description: 'relative path from url domain. Eg: /index.html'
+        description: 'Relative path from URL domain. Eg: /index.html'
         required: true
         default: '/'
     chrome-path:
-        description: 'path to chrome executable'
+        description: 'Path to Chrome executable.'
         required: false
     repo-token:
-        description: 'github token'
+        description: 'GitHun API access token.'
         required: true
     url:
         description: 'The hosted URL to scan/crawl for accessibility issues.'
@@ -38,5 +39,35 @@ inputs:
         description: 'List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space.'
         required: false
 runs:
-    using: 'node12'
-    main: 'dist/index.js'
+    using: 'composite'
+    steps:
+        - name: Install npm packages
+          run: npm --prefix ${{ github.action_path }}/dist install
+          shell: bash
+        - name: Setup local docker container
+          run: |
+              if [[ $ACT == true && ! -f '/usr/bin/google-chrome-stable' ]]; then
+                apt-get update \
+                && apt-get install -y curl gnupg \
+                && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+                && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+                && apt-get install -y ./google-chrome-stable_current_amd64.deb \
+                && rm ./google-chrome-stable_current_amd64.deb
+              fi
+          shell: bash
+        - name: Map action inputs into inner steps
+          run: |
+              echo "INPUT_OUTPUT-DIR=${{ inputs.output-dir }}" >> $GITHUB_ENV
+              echo "INPUT_SITE-DIR=${{ inputs.site-dir }}" >> $GITHUB_ENV
+              echo "INPUT_SCAN-URL-RELATIVE-PATH=${{ inputs.scan-url-relative-path }}" >> $GITHUB_ENV
+              echo "INPUT_CHROME-PATH=${{ inputs.chrome-path }}" >> $GITHUB_ENV
+              echo "INPUT_REPO-TOKEN=${{ inputs.repo-token }}" >> $GITHUB_ENV
+              echo "INPUT_URL=${{ inputs.url }}" >> $GITHUB_ENV
+              echo "INPUT_MAX-URLS=${{ inputs.max-urls }}" >> $GITHUB_ENV
+              echo "INPUT_DISCOVERY-PATTERNS=${{ inputs.discovery-patterns }}" >> $GITHUB_ENV
+              echo "INPUT_INPUT-FILE=${{ inputs.input-file }}" >> $GITHUB_ENV
+              echo "INPUT_INPUT-URLS=${{ inputs.input-urls }}" >> $GITHUB_ENV
+          shell: bash
+        - name: Run action
+          run: node ${{ github.action_path }}/dist/index.js
+          shell: bash

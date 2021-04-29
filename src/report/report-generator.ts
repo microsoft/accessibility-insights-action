@@ -14,8 +14,7 @@ import { TaskConfig } from '../task-config';
 export class ReportGenerator {
     constructor(
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
-        @inject(iocTypes.ReporterFactory)
-        private readonly reporterFactoryFunc: ReporterFactory,
+        @inject(iocTypes.ReportFactory) private readonly reporterFactoryFunc: ReporterFactory,
         @inject(Logger) private readonly logger: Logger,
         private readonly fileSystemObj: typeof fs = fs,
         private readonly filenamify: typeof filenamifyUrl = filenamifyUrl,

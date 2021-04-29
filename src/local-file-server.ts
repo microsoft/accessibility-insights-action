@@ -43,8 +43,11 @@ export class LocalFileServer {
         const port = await this.getPortFunc();
         this.logger.logInfo(`Using port ${port}`);
 
+        const root = this.taskConfig.getSiteDir();
+        this.logger.logInfo(`Root website directory ${root}`);
+
         const app = this.expressFunc();
-        app.use(this.serveStaticFunc(this.taskConfig.getSiteDir()));
+        app.use(this.serveStaticFunc(root));
 
         this.server = app.listen(port);
 

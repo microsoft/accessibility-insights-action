@@ -9,7 +9,6 @@ import * as express from 'express';
 import * as getPort from 'get-port';
 import { Container } from 'inversify';
 import * as serveStatic from 'serve-static';
-
 import { Logger } from '../logger/logger';
 import { Scanner } from '../scanner/scanner';
 import { iocTypes } from './ioc-types';
@@ -31,7 +30,7 @@ describe(setupIocContainer, () => {
         { key: iocTypes.GetPort, value: getPort },
         { key: iocTypes.Express, value: express },
         { key: iocTypes.ServeStatic, value: serveStatic },
-        { key: iocTypes.ReporterFactory, value: reporterFactory },
+        { key: iocTypes.ReportFactory, value: reporterFactory },
         { key: iocTypes.Github, value: github },
     ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
         expect(testSubject.get(pair.key)).toBe(pair.value);

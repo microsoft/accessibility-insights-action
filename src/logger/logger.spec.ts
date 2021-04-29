@@ -302,7 +302,7 @@ describe(Logger, () => {
 
             invokeAllLoggerClientMocks((m) =>
                 m
-                    .setup((c) => c.trackException(new VError(new Error(JSON.stringify(underlyingError)), errorMessage)))
+                    .setup((c) => c.trackException(new VError(new Error(testSubject.serializeError(underlyingError)), errorMessage)))
                     .verifiable(Times.once()),
             );
 

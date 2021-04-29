@@ -1,0 +1,37 @@
+{
+    "name": "accessibility-insights-action",
+    "version": "1.0.0",
+    "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
+    "main": "dist/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/accessibility-insights-action.git"
+    },
+    "keywords": [
+        "actions"
+    ],
+    "author": "Microsoft",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/microsoft/accessibility-insights-action/issues"
+    },
+    "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
+    "dependencies": {
+        "puppeteer-core": "^5.5.0",
+        "axe-core": "4.1.1",
+        "@axe-core/puppeteer": "^4.1.0",
+        "accessibility-insights-report": "4.0.1",
+        "apify": "^0.21.8",
+        "leveldown": "^6.0.0"
+    },
+    "resolutions": {
+        "@actions/http-client": ">=1.0.8",
+        "axios": ">=0.21.1",
+        "minimist": ">=1.2.3",
+        "serialize-javascript": ">=3.1.0",
+        "apify-shared": ">=0.5.0",
+        "y18n": ">=5.0.5",
+        "socket.io": ">=2.4.0",
+        "marked": ">=2.0.0"
+    }
+}
