@@ -22,7 +22,20 @@ inputs:
         description: 'github token'
         required: true
     url:
-        description: 'remote site url'
+        description: 'The hosted URL to scan/crawl for accessibility issues.'
+        required: false
+    max-urls:
+        description: 'Maximum number of pages opened by crawler. The crawl will stop when this limit is reached.'
+        required: false
+        default: '100'
+    discovery-patterns:
+        description: 'List of RegEx patterns to crawl in addition to the provided URL, separated by space.'
+        required: false
+    input-file:
+        description: 'File path that contains list of URLs (each separated by a new line) to scan in addition to URLs discovered from crawling the provided URL.'
+        required: false
+    input-urls:
+        description: 'List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space.'
         required: false
 runs:
     using: 'node12'
