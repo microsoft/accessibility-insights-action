@@ -37,6 +37,26 @@ export class TaskConfig {
         return chromePath;
     }
 
+    public getUrl(): string {
+        return this.actionCoreObj.getInput('url');
+    }
+
+    public getMaxUrls(): number {
+        return parseInt(this.actionCoreObj.getInput('max-urls'));
+    }
+
+    public getDiscoveryPatterns(): string[] {
+        return this.actionCoreObj.getInput('discovery-patterns').split(/\s+/);
+    }
+
+    public getInputFile(): string {
+        return this.actionCoreObj.getInput('input-file');
+    }
+
+    public getInputUrls(): string[] {
+        return this.actionCoreObj.getInput('input-urls').split(/\s+/);
+    }
+
     public getRunId(): number {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
     }

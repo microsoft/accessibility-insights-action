@@ -4,24 +4,40 @@
 name: 'Accessibility Insights Action'
 description: 'Task to scan for accessibility issues'
 inputs:
-  output-dir:
-    description: 'folder containing the generated    scan report'
-    default: '_accessibility-reports'
-    required: true
-  site-dir:
-    description: 'folder containing website content'
-    default: ${{ github.workspace }}
-    required: true
-  scan-url-relative-path:
-    description: 'relative path from URL domain. Eg: /index.html'
-    required: true
-    default: '/'
-  chrome-path:
-    description: 'path to Chrome executable'
-    required: false
-  repo-token:
-    description: 'GitHub access token'
-    required: true
+    output-dir:
+        description: 'Folder containing the scan report.'
+        default: '_accessibility-reports'
+        required: true
+    site-dir:
+        description: 'Folder containing website content.'
+        default: ${{ github.workspace }}
+        required: true
+    scan-url-relative-path:
+        description: 'Relative path from URL domain. Eg: /index.html'
+        required: true
+        default: '/'
+    chrome-path:
+        description: 'Path to Chrome executable.'
+        required: false
+    repo-token:
+        description: 'GitHun API access token.'
+        required: true
+    url:
+        description: 'The hosted URL to scan/crawl for accessibility issues.'
+        required: false
+    max-urls:
+        description: 'Maximum number of pages opened by crawler. The crawl will stop when this limit is reached.'
+        required: false
+        default: '100'
+    discovery-patterns:
+        description: 'List of RegEx patterns to crawl in addition to the provided URL, separated by space.'
+        required: false
+    input-file:
+        description: 'File path that contains list of URLs (each separated by a new line) to scan in addition to URLs discovered from crawling the provided URL.'
+        required: false
+    input-urls:
+        description: 'List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space.'
+        required: false
 runs:
   using: 'composite'
   steps:
