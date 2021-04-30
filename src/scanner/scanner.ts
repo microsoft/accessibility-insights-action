@@ -91,7 +91,7 @@ export class Scanner {
 
             const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(convertedData);
-
+            this.logger.logInfo('after repoert generated');
             await this.allProgressReporter.completeRun({
                 results: {
                     passes: [{
@@ -128,6 +128,7 @@ export class Scanner {
                     incomplete: [],
                 },
             });
+            this.logger.logInfo("after complete run");
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
             await this.allProgressReporter.failRun(util.inspect(error));

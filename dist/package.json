@@ -17,11 +17,11 @@
     },
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
     "dependencies": {
-        "@axe-core/puppeteer": "^4.1.0",
+        "@axe-core/puppeteer": "^4.1.1",
         "axe-core": "4.1.1",
         "apify": "^0.21.8",
         "accessibility-insights-report": "4.0.1",
-        "accessibility-insights-scan": "^0.7.0",
+        "accessibility-insights-scan": "^0.7.1",
         "leveldown": "^6.0.0",
         "puppeteer-core": "^5.5.0"
     },
