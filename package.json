@@ -45,6 +45,7 @@
         "@typescript-eslint/eslint-plugin": "^4.22.0",
         "@typescript-eslint/parser": "^4.22.0",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
+        "codecov": "^3.8.1",
         "eslint": "^7.25.0",
         "eslint-plugin-security": "^1.4.0",
         "fork-ts-checker-webpack-plugin": "^6.2.5",
@@ -62,8 +63,7 @@
         "typemoq": "^2.1.0",
         "typescript": "^4.2.4",
         "webpack": "^5.36.2",
-        "webpack-cli": "^4.6.0",
-        "codecov": "^3.8.1"
+        "webpack-cli": "^4.6.0"
     },
     "dependencies": {
         "@actions/core": "^1.2.7",
@@ -71,7 +71,7 @@
         "@axe-core/puppeteer": "^4.1.1",
         "@octokit/rest": "^18.5.3",
         "accessibility-insights-report": "4.0.1",
-        "accessibility-insights-scan": "^0.7.0",
+        "accessibility-insights-scan": "^0.7.1",
         "apify": "^0.21.8",
         "axe-core": "4.1.1",
         "express": "^4.17.1",

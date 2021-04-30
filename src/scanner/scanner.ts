@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AICrawler, CombinedScanResult, AICombinedReportDataConverter } from 'accessibility-insights-scan';
+import {
+    AICrawler,
+    CombinedScanResult,
+    AICombinedReportDataConverter,
+    validateScanArguments,
+    ScanArguments,
+    CrawlerParametersBuilder,
+} from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
 import * as url from 'url';
@@ -30,6 +37,7 @@ export class Scanner {
         @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
+        @inject(CrawlerParametersBuilder) private readonly crawlerParametersBuilder: CrawlerParametersBuilder,
     ) {}
 
     public async scan(): Promise<void> {
@@ -54,23 +62,31 @@ export class Scanner {
                 scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
             }
 
+            const scanArguments: ScanArguments = {
+                url: scanUrl,
+                inputFile: this.taskConfig.getInputFile(),
+                output: this.taskConfig.getReportOutDir(),
+                maxUrls: this.taskConfig.getMaxUrls(),
+                inputUrls: this.taskConfig.getInputUrls(),
+                discoveryPatterns: this.taskConfig.getDiscoveryPatterns(),
+                chromePath: this.taskConfig.getChromePath(),
+                // axeSourcePath is relative to /dist/index.js, not this source file
+                axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
+                crawl: true,
+                restart: true,
+            };
+
+            validateScanArguments(scanArguments);
+
+            const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
+
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
 
             const chromePath = this.taskConfig.getChromePath();
             this.logger.logInfo(`Chrome app executable ${chromePath}`);
 
-            // Note: this is relative to /dist/index.js, not this source file
-            const axeCoreSourcePath = path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js');
-
             const scanStarted = new Date();
-            const combinedScanResult = await this.crawler.crawl({
-                baseUrl: scanUrl,
-                crawl: true,
-                restartCrawl: true,
-                chromePath,
-                axeSourcePath: axeCoreSourcePath,
-                localOutputDir: this.taskConfig.getReportOutDir(),
-            });
+            const combinedScanResult = await this.crawler.crawl(crawlerRunOptions);
             const scanEnded = new Date();
 
             const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);

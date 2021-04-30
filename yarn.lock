@@ -1527,10 +1527,10 @@ accessibility-insights-report@4.0.1:
     react-helmet "^6.1.0"
     uuid "^8.3.2"
 
-accessibility-insights-scan@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-0.7.0.tgz#f6a6e9c31a8d8882050221971c0412ddd85f6e53"
-  integrity sha512-wMjoY+r8+w8ItxMsCeh+TxWLk3jspdzIiTMknlpeyWkr5LWslZ4x1BhPo+ufF/3YOf52CCEa31VT4u1QYD1e4g==
+accessibility-insights-scan@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-0.7.1.tgz#7f4a5f24aa547dff86ea9a3d803e0a2ccc15f0f0"
+  integrity sha512-L3xePEiRB5IzN9o871u1iYdi/O7OtL/ciRSofsrgTsT6b/lgW0ym2ANL7t3zgv0H10YG8/CskafHs/b8R4c5cQ==
   dependencies:
     "@axe-core/puppeteer" "^4.1.0"
     "@medv/finder" "^2.0.0"
@@ -1549,7 +1549,7 @@ accessibility-insights-scan@^0.7.0:
     filenamify-url "^2.1.1"
     got "^11.8.1"
     inversify "^5.0.5"
-    leveldown "^5.6.0"
+    leveldown "^6.0.0"
     levelup "^4.4.0"
     lodash "^4.17.21"
     moment "^2.29.1"
@@ -1557,7 +1557,7 @@ accessibility-insights-scan@^0.7.0:
     puppeteer "^5.5.0"
     raw-body "^2.4.1"
     reflect-metadata "^0.1.13"
-    serialize-error "^7.0.1"
+    serialize-error "^8.0.1"
     sha.js "^2.4.11"
     uuid-with-v6 "^1.1.2"
     verror "^1.10.0"
@@ -5064,15 +5064,6 @@ level-supports@~1.0.0:
   dependencies:
     xtend "^4.0.2"
 
-leveldown@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/leveldown/-/leveldown-5.6.0.tgz#16ba937bb2991c6094e13ac5a6898ee66d3eee98"
-  integrity sha512-iB8O/7Db9lPaITU1aA2txU/cBEXAt4vWwKQRrrWuS6XDgbP4QZGj9BL2aNbwb002atoQ/lIotJkfyzz+ygQnUQ==
-  dependencies:
-    abstract-leveldown "~6.2.1"
-    napi-macros "~2.0.0"
-    node-gyp-build "~4.1.0"
-
 leveldown@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/leveldown/-/leveldown-6.0.0.tgz#3ec7f00463c45f8f7c8e68248d10ab299059c7ca"
@@ -5447,11 +5438,6 @@ node-fetch@^2.2.0, node-fetch@^2.3.0, node-fetch@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
-
-node-gyp-build@~4.1.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.1.1.tgz#d7270b5d86717068d114cc57fff352f96d745feb"
-  integrity sha512-dSq1xmcPDKPZ2EED2S6zw/b9NKsqzXRE6dVr8TVQnI3FJOTteUMuqF3Qqs6LZg+mLGYJWqQzMbIjMtJqTv87nQ==
 
 node-gyp-build@~4.2.1:
   version "4.2.3"
@@ -6502,13 +6488,6 @@ send@0.17.1:
     range-parser "~1.2.1"
     statuses "~1.5.0"
 
-serialize-error@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-7.0.1.tgz#f1360b0447f61ffb483ec4157c737fab7d778e18"
-  integrity sha512-8I8TjW5KMOKsZQTvoxjuSIa7foAwPWGOts+6o7sgjz41/qMD9VQHEDxi6PBvK2l0MXUmqZyNpUK+T2tQaaElvw==
-  dependencies:
-    type-fest "^0.13.1"
-
 serialize-error@^8.0.1:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-8.1.0.tgz#3a069970c712f78634942ddd50fbbc0eaebe2f67"
@@ -7291,11 +7270,6 @@ type-fest@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.11.0.tgz#97abf0872310fed88a5c466b25681576145e33f1"
   integrity sha512-OdjXJxnCN1AvyLSzeKIgXTXxV+99ZuXl3Hpo9XpJAv9MBcHrrJOQ5kV7ypXOuQie+AmWG25hLbiKdwYTifzcfQ==
-
-type-fest@^0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.13.1.tgz#0172cb5bce80b0bd542ea348db50c7e21834d934"
-  integrity sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==
 
 type-fest@^0.20.2:
   version "0.20.2"
