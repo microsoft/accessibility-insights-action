@@ -55825,7 +55825,6 @@ const promise_utils_1 = __webpack_require__(/*! ../utils/promise-utils */ "./src
 const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
 const axe_info_1 = __webpack_require__(/*! ../axe/axe-info */ "./src/axe/axe-info.ts");
 const consolidated_report_generator_1 = __webpack_require__(/*! ../report/consolidated-report-generator */ "./src/report/consolidated-report-generator.ts");
-const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 let Scanner = class Scanner {
     constructor(crawler, reportGenerator, taskConfig, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger, crawlerParametersBuilder) {
         this.crawler = crawler;
@@ -55869,8 +55868,8 @@ let Scanner = class Scanner {
                     inputFile: this.taskConfig.getInputFile(),
                     output: this.taskConfig.getReportOutDir(),
                     maxUrls: this.taskConfig.getMaxUrls(),
-                    inputUrls: lodash_1.isEmpty(inputUrls) ? undefined : inputUrls,
-                    discoveryPatterns: lodash_1.isEmpty(discoveryPatterns) ? undefined : discoveryPatterns,
+                    //inputUrls: isEmpty(inputUrls) ? undefined : inputUrls,
+                    //discoveryPatterns: isEmpty(discoveryPatterns) ? undefined : discoveryPatterns,
                     chromePath: this.taskConfig.getChromePath(),
                     // axeSourcePath is relative to /dist/index.js, not this source file
                     axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
