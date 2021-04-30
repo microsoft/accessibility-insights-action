@@ -77,7 +77,7 @@
         "express": "^4.17.1",
         "filenamify-url": "^2.1.1",
         "get-port": "^5.1.1",
-        "inversify": "^5.0.5",
+        "inversify": "^5.1.1",
         "leveldown": "^6.0.0",
         "lodash": "^4.17.21",
         "puppeteer-core": "^5.5.0",
