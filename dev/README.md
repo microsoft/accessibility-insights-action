@@ -15,8 +15,8 @@ Licensed under the MIT License.
 1. Build action using `yarn cbuild` or `yarn build` command
 2. Run action using `yarn act`
 
-*Note*: When run act first time choose **large** image option.
+_Note_: When run act first time choose **large** image option.
 
-*Note*: When you get an error about composite actions is not supported then [build act from source](https://github.com/nektos/act#building-from-source) to use latest features.
+_Note_: When you get an error about composite actions is not supported then [build act from source](https://github.com/nektos/act#building-from-source) to use latest features.
 
 Action is running inside a docker container. After action is completed the docker container is still running to preserve chrome setup and reduce subsequent action startup time.
