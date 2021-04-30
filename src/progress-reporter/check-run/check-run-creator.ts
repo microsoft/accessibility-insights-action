@@ -66,7 +66,7 @@ export class CheckRunCreator implements ProgressReporter {
             name: checkRunName,
             status: 'completed',
             conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
-            output: this.getScanOutput(axeScanResults),
+            output: 'fake output', // this.getScanOutput(axeScanResults),
         });
     }
 

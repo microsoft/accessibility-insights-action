@@ -127,7 +127,6 @@ export class Scanner {
                     inapplicable: [],
                     incomplete: [],
                 },
-                
             });
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
