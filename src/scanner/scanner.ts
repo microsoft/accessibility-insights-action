@@ -57,7 +57,7 @@ export class Scanner {
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
 
             const chromePath = this.taskConfig.getChromePath();
-            this.logger.logInfo(`Chrome app executable ${chromePath}`);
+            this.logger.logInfo(`Chrome app executable: ${chromePath ?? 'system default'}`);
 
             // Note: this is relative to /dist/index.js, not this source file
             const axeCoreSourcePath = path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js');
