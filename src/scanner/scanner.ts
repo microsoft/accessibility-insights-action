@@ -23,6 +23,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { toolName } from '../content/strings';
 import { AxeInfo } from '../axe/axe-info';
 import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
+import { isEmpty } from 'lodash';
 
 @injectable()
 export class Scanner {
@@ -62,13 +63,16 @@ export class Scanner {
                 scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
             }
 
+            const inputFile = this.taskConfig.getInputFile();
+            const discoveryPatterns = this.taskConfig.getDiscoveryPatterns();
+
             const scanArguments: ScanArguments = {
                 url: scanUrl,
-                inputFile: this.taskConfig.getInputFile(),
+                inputFile: isEmpty(inputFile) ? undefined : inputFile,
                 output: this.taskConfig.getReportOutDir(),
                 maxUrls: this.taskConfig.getMaxUrls(),
                 inputUrls: this.taskConfig.getInputUrls(),
-                discoveryPatterns: this.taskConfig.getDiscoveryPatterns(),
+                discoveryPatterns: isEmpty(discoveryPatterns) ? undefined : discoveryPatterns,
                 chromePath: this.taskConfig.getChromePath(),
                 // axeSourcePath is relative to /dist/index.js, not this source file
                 axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
