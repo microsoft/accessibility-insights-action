@@ -20,7 +20,7 @@ inputs:
         description: 'Path to Chrome executable.'
         required: false
     repo-token:
-        description: 'GitHun API access token.'
+        description: 'GitHub API access token.'
         required: true
     url:
         description: 'The hosted URL to scan/crawl for accessibility issues.'
