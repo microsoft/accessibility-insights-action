@@ -55541,7 +55541,7 @@ let CheckRunCreator = class CheckRunCreator {
                 name: strings_1.checkRunName,
                 status: 'completed',
                 conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
-                output: 'fake output', // this.getScanOutput(axeScanResults),
+                output: this.getScanOutput(axeScanResults),
             });
         });
     }
@@ -55825,7 +55825,6 @@ const promise_utils_1 = __webpack_require__(/*! ../utils/promise-utils */ "./src
 const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
 const axe_info_1 = __webpack_require__(/*! ../axe/axe-info */ "./src/axe/axe-info.ts");
 const consolidated_report_generator_1 = __webpack_require__(/*! ../report/consolidated-report-generator */ "./src/report/consolidated-report-generator.ts");
-const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 let Scanner = class Scanner {
     constructor(crawler, reportGenerator, taskConfig, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger, crawlerParametersBuilder) {
         this.crawler = crawler;
@@ -55862,21 +55861,9 @@ let Scanner = class Scanner {
                     const baseUrl = yield this.fileServer.start();
                     scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
                 }
-                const inputUrls = this.taskConfig.getInputUrls();
-                const discoveryPatterns = this.taskConfig.getDiscoveryPatterns();
-                const scanArguments = {
-                    url: scanUrl,
-                    inputFile: this.taskConfig.getInputFile(),
-                    output: this.taskConfig.getReportOutDir(),
-                    maxUrls: this.taskConfig.getMaxUrls(),
-                    inputUrls: lodash_1.isEmpty(inputUrls) ? undefined : inputUrls,
-                    discoveryPatterns: lodash_1.isEmpty(discoveryPatterns) ? undefined : discoveryPatterns,
-                    chromePath: this.taskConfig.getChromePath(),
+                const scanArguments = Object.assign({ url: scanUrl, inputFile: this.taskConfig.getInputFile(), output: this.taskConfig.getReportOutDir(), maxUrls: this.taskConfig.getMaxUrls(), chromePath: this.taskConfig.getChromePath(), 
                     // axeSourcePath is relative to /dist/index.js, not this source file
-                    axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
-                    crawl: true,
-                    restart: true,
-                };
+                    axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'), crawl: true, restart: true }, [this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter(l => l.length > 0));
                 accessibility_insights_scan_1.validateScanArguments(scanArguments);
                 const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
                 this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);

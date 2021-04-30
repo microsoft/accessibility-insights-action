@@ -63,21 +63,17 @@ export class Scanner {
                 scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
             }
 
-            const inputUrls = this.taskConfig.getInputUrls();
-            const discoveryPatterns = this.taskConfig.getDiscoveryPatterns();
-
             const scanArguments: ScanArguments = {
                 url: scanUrl,
                 inputFile:this.taskConfig.getInputFile(),
                 output: this.taskConfig.getReportOutDir(),
                 maxUrls: this.taskConfig.getMaxUrls(),
-                inputUrls: isEmpty(inputUrls) ? undefined : inputUrls,
-                discoveryPatterns: isEmpty(discoveryPatterns) ? undefined : discoveryPatterns,
                 chromePath: this.taskConfig.getChromePath(),
                 // axeSourcePath is relative to /dist/index.js, not this source file
                 axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
                 crawl: true,
                 restart: true,
+                ...[this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter(l => l.length > 0),
             };
 
             validateScanArguments(scanArguments);
