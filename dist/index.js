@@ -55435,7 +55435,6 @@ let AllProgressReporter = class AllProgressReporter {
     }
     completeRun(axeScanResults) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.logger.logInfo("completing run");
             yield this.execute((r) => r.completeRun(axeScanResults));
         });
     }
@@ -55452,7 +55451,6 @@ let AllProgressReporter = class AllProgressReporter {
             }
             const length = this.progressReporters.length;
             for (let pos = 0; pos < length; pos += 1) {
-                this.logger.logInfo('completing progress callback');
                 yield callback(this.progressReporters[pos]);
             }
         });
@@ -55863,7 +55861,7 @@ let Scanner = class Scanner {
                 }
                 const scanArguments = Object.assign({ url: scanUrl, inputFile: this.taskConfig.getInputFile(), output: this.taskConfig.getReportOutDir(), maxUrls: this.taskConfig.getMaxUrls(), chromePath: this.taskConfig.getChromePath(), 
                     // axeSourcePath is relative to /dist/index.js, not this source file
-                    axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'), crawl: true, restart: true }, [this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter(l => l.length > 0));
+                    axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'), crawl: true, restart: true }, [this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter((l) => l.length > 0));
                 accessibility_insights_scan_1.validateScanArguments(scanArguments);
                 const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
                 this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
@@ -55874,44 +55872,7 @@ let Scanner = class Scanner {
                 const scanEnded = new Date();
                 const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
                 this.reportGenerator.generateReport(convertedData);
-                this.logger.logInfo('after repoert generated');
-                yield this.allProgressReporter.completeRun({
-                    results: {
-                        passes: [{
-                                description: 'description',
-                                help: 'help',
-                                helpUrl: 'helpUrl',
-                                id: 'id',
-                                tags: [],
-                                nodes: [{
-                                        html: 'html',
-                                        target: [],
-                                        any: [],
-                                        all: [],
-                                        none: [],
-                                    }]
-                            }],
-                        toolOptions: {},
-                        testEngine: {
-                            name: 'name',
-                            version: 'version',
-                        },
-                        testEnvironment: {
-                            userAgent: 'user agent',
-                            windowHeight: 100,
-                            windowWidth: 100,
-                        },
-                        testRunner: {
-                            name: 'runner',
-                        },
-                        url: 'url',
-                        timestamp: 'timestamp',
-                        violations: [],
-                        inapplicable: [],
-                        incomplete: [],
-                    },
-                });
-                this.logger.logInfo("after complete run");
+                yield this.allProgressReporter.completeRun(this.getFakeAxeResultData());
             }
             catch (error) {
                 this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
@@ -55937,6 +55898,48 @@ let Scanner = class Scanner {
             browserResolution: '', // TODO
         };
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
+    }
+    getFakeAxeResultData() {
+        return {
+            results: {
+                passes: [
+                    {
+                        description: 'description',
+                        help: 'help',
+                        helpUrl: 'helpUrl',
+                        id: 'id',
+                        tags: [],
+                        nodes: [
+                            {
+                                html: 'html',
+                                target: [],
+                                any: [],
+                                all: [],
+                                none: [],
+                            },
+                        ],
+                    },
+                ],
+                toolOptions: {},
+                testEngine: {
+                    name: 'name',
+                    version: 'version',
+                },
+                testEnvironment: {
+                    userAgent: 'user agent',
+                    windowHeight: 100,
+                    windowWidth: 100,
+                },
+                testRunner: {
+                    name: 'runner',
+                },
+                url: 'url',
+                timestamp: 'timestamp',
+                violations: [],
+                inapplicable: [],
+                incomplete: [],
+            },
+        };
     }
 };
 Scanner = __decorate([

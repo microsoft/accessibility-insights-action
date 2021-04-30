@@ -25,7 +25,6 @@ export class AllProgressReporter implements ProgressReporter {
     }
 
     public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
-        this.logger.logInfo("completing run");
         await this.execute((r) => r.completeRun(axeScanResults));
     }
 
@@ -42,7 +41,6 @@ export class AllProgressReporter implements ProgressReporter {
 
         const length = this.progressReporters.length;
         for (let pos = 0; pos < length; pos += 1) {
-            this.logger.logInfo('completing progress callback');
             await callback(this.progressReporters[pos]);
         }
     }
