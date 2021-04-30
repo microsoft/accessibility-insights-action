@@ -69,4 +69,5 @@ jobs:
     - name: run action on our own repo
       uses: ./
       with:
-        site-dir: {{ github.workspace }}/dev/website-root
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        site-dir: ${{ github.workspace }}/dev/website-root
