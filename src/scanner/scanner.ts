@@ -71,8 +71,8 @@ export class Scanner {
                 inputFile:this.taskConfig.getInputFile(),
                 output: this.taskConfig.getReportOutDir(),
                 maxUrls: this.taskConfig.getMaxUrls(),
-                //inputUrls: isEmpty(inputUrls) ? undefined : inputUrls,
-                //discoveryPatterns: isEmpty(discoveryPatterns) ? undefined : discoveryPatterns,
+                inputUrls: isEmpty(inputUrls) ? undefined : inputUrls,
+                discoveryPatterns: isEmpty(discoveryPatterns) ? undefined : discoveryPatterns,
                 chromePath: this.taskConfig.getChromePath(),
                 // axeSourcePath is relative to /dist/index.js, not this source file
                 axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
