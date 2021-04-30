@@ -1,0 +1,20 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+name: Validate action e2e
+
+on: 
+  push:
+    branches: 
+      - action-input-validation
+
+jobs:
+  self-validate:
+    name: Self validate
+    runs-on: ubuntu-latest
+    steps:
+    - name: run action on our own repo
+      uses: ./
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        site-dir: ${{ github.workspace }}/dev/website-root
