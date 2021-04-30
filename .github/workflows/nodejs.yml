@@ -61,3 +61,12 @@ jobs:
 
     - name: Publish code coverage to codecov
       run: yarn publish-code-coverage -t ${{ secrets.CODECOV_TOKEN }}
+
+  self-validate:
+    name: Self validate
+    runs-on: ubuntu-latest
+    steps:
+    - name: run action on our own repo
+      uses: ./
+      with:
+        site-dir: {{ github.workspace }}/dev/website-root
