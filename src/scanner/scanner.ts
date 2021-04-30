@@ -8,6 +8,7 @@ import {
     validateScanArguments,
     ScanArguments,
     CrawlerParametersBuilder,
+    AxeScanResults,
 } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
@@ -92,7 +93,8 @@ export class Scanner {
             const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(convertedData);
 
-            // await this.allProgressReporter.completeRun(axeScanResults);
+            throw "intentionally not completing";
+            // await this.allProgressReporter.completeRun(combinedScanResult);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
             await this.allProgressReporter.failRun(util.inspect(error));
