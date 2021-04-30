@@ -55866,7 +55866,7 @@ let Scanner = class Scanner {
                 const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
                 this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
                 const chromePath = this.taskConfig.getChromePath();
-                this.logger.logInfo(`Chrome app executable ${chromePath}`);
+                this.logger.logInfo(`Chrome app executable: ${chromePath !== null && chromePath !== void 0 ? chromePath : 'system default'}`);
                 const scanStarted = new Date();
                 const combinedScanResult = yield this.crawler.crawl(crawlerRunOptions);
                 const scanEnded = new Date();

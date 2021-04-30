@@ -42,17 +42,17 @@ runs:
     using: 'composite'
     steps:
         - name: Install npm packages
-          run: npm --prefix ${{ github.action_path }}/dist install
+          run: |
+              npm --prefix ${{ github.action_path }}/dist install
+              echo 'npm packages successfully installed'
           shell: bash
         - name: Setup local docker container
           run: |
-              if [[ $ACT == true && ! -f '/usr/bin/google-chrome-stable' ]]; then
-                apt-get update \
-                && apt-get install -y curl gnupg \
-                && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-                && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-                && apt-get install -y ./google-chrome-stable_current_amd64.deb \
-                && rm ./google-chrome-stable_current_amd64.deb
+              if [[ $ACT == true && ! -f '/usr/bin/chromium' ]]; then
+                  apt-get update \
+                  && apt-get -y install chromium chromium-l10n \
+                  && apt-get -y install procps
+                  echo 'Chromium package successfully installed on docker container'
               fi
           shell: bash
         - name: Map action inputs into inner steps
@@ -69,5 +69,7 @@ runs:
               echo "INPUT_INPUT-URLS=${{ inputs.input-urls }}" >> $GITHUB_ENV
           shell: bash
         - name: Run action
-          run: node ${{ github.action_path }}/dist/index.js
+          run: |
+              echo 'Starting accessibility scanner...'
+              node ${{ github.action_path }}/dist/index.js
           shell: bash

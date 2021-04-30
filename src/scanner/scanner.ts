@@ -84,7 +84,7 @@ export class Scanner {
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
 
             const chromePath = this.taskConfig.getChromePath();
-            this.logger.logInfo(`Chrome app executable ${chromePath}`);
+            this.logger.logInfo(`Chrome app executable: ${chromePath ?? 'system default'}`);
 
             const scanStarted = new Date();
             const combinedScanResult = await this.crawler.crawl(crawlerRunOptions);
