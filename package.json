@@ -68,7 +68,7 @@
     "dependencies": {
         "@actions/core": "^1.2.7",
         "@actions/github": "^4.0.0",
-        "@axe-core/puppeteer": "^4.1.0",
+        "@axe-core/puppeteer": "^4.1.1",
         "@octokit/rest": "^18.5.3",
         "accessibility-insights-report": "4.0.1",
         "accessibility-insights-scan": "^0.7.0",
