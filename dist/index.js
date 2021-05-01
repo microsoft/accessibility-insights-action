@@ -55857,6 +55857,7 @@ let Scanner = class Scanner {
                 accessibility_insights_scan_1.validateScanArguments(scanArguments);
                 const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
                 this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
+                this.logger.logInfo(`input urls are ${crawlerRunOptions.inputUrls.join(",")}`);
                 const chromePath = this.taskConfig.getChromePath();
                 this.logger.logInfo(`Chrome app executable: ${chromePath !== null && chromePath !== void 0 ? chromePath : 'system default'}`);
                 const scanStarted = new Date();
