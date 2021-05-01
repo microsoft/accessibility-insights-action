@@ -21,4 +21,11 @@ jobs:
         url: https://accessibilityinsights.io/
         input-urls: http://markreay.github.io/AU/before.html http://markreay.github.io/AU/after.html
         max-urls: 15
+    - name: Upload report artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+      # Artifact name
+        name: accessibility-reports
+      # Directory containing files to upload
+        path: ${{ github.workspace }}/_accessibility-reports  
 
