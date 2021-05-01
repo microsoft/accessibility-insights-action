@@ -58,6 +58,8 @@ export class Scanner {
 
             scanUrl = await this.resolveScanUrl();
 
+            this.logger.logInfo(`input urls before parsing are ${this.taskConfig.getInputUrls().join(",")}`)
+
             const scanArguments: ScanArguments = {
                 url: scanUrl,
                 ...this.getScanArguments(),

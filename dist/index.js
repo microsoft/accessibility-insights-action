@@ -55853,6 +55853,7 @@ let Scanner = class Scanner {
             try {
                 yield this.allProgressReporter.start();
                 scanUrl = yield this.resolveScanUrl();
+                this.logger.logInfo(`input urls before parsing are ${this.taskConfig.getInputUrls().join(",")}`);
                 const scanArguments = Object.assign({ url: scanUrl }, this.getScanArguments());
                 accessibility_insights_scan_1.validateScanArguments(scanArguments);
                 const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);

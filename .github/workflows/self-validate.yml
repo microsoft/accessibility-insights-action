@@ -19,7 +19,7 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         url: http://markreay.github.io/AU/before.html
-        input-urls:  http://accessibilityinsights.io http://markreay.github.io/AU/after.html
+        input-urls: http://accessibilityinsights.io http://markreay.github.io/AU/after.html
         max-urls: 15
     - name: Upload report artifact
       uses: actions/upload-artifact@v1.0.0
