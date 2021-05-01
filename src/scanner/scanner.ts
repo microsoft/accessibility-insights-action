@@ -101,6 +101,9 @@ export class Scanner {
     }
 
     private getScanArguments(): Omit<ScanArguments, 'url'> {
+        const discoveryPatterns = this.taskConfig.getDiscoveryPatterns();
+        const inputUrls = this.taskConfig.getInputUrls();
+        
         return {
             inputFile: this.taskConfig.getInputFile(),
             output: this.taskConfig.getReportOutDir(),
@@ -110,8 +113,10 @@ export class Scanner {
             axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
             crawl: true,
             restart: true,
-            ...[this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter((l) => l.length > 0),
+            ...[discoveryPatterns, inputUrls].filter(list => list.length > 0),
         };
+
+        
     }
 
     private getConvertedData(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {

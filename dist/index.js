@@ -55889,9 +55889,11 @@ let Scanner = class Scanner {
         });
     }
     getScanArguments() {
+        const discoveryPatterns = this.taskConfig.getDiscoveryPatterns();
+        const inputUrls = this.taskConfig.getInputUrls();
         return Object.assign({ inputFile: this.taskConfig.getInputFile(), output: this.taskConfig.getReportOutDir(), maxUrls: this.taskConfig.getMaxUrls(), chromePath: this.taskConfig.getChromePath(), 
             // axeSourcePath is relative to /dist/index.js, not this source file
-            axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'), crawl: true, restart: true }, [this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter((l) => l.length > 0));
+            axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'), crawl: true, restart: true }, [discoveryPatterns, inputUrls].filter(list => list.length > 0));
     }
     getConvertedData(combinedScanResult, scanStarted, scanEnded) {
         var _a;
