@@ -56,25 +56,11 @@ export class Scanner {
         try {
             await this.allProgressReporter.start();
 
-            const remoteUrl: string = this.taskConfig.getUrl();
-            if (remoteUrl) {
-                scanUrl = remoteUrl;
-            } else {
-                const baseUrl = await this.fileServer.start();
-                scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
-            }
+            scanUrl = await this.resolveScanUrl();
 
             const scanArguments: ScanArguments = {
                 url: scanUrl,
-                inputFile: this.taskConfig.getInputFile(),
-                output: this.taskConfig.getReportOutDir(),
-                maxUrls: this.taskConfig.getMaxUrls(),
-                chromePath: this.taskConfig.getChromePath(),
-                // axeSourcePath is relative to /dist/index.js, not this source file
-                axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
-                crawl: true,
-                restart: true,
-                ...[this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter((l) => l.length > 0),
+                ...this.getScanArguments(),
             };
 
             validateScanArguments(scanArguments);
@@ -92,7 +78,7 @@ export class Scanner {
 
             const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(convertedData);
-            await this.allProgressReporter.completeRun(this.getFakeAxeResultData());
+            await this.allProgressReporter.completeRun(this.getFakeAxeResultData()); // TODO
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
             await this.allProgressReporter.failRun(util.inspect(error));
@@ -100,6 +86,29 @@ export class Scanner {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed`);
         }
+    }
+
+    private async resolveScanUrl(): Promise<string> {
+        const remoteUrl: string = this.taskConfig.getUrl();
+        if (isEmpty(remoteUrl)) {
+            const baseUrl = await this.fileServer.start();
+            return url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
+        }
+        return remoteUrl;
+    }
+
+    private getScanArguments(): Omit<ScanArguments, 'url'> {
+        return {
+            inputFile: this.taskConfig.getInputFile(),
+            output: this.taskConfig.getReportOutDir(),
+            maxUrls: this.taskConfig.getMaxUrls(),
+            chromePath: this.taskConfig.getChromePath(),
+            // axeSourcePath is relative to /dist/index.js, not this source file
+            axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
+            crawl: true,
+            restart: true,
+            ...[this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter((l) => l.length > 0),
+        };
     }
 
     private getConvertedData(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {

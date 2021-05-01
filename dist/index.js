@@ -55823,6 +55823,7 @@ const promise_utils_1 = __webpack_require__(/*! ../utils/promise-utils */ "./src
 const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
 const axe_info_1 = __webpack_require__(/*! ../axe/axe-info */ "./src/axe/axe-info.ts");
 const consolidated_report_generator_1 = __webpack_require__(/*! ../report/consolidated-report-generator */ "./src/report/consolidated-report-generator.ts");
+const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 let Scanner = class Scanner {
     constructor(crawler, reportGenerator, taskConfig, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger, crawlerParametersBuilder) {
         this.crawler = crawler;
@@ -55851,17 +55852,8 @@ let Scanner = class Scanner {
             let scanUrl;
             try {
                 yield this.allProgressReporter.start();
-                const remoteUrl = this.taskConfig.getUrl();
-                if (remoteUrl) {
-                    scanUrl = remoteUrl;
-                }
-                else {
-                    const baseUrl = yield this.fileServer.start();
-                    scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
-                }
-                const scanArguments = Object.assign({ url: scanUrl, inputFile: this.taskConfig.getInputFile(), output: this.taskConfig.getReportOutDir(), maxUrls: this.taskConfig.getMaxUrls(), chromePath: this.taskConfig.getChromePath(), 
-                    // axeSourcePath is relative to /dist/index.js, not this source file
-                    axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'), crawl: true, restart: true }, [this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter((l) => l.length > 0));
+                scanUrl = yield this.resolveScanUrl();
+                const scanArguments = Object.assign({ url: scanUrl }, this.getScanArguments());
                 accessibility_insights_scan_1.validateScanArguments(scanArguments);
                 const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
                 this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
@@ -55872,7 +55864,7 @@ let Scanner = class Scanner {
                 const scanEnded = new Date();
                 const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
                 this.reportGenerator.generateReport(convertedData);
-                yield this.allProgressReporter.completeRun(this.getFakeAxeResultData());
+                yield this.allProgressReporter.completeRun(this.getFakeAxeResultData()); // TODO
             }
             catch (error) {
                 this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
@@ -55883,6 +55875,21 @@ let Scanner = class Scanner {
                 this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed`);
             }
         });
+    }
+    resolveScanUrl() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const remoteUrl = this.taskConfig.getUrl();
+            if (lodash_1.isEmpty(remoteUrl)) {
+                const baseUrl = yield this.fileServer.start();
+                return url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
+            }
+            return remoteUrl;
+        });
+    }
+    getScanArguments() {
+        return Object.assign({ inputFile: this.taskConfig.getInputFile(), output: this.taskConfig.getReportOutDir(), maxUrls: this.taskConfig.getMaxUrls(), chromePath: this.taskConfig.getChromePath(), 
+            // axeSourcePath is relative to /dist/index.js, not this source file
+            axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'), crawl: true, restart: true }, [this.taskConfig.getInputUrls(), this.taskConfig.getDiscoveryPatterns()].filter((l) => l.length > 0));
     }
     getConvertedData(combinedScanResult, scanStarted, scanEnded) {
         var _a;
