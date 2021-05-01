@@ -1,0 +1,24 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+name: Validate action e2e
+
+on: 
+  push:
+    branches: 
+      - action-input-validation
+
+jobs:
+  self-validate:
+    name: Self validate
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: run action on our own repo
+      uses: ./
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        url: https://accessibilityinsights.io/
+        input-urls: http://markreay.github.io/AU/before.html http://markreay.github.io/AU/after.html
+        max-urls: 15
+
