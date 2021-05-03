@@ -19,9 +19,6 @@ export class CrawlArgumentHandler {
 
     public async processScanArguments(startFileServer: () => Promise<string>): Promise<ScanArguments> {
         let scanArguments = this.getInitialScanArguments();
-        this.logger.logInfo(`scanArguments url ${scanArguments.url}`);
-
-        validateScanArguments(scanArguments);
 
         const remoteUrl: string = this.taskConfig.getUrl();
         if (isEmpty(remoteUrl)) {
@@ -31,6 +28,8 @@ export class CrawlArgumentHandler {
                 ...this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl),
             };
         }
+
+        validateScanArguments(scanArguments);
 
         return scanArguments;
     }
@@ -45,6 +44,7 @@ export class CrawlArgumentHandler {
             axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
             crawl: true,
             restart: true,
+            continue: true,
             discoveryPatterns: this.taskConfig.getDiscoveryPatterns(),
             inputUrls: this.taskConfig.getInputUrls(),
             url: this.taskConfig.getUrl(),

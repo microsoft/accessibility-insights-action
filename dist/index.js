@@ -55825,13 +55825,12 @@ let CrawlArgumentHandler = class CrawlArgumentHandler {
     processScanArguments(startFileServer) {
         return __awaiter(this, void 0, void 0, function* () {
             let scanArguments = this.getInitialScanArguments();
-            this.logger.logInfo(`scanArguments url ${scanArguments.url}`);
-            accessibility_insights_scan_1.validateScanArguments(scanArguments);
             const remoteUrl = this.taskConfig.getUrl();
             if (lodash_1.isEmpty(remoteUrl)) {
                 const localServerUrl = yield startFileServer();
                 scanArguments = Object.assign(Object.assign({}, scanArguments), this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl));
             }
+            accessibility_insights_scan_1.validateScanArguments(scanArguments);
             return scanArguments;
         });
     }
@@ -55845,6 +55844,7 @@ let CrawlArgumentHandler = class CrawlArgumentHandler {
             axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
             crawl: true,
             restart: true,
+            continue: true,
             discoveryPatterns: this.taskConfig.getDiscoveryPatterns(),
             inputUrls: this.taskConfig.getInputUrls(),
             url: this.taskConfig.getUrl(),
