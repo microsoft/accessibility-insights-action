@@ -56015,12 +56015,12 @@ let Scanner = class Scanner {
                 // await this.allProgressReporter.completeRun(axeScanResults);
             }
             catch (error) {
-                this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments.url}`);
+                this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments === null || scanArguments === void 0 ? void 0 : scanArguments.url}`);
                 yield this.allProgressReporter.failRun(util.inspect(error));
             }
             finally {
                 this.fileServer.stop();
-                this.logger.logInfo(`Accessibility scanning of URL ${scanArguments.url} completed`);
+                this.logger.logInfo(`Accessibility scanning of URL ${scanArguments === null || scanArguments === void 0 ? void 0 : scanArguments.url} completed`);
             }
         });
     }
