@@ -9,8 +9,6 @@ import {
     ScanArguments,
 } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import * as path from 'path';
-import * as url from 'url';
 import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
@@ -23,6 +21,8 @@ import { toolName } from '../content/strings';
 import { AxeInfo } from '../axe/axe-info';
 import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
 import { isEmpty } from 'lodash';
+import { CrawlArgumentHandler } from './crawl-argument-handler';
+import { ScanUrlResolver } from './scan-url-resolver';
 
 @injectable()
 export class Scanner {
@@ -37,6 +37,8 @@ export class Scanner {
         @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
+        @inject(CrawlArgumentHandler) private readonly crawlArgumentHandler: CrawlArgumentHandler,
+        @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
     ) {}
 
     public async scan(): Promise<void> {
@@ -48,31 +50,24 @@ export class Scanner {
     }
 
     private async invokeScan(): Promise<void> {
-        let scanUrl: string;
+        let scanArguments: ScanArguments;
 
         try {
             await this.allProgressReporter.start();
 
-            scanUrl = await this.resolveScanUrl();
-
-            const scanArguments: ScanArguments = {
-                url: scanUrl,
-                ...this.getScanArguments(),
-            };
+            scanArguments = await this.processScanArguments();
 
             validateScanArguments(scanArguments);
 
-            this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
-
-            const chromePath = this.taskConfig.getChromePath();
-            this.logger.logInfo(`Chrome app executable: ${chromePath ?? 'system default'}`);
+            this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
+            this.logger.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
 
             const scanStarted = new Date();
             const combinedScanResult = await this.crawler.crawl({
-                baseUrl: scanUrl,
+                baseUrl: scanArguments.url,
                 crawl: true,
                 restartCrawl: true,
-                chromePath,
+                chromePath: scanArguments.chromePath,
                 axeSourcePath: scanArguments.axeSourcePath,
                 localOutputDir: this.taskConfig.getReportOutDir(),
             });
@@ -82,46 +77,27 @@ export class Scanner {
             this.reportGenerator.generateReport(convertedData);
             // await this.allProgressReporter.completeRun(axeScanResults);
         } catch (error) {
-            this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
+            this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments.url}`);
             await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
             this.fileServer.stop();
-            this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed`);
+            this.logger.logInfo(`Accessibility scanning of URL ${scanArguments.url} completed`);
         }
     }
 
-    private async resolveScanUrl(): Promise<string> {
+    private async processScanArguments(): Promise<ScanArguments> {
+        let scanArguments = this.crawlArgumentHandler.getInitialScanArguments();
+
         const remoteUrl: string = this.taskConfig.getUrl();
         if (isEmpty(remoteUrl)) {
-            const baseUrl = await this.fileServer.start();
-            return url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
-        }
-        return remoteUrl;
-    }
-
-    private getScanArguments(): Omit<ScanArguments, 'url'> {
-        const args = {
-            inputFile: this.taskConfig.getInputFile(),
-            output: this.taskConfig.getReportOutDir(),
-            maxUrls: this.taskConfig.getMaxUrls(),
-            chromePath: this.taskConfig.getChromePath(),
-            // axeSourcePath is relative to /dist/index.js, not this source file
-            axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
-            crawl: true,
-            restart: true,
-            discoveryPatterns: this.taskConfig.getDiscoveryPatterns(),
-            inputUrls: this.taskConfig.getInputUrls(),
-        };
-
-        if (isEmpty(args.discoveryPatterns)) {
-            delete args.discoveryPatterns;
+            const localServerUrl = await this.fileServer.start();
+            scanArguments = {
+                ...scanArguments,
+                ...this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl),
+            };
         }
 
-        if (isEmpty(args.inputUrls)) {
-            delete args.inputUrls;
-        }
-
-        return args;
+        return scanArguments;
     }
 
     private getConvertedData(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
