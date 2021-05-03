@@ -55852,13 +55852,12 @@ let CrawlArgumentHandler = class CrawlArgumentHandler {
             inputUrls: this.taskConfig.getInputUrls(),
             url: this.taskConfig.getUrl(),
         };
-        Object.keys(args)
-            .map((key) => key)
-            .forEach((key) => {
-            if (lodash_1.isEmpty(args[key])) {
-                delete args[key];
-            }
-        });
+        if (lodash_1.isEmpty(args.discoveryPatterns)) {
+            delete args.discoveryPatterns;
+        }
+        if (lodash_1.isEmpty(args.inputUrls)) {
+            delete args.inputUrls;
+        }
         return args;
     }
 };

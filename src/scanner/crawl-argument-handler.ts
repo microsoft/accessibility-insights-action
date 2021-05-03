@@ -53,13 +53,13 @@ export class CrawlArgumentHandler {
             url: this.taskConfig.getUrl(),
         };
 
-        Object.keys(args)
-            .map((key) => key as keyof typeof args)
-            .forEach((key) => {
-                if (isEmpty(args[key])) {
-                    delete args[key];
-                }
-            });
+        if (isEmpty(args.discoveryPatterns)) {
+            delete args.discoveryPatterns;
+        }
+
+        if (isEmpty(args.inputUrls)) {
+            delete args.inputUrls;
+        }
 
         return args;
     }
