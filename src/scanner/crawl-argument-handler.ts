@@ -1,25 +1,37 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ScanArguments, CrawlerRunOptions, CrawlerParametersBuilder, validateScanArguments } from 'accessibility-insights-scan';
+import { ScanArguments, validateScanArguments } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
 import { TaskConfig } from '../task-config';
 import { isEmpty } from 'lodash';
+import { ScanUrlResolver } from './scan-url-resolver';
 
 @injectable()
 export class CrawlArgumentHandler {
     constructor(
-        @inject(CrawlerParametersBuilder) private readonly crawlerParametersBuilder: CrawlerParametersBuilder,
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
     ) {}
 
-    public buildCrawlerOptions(scanArguments: ScanArguments): CrawlerRunOptions {
+    public async processScanArguments(startFileServer: () => Promise<string>): Promise<ScanArguments> {
+        let scanArguments = this.getInitialScanArguments();
         validateScanArguments(scanArguments);
-        return this.crawlerParametersBuilder.build(scanArguments);
+
+        const remoteUrl: string = this.taskConfig.getUrl();
+        if (isEmpty(remoteUrl)) {
+            const localServerUrl = await startFileServer();
+            scanArguments = {
+                ...scanArguments,
+                ...this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl),
+            };
+        }
+
+        return scanArguments;
     }
 
-    public getInitialScanArguments(): ScanArguments {
+    private getInitialScanArguments(): ScanArguments {
         const args = {
             inputFile: this.taskConfig.getInputFile(),
             output: this.taskConfig.getReportOutDir(),

@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-    AICrawler,
-    CombinedScanResult,
-    AICombinedReportDataConverter,
-    validateScanArguments,
-    ScanArguments,
-} from 'accessibility-insights-scan';
+import { AICrawler, CombinedScanResult, AICombinedReportDataConverter, ScanArguments } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
@@ -20,9 +14,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { toolName } from '../content/strings';
 import { AxeInfo } from '../axe/axe-info';
 import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
-import { isEmpty } from 'lodash';
 import { CrawlArgumentHandler } from './crawl-argument-handler';
-import { ScanUrlResolver } from './scan-url-resolver';
 
 @injectable()
 export class Scanner {
@@ -38,7 +30,6 @@ export class Scanner {
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
         @inject(CrawlArgumentHandler) private readonly crawlArgumentHandler: CrawlArgumentHandler,
-        @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
     ) {}
 
     public async scan(): Promise<void> {
@@ -55,9 +46,7 @@ export class Scanner {
         try {
             await this.allProgressReporter.start();
 
-            scanArguments = await this.processScanArguments();
-
-            validateScanArguments(scanArguments);
+            scanArguments = await this.crawlArgumentHandler.processScanArguments(() => this.fileServer.start());
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
             this.logger.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
@@ -83,21 +72,6 @@ export class Scanner {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments.url} completed`);
         }
-    }
-
-    private async processScanArguments(): Promise<ScanArguments> {
-        let scanArguments = this.crawlArgumentHandler.getInitialScanArguments();
-
-        const remoteUrl: string = this.taskConfig.getUrl();
-        if (isEmpty(remoteUrl)) {
-            const localServerUrl = await this.fileServer.start();
-            scanArguments = {
-                ...scanArguments,
-                ...this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl),
-            };
-        }
-
-        return scanArguments;
     }
 
     private getConvertedData(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
