@@ -7,8 +7,6 @@ import {
     AICombinedReportDataConverter,
     validateScanArguments,
     ScanArguments,
-    CrawlerParametersBuilder,
-    AxeScanResults,
 } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
@@ -39,7 +37,6 @@ export class Scanner {
         @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
-        @inject(CrawlerParametersBuilder) private readonly crawlerParametersBuilder: CrawlerParametersBuilder,
     ) {}
 
     public async scan(): Promise<void> {
@@ -58,16 +55,12 @@ export class Scanner {
 
             scanUrl = await this.resolveScanUrl();
 
-            this.logger.logInfo(`input urls before parsing are ${this.taskConfig.getInputUrls().join(",")}`)
-
             const scanArguments: ScanArguments = {
                 url: scanUrl,
                 ...this.getScanArguments(),
             };
 
             validateScanArguments(scanArguments);
-
-            // const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
 
@@ -87,7 +80,7 @@ export class Scanner {
 
             const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(convertedData);
-            await this.allProgressReporter.completeRun(this.getFakeAxeResultData()); // TODO
+            // await this.allProgressReporter.completeRun(axeScanResults);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
             await this.allProgressReporter.failRun(util.inspect(error));
@@ -127,7 +120,7 @@ export class Scanner {
         if (isEmpty(args.inputUrls)) {
             delete args.inputUrls;
         }
-        
+
         return args;
     }
 
@@ -145,48 +138,5 @@ export class Scanner {
         };
 
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
-    }
-
-    private getFakeAxeResultData(): AxeScanResults {
-        return {
-            results: {
-                passes: [
-                    {
-                        description: 'description',
-                        help: 'help',
-                        helpUrl: 'helpUrl',
-                        id: 'id',
-                        tags: [],
-                        nodes: [
-                            {
-                                html: 'html',
-                                target: [],
-                                any: [],
-                                all: [],
-                                none: [],
-                            },
-                        ],
-                    },
-                ],
-                toolOptions: {},
-                testEngine: {
-                    name: 'name',
-                    version: 'version',
-                },
-                testEnvironment: {
-                    userAgent: 'user agent',
-                    windowHeight: 100,
-                    windowWidth: 100,
-                },
-                testRunner: {
-                    name: 'runner',
-                },
-                url: 'url',
-                timestamp: 'timestamp',
-                violations: [],
-                inapplicable: [],
-                incomplete: [],
-            },
-        };
     }
 }

@@ -55806,7 +55806,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Scanner = void 0;
 const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
@@ -55825,7 +55825,7 @@ const axe_info_1 = __webpack_require__(/*! ../axe/axe-info */ "./src/axe/axe-inf
 const consolidated_report_generator_1 = __webpack_require__(/*! ../report/consolidated-report-generator */ "./src/report/consolidated-report-generator.ts");
 const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 let Scanner = class Scanner {
-    constructor(crawler, reportGenerator, taskConfig, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger, crawlerParametersBuilder) {
+    constructor(crawler, reportGenerator, taskConfig, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger) {
         this.crawler = crawler;
         this.reportGenerator = reportGenerator;
         this.taskConfig = taskConfig;
@@ -55836,7 +55836,6 @@ let Scanner = class Scanner {
         this.combinedReportDataConverter = combinedReportDataConverter;
         this.currentProcess = currentProcess;
         this.logger = logger;
-        this.crawlerParametersBuilder = crawlerParametersBuilder;
     }
     scan() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -55853,10 +55852,8 @@ let Scanner = class Scanner {
             try {
                 yield this.allProgressReporter.start();
                 scanUrl = yield this.resolveScanUrl();
-                this.logger.logInfo(`input urls before parsing are ${this.taskConfig.getInputUrls().join(",")}`);
                 const scanArguments = Object.assign({ url: scanUrl }, this.getScanArguments());
                 accessibility_insights_scan_1.validateScanArguments(scanArguments);
-                // const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
                 this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
                 const chromePath = this.taskConfig.getChromePath();
                 this.logger.logInfo(`Chrome app executable: ${chromePath !== null && chromePath !== void 0 ? chromePath : 'system default'}`);
@@ -55872,7 +55869,7 @@ let Scanner = class Scanner {
                 const scanEnded = new Date();
                 const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
                 this.reportGenerator.generateReport(convertedData);
-                yield this.allProgressReporter.completeRun(this.getFakeAxeResultData()); // TODO
+                // await this.allProgressReporter.completeRun(axeScanResults);
             }
             catch (error) {
                 this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
@@ -55930,48 +55927,6 @@ let Scanner = class Scanner {
         };
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
     }
-    getFakeAxeResultData() {
-        return {
-            results: {
-                passes: [
-                    {
-                        description: 'description',
-                        help: 'help',
-                        helpUrl: 'helpUrl',
-                        id: 'id',
-                        tags: [],
-                        nodes: [
-                            {
-                                html: 'html',
-                                target: [],
-                                any: [],
-                                all: [],
-                                none: [],
-                            },
-                        ],
-                    },
-                ],
-                toolOptions: {},
-                testEngine: {
-                    name: 'name',
-                    version: 'version',
-                },
-                testEnvironment: {
-                    userAgent: 'user agent',
-                    windowHeight: 100,
-                    windowWidth: 100,
-                },
-                testRunner: {
-                    name: 'runner',
-                },
-                url: 'url',
-                timestamp: 'timestamp',
-                violations: [],
-                inapplicable: [],
-                incomplete: [],
-            },
-        };
-    }
 };
 Scanner = __decorate([
     inversify_1.injectable(),
@@ -55985,8 +55940,7 @@ Scanner = __decorate([
     __param(7, inversify_1.inject(accessibility_insights_scan_1.AICombinedReportDataConverter)),
     __param(8, inversify_1.inject(ioc_types_1.iocTypes.Process)),
     __param(9, inversify_1.inject(logger_1.Logger)),
-    __param(10, inversify_1.inject(accessibility_insights_scan_1.CrawlerParametersBuilder)),
-    __metadata("design:paramtypes", [typeof (_a = typeof accessibility_insights_scan_1.AICrawler !== "undefined" && accessibility_insights_scan_1.AICrawler) === "function" ? _a : Object, typeof (_b = typeof consolidated_report_generator_1.ConsolidatedReportGenerator !== "undefined" && consolidated_report_generator_1.ConsolidatedReportGenerator) === "function" ? _b : Object, typeof (_c = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _c : Object, typeof (_d = typeof all_progress_reporter_1.AllProgressReporter !== "undefined" && all_progress_reporter_1.AllProgressReporter) === "function" ? _d : Object, typeof (_e = typeof local_file_server_1.LocalFileServer !== "undefined" && local_file_server_1.LocalFileServer) === "function" ? _e : Object, typeof (_f = typeof promise_utils_1.PromiseUtils !== "undefined" && promise_utils_1.PromiseUtils) === "function" ? _f : Object, typeof (_g = typeof axe_info_1.AxeInfo !== "undefined" && axe_info_1.AxeInfo) === "function" ? _g : Object, typeof (_h = typeof accessibility_insights_scan_1.AICombinedReportDataConverter !== "undefined" && accessibility_insights_scan_1.AICombinedReportDataConverter) === "function" ? _h : Object, Object, typeof (_j = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _j : Object, typeof (_k = typeof accessibility_insights_scan_1.CrawlerParametersBuilder !== "undefined" && accessibility_insights_scan_1.CrawlerParametersBuilder) === "function" ? _k : Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof accessibility_insights_scan_1.AICrawler !== "undefined" && accessibility_insights_scan_1.AICrawler) === "function" ? _a : Object, typeof (_b = typeof consolidated_report_generator_1.ConsolidatedReportGenerator !== "undefined" && consolidated_report_generator_1.ConsolidatedReportGenerator) === "function" ? _b : Object, typeof (_c = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _c : Object, typeof (_d = typeof all_progress_reporter_1.AllProgressReporter !== "undefined" && all_progress_reporter_1.AllProgressReporter) === "function" ? _d : Object, typeof (_e = typeof local_file_server_1.LocalFileServer !== "undefined" && local_file_server_1.LocalFileServer) === "function" ? _e : Object, typeof (_f = typeof promise_utils_1.PromiseUtils !== "undefined" && promise_utils_1.PromiseUtils) === "function" ? _f : Object, typeof (_g = typeof axe_info_1.AxeInfo !== "undefined" && axe_info_1.AxeInfo) === "function" ? _g : Object, typeof (_h = typeof accessibility_insights_scan_1.AICombinedReportDataConverter !== "undefined" && accessibility_insights_scan_1.AICombinedReportDataConverter) === "function" ? _h : Object, Object, typeof (_j = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _j : Object])
 ], Scanner);
 exports.Scanner = Scanner;
 
