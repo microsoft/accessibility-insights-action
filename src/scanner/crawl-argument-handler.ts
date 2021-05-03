@@ -7,16 +7,20 @@ import * as path from 'path';
 import { TaskConfig } from '../task-config';
 import { isEmpty } from 'lodash';
 import { ScanUrlResolver } from './scan-url-resolver';
+import { Logger } from '../logger/logger';
 
 @injectable()
 export class CrawlArgumentHandler {
     constructor(
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
+        @inject(Logger) private readonly logger: Logger,
     ) {}
 
     public async processScanArguments(startFileServer: () => Promise<string>): Promise<ScanArguments> {
         let scanArguments = this.getInitialScanArguments();
+        this.logger.logInfo(`scanArguments url ${scanArguments.url}`);
+
         validateScanArguments(scanArguments);
 
         const remoteUrl: string = this.taskConfig.getUrl();

@@ -55806,7 +55806,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b;
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CrawlArgumentHandler = void 0;
 const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
@@ -55815,14 +55815,17 @@ const path = __webpack_require__(/*! path */ "path");
 const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
 const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 const scan_url_resolver_1 = __webpack_require__(/*! ./scan-url-resolver */ "./src/scanner/scan-url-resolver.ts");
+const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
 let CrawlArgumentHandler = class CrawlArgumentHandler {
-    constructor(taskConfig, scanUrlResolver) {
+    constructor(taskConfig, scanUrlResolver, logger) {
         this.taskConfig = taskConfig;
         this.scanUrlResolver = scanUrlResolver;
+        this.logger = logger;
     }
     processScanArguments(startFileServer) {
         return __awaiter(this, void 0, void 0, function* () {
             let scanArguments = this.getInitialScanArguments();
+            this.logger.logInfo(`scanArguments url ${scanArguments.url}`);
             accessibility_insights_scan_1.validateScanArguments(scanArguments);
             const remoteUrl = this.taskConfig.getUrl();
             if (lodash_1.isEmpty(remoteUrl)) {
@@ -55860,7 +55863,8 @@ CrawlArgumentHandler = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(task_config_1.TaskConfig)),
     __param(1, inversify_1.inject(scan_url_resolver_1.ScanUrlResolver)),
-    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, typeof (_b = typeof scan_url_resolver_1.ScanUrlResolver !== "undefined" && scan_url_resolver_1.ScanUrlResolver) === "function" ? _b : Object])
+    __param(2, inversify_1.inject(logger_1.Logger)),
+    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, typeof (_b = typeof scan_url_resolver_1.ScanUrlResolver !== "undefined" && scan_url_resolver_1.ScanUrlResolver) === "function" ? _b : Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object])
 ], CrawlArgumentHandler);
 exports.CrawlArgumentHandler = CrawlArgumentHandler;
 
