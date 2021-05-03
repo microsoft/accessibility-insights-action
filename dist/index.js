@@ -55830,6 +55830,9 @@ let CrawlArgumentHandler = class CrawlArgumentHandler {
                 const localServerUrl = yield startFileServer();
                 scanArguments = Object.assign(Object.assign({}, scanArguments), this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl));
             }
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            const restartContinue = `${scanArguments.restart} ${scanArguments.continue}`;
+            this.logger.logInfo(`scan arguments crawl true ${restartContinue}`);
             accessibility_insights_scan_1.validateScanArguments(scanArguments);
             return scanArguments;
         });

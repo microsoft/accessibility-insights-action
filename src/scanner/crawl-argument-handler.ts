@@ -29,6 +29,9 @@ export class CrawlArgumentHandler {
             };
         }
 
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        const restartContinue = `${scanArguments.restart} ${scanArguments.continue}`;
+        this.logger.logInfo(`scan arguments crawl true ${restartContinue}`);
         validateScanArguments(scanArguments);
 
         return scanArguments;
