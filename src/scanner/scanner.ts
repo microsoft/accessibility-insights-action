@@ -67,16 +67,22 @@ export class Scanner {
 
             validateScanArguments(scanArguments);
 
-            const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
+            // const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
-            this.logger.logInfo(`input urls are ${crawlerRunOptions.inputUrls.join(",")}`)
 
             const chromePath = this.taskConfig.getChromePath();
             this.logger.logInfo(`Chrome app executable: ${chromePath ?? 'system default'}`);
 
             const scanStarted = new Date();
-            const combinedScanResult = await this.crawler.crawl(crawlerRunOptions);
+            const combinedScanResult = await this.crawler.crawl({
+                baseUrl: scanUrl,
+                crawl: true,
+                restartCrawl: true,
+                chromePath,
+                axeSourcePath: scanArguments.axeSourcePath,
+                localOutputDir: this.taskConfig.getReportOutDir(),
+            });
             const scanEnded = new Date();
 
             const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);

@@ -55856,13 +55856,19 @@ let Scanner = class Scanner {
                 this.logger.logInfo(`input urls before parsing are ${this.taskConfig.getInputUrls().join(",")}`);
                 const scanArguments = Object.assign({ url: scanUrl }, this.getScanArguments());
                 accessibility_insights_scan_1.validateScanArguments(scanArguments);
-                const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
+                // const crawlerRunOptions = this.crawlerParametersBuilder.build(scanArguments);
                 this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
-                this.logger.logInfo(`input urls are ${crawlerRunOptions.inputUrls.join(",")}`);
                 const chromePath = this.taskConfig.getChromePath();
                 this.logger.logInfo(`Chrome app executable: ${chromePath !== null && chromePath !== void 0 ? chromePath : 'system default'}`);
                 const scanStarted = new Date();
-                const combinedScanResult = yield this.crawler.crawl(crawlerRunOptions);
+                const combinedScanResult = yield this.crawler.crawl({
+                    baseUrl: scanUrl,
+                    crawl: true,
+                    restartCrawl: true,
+                    chromePath,
+                    axeSourcePath: scanArguments.axeSourcePath,
+                    localOutputDir: this.taskConfig.getReportOutDir(),
+                });
                 const scanEnded = new Date();
                 const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
                 this.reportGenerator.generateReport(convertedData);
