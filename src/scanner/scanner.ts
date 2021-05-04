@@ -8,7 +8,6 @@ import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
 import { AllProgressReporter } from '../progress-reporter/all-progress-reporter';
-import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { toolName } from '../content/strings';
@@ -21,7 +20,6 @@ export class Scanner {
     constructor(
         @inject(AICrawler) private readonly crawler: AICrawler,
         @inject(ConsolidatedReportGenerator) private readonly reportGenerator: ConsolidatedReportGenerator,
-        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(AllProgressReporter) private readonly allProgressReporter: AllProgressReporter,
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
@@ -58,7 +56,7 @@ export class Scanner {
                 restartCrawl: true,
                 chromePath: scanArguments.chromePath,
                 axeSourcePath: scanArguments.axeSourcePath,
-                localOutputDir: this.taskConfig.getReportOutDir(),
+                localOutputDir: scanArguments.output,
             });
             const scanEnded = new Date();
 

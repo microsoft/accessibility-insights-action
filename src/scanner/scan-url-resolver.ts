@@ -3,16 +3,16 @@
 
 import { inject, injectable } from 'inversify';
 import { TaskConfig } from '../task-config';
-import * as url from 'url';
+import { resolve } from 'url';
 import { ScanArguments } from 'accessibility-insights-scan';
 
 @injectable()
 export class ScanUrlResolver {
-    constructor(@inject(TaskConfig) private readonly taskConfig: TaskConfig) {}
+    constructor(@inject(TaskConfig) private readonly taskConfig: TaskConfig, private readonly resolveUrl: typeof resolve = resolve) {}
 
     public resolveLocallyHostedUrls(baseUrl: string): Partial<ScanArguments> {
         return {
-            url: url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath()),
+            url: this.resolveUrl(baseUrl, this.taskConfig.getScanUrlRelativePath()),
         };
     }
 }
