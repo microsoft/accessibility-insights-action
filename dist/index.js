@@ -55806,58 +55806,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b, _c;
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CrawlArgumentHandler = void 0;
 const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
-const path = __webpack_require__(/*! path */ "path");
+const path_1 = __webpack_require__(/*! path */ "path");
 const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
 const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 const scan_url_resolver_1 = __webpack_require__(/*! ./scan-url-resolver */ "./src/scanner/scan-url-resolver.ts");
-const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
 let CrawlArgumentHandler = class CrawlArgumentHandler {
-    constructor(taskConfig, scanUrlResolver, logger) {
+    constructor(taskConfig, scanUrlResolver, resolvePath = path_1.resolve, validateScanArgumentsExt = accessibility_insights_scan_1.validateScanArguments) {
         this.taskConfig = taskConfig;
         this.scanUrlResolver = scanUrlResolver;
-        this.logger = logger;
+        this.resolvePath = resolvePath;
+        this.validateScanArgumentsExt = validateScanArgumentsExt;
     }
     processScanArguments(startFileServer) {
         return __awaiter(this, void 0, void 0, function* () {
             let scanArguments = this.getInitialScanArguments();
-            const remoteUrl = this.taskConfig.getUrl();
-            if (lodash_1.isEmpty(remoteUrl)) {
+            if (lodash_1.isEmpty(scanArguments.url)) {
                 const localServerUrl = yield startFileServer();
                 scanArguments = Object.assign(Object.assign({}, scanArguments), this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl));
             }
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            const restartContinue = `${scanArguments.restart} ${scanArguments.continue}`;
-            this.logger.logInfo(`scan arguments crawl true ${restartContinue}`);
-            accessibility_insights_scan_1.validateScanArguments(scanArguments);
+            this.validateScanArgumentsExt(scanArguments);
             return scanArguments;
         });
     }
     getInitialScanArguments() {
+        var _a, _b;
         const args = {
             inputFile: this.taskConfig.getInputFile(),
             output: this.taskConfig.getReportOutDir(),
             maxUrls: this.taskConfig.getMaxUrls(),
             chromePath: this.taskConfig.getChromePath(),
             // axeSourcePath is relative to /dist/index.js, not this source file
-            axeSourcePath: path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js'),
+            axeSourcePath: this.resolvePath(__dirname, 'node_modules', 'axe-core', 'axe.js'),
             crawl: true,
             restart: true,
-            continue: true,
-            discoveryPatterns: this.taskConfig.getDiscoveryPatterns(),
-            inputUrls: this.taskConfig.getInputUrls(),
+            discoveryPatterns: (_a = this.taskConfig.getDiscoveryPatterns()) === null || _a === void 0 ? void 0 : _a.split(/\s+/),
+            inputUrls: (_b = this.taskConfig.getInputUrls()) === null || _b === void 0 ? void 0 : _b.split(/\s+/),
             url: this.taskConfig.getUrl(),
         };
-        if (lodash_1.isEmpty(args.discoveryPatterns)) {
-            delete args.discoveryPatterns;
-        }
-        if (lodash_1.isEmpty(args.inputUrls)) {
-            delete args.inputUrls;
-        }
         return args;
     }
 };
@@ -55865,8 +55855,7 @@ CrawlArgumentHandler = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(task_config_1.TaskConfig)),
     __param(1, inversify_1.inject(scan_url_resolver_1.ScanUrlResolver)),
-    __param(2, inversify_1.inject(logger_1.Logger)),
-    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, typeof (_b = typeof scan_url_resolver_1.ScanUrlResolver !== "undefined" && scan_url_resolver_1.ScanUrlResolver) === "function" ? _b : Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, typeof (_b = typeof scan_url_resolver_1.ScanUrlResolver !== "undefined" && scan_url_resolver_1.ScanUrlResolver) === "function" ? _b : Object, Object, Object])
 ], CrawlArgumentHandler);
 exports.CrawlArgumentHandler = CrawlArgumentHandler;
 
@@ -55900,21 +55889,22 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ScanUrlResolver = void 0;
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
 const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
-const url = __webpack_require__(/*! url */ "url");
+const url_1 = __webpack_require__(/*! url */ "url");
 let ScanUrlResolver = class ScanUrlResolver {
-    constructor(taskConfig) {
+    constructor(taskConfig, resolveUrl = url_1.resolve) {
         this.taskConfig = taskConfig;
+        this.resolveUrl = resolveUrl;
     }
     resolveLocallyHostedUrls(baseUrl) {
         return {
-            url: url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath()),
+            url: this.resolveUrl(baseUrl, this.taskConfig.getScanUrlRelativePath()),
         };
     }
 };
 ScanUrlResolver = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(task_config_1.TaskConfig)),
-    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, Object])
 ], ScanUrlResolver);
 exports.ScanUrlResolver = ScanUrlResolver;
 
@@ -55952,7 +55942,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Scanner = void 0;
 const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
@@ -55962,17 +55952,15 @@ const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "./src/ioc/ioc-t
 const local_file_server_1 = __webpack_require__(/*! ../local-file-server */ "./src/local-file-server.ts");
 const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
 const all_progress_reporter_1 = __webpack_require__(/*! ../progress-reporter/all-progress-reporter */ "./src/progress-reporter/all-progress-reporter.ts");
-const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
 const promise_utils_1 = __webpack_require__(/*! ../utils/promise-utils */ "./src/utils/promise-utils.ts");
 const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
 const axe_info_1 = __webpack_require__(/*! ../axe/axe-info */ "./src/axe/axe-info.ts");
 const consolidated_report_generator_1 = __webpack_require__(/*! ../report/consolidated-report-generator */ "./src/report/consolidated-report-generator.ts");
 const crawl_argument_handler_1 = __webpack_require__(/*! ./crawl-argument-handler */ "./src/scanner/crawl-argument-handler.ts");
 let Scanner = class Scanner {
-    constructor(crawler, reportGenerator, taskConfig, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger, crawlArgumentHandler) {
+    constructor(crawler, reportGenerator, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger, crawlArgumentHandler) {
         this.crawler = crawler;
         this.reportGenerator = reportGenerator;
-        this.taskConfig = taskConfig;
         this.allProgressReporter = allProgressReporter;
         this.fileServer = fileServer;
         this.promiseUtils = promiseUtils;
@@ -56007,7 +55995,7 @@ let Scanner = class Scanner {
                     restartCrawl: true,
                     chromePath: scanArguments.chromePath,
                     axeSourcePath: scanArguments.axeSourcePath,
-                    localOutputDir: this.taskConfig.getReportOutDir(),
+                    localOutputDir: scanArguments.output,
                 });
                 const scanEnded = new Date();
                 const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
@@ -56044,16 +56032,15 @@ Scanner = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(accessibility_insights_scan_1.AICrawler)),
     __param(1, inversify_1.inject(consolidated_report_generator_1.ConsolidatedReportGenerator)),
-    __param(2, inversify_1.inject(task_config_1.TaskConfig)),
-    __param(3, inversify_1.inject(all_progress_reporter_1.AllProgressReporter)),
-    __param(4, inversify_1.inject(local_file_server_1.LocalFileServer)),
-    __param(5, inversify_1.inject(promise_utils_1.PromiseUtils)),
-    __param(6, inversify_1.inject(axe_info_1.AxeInfo)),
-    __param(7, inversify_1.inject(accessibility_insights_scan_1.AICombinedReportDataConverter)),
-    __param(8, inversify_1.inject(ioc_types_1.iocTypes.Process)),
-    __param(9, inversify_1.inject(logger_1.Logger)),
-    __param(10, inversify_1.inject(crawl_argument_handler_1.CrawlArgumentHandler)),
-    __metadata("design:paramtypes", [typeof (_a = typeof accessibility_insights_scan_1.AICrawler !== "undefined" && accessibility_insights_scan_1.AICrawler) === "function" ? _a : Object, typeof (_b = typeof consolidated_report_generator_1.ConsolidatedReportGenerator !== "undefined" && consolidated_report_generator_1.ConsolidatedReportGenerator) === "function" ? _b : Object, typeof (_c = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _c : Object, typeof (_d = typeof all_progress_reporter_1.AllProgressReporter !== "undefined" && all_progress_reporter_1.AllProgressReporter) === "function" ? _d : Object, typeof (_e = typeof local_file_server_1.LocalFileServer !== "undefined" && local_file_server_1.LocalFileServer) === "function" ? _e : Object, typeof (_f = typeof promise_utils_1.PromiseUtils !== "undefined" && promise_utils_1.PromiseUtils) === "function" ? _f : Object, typeof (_g = typeof axe_info_1.AxeInfo !== "undefined" && axe_info_1.AxeInfo) === "function" ? _g : Object, typeof (_h = typeof accessibility_insights_scan_1.AICombinedReportDataConverter !== "undefined" && accessibility_insights_scan_1.AICombinedReportDataConverter) === "function" ? _h : Object, Object, typeof (_j = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _j : Object, typeof (_k = typeof crawl_argument_handler_1.CrawlArgumentHandler !== "undefined" && crawl_argument_handler_1.CrawlArgumentHandler) === "function" ? _k : Object])
+    __param(2, inversify_1.inject(all_progress_reporter_1.AllProgressReporter)),
+    __param(3, inversify_1.inject(local_file_server_1.LocalFileServer)),
+    __param(4, inversify_1.inject(promise_utils_1.PromiseUtils)),
+    __param(5, inversify_1.inject(axe_info_1.AxeInfo)),
+    __param(6, inversify_1.inject(accessibility_insights_scan_1.AICombinedReportDataConverter)),
+    __param(7, inversify_1.inject(ioc_types_1.iocTypes.Process)),
+    __param(8, inversify_1.inject(logger_1.Logger)),
+    __param(9, inversify_1.inject(crawl_argument_handler_1.CrawlArgumentHandler)),
+    __metadata("design:paramtypes", [typeof (_a = typeof accessibility_insights_scan_1.AICrawler !== "undefined" && accessibility_insights_scan_1.AICrawler) === "function" ? _a : Object, typeof (_b = typeof consolidated_report_generator_1.ConsolidatedReportGenerator !== "undefined" && consolidated_report_generator_1.ConsolidatedReportGenerator) === "function" ? _b : Object, typeof (_c = typeof all_progress_reporter_1.AllProgressReporter !== "undefined" && all_progress_reporter_1.AllProgressReporter) === "function" ? _c : Object, typeof (_d = typeof local_file_server_1.LocalFileServer !== "undefined" && local_file_server_1.LocalFileServer) === "function" ? _d : Object, typeof (_e = typeof promise_utils_1.PromiseUtils !== "undefined" && promise_utils_1.PromiseUtils) === "function" ? _e : Object, typeof (_f = typeof axe_info_1.AxeInfo !== "undefined" && axe_info_1.AxeInfo) === "function" ? _f : Object, typeof (_g = typeof accessibility_insights_scan_1.AICombinedReportDataConverter !== "undefined" && accessibility_insights_scan_1.AICombinedReportDataConverter) === "function" ? _g : Object, Object, typeof (_h = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _h : Object, typeof (_j = typeof crawl_argument_handler_1.CrawlArgumentHandler !== "undefined" && crawl_argument_handler_1.CrawlArgumentHandler) === "function" ? _j : Object])
 ], Scanner);
 exports.Scanner = Scanner;
 
@@ -56121,13 +56108,13 @@ let TaskConfig = class TaskConfig {
         return parseInt(this.actionCoreObj.getInput('max-urls'));
     }
     getDiscoveryPatterns() {
-        return this.actionCoreObj.getInput('discovery-patterns').split(/\s+/);
+        return this.actionCoreObj.getInput('discovery-patterns');
     }
     getInputFile() {
         return this.actionCoreObj.getInput('input-file');
     }
     getInputUrls() {
-        return this.actionCoreObj.getInput('input-urls').split(/\s+/);
+        return this.actionCoreObj.getInput('input-urls');
     }
     getRunId() {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
