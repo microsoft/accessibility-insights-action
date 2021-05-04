@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
-import { AxeScanResults } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-
 import { isNil } from 'lodash';
 import { disclaimerText } from '../../content/mark-down-strings';
 import { checkRunDetailsTitle, checkRunName } from '../../content/strings';
 import { iocTypes } from '../../ioc/ioc-types';
 import { Logger } from '../../logger/logger';
-import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
+import { ReportMarkdownConvertor } from '../../mark-down/report-markdown-convertor';
 import { ProgressReporter } from '../progress-reporter';
+import { CombinedReportParameters } from 'accessibility-insights-report';
 
 // Pulling these types from RestEndpointMethodTypes would be better, but we can't do so until
 // https://github.com/octokit/rest.js/issues/2000 is resolved. The better versions would be:
@@ -24,9 +24,11 @@ import { ProgressReporter } from '../progress-reporter';
 type CreateCheckResponseData = {
     id: number;
 };
+
 type CreateCheckResponse = {
     data: CreateCheckResponseData;
 };
+
 type UpdateCheckOutputParameter = {
     title?: string;
     summary: string;
@@ -38,7 +40,7 @@ export class CheckRunCreator implements ProgressReporter {
     private a11yCheck: CreateCheckResponseData;
 
     constructor(
-        @inject(AxeMarkdownConvertor) private readonly axeMarkdownConvertor: AxeMarkdownConvertor,
+        @inject(ReportMarkdownConvertor) private readonly axeMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(iocTypes.Github) private readonly githubObj: typeof github,
         @inject(Logger) private readonly logger: Logger,
@@ -57,7 +59,7 @@ export class CheckRunCreator implements ProgressReporter {
         })) as CreateCheckResponse).data; // The "as" is only necessary until https://github.com/octokit/rest.js/issues/2000 is resolved
     }
 
-    public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
+    public async completeRun(combinedReportResult: CombinedReportParameters): Promise<void> {
         this.logMessage('Updating check run with status as completed');
         await this.octokit.checks.update({
             owner: this.githubObj.context.repo.owner,
@@ -65,8 +67,8 @@ export class CheckRunCreator implements ProgressReporter {
             check_run_id: this.a11yCheck.id,
             name: checkRunName,
             status: 'completed',
-            conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
-            output: this.getScanOutput(axeScanResults),
+            conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
+            output: this.getScanOutput(combinedReportResult),
         });
     }
 
@@ -92,11 +94,11 @@ export class CheckRunCreator implements ProgressReporter {
         this.logger.logInfo(`[CheckRunCreator] ${message}`);
     }
 
-    private getScanOutput(axeScanResults: AxeScanResults): UpdateCheckOutputParameter {
+    private getScanOutput(combinedReportResult: CombinedReportParameters): UpdateCheckOutputParameter {
         return {
             title: checkRunDetailsTitle,
             summary: disclaimerText,
-            text: this.axeMarkdownConvertor.convert(axeScanResults),
+            text: this.axeMarkdownConvertor.convert(combinedReportResult),
         };
     }
 }
