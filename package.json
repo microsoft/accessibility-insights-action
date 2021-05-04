@@ -43,7 +43,7 @@
         "@types/serve-static": "^1.13.9",
         "@types/verror": "^1.10.4",
         "@typescript-eslint/eslint-plugin": "^4.22.1",
-        "@typescript-eslint/parser": "^4.22.0",
+        "@typescript-eslint/parser": "^4.22.1",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
         "eslint": "^7.25.0",
         "eslint-plugin-security": "^1.4.0",
