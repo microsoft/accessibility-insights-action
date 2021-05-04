@@ -1,28 +1,27 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AICrawler, CombinedScanResult, AICombinedReportDataConverter } from 'accessibility-insights-scan';
+import { AICrawler, CombinedScanResult, AICombinedReportDataConverter, ScanArguments } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import * as path from 'path';
-import * as url from 'url';
 import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
 import { AllProgressReporter } from '../progress-reporter/all-progress-reporter';
-import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { toolName } from '../content/strings';
 import { AxeInfo } from '../axe/axe-info';
 import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
+import { CrawlArgumentHandler } from './crawl-argument-handler';
+import { TaskConfig } from '../task-config';
+import { isEmpty } from 'lodash';
 
 @injectable()
 export class Scanner {
     constructor(
         @inject(AICrawler) private readonly crawler: AICrawler,
         @inject(ConsolidatedReportGenerator) private readonly reportGenerator: ConsolidatedReportGenerator,
-        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(AllProgressReporter) private readonly allProgressReporter: AllProgressReporter,
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
@@ -30,6 +29,8 @@ export class Scanner {
         @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
+        @inject(CrawlArgumentHandler) private readonly crawlArgumentHandler: CrawlArgumentHandler,
+        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
     ) {}
 
     public async scan(): Promise<void> {
@@ -41,35 +42,29 @@ export class Scanner {
     }
 
     private async invokeScan(): Promise<void> {
-        let scanUrl: string;
+        let scanArguments: ScanArguments;
+        let localServerUrl: string;
 
         try {
             await this.allProgressReporter.start();
 
-            const remoteUrl: string = this.taskConfig.getUrl();
-            if (remoteUrl) {
-                scanUrl = remoteUrl;
-            } else {
-                const baseUrl = await this.fileServer.start();
-                scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
+            if (isEmpty(this.taskConfig.getUrl())) {
+                localServerUrl = await this.fileServer.start();
             }
 
-            this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}`);
+            scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
-            const chromePath = this.taskConfig.getChromePath();
-            this.logger.logInfo(`Chrome app executable: ${chromePath ?? 'system default'}`);
-
-            // Note: this is relative to /dist/index.js, not this source file
-            const axeCoreSourcePath = path.resolve(__dirname, 'node_modules', 'axe-core', 'axe.js');
+            this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
+            this.logger.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
 
             const scanStarted = new Date();
             const combinedScanResult = await this.crawler.crawl({
-                baseUrl: scanUrl,
+                baseUrl: scanArguments.url,
                 crawl: true,
                 restartCrawl: true,
-                chromePath,
-                axeSourcePath: axeCoreSourcePath,
-                localOutputDir: this.taskConfig.getReportOutDir(),
+                chromePath: scanArguments.chromePath,
+                axeSourcePath: scanArguments.axeSourcePath,
+                localOutputDir: scanArguments.output,
             });
             const scanEnded = new Date();
 
@@ -78,11 +73,11 @@ export class Scanner {
 
             await this.allProgressReporter.completeRun(combinedReportResult);
         } catch (error) {
-            this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
+            this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
             await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
             this.fileServer.stop();
-            this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed`);
+            this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
         }
     }
 
