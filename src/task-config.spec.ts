@@ -30,8 +30,8 @@ describe(TaskConfig, () => {
         ${'output-dir'}             | ${'path'}  | ${'path'}     | ${() => taskConfig.getReportOutDir()}
         ${'site-dir'}               | ${'path'}  | ${'path'}     | ${() => taskConfig.getSiteDir()}
         ${'url'}                    | ${'url'}   | ${'url'}      | ${() => taskConfig.getUrl()}
-        ${'discovery-patterns'}     | ${'abc'}   | ${'a bb  c'}  | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'input-urls'}             | ${'abc'}   | ${'a bb  c'}  | ${() => taskConfig.getInputUrls()}
+        ${'discovery-patterns'}     | ${'abc'}   | ${'abc'}      | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'input-urls'}             | ${'abc'}   | ${'abc'}      | ${() => taskConfig.getInputUrls()}
         ${'max-urls'}               | ${'20'}    | ${20}         | ${() => taskConfig.getMaxUrls()}
     `(
         'parses "$inputValue" as $expectedValue when provided as $inputOption',
