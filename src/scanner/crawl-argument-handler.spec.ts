@@ -39,9 +39,8 @@ describe(CrawlArgumentHandler, () => {
         validateMock.reset();
     });
 
-    it('returns expected arguments when remote URL provided', async () => {
+    it('returns expected arguments when remote URL provided', () => {
         setupProcessScanArguments();
-        const startFileServerMock = Mock.ofInstance(() => Promise.resolve('localhost'));
 
         const expectedArgs: ScanArguments = {
             ...actionInputDefaultArgs,
@@ -52,22 +51,19 @@ describe(CrawlArgumentHandler, () => {
 
         validateMock.setup((m) => m(expectedArgs));
 
-        const actualArgs = await crawlArgumentHandler.processScanArguments(startFileServerMock.object);
+        const actualArgs = crawlArgumentHandler.processScanArguments();
         expect(actualArgs).toStrictEqual(expectedArgs);
 
         taskConfigMock.verifyAll();
         validateMock.verifyAll();
         scanUrlResolverMock.verify((m) => m.resolveLocallyHostedUrls(It.isAny()), Times.never());
-        startFileServerMock.verify((m) => m(), Times.never());
     });
 
-    it('starts server & resolves local URLs when remote URL is not provided', async () => {
+    it('resolves local URLs when remote URL is not provided', () => {
         setupProcessScanArguments({
             url: undefined,
         });
 
-        const startFileServerMock = Mock.ofType<() => Promise<string>>();
-        startFileServerMock.setup((m) => m()).returns((_) => Promise.resolve('localhost'));
         scanUrlResolverMock.setup((m) => m.resolveLocallyHostedUrls('localhost')).returns((_) => ({ url: 'localhost' }));
 
         const expectedArgs: ScanArguments = {
@@ -80,13 +76,33 @@ describe(CrawlArgumentHandler, () => {
 
         validateMock.setup((m) => m(expectedArgs));
 
-        const actualArgs = await crawlArgumentHandler.processScanArguments(startFileServerMock.object);
+        const actualArgs = crawlArgumentHandler.processScanArguments('localhost');
         expect(actualArgs).toStrictEqual(expectedArgs);
 
         taskConfigMock.verifyAll();
         validateMock.verifyAll();
         scanUrlResolverMock.verifyAll();
-        startFileServerMock.verifyAll();
+    });
+
+    it('returns expected arguments when discoveryPatterns / inputFiles empty', () => {
+        setupProcessScanArguments({
+            discoveryPatterns: undefined,
+            inputUrls: undefined,
+        });
+
+        const expectedArgs: ScanArguments = {
+            ...actionInputDefaultArgs,
+            crawl: true,
+            restart: true,
+            axeSourcePath: 'axe',
+            discoveryPatterns: undefined,
+            inputUrls: undefined,
+        };
+
+        validateMock.setup((m) => m(expectedArgs));
+
+        const actualArgs = crawlArgumentHandler.processScanArguments();
+        expect(actualArgs).toStrictEqual(expectedArgs);
     });
 
     function setupProcessScanArguments(overwriteDefaultArgs?: Partial<ScanArguments>) {
@@ -101,8 +117,8 @@ describe(CrawlArgumentHandler, () => {
         taskConfigMock.setup((m) => m.getReportOutDir()).returns((_) => args.output);
         taskConfigMock.setup((m) => m.getMaxUrls()).returns((_) => 10);
         taskConfigMock.setup((m) => m.getChromePath()).returns((_) => args.chromePath);
-        taskConfigMock.setup((m) => m.getDiscoveryPatterns()).returns((_) => args.discoveryPatterns.join(' '));
-        taskConfigMock.setup((m) => m.getInputUrls()).returns((_) => args.inputUrls.join(' '));
+        taskConfigMock.setup((m) => m.getDiscoveryPatterns()).returns((_) => args.discoveryPatterns?.join(' '));
+        taskConfigMock.setup((m) => m.getInputUrls()).returns((_) => args.inputUrls?.join(' '));
         taskConfigMock.setup((m) => m.getUrl()).returns((_) => args.url);
     }
 });

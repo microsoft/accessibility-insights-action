@@ -17,11 +17,10 @@ export class CrawlArgumentHandler {
         private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,
     ) {}
 
-    public async processScanArguments(startFileServer: () => Promise<string>): Promise<ScanArguments> {
+    public processScanArguments(localServerUrl?: string): ScanArguments {
         let scanArguments = this.getInitialScanArguments();
 
         if (isEmpty(scanArguments.url)) {
-            const localServerUrl = await startFileServer();
             scanArguments = {
                 ...scanArguments,
                 ...this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl),

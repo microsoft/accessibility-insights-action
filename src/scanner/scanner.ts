@@ -14,6 +14,8 @@ import { toolName } from '../content/strings';
 import { AxeInfo } from '../axe/axe-info';
 import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
 import { CrawlArgumentHandler } from './crawl-argument-handler';
+import { TaskConfig } from '../task-config';
+import { isEmpty } from 'lodash';
 
 @injectable()
 export class Scanner {
@@ -28,6 +30,7 @@ export class Scanner {
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
         @inject(CrawlArgumentHandler) private readonly crawlArgumentHandler: CrawlArgumentHandler,
+        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
     ) {}
 
     public async scan(): Promise<void> {
@@ -40,11 +43,16 @@ export class Scanner {
 
     private async invokeScan(): Promise<void> {
         let scanArguments: ScanArguments;
+        let localServerUrl: string;
 
         try {
             await this.allProgressReporter.start();
 
-            scanArguments = await this.crawlArgumentHandler.processScanArguments(() => this.fileServer.start());
+            if (isEmpty(this.taskConfig.getUrl())) {
+                localServerUrl = await this.fileServer.start();
+            }
+
+            scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
             this.logger.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
