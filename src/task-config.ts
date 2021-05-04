@@ -45,16 +45,16 @@ export class TaskConfig {
         return parseInt(this.actionCoreObj.getInput('max-urls'));
     }
 
-    public getDiscoveryPatterns(): string[] {
-        return this.actionCoreObj.getInput('discovery-patterns').split(/\s+/);
+    public getDiscoveryPatterns(): string {
+        return this.actionCoreObj.getInput('discovery-patterns');
     }
 
     public getInputFile(): string {
         return this.actionCoreObj.getInput('input-file');
     }
 
-    public getInputUrls(): string[] {
-        return this.actionCoreObj.getInput('input-urls').split(/\s+/);
+    public getInputUrls(): string {
+        return this.actionCoreObj.getInput('input-urls');
     }
 
     public getRunId(): number {

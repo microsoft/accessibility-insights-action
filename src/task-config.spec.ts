@@ -22,17 +22,17 @@ describe(TaskConfig, () => {
     const taskConfig = new TaskConfig(processStub, actionCoreMock.object);
 
     it.each`
-        inputOption                 | inputValue   | expectedValue       | getInputFunc
-        ${'repo-token'}             | ${'token'}   | ${'token'}          | ${() => taskConfig.getToken()}
-        ${'scan-url-relative-path'} | ${'path'}    | ${'path'}           | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chrome-path'}            | ${'path'}    | ${'path'}           | ${() => taskConfig.getChromePath()}
-        ${'input-file'}             | ${'path'}    | ${'path'}           | ${() => taskConfig.getInputFile()}
-        ${'output-dir'}             | ${'path'}    | ${'path'}           | ${() => taskConfig.getReportOutDir()}
-        ${'site-dir'}               | ${'path'}    | ${'path'}           | ${() => taskConfig.getSiteDir()}
-        ${'url'}                    | ${'url'}     | ${'url'}            | ${() => taskConfig.getUrl()}
-        ${'discovery-patterns'}     | ${'a bb  c'} | ${['a', 'bb', 'c']} | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'input-urls'}             | ${'a bb  c'} | ${['a', 'bb', 'c']} | ${() => taskConfig.getInputUrls()}
-        ${'max-urls'}               | ${'20'}      | ${20}               | ${() => taskConfig.getMaxUrls()}
+        inputOption                 | inputValue | expectedValue | getInputFunc
+        ${'repo-token'}             | ${'token'} | ${'token'}    | ${() => taskConfig.getToken()}
+        ${'scan-url-relative-path'} | ${'path'}  | ${'path'}     | ${() => taskConfig.getScanUrlRelativePath()}
+        ${'chrome-path'}            | ${'path'}  | ${'path'}     | ${() => taskConfig.getChromePath()}
+        ${'input-file'}             | ${'path'}  | ${'path'}     | ${() => taskConfig.getInputFile()}
+        ${'output-dir'}             | ${'path'}  | ${'path'}     | ${() => taskConfig.getReportOutDir()}
+        ${'site-dir'}               | ${'path'}  | ${'path'}     | ${() => taskConfig.getSiteDir()}
+        ${'url'}                    | ${'url'}   | ${'url'}      | ${() => taskConfig.getUrl()}
+        ${'discovery-patterns'}     | ${'abc'}   | ${'abc'}      | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'input-urls'}             | ${'abc'}   | ${'abc'}      | ${() => taskConfig.getInputUrls()}
+        ${'max-urls'}               | ${'20'}    | ${20}         | ${() => taskConfig.getMaxUrls()}
     `(
         'parses "$inputValue" as $expectedValue when provided as $inputOption',
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
