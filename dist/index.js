@@ -54778,7 +54778,7 @@ exports.AxeInfo = AxeInfo;
 // Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.disclaimerText = exports.wcag21AALink = exports.webToolLink = exports.assessmentLink = void 0;
-const markdown_formatter_1 = __webpack_require__(/*! ../utils/markdown-formatter */ "./src/utils/markdown-formatter.ts");
+const markdown_formatter_1 = __webpack_require__(/*! ../mark-down/markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
 const strings_1 = __webpack_require__(/*! ./strings */ "./src/content/strings.ts");
 exports.assessmentLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/getstarted/assessment', 'Assessment');
 exports.webToolLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/overview', strings_1.webToolName);
@@ -54796,10 +54796,10 @@ exports.disclaimerText = `The ${strings_1.toolName} ran a set of automated check
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.checkRunDetailsTitle = exports.checkRunName = exports.brandLogoImg = exports.webToolName = exports.toolName = exports.productName = exports.title = exports.brand = void 0;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.checkRunDetailsTitle = exports.checkRunName = exports.brandLogoImg = exports.webToolName = exports.toolName = exports.productName = exports.title = exports.brand = void 0;
 exports.brand = 'Accessibility Insights';
 exports.title = `${exports.brand} Action`;
 exports.productName = exports.title;
@@ -55212,14 +55212,65 @@ exports.Logger = Logger;
 
 /***/ }),
 
-/***/ "./src/mark-down/axe-markdown-convertor.ts":
-/*!*************************************************!*\
-  !*** ./src/mark-down/axe-markdown-convertor.ts ***!
-  \*************************************************/
+/***/ "./src/mark-down/markdown-formatter.ts":
+/*!*********************************************!*\
+  !*** ./src/mark-down/markdown-formatter.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.sectionSeparator = exports.footerSeparator = exports.productTitle = exports.bold = exports.heading = exports.listItem = exports.image = exports.link = exports.snippet = void 0;
+const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
+const snippet = (text) => {
+    return `\`${text}\``;
+};
+exports.snippet = snippet;
+const link = (href, text) => {
+    return `[${text}](${href})`;
+};
+exports.link = link;
+const image = (altText, src) => {
+    return `![${altText}](${src})`;
+};
+exports.image = image;
+const listItem = (text) => {
+    return `* ${text}`;
+};
+exports.listItem = listItem;
+const heading = (text, headingLevel) => {
+    return `${'#'.repeat(headingLevel)} ${text}`;
+};
+exports.heading = heading;
+const bold = (text) => {
+    return `**${text}**`;
+};
+exports.bold = bold;
+const productTitle = () => {
+    return `${exports.image(`${strings_1.brand}`, strings_1.brandLogoImg)} ${strings_1.brand}`;
+};
+exports.productTitle = productTitle;
+const footerSeparator = () => `---`;
+exports.footerSeparator = footerSeparator;
+const sectionSeparator = () => '\n';
+exports.sectionSeparator = sectionSeparator;
+
+
+/***/ }),
+
+/***/ "./src/mark-down/report-markdown-convertor.ts":
+/*!****************************************************!*\
+  !*** ./src/mark-down/report-markdown-convertor.ts ***!
+  \****************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55234,44 +55285,40 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AxeMarkdownConvertor = void 0;
+exports.ReportMarkdownConvertor = void 0;
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
-const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-const check_result_markdown_builder_1 = __webpack_require__(/*! ./check-result-markdown-builder */ "./src/mark-down/check-result-markdown-builder.ts");
-let AxeMarkdownConvertor = class AxeMarkdownConvertor {
+const result_markdown_builder_1 = __webpack_require__(/*! ./result-markdown-builder */ "./src/mark-down/result-markdown-builder.ts");
+let ReportMarkdownConvertor = class ReportMarkdownConvertor {
     constructor(checkResultMarkdownBuilder) {
         this.checkResultMarkdownBuilder = checkResultMarkdownBuilder;
     }
-    convert(axeScanResults) {
-        if (lodash_1.isEmpty(axeScanResults.results.violations)) {
-            return this.checkResultMarkdownBuilder.congratsContent(axeScanResults);
-        }
-        else {
-            return this.checkResultMarkdownBuilder.failureDetails(axeScanResults);
-        }
+    convert(combinedReportResult) {
+        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult);
     }
     getErrorMarkdown() {
-        return this.checkResultMarkdownBuilder.errorContent();
+        return this.checkResultMarkdownBuilder.buildErrorContent();
     }
 };
-AxeMarkdownConvertor = __decorate([
+ReportMarkdownConvertor = __decorate([
     inversify_1.injectable(),
-    __param(0, inversify_1.inject(check_result_markdown_builder_1.CheckResultMarkdownBuilder)),
-    __metadata("design:paramtypes", [typeof (_a = typeof check_result_markdown_builder_1.CheckResultMarkdownBuilder !== "undefined" && check_result_markdown_builder_1.CheckResultMarkdownBuilder) === "function" ? _a : Object])
-], AxeMarkdownConvertor);
-exports.AxeMarkdownConvertor = AxeMarkdownConvertor;
+    __param(0, inversify_1.inject(result_markdown_builder_1.ResultMarkdownBuilder)),
+    __metadata("design:paramtypes", [typeof (_a = typeof result_markdown_builder_1.ResultMarkdownBuilder !== "undefined" && result_markdown_builder_1.ResultMarkdownBuilder) === "function" ? _a : Object])
+], ReportMarkdownConvertor);
+exports.ReportMarkdownConvertor = ReportMarkdownConvertor;
 
 
 /***/ }),
 
-/***/ "./src/mark-down/check-result-markdown-builder.ts":
-/*!********************************************************!*\
-  !*** ./src/mark-down/check-result-markdown-builder.ts ***!
-  \********************************************************/
+/***/ "./src/mark-down/result-markdown-builder.ts":
+/*!**************************************************!*\
+  !*** ./src/mark-down/result-markdown-builder.ts ***!
+  \**************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55279,77 +55326,53 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CheckResultMarkdownBuilder = void 0;
+exports.ResultMarkdownBuilder = void 0;
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
 const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
-const markdown_formatter_1 = __webpack_require__(/*! ../utils/markdown-formatter */ "./src/utils/markdown-formatter.ts");
-let CheckResultMarkdownBuilder = class CheckResultMarkdownBuilder {
-    constructor() {
-        this.failureDetails = (axeScanResults) => {
-            const failedRulesList = axeScanResults.results.violations.map((rule) => {
-                return [this.failedRuleListItem(rule.nodes.length, rule.id, rule.description), markdown_formatter_1.sectionSeparator()].join('');
-            });
-            const sections = [
-                this.failureSummary(axeScanResults.results.violations.length, axeScanResults.results.passes.length, axeScanResults.results.inapplicable.length),
-                markdown_formatter_1.sectionSeparator(),
-                `${markdown_formatter_1.heading('Failed instances', 4)}`,
-                markdown_formatter_1.sectionSeparator(),
-            ];
-            return this.scanResultDetails(sections.concat(failedRulesList).join(''), this.scanResultFooter(axeScanResults));
-        };
-        this.errorContent = () => {
-            const lines = [
-                markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}: Something went wrong`, 3),
-                markdown_formatter_1.sectionSeparator(),
-                `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
-                markdown_formatter_1.sectionSeparator(),
-            ];
-            return this.scanResultDetails(lines.join(''));
-        };
-        this.congratsContent = (axeScanResults) => {
-            const passed = axeScanResults.results.passes.length;
-            const inapplicable = axeScanResults.results.inapplicable.length;
-            const lines = [
-                markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}: All applicable checks passed`, 3),
-                markdown_formatter_1.sectionSeparator(),
-                markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${passed} check(s) passed`)}, and ${inapplicable} were not applicable`),
-                markdown_formatter_1.sectionSeparator(),
-                this.downloadArtifacts(),
-            ];
-            return this.scanResultDetails(lines.join(''), this.scanResultFooter(axeScanResults));
-        };
-        this.scanResultDetails = (scanResult, footer) => {
-            const lines = [scanResult, markdown_formatter_1.sectionSeparator(), markdown_formatter_1.footerSeparator(), markdown_formatter_1.sectionSeparator(), footer];
-            return lines.join('');
-        };
-        this.scanResultFooter = (axeScanResults) => {
-            const axeVersion = axeScanResults.results.testEngine.version;
-            const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
-            const axeLink = markdown_formatter_1.link(axeCoreUrl, `axe-core ${axeVersion}`);
-            return `This scan used ${axeLink} with ${axeScanResults.browserSpec}.`;
-        };
-        this.failureSummary = (failed, passed, inapplicable) => {
-            const lines = [
-                markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}`, 3),
-                markdown_formatter_1.sectionSeparator(),
-                markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${failed} check(s) failed`)}, ${passed} passed, and ${inapplicable} were not applicable`),
-                markdown_formatter_1.sectionSeparator(),
-                this.downloadArtifacts(),
-            ];
-            return lines.join('');
-        };
-        this.failedRuleListItem = (failureCount, ruleId, description) => {
-            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${failureCount} × ${ruleId}`)}:  ${description}`);
-        };
-        this.downloadArtifacts = () => {
-            return markdown_formatter_1.listItem(`Download the ${markdown_formatter_1.bold(strings_1.brand)} artifact to view the detailed results of these checks`);
-        };
+const markdown_formatter_1 = __webpack_require__(/*! ./markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
+let ResultMarkdownBuilder = class ResultMarkdownBuilder {
+    buildErrorContent() {
+        const lines = [
+            markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}: Something went wrong`, 3),
+            markdown_formatter_1.sectionSeparator(),
+            `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
+            markdown_formatter_1.sectionSeparator(),
+        ];
+        return this.scanResultDetails(lines.join(''));
+    }
+    buildContent(combinedReportResult) {
+        const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
+        const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
+        const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
+        const lines = [
+            markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}`, 3),
+            markdown_formatter_1.sectionSeparator(),
+            markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`Rules`)}: ${failedChecks} check(s) failed, ${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`),
+            markdown_formatter_1.sectionSeparator(),
+            markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`URLs`)}: ${combinedReportResult.results.urlResults.failedUrls} URL(s) failed, ${combinedReportResult.results.urlResults.passedUrls} URL(s) passed, and ${combinedReportResult.results.urlResults.unscannableUrls} were not scannable`),
+            markdown_formatter_1.sectionSeparator(),
+            this.downloadArtifacts(),
+        ];
+        return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));
+    }
+    scanResultDetails(scanResult, footer) {
+        const lines = [scanResult, markdown_formatter_1.sectionSeparator(), markdown_formatter_1.footerSeparator(), markdown_formatter_1.sectionSeparator(), footer];
+        return lines.join('');
+    }
+    scanResultFooter(combinedReportResult) {
+        const axeVersion = combinedReportResult.axeVersion;
+        const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
+        const axeLink = markdown_formatter_1.link(axeCoreUrl, `axe-core ${axeVersion}`);
+        return `This scan used ${axeLink} with ${combinedReportResult.userAgent}.`;
+    }
+    downloadArtifacts() {
+        return markdown_formatter_1.listItem(`Download the ${markdown_formatter_1.bold(strings_1.brand)} artifact to view the detailed results of these checks`);
     }
 };
-CheckResultMarkdownBuilder = __decorate([
+ResultMarkdownBuilder = __decorate([
     inversify_1.injectable()
-], CheckResultMarkdownBuilder);
-exports.CheckResultMarkdownBuilder = CheckResultMarkdownBuilder;
+], ResultMarkdownBuilder);
+exports.ResultMarkdownBuilder = ResultMarkdownBuilder;
 
 
 /***/ }),
@@ -55433,9 +55456,9 @@ let AllProgressReporter = class AllProgressReporter {
             yield this.execute((r) => r.start());
         });
     }
-    completeRun(axeScanResults) {
+    completeRun(combinedReportResult) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.execute((r) => r.completeRun(axeScanResults));
+            yield this.execute((r) => r.completeRun(combinedReportResult));
         });
     }
     failRun(message) {
@@ -55476,6 +55499,8 @@ exports.AllProgressReporter = AllProgressReporter;
 
 "use strict";
 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55507,7 +55532,7 @@ const mark_down_strings_1 = __webpack_require__(/*! ../../content/mark-down-stri
 const strings_1 = __webpack_require__(/*! ../../content/strings */ "./src/content/strings.ts");
 const ioc_types_1 = __webpack_require__(/*! ../../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
 const logger_1 = __webpack_require__(/*! ../../logger/logger */ "./src/logger/logger.ts");
-const axe_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/axe-markdown-convertor */ "./src/mark-down/axe-markdown-convertor.ts");
+const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "./src/mark-down/report-markdown-convertor.ts");
 let CheckRunCreator = class CheckRunCreator {
     constructor(axeMarkdownConvertor, octokit, githubObj, logger) {
         this.axeMarkdownConvertor = axeMarkdownConvertor;
@@ -55529,7 +55554,7 @@ let CheckRunCreator = class CheckRunCreator {
             })).data; // The "as" is only necessary until https://github.com/octokit/rest.js/issues/2000 is resolved
         });
     }
-    completeRun(axeScanResults) {
+    completeRun(combinedReportResult) {
         return __awaiter(this, void 0, void 0, function* () {
             this.logMessage('Updating check run with status as completed');
             yield this.octokit.checks.update({
@@ -55538,8 +55563,8 @@ let CheckRunCreator = class CheckRunCreator {
                 check_run_id: this.a11yCheck.id,
                 name: strings_1.checkRunName,
                 status: 'completed',
-                conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
-                output: this.getScanOutput(axeScanResults),
+                conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
+                output: this.getScanOutput(combinedReportResult),
             });
         });
     }
@@ -55565,21 +55590,21 @@ let CheckRunCreator = class CheckRunCreator {
     logMessage(message) {
         this.logger.logInfo(`[CheckRunCreator] ${message}`);
     }
-    getScanOutput(axeScanResults) {
+    getScanOutput(combinedReportResult) {
         return {
             title: strings_1.checkRunDetailsTitle,
             summary: mark_down_strings_1.disclaimerText,
-            text: this.axeMarkdownConvertor.convert(axeScanResults),
+            text: this.axeMarkdownConvertor.convert(combinedReportResult),
         };
     }
 };
 CheckRunCreator = __decorate([
     inversify_1.injectable(),
-    __param(0, inversify_1.inject(axe_markdown_convertor_1.AxeMarkdownConvertor)),
+    __param(0, inversify_1.inject(report_markdown_convertor_1.ReportMarkdownConvertor)),
     __param(1, inversify_1.inject(rest_1.Octokit)),
     __param(2, inversify_1.inject(ioc_types_1.iocTypes.Github)),
     __param(3, inversify_1.inject(logger_1.Logger)),
-    __metadata("design:paramtypes", [typeof (_a = typeof axe_markdown_convertor_1.AxeMarkdownConvertor !== "undefined" && axe_markdown_convertor_1.AxeMarkdownConvertor) === "function" ? _a : Object, typeof (_b = typeof rest_1.Octokit !== "undefined" && rest_1.Octokit) === "function" ? _b : Object, Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof report_markdown_convertor_1.ReportMarkdownConvertor !== "undefined" && report_markdown_convertor_1.ReportMarkdownConvertor) === "function" ? _a : Object, typeof (_b = typeof rest_1.Octokit !== "undefined" && rest_1.Octokit) === "function" ? _b : Object, Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object])
 ], CheckRunCreator);
 exports.CheckRunCreator = CheckRunCreator;
 
@@ -55594,6 +55619,8 @@ exports.CheckRunCreator = CheckRunCreator;
 
 "use strict";
 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55623,8 +55650,8 @@ const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversi
 const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 const ioc_types_1 = __webpack_require__(/*! ../../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
 const logger_1 = __webpack_require__(/*! ../../logger/logger */ "./src/logger/logger.ts");
-const axe_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/axe-markdown-convertor */ "./src/mark-down/axe-markdown-convertor.ts");
-const markdown_formatter_1 = __webpack_require__(/*! ../../utils/markdown-formatter */ "./src/utils/markdown-formatter.ts");
+const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "./src/mark-down/report-markdown-convertor.ts");
+const markdown_formatter_1 = __webpack_require__(/*! ../../mark-down/markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
 let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestCommentCreator {
     constructor(axeMarkdownConvertor, octokit, githubObj, logger) {
         this.axeMarkdownConvertor = axeMarkdownConvertor;
@@ -55637,7 +55664,7 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
             // We don't do anything for pull request flow
         });
     }
-    completeRun(axeScanResults) {
+    completeRun(combinedReportResult) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.isSupported()) {
                 return;
@@ -55649,7 +55676,7 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
                 yield this.octokit.issues.createComment({
                     owner: this.githubObj.context.repo.owner,
                     repo: this.githubObj.context.repo.repo,
-                    body: this.axeMarkdownConvertor.convert(axeScanResults),
+                    body: this.axeMarkdownConvertor.convert(combinedReportResult),
                     issue_number: pullRequest.number,
                 });
             }
@@ -55658,7 +55685,7 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
                 yield this.octokit.issues.updateComment({
                     owner: this.githubObj.context.repo.owner,
                     repo: this.githubObj.context.repo.repo,
-                    body: this.axeMarkdownConvertor.convert(axeScanResults),
+                    body: this.axeMarkdownConvertor.convert(combinedReportResult),
                     comment_id: existingComment.id,
                 });
             }
@@ -55693,11 +55720,11 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
 };
 PullRequestCommentCreator = PullRequestCommentCreator_1 = __decorate([
     inversify_1.injectable(),
-    __param(0, inversify_1.inject(axe_markdown_convertor_1.AxeMarkdownConvertor)),
+    __param(0, inversify_1.inject(report_markdown_convertor_1.ReportMarkdownConvertor)),
     __param(1, inversify_1.inject(rest_1.Octokit)),
     __param(2, inversify_1.inject(ioc_types_1.iocTypes.Github)),
     __param(3, inversify_1.inject(logger_1.Logger)),
-    __metadata("design:paramtypes", [typeof (_a = typeof axe_markdown_convertor_1.AxeMarkdownConvertor !== "undefined" && axe_markdown_convertor_1.AxeMarkdownConvertor) === "function" ? _a : Object, typeof (_b = typeof rest_1.Octokit !== "undefined" && rest_1.Octokit) === "function" ? _b : Object, Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof report_markdown_convertor_1.ReportMarkdownConvertor !== "undefined" && report_markdown_convertor_1.ReportMarkdownConvertor) === "function" ? _a : Object, typeof (_b = typeof rest_1.Octokit !== "undefined" && rest_1.Octokit) === "function" ? _b : Object, Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object])
 ], PullRequestCommentCreator);
 exports.PullRequestCommentCreator = PullRequestCommentCreator;
 
@@ -55873,9 +55900,9 @@ let Scanner = class Scanner {
                     localOutputDir: this.taskConfig.getReportOutDir(),
                 });
                 const scanEnded = new Date();
-                const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
-                this.reportGenerator.generateReport(convertedData);
-                // await this.allProgressReporter.completeRun(axeScanResults);
+                const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
+                this.reportGenerator.generateReport(combinedReportResult);
+                yield this.allProgressReporter.completeRun(combinedReportResult);
             }
             catch (error) {
                 this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
@@ -55887,7 +55914,7 @@ let Scanner = class Scanner {
             }
         });
     }
-    getConvertedData(combinedScanResult, scanStarted, scanEnded) {
+    getCombinedReportResult(combinedScanResult, scanStarted, scanEnded) {
         var _a;
         const scanResultData = {
             baseUrl: (_a = combinedScanResult.scanMetadata.baseUrl) !== null && _a !== void 0 ? _a : 'n/a',
@@ -56001,55 +56028,6 @@ TaskConfig = __decorate([
     __metadata("design:paramtypes", [Object, Object])
 ], TaskConfig);
 exports.TaskConfig = TaskConfig;
-
-
-/***/ }),
-
-/***/ "./src/utils/markdown-formatter.ts":
-/*!*****************************************!*\
-  !*** ./src/utils/markdown-formatter.ts ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.sectionSeparator = exports.footerSeparator = exports.productTitle = exports.bold = exports.heading = exports.listItem = exports.image = exports.link = exports.snippet = void 0;
-const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
-const snippet = (text) => {
-    return `\`${text}\``;
-};
-exports.snippet = snippet;
-const link = (href, text) => {
-    return `[${text}](${href})`;
-};
-exports.link = link;
-const image = (altText, src) => {
-    return `![${altText}](${src})`;
-};
-exports.image = image;
-const listItem = (text) => {
-    return `* ${text}`;
-};
-exports.listItem = listItem;
-const heading = (text, headingLevel) => {
-    return `${'#'.repeat(headingLevel)} ${text}`;
-};
-exports.heading = heading;
-const bold = (text) => {
-    return `**${text}**`;
-};
-exports.bold = bold;
-const productTitle = () => {
-    return `${exports.image(`${strings_1.brand}`, strings_1.brandLogoImg)} ${strings_1.brand}`;
-};
-exports.productTitle = productTitle;
-const footerSeparator = () => `---`;
-exports.footerSeparator = footerSeparator;
-const sectionSeparator = () => '\n';
-exports.sectionSeparator = sectionSeparator;
 
 
 /***/ }),

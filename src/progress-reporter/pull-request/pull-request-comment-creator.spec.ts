@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import 'reflect-metadata';
 
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
-import { AxeScanResults } from 'accessibility-insights-scan';
-
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
 import { Logger } from '../../logger/logger';
-import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
-import { productTitle } from '../../utils/markdown-formatter';
+import { ReportMarkdownConvertor } from '../../mark-down/report-markdown-convertor';
+import { productTitle } from '../../mark-down/markdown-formatter';
 import { PullRequestCommentCreator } from './pull-request-comment-creator';
+import { CombinedReportParameters } from 'accessibility-insights-report';
 
 type CreateCommentParams = RestEndpointMethodTypes['issues']['createComment']['parameters'];
 type CreateCommentResponse = RestEndpointMethodTypes['issues']['createComment']['response'];
@@ -29,24 +27,22 @@ type ListCommentsResponseItem = ListCommentsResponse['data'][0];
 
 describe(PullRequestCommentCreator, () => {
     let testSubject: PullRequestCommentCreator;
-
-    let axeMarkdownConvertorMock: IMock<AxeMarkdownConvertor>;
+    let axeMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
     let createCommentMock: IMock<CreateComment>;
     let updateCommentMock: IMock<UpdateComment>;
     let listCommentsMock: IMock<ListComments>;
     let loggerMock: IMock<Logger>;
-
     let octokitStub: Octokit;
-
     let githubStub: typeof github;
+
     const pullRequestNumber = 362;
     const repoName = 'test repo';
     const ownerName = 'test owner';
     const markdownContent = 'test markdown content';
-    const axeScanResults = ('test axe scan results' as any) as AxeScanResults;
+    const combinedReportResult = { serviceName: 'combinedReportResult' } as CombinedReportParameters;
 
     beforeEach(() => {
-        axeMarkdownConvertorMock = Mock.ofType(AxeMarkdownConvertor);
+        axeMarkdownConvertorMock = Mock.ofType(ReportMarkdownConvertor);
         createCommentMock = Mock.ofInstance(
             (() => {
                 /* noop */
@@ -90,9 +86,17 @@ describe(PullRequestCommentCreator, () => {
             },
         } as typeof github;
 
-        axeMarkdownConvertorMock.setup((a) => a.convert(axeScanResults)).returns(() => markdownContent);
+        axeMarkdownConvertorMock.setup((a) => a.convert(combinedReportResult)).returns(() => markdownContent);
 
         testSubject = new PullRequestCommentCreator(axeMarkdownConvertorMock.object, octokitStub, githubStub, loggerMock.object);
+    });
+
+    afterEach(() => {
+        createCommentMock.verifyAll();
+        listCommentsMock.verifyAll();
+        updateCommentMock.verifyAll();
+        axeMarkdownConvertorMock.verifyAll();
+        loggerMock.verifyAll();
     });
 
     describe('start', () => {
@@ -117,7 +121,7 @@ describe(PullRequestCommentCreator, () => {
     describe('completeRun', () => {
         it('does nothing if not supported', async () => {
             githubStub.context.eventName = 'push';
-            await testSubject.completeRun(axeScanResults);
+            await testSubject.completeRun(combinedReportResult);
         });
 
         test.each([
@@ -167,9 +171,7 @@ describe(PullRequestCommentCreator, () => {
                 .returns(() => Promise.resolve({} as CreateCommentResponse))
                 .verifiable(Times.once());
 
-            await testSubject.completeRun(axeScanResults);
-
-            verifyMocks();
+            await testSubject.completeRun(combinedReportResult);
         });
 
         it('update existing comment', async () => {
@@ -180,7 +182,6 @@ describe(PullRequestCommentCreator, () => {
                     login: 'github-actions[bot]',
                 },
             } as ListCommentsResponseItem;
-
             const allExistingComments = [
                 {
                     id: 12,
@@ -215,17 +216,7 @@ describe(PullRequestCommentCreator, () => {
                 .returns(() => Promise.resolve({} as UpdateCommentResponse))
                 .verifiable(Times.once());
 
-            await testSubject.completeRun(axeScanResults);
-
-            verifyMocks();
+            await testSubject.completeRun(combinedReportResult);
         });
     });
-
-    function verifyMocks(): void {
-        createCommentMock.verifyAll();
-        listCommentsMock.verifyAll();
-        updateCommentMock.verifyAll();
-        axeMarkdownConvertorMock.verifyAll();
-        loggerMock.verifyAll();
-    }
 });
