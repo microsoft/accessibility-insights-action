@@ -73,10 +73,10 @@ export class Scanner {
             });
             const scanEnded = new Date();
 
-            const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
-            this.reportGenerator.generateReport(convertedData);
+            const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
+            this.reportGenerator.generateReport(combinedReportResult);
 
-            // await this.allProgressReporter.completeRun(axeScanResults);
+            await this.allProgressReporter.completeRun(combinedReportResult);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}`);
             await this.allProgressReporter.failRun(util.inspect(error));
@@ -86,7 +86,7 @@ export class Scanner {
         }
     }
 
-    private getConvertedData(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
+    private getCombinedReportResult(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
         const scanResultData = {
             baseUrl: combinedScanResult.scanMetadata.baseUrl ?? 'n/a',
             basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
