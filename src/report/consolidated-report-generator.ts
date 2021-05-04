@@ -19,7 +19,6 @@ export class ConsolidatedReportGenerator {
 
     public generateReport(combinedReportData: CombinedReportParameters): string {
         const reporter = this.reporterFactoryFunc();
-
         const htmlReportContent = reporter.fromCombinedResults(combinedReportData).asHTML();
 
         const outDirectory = this.taskConfig.getReportOutDir();
