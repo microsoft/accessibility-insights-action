@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { link } from '../utils/markdown-formatter';
-
+import { link } from '../mark-down/markdown-formatter';
 import { toolName, webToolName } from './strings';
 
 export const assessmentLink = link('https://accessibilityinsights.io/docs/en/web/getstarted/assessment', 'Assessment');

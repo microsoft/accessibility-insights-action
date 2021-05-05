@@ -15,15 +15,7 @@ module.exports = (env) => {
             ['index']: path.resolve('./src/index.ts'),
         },
         // We special case MPL-licensed dependencies ('axe-core', '@axe-core/puppeteer') because we want to avoid including their source in the same file as non-MPL code.
-        externals: [
-            '@axe-core/puppeteer',
-            'axe-core',
-            'apify',
-            'accessibility-insights-report',
-            'accessibility-insights-scan',
-            'leveldown',
-            'puppeteer-core',
-        ],
+        externals: ['axe-core', 'accessibility-insights-report', 'accessibility-insights-scan'],
         mode: 'development',
         module: {
             rules: [
