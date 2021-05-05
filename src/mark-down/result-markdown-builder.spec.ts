@@ -13,11 +13,11 @@ describe(ResultMarkdownBuilder, () => {
         checkResultMarkdownBuilder = new ResultMarkdownBuilder();
     });
 
-    it('build error content', () => {
+    it('builds error content', () => {
         expect(checkResultMarkdownBuilder.buildErrorContent()).toMatchSnapshot();
     });
 
-    it('build content', () => {
+    it('builds content with failures', () => {
         combinedReportResult = {
             axeVersion: 'axeVersion',
             userAgent: 'userAgent',
@@ -25,7 +25,10 @@ describe(ResultMarkdownBuilder, () => {
                 resultsByRule: {
                     failed: [
                         {
-                            failed: [{}, {}, {}],
+                            failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
+                        },
+                        {
+                            failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
                         },
                     ],
                     passed: [{}],
@@ -34,6 +37,29 @@ describe(ResultMarkdownBuilder, () => {
                 urlResults: {
                     passedUrls: 1,
                     failedUrls: 5,
+                    unscannableUrls: 7,
+                },
+            },
+        } as any;
+
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
+
+        expect(actualContent).toMatchSnapshot();
+    });
+
+    it('builds content with no failures', () => {
+        combinedReportResult = {
+            axeVersion: 'axeVersion',
+            userAgent: 'userAgent',
+            results: {
+                resultsByRule: {
+                    failed: [],
+                    passed: [{}],
+                    notApplicable: [{}, {}],
+                },
+                urlResults: {
+                    passedUrls: 1,
+                    failedUrls: 0,
                     unscannableUrls: 7,
                 },
             },

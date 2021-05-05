@@ -69999,10 +69999,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.disclaimerText = exports.wcag21AALink = exports.webToolLink = exports.assessmentLink = void 0;
 const markdown_formatter_1 = __webpack_require__(/*! ../mark-down/markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
 const strings_1 = __webpack_require__(/*! ./strings */ "./src/content/strings.ts");
-exports.assessmentLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/getstarted/assessment', 'Assessment');
+exports.assessmentLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/getstarted/assessment', 'Assessments');
 exports.webToolLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/overview', strings_1.webToolName);
 exports.wcag21AALink = markdown_formatter_1.link('https://www.w3.org/WAI/WCAG21/quickref/?currentsidebar=%23col_customize&levels=aaa', 'WCAG 2.1 AA');
-exports.disclaimerText = `The ${strings_1.toolName} ran a set of automated checks to help find some of the most common accessibility issues. The best way to evaluate web accessibility compliance is to complete an ${exports.assessmentLink} using ${exports.webToolLink}, a free and open source dev tool that walks you through assessing a website for ${exports.wcag21AALink} coverage.`;
+exports.disclaimerText = `The ${strings_1.toolName} runs a set of automated checks to help find some of the most common accessibility issues. The automated checks can detect accessibility problems such as missing or invalid properties, but most accessibility problems can only be discovered through manual testing.\n\nWe recommend automated testing, to continuously protect against some common issues, and regular ${exports.assessmentLink} using ${exports.webToolLink}, a free and open source tool that helps you assess your website or web app for ${exports.wcag21AALink} coverage.`;
 
 
 /***/ }),
@@ -70470,7 +70470,7 @@ const bold = (text) => {
 };
 exports.bold = bold;
 const productTitle = () => {
-    return `${exports.image(`${strings_1.brand}`, strings_1.brandLogoImg)} ${strings_1.brand}`;
+    return `${exports.image(`${strings_1.brand}`, strings_1.brandLogoImg)} ${strings_1.toolName}`;
 };
 exports.productTitle = productTitle;
 const footerSeparator = () => `---`;
@@ -70551,9 +70551,45 @@ const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversi
 const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
 const markdown_formatter_1 = __webpack_require__(/*! ./markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
 let ResultMarkdownBuilder = class ResultMarkdownBuilder {
+    constructor() {
+        this.headingWithMessage = (message) => {
+            if (message) {
+                return markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}: ${message}`, 3);
+            }
+            return markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}`, 3);
+        };
+        this.urlsListItem = (passedUrls, unscannableUrls, failedUrls) => {
+            const failedUrlsSummary = `${failedUrls} URL(s) failed, `;
+            const passedAndUnscannableUrlsSummary = `${passedUrls} URL(s) passed, and ${unscannableUrls} were not scannable`;
+            const urlsSummary = failedUrls === 0 ? passedAndUnscannableUrlsSummary : failedUrlsSummary.concat(passedAndUnscannableUrlsSummary);
+            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`URLs`)}: ${urlsSummary}`);
+        };
+        this.rulesListItem = (passedChecks, inapplicableChecks, failedChecks) => {
+            const failedRulesSummary = `${failedChecks} check(s) failed, `;
+            const passedAndInapplicableRulesSummary = `${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`;
+            const rulesSummary = failedChecks === 0 ? passedAndInapplicableRulesSummary : failedRulesSummary.concat(passedAndInapplicableRulesSummary);
+            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`Rules`)}: ${rulesSummary}`);
+        };
+        this.failureDetails = (combinedReportResult) => {
+            if (combinedReportResult.results.resultsByRule.failed.length === 0) {
+                return '';
+            }
+            const failedRulesList = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
+                const failureCount = failuresGroup.failed.length;
+                const ruleId = failuresGroup.failed[0].rule.ruleId;
+                const ruleDescription = failuresGroup.failed[0].rule.description;
+                return [this.failedRuleListItem(failureCount, ruleId, ruleDescription), markdown_formatter_1.sectionSeparator()].join('');
+            });
+            const lines = [markdown_formatter_1.sectionSeparator(), `${markdown_formatter_1.heading('Failed instances', 4)}`, markdown_formatter_1.sectionSeparator(), ...failedRulesList];
+            return lines.join('');
+        };
+        this.failedRuleListItem = (failureCount, ruleId, description) => {
+            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${failureCount} × ${ruleId}`)}:  ${description}`);
+        };
+    }
     buildErrorContent() {
         const lines = [
-            markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}: Something went wrong`, 3),
+            this.headingWithMessage('Something went wrong'),
             markdown_formatter_1.sectionSeparator(),
             `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
             markdown_formatter_1.sectionSeparator(),
@@ -70565,13 +70601,14 @@ let ResultMarkdownBuilder = class ResultMarkdownBuilder {
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
         const lines = [
-            markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}`, 3),
+            failedChecks === 0 ? this.headingWithMessage('All applicable checks passed') : this.headingWithMessage(),
             markdown_formatter_1.sectionSeparator(),
-            markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`Rules`)}: ${failedChecks} check(s) failed, ${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`),
+            this.urlsListItem(combinedReportResult.results.urlResults.passedUrls, combinedReportResult.results.urlResults.unscannableUrls, combinedReportResult.results.urlResults.failedUrls),
             markdown_formatter_1.sectionSeparator(),
-            markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`URLs`)}: ${combinedReportResult.results.urlResults.failedUrls} URL(s) failed, ${combinedReportResult.results.urlResults.passedUrls} URL(s) passed, and ${combinedReportResult.results.urlResults.unscannableUrls} were not scannable`),
+            this.rulesListItem(passedChecks, inapplicableChecks, failedChecks),
             markdown_formatter_1.sectionSeparator(),
             this.downloadArtifacts(),
+            this.failureDetails(combinedReportResult),
         ];
         return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));
     }
@@ -70586,7 +70623,8 @@ let ResultMarkdownBuilder = class ResultMarkdownBuilder {
         return `This scan used ${axeLink} with ${combinedReportResult.userAgent}.`;
     }
     downloadArtifacts() {
-        return markdown_formatter_1.listItem(`Download the ${markdown_formatter_1.bold(strings_1.brand)} artifact to view the detailed results of these checks`);
+        const artifactName = `${strings_1.brand} artifact`;
+        return markdown_formatter_1.listItem(`Download the ${markdown_formatter_1.bold(artifactName)} to view the detailed results of these checks`);
     }
 };
 ResultMarkdownBuilder = __decorate([
