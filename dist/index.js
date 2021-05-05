@@ -55250,7 +55250,7 @@ const bold = (text) => {
 };
 exports.bold = bold;
 const productTitle = () => {
-    return `${exports.image(`${strings_1.brand}`, strings_1.brandLogoImg)} ${strings_1.brand}`;
+    return `${exports.image(`${strings_1.brand}`, strings_1.brandLogoImg)} ${strings_1.toolName}`;
 };
 exports.productTitle = productTitle;
 const footerSeparator = () => `---`;
@@ -55350,6 +55350,22 @@ let ResultMarkdownBuilder = class ResultMarkdownBuilder {
             const rulesSummary = failedChecks === 0 ? passedAndInapplicableRulesSummary : failedRulesSummary.concat(passedAndInapplicableRulesSummary);
             return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`Rules`)}: ${rulesSummary}`);
         };
+        this.failureDetails = (combinedReportResult) => {
+            if (combinedReportResult.results.resultsByRule.failed.length === 0) {
+                return '';
+            }
+            const failedRulesList = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
+                const failureCount = failuresGroup.failed.length;
+                const ruleId = failuresGroup.failed[0].rule.ruleId;
+                const ruleDescription = failuresGroup.failed[0].rule.description;
+                return [this.failedRuleListItem(failureCount, ruleId, ruleDescription), markdown_formatter_1.sectionSeparator()].join('');
+            });
+            const lines = [markdown_formatter_1.sectionSeparator(), `${markdown_formatter_1.heading('Failed instances', 4)}`, markdown_formatter_1.sectionSeparator(), failedRulesList];
+            return lines.join('');
+        };
+        this.failedRuleListItem = (failureCount, ruleId, description) => {
+            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${failureCount} × ${ruleId}`)}:  ${description}`);
+        };
     }
     buildErrorContent() {
         const lines = [
@@ -55372,6 +55388,7 @@ let ResultMarkdownBuilder = class ResultMarkdownBuilder {
             this.rulesListItem(passedChecks, inapplicableChecks, failedChecks),
             markdown_formatter_1.sectionSeparator(),
             this.downloadArtifacts(),
+            this.failureDetails(combinedReportResult),
         ];
         return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));
     }

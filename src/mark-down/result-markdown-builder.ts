@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { CombinedReportParameters } from 'accessibility-insights-report';
 import { injectable } from 'inversify';
 import { brand } from '../content/strings';
 import { bold, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
-import { CombinedReportParameters } from 'accessibility-insights-report';
 
 @injectable()
 export class ResultMarkdownBuilder {
@@ -37,6 +37,7 @@ export class ResultMarkdownBuilder {
             sectionSeparator(),
 
             this.downloadArtifacts(),
+            this.failureDetails(combinedReportResult),
         ];
 
         return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));
@@ -62,6 +63,26 @@ export class ResultMarkdownBuilder {
         const rulesSummary =
             failedChecks === 0 ? passedAndInapplicableRulesSummary : failedRulesSummary.concat(passedAndInapplicableRulesSummary);
         return listItem(`${bold(`Rules`)}: ${rulesSummary}`);
+    };
+
+    private failureDetails = (combinedReportResult: CombinedReportParameters): string => {
+        if (combinedReportResult.results.resultsByRule.failed.length === 0) {
+            return '';
+        }
+
+        const failedRulesList = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
+            const failureCount = failuresGroup.failed.length;
+            const ruleId = failuresGroup.failed[0].rule.ruleId;
+            const ruleDescription = failuresGroup.failed[0].rule.description;
+            return [this.failedRuleListItem(failureCount, ruleId, ruleDescription), sectionSeparator()].join('');
+        });
+        const lines = [sectionSeparator(), `${heading('Failed instances', 4)}`, sectionSeparator(), failedRulesList];
+
+        return lines.join('');
+    };
+
+    private failedRuleListItem = (failureCount: number, ruleId: string, description: string) => {
+        return listItem(`${bold(`${failureCount} × ${ruleId}`)}:  ${description}`);
     };
 
     private scanResultDetails(scanResult: string, footer?: string): string {

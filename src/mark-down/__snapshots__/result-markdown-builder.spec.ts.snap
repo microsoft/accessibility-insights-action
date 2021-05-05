@@ -5,6 +5,9 @@ exports[`ResultMarkdownBuilder builds content with failures 1`] = `
 * **URLs**: 5 URL(s) failed, 1 URL(s) passed, and 7 were not scannable
 * **Rules**: 3 check(s) failed, 1 check(s) passed, and 2 were not applicable
 * Download the **Accessibility Insights artifact** to view the detailed results of these checks
+#### Failed instances
+* **3 × rule id**:  rule description
+
 ---
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;

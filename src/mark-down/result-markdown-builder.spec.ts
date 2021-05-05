@@ -25,7 +25,7 @@ describe(ResultMarkdownBuilder, () => {
                 resultsByRule: {
                     failed: [
                         {
-                            failed: [{}, {}, {}],
+                            failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
                         },
                     ],
                     passed: [{}],
