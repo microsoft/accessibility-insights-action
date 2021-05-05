@@ -61,6 +61,8 @@ export class Scanner {
 
             scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            this.logger.logInfo(`input urls list ${scanArguments.inputUrls}`);
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
             this.logger.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
 
