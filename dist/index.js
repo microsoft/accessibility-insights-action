@@ -71311,8 +71311,6 @@ let Scanner = class Scanner {
                     localServerUrl = yield this.fileServer.start();
                 }
                 scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                this.logger.logInfo(`input urls list ${scanArguments.inputUrls}`);
                 this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
                 this.logger.logInfo(`Chrome app executable: ${(_a = scanArguments.chromePath) !== null && _a !== void 0 ? _a : 'system default'}`);
                 const crawlerParameters = this.crawlerParametersBuilder.build(scanArguments);

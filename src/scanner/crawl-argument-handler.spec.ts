@@ -27,8 +27,6 @@ describe(CrawlArgumentHandler, () => {
         output: 'output',
         maxUrls: 10,
         chromePath: 'chrome',
-        discoveryPatterns: ['a', 'b', 'c'],
-        inputUrls: ['d', 'e', 'f'],
         url: 'url',
     };
 
@@ -40,13 +38,18 @@ describe(CrawlArgumentHandler, () => {
     });
 
     it('returns expected arguments when remote URL provided', () => {
-        setupProcessScanArguments();
+        setupProcessScanArguments({
+            discoveryPatterns: 'a b c',
+            inputUrls: 'd e f',
+        });
 
         const expectedArgs: ScanArguments = {
             ...actionInputDefaultArgs,
             crawl: true,
             restart: true,
             axeSourcePath: 'axe',
+            discoveryPatterns: ['a', 'b', 'c'],
+            inputUrls: ['d', 'e', 'f'],
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -72,6 +75,8 @@ describe(CrawlArgumentHandler, () => {
             restart: true,
             axeSourcePath: 'axe',
             url: 'localhost',
+            discoveryPatterns: undefined,
+            inputUrls: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -84,10 +89,10 @@ describe(CrawlArgumentHandler, () => {
         scanUrlResolverMock.verifyAll();
     });
 
-    it('returns expected arguments when discoveryPatterns / inputFiles empty', () => {
+    it('returns expected arguments when discoveryPatterns / inputFiles empty strings', () => {
         setupProcessScanArguments({
-            discoveryPatterns: undefined,
-            inputUrls: undefined,
+            discoveryPatterns: '',
+            inputUrls: '',
         });
 
         const expectedArgs: ScanArguments = {
@@ -105,7 +110,7 @@ describe(CrawlArgumentHandler, () => {
         expect(actualArgs).toStrictEqual(expectedArgs);
     });
 
-    function setupProcessScanArguments(overwriteDefaultArgs?: Partial<ScanArguments>) {
+    function setupProcessScanArguments(overwriteDefaultArgs?: Partial<Record<keyof ScanArguments, any>>) {
         const args = {
             ...actionInputDefaultArgs,
             ...overwriteDefaultArgs,
@@ -117,8 +122,8 @@ describe(CrawlArgumentHandler, () => {
         taskConfigMock.setup((m) => m.getReportOutDir()).returns((_) => args.output);
         taskConfigMock.setup((m) => m.getMaxUrls()).returns((_) => 10);
         taskConfigMock.setup((m) => m.getChromePath()).returns((_) => args.chromePath);
-        taskConfigMock.setup((m) => m.getDiscoveryPatterns()).returns((_) => args.discoveryPatterns?.join(' '));
-        taskConfigMock.setup((m) => m.getInputUrls()).returns((_) => args.inputUrls?.join(' '));
+        taskConfigMock.setup((m) => m.getDiscoveryPatterns()).returns((_) => args.discoveryPatterns);
+        taskConfigMock.setup((m) => m.getInputUrls()).returns((_) => args.inputUrls);
         taskConfigMock.setup((m) => m.getUrl()).returns((_) => args.url);
     }
 });
