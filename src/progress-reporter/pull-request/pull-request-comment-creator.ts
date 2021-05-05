@@ -41,20 +41,26 @@ export class PullRequestCommentCreator extends ProgressReporter {
 
         if (isNil(existingComment)) {
             this.logMessage('Creating new comment');
-            await this.octokit.issues.createComment({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                body: reportMarkdown,
-                issue_number: pullRequest.number,
-            });
+            await this.invoke(
+                async () =>
+                    await this.octokit.issues.createComment({
+                        owner: this.githubObj.context.repo.owner,
+                        repo: this.githubObj.context.repo.repo,
+                        body: reportMarkdown,
+                        issue_number: pullRequest.number,
+                    }),
+            );
         } else {
             this.logMessage('Updating existing comment');
-            await this.octokit.issues.updateComment({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                body: reportMarkdown,
-                comment_id: existingComment.id,
-            });
+            await this.invoke(
+                async () =>
+                    await this.octokit.issues.updateComment({
+                        owner: this.githubObj.context.repo.owner,
+                        repo: this.githubObj.context.repo.repo,
+                        body: reportMarkdown,
+                        comment_id: existingComment.id,
+                    }),
+            );
         }
     }
 
@@ -72,11 +78,14 @@ export class PullRequestCommentCreator extends ProgressReporter {
     }
 
     private async findComment(pullRequestNumber: number): Promise<ListCommentsResponseItem> {
-        const commentsResponse = await this.octokit.issues.listComments({
-            issue_number: pullRequestNumber,
-            owner: this.githubObj.context.repo.owner,
-            repo: this.githubObj.context.repo.repo,
-        });
+        const commentsResponse = await this.invoke(
+            async () =>
+                await this.octokit.issues.listComments({
+                    issue_number: pullRequestNumber,
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                }),
+        );
 
         const comments = commentsResponse.data;
 

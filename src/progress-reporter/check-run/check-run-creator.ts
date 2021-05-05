@@ -46,16 +46,17 @@ export class CheckRunCreator extends ProgressReporter {
 
     public async start(): Promise<void> {
         this.logMessage('Creating check run with status as in_progress');
-        const response = await this.invoke(() =>
-            this.octokit.checks.create({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                name: checkRunName,
-                status: 'in_progress',
-                head_sha: isNil(this.githubObj.context.payload.pull_request)
-                    ? this.githubObj.context.sha
-                    : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
-            }),
+        const response = await this.invoke(
+            async () =>
+                await this.octokit.checks.create({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    name: checkRunName,
+                    status: 'in_progress',
+                    head_sha: isNil(this.githubObj.context.payload.pull_request)
+                        ? this.githubObj.context.sha
+                        : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
+                }),
         );
 
         this.a11yCheck = response?.data;
@@ -66,16 +67,17 @@ export class CheckRunCreator extends ProgressReporter {
         const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
         this.traceMarkdown(reportMarkdown);
 
-        await this.invoke(() =>
-            this.octokit.checks.update({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                check_run_id: this.a11yCheck.id,
-                name: checkRunName,
-                status: 'completed',
-                conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
-                output: this.getScanOutput(reportMarkdown),
-            }),
+        await this.invoke(
+            async () =>
+                await this.octokit.checks.update({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    check_run_id: this.a11yCheck.id,
+                    name: checkRunName,
+                    status: 'completed',
+                    conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
+                    output: this.getScanOutput(reportMarkdown),
+                }),
         );
     }
 
@@ -84,21 +86,22 @@ export class CheckRunCreator extends ProgressReporter {
         const reportMarkdown = this.reportMarkdownConvertor.getErrorMarkdown();
         this.traceMarkdown(reportMarkdown);
 
-        await this.invoke(() =>
-            this.octokit.checks.update({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                check_run_id: this.a11yCheck.id,
-                name: checkRunName,
-                status: 'completed',
-                conclusion: 'failure',
-                output: {
-                    title: checkRunDetailsTitle,
-                    summary: disclaimerText,
-                    annotations: [],
-                    text: reportMarkdown,
-                },
-            }),
+        await this.invoke(
+            async () =>
+                await this.octokit.checks.update({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    check_run_id: this.a11yCheck.id,
+                    name: checkRunName,
+                    status: 'completed',
+                    conclusion: 'failure',
+                    output: {
+                        title: checkRunDetailsTitle,
+                        summary: disclaimerText,
+                        annotations: [],
+                        text: reportMarkdown,
+                    },
+                }),
         );
     }
 

@@ -70759,14 +70759,16 @@ let CheckRunCreator = class CheckRunCreator extends progress_reporter_1.Progress
     start() {
         return __awaiter(this, void 0, void 0, function* () {
             this.logMessage('Creating check run with status as in_progress');
-            const response = yield this.invoke(() => this.octokit.checks.create({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                name: strings_1.checkRunName,
-                status: 'in_progress',
-                head_sha: lodash_1.isNil(this.githubObj.context.payload.pull_request)
-                    ? this.githubObj.context.sha
-                    : this.githubObj.context.payload.pull_request.head.sha,
+            const response = yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                return yield this.octokit.checks.create({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    name: strings_1.checkRunName,
+                    status: 'in_progress',
+                    head_sha: lodash_1.isNil(this.githubObj.context.payload.pull_request)
+                        ? this.githubObj.context.sha
+                        : this.githubObj.context.payload.pull_request.head.sha,
+                });
             }));
             this.a11yCheck = response === null || response === void 0 ? void 0 : response.data;
         });
@@ -70776,14 +70778,16 @@ let CheckRunCreator = class CheckRunCreator extends progress_reporter_1.Progress
             this.logMessage('Updating check run with status as completed');
             const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
             this.traceMarkdown(reportMarkdown);
-            yield this.invoke(() => this.octokit.checks.update({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                check_run_id: this.a11yCheck.id,
-                name: strings_1.checkRunName,
-                status: 'completed',
-                conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
-                output: this.getScanOutput(reportMarkdown),
+            yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                return yield this.octokit.checks.update({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    check_run_id: this.a11yCheck.id,
+                    name: strings_1.checkRunName,
+                    status: 'completed',
+                    conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
+                    output: this.getScanOutput(reportMarkdown),
+                });
             }));
         });
     }
@@ -70792,19 +70796,21 @@ let CheckRunCreator = class CheckRunCreator extends progress_reporter_1.Progress
             this.logMessage('Updating check run with status as failed');
             const reportMarkdown = this.reportMarkdownConvertor.getErrorMarkdown();
             this.traceMarkdown(reportMarkdown);
-            yield this.invoke(() => this.octokit.checks.update({
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-                check_run_id: this.a11yCheck.id,
-                name: strings_1.checkRunName,
-                status: 'completed',
-                conclusion: 'failure',
-                output: {
-                    title: strings_1.checkRunDetailsTitle,
-                    summary: mark_down_strings_1.disclaimerText,
-                    annotations: [],
-                    text: reportMarkdown,
-                },
+            yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                return yield this.octokit.checks.update({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    check_run_id: this.a11yCheck.id,
+                    name: strings_1.checkRunName,
+                    status: 'completed',
+                    conclusion: 'failure',
+                    output: {
+                        title: strings_1.checkRunDetailsTitle,
+                        summary: mark_down_strings_1.disclaimerText,
+                        annotations: [],
+                        text: reportMarkdown,
+                    },
+                });
             }));
         });
     }
@@ -70875,7 +70881,7 @@ let ProgressReporter = class ProgressReporter {
     }
     invoke(fn) {
         return __awaiter(this, void 0, void 0, function* () {
-            return process.env.ACT !== 'true' ? yield fn() : Promise.resolve(undefined);
+            return process.env.ACT !== 'true' ? fn() : Promise.resolve(undefined);
         });
     }
     traceMarkdown(markdown) {
@@ -70960,21 +70966,25 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
             this.traceMarkdown(reportMarkdown);
             if (lodash_1.isNil(existingComment)) {
                 this.logMessage('Creating new comment');
-                yield this.octokit.issues.createComment({
-                    owner: this.githubObj.context.repo.owner,
-                    repo: this.githubObj.context.repo.repo,
-                    body: reportMarkdown,
-                    issue_number: pullRequest.number,
-                });
+                yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                    return yield this.octokit.issues.createComment({
+                        owner: this.githubObj.context.repo.owner,
+                        repo: this.githubObj.context.repo.repo,
+                        body: reportMarkdown,
+                        issue_number: pullRequest.number,
+                    });
+                }));
             }
             else {
                 this.logMessage('Updating existing comment');
-                yield this.octokit.issues.updateComment({
-                    owner: this.githubObj.context.repo.owner,
-                    repo: this.githubObj.context.repo.repo,
-                    body: reportMarkdown,
-                    comment_id: existingComment.id,
-                });
+                yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                    return yield this.octokit.issues.updateComment({
+                        owner: this.githubObj.context.repo.owner,
+                        repo: this.githubObj.context.repo.repo,
+                        body: reportMarkdown,
+                        comment_id: existingComment.id,
+                    });
+                }));
             }
         });
     }
@@ -70992,11 +71002,13 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
     }
     findComment(pullRequestNumber) {
         return __awaiter(this, void 0, void 0, function* () {
-            const commentsResponse = yield this.octokit.issues.listComments({
-                issue_number: pullRequestNumber,
-                owner: this.githubObj.context.repo.owner,
-                repo: this.githubObj.context.repo.repo,
-            });
+            const commentsResponse = yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                return yield this.octokit.issues.listComments({
+                    issue_number: pullRequestNumber,
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                });
+            }));
             const comments = commentsResponse.data;
             return comments.find((c) => !lodash_1.isEmpty(c.body) && !lodash_1.isEmpty(c.user) && c.user.login === 'github-actions[bot]' && c.body.includes(markdown_formatter_1.productTitle()));
         });
