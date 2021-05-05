@@ -33,8 +33,12 @@ export class CrawlArgumentHandler {
     }
 
     private getInitialScanArguments(): ScanArguments {
+        const inputFile = this.taskConfig.getInputFile() || undefined;
+        const inputUrlsArg = this.taskConfig.getInputUrls() || undefined;
+        const discoveryPatternsArg = this.taskConfig.getDiscoveryPatterns() || undefined;
+
         const args = {
-            inputFile: this.taskConfig.getInputFile(),
+            inputFile,
             output: this.taskConfig.getReportOutDir(),
             maxUrls: this.taskConfig.getMaxUrls(),
             chromePath: this.taskConfig.getChromePath(),
@@ -42,8 +46,8 @@ export class CrawlArgumentHandler {
             axeSourcePath: this.resolvePath(__dirname, 'node_modules', 'axe-core', 'axe.js'),
             crawl: true,
             restart: true,
-            discoveryPatterns: this.taskConfig.getDiscoveryPatterns()?.split(/\s+/),
-            inputUrls: this.taskConfig.getInputUrls()?.split(/\s+/),
+            discoveryPatterns: discoveryPatternsArg?.split(/\s+/),
+            inputUrls: inputUrlsArg?.split(/\s+/),
             url: this.taskConfig.getUrl(),
         };
 

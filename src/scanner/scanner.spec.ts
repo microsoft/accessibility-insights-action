@@ -3,7 +3,14 @@
 import 'reflect-metadata';
 import * as util from 'util';
 
-import { AICombinedReportDataConverter, AICrawler, CombinedScanResult, ScanArguments } from 'accessibility-insights-scan';
+import {
+    AICombinedReportDataConverter,
+    AICrawler,
+    CombinedScanResult,
+    CrawlerParametersBuilder,
+    CrawlerRunOptions,
+    ScanArguments,
+} from 'accessibility-insights-scan';
 import { IMock, It, Mock, MockBehavior, Times } from 'typemoq';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
@@ -29,6 +36,7 @@ describe(Scanner, () => {
     let loggerMock: IMock<Logger>;
     let crawlArgumentHandlerMock: IMock<CrawlArgumentHandler>;
     let taskConfigMock: IMock<TaskConfig>;
+    let crawlerParametersBuilder: IMock<CrawlerParametersBuilder>;
     let scanner: Scanner;
 
     const scanArguments: ScanArguments = {
@@ -57,6 +65,7 @@ describe(Scanner, () => {
         loggerMock = Mock.ofType(Logger);
         crawlArgumentHandlerMock = Mock.ofType<CrawlArgumentHandler>();
         taskConfigMock = Mock.ofType<TaskConfig>();
+        crawlerParametersBuilder = Mock.ofType<CrawlerParametersBuilder>();
         scanner = new Scanner(
             aiCrawlerMock.object,
             reportGeneratorMock.object,
@@ -69,6 +78,7 @@ describe(Scanner, () => {
             loggerMock.object,
             crawlArgumentHandlerMock.object,
             taskConfigMock.object,
+            crawlerParametersBuilder.object,
         );
     });
 
@@ -134,8 +144,15 @@ describe(Scanner, () => {
             loggerMock
                 .setup((lm) => lm.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`))
                 .verifiable(Times.once());
+
+            const crawlerParams: CrawlerRunOptions = {
+                baseUrl: scanArguments.url,
+            };
+
+            crawlerParametersBuilder.setup((m) => m.build(scanArguments)).returns((_) => crawlerParams);
+
             aiCrawlerMock
-                .setup((m) => m.crawl(It.isAny()))
+                .setup((m) => m.crawl(crawlerParams))
                 .returns(async () => {
                     return Promise.resolve(combinedScanResult);
                 })
