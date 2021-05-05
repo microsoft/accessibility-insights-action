@@ -27,7 +27,7 @@ type ListCommentsResponseItem = ListCommentsResponse['data'][0];
 
 describe(PullRequestCommentCreator, () => {
     let testSubject: PullRequestCommentCreator;
-    let axeMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
+    let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
     let createCommentMock: IMock<CreateComment>;
     let updateCommentMock: IMock<UpdateComment>;
     let listCommentsMock: IMock<ListComments>;
@@ -42,7 +42,7 @@ describe(PullRequestCommentCreator, () => {
     const combinedReportResult = { serviceName: 'combinedReportResult' } as CombinedReportParameters;
 
     beforeEach(() => {
-        axeMarkdownConvertorMock = Mock.ofType(ReportMarkdownConvertor);
+        reportMarkdownConvertorMock = Mock.ofType(ReportMarkdownConvertor);
         createCommentMock = Mock.ofInstance(
             (() => {
                 /* noop */
@@ -86,16 +86,16 @@ describe(PullRequestCommentCreator, () => {
             },
         } as typeof github;
 
-        axeMarkdownConvertorMock.setup((a) => a.convert(combinedReportResult)).returns(() => markdownContent);
+        reportMarkdownConvertorMock.setup((a) => a.convert(combinedReportResult)).returns(() => markdownContent);
 
-        testSubject = new PullRequestCommentCreator(axeMarkdownConvertorMock.object, octokitStub, githubStub, loggerMock.object);
+        testSubject = new PullRequestCommentCreator(reportMarkdownConvertorMock.object, octokitStub, githubStub, loggerMock.object);
     });
 
     afterEach(() => {
         createCommentMock.verifyAll();
         listCommentsMock.verifyAll();
         updateCommentMock.verifyAll();
-        axeMarkdownConvertorMock.verifyAll();
+        reportMarkdownConvertorMock.verifyAll();
         loggerMock.verifyAll();
     });
 
