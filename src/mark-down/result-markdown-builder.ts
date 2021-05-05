@@ -76,7 +76,7 @@ export class ResultMarkdownBuilder {
             const ruleDescription = failuresGroup.failed[0].rule.description;
             return [this.failedRuleListItem(failureCount, ruleId, ruleDescription), sectionSeparator()].join('');
         });
-        const lines = [sectionSeparator(), `${heading('Failed instances', 4)}`, sectionSeparator(), failedRulesList];
+        const lines = [sectionSeparator(), `${heading('Failed instances', 4)}`, sectionSeparator(), ...failedRulesList];
 
         return lines.join('');
     };

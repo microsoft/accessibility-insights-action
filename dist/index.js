@@ -55360,7 +55360,7 @@ let ResultMarkdownBuilder = class ResultMarkdownBuilder {
                 const ruleDescription = failuresGroup.failed[0].rule.description;
                 return [this.failedRuleListItem(failureCount, ruleId, ruleDescription), markdown_formatter_1.sectionSeparator()].join('');
             });
-            const lines = [markdown_formatter_1.sectionSeparator(), `${markdown_formatter_1.heading('Failed instances', 4)}`, markdown_formatter_1.sectionSeparator(), failedRulesList];
+            const lines = [markdown_formatter_1.sectionSeparator(), `${markdown_formatter_1.heading('Failed instances', 4)}`, markdown_formatter_1.sectionSeparator(), ...failedRulesList];
             return lines.join('');
         };
         this.failedRuleListItem = (failureCount, ruleId, description) => {
