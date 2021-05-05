@@ -15,13 +15,15 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 type ListCommentsResponseItem = RestEndpointMethodTypes['issues']['listComments']['response']['data'][0];
 
 @injectable()
-export class PullRequestCommentCreator implements ProgressReporter {
+export class PullRequestCommentCreator extends ProgressReporter {
     constructor(
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(iocTypes.Github) private readonly githubObj: typeof github,
         @inject(Logger) private readonly logger: Logger,
-    ) {}
+    ) {
+        super();
+    }
 
     public async start(): Promise<void> {
         // We don't do anything for pull request flow
@@ -34,13 +36,15 @@ export class PullRequestCommentCreator implements ProgressReporter {
 
         const pullRequest = this.githubObj.context.payload.pull_request;
         const existingComment = await this.findComment(pullRequest.number);
+        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
+        this.traceMarkdown(reportMarkdown);
 
         if (isNil(existingComment)) {
             this.logMessage('Creating new comment');
             await this.octokit.issues.createComment({
                 owner: this.githubObj.context.repo.owner,
                 repo: this.githubObj.context.repo.repo,
-                body: this.reportMarkdownConvertor.convert(combinedReportResult),
+                body: reportMarkdown,
                 issue_number: pullRequest.number,
             });
         } else {
@@ -48,7 +52,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
             await this.octokit.issues.updateComment({
                 owner: this.githubObj.context.repo.owner,
                 repo: this.githubObj.context.repo.repo,
-                body: this.reportMarkdownConvertor.convert(combinedReportResult),
+                body: reportMarkdown,
                 comment_id: existingComment.id,
             });
         }
