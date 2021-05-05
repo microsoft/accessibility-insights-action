@@ -25,10 +25,6 @@ type CreateCheckResponseData = {
     id: number;
 };
 
-type CreateCheckResponse = {
-    data: CreateCheckResponseData;
-};
-
 type UpdateCheckOutputParameter = {
     title?: string;
     summary: string;
@@ -36,69 +32,88 @@ type UpdateCheckOutputParameter = {
 };
 
 @injectable()
-export class CheckRunCreator implements ProgressReporter {
+export class CheckRunCreator extends ProgressReporter {
     private a11yCheck: CreateCheckResponseData;
 
     constructor(
-        @inject(ReportMarkdownConvertor) private readonly axeMarkdownConvertor: ReportMarkdownConvertor,
+        @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(iocTypes.Github) private readonly githubObj: typeof github,
         @inject(Logger) private readonly logger: Logger,
-    ) {}
+    ) {
+        super();
+    }
 
     public async start(): Promise<void> {
         this.logMessage('Creating check run with status as in_progress');
-        this.a11yCheck = ((await this.octokit.checks.create({
-            owner: this.githubObj.context.repo.owner,
-            repo: this.githubObj.context.repo.repo,
-            name: checkRunName,
-            status: 'in_progress',
-            head_sha: isNil(this.githubObj.context.payload.pull_request)
-                ? this.githubObj.context.sha
-                : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
-        })) as CreateCheckResponse).data; // The "as" is only necessary until https://github.com/octokit/rest.js/issues/2000 is resolved
+        const response = await this.invoke(
+            async () =>
+                await this.octokit.checks.create({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    name: checkRunName,
+                    status: 'in_progress',
+                    head_sha: isNil(this.githubObj.context.payload.pull_request)
+                        ? this.githubObj.context.sha
+                        : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
+                }),
+        );
+
+        this.a11yCheck = response?.data;
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters): Promise<void> {
         this.logMessage('Updating check run with status as completed');
-        await this.octokit.checks.update({
-            owner: this.githubObj.context.repo.owner,
-            repo: this.githubObj.context.repo.repo,
-            check_run_id: this.a11yCheck.id,
-            name: checkRunName,
-            status: 'completed',
-            conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
-            output: this.getScanOutput(combinedReportResult),
-        });
+        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
+        this.traceMarkdown(reportMarkdown);
+
+        await this.invoke(
+            async () =>
+                await this.octokit.checks.update({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    check_run_id: this.a11yCheck.id,
+                    name: checkRunName,
+                    status: 'completed',
+                    conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
+                    output: this.getScanOutput(reportMarkdown),
+                }),
+        );
     }
 
     public async failRun(): Promise<void> {
         this.logMessage('Updating check run with status as failed');
-        await this.octokit.checks.update({
-            owner: this.githubObj.context.repo.owner,
-            repo: this.githubObj.context.repo.repo,
-            check_run_id: this.a11yCheck.id,
-            name: checkRunName,
-            status: 'completed',
-            conclusion: 'failure',
-            output: {
-                title: checkRunDetailsTitle,
-                summary: disclaimerText,
-                annotations: [],
-                text: this.axeMarkdownConvertor.getErrorMarkdown(),
-            },
-        });
+        const reportMarkdown = this.reportMarkdownConvertor.getErrorMarkdown();
+        this.traceMarkdown(reportMarkdown);
+
+        await this.invoke(
+            async () =>
+                await this.octokit.checks.update({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    check_run_id: this.a11yCheck.id,
+                    name: checkRunName,
+                    status: 'completed',
+                    conclusion: 'failure',
+                    output: {
+                        title: checkRunDetailsTitle,
+                        summary: disclaimerText,
+                        annotations: [],
+                        text: reportMarkdown,
+                    },
+                }),
+        );
     }
 
     private logMessage(message: string): void {
         this.logger.logInfo(`[CheckRunCreator] ${message}`);
     }
 
-    private getScanOutput(combinedReportResult: CombinedReportParameters): UpdateCheckOutputParameter {
+    private getScanOutput(text: string): UpdateCheckOutputParameter {
         return {
             title: checkRunDetailsTitle,
             summary: disclaimerText,
-            text: this.axeMarkdownConvertor.convert(combinedReportResult),
+            text,
         };
     }
 }

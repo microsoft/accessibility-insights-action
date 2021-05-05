@@ -91,7 +91,7 @@ export class Scanner {
             urlCount: combinedScanResult.urlCount,
             scanStarted,
             scanEnded,
-            browserResolution: '', // TODO
+            browserResolution: '1920x1080', // resoluton is fixed by crawler implementation
         };
 
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
