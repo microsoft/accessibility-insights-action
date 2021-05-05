@@ -25,7 +25,9 @@ export abstract class ProgressReporter {
     }
 
     protected traceMarkdown(markdown: string): void {
-        console.log('[ProgressReporter] ===');
-        console.log(marked(markdown));
+        if (process.env.ACT === 'true') {
+            console.log('[ProgressReporter] ===');
+            console.log(marked(markdown));
+        }
     }
 }

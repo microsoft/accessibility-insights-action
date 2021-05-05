@@ -70879,8 +70879,10 @@ let ProgressReporter = class ProgressReporter {
         });
     }
     traceMarkdown(markdown) {
-        console.log('[ProgressReporter] ===');
-        console.log(marked(markdown));
+        if (process.env.ACT === 'true') {
+            console.log('[ProgressReporter] ===');
+            console.log(marked(markdown));
+        }
     }
 };
 ProgressReporter = __decorate([
