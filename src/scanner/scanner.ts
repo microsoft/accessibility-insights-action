@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AICrawler, CombinedScanResult, AICombinedReportDataConverter, ScanArguments } from 'accessibility-insights-scan';
+import {
+    AICrawler,
+    CombinedScanResult,
+    AICombinedReportDataConverter,
+    ScanArguments,
+    CrawlerParametersBuilder,
+} from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
@@ -31,6 +37,7 @@ export class Scanner {
         @inject(Logger) private readonly logger: Logger,
         @inject(CrawlArgumentHandler) private readonly crawlArgumentHandler: CrawlArgumentHandler,
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(CrawlerParametersBuilder) private readonly crawlerParametersBuilder: CrawlerParametersBuilder,
     ) {}
 
     public async scan(): Promise<void> {
@@ -57,15 +64,10 @@ export class Scanner {
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
             this.logger.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
 
+            const crawlerParameters = this.crawlerParametersBuilder.build(scanArguments);
+
             const scanStarted = new Date();
-            const combinedScanResult = await this.crawler.crawl({
-                baseUrl: scanArguments.url,
-                crawl: true,
-                restartCrawl: true,
-                chromePath: scanArguments.chromePath,
-                axeSourcePath: scanArguments.axeSourcePath,
-                localOutputDir: scanArguments.output,
-            });
+            const combinedScanResult = await this.crawler.crawl(crawlerParameters);
             const scanEnded = new Date();
 
             const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
