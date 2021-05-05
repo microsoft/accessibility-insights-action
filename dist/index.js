@@ -70366,6 +70366,7 @@ const verror_1 = __webpack_require__(/*! verror */ "./node_modules/verror/lib/ve
 const utils = __webpack_require__(/*! util */ "util");
 const logger_client_1 = __webpack_require__(/*! ./logger-client */ "./src/logger/logger-client.ts");
 const serialize_error_1 = __webpack_require__(/*! serialize-error */ "./node_modules/serialize-error/index.js");
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
 class Logger {
     constructor(loggerClients, currentProcess) {
         this.loggerClients = loggerClients;
