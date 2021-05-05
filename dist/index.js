@@ -55534,8 +55534,8 @@ const ioc_types_1 = __webpack_require__(/*! ../../ioc/ioc-types */ "./src/ioc/io
 const logger_1 = __webpack_require__(/*! ../../logger/logger */ "./src/logger/logger.ts");
 const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "./src/mark-down/report-markdown-convertor.ts");
 let CheckRunCreator = class CheckRunCreator {
-    constructor(axeMarkdownConvertor, octokit, githubObj, logger) {
-        this.axeMarkdownConvertor = axeMarkdownConvertor;
+    constructor(reportMarkdownConvertor, octokit, githubObj, logger) {
+        this.reportMarkdownConvertor = reportMarkdownConvertor;
         this.octokit = octokit;
         this.githubObj = githubObj;
         this.logger = logger;
@@ -55582,7 +55582,7 @@ let CheckRunCreator = class CheckRunCreator {
                     title: strings_1.checkRunDetailsTitle,
                     summary: mark_down_strings_1.disclaimerText,
                     annotations: [],
-                    text: this.axeMarkdownConvertor.getErrorMarkdown(),
+                    text: this.reportMarkdownConvertor.getErrorMarkdown(),
                 },
             });
         });
@@ -55594,7 +55594,7 @@ let CheckRunCreator = class CheckRunCreator {
         return {
             title: strings_1.checkRunDetailsTitle,
             summary: mark_down_strings_1.disclaimerText,
-            text: this.axeMarkdownConvertor.convert(combinedReportResult),
+            text: this.reportMarkdownConvertor.convert(combinedReportResult),
         };
     }
 };
@@ -55653,8 +55653,8 @@ const logger_1 = __webpack_require__(/*! ../../logger/logger */ "./src/logger/lo
 const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "./src/mark-down/report-markdown-convertor.ts");
 const markdown_formatter_1 = __webpack_require__(/*! ../../mark-down/markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
 let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestCommentCreator {
-    constructor(axeMarkdownConvertor, octokit, githubObj, logger) {
-        this.axeMarkdownConvertor = axeMarkdownConvertor;
+    constructor(reportMarkdownConvertor, octokit, githubObj, logger) {
+        this.reportMarkdownConvertor = reportMarkdownConvertor;
         this.octokit = octokit;
         this.githubObj = githubObj;
         this.logger = logger;
@@ -55676,7 +55676,7 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
                 yield this.octokit.issues.createComment({
                     owner: this.githubObj.context.repo.owner,
                     repo: this.githubObj.context.repo.repo,
-                    body: this.axeMarkdownConvertor.convert(combinedReportResult),
+                    body: this.reportMarkdownConvertor.convert(combinedReportResult),
                     issue_number: pullRequest.number,
                 });
             }
@@ -55685,7 +55685,7 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
                 yield this.octokit.issues.updateComment({
                     owner: this.githubObj.context.repo.owner,
                     repo: this.githubObj.context.repo.repo,
-                    body: this.axeMarkdownConvertor.convert(combinedReportResult),
+                    body: this.reportMarkdownConvertor.convert(combinedReportResult),
                     comment_id: existingComment.id,
                 });
             }
@@ -56045,7 +56045,7 @@ let Scanner = class Scanner {
             urlCount: combinedScanResult.urlCount,
             scanStarted,
             scanEnded,
-            browserResolution: '', // TODO
+            browserResolution: '1920x1080', // fixed resoluton by crawler implementation
         };
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
     }

@@ -40,7 +40,7 @@ export class CheckRunCreator implements ProgressReporter {
     private a11yCheck: CreateCheckResponseData;
 
     constructor(
-        @inject(ReportMarkdownConvertor) private readonly axeMarkdownConvertor: ReportMarkdownConvertor,
+        @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(iocTypes.Github) private readonly githubObj: typeof github,
         @inject(Logger) private readonly logger: Logger,
@@ -85,7 +85,7 @@ export class CheckRunCreator implements ProgressReporter {
                 title: checkRunDetailsTitle,
                 summary: disclaimerText,
                 annotations: [],
-                text: this.axeMarkdownConvertor.getErrorMarkdown(),
+                text: this.reportMarkdownConvertor.getErrorMarkdown(),
             },
         });
     }
@@ -98,7 +98,7 @@ export class CheckRunCreator implements ProgressReporter {
         return {
             title: checkRunDetailsTitle,
             summary: disclaimerText,
-            text: this.axeMarkdownConvertor.convert(combinedReportResult),
+            text: this.reportMarkdownConvertor.convert(combinedReportResult),
         };
     }
 }

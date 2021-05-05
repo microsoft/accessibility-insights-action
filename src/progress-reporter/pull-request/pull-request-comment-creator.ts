@@ -17,7 +17,7 @@ type ListCommentsResponseItem = RestEndpointMethodTypes['issues']['listComments'
 @injectable()
 export class PullRequestCommentCreator implements ProgressReporter {
     constructor(
-        @inject(ReportMarkdownConvertor) private readonly axeMarkdownConvertor: ReportMarkdownConvertor,
+        @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(iocTypes.Github) private readonly githubObj: typeof github,
         @inject(Logger) private readonly logger: Logger,
@@ -40,7 +40,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
             await this.octokit.issues.createComment({
                 owner: this.githubObj.context.repo.owner,
                 repo: this.githubObj.context.repo.repo,
-                body: this.axeMarkdownConvertor.convert(combinedReportResult),
+                body: this.reportMarkdownConvertor.convert(combinedReportResult),
                 issue_number: pullRequest.number,
             });
         } else {
@@ -48,7 +48,7 @@ export class PullRequestCommentCreator implements ProgressReporter {
             await this.octokit.issues.updateComment({
                 owner: this.githubObj.context.repo.owner,
                 repo: this.githubObj.context.repo.repo,
-                body: this.axeMarkdownConvertor.convert(combinedReportResult),
+                body: this.reportMarkdownConvertor.convert(combinedReportResult),
                 comment_id: existingComment.id,
             });
         }
