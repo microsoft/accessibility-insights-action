@@ -4,14 +4,13 @@ import 'reflect-metadata';
 
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
-import { AxeScanResults } from 'accessibility-insights-scan';
 import { IMock, Mock, Times } from 'typemoq';
-
 import { disclaimerText } from '../../content/mark-down-strings';
 import { checkRunDetailsTitle } from '../../content/strings';
 import { Logger } from '../../logger/logger';
-import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
+import { ReportMarkdownConvertor } from '../../mark-down/report-markdown-convertor';
 import { CheckRunCreator } from './check-run-creator';
+import { CombinedReportParameters } from 'accessibility-insights-report';
 
 type CreateCheckParams = RestEndpointMethodTypes['checks']['create']['parameters'];
 type CreateCheckResponse = RestEndpointMethodTypes['checks']['create']['response'];
@@ -28,17 +27,18 @@ describe(CheckRunCreator, () => {
     let checkRunCreator: CheckRunCreator;
     let githubStub: typeof github;
     let checkStub: CreateCheckResponse['data'];
-    let convertorMock: IMock<AxeMarkdownConvertor>;
+    let convertorMock: IMock<ReportMarkdownConvertor>;
     let loggerMock: IMock<Logger>;
     let sha: string;
 
     const owner = 'owner';
     const repo = 'repo';
     const a11yCheckName = 'Accessibility Checks';
+    const markdown = 'markdown';
 
     beforeEach(() => {
         sha = 'sha';
-        convertorMock = Mock.ofType(AxeMarkdownConvertor);
+        convertorMock = Mock.ofType(ReportMarkdownConvertor);
         loggerMock = Mock.ofType(Logger);
         createCheckMock = Mock.ofInstance(() => {
             return null;
@@ -70,6 +70,12 @@ describe(CheckRunCreator, () => {
         checkRunCreator = new CheckRunCreator(convertorMock.object, octokitStub, githubStub, loggerMock.object);
     });
 
+    afterEach(() => {
+        convertorMock.verifyAll();
+        createCheckMock.verifyAll();
+        updateCheckMock.verifyAll();
+    });
+
     it('should create instance', () => {
         expect(checkRunCreator).not.toBeNull();
     });
@@ -78,8 +84,6 @@ describe(CheckRunCreator, () => {
         setupMocksForCreateCheck();
 
         await checkRunCreator.start();
-
-        verifyMocks();
     });
 
     it('createRun for pull request', async () => {
@@ -94,8 +98,6 @@ describe(CheckRunCreator, () => {
         setupMocksForCreateCheck();
 
         await checkRunCreator.start();
-
-        verifyMocks();
     });
 
     it('failRun', async () => {
@@ -124,67 +126,58 @@ describe(CheckRunCreator, () => {
 
         await checkRunCreator.start();
         await checkRunCreator.failRun();
-
-        verifyMocks();
     });
 
     it('completeRun', async () => {
-        const markdown = 'markdown';
-        const axeScanResults: AxeScanResults = {
+        const combinedReportResult = {
             results: {
-                violations: [
-                    {
-                        id: 'color-contrast',
-                        nodes: [{ html: 'html' }],
-                    },
-                ],
+                urlResults: {
+                    failedUrls: 3,
+                },
             },
-        } as AxeScanResults;
-        const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, axeScanResults);
+        } as CombinedReportParameters;
+        const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, combinedReportResult);
 
         setupMocksForCreateCheck();
         convertorMock
-            .setup((cm) => cm.convert(axeScanResults))
+            .setup((cm) => cm.convert(combinedReportResult))
             .returns(() => markdown)
             .verifiable(Times.once());
         updateCheckMock.setup((um) => um(expectedUpdateParam)).verifiable(Times.once());
 
         await checkRunCreator.start();
-        await checkRunCreator.completeRun(axeScanResults);
-
-        verifyMocks();
+        await checkRunCreator.completeRun(combinedReportResult);
     });
 
     it('completeRun with no failed rules', async () => {
-        const markdown = 'markdown';
-        const axeScanResults: AxeScanResults = {
+        const combinedReportResult = {
             results: {
-                violations: [],
+                urlResults: {
+                    failedUrls: 0,
+                },
             },
-        } as AxeScanResults;
+        } as CombinedReportParameters;
 
-        const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, axeScanResults);
+        const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, combinedReportResult);
         setupMocksForCreateCheck();
         convertorMock
-            .setup((cm) => cm.convert(axeScanResults))
+            .setup((cm) => cm.convert(combinedReportResult))
             .returns(() => markdown)
             .verifiable(Times.once());
         updateCheckMock.setup((um) => um(expectedUpdateParam)).verifiable(Times.once());
 
         await checkRunCreator.start();
-        await checkRunCreator.completeRun(axeScanResults);
-
-        verifyMocks();
+        await checkRunCreator.completeRun(combinedReportResult);
     });
 
-    function getExpectedUpdateParam(markdown: string, axeScanResults: AxeScanResults): UpdateCheckParams {
+    function getExpectedUpdateParam(markdown: string, combinedReportResult: CombinedReportParameters): UpdateCheckParams {
         return {
             owner: owner,
             repo: repo,
             check_run_id: checkStub.id,
             name: a11yCheckName,
             status: 'completed',
-            conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
+            conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
             output: {
                 title: checkRunDetailsTitle,
                 summary: disclaimerText,
@@ -209,11 +202,5 @@ describe(CheckRunCreator, () => {
                 return Promise.resolve(response);
             })
             .verifiable(Times.once());
-    }
-
-    function verifyMocks(): void {
-        convertorMock.verifyAll();
-        createCheckMock.verifyAll();
-        updateCheckMock.verifyAll();
     }
 });

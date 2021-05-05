@@ -6,6 +6,7 @@ import * as utils from 'util';
 import { LoggerClient, LogLevel } from './logger-client';
 import { serializeError as serializeErrorExt } from 'serialize-error';
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
 export class Logger {
     protected initialized = false;
     protected isDebugEnabled = false;
