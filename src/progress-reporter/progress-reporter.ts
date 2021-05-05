@@ -21,7 +21,7 @@ export abstract class ProgressReporter {
     public abstract failRun(message: string): Promise<void>;
 
     protected async invoke<T>(fn: () => Promise<T>): Promise<T> {
-        return process.env.ACT !== 'true' ? fn() : Promise.resolve(undefined as T);
+        return process.env.ACT !== 'true' ? await fn() : Promise.resolve(undefined as T);
     }
 
     protected traceMarkdown(markdown: string): void {

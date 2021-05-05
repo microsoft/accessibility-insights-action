@@ -70875,7 +70875,7 @@ let ProgressReporter = class ProgressReporter {
     }
     invoke(fn) {
         return __awaiter(this, void 0, void 0, function* () {
-            return process.env.ACT !== 'true' ? fn() : Promise.resolve(undefined);
+            return process.env.ACT !== 'true' ? yield fn() : Promise.resolve(undefined);
         });
     }
     traceMarkdown(markdown) {
