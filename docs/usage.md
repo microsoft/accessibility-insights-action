@@ -90,7 +90,7 @@ For instance, you can:
 -   use `max-urls: 1` to turn off crawling
 -   include a list of additional URLs to scan (the crawler won't find pages that are unlinked from the base page)
 
-For `discovery-patterns`, `input-file`, and `input-urls`, note that these options expect resolved URLs. If you provide static HTML files via `site-dir`, you should also provide `port` so that you can anticipate the base URL of the file server (`http://localhost:port/`).
+For `discovery-patterns`, `input-file`, and `input-urls`, note that these options expect resolved URLs. If you provide static HTML files via `site-dir`, you should also provide `localhost-port` so that you can anticipate the base URL of the file server (`http://localhost:localhost-port/`).
 
 Examples:
 
@@ -107,7 +107,7 @@ Examples:
   uses: microsoft/accessibility-insights-action@v1
   with:
       site-dir: ${{ github.workspace }}/website/public
-      port: 12345
+      localhost-port: 12345
       input-urls: http://localhost:12345/unlinked-page.html
 ```
 
