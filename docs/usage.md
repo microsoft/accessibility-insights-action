@@ -1,6 +1,11 @@
 # How to use the action
 
-_This action is still in early development & we don't recommend its usage in public production projects yet._
+To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
+
+-   `microsoft/accessibility-insights-action@v1` is updated with each `v1.x.y` release to refer to the most recent API-compatible version.
+-   `microsoft/accessibility-insights-action@v1.1.0` refers to the exact version `v1.1.0`; use this to pin to a specific version.
+
+Avoid referring to `@main` directly; it may contain undocumented breaking changes.
 
 ## Adding the GitHub Action
 
@@ -11,7 +16,7 @@ Reference this action in your GitHub workflow with the snippets on this page.
 
 ### Basic template
 
-Save this workflow file in your GitHub repo as `.github/workflows/accessibility-validation.yml`. The action saves results to `output-dir` (default: `_accessibility-reports`). After the scan action, upload the report folder as an artifact.
+Save this workflow file in your GitHub repo as `.github/workflows/accessibility-validation.yml`. This template saves results to `output-dir` (default: `_accessibility-reports`) and uploads an artifact to the check run.
 
 When you push this file to your repository, you should see the action running on the [Actions tab](https://docs.github.com/en/actions/quickstart#viewing-your-workflow-results).
 
@@ -36,10 +41,10 @@ jobs:
             # Insert any jobs here required to build your website files
 
             - name: Scan for A11y issues
-              uses: microsoft/accessibility-insights-action@v2
+              uses: microsoft/accessibility-insights-action@v1
               with:
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
-                  # Provide either site-dir or url - see other snippets
+                  # Provide either site-dir or url
                   # site-dir: ${{ github.workspace }}/path-to-built-website
                   # url: your-website-url
 
@@ -56,7 +61,7 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
 
 ```yml
 - name: Scan for A11y issues
-  uses: microsoft/accessibility-insights-action@v2
+  uses: microsoft/accessibility-insights-action@v1
   with:
       repo-token: ${{ secrets.GITHUB_TOKEN }}
       site-dir: ${{ github.workspace }}/website/public
@@ -69,7 +74,7 @@ Provide the website URL. The URL should already be hosted - something like `http
 
 ```yml
 - name: Scan for A11y issues
-  uses: microsoft/accessibility-insights-action@v2
+  uses: microsoft/accessibility-insights-action@v1
   with:
       url: http://localhost:12345/
 ```
@@ -90,16 +95,25 @@ For `discovery-patterns`, `input-file`, and `input-urls`, note that these option
 Examples:
 
 ```yml
-- name: Scan for A11y issues
-  uses: microsoft/accessibility-insights-action@v2
+- name: Scan for A11y issues (with url)
+  uses: microsoft/accessibility-insights-action@v1
   with:
       url: http://localhost:12345/
       input-urls: http://localhost:12345/other-url http://localhost:12345/other-url2
 ```
 
+```yml
+- name: Scan for A11y issues (with site-dir)
+  uses: microsoft/accessibility-insights-action@v1
+  with:
+      site-dir: ${{ github.workspace }}/website/public
+      port: 12345
+      input-urls: http://localhost:12345/unlinked-page.html
+```
+
 ## Viewing results
 
--   In the GitHub Actions tab, select the workflow run you're interested in. The summary page contains an artifact. If you download and extract the contents of that folder, you'll find an `index.html` report with detailed results.
+-   In the GitHub [Actions tab](https://docs.github.com/en/actions/quickstart#viewing-your-workflow-results), select the workflow run you're interested in. The summary page contains an artifact. If you download and extract the contents of that folder, you'll find an `index.html` report with detailed results.
 -   If the workflow was triggered by a pull request, the action should leave a comment on the pull request with results.
 
 ## Blocking pull requests
@@ -113,4 +127,4 @@ You can choose to block pull requests if the action finds accessibility issues.
 
 -   If the action didn't trigger as you expected, go to the ["on" section](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#on) of your yml file. Make sure any listed branch names are correct for your repository.
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for A11y issues` step.
--   If you can't find an artifact, note that our action only saves the results to disk. Your workflow must include an `actions/upload-artifact` step to add that folder to your check results. See the "Basic template" above.
+-   If you can't find an artifact, note that your workflow must include an `actions/upload-artifact` step to add the report folder to your check results. See the "Basic template" above.
