@@ -40,7 +40,7 @@ export class LocalFileServer {
     }
 
     private async startServer(): Promise<string> {
-        const port = await this.getPortFunc();
+        const port = await this.getTcpPort();
         const root = this.taskConfig.getSiteDir();
 
         const app = this.expressFunc();
@@ -52,5 +52,14 @@ export class LocalFileServer {
         this.logger.logInfo(`Started local web server. Url: ${url} Root directory: ${root}`);
 
         return url;
+    }
+
+    private async getTcpPort(): Promise<number> {
+        const localhostPort = this.taskConfig.getLocalhostPort();
+        if (localhostPort) {
+            return this.getPortFunc({ port: localhostPort });
+        } else {
+            return this.getPortFunc();
+        }
     }
 }

@@ -38,7 +38,7 @@ export class TaskConfig {
         chromePath = this.getAbsolutePath(this.actionCoreObj.getInput('chrome-path'));
 
         if (isEmpty(chromePath)) {
-            chromePath = process.env.CHROME_BIN;
+            chromePath = this.processObj.env.CHROME_BIN;
         }
 
         return chromePath;
@@ -70,6 +70,12 @@ export class TaskConfig {
 
     public getRunId(): number {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
+    }
+
+    public getLocalhostPort(): number {
+        const value = this.actionCoreObj.getInput('localhost-port');
+
+        return isEmpty(value) ? undefined : parseInt(value, 10);
     }
 
     private getAbsolutePath(path: string): string {

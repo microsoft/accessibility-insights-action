@@ -3,22 +3,25 @@
 import 'reflect-metadata';
 
 import * as actionCore from '@actions/core';
-import * as process from 'process';
-import { Mock, Times } from 'typemoq';
+import { Mock, Times, IMock } from 'typemoq';
 import { TaskConfig } from './task-config';
 
 describe(TaskConfig, () => {
-    const runId = 789;
-    const workspace = 'some-workspace';
-    const processStub = {
-        env: {
-            GITHUB_WORKSPACE: workspace,
-            GITHUB_RUN_ID: `${runId}`,
-        },
-    } as any;
+    let processStub: any;
+    let actionCoreMock: IMock<typeof actionCore>;
+    let taskConfig: TaskConfig;
 
-    const actionCoreMock = Mock.ofType<typeof actionCore>();
-    const taskConfig = new TaskConfig(processStub, actionCoreMock.object);
+    beforeEach(() => {
+        processStub = {
+            env: {},
+        } as any;
+        actionCoreMock = Mock.ofType<typeof actionCore>();
+        taskConfig = new TaskConfig(processStub, actionCoreMock.object);
+    });
+
+    afterEach(() => {
+        actionCoreMock.verifyAll();
+    });
 
     it.each`
         inputOption                 | inputValue                | expectedValue                 | getInputFunc
@@ -32,6 +35,7 @@ describe(TaskConfig, () => {
         ${'discovery-patterns'}     | ${'abc'}                  | ${'abc'}                      | ${() => taskConfig.getDiscoveryPatterns()}
         ${'input-urls'}             | ${'abc'}                  | ${'abc'}                      | ${() => taskConfig.getInputUrls()}
         ${'max-urls'}               | ${'20'}                   | ${20}                         | ${() => taskConfig.getMaxUrls()}
+        ${'localhost-port'}         | ${'8080'}                 | ${8080}                       | ${() => taskConfig.getLocalhostPort()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
@@ -44,28 +48,53 @@ describe(TaskConfig, () => {
         },
     );
 
-    it('getChromePath returns empty', () => {
+    it('should use environment value when chrome-path input is undefined', () => {
         const chromePath = 'some path';
-        process.env.CHROME_BIN = chromePath;
-
+        processStub = {
+            env: {
+                CHROME_BIN: chromePath,
+            },
+        } as any;
         actionCoreMock
-            .setup((am) => am.getInput('chrome-path'))
+            .setup((o) => o.getInput('chrome-path'))
             .returns(() => '')
             .verifiable(Times.once());
+        taskConfig = new TaskConfig(processStub, actionCoreMock.object);
 
-        const res = taskConfig.getChromePath();
+        const absolutePath = taskConfig.getChromePath();
 
-        expect(res).toBe(chromePath);
+        expect(absolutePath).toBe(chromePath);
     });
 
-    it('getRunId', () => {
-        const res = taskConfig.getRunId();
+    it('should use workspace to build absolute file path', () => {
+        const workspace = '/home/user/workspace';
+        processStub = {
+            env: {
+                GITHUB_WORKSPACE: workspace,
+            },
+        } as any;
+        actionCoreMock
+            .setup((o) => o.getInput('input-file'))
+            .returns(() => './file.txt')
+            .verifiable(Times.once());
+        taskConfig = new TaskConfig(processStub, actionCoreMock.object);
 
-        expect(res).toBe(runId);
+        const absolutePath = taskConfig.getInputFile();
+
+        expect(absolutePath).toBe(`${workspace}/file.txt`);
     });
 
-    afterEach(() => {
-        actionCoreMock.verifyAll();
-        actionCoreMock.reset();
+    it('should return run id from environment', () => {
+        const runId = 789;
+        processStub = {
+            env: {
+                GITHUB_RUN_ID: `${runId}`,
+            },
+        } as any;
+        taskConfig = new TaskConfig(processStub, actionCoreMock.object);
+
+        const actualRunId = taskConfig.getRunId();
+
+        expect(actualRunId).toBe(runId);
     });
 });
