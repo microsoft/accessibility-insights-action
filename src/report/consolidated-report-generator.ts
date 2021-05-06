@@ -26,8 +26,7 @@ export class ConsolidatedReportGenerator {
 
         // eslint-disable-next-line security/detect-non-literal-fs-filename
         if (!this.fileSystemObj.existsSync(outDirectory)) {
-            this.logger.logInfo('output directory does not exists.');
-            this.logger.logInfo(`creating output directory - ${outDirectory}`);
+            this.logger.logInfo(`Report output directory does not exists. Creating directory ${outDirectory}`);
             // eslint-disable-next-line security/detect-non-literal-fs-filename
             this.fileSystemObj.mkdirSync(outDirectory);
         }
@@ -40,6 +39,6 @@ export class ConsolidatedReportGenerator {
     private saveHtmlReport(fileName: string, content: string): void {
         // eslint-disable-next-line security/detect-non-literal-fs-filename
         this.fileSystemObj.writeFileSync(fileName, content);
-        this.logger.logInfo(`scan report saved successfully ${fileName}`);
+        this.logger.logInfo(`Scan report saved successfully as ${fileName}`);
     }
 }

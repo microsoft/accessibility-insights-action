@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as express from 'express';
-import * as getPort from 'get-port';
+import express from 'express';
+import getPort from 'get-port';
 import { Server } from 'http';
 import { inject, injectable } from 'inversify';
 import { isNil } from 'lodash';
-import * as serveStatic from 'serve-static';
+import serveStatic from 'serve-static';
 import { iocTypes } from './ioc/ioc-types';
 import { Logger } from './logger/logger';
 import { TaskConfig } from './task-config';
@@ -41,16 +41,16 @@ export class LocalFileServer {
 
     private async startServer(): Promise<string> {
         const port = await this.getPortFunc();
-        this.logger.logInfo(`Using port ${port}`);
-
         const root = this.taskConfig.getSiteDir();
-        this.logger.logInfo(`Root website directory ${root}`);
 
         const app = this.expressFunc();
         app.use(this.serveStaticFunc(root));
 
         this.server = app.listen(port);
 
-        return `http://localhost:${port}`;
+        const url = `http://localhost:${port}`;
+        this.logger.logInfo(`Started local web server. Url: ${url} Root directory: ${root}`);
+
+        return url;
     }
 }

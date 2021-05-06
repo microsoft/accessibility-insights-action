@@ -95,6 +95,6 @@ export class PullRequestCommentCreator extends ProgressReporter {
     }
 
     private logMessage(message: string): void {
-        this.logger.logInfo(`[${PullRequestCommentCreator.name}] ${message}`);
+        this.logger.logInfo(`${message}`);
     }
 }

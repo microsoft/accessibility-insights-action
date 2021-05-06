@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as express from 'express';
+import express from 'express';
 import { Express, Handler } from 'express-serve-static-core';
-import * as getPort from 'get-port';
+import getPort from 'get-port';
 import { Server } from 'http';
-import * as serveStatic from 'serve-static';
+import serveStatic from 'serve-static';
 import { IMock, Mock, Times } from 'typemoq';
-
 import { LocalFileServer } from './local-file-server';
 import { Logger } from './logger/logger';
 import { TaskConfig } from './task-config';
@@ -114,8 +113,6 @@ describe(LocalFileServer, () => {
             .setup(async (gm) => gm())
             .returns(() => Promise.resolve(port))
             .verifiable();
-
-        loggerMock.setup((lm) => lm.logInfo(`Using port ${port}`)).verifiable(Times.once());
 
         expressMock
             .setup((em) => em())

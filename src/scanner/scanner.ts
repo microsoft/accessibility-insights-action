@@ -25,6 +25,8 @@ import { isEmpty } from 'lodash';
 
 @injectable()
 export class Scanner {
+    private scanTimeoutMsec = 90000;
+
     constructor(
         @inject(AICrawler) private readonly crawler: AICrawler,
         @inject(ConsolidatedReportGenerator) private readonly reportGenerator: ConsolidatedReportGenerator,
@@ -42,8 +44,8 @@ export class Scanner {
 
     public async scan(): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/require-await
-        await this.promiseUtils.waitFor(this.invokeScan(), 90000, async () => {
-            this.logger.logError('Unable to scan before timeout');
+        await this.promiseUtils.waitFor(this.invokeScan(), this.scanTimeoutMsec, async () => {
+            this.logger.logError(`Scan timed out after ${this.scanTimeoutMsec / 1000} seconds`);
             this.currentProcess.exit(1);
         });
     }

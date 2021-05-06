@@ -62751,6 +62751,51 @@ exports.FetchError = FetchError;
 
 /***/ }),
 
+/***/ "./node_modules/normalize-path/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/normalize-path/index.js ***!
+  \**********************************************/
+/***/ ((module) => {
+
+/*!
+ * normalize-path <https://github.com/jonschlinkert/normalize-path>
+ *
+ * Copyright (c) 2014-2018, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+module.exports = function(path, stripTrailing) {
+  if (typeof path !== 'string') {
+    throw new TypeError('expected path to be a string');
+  }
+
+  if (path === '\\' || path === '/') return '/';
+
+  var len = path.length;
+  if (len <= 1) return path;
+
+  // ensure that win32 namespaces has two leading slashes, so that the path is
+  // handled properly by the win32 version of path.parse() after being normalized
+  // https://msdn.microsoft.com/library/windows/desktop/aa365247(v=vs.85).aspx#namespaces
+  var prefix = '';
+  if (len > 4 && path[3] === '\\') {
+    var ch = path[2];
+    if ((ch === '?' || ch === '.') && path.slice(0, 2) === '\\\\') {
+      path = path.slice(2);
+      prefix = '//';
+    }
+  }
+
+  var segs = path.split(/[/\\]+/);
+  if (stripTrailing !== false && segs[segs.length - 1] === '') {
+    segs.pop();
+  }
+  return prefix + segs.join('/');
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/on-finished/index.js":
 /*!*******************************************!*\
   !*** ./node_modules/on-finished/index.js ***!
@@ -69955,18 +70000,37 @@ function toIdentifier (str) {
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AxeInfo = void 0;
-const Axe = __webpack_require__(/*! axe-core */ "axe-core");
+const Axe = __importStar(__webpack_require__(/*! axe-core */ "axe-core"));
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
 let AxeInfo = class AxeInfo {
     constructor(axe = Axe) {
@@ -70099,21 +70163,43 @@ exports.iocTypes = {
 /*!****************************************!*\
   !*** ./src/ioc/setup-ioc-container.ts ***!
   \****************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.setupIocContainer = void 0;
-const github = __webpack_require__(/*! @actions/github */ "./node_modules/@actions/github/lib/github.js");
+const github = __importStar(__webpack_require__(/*! @actions/github */ "./node_modules/@actions/github/lib/github.js"));
 const rest_1 = __webpack_require__(/*! @octokit/rest */ "./node_modules/@octokit/rest/dist-node/index.js");
 const accessibility_insights_report_1 = __webpack_require__(/*! accessibility-insights-report */ "accessibility-insights-report");
-const express = __webpack_require__(/*! express */ "./node_modules/express/index.js");
-const getPort = __webpack_require__(/*! get-port */ "./node_modules/get-port/index.js");
-const inversify = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
-const serveStatic = __webpack_require__(/*! serve-static */ "./node_modules/serve-static/index.js");
+const express_1 = __importDefault(__webpack_require__(/*! express */ "./node_modules/express/index.js"));
+const get_port_1 = __importDefault(__webpack_require__(/*! get-port */ "./node_modules/get-port/index.js"));
+const inversify = __importStar(__webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js"));
+const serve_static_1 = __importDefault(__webpack_require__(/*! serve-static */ "./node_modules/serve-static/index.js"));
 const console_logger_client_1 = __webpack_require__(/*! ../logger/console-logger-client */ "./src/logger/console-logger-client.ts");
 const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
 const scanner_1 = __webpack_require__(/*! ../scanner/scanner */ "./src/scanner/scanner.ts");
@@ -70126,9 +70212,9 @@ function setupIocContainer() {
     container.bind(scanner_1.Scanner).toSelf().inSingletonScope();
     container.bind(ioc_types_1.iocTypes.Console).toConstantValue(console);
     container.bind(ioc_types_1.iocTypes.Process).toConstantValue(process);
-    container.bind(ioc_types_1.iocTypes.GetPort).toConstantValue(getPort);
-    container.bind(ioc_types_1.iocTypes.Express).toConstantValue(express);
-    container.bind(ioc_types_1.iocTypes.ServeStatic).toConstantValue(serveStatic);
+    container.bind(ioc_types_1.iocTypes.GetPort).toConstantValue(get_port_1.default);
+    container.bind(ioc_types_1.iocTypes.Express).toConstantValue(express_1.default);
+    container.bind(ioc_types_1.iocTypes.ServeStatic).toConstantValue(serve_static_1.default);
     container.bind(ioc_types_1.iocTypes.ReportFactory).toConstantValue(accessibility_insights_report_1.reporterFactory);
     container.bind(ioc_types_1.iocTypes.Github).toConstantValue(github);
     container
@@ -70216,13 +70302,13 @@ let LocalFileServer = class LocalFileServer {
     startServer() {
         return __awaiter(this, void 0, void 0, function* () {
             const port = yield this.getPortFunc();
-            this.logger.logInfo(`Using port ${port}`);
             const root = this.taskConfig.getSiteDir();
-            this.logger.logInfo(`Root website directory ${root}`);
             const app = this.expressFunc();
             app.use(this.serveStaticFunc(root));
             this.server = app.listen(port);
-            return `http://localhost:${port}`;
+            const url = `http://localhost:${port}`;
+            this.logger.logInfo(`Started local web server. Url: ${url} Root directory: ${root}`);
+            return url;
         });
     }
 };
@@ -70250,11 +70336,30 @@ exports.LocalFileServer = LocalFileServer;
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -70275,7 +70380,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConsoleLoggerClient = void 0;
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
 const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-const util = __webpack_require__(/*! util */ "util");
+const util = __importStar(__webpack_require__(/*! util */ "util"));
 const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
 const logger_client_1 = __webpack_require__(/*! ./logger-client */ "./src/logger/logger-client.ts");
 let ConsoleLoggerClient = class ConsoleLoggerClient {
@@ -70351,6 +70456,25 @@ var LogLevel;
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -70363,7 +70487,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Logger = void 0;
 const verror_1 = __webpack_require__(/*! verror */ "./node_modules/verror/lib/verror.js");
-const utils = __webpack_require__(/*! util */ "util");
+const utils = __importStar(__webpack_require__(/*! util */ "util"));
 const logger_client_1 = __webpack_require__(/*! ./logger-client */ "./src/logger/logger-client.ts");
 const serialize_error_1 = __webpack_require__(/*! serialize-error */ "./node_modules/serialize-error/index.js");
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
@@ -70797,7 +70921,7 @@ let CheckRunCreator = class CheckRunCreator extends progress_reporter_1.Progress
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.logMessage('Creating check run with status as in_progress');
+            this.logMessage('Creating check run with status as in progress');
             const response = yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
                 return yield this.octokit.checks.create({
                     owner: this.githubObj.context.repo.owner,
@@ -70854,7 +70978,7 @@ let CheckRunCreator = class CheckRunCreator extends progress_reporter_1.Progress
         });
     }
     logMessage(message) {
-        this.logger.logInfo(`[CheckRunCreator] ${message}`);
+        this.logger.logInfo(`${message}`);
     }
     getScanOutput(text) {
         return {
@@ -70905,16 +71029,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ProgressReporter = void 0;
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
-const marked = __webpack_require__(/*! marked */ "./node_modules/marked/src/marked.js");
-const TerminalRenderer = __webpack_require__(/*! marked-terminal */ "./node_modules/marked-terminal/index.js");
+const marked_1 = __importDefault(__webpack_require__(/*! marked */ "./node_modules/marked/src/marked.js"));
+const marked_terminal_1 = __importDefault(__webpack_require__(/*! marked-terminal */ "./node_modules/marked-terminal/index.js"));
 let ProgressReporter = class ProgressReporter {
     constructor() {
         if (process.env.ACT === 'true') {
-            marked.setOptions({
-                renderer: new TerminalRenderer(),
+            marked_1.default.setOptions({
+                renderer: new marked_terminal_1.default(),
             });
         }
     }
@@ -70926,7 +71053,7 @@ let ProgressReporter = class ProgressReporter {
     traceMarkdown(markdown) {
         if (process.env.ACT === 'true') {
             console.log('[ProgressReporter] ===');
-            console.log(marked(markdown));
+            console.log(marked_1.default(markdown));
         }
     }
 };
@@ -70970,7 +71097,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var PullRequestCommentCreator_1, _a, _b, _c;
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PullRequestCommentCreator = void 0;
 const rest_1 = __webpack_require__(/*! @octokit/rest */ "./node_modules/@octokit/rest/dist-node/index.js");
@@ -70981,7 +71108,7 @@ const logger_1 = __webpack_require__(/*! ../../logger/logger */ "./src/logger/lo
 const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "./src/mark-down/report-markdown-convertor.ts");
 const markdown_formatter_1 = __webpack_require__(/*! ../../mark-down/markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
 const progress_reporter_1 = __webpack_require__(/*! ../progress-reporter */ "./src/progress-reporter/progress-reporter.ts");
-let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestCommentCreator extends progress_reporter_1.ProgressReporter {
+let PullRequestCommentCreator = class PullRequestCommentCreator extends progress_reporter_1.ProgressReporter {
     constructor(reportMarkdownConvertor, octokit, githubObj, logger) {
         super();
         this.reportMarkdownConvertor = reportMarkdownConvertor;
@@ -71053,10 +71180,10 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
         });
     }
     logMessage(message) {
-        this.logger.logInfo(`[${PullRequestCommentCreator_1.name}] ${message}`);
+        this.logger.logInfo(`${message}`);
     }
 };
-PullRequestCommentCreator = PullRequestCommentCreator_1 = __decorate([
+PullRequestCommentCreator = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(report_markdown_convertor_1.ReportMarkdownConvertor)),
     __param(1, inversify_1.inject(rest_1.Octokit)),
@@ -71079,11 +71206,30 @@ exports.PullRequestCommentCreator = PullRequestCommentCreator;
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -71096,7 +71242,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConsolidatedReportGenerator = void 0;
 const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
 const accessibility_insights_report_1 = __webpack_require__(/*! accessibility-insights-report */ "accessibility-insights-report");
-const fs = __webpack_require__(/*! fs */ "fs");
+const fs = __importStar(__webpack_require__(/*! fs */ "fs"));
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
 const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
 const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
@@ -71114,8 +71260,7 @@ let ConsolidatedReportGenerator = class ConsolidatedReportGenerator {
         const reportFileName = `${outDirectory}/index.html`;
         // eslint-disable-next-line security/detect-non-literal-fs-filename
         if (!this.fileSystemObj.existsSync(outDirectory)) {
-            this.logger.logInfo('output directory does not exists.');
-            this.logger.logInfo(`creating output directory - ${outDirectory}`);
+            this.logger.logInfo(`Report output directory does not exists. Creating directory ${outDirectory}`);
             // eslint-disable-next-line security/detect-non-literal-fs-filename
             this.fileSystemObj.mkdirSync(outDirectory);
         }
@@ -71125,7 +71270,7 @@ let ConsolidatedReportGenerator = class ConsolidatedReportGenerator {
     saveHtmlReport(fileName, content) {
         // eslint-disable-next-line security/detect-non-literal-fs-filename
         this.fileSystemObj.writeFileSync(fileName, content);
-        this.logger.logInfo(`scan report saved successfully ${fileName}`);
+        this.logger.logInfo(`Scan report saved successfully as ${fileName}`);
     }
 };
 ConsolidatedReportGenerator = __decorate([
@@ -71276,11 +71421,30 @@ exports.ScanUrlResolver = ScanUrlResolver;
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -71302,7 +71466,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Scanner = void 0;
 const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
-const util = __webpack_require__(/*! util */ "util");
+const util = __importStar(__webpack_require__(/*! util */ "util"));
 const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
 const local_file_server_1 = __webpack_require__(/*! ../local-file-server */ "./src/local-file-server.ts");
 const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
@@ -71328,12 +71492,13 @@ let Scanner = class Scanner {
         this.crawlArgumentHandler = crawlArgumentHandler;
         this.taskConfig = taskConfig;
         this.crawlerParametersBuilder = crawlerParametersBuilder;
+        this.scanTimeoutMsec = 90000;
     }
     scan() {
         return __awaiter(this, void 0, void 0, function* () {
             // eslint-disable-next-line @typescript-eslint/require-await
-            yield this.promiseUtils.waitFor(this.invokeScan(), 90000, () => __awaiter(this, void 0, void 0, function* () {
-                this.logger.logError('Unable to scan before timeout');
+            yield this.promiseUtils.waitFor(this.invokeScan(), this.scanTimeoutMsec, () => __awaiter(this, void 0, void 0, function* () {
+                this.logger.logError(`Scan timed out after ${this.scanTimeoutMsec / 1000} seconds`);
                 this.currentProcess.exit(1);
             }));
         });
@@ -71414,11 +71579,32 @@ exports.Scanner = Scanner;
 
 "use strict";
 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -71426,22 +71612,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskConfig = void 0;
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-const actionCore = __webpack_require__(/*! @actions/core */ "./node_modules/@actions/core/lib/core.js");
+const actionCore = __importStar(__webpack_require__(/*! @actions/core */ "./node_modules/@actions/core/lib/core.js"));
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
 const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-const process = __webpack_require__(/*! process */ "process");
+const process = __importStar(__webpack_require__(/*! process */ "process"));
 const ioc_types_1 = __webpack_require__(/*! ./ioc/ioc-types */ "./src/ioc/ioc-types.ts");
+const normalize_path_1 = __importDefault(__webpack_require__(/*! normalize-path */ "./node_modules/normalize-path/index.js"));
+const path_1 = __webpack_require__(/*! path */ "path");
 let TaskConfig = class TaskConfig {
-    constructor(processObj, actionCoreObj = actionCore) {
+    constructor(processObj, actionCoreObj = actionCore, resolvePath = path_1.resolve) {
         this.processObj = processObj;
         this.actionCoreObj = actionCoreObj;
+        this.resolvePath = resolvePath;
     }
     getReportOutDir() {
-        return this.actionCoreObj.getInput('output-dir');
+        return this.getAbsolutePath(this.actionCoreObj.getInput('output-dir'));
     }
     getSiteDir() {
         return this.actionCoreObj.getInput('site-dir');
@@ -71454,7 +71644,7 @@ let TaskConfig = class TaskConfig {
     }
     getChromePath() {
         let chromePath;
-        chromePath = this.actionCoreObj.getInput('chrome-path');
+        chromePath = this.getAbsolutePath(this.actionCoreObj.getInput('chrome-path'));
         if (lodash_1.isEmpty(chromePath)) {
             chromePath = process.env.CHROME_BIN;
         }
@@ -71467,22 +71657,32 @@ let TaskConfig = class TaskConfig {
         return parseInt(this.actionCoreObj.getInput('max-urls'));
     }
     getDiscoveryPatterns() {
-        return this.actionCoreObj.getInput('discovery-patterns');
+        const value = this.actionCoreObj.getInput('discovery-patterns');
+        return lodash_1.isEmpty(value) ? undefined : value;
     }
     getInputFile() {
-        return this.actionCoreObj.getInput('input-file');
+        return this.getAbsolutePath(this.actionCoreObj.getInput('input-file'));
     }
     getInputUrls() {
-        return this.actionCoreObj.getInput('input-urls');
+        const value = this.actionCoreObj.getInput('input-urls');
+        return lodash_1.isEmpty(value) ? undefined : value;
     }
     getRunId() {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
+    }
+    getAbsolutePath(path) {
+        var _a;
+        if (lodash_1.isEmpty(path)) {
+            return undefined;
+        }
+        const dirname = (_a = this.processObj.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : __dirname;
+        return normalize_path_1.default(this.resolvePath(dirname, normalize_path_1.default(path)));
     }
 };
 TaskConfig = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(ioc_types_1.iocTypes.Process)),
-    __metadata("design:paramtypes", [Object, Object])
+    __metadata("design:paramtypes", [Object, Object, Object])
 ], TaskConfig);
 exports.TaskConfig = TaskConfig;
 
@@ -71518,7 +71718,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PromiseUtils = void 0;
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
 let PromiseUtils = class PromiseUtils {
-    waitFor(promise, timeoutInMilliSec, onTimeoutCallback) {
+    waitFor(promise, timeoutMsec, onTimeoutCallback) {
         return __awaiter(this, void 0, void 0, function* () {
             let timeoutHandle;
             let hasTimedOut = false;
@@ -71526,7 +71726,7 @@ let PromiseUtils = class PromiseUtils {
                 timeoutHandle = setTimeout(() => {
                     hasTimedOut = true;
                     resolve();
-                }, timeoutInMilliSec);
+                }, timeoutMsec);
             });
             const racePromise = Promise.race([promise, timeoutPromise]);
             try {
