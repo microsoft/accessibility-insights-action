@@ -24,7 +24,7 @@ To use this action in your workflow (which, again, we don't yet recommend at all
 
 Avoid refering to `@main` directly; it may contain undocumented breaking changes.
 
-See more information [here](docs/usage.md).
+For more information, see [how to use the action](docs/usage.md).
 
 ## Contributing
 
