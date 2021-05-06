@@ -46,6 +46,7 @@ runs:
     steps:
         - name: Install npm packages
           run: |
+              echo 'Installing npm packages...'
               cd ${{ github.action_path }}/dist && npm install
               echo 'npm packages successfully installed'
           shell: bash
