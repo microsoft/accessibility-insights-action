@@ -70301,7 +70301,7 @@ let LocalFileServer = class LocalFileServer {
     }
     startServer() {
         return __awaiter(this, void 0, void 0, function* () {
-            const port = yield this.getPortFunc();
+            const port = yield this.getTcpPort();
             const root = this.taskConfig.getSiteDir();
             const app = this.expressFunc();
             app.use(this.serveStaticFunc(root));
@@ -70309,6 +70309,17 @@ let LocalFileServer = class LocalFileServer {
             const url = `http://localhost:${port}`;
             this.logger.logInfo(`Started local web server. Url: ${url} Root directory: ${root}`);
             return url;
+        });
+    }
+    getTcpPort() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const localhostPort = this.taskConfig.getLocalhostPort();
+            if (localhostPort) {
+                return this.getPortFunc({ port: localhostPort });
+            }
+            else {
+                return this.getPortFunc();
+            }
         });
     }
 };
@@ -71620,7 +71631,6 @@ exports.TaskConfig = void 0;
 const actionCore = __importStar(__webpack_require__(/*! @actions/core */ "./node_modules/@actions/core/lib/core.js"));
 const inversify_1 = __webpack_require__(/*! inversify */ "./node_modules/inversify/lib/inversify.js");
 const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-const process = __importStar(__webpack_require__(/*! process */ "process"));
 const ioc_types_1 = __webpack_require__(/*! ./ioc/ioc-types */ "./src/ioc/ioc-types.ts");
 const normalize_path_1 = __importDefault(__webpack_require__(/*! normalize-path */ "./node_modules/normalize-path/index.js"));
 const path_1 = __webpack_require__(/*! path */ "path");
@@ -71646,7 +71656,7 @@ let TaskConfig = class TaskConfig {
         let chromePath;
         chromePath = this.getAbsolutePath(this.actionCoreObj.getInput('chrome-path'));
         if (lodash_1.isEmpty(chromePath)) {
-            chromePath = process.env.CHROME_BIN;
+            chromePath = this.processObj.env.CHROME_BIN;
         }
         return chromePath;
     }
@@ -71669,6 +71679,10 @@ let TaskConfig = class TaskConfig {
     }
     getRunId() {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
+    }
+    getLocalhostPort() {
+        const value = this.actionCoreObj.getInput('localhost-port');
+        return lodash_1.isEmpty(value) ? undefined : parseInt(value, 10);
     }
     getAbsolutePath(path) {
         var _a;
@@ -73344,17 +73358,6 @@ module.exports = require("os");;
 
 "use strict";
 module.exports = require("path");;
-
-/***/ }),
-
-/***/ "process":
-/*!**************************!*\
-  !*** external "process" ***!
-  \**************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("process");;
 
 /***/ }),
 

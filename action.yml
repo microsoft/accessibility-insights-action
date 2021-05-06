@@ -38,12 +38,15 @@ inputs:
     input-urls:
         description: 'List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space.'
         required: false
+    localhost-port:
+        description: 'The preferred local website TCP port to use when scanning local website content.'
+        required: false
 runs:
     using: 'composite'
     steps:
         - name: Install npm packages
           run: |
-              npm --prefix ${{ github.action_path }}/dist install
+              cd ${{ github.action_path }}/dist && npm install
               echo 'npm packages successfully installed'
           shell: bash
         - name: Setup local docker container
@@ -67,6 +70,7 @@ runs:
               echo "INPUT_DISCOVERY-PATTERNS=${{ inputs.discovery-patterns }}" >> $GITHUB_ENV
               echo "INPUT_INPUT-FILE=${{ inputs.input-file }}" >> $GITHUB_ENV
               echo "INPUT_INPUT-URLS=${{ inputs.input-urls }}" >> $GITHUB_ENV
+              echo "INPUT_LOCALHOST-PORT=${{ inputs.localhost-port }}" >> $GITHUB_ENV
           shell: bash
         - name: Run action
           run: |
