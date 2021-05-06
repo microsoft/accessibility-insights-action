@@ -5,7 +5,7 @@ import { injectable } from 'inversify';
 
 @injectable()
 export class PromiseUtils {
-    public async waitFor<T, Y>(promise: Promise<T>, timeoutInMilliSec: number, onTimeoutCallback: () => Promise<Y>): Promise<T | Y> {
+    public async waitFor<T, Y>(promise: Promise<T>, timeoutMsec: number, onTimeoutCallback: () => Promise<Y>): Promise<T | Y> {
         let timeoutHandle: NodeJS.Timeout;
         let hasTimedOut = false;
 
@@ -13,7 +13,7 @@ export class PromiseUtils {
             timeoutHandle = setTimeout(() => {
                 hasTimedOut = true;
                 resolve();
-            }, timeoutInMilliSec);
+            }, timeoutMsec);
         });
 
         const racePromise = Promise.race([promise, timeoutPromise]);

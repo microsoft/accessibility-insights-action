@@ -4,7 +4,6 @@ import 'reflect-metadata';
 
 import { It, Mock, MockBehavior, Times } from 'typemoq';
 import { resolve } from 'path';
-
 import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { TaskConfig } from '../task-config';
 import { ScanUrlResolver } from './scan-url-resolver';

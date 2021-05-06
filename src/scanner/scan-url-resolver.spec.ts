@@ -3,7 +3,6 @@
 import 'reflect-metadata';
 
 import { Mock, MockBehavior } from 'typemoq';
-
 import { TaskConfig } from '../task-config';
 import { ScanUrlResolver } from './scan-url-resolver';
 

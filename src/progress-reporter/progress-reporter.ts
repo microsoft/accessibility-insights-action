@@ -3,8 +3,8 @@
 
 import { injectable } from 'inversify';
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import * as marked from 'marked';
-import * as TerminalRenderer from 'marked-terminal';
+import marked from 'marked';
+import TerminalRenderer from 'marked-terminal';
 
 @injectable()
 export abstract class ProgressReporter {

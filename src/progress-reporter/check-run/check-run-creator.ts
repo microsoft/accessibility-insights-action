@@ -45,7 +45,7 @@ export class CheckRunCreator extends ProgressReporter {
     }
 
     public async start(): Promise<void> {
-        this.logMessage('Creating check run with status as in_progress');
+        this.logMessage('Creating check run with status as in progress');
         const response = await this.invoke(
             async () =>
                 await this.octokit.checks.create({
@@ -106,7 +106,7 @@ export class CheckRunCreator extends ProgressReporter {
     }
 
     private logMessage(message: string): void {
-        this.logger.logInfo(`[CheckRunCreator] ${message}`);
+        this.logger.logInfo(`${message}`);
     }
 
     private getScanOutput(text: string): UpdateCheckOutputParameter {

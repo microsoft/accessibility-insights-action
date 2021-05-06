@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import 'reflect-metadata';
-import * as util from 'util';
 
+import * as util from 'util';
 import {
     AICombinedReportDataConverter,
     AICrawler,
@@ -92,7 +92,7 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
-        it('performs expected steps in happy path with local url (starts fileserver)', async () => {
+        it('performs expected steps in happy path with local url (starts file server)', async () => {
             scanArguments.url = '';
             localFileServerMock.setup((m) => m.start()).returns((_) => Promise.resolve('localhost'));
             setupMocksForSuccessfulScan();
@@ -105,7 +105,7 @@ describe(Scanner, () => {
         });
 
         it('reports error when timeout occurs', async () => {
-            const errorMessage = `Unable to scan before timeout`;
+            const errorMessage = `Scan timed out after 90 seconds`;
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup((em) => em(1)).verifiable(Times.once());
 
