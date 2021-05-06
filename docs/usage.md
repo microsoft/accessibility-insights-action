@@ -17,35 +17,35 @@ Save this workflow file in your GitHub repo as `.github/workflows/accessibility-
 name: Accessibility Validation
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - '**'
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - '**'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-    # Insert any jobs here required to build your website files
+            # Insert any jobs here required to build your website files
 
-    - name: Scan for A11y issues
-        uses: microsoft/accessibility-insights-action@v1
-        with:
-            repo-token: ${{ secrets.GITHUB_TOKEN }}
-            # Provide either site-dir or url - see other snippets
-            # site-dir: ${{ github.workspace }}/path-to-built-website
-            # url: your-website-url
+            - name: Scan for A11y issues
+              uses: microsoft/accessibility-insights-action@v1
+              with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  # Provide either site-dir or url - see other snippets
+                  # site-dir: ${{ github.workspace }}/path-to-built-website
+                  # url: your-website-url
 
-- name: Upload report artifact
-        uses: actions/upload-artifact@v1.0.0
-        with:
-            name: accessibility-reports
-            path: ${{ github.workspace }}/_accessibility-reports
+            - name: Upload report artifact
+              uses: actions/upload-artifact@v1.0.0
+              with:
+                  name: accessibility-reports
+                  path: ${{ github.workspace }}/_accessibility-reports
 ```
 
 ### Scan local HTML files
@@ -54,11 +54,11 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
 
 ```yml
 - name: Scan for A11y issues
-    uses: microsoft/accessibility-insights-action@v1
-    with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        site-dir: ${{ github.workspace }}/website/public
-        site-url-relative-path: /index.html
+  uses: microsoft/accessibility-insights-action@v1
+  with:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+      site-dir: ${{ github.workspace }}/website/public
+      site-url-relative-path: /index.html
 ```
 
 ### Scan a URL
@@ -67,9 +67,9 @@ Provide the website URL. The URL should already be hosted - something like `http
 
 ```yml
 - name: Scan for A11y issues
-    uses: microsoft/accessibility-insights-action@v1
-    with:
-        url: http://localhost:12345/
+  uses: microsoft/accessibility-insights-action@v1
+  with:
+      url: http://localhost:12345/
 ```
 
 The `url` parameter takes priority over `site-dir`. If `url` is provided, `site-dir` and `site-url-relative-path` are ignored.
@@ -87,18 +87,18 @@ Examples:
 
 ```yml
 - name: Scan for A11y issues
-    uses: microsoft/accessibility-insights-action@v1
-    with:
-        url: http://localhost:12345/
-        input-urls: http://localhost:12345/other-url http://localhost:12345/other-url2
+  uses: microsoft/accessibility-insights-action@v1
+  with:
+      url: http://localhost:12345/
+      input-urls: http://localhost:12345/other-url http://localhost:12345/other-url2
 ```
 
 ```yml
 - name: Scan for A11y issues
-    uses: microsoft/accessibility-insights-action@v1
-    with:
-        site-dir: ${{ github.workspace }}/website/public
-        input-urls: ${{ github.workspace }}/website/public/dir/index.html ${{ github.workspace }}/website/public/dir2/index.html
+  uses: microsoft/accessibility-insights-action@v1
+  with:
+      site-dir: ${{ github.workspace }}/website/public
+      input-urls: ${{ github.workspace }}/website/public/dir/index.html ${{ github.workspace }}/website/public/dir2/index.html
 ```
 
 When `site-dir` is used, the action resolves the paths in `discovery-patterns`, `input-file`, and `input-urls` for you against our `localhost` server.
