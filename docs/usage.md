@@ -36,7 +36,7 @@ jobs:
             # Insert any jobs here required to build your website files
 
             - name: Scan for A11y issues
-              uses: microsoft/accessibility-insights-action@v1
+              uses: microsoft/accessibility-insights-action@v2
               with:
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
                   # Provide either site-dir or url - see other snippets
@@ -56,7 +56,7 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
 
 ```yml
 - name: Scan for A11y issues
-  uses: microsoft/accessibility-insights-action@v1
+  uses: microsoft/accessibility-insights-action@v2
   with:
       repo-token: ${{ secrets.GITHUB_TOKEN }}
       site-dir: ${{ github.workspace }}/website/public
@@ -69,41 +69,33 @@ Provide the website URL. The URL should already be hosted - something like `http
 
 ```yml
 - name: Scan for A11y issues
-  uses: microsoft/accessibility-insights-action@v1
+  uses: microsoft/accessibility-insights-action@v2
   with:
       url: http://localhost:12345/
 ```
 
-The `url` parameter takes priority over `site-dir`. If `url` is provided, `site-dir` and `scan-url-relative-path` are ignored.
+The `url` parameter takes priority over `site-dir`. If `url` is provided, static file options like `site-dir` and `scan-url-relative-path` are ignored.
 
 ### Modify crawling options
 
 The action supports several crawling options defined in [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/main/action.yml).
 
-For `discovery-patterns`, `input-file`, and `input-urls`, note that:
+For instance, you can:
 
--   if `url` is provided, these values must be absolute
--   if `url` isn't provided (local HTML files), these values must be relative
+-   use `max-urls: 1` to turn off crawling
+-   include a list of additional URLs to scan (the crawler won't find pages that are unlinked from the base page)
+
+For `discovery-patterns`, `input-file`, and `input-urls`, note that these options expect resolved URLs. If you provide static HTML files via `site-dir`, you should also provide `port` so that you can anticipate the base URL of the file server (`http://localhost:port/`).
 
 Examples:
 
 ```yml
 - name: Scan for A11y issues
-  uses: microsoft/accessibility-insights-action@v1
+  uses: microsoft/accessibility-insights-action@v2
   with:
       url: http://localhost:12345/
       input-urls: http://localhost:12345/other-url http://localhost:12345/other-url2
 ```
-
-```yml
-- name: Scan for A11y issues
-  uses: microsoft/accessibility-insights-action@v1
-  with:
-      site-dir: ${{ github.workspace }}/website/public
-      input-urls: ${{ github.workspace }}/website/public/dir/index.html ${{ github.workspace }}/website/public/dir2/index.html
-```
-
-When `site-dir` is used, the action resolves the paths in `discovery-patterns`, `input-file`, and `input-urls` for you against our `localhost` server.
 
 ## Viewing results
 
