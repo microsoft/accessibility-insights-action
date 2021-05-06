@@ -13,6 +13,8 @@ Reference this action in your GitHub workflow with the snippets on this page.
 
 Save this workflow file in your GitHub repo as `.github/workflows/accessibility-validation.yml`. The action saves results to `output-dir` (default: `_accessibility-reports`). After the scan action, upload the report folder as an artifact.
 
+When you push this file to your repository, you should see the action running on the [Actions tab](https://docs.github.com/en/actions/quickstart#viewing-your-workflow-results).
+
 ```yml
 name: Accessibility Validation
 
@@ -103,6 +105,11 @@ Examples:
 
 When `site-dir` is used, the action resolves the paths in `discovery-patterns`, `input-file`, and `input-urls` for you against our `localhost` server.
 
+## Viewing results
+
+-   In the GitHub Actions tab, select the workflow run you're interested in. The summary page contains an artifact. If you download and extract the contents of that folder, you'll find an `index.html` report with detailed results.
+-   If the workflow was triggered by a pull request, the action should leave a comment on the pull request with results.
+
 ## Blocking pull requests
 
 You can choose to block pull requests if the action finds accessibility issues.
@@ -112,4 +119,6 @@ You can choose to block pull requests if the action finds accessibility issues.
 
 ## Troubleshooting
 
-If the action fails to execute, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for A11y issues` step.
+-   If the action didn't trigger as you expected, go to the ["on" section](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#on) of your yml file. Make sure any listed branch names are correct for your repository.
+-   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for A11y issues` step.
+-   If you can't find an artifact, note that our action only saves the results to disk. Your workflow must include an `actions/upload-artifact` step to add that folder to your check results. See the "Basic template" above.
