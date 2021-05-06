@@ -77,6 +77,8 @@ export class TaskConfig {
             return undefined;
         }
 
-        return normalizePath(this.resolvePath(__dirname, normalizePath(path)));
+        const dirname = this.processObj.env.GITHUB_WORKSPACE ?? __dirname;
+
+        return normalizePath(this.resolvePath(dirname, normalizePath(path)));
     }
 }

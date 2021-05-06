@@ -71097,7 +71097,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var PullRequestCommentCreator_1, _a, _b, _c;
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PullRequestCommentCreator = void 0;
 const rest_1 = __webpack_require__(/*! @octokit/rest */ "./node_modules/@octokit/rest/dist-node/index.js");
@@ -71108,7 +71108,7 @@ const logger_1 = __webpack_require__(/*! ../../logger/logger */ "./src/logger/lo
 const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "./src/mark-down/report-markdown-convertor.ts");
 const markdown_formatter_1 = __webpack_require__(/*! ../../mark-down/markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
 const progress_reporter_1 = __webpack_require__(/*! ../progress-reporter */ "./src/progress-reporter/progress-reporter.ts");
-let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestCommentCreator extends progress_reporter_1.ProgressReporter {
+let PullRequestCommentCreator = class PullRequestCommentCreator extends progress_reporter_1.ProgressReporter {
     constructor(reportMarkdownConvertor, octokit, githubObj, logger) {
         super();
         this.reportMarkdownConvertor = reportMarkdownConvertor;
@@ -71180,10 +71180,10 @@ let PullRequestCommentCreator = PullRequestCommentCreator_1 = class PullRequestC
         });
     }
     logMessage(message) {
-        this.logger.logInfo(`[${PullRequestCommentCreator_1.name}] ${message}`);
+        this.logger.logInfo(`${message}`);
     }
 };
-PullRequestCommentCreator = PullRequestCommentCreator_1 = __decorate([
+PullRequestCommentCreator = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(report_markdown_convertor_1.ReportMarkdownConvertor)),
     __param(1, inversify_1.inject(rest_1.Octokit)),
@@ -71671,10 +71671,12 @@ let TaskConfig = class TaskConfig {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
     }
     getAbsolutePath(path) {
+        var _a;
         if (lodash_1.isEmpty(path)) {
             return undefined;
         }
-        return normalize_path_1.default(this.resolvePath(__dirname, normalize_path_1.default(path)));
+        const dirname = (_a = this.processObj.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : __dirname;
+        return normalize_path_1.default(this.resolvePath(dirname, normalize_path_1.default(path)));
     }
 };
 TaskConfig = __decorate([
