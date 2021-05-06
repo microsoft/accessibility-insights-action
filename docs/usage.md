@@ -1,3 +1,8 @@
+<!--
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT License.
+-->
+
 # How to use the action
 
 To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
