@@ -50,7 +50,7 @@ jobs:
 
 ### Scan local HTML files
 
-Provide the location of your built HTML files using `site-dir` and (optionally) `site-url-relative-path`. The action will serve the site for you using `express`.
+Provide the location of your built HTML files using `site-dir` and (optionally) `scan-url-relative-path`. The action will serve the site for you using `express`.
 
 ```yml
 - name: Scan for A11y issues
@@ -58,7 +58,7 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
   with:
       repo-token: ${{ secrets.GITHUB_TOKEN }}
       site-dir: ${{ github.workspace }}/website/public
-      site-url-relative-path: /index.html
+      scan-url-relative-path: /index.html
 ```
 
 ### Scan a URL
@@ -72,7 +72,7 @@ Provide the website URL. The URL should already be hosted - something like `http
       url: http://localhost:12345/
 ```
 
-The `url` parameter takes priority over `site-dir`. If `url` is provided, `site-dir` and `site-url-relative-path` are ignored.
+The `url` parameter takes priority over `site-dir`. If `url` is provided, `site-dir` and `scan-url-relative-path` are ignored.
 
 ### Modify crawling options
 
