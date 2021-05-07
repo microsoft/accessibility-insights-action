@@ -47,7 +47,7 @@ runs:
         - name: Install npm packages
           run: |
               echo 'Installing npm packages...'
-              cd ${{ github.action_path }}/dist && npm install
+              cd $GITHUB_ACTION_PATH/dist && npm install
               echo 'npm packages successfully installed'
           shell: bash
         - name: Setup local docker container
@@ -76,5 +76,5 @@ runs:
         - name: Run action
           run: |
               echo 'Starting accessibility scanner...'
-              node ${{ github.action_path }}/dist/index.js
+              node $GITHUB_ACTION_PATH/dist/index.js
           shell: bash
