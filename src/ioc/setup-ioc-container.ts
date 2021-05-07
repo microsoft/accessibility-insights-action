@@ -4,10 +4,10 @@
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { reporterFactory } from 'accessibility-insights-report';
-import * as express from 'express';
-import * as getPort from 'get-port';
+import express from 'express';
+import getPort from 'get-port';
 import * as inversify from 'inversify';
-import * as serveStatic from 'serve-static';
+import serveStatic from 'serve-static';
 import { ConsoleLoggerClient } from '../logger/console-logger-client';
 import { Logger } from '../logger/logger';
 import { Scanner } from '../scanner/scanner';

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import 'reflect-metadata';
+
 import { IMock, Mock, Times } from 'typemoq';
 import * as util from 'util';
 import { BaseTelemetryProperties } from './base-telemetry-properties';

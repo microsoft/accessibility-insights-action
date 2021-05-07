@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as express from 'express';
+import express from 'express';
 import { Express, Handler } from 'express-serve-static-core';
-import * as getPort from 'get-port';
+import getPort from 'get-port';
 import { Server } from 'http';
-import * as serveStatic from 'serve-static';
+import serveStatic from 'serve-static';
 import { IMock, Mock, Times } from 'typemoq';
-
 import { LocalFileServer } from './local-file-server';
 import { Logger } from './logger/logger';
 import { TaskConfig } from './task-config';
@@ -77,6 +76,23 @@ describe(LocalFileServer, () => {
             verifyMocks();
         });
 
+        it('start with fixed TCP port', async () => {
+            const localhostPort = 50000;
+            taskConfigMock
+                .setup((o) => o.getLocalhostPort())
+                .returns(() => localhostPort)
+                .verifiable();
+            getPortMock.reset();
+            getPortMock
+                .setup(async (o) => o({ port: localhostPort }))
+                .returns(() => Promise.resolve(localhostPort))
+                .verifiable();
+
+            const host = await localFileServer.start();
+            expect(host).toBe(`http://localhost:${localhostPort}`);
+            verifyMocks();
+        });
+
         it('should get the same instance when start is called multiple times', async () => {
             const promiseFunc1 = await localFileServer.start();
             const promiseFunc2 = await localFileServer.start();
@@ -114,8 +130,6 @@ describe(LocalFileServer, () => {
             .setup(async (gm) => gm())
             .returns(() => Promise.resolve(port))
             .verifiable();
-
-        loggerMock.setup((lm) => lm.logInfo(`Using port ${port}`)).verifiable(Times.once());
 
         expressMock
             .setup((em) => em())

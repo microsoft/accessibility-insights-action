@@ -20,7 +20,7 @@ inputs:
         description: 'Path to Chrome executable.'
         required: false
     repo-token:
-        description: 'GitHun API access token.'
+        description: 'GitHub API access token.'
         required: true
     url:
         description: 'The hosted URL to scan/crawl for accessibility issues.'
@@ -38,21 +38,25 @@ inputs:
     input-urls:
         description: 'List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space.'
         required: false
+    localhost-port:
+        description: 'The preferred local website TCP port to use when scanning local website content.'
+        required: false
 runs:
     using: 'composite'
     steps:
         - name: Install npm packages
-          run: npm --prefix ${{ github.action_path }}/dist install
+          run: |
+              echo 'Installing npm packages...'
+              cd ${{ github.action_path }}/dist && npm install
+              echo 'npm packages successfully installed'
           shell: bash
         - name: Setup local docker container
           run: |
-              if [[ $ACT == true && ! -f '/usr/bin/google-chrome-stable' ]]; then
-                apt-get update \
-                && apt-get install -y curl gnupg \
-                && curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-                && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-                && apt-get install -y ./google-chrome-stable_current_amd64.deb \
-                && rm ./google-chrome-stable_current_amd64.deb
+              if [[ $ACT == true && ! -f '/usr/bin/chromium' ]]; then
+                  apt-get update \
+                  && apt-get -y install chromium chromium-l10n \
+                  && apt-get -y install procps
+                  echo 'Chromium package successfully installed on docker container'
               fi
           shell: bash
         - name: Map action inputs into inner steps
@@ -67,7 +71,10 @@ runs:
               echo "INPUT_DISCOVERY-PATTERNS=${{ inputs.discovery-patterns }}" >> $GITHUB_ENV
               echo "INPUT_INPUT-FILE=${{ inputs.input-file }}" >> $GITHUB_ENV
               echo "INPUT_INPUT-URLS=${{ inputs.input-urls }}" >> $GITHUB_ENV
+              echo "INPUT_LOCALHOST-PORT=${{ inputs.localhost-port }}" >> $GITHUB_ENV
           shell: bash
         - name: Run action
-          run: node ${{ github.action_path }}/dist/index.js
+          run: |
+              echo 'Starting accessibility scanner...'
+              node ${{ github.action_path }}/dist/index.js
           shell: bash

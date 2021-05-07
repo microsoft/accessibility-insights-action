@@ -1,17 +1,24 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 import * as actionCore from '@actions/core';
 import { inject, injectable } from 'inversify';
 import { isEmpty } from 'lodash';
 import * as process from 'process';
 import { iocTypes } from './ioc/ioc-types';
+import normalizePath from 'normalize-path';
+import { resolve } from 'path';
 
 @injectable()
 export class TaskConfig {
-    constructor(@inject(iocTypes.Process) private readonly processObj: typeof process, private readonly actionCoreObj = actionCore) {}
+    constructor(
+        @inject(iocTypes.Process) private readonly processObj: typeof process,
+        private readonly actionCoreObj = actionCore,
+        private readonly resolvePath: typeof resolve = resolve,
+    ) {}
 
     public getReportOutDir(): string {
-        return this.actionCoreObj.getInput('output-dir');
+        return this.getAbsolutePath(this.actionCoreObj.getInput('output-dir'));
     }
 
     public getSiteDir(): string {
@@ -28,10 +35,10 @@ export class TaskConfig {
 
     public getChromePath(): string {
         let chromePath;
-        chromePath = this.actionCoreObj.getInput('chrome-path');
+        chromePath = this.getAbsolutePath(this.actionCoreObj.getInput('chrome-path'));
 
         if (isEmpty(chromePath)) {
-            chromePath = process.env.CHROME_BIN;
+            chromePath = this.processObj.env.CHROME_BIN;
         }
 
         return chromePath;
@@ -45,19 +52,39 @@ export class TaskConfig {
         return parseInt(this.actionCoreObj.getInput('max-urls'));
     }
 
-    public getDiscoveryPatterns(): string[] {
-        return this.actionCoreObj.getInput('discovery-patterns').split(/\s+/);
+    public getDiscoveryPatterns(): string {
+        const value = this.actionCoreObj.getInput('discovery-patterns');
+
+        return isEmpty(value) ? undefined : value;
     }
 
     public getInputFile(): string {
-        return this.actionCoreObj.getInput('input-file');
+        return this.getAbsolutePath(this.actionCoreObj.getInput('input-file'));
     }
 
-    public getInputUrls(): string[] {
-        return this.actionCoreObj.getInput('input-urls').split(/\s+/);
+    public getInputUrls(): string {
+        const value = this.actionCoreObj.getInput('input-urls');
+
+        return isEmpty(value) ? undefined : value;
     }
 
     public getRunId(): number {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
+    }
+
+    public getLocalhostPort(): number {
+        const value = this.actionCoreObj.getInput('localhost-port');
+
+        return isEmpty(value) ? undefined : parseInt(value, 10);
+    }
+
+    private getAbsolutePath(path: string): string {
+        if (isEmpty(path)) {
+            return undefined;
+        }
+
+        const dirname = this.processObj.env.GITHUB_WORKSPACE ?? __dirname;
+
+        return normalizePath(this.resolvePath(dirname, normalizePath(path)));
     }
 }
