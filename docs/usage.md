@@ -69,7 +69,7 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
   uses: microsoft/accessibility-insights-action@v1
   with:
       repo-token: ${{ secrets.GITHUB_TOKEN }}
-      site-dir: ${{ github.workspace }}/website/public
+      site-dir: ${{ github.workspace }}/website/root
       scan-url-relative-path: /index.html
 ```
 
