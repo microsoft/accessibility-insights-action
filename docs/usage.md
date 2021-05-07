@@ -111,7 +111,7 @@ Examples:
 - name: Scan for accessibility issues (with site-dir)
   uses: microsoft/accessibility-insights-action@v1
   with:
-      site-dir: ${{ github.workspace }}/website/public
+      site-dir: ${{ github.workspace }}/website/root
       localhost-port: 12345
       input-urls: http://localhost:12345/unlinked-page.html
 ```
