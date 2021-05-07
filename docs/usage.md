@@ -45,7 +45,7 @@ jobs:
 
             # Insert any jobs here required to build your website files
 
-            - name: Scan for A11y issues
+            - name: Scan for accessibility issues
               uses: microsoft/accessibility-insights-action@v1
               with:
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
