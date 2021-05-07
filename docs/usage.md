@@ -78,7 +78,7 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
 Provide the website URL. The URL should already be hosted - something like `http://localhost:12345/` or `https://example.com`.
 
 ```yml
-- name: Scan for A11y issues
+- name: Scan for accessibility issues
   uses: microsoft/accessibility-insights-action@v1
   with:
       url: http://localhost:12345/
