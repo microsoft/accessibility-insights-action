@@ -65,7 +65,7 @@ jobs:
 Provide the location of your built HTML files using `site-dir` and (optionally) `scan-url-relative-path`. The action will serve the site for you using `express`.
 
 ```yml
-- name: Scan for A11y issues
+- name: Scan for accessibility issues
   uses: microsoft/accessibility-insights-action@v1
   with:
       repo-token: ${{ secrets.GITHUB_TOKEN }}
