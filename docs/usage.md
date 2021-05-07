@@ -100,7 +100,7 @@ For `discovery-patterns`, `input-file`, and `input-urls`, note that these option
 Examples:
 
 ```yml
-- name: Scan for A11y issues (with url)
+- name: Scan for accessibility issues (with url)
   uses: microsoft/accessibility-insights-action@v1
   with:
       url: http://localhost:12345/
