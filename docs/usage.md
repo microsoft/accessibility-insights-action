@@ -60,19 +60,6 @@ jobs:
                   path: ${{ github.workspace }}/_accessibility-reports
 ```
 
-### Scan local HTML files
-
-Provide the location of your built HTML files using `site-dir` and (optionally) `scan-url-relative-path`. The action will serve the site for you using `express`.
-
-```yml
-- name: Scan for accessibility issues
-  uses: microsoft/accessibility-insights-action@v1
-  with:
-      repo-token: ${{ secrets.GITHUB_TOKEN }}
-      site-dir: ${{ github.workspace }}/website/root
-      scan-url-relative-path: /index.html
-```
-
 ### Scan a URL
 
 Provide the website URL. The URL should already be hosted - something like `http://localhost:12345/` or `https://example.com`.
@@ -85,6 +72,26 @@ Provide the website URL. The URL should already be hosted - something like `http
 ```
 
 The `url` parameter takes priority over `site-dir`. If `url` is provided, static file options like `site-dir` and `scan-url-relative-path` are ignored.
+
+### Scan local HTML files
+
+Provide the location of your built HTML files using `site-dir` and (optionally) `scan-url-relative-path`. The action will serve the site for you using `express`.
+
+```yml
+- name: Scan for accessibility issues
+  uses: microsoft/accessibility-insights-action@v1
+  with:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+      site-dir: ${{ github.workspace }}/website/root
+      scan-url-relative-path: / # use // if windows agent
+```
+
+The file server will host files inside `site-dir`. The action begins crawling from `http://localhost:port/scan-url-relative-path/`.
+
+Generally `/` on Ubuntu and `//` on Windows are good defaults for `scan-url-relative-path`. If you prefer to start crawling from a child directory, note that:
+
+-   the local file server can only host descendants of `site-dir`
+-   By default, the crawler only visits links prefixed with `http://localhost:port/scan-url-relative-path/`. If you want to crawl links outside `scan-url-relative-path`, provide something like `discovery-patterns: http://localhost:port/[.*]`
 
 ### Modify crawling options
 

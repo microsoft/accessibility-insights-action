@@ -13,7 +13,7 @@ inputs:
         default: ${{ github.workspace }}
         required: true
     scan-url-relative-path:
-        description: 'Relative path from URL domain. Eg: /index.html'
+        description: 'Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows'
         required: true
         default: '/'
     chrome-path:
