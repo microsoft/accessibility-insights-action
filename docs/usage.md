@@ -108,7 +108,7 @@ Examples:
 ```
 
 ```yml
-- name: Scan for A11y issues (with site-dir)
+- name: Scan for accessibility issues (with site-dir)
   uses: microsoft/accessibility-insights-action@v1
   with:
       site-dir: ${{ github.workspace }}/website/public
