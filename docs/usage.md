@@ -7,8 +7,8 @@ Licensed under the MIT License.
 
 To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
 
--   `microsoft/accessibility-insights-action@v1` is updated with each `v1.x.y` release to refer to the most recent API-compatible version.
--   `microsoft/accessibility-insights-action@v1.1.0` refers to the exact version `v1.1.0`; use this to pin to a specific version.
+-   `microsoft/accessibility-insights-action@v2` is updated with each `v2.x.y` release to refer to the most recent API-compatible version.
+-   `microsoft/accessibility-insights-action@v2.0.0` refers to the exact version `v2.0.0`; use this to pin to a specific version.
 
 Avoid referring to `@main` directly; it may contain undocumented breaking changes.
 
@@ -46,7 +46,7 @@ jobs:
             # Insert any jobs here required to build your website files
 
             - name: Scan for accessibility issues
-              uses: microsoft/accessibility-insights-action@v1
+              uses: microsoft/accessibility-insights-action@v2
               with:
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
                   # Provide either site-dir or url
@@ -54,7 +54,7 @@ jobs:
                   # url: your-website-url
 
             - name: Upload report artifact
-              uses: actions/upload-artifact@v1.0.0
+              uses: actions/upload-artifact@v2.0.0
               with:
                   name: accessibility-reports
                   path: ${{ github.workspace }}/_accessibility-reports
@@ -66,7 +66,7 @@ Provide the website URL. The URL should already be hosted - something like `http
 
 ```yml
 - name: Scan for accessibility issues
-  uses: microsoft/accessibility-insights-action@v1
+  uses: microsoft/accessibility-insights-action@v2
   with:
       url: http://localhost:12345/
 ```
@@ -79,7 +79,7 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
 
 ```yml
 - name: Scan for accessibility issues
-  uses: microsoft/accessibility-insights-action@v1
+  uses: microsoft/accessibility-insights-action@v2
   with:
       repo-token: ${{ secrets.GITHUB_TOKEN }}
       site-dir: ${{ github.workspace }}/website/root
@@ -108,7 +108,7 @@ Examples:
 
 ```yml
 - name: Scan for accessibility issues (with url)
-  uses: microsoft/accessibility-insights-action@v1
+  uses: microsoft/accessibility-insights-action@v2
   with:
       url: http://localhost:12345/
       input-urls: http://localhost:12345/other-url http://localhost:12345/other-url2
@@ -116,7 +116,7 @@ Examples:
 
 ```yml
 - name: Scan for accessibility issues (with site-dir)
-  uses: microsoft/accessibility-insights-action@v1
+  uses: microsoft/accessibility-insights-action@v2
   with:
       site-dir: ${{ github.workspace }}/website/root
       localhost-port: 12345
