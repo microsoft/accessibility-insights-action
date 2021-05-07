@@ -9,20 +9,16 @@ Licensed under the MIT License.
 [![codecov](https://codecov.io/gh/microsoft/accessibility-insights-action/branch/main/graph/badge.svg)](https://codecov.io/gh/microsoft/accessibility-insights-action)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=microsoft/accessibility-insights-action)](https://dependabot.com)
 
-Accessibility Insights Action helps integrate automated accessibility tests in GitHub workflow.
+_This action is still in early development & we don't recommend its usage in public production projects yet._
 
-**This is a pre-release version and therefore not production ready yet.**
+## About
 
-**This repo does not assume any responsibility for supporting issues that might be caused due to its use at this point in time.**
+The Accessibility Insights Action helps integrate automated accessibility tests in your GitHub workflow. It can be configured to scan a single page or also crawl and scan pages accessed from links on the given page. This can work for static files in your repository or remote URLs.
+The Accessibility Insights Action uses the [axe-core](https://github.com/dequelabs/axe-core) rules engine to scan websites and web apps for common accessibility issues.
 
-## Usage
+Automated checks can detect some common accessibility problems such as missing or invalid properties. But most accessibility problems can only be discovered through manual testing. The best way to evaluate web accessibility compliance is to complete an assessment using [Accessibility Insights for Web](https://accessibilityinsights.io/docs/en/web/overview/).
 
-To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
-
--   `microsoft/accessibility-insights-action@v1` is updated with each `v1.x.y` release to refer to the most recent API-compatible version.
--   `microsoft/accessibility-insights-action@v1.0.0` refers to the exact version `v1.0.0`; use this to pin to a specific version.
-
-Avoid refering to `@main` directly; it may contain undocumented breaking changes.
+For more information, see [how to use the action](docs/usage.md).
 
 ## Contributing
 
