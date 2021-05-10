@@ -12,7 +12,8 @@ jobs:
     if: >
       contains(github.event.pull_request.body, '- [x] Run this action on my PR')
       &&
-      !contains(github.event.pull_request.changes[body][from], '- [x] Run this action on my PR')
+      (github.event.action != 'edited' || !contains(github.event.changes.body.from, '- [x] Run this action on my PR'))
+
     name: Self validate
     runs-on: ubuntu-latest
     steps:
