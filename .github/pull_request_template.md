@@ -18,4 +18,4 @@
 - [ ] Added relevant unit test for your changes. (`yarn test`)
 - [ ] Verified code coverage for the changes made. Check coverage report at: `<rootDir>/test-results/unit/coverage`
 - [ ] Ran precheckin (`yarn precheckin`)
-- [ ] (after PR created) The `Selftest [1/2 should fail] / Accessibility Checks` check should fail.
+- [ ] (after PR created) The `Build / Accessibility Checks (pull_request)` check should fail.
