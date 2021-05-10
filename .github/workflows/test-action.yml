@@ -1,0 +1,27 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+name: Test action in PR
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  self-validate:
+    if: contains(github.event.pull_request.body, '- [x] Run this action on my PR')
+    name: Self validate
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Scan test site
+      uses: ./
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        site-dir: ${{ github.workspace }}/dev/website-root 
+
+    - name: Upload report artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: accessibility-reports
+        path: ${{ github.workspace }}/_accessibility-reports
