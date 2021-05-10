@@ -18,7 +18,4 @@
 - [ ] Added relevant unit test for your changes. (`yarn test`)
 - [ ] Verified code coverage for the changes made. Check coverage report at: `<rootDir>/test-results/unit/coverage`
 - [ ] Ran precheckin (`yarn precheckin`)
-
-#### PR options
-If you want to run the action against files in `dev/website-root`, check the box below:
-- [ ] Run this action on my PR
+- [ ] (after PR created) The `Selftest [1/2 should fail] / Accessibility Checks` check should fail.
