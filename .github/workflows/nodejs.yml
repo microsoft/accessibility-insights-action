@@ -63,7 +63,7 @@ jobs:
       run: yarn publish-code-coverage -t ${{ secrets.CODECOV_TOKEN }}
 
   self-test:
-    name: Selftest (1/2 should fail)
+    name: Create failing Accessibility Validation check
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
