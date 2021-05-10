@@ -9,7 +9,10 @@ on:
 
 jobs:
   self-validate:
-    if: contains(github.event.pull_request.body, '- [x] Run this action on my PR')
+    if: >
+      contains(github.event.pull_request.body, '- [x] Run this action on my PR')
+      &&
+      !contains(github.event.changes[body][from], '- [x] Run this action on my PR')
     name: Self validate
     runs-on: ubuntu-latest
     steps:
