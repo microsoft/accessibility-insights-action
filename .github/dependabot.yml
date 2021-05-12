@@ -28,15 +28,3 @@ updates:
   - dependency-name: puppeteer-core
     versions:
     - "> 5.3.1"
-    # There's an incompatibility between webpack v5 and the old version of
-    # apify accessibility-insights-service depends on that causes confusing
-    # looking build errors if you try upgrading. We should be update to
-    # upgrade this once service updates to apify v1.
-  - dependency-name: webpack
-    versions:
-    - ">= 5.0.0"
-    # ts-loader v9 requires webpack v5, which we can't switch to until service
-    # switches to apify v1.
-  - dependency-name: ts-loader
-    versions:
-    - ">= 9.0.0"
