@@ -1,0 +1,30 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "11:00"
+    timezone: "America/Los_Angeles" # Pacific Time
+  labels:
+  - "category: engineering"
+  - dependencies
+  commit-message:
+    prefix: chore
+    include: scope
+  versioning-strategy: increase
+  ignore:
+    # axe-core updates require extra validation and synchronization with
+    # accessibility-insights-web; we handle them as features, not auto-updates.
+  - dependency-name: axe-core
+    versions:
+    - ">= 0"
+    # puppeteer-core is tightly coupled to our apify dependency via
+    # accessibility-insights-service. We can't take updates to it until we
+    # finish updating to apify v1.
+  - dependency-name: puppeteer-core
+    versions:
+    - "> 5.3.1"
