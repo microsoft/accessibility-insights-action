@@ -54,7 +54,7 @@ jobs:
                   # url: your-website-url
 
             - name: Upload report artifact
-              uses: actions/upload-artifact@v2.0.0
+              uses: actions/upload-artifact@v2
               with:
                   name: accessibility-reports
                   path: ${{ github.workspace }}/_accessibility-reports
