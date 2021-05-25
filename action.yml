@@ -47,7 +47,7 @@ runs:
         - name: Install npm packages
           run: |
               echo 'Installing npm packages...'
-              cd $GITHUB_ACTION_PATH/dist && yarn install --frozen-lockfile --production --ignore-optional
+              cd $GITHUB_ACTION_PATH/dist && yarn install --frozen-lockfile --production --ignore-optional --ignore-engines
               echo 'npm packages successfully installed'
           shell: bash
         - name: Setup local docker container
