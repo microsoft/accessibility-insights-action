@@ -26,3 +26,4 @@ const newPackageJson = {
 };
 
 fs.writeFileSync('./dist/package.json', JSON.stringify(newPackageJson, undefined, 4));
+fs.copyFileSync('./yarn.lock', './dist/yarn.lock');
