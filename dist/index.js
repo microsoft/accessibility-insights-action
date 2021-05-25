@@ -424,6 +424,7 @@ class Context {
      * Hydrate the context from the environment
      */
     constructor() {
+        var _a, _b, _c;
         this.payload = {};
         if (process.env.GITHUB_EVENT_PATH) {
             if (fs_1.existsSync(process.env.GITHUB_EVENT_PATH)) {
@@ -443,6 +444,9 @@ class Context {
         this.job = process.env.GITHUB_JOB;
         this.runNumber = parseInt(process.env.GITHUB_RUN_NUMBER, 10);
         this.runId = parseInt(process.env.GITHUB_RUN_ID, 10);
+        this.apiUrl = (_a = process.env.GITHUB_API_URL) !== null && _a !== void 0 ? _a : `https://api.github.com`;
+        this.serverUrl = (_b = process.env.GITHUB_SERVER_URL) !== null && _b !== void 0 ? _b : `https://github.com`;
+        this.graphqlUrl = (_c = process.env.GITHUB_GRAPHQL_URL) !== null && _c !== void 0 ? _c : `https://api.github.com/graphql`;
     }
     get issue() {
         const payload = this.payload;
@@ -490,7 +494,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -536,7 +540,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -589,7 +593,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -598,9 +602,9 @@ exports.getOctokitOptions = exports.GitHub = exports.context = void 0;
 const Context = __importStar(__webpack_require__(/*! ./context */ "./node_modules/@actions/github/lib/context.js"));
 const Utils = __importStar(__webpack_require__(/*! ./internal/utils */ "./node_modules/@actions/github/lib/internal/utils.js"));
 // octokit + plugins
-const core_1 = __webpack_require__(/*! @octokit/core */ "./node_modules/@octokit/core/dist-node/index.js");
+const core_1 = __webpack_require__(/*! @octokit/core */ "./node_modules/@actions/github/node_modules/@octokit/core/dist-node/index.js");
 const plugin_rest_endpoint_methods_1 = __webpack_require__(/*! @octokit/plugin-rest-endpoint-methods */ "./node_modules/@actions/github/node_modules/@octokit/plugin-rest-endpoint-methods/dist-node/index.js");
-const plugin_paginate_rest_1 = __webpack_require__(/*! @octokit/plugin-paginate-rest */ "./node_modules/@octokit/plugin-paginate-rest/dist-node/index.js");
+const plugin_paginate_rest_1 = __webpack_require__(/*! @octokit/plugin-paginate-rest */ "./node_modules/@actions/github/node_modules/@octokit/plugin-paginate-rest/dist-node/index.js");
 exports.context = new Context.Context();
 const baseUrl = Utils.getApiBaseUrl();
 const defaults = {
@@ -627,6 +631,334 @@ function getOctokitOptions(token, options) {
 }
 exports.getOctokitOptions = getOctokitOptions;
 //# sourceMappingURL=utils.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@actions/github/node_modules/@octokit/core/dist-node/index.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/@actions/github/node_modules/@octokit/core/dist-node/index.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+var universalUserAgent = __webpack_require__(/*! universal-user-agent */ "./node_modules/universal-user-agent/dist-node/index.js");
+var beforeAfterHook = __webpack_require__(/*! before-after-hook */ "./node_modules/before-after-hook/index.js");
+var request = __webpack_require__(/*! @octokit/request */ "./node_modules/@octokit/request/dist-node/index.js");
+var graphql = __webpack_require__(/*! @octokit/graphql */ "./node_modules/@octokit/graphql/dist-node/index.js");
+var authToken = __webpack_require__(/*! @octokit/auth-token */ "./node_modules/@octokit/auth-token/dist-node/index.js");
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+
+  var target = _objectWithoutPropertiesLoose(source, excluded);
+
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+const VERSION = "3.2.3";
+
+class Octokit {
+  constructor(options = {}) {
+    const hook = new beforeAfterHook.Collection();
+    const requestDefaults = {
+      baseUrl: request.request.endpoint.DEFAULTS.baseUrl,
+      headers: {},
+      request: Object.assign({}, options.request, {
+        hook: hook.bind(null, "request")
+      }),
+      mediaType: {
+        previews: [],
+        format: ""
+      }
+    }; // prepend default user agent with `options.userAgent` if set
+
+    requestDefaults.headers["user-agent"] = [options.userAgent, `octokit-core.js/${VERSION} ${universalUserAgent.getUserAgent()}`].filter(Boolean).join(" ");
+
+    if (options.baseUrl) {
+      requestDefaults.baseUrl = options.baseUrl;
+    }
+
+    if (options.previews) {
+      requestDefaults.mediaType.previews = options.previews;
+    }
+
+    if (options.timeZone) {
+      requestDefaults.headers["time-zone"] = options.timeZone;
+    }
+
+    this.request = request.request.defaults(requestDefaults);
+    this.graphql = graphql.withCustomRequest(this.request).defaults(requestDefaults);
+    this.log = Object.assign({
+      debug: () => {},
+      info: () => {},
+      warn: console.warn.bind(console),
+      error: console.error.bind(console)
+    }, options.log);
+    this.hook = hook; // (1) If neither `options.authStrategy` nor `options.auth` are set, the `octokit` instance
+    //     is unauthenticated. The `this.auth()` method is a no-op and no request hook is registered.
+    // (2) If only `options.auth` is set, use the default token authentication strategy.
+    // (3) If `options.authStrategy` is set then use it and pass in `options.auth`. Always pass own request as many strategies accept a custom request instance.
+    // TODO: type `options.auth` based on `options.authStrategy`.
+
+    if (!options.authStrategy) {
+      if (!options.auth) {
+        // (1)
+        this.auth = async () => ({
+          type: "unauthenticated"
+        });
+      } else {
+        // (2)
+        const auth = authToken.createTokenAuth(options.auth); // @ts-ignore  ¯\_(ツ)_/¯
+
+        hook.wrap("request", auth.hook);
+        this.auth = auth;
+      }
+    } else {
+      const {
+        authStrategy
+      } = options,
+            otherOptions = _objectWithoutProperties(options, ["authStrategy"]);
+
+      const auth = authStrategy(Object.assign({
+        request: this.request,
+        log: this.log,
+        // we pass the current octokit instance as well as its constructor options
+        // to allow for authentication strategies that return a new octokit instance
+        // that shares the same internal state as the current one. The original
+        // requirement for this was the "event-octokit" authentication strategy
+        // of https://github.com/probot/octokit-auth-probot.
+        octokit: this,
+        octokitOptions: otherOptions
+      }, options.auth)); // @ts-ignore  ¯\_(ツ)_/¯
+
+      hook.wrap("request", auth.hook);
+      this.auth = auth;
+    } // apply plugins
+    // https://stackoverflow.com/a/16345172
+
+
+    const classConstructor = this.constructor;
+    classConstructor.plugins.forEach(plugin => {
+      Object.assign(this, plugin(this, options));
+    });
+  }
+
+  static defaults(defaults) {
+    const OctokitWithDefaults = class extends this {
+      constructor(...args) {
+        const options = args[0] || {};
+
+        if (typeof defaults === "function") {
+          super(defaults(options));
+          return;
+        }
+
+        super(Object.assign({}, defaults, options, options.userAgent && defaults.userAgent ? {
+          userAgent: `${options.userAgent} ${defaults.userAgent}`
+        } : null));
+      }
+
+    };
+    return OctokitWithDefaults;
+  }
+  /**
+   * Attach a plugin (or many) to your Octokit instance.
+   *
+   * @example
+   * const API = Octokit.plugin(plugin1, plugin2, plugin3, ...)
+   */
+
+
+  static plugin(...newPlugins) {
+    var _a;
+
+    const currentPlugins = this.plugins;
+    const NewOctokit = (_a = class extends this {}, _a.plugins = currentPlugins.concat(newPlugins.filter(plugin => !currentPlugins.includes(plugin))), _a);
+    return NewOctokit;
+  }
+
+}
+Octokit.VERSION = VERSION;
+Octokit.plugins = [];
+
+exports.Octokit = Octokit;
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@actions/github/node_modules/@octokit/plugin-paginate-rest/dist-node/index.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/@actions/github/node_modules/@octokit/plugin-paginate-rest/dist-node/index.js ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+const VERSION = "2.6.2";
+
+/**
+ * Some “list” response that can be paginated have a different response structure
+ *
+ * They have a `total_count` key in the response (search also has `incomplete_results`,
+ * /installation/repositories also has `repository_selection`), as well as a key with
+ * the list of the items which name varies from endpoint to endpoint.
+ *
+ * Octokit normalizes these responses so that paginated results are always returned following
+ * the same structure. One challenge is that if the list response has only one page, no Link
+ * header is provided, so this header alone is not sufficient to check wether a response is
+ * paginated or not.
+ *
+ * We check if a "total_count" key is present in the response data, but also make sure that
+ * a "url" property is not, as the "Get the combined status for a specific ref" endpoint would
+ * otherwise match: https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref
+ */
+function normalizePaginatedListResponse(response) {
+  const responseNeedsNormalization = "total_count" in response.data && !("url" in response.data);
+  if (!responseNeedsNormalization) return response; // keep the additional properties intact as there is currently no other way
+  // to retrieve the same information.
+
+  const incompleteResults = response.data.incomplete_results;
+  const repositorySelection = response.data.repository_selection;
+  const totalCount = response.data.total_count;
+  delete response.data.incomplete_results;
+  delete response.data.repository_selection;
+  delete response.data.total_count;
+  const namespaceKey = Object.keys(response.data)[0];
+  const data = response.data[namespaceKey];
+  response.data = data;
+
+  if (typeof incompleteResults !== "undefined") {
+    response.data.incomplete_results = incompleteResults;
+  }
+
+  if (typeof repositorySelection !== "undefined") {
+    response.data.repository_selection = repositorySelection;
+  }
+
+  response.data.total_count = totalCount;
+  return response;
+}
+
+function iterator(octokit, route, parameters) {
+  const options = typeof route === "function" ? route.endpoint(parameters) : octokit.request.endpoint(route, parameters);
+  const requestMethod = typeof route === "function" ? route : octokit.request;
+  const method = options.method;
+  const headers = options.headers;
+  let url = options.url;
+  return {
+    [Symbol.asyncIterator]: () => ({
+      async next() {
+        if (!url) return {
+          done: true
+        };
+        const response = await requestMethod({
+          method,
+          url,
+          headers
+        });
+        const normalizedResponse = normalizePaginatedListResponse(response); // `response.headers.link` format:
+        // '<https://api.github.com/users/aseemk/followers?page=2>; rel="next", <https://api.github.com/users/aseemk/followers?page=2>; rel="last"'
+        // sets `url` to undefined if "next" URL is not present or `link` header is not set
+
+        url = ((normalizedResponse.headers.link || "").match(/<([^>]+)>;\s*rel="next"/) || [])[1];
+        return {
+          value: normalizedResponse
+        };
+      }
+
+    })
+  };
+}
+
+function paginate(octokit, route, parameters, mapFn) {
+  if (typeof parameters === "function") {
+    mapFn = parameters;
+    parameters = undefined;
+  }
+
+  return gather(octokit, [], iterator(octokit, route, parameters)[Symbol.asyncIterator](), mapFn);
+}
+
+function gather(octokit, results, iterator, mapFn) {
+  return iterator.next().then(result => {
+    if (result.done) {
+      return results;
+    }
+
+    let earlyExit = false;
+
+    function done() {
+      earlyExit = true;
+    }
+
+    results = results.concat(mapFn ? mapFn(result.value, done) : result.value.data);
+
+    if (earlyExit) {
+      return results;
+    }
+
+    return gather(octokit, results, iterator, mapFn);
+  });
+}
+
+const composePaginateRest = Object.assign(paginate, {
+  iterator
+});
+
+/**
+ * @param octokit Octokit instance
+ * @param options Options passed to Octokit constructor
+ */
+
+function paginateRest(octokit) {
+  return {
+    paginate: Object.assign(paginate.bind(null, octokit), {
+      iterator: iterator.bind(null, octokit)
+    })
+  };
+}
+paginateRest.VERSION = VERSION;
+
+exports.composePaginateRest = composePaginateRest;
+exports.paginateRest = paginateRest;
+//# sourceMappingURL=index.js.map
+
 
 /***/ }),
 
@@ -1396,7 +1728,7 @@ const Endpoints = {
         previews: ["squirrel-girl"]
       }
     }, {
-      deprecated: "octokit.reactions.deleteLegacy() is deprecated, see https://docs.github.com/rest/reference/reactions/#delete-a-reaction-legacy"
+      deprecated: "octokit.rest.reactions.deleteLegacy() is deprecated, see https://docs.github.com/rest/reference/reactions/#delete-a-reaction-legacy"
     }],
     listForCommitComment: ["GET /repos/{owner}/{repo}/comments/{comment_id}/reactions", {
       mediaType: {
@@ -1463,7 +1795,7 @@ const Endpoints = {
     createDeploymentStatus: ["POST /repos/{owner}/{repo}/deployments/{deployment_id}/statuses"],
     createDispatchEvent: ["POST /repos/{owner}/{repo}/dispatches"],
     createForAuthenticatedUser: ["POST /user/repos"],
-    createFork: ["POST /repos/{owner}/{repo}/forks{?org,organization}"],
+    createFork: ["POST /repos/{owner}/{repo}/forks"],
     createInOrg: ["POST /orgs/{org}/repos"],
     createOrUpdateEnvironment: ["PUT /repos/{owner}/{repo}/environments/{environment_name}"],
     createOrUpdateFileContents: ["PUT /repos/{owner}/{repo}/contents/{path}"],
@@ -1565,6 +1897,7 @@ const Endpoints = {
     getLatestRelease: ["GET /repos/{owner}/{repo}/releases/latest"],
     getPages: ["GET /repos/{owner}/{repo}/pages"],
     getPagesBuild: ["GET /repos/{owner}/{repo}/pages/builds/{build_id}"],
+    getPagesHealthCheck: ["GET /repos/{owner}/{repo}/pages/health"],
     getParticipationStats: ["GET /repos/{owner}/{repo}/stats/participation"],
     getPullRequestReviewProtection: ["GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"],
     getPunchCardStats: ["GET /repos/{owner}/{repo}/stats/punch_card"],
@@ -1773,7 +2106,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "4.15.0";
+const VERSION = "5.1.1";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
@@ -1858,12 +2191,20 @@ function decorate(octokit, scope, methodName, defaults, decorations) {
 
 function restEndpointMethods(octokit) {
   const api = endpointsToMethods(octokit, Endpoints);
+  return {
+    rest: api
+  };
+}
+restEndpointMethods.VERSION = VERSION;
+function legacyRestEndpointMethods(octokit) {
+  const api = endpointsToMethods(octokit, Endpoints);
   return _objectSpread2(_objectSpread2({}, api), {}, {
     rest: api
   });
 }
-restEndpointMethods.VERSION = VERSION;
+legacyRestEndpointMethods.VERSION = VERSION;
 
+exports.legacyRestEndpointMethods = legacyRestEndpointMethods;
 exports.restEndpointMethods = restEndpointMethods;
 //# sourceMappingURL=index.js.map
 
@@ -2597,7 +2938,7 @@ function _objectWithoutProperties(source, excluded) {
   return target;
 }
 
-const VERSION = "3.2.3";
+const VERSION = "3.4.0";
 
 class Octokit {
   constructor(options = {}) {
@@ -2606,6 +2947,7 @@ class Octokit {
       baseUrl: request.request.endpoint.DEFAULTS.baseUrl,
       headers: {},
       request: Object.assign({}, options.request, {
+        // @ts-ignore internal usage only, no need to type
         hook: hook.bind(null, "request")
       }),
       mediaType: {
@@ -3592,7 +3934,7 @@ module.exports = isPlainObject;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 
-const VERSION = "2.6.2";
+const VERSION = "2.13.3";
 
 /**
  * Some “list” response that can be paginated have a different response structure
@@ -3703,6 +4045,16 @@ const composePaginateRest = Object.assign(paginate, {
   iterator
 });
 
+const paginatingEndpoints = ["GET /app/installations", "GET /applications/grants", "GET /authorizations", "GET /enterprises/{enterprise}/actions/permissions/organizations", "GET /enterprises/{enterprise}/actions/runner-groups", "GET /enterprises/{enterprise}/actions/runner-groups/{runner_group_id}/organizations", "GET /enterprises/{enterprise}/actions/runner-groups/{runner_group_id}/runners", "GET /enterprises/{enterprise}/actions/runners", "GET /enterprises/{enterprise}/actions/runners/downloads", "GET /events", "GET /gists", "GET /gists/public", "GET /gists/starred", "GET /gists/{gist_id}/comments", "GET /gists/{gist_id}/commits", "GET /gists/{gist_id}/forks", "GET /installation/repositories", "GET /issues", "GET /marketplace_listing/plans", "GET /marketplace_listing/plans/{plan_id}/accounts", "GET /marketplace_listing/stubbed/plans", "GET /marketplace_listing/stubbed/plans/{plan_id}/accounts", "GET /networks/{owner}/{repo}/events", "GET /notifications", "GET /organizations", "GET /orgs/{org}/actions/permissions/repositories", "GET /orgs/{org}/actions/runner-groups", "GET /orgs/{org}/actions/runner-groups/{runner_group_id}/repositories", "GET /orgs/{org}/actions/runner-groups/{runner_group_id}/runners", "GET /orgs/{org}/actions/runners", "GET /orgs/{org}/actions/runners/downloads", "GET /orgs/{org}/actions/secrets", "GET /orgs/{org}/actions/secrets/{secret_name}/repositories", "GET /orgs/{org}/blocks", "GET /orgs/{org}/credential-authorizations", "GET /orgs/{org}/events", "GET /orgs/{org}/failed_invitations", "GET /orgs/{org}/hooks", "GET /orgs/{org}/installations", "GET /orgs/{org}/invitations", "GET /orgs/{org}/invitations/{invitation_id}/teams", "GET /orgs/{org}/issues", "GET /orgs/{org}/members", "GET /orgs/{org}/migrations", "GET /orgs/{org}/migrations/{migration_id}/repositories", "GET /orgs/{org}/outside_collaborators", "GET /orgs/{org}/projects", "GET /orgs/{org}/public_members", "GET /orgs/{org}/repos", "GET /orgs/{org}/team-sync/groups", "GET /orgs/{org}/teams", "GET /orgs/{org}/teams/{team_slug}/discussions", "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments", "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions", "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions", "GET /orgs/{org}/teams/{team_slug}/invitations", "GET /orgs/{org}/teams/{team_slug}/members", "GET /orgs/{org}/teams/{team_slug}/projects", "GET /orgs/{org}/teams/{team_slug}/repos", "GET /orgs/{org}/teams/{team_slug}/team-sync/group-mappings", "GET /orgs/{org}/teams/{team_slug}/teams", "GET /projects/columns/{column_id}/cards", "GET /projects/{project_id}/collaborators", "GET /projects/{project_id}/columns", "GET /repos/{owner}/{repo}/actions/artifacts", "GET /repos/{owner}/{repo}/actions/runners", "GET /repos/{owner}/{repo}/actions/runners/downloads", "GET /repos/{owner}/{repo}/actions/runs", "GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts", "GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs", "GET /repos/{owner}/{repo}/actions/secrets", "GET /repos/{owner}/{repo}/actions/workflows", "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs", "GET /repos/{owner}/{repo}/assignees", "GET /repos/{owner}/{repo}/branches", "GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations", "GET /repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs", "GET /repos/{owner}/{repo}/code-scanning/alerts", "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances", "GET /repos/{owner}/{repo}/code-scanning/analyses", "GET /repos/{owner}/{repo}/collaborators", "GET /repos/{owner}/{repo}/comments", "GET /repos/{owner}/{repo}/comments/{comment_id}/reactions", "GET /repos/{owner}/{repo}/commits", "GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head", "GET /repos/{owner}/{repo}/commits/{commit_sha}/comments", "GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls", "GET /repos/{owner}/{repo}/commits/{ref}/check-runs", "GET /repos/{owner}/{repo}/commits/{ref}/check-suites", "GET /repos/{owner}/{repo}/commits/{ref}/statuses", "GET /repos/{owner}/{repo}/contributors", "GET /repos/{owner}/{repo}/deployments", "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses", "GET /repos/{owner}/{repo}/events", "GET /repos/{owner}/{repo}/forks", "GET /repos/{owner}/{repo}/git/matching-refs/{ref}", "GET /repos/{owner}/{repo}/hooks", "GET /repos/{owner}/{repo}/invitations", "GET /repos/{owner}/{repo}/issues", "GET /repos/{owner}/{repo}/issues/comments", "GET /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions", "GET /repos/{owner}/{repo}/issues/events", "GET /repos/{owner}/{repo}/issues/{issue_number}/comments", "GET /repos/{owner}/{repo}/issues/{issue_number}/events", "GET /repos/{owner}/{repo}/issues/{issue_number}/labels", "GET /repos/{owner}/{repo}/issues/{issue_number}/reactions", "GET /repos/{owner}/{repo}/issues/{issue_number}/timeline", "GET /repos/{owner}/{repo}/keys", "GET /repos/{owner}/{repo}/labels", "GET /repos/{owner}/{repo}/milestones", "GET /repos/{owner}/{repo}/milestones/{milestone_number}/labels", "GET /repos/{owner}/{repo}/notifications", "GET /repos/{owner}/{repo}/pages/builds", "GET /repos/{owner}/{repo}/projects", "GET /repos/{owner}/{repo}/pulls", "GET /repos/{owner}/{repo}/pulls/comments", "GET /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions", "GET /repos/{owner}/{repo}/pulls/{pull_number}/comments", "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits", "GET /repos/{owner}/{repo}/pulls/{pull_number}/files", "GET /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers", "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews", "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments", "GET /repos/{owner}/{repo}/releases", "GET /repos/{owner}/{repo}/releases/{release_id}/assets", "GET /repos/{owner}/{repo}/secret-scanning/alerts", "GET /repos/{owner}/{repo}/stargazers", "GET /repos/{owner}/{repo}/subscribers", "GET /repos/{owner}/{repo}/tags", "GET /repos/{owner}/{repo}/teams", "GET /repositories", "GET /repositories/{repository_id}/environments/{environment_name}/secrets", "GET /scim/v2/enterprises/{enterprise}/Groups", "GET /scim/v2/enterprises/{enterprise}/Users", "GET /scim/v2/organizations/{org}/Users", "GET /search/code", "GET /search/commits", "GET /search/issues", "GET /search/labels", "GET /search/repositories", "GET /search/topics", "GET /search/users", "GET /teams/{team_id}/discussions", "GET /teams/{team_id}/discussions/{discussion_number}/comments", "GET /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions", "GET /teams/{team_id}/discussions/{discussion_number}/reactions", "GET /teams/{team_id}/invitations", "GET /teams/{team_id}/members", "GET /teams/{team_id}/projects", "GET /teams/{team_id}/repos", "GET /teams/{team_id}/team-sync/group-mappings", "GET /teams/{team_id}/teams", "GET /user/blocks", "GET /user/emails", "GET /user/followers", "GET /user/following", "GET /user/gpg_keys", "GET /user/installations", "GET /user/installations/{installation_id}/repositories", "GET /user/issues", "GET /user/keys", "GET /user/marketplace_purchases", "GET /user/marketplace_purchases/stubbed", "GET /user/memberships/orgs", "GET /user/migrations", "GET /user/migrations/{migration_id}/repositories", "GET /user/orgs", "GET /user/public_emails", "GET /user/repos", "GET /user/repository_invitations", "GET /user/starred", "GET /user/subscriptions", "GET /user/teams", "GET /users", "GET /users/{username}/events", "GET /users/{username}/events/orgs/{org}", "GET /users/{username}/events/public", "GET /users/{username}/followers", "GET /users/{username}/following", "GET /users/{username}/gists", "GET /users/{username}/gpg_keys", "GET /users/{username}/keys", "GET /users/{username}/orgs", "GET /users/{username}/projects", "GET /users/{username}/received_events", "GET /users/{username}/received_events/public", "GET /users/{username}/repos", "GET /users/{username}/starred", "GET /users/{username}/subscriptions"];
+
+function isPaginatingEndpoint(arg) {
+  if (typeof arg === "string") {
+    return paginatingEndpoints.includes(arg);
+  } else {
+    return false;
+  }
+}
+
 /**
  * @param octokit Octokit instance
  * @param options Options passed to Octokit constructor
@@ -3718,7 +4070,9 @@ function paginateRest(octokit) {
 paginateRest.VERSION = VERSION;
 
 exports.composePaginateRest = composePaginateRest;
+exports.isPaginatingEndpoint = isPaginatingEndpoint;
 exports.paginateRest = paginateRest;
+exports.paginatingEndpoints = paginatingEndpoints;
 //# sourceMappingURL=index.js.map
 
 
@@ -6009,51 +6363,51 @@ module.exports.Collection = Hook.Collection
   \***************************************************/
 /***/ ((module) => {
 
-module.exports = addHook
+module.exports = addHook;
 
-function addHook (state, kind, name, hook) {
-  var orig = hook
+function addHook(state, kind, name, hook) {
+  var orig = hook;
   if (!state.registry[name]) {
-    state.registry[name] = []
+    state.registry[name] = [];
   }
 
-  if (kind === 'before') {
+  if (kind === "before") {
     hook = function (method, options) {
       return Promise.resolve()
         .then(orig.bind(null, options))
-        .then(method.bind(null, options))
-    }
+        .then(method.bind(null, options));
+    };
   }
 
-  if (kind === 'after') {
+  if (kind === "after") {
     hook = function (method, options) {
-      var result
+      var result;
       return Promise.resolve()
         .then(method.bind(null, options))
         .then(function (result_) {
-          result = result_
-          return orig(result, options)
+          result = result_;
+          return orig(result, options);
         })
         .then(function () {
-          return result
-        })
-    }
+          return result;
+        });
+    };
   }
 
-  if (kind === 'error') {
+  if (kind === "error") {
     hook = function (method, options) {
       return Promise.resolve()
         .then(method.bind(null, options))
         .catch(function (error) {
-          return orig(error, options)
-        })
-    }
+          return orig(error, options);
+        });
+    };
   }
 
   state.registry[name].push({
     hook: hook,
-    orig: orig
-  })
+    orig: orig,
+  });
 }
 
 
@@ -6065,33 +6419,32 @@ function addHook (state, kind, name, hook) {
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = register
+module.exports = register;
 
-function register (state, name, method, options) {
-  if (typeof method !== 'function') {
-    throw new Error('method for before hook must be a function')
+function register(state, name, method, options) {
+  if (typeof method !== "function") {
+    throw new Error("method for before hook must be a function");
   }
 
   if (!options) {
-    options = {}
+    options = {};
   }
 
   if (Array.isArray(name)) {
     return name.reverse().reduce(function (callback, name) {
-      return register.bind(null, state, name, callback, options)
-    }, method)()
+      return register.bind(null, state, name, callback, options);
+    }, method)();
   }
 
-  return Promise.resolve()
-    .then(function () {
-      if (!state.registry[name]) {
-        return method(options)
-      }
+  return Promise.resolve().then(function () {
+    if (!state.registry[name]) {
+      return method(options);
+    }
 
-      return (state.registry[name]).reduce(function (method, registered) {
-        return registered.hook.bind(null, method, options)
-      }, method)()
-    })
+    return state.registry[name].reduce(function (method, registered) {
+      return registered.hook.bind(null, method, options);
+    }, method)();
+  });
 }
 
 
@@ -6103,22 +6456,24 @@ function register (state, name, method, options) {
   \******************************************************/
 /***/ ((module) => {
 
-module.exports = removeHook
+module.exports = removeHook;
 
-function removeHook (state, name, method) {
+function removeHook(state, name, method) {
   if (!state.registry[name]) {
-    return
+    return;
   }
 
   var index = state.registry[name]
-    .map(function (registered) { return registered.orig })
-    .indexOf(method)
+    .map(function (registered) {
+      return registered.orig;
+    })
+    .indexOf(method);
 
   if (index === -1) {
-    return
+    return;
   }
 
-  state.registry[name].splice(index, 1)
+  state.registry[name].splice(index, 1);
 }
 
 
@@ -34110,7 +34465,7 @@ function decorate(decorator, target, parameterIndex) {
     }
 }
 exports.decorate = decorate;
-
+//# sourceMappingURL=decorator_utils.js.map
 
 /***/ }),
 
@@ -34153,7 +34508,7 @@ function inject(serviceIdentifier) {
     };
 }
 exports.inject = inject;
-
+//# sourceMappingURL=inject.js.map
 
 /***/ }),
 
@@ -34180,7 +34535,7 @@ function injectable() {
     };
 }
 exports.injectable = injectable;
-
+//# sourceMappingURL=injectable.js.map
 
 /***/ }),
 
@@ -34209,7 +34564,7 @@ function multiInject(serviceIdentifier) {
     };
 }
 exports.multiInject = multiInject;
-
+//# sourceMappingURL=multi_inject.js.map
 
 /***/ }),
 
@@ -34238,7 +34593,7 @@ function named(name) {
     };
 }
 exports.named = named;
-
+//# sourceMappingURL=named.js.map
 
 /***/ }),
 
@@ -34267,7 +34622,7 @@ function optional() {
     };
 }
 exports.optional = optional;
-
+//# sourceMappingURL=optional.js.map
 
 /***/ }),
 
@@ -34294,7 +34649,7 @@ function postConstruct() {
     };
 }
 exports.postConstruct = postConstruct;
-
+//# sourceMappingURL=post_construct.js.map
 
 /***/ }),
 
@@ -34322,7 +34677,7 @@ function tagged(metadataKey, metadataValue) {
     };
 }
 exports.tagged = tagged;
-
+//# sourceMappingURL=tagged.js.map
 
 /***/ }),
 
@@ -34346,7 +34701,7 @@ function targetName(name) {
     };
 }
 exports.targetName = targetName;
-
+//# sourceMappingURL=target_name.js.map
 
 /***/ }),
 
@@ -34370,7 +34725,7 @@ function unmanaged() {
     };
 }
 exports.unmanaged = unmanaged;
-
+//# sourceMappingURL=unmanaged.js.map
 
 /***/ }),
 
@@ -34403,7 +34758,7 @@ var Binding = (function () {
     }
     Binding.prototype.clone = function () {
         var clone = new Binding(this.serviceIdentifier, this.scope);
-        clone.activated = false;
+        clone.activated = (clone.scope === literal_types_1.BindingScopeEnum.Singleton) ? this.activated : false;
         clone.implementationType = this.implementationType;
         clone.dynamicValue = this.dynamicValue;
         clone.scope = this.scope;
@@ -34418,7 +34773,7 @@ var Binding = (function () {
     return Binding;
 }());
 exports.Binding = Binding;
-
+//# sourceMappingURL=binding.js.map
 
 /***/ }),
 
@@ -34438,7 +34793,7 @@ var BindingCount = {
     OnlyOneBindingAvailable: 1
 };
 exports.BindingCount = BindingCount;
-
+//# sourceMappingURL=binding_count.js.map
 
 /***/ }),
 
@@ -34461,11 +34816,12 @@ exports.CANNOT_UNBIND = "Could not unbind serviceIdentifier:";
 exports.NOT_REGISTERED = "No matching bindings found for serviceIdentifier:";
 exports.MISSING_INJECTABLE_ANNOTATION = "Missing required @injectable annotation in:";
 exports.MISSING_INJECT_ANNOTATION = "Missing required @inject or @multiInject annotation in:";
-exports.UNDEFINED_INJECT_ANNOTATION = function (name) {
+var UNDEFINED_INJECT_ANNOTATION = function (name) {
     return "@inject called with undefined this could mean that the class " + name + " has " +
         "a circular dependency problem. You can use a LazyServiceIdentifer to  " +
         "overcome this limitation.";
 };
+exports.UNDEFINED_INJECT_ANNOTATION = UNDEFINED_INJECT_ANNOTATION;
 exports.CIRCULAR_DEPENDENCY = "Circular dependency found:";
 exports.NOT_IMPLEMENTED = "Sorry, this feature is not fully implemented yet.";
 exports.INVALID_BINDING_TYPE = "Invalid binding type:";
@@ -34476,7 +34832,7 @@ exports.INVALID_TO_SELF_VALUE = "The toSelf function can only be applied when a 
     "used as service identifier";
 exports.INVALID_DECORATOR_OPERATION = "The @inject @multiInject @tagged and @named decorators " +
     "must be applied to the parameters of a class constructor or a class property.";
-exports.ARGUMENTS_LENGTH_MISMATCH = function () {
+var ARGUMENTS_LENGTH_MISMATCH = function () {
     var values = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         values[_i] = arguments[_i];
@@ -34484,6 +34840,7 @@ exports.ARGUMENTS_LENGTH_MISMATCH = function () {
     return "The number of constructor arguments in the derived class " +
         (values[0] + " must be >= than the number of constructor arguments of its base class.");
 };
+exports.ARGUMENTS_LENGTH_MISMATCH = ARGUMENTS_LENGTH_MISMATCH;
 exports.CONTAINER_OPTIONS_MUST_BE_AN_OBJECT = "Invalid Container constructor argument. Container options " +
     "must be an object.";
 exports.CONTAINER_OPTIONS_INVALID_DEFAULT_SCOPE = "Invalid Container option. Default scope must " +
@@ -34493,14 +34850,15 @@ exports.CONTAINER_OPTIONS_INVALID_AUTO_BIND_INJECTABLE = "Invalid Container opti
 exports.CONTAINER_OPTIONS_INVALID_SKIP_BASE_CHECK = "Invalid Container option. Skip base check must " +
     "be a boolean";
 exports.MULTIPLE_POST_CONSTRUCT_METHODS = "Cannot apply @postConstruct decorator multiple times in the same class";
-exports.POST_CONSTRUCT_ERROR = function () {
+var POST_CONSTRUCT_ERROR = function () {
     var values = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         values[_i] = arguments[_i];
     }
     return "@postConstruct error in class " + values[0] + ": " + values[1];
 };
-exports.CIRCULAR_DEPENDENCY_IN_FACTORY = function () {
+exports.POST_CONSTRUCT_ERROR = POST_CONSTRUCT_ERROR;
+var CIRCULAR_DEPENDENCY_IN_FACTORY = function () {
     var values = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         values[_i] = arguments[_i];
@@ -34509,8 +34867,9 @@ exports.CIRCULAR_DEPENDENCY_IN_FACTORY = function () {
         ("in one of the '" + values[0] + "' bindings. Please investigate bindings with") +
         ("service identifier '" + values[1] + "'.");
 };
+exports.CIRCULAR_DEPENDENCY_IN_FACTORY = CIRCULAR_DEPENDENCY_IN_FACTORY;
 exports.STACK_OVERFLOW = "Maximum call stack size exceeded";
-
+//# sourceMappingURL=error_msgs.js.map
 
 /***/ }),
 
@@ -34547,7 +34906,7 @@ var TargetTypeEnum = {
     Variable: "Variable"
 };
 exports.TargetTypeEnum = TargetTypeEnum;
-
+//# sourceMappingURL=literal_types.js.map
 
 /***/ }),
 
@@ -34560,7 +34919,7 @@ exports.TargetTypeEnum = TargetTypeEnum;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.POST_CONSTRUCT = exports.DESIGN_PARAM_TYPES = exports.PARAM_TYPES = exports.TAGGED_PROP = exports.TAGGED = exports.MULTI_INJECT_TAG = exports.INJECT_TAG = exports.OPTIONAL_TAG = exports.UNMANAGED_TAG = exports.NAME_TAG = exports.NAMED_TAG = void 0;
+exports.NON_CUSTOM_TAG_KEYS = exports.POST_CONSTRUCT = exports.DESIGN_PARAM_TYPES = exports.PARAM_TYPES = exports.TAGGED_PROP = exports.TAGGED = exports.MULTI_INJECT_TAG = exports.INJECT_TAG = exports.OPTIONAL_TAG = exports.UNMANAGED_TAG = exports.NAME_TAG = exports.NAMED_TAG = void 0;
 exports.NAMED_TAG = "named";
 exports.NAME_TAG = "name";
 exports.UNMANAGED_TAG = "unmanaged";
@@ -34572,7 +34931,18 @@ exports.TAGGED_PROP = "inversify:tagged_props";
 exports.PARAM_TYPES = "inversify:paramtypes";
 exports.DESIGN_PARAM_TYPES = "design:paramtypes";
 exports.POST_CONSTRUCT = "post_construct";
-
+function getNonCustomTagKeys() {
+    return [
+        exports.INJECT_TAG,
+        exports.MULTI_INJECT_TAG,
+        exports.NAME_TAG,
+        exports.UNMANAGED_TAG,
+        exports.NAMED_TAG,
+        exports.OPTIONAL_TAG,
+    ];
+}
+exports.NON_CUSTOM_TAG_KEYS = getNonCustomTagKeys();
+//# sourceMappingURL=metadata_keys.js.map
 
 /***/ }),
 
@@ -34620,6 +34990,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Container = void 0;
 var binding_1 = __webpack_require__(/*! ../bindings/binding */ "./node_modules/inversify/lib/bindings/binding.js");
@@ -34636,6 +35011,7 @@ var container_snapshot_1 = __webpack_require__(/*! ./container_snapshot */ "./no
 var lookup_1 = __webpack_require__(/*! ./lookup */ "./node_modules/inversify/lib/container/lookup.js");
 var Container = (function () {
     function Container(containerOptions) {
+        this._appliedMiddleware = [];
         var options = containerOptions || {};
         if (typeof options !== "object") {
             throw new Error("" + ERROR_MSGS.CONTAINER_OPTIONS_MUST_BE_AN_OBJECT);
@@ -34673,10 +35049,13 @@ var Container = (function () {
         this._metadataReader = new metadata_reader_1.MetadataReader();
     }
     Container.merge = function (container1, container2) {
+        var container3 = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            container3[_i - 2] = arguments[_i];
+        }
         var container = new Container();
+        var targetContainers = __spreadArray([container1, container2], container3).map(function (targetContainer) { return planner_1.getBindingDictionary(targetContainer); });
         var bindingDictionary = planner_1.getBindingDictionary(container);
-        var bindingDictionary1 = planner_1.getBindingDictionary(container1);
-        var bindingDictionary2 = planner_1.getBindingDictionary(container2);
         function copyDictionary(origin, destination) {
             origin.traverse(function (key, value) {
                 value.forEach(function (binding) {
@@ -34684,8 +35063,9 @@ var Container = (function () {
                 });
             });
         }
-        copyDictionary(bindingDictionary1, bindingDictionary);
-        copyDictionary(bindingDictionary2, bindingDictionary);
+        targetContainers.forEach(function (targetBindingDictionary) {
+            copyDictionary(targetBindingDictionary, bindingDictionary);
+        });
         return container;
     };
     Container.prototype.load = function () {
@@ -34807,6 +35187,7 @@ var Container = (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             middlewares[_i] = arguments[_i];
         }
+        this._appliedMiddleware = this._appliedMiddleware.concat(middlewares);
         var initial = (this._middleware) ? this._middleware : this._planAndResolve();
         this._middleware = middlewares.reduce(function (prev, curr) { return curr(prev); }, initial);
     };
@@ -34834,6 +35215,9 @@ var Container = (function () {
     Container.prototype.resolve = function (constructorFunction) {
         var tempContainer = this.createChild();
         tempContainer.bind(constructorFunction).toSelf();
+        this._appliedMiddleware.forEach(function (m) {
+            tempContainer.applyMiddleware(m);
+        });
         return tempContainer.get(constructorFunction);
     };
     Container.prototype._getContainerModuleHelpersFactory = function () {
@@ -34910,7 +35294,7 @@ var Container = (function () {
     return Container;
 }());
 exports.Container = Container;
-
+//# sourceMappingURL=container.js.map
 
 /***/ }),
 
@@ -34941,7 +35325,7 @@ var AsyncContainerModule = (function () {
     return AsyncContainerModule;
 }());
 exports.AsyncContainerModule = AsyncContainerModule;
-
+//# sourceMappingURL=container_module.js.map
 
 /***/ }),
 
@@ -34967,7 +35351,7 @@ var ContainerSnapshot = (function () {
     return ContainerSnapshot;
 }());
 exports.ContainerSnapshot = ContainerSnapshot;
-
+//# sourceMappingURL=container_snapshot.js.map
 
 /***/ }),
 
@@ -35058,7 +35442,7 @@ var Lookup = (function () {
     return Lookup;
 }());
 exports.Lookup = Lookup;
-
+//# sourceMappingURL=lookup.js.map
 
 /***/ }),
 
@@ -35071,7 +35455,7 @@ exports.Lookup = Lookup;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.METADATA_KEY = void 0;
+exports.multiBindToService = exports.getServiceIdentifierAsString = exports.typeConstraint = exports.namedConstraint = exports.taggedConstraint = exports.traverseAncerstors = exports.decorate = exports.id = exports.MetadataReader = exports.postConstruct = exports.targetName = exports.multiInject = exports.unmanaged = exports.optional = exports.LazyServiceIdentifer = exports.inject = exports.named = exports.tagged = exports.injectable = exports.ContainerModule = exports.AsyncContainerModule = exports.TargetTypeEnum = exports.BindingTypeEnum = exports.BindingScopeEnum = exports.Container = exports.METADATA_KEY = void 0;
 var keys = __webpack_require__(/*! ./constants/metadata_keys */ "./node_modules/inversify/lib/constants/metadata_keys.js");
 exports.METADATA_KEY = keys;
 var container_1 = __webpack_require__(/*! ./container/container */ "./node_modules/inversify/lib/container/container.js");
@@ -35117,7 +35501,7 @@ var serialization_1 = __webpack_require__(/*! ./utils/serialization */ "./node_m
 Object.defineProperty(exports, "getServiceIdentifierAsString", ({ enumerable: true, get: function () { return serialization_1.getServiceIdentifierAsString; } }));
 var binding_utils_1 = __webpack_require__(/*! ./utils/binding_utils */ "./node_modules/inversify/lib/utils/binding_utils.js");
 Object.defineProperty(exports, "multiBindToService", ({ enumerable: true, get: function () { return binding_utils_1.multiBindToService; } }));
-
+//# sourceMappingURL=inversify.js.map
 
 /***/ }),
 
@@ -35146,7 +35530,7 @@ var Context = (function () {
     return Context;
 }());
 exports.Context = Context;
-
+//# sourceMappingURL=context.js.map
 
 /***/ }),
 
@@ -35177,7 +35561,7 @@ var Metadata = (function () {
     return Metadata;
 }());
 exports.Metadata = Metadata;
-
+//# sourceMappingURL=metadata.js.map
 
 /***/ }),
 
@@ -35210,7 +35594,7 @@ var MetadataReader = (function () {
     return MetadataReader;
 }());
 exports.MetadataReader = MetadataReader;
-
+//# sourceMappingURL=metadata_reader.js.map
 
 /***/ }),
 
@@ -35232,7 +35616,7 @@ var Plan = (function () {
     return Plan;
 }());
 exports.Plan = Plan;
-
+//# sourceMappingURL=plan.js.map
 
 /***/ }),
 
@@ -35399,7 +35783,7 @@ function createMockRequest(container, serviceIdentifier, key, value) {
     return request;
 }
 exports.createMockRequest = createMockRequest;
-
+//# sourceMappingURL=planner.js.map
 
 /***/ }),
 
@@ -35438,7 +35822,7 @@ var QueryableString = (function () {
     return QueryableString;
 }());
 exports.QueryableString = QueryableString;
-
+//# sourceMappingURL=queryable_string.js.map
 
 /***/ }),
 
@@ -35450,12 +35834,10 @@ exports.QueryableString = QueryableString;
 
 "use strict";
 
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getFunctionName = exports.getBaseClassDependencyCount = exports.getDependencies = void 0;
@@ -35482,10 +35864,11 @@ function getTargets(metadataReader, constructorName, func, isBaseClass) {
     var constructorArgsMetadata = metadata.userGeneratedMetadata;
     var keys = Object.keys(constructorArgsMetadata);
     var hasUserDeclaredUnknownInjections = (func.length === 0 && keys.length > 0);
-    var iterations = (hasUserDeclaredUnknownInjections) ? keys.length : func.length;
+    var hasOptionalParameters = keys.length > func.length;
+    var iterations = (hasUserDeclaredUnknownInjections || hasOptionalParameters) ? keys.length : func.length;
     var constructorTargets = getConstructorArgsAsTargets(isBaseClass, constructorName, serviceIdentifiers, constructorArgsMetadata, iterations);
     var propertyTargets = getClassPropsAsTargets(metadataReader, func);
-    var targets = __spreadArrays(constructorTargets, propertyTargets);
+    var targets = __spreadArray(__spreadArray([], constructorTargets), propertyTargets);
     return targets;
 }
 function getConstructorArgsAsTarget(index, isBaseClass, constructorName, serviceIdentifiers, constructorArgsMetadata) {
@@ -35541,7 +35924,7 @@ function getClassPropsAsTargets(metadataReader, constructorFunc) {
     var baseConstructor = Object.getPrototypeOf(constructorFunc.prototype).constructor;
     if (baseConstructor !== Object) {
         var baseTargets = getClassPropsAsTargets(metadataReader, baseConstructor);
-        targets = __spreadArrays(targets, baseTargets);
+        targets = __spreadArray(__spreadArray([], targets), baseTargets);
     }
     return targets;
 }
@@ -35581,7 +35964,7 @@ function formatTargetMetadata(targetMetadata) {
         unmanaged: targetMetadataMap[METADATA_KEY.UNMANAGED_TAG]
     };
 }
-
+//# sourceMappingURL=reflection_utils.js.map
 
 /***/ }),
 
@@ -35617,7 +36000,7 @@ var Request = (function () {
     return Request;
 }());
 exports.Request = Request;
-
+//# sourceMappingURL=request.js.map
 
 /***/ }),
 
@@ -35672,13 +36055,7 @@ var Target = (function () {
         return this.hasTag(METADATA_KEY.NAMED_TAG);
     };
     Target.prototype.isTagged = function () {
-        return this.metadata.some(function (m) {
-            return (m.key !== METADATA_KEY.INJECT_TAG) &&
-                (m.key !== METADATA_KEY.MULTI_INJECT_TAG) &&
-                (m.key !== METADATA_KEY.NAME_TAG) &&
-                (m.key !== METADATA_KEY.UNMANAGED_TAG) &&
-                (m.key !== METADATA_KEY.NAMED_TAG);
-        });
+        return this.metadata.some(function (metadata) { return METADATA_KEY.NON_CUSTOM_TAG_KEYS.every(function (key) { return metadata.key !== key; }); });
     };
     Target.prototype.isOptional = function () {
         return this.matchesTag(METADATA_KEY.OPTIONAL_TAG)(true);
@@ -35691,15 +36068,11 @@ var Target = (function () {
     };
     Target.prototype.getCustomTags = function () {
         if (this.isTagged()) {
-            return this.metadata.filter(function (m) {
-                return (m.key !== METADATA_KEY.INJECT_TAG) &&
-                    (m.key !== METADATA_KEY.MULTI_INJECT_TAG) &&
-                    (m.key !== METADATA_KEY.NAME_TAG) &&
-                    (m.key !== METADATA_KEY.UNMANAGED_TAG) &&
-                    (m.key !== METADATA_KEY.NAMED_TAG);
-            });
+            return this.metadata.filter(function (metadata) { return METADATA_KEY.NON_CUSTOM_TAG_KEYS.every(function (key) { return metadata.key !== key; }); });
         }
-        return null;
+        else {
+            return null;
+        }
     };
     Target.prototype.matchesNamedTag = function (name) {
         return this.matchesTag(METADATA_KEY.NAMED_TAG)(name);
@@ -35719,7 +36092,7 @@ var Target = (function () {
     return Target;
 }());
 exports.Target = Target;
-
+//# sourceMappingURL=target.js.map
 
 /***/ }),
 
@@ -35731,12 +36104,10 @@ exports.Target = Target;
 
 "use strict";
 
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.resolveInstance = void 0;
@@ -35758,7 +36129,7 @@ function _injectProperties(instance, childRequests, resolveRequest) {
     return instance;
 }
 function _createInstance(Func, injections) {
-    return new (Func.bind.apply(Func, __spreadArrays([void 0], injections)))();
+    return new (Func.bind.apply(Func, __spreadArray([void 0], injections)))();
 }
 function _postConstruct(constr, result) {
     if (Reflect.hasMetadata(METADATA_KEY.POST_CONSTRUCT, constr)) {
@@ -35788,7 +36159,7 @@ function resolveInstance(constr, childRequests, resolveRequest) {
     return result;
 }
 exports.resolveInstance = resolveInstance;
-
+//# sourceMappingURL=instantiation.js.map
 
 /***/ }),
 
@@ -35854,9 +36225,11 @@ var _resolveRequest = function (requestScope) {
             }
             if (binding_1.type === literal_types_1.BindingTypeEnum.ConstantValue) {
                 result = binding_1.cache;
+                binding_1.activated = true;
             }
             else if (binding_1.type === literal_types_1.BindingTypeEnum.Function) {
                 result = binding_1.cache;
+                binding_1.activated = true;
             }
             else if (binding_1.type === literal_types_1.BindingTypeEnum.Constructor) {
                 result = binding_1.implementationType;
@@ -35898,7 +36271,7 @@ function resolve(context) {
     return _f(context.plan.rootRequest);
 }
 exports.resolve = resolve;
-
+//# sourceMappingURL=resolver.js.map
 
 /***/ }),
 
@@ -35933,7 +36306,7 @@ var BindingInSyntax = (function () {
     return BindingInSyntax;
 }());
 exports.BindingInSyntax = BindingInSyntax;
-
+//# sourceMappingURL=binding_in_syntax.js.map
 
 /***/ }),
 
@@ -36017,7 +36390,7 @@ var BindingInWhenOnSyntax = (function () {
     return BindingInWhenOnSyntax;
 }());
 exports.BindingInWhenOnSyntax = BindingInWhenOnSyntax;
-
+//# sourceMappingURL=binding_in_when_on_syntax.js.map
 
 /***/ }),
 
@@ -36043,7 +36416,7 @@ var BindingOnSyntax = (function () {
     return BindingOnSyntax;
 }());
 exports.BindingOnSyntax = BindingOnSyntax;
-
+//# sourceMappingURL=binding_on_syntax.js.map
 
 /***/ }),
 
@@ -36082,6 +36455,7 @@ var BindingToSyntax = (function () {
         this._binding.cache = value;
         this._binding.dynamicValue = null;
         this._binding.implementationType = null;
+        this._binding.scope = literal_types_1.BindingScopeEnum.Singleton;
         return new binding_when_on_syntax_1.BindingWhenOnSyntax(this._binding);
     };
     BindingToSyntax.prototype.toDynamicValue = function (func) {
@@ -36094,11 +36468,13 @@ var BindingToSyntax = (function () {
     BindingToSyntax.prototype.toConstructor = function (constructor) {
         this._binding.type = literal_types_1.BindingTypeEnum.Constructor;
         this._binding.implementationType = constructor;
+        this._binding.scope = literal_types_1.BindingScopeEnum.Singleton;
         return new binding_when_on_syntax_1.BindingWhenOnSyntax(this._binding);
     };
     BindingToSyntax.prototype.toFactory = function (factory) {
         this._binding.type = literal_types_1.BindingTypeEnum.Factory;
         this._binding.factory = factory;
+        this._binding.scope = literal_types_1.BindingScopeEnum.Singleton;
         return new binding_when_on_syntax_1.BindingWhenOnSyntax(this._binding);
     };
     BindingToSyntax.prototype.toFunction = function (func) {
@@ -36107,6 +36483,7 @@ var BindingToSyntax = (function () {
         }
         var bindingWhenOnSyntax = this.toConstantValue(func);
         this._binding.type = literal_types_1.BindingTypeEnum.Function;
+        this._binding.scope = literal_types_1.BindingScopeEnum.Singleton;
         return bindingWhenOnSyntax;
     };
     BindingToSyntax.prototype.toAutoFactory = function (serviceIdentifier) {
@@ -36115,11 +36492,13 @@ var BindingToSyntax = (function () {
             var autofactory = function () { return context.container.get(serviceIdentifier); };
             return autofactory;
         };
+        this._binding.scope = literal_types_1.BindingScopeEnum.Singleton;
         return new binding_when_on_syntax_1.BindingWhenOnSyntax(this._binding);
     };
     BindingToSyntax.prototype.toProvider = function (provider) {
         this._binding.type = literal_types_1.BindingTypeEnum.Provider;
         this._binding.provider = provider;
+        this._binding.scope = literal_types_1.BindingScopeEnum.Singleton;
         return new binding_when_on_syntax_1.BindingWhenOnSyntax(this._binding);
     };
     BindingToSyntax.prototype.toService = function (service) {
@@ -36128,7 +36507,7 @@ var BindingToSyntax = (function () {
     return BindingToSyntax;
 }());
 exports.BindingToSyntax = BindingToSyntax;
-
+//# sourceMappingURL=binding_to_syntax.js.map
 
 /***/ }),
 
@@ -36201,7 +36580,7 @@ var BindingWhenOnSyntax = (function () {
     return BindingWhenOnSyntax;
 }());
 exports.BindingWhenOnSyntax = BindingWhenOnSyntax;
-
+//# sourceMappingURL=binding_when_on_syntax.js.map
 
 /***/ }),
 
@@ -36311,7 +36690,7 @@ var BindingWhenSyntax = (function () {
     return BindingWhenSyntax;
 }());
 exports.BindingWhenSyntax = BindingWhenSyntax;
-
+//# sourceMappingURL=binding_when_syntax.js.map
 
 /***/ }),
 
@@ -36363,7 +36742,7 @@ var typeConstraint = function (type) { return function (request) {
     return false;
 }; };
 exports.typeConstraint = typeConstraint;
-
+//# sourceMappingURL=constraint_helpers.js.map
 
 /***/ }),
 
@@ -36377,7 +36756,7 @@ exports.typeConstraint = typeConstraint;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.multiBindToService = void 0;
-exports.multiBindToService = function (container) {
+var multiBindToService = function (container) {
     return function (service) {
         return function () {
             var types = [];
@@ -36388,7 +36767,8 @@ exports.multiBindToService = function (container) {
         };
     };
 };
-
+exports.multiBindToService = multiBindToService;
+//# sourceMappingURL=binding_utils.js.map
 
 /***/ }),
 
@@ -36408,7 +36788,7 @@ function isStackOverflowExeption(error) {
         error.message === ERROR_MSGS.STACK_OVERFLOW);
 }
 exports.isStackOverflowExeption = isStackOverflowExeption;
-
+//# sourceMappingURL=exceptions.js.map
 
 /***/ }),
 
@@ -36427,7 +36807,7 @@ function id() {
     return idCounter++;
 }
 exports.id = id;
-
+//# sourceMappingURL=id.js.map
 
 /***/ }),
 
@@ -36542,7 +36922,7 @@ function getFunctionName(v) {
     }
 }
 exports.getFunctionName = getFunctionName;
-
+//# sourceMappingURL=serialization.js.map
 
 /***/ }),
 
@@ -58403,6 +58783,9 @@ function marked(src, opt, callback) {
 
       if (!err) {
         try {
+          if (opt.walkTokens) {
+            marked.walkTokens(tokens, opt.walkTokens);
+          }
           out = Parser.parse(tokens, opt);
         } catch (e) {
           err = e;
@@ -58650,9 +59033,9 @@ const block = {
     + '|<\\?[\\s\\S]*?(?:\\?>\\n*|$)' // (3)
     + '|<![A-Z][\\s\\S]*?(?:>\\n*|$)' // (4)
     + '|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)' // (5)
-    + '|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:\\n{2,}|$)' // (6)
-    + '|<(?!script|pre|style)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:\\n{2,}|$)' // (7) open tag
-    + '|</(?!script|pre|style)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:\\n{2,}|$)' // (7) closing tag
+    + '|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n *)+\\n|$)' // (6)
+    + '|<(?!script|pre|style)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)' // (7) open tag
+    + '|</(?!script|pre|style)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)' // (7) closing tag
     + ')',
   def: /^ {0,3}\[(label)\]: *\n? *<?([^\s>]+)>?(?:(?: +\n? *| *\n *)(title))? *(?:\n+|$)/,
   nptable: noopTest,
