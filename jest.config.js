@@ -3,6 +3,19 @@
 module.exports = {
     clearMocks: true,
     collectCoverage: true,
+    collectCoverageFrom: [
+        '<rootDir>/src/**/*.js',
+        '<rootDir>/src/**/*.ts',
+        '!<rootDir>/dist/**',
+        '!<rootDir>/out/**',
+        '!<rootDir>/**/jest.config.js',
+        '!<rootDir>/**/prettier.config.js',
+        '!<rootDir>/**/webpack.config.js',
+        '!<rootDir>/**/node_modules/**',
+        '!<rootDir>/**/test-results/**',
+    ],
+    coverageDirectory: '<rootDir>/test-results/unit/coverage',
+    coverageReporters: ['json', 'lcov', 'text', 'cobertura'],
     displayName: 'unit tests',
     globals: {
         'ts-jest': {
@@ -15,29 +28,12 @@ module.exports = {
         'office-ui-fabric-react/lib/(.*)$': 'office-ui-fabric-react/lib-commonjs/$1',
         '@uifabric/styling': '@uifabric/styling/lib-commonjs',
     },
-    // This ensures that failures in beforeAll/beforeEach result in dependent tests not trying to run.
-    // See https://github.com/facebook/jest/issues/2713
-    testRunner: 'jest-circus/runner',
+    reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/test-results/unit', outputName: 'junit.xml' }]],
+    setupFilesAfterEnv: ['jest-extended'],
     transform: {
         '^.+\\.(ts|tsx)$': 'ts-jest',
     },
     testMatch: ['**/*.spec.[tj]s'],
     testPathIgnorePatterns: ['/dist/', '/out/'],
     verbose: true,
-    coverageDirectory: '<rootDir>/test-results/unit/coverage',
-    coverageReporters: ['json', 'lcov', 'text', 'cobertura'],
-    collectCoverageFrom: [
-        '<rootDir>/src/**/*.js',
-        '<rootDir>/src/**/*.ts',
-        '!<rootDir>/dist/**',
-        '!<rootDir>/out/**',
-        '!<rootDir>/**/jest.config.js',
-        '!<rootDir>/**/prettier.config.js',
-        '!<rootDir>/**/webpack.config.js',
-        '!<rootDir>/**/node_modules/**',
-        '!<rootDir>/**/test-results/**',
-    ],
-    reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/test-results/unit', outputName: 'junit.xml' }]],
-    testEnvironment: 'node',
-    setupFilesAfterEnv: ['jest-extended'],
 };
