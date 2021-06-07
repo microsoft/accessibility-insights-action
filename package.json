@@ -52,7 +52,7 @@
         "eslint": "^7.27.0",
         "eslint-plugin-security": "^1.4.0",
         "fork-ts-checker-webpack-plugin": "^6.2.10",
-        "jest": "^27.0.3",
+        "jest": "^27.0.4",
         "jest-extended": "^0.11.5",
         "jest-junit": "^12.1.0",
         "license-check-and-add": "^4.0.2",
