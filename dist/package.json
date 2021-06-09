@@ -19,7 +19,7 @@
     "dependencies": {
         "axe-core": "4.2.1",
         "accessibility-insights-report": "4.1.2",
-        "accessibility-insights-scan": "0.8.0"
+        "accessibility-insights-scan": "0.8.1"
     },
     "resolutions": {
         "@actions/http-client": ">=1.0.8",
