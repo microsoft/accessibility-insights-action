@@ -75,7 +75,7 @@
         "accessibility-insights-scan": "0.8.1",
         "axe-core": "4.2.1",
         "express": "^4.17.1",
-        "filenamify-url": "^2.1.1",
+        "filenamify-url": "^2.1.2",
         "get-port": "^5.1.1",
         "inversify": "^5.1.1",
         "lodash": "^4.17.21",

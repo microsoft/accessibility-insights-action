@@ -3526,15 +3526,15 @@ filename-reserved-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/filename-reserved-regex/-/filename-reserved-regex-2.0.0.tgz#abf73dfab735d045440abfea2d91f389ebbfa229"
   integrity sha1-q/c9+rc10EVECr/qLZHzieu/oik=
 
-filenamify-url@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/filenamify-url/-/filenamify-url-2.1.1.tgz#db9e8c382a3fb9e80c50bc7b596821e80fc4cf81"
-  integrity sha512-6HaMJgiRamhFMlUfCu5M8xlkgPS75p6xPZdIQwKWQrI8HcywH1+npwl3uMh9QnE8aBa/xBUNQmf4HEJVOybwpQ==
+filenamify-url@^2.1.1, filenamify-url@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/filenamify-url/-/filenamify-url-2.1.2.tgz#844607d5e86919617340ba0fad4b458dae247100"
+  integrity sha512-3rMbAr7vDNMOGsj1aMniQFl749QjgM+lMJ/77ZRSPTIgxvolZwoQbn8dXLs7xfd+hAdli+oTnSWZNkJJLWQFEQ==
   dependencies:
-    filenamify "^4.0.0"
-    humanize-url "^2.0.0"
+    filenamify "^4.3.0"
+    humanize-url "^2.1.1"
 
-filenamify@^4.0.0, filenamify@^4.1.0:
+filenamify@^4.1.0, filenamify@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/filenamify/-/filenamify-4.3.0.tgz#62391cb58f02b09971c9d4f9d63b3cf9aba03106"
   integrity sha512-hcFKyUG57yWGAzu1CMt/dPzYZuv+jAJUT85bL8mrXvNe6hWj6yEHEc4EdcgiA6Z3oi1/9wXJdZPXF2dZNgwgOg==
@@ -4098,12 +4098,12 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-humanize-url@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/humanize-url/-/humanize-url-2.1.0.tgz#329738ea1e18bce270129ee30a7f2757c53866d5"
-  integrity sha512-Z/F04Y4/VGDuUyUhwbK8NaW5gd8HqjinDMMTfBwviGblt9VUlyog6TEff+BVEh2COXgIehQ/m3Pza0uUx7h1sQ==
+humanize-url@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/humanize-url/-/humanize-url-2.1.1.tgz#1be3dc2b8a23ee28fdf9db95b22962b3eb5e4683"
+  integrity sha512-V4nxsPGNE7mPjr1qDp471YfW8nhBiTRWrG/4usZlpvFU8I7gsV7Jvrrzv/snbLm5dWO3dr1ennu2YqnhTWFmYA==
   dependencies:
-    normalize-url "^4.3.0"
+    normalize-url "^4.5.1"
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -5668,7 +5668,7 @@ normalize-url@^3.3.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
-normalize-url@^4.1.0, normalize-url@^4.3.0:
+normalize-url@^4.1.0, normalize-url@^4.5.1:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.1.tgz#0dd90cf1288ee1d1313b87081c9a5932ee48518a"
   integrity sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==
