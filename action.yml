@@ -67,8 +67,6 @@ runs:
           env:
               INPUT_OUTPUT-DIR: ${{ inputs.output-dir }}
               INPUT_SITE-DIR: ${{ inputs.site-dir }}
-              INPUT_OUTPUT-DIR: ${{ inputs.output-dir }}
-              INPUT_SITE-DIR: ${{ inputs.site-dir }}
               INPUT_SCAN-URL-RELATIVE-PATH: ${{ inputs.scan-url-relative-path }}
               INPUT_CHROME-PATH: ${{ inputs.chrome-path }}
               INPUT_REPO-TOKEN: ${{ inputs.repo-token }}
