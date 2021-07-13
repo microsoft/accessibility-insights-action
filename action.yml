@@ -59,22 +59,20 @@ runs:
                   echo 'Chromium package successfully installed on docker container'
               fi
           shell: bash
-        - name: Map action inputs into inner steps
-          run: |
-              echo "INPUT_OUTPUT-DIR=${{ inputs.output-dir }}" >> $GITHUB_ENV
-              echo "INPUT_SITE-DIR=${{ inputs.site-dir }}" >> $GITHUB_ENV
-              echo "INPUT_SCAN-URL-RELATIVE-PATH=${{ inputs.scan-url-relative-path }}" >> $GITHUB_ENV
-              echo "INPUT_CHROME-PATH=${{ inputs.chrome-path }}" >> $GITHUB_ENV
-              echo "INPUT_REPO-TOKEN=${{ inputs.repo-token }}" >> $GITHUB_ENV
-              echo "INPUT_URL=${{ inputs.url }}" >> $GITHUB_ENV
-              echo "INPUT_MAX-URLS=${{ inputs.max-urls }}" >> $GITHUB_ENV
-              echo "INPUT_DISCOVERY-PATTERNS=${{ inputs.discovery-patterns }}" >> $GITHUB_ENV
-              echo "INPUT_INPUT-FILE=${{ inputs.input-file }}" >> $GITHUB_ENV
-              echo "INPUT_INPUT-URLS=${{ inputs.input-urls }}" >> $GITHUB_ENV
-              echo "INPUT_LOCALHOST-PORT=${{ inputs.localhost-port }}" >> $GITHUB_ENV
-          shell: bash
         - name: Run action
           run: |
               echo 'Starting accessibility scanner...'
               node $GITHUB_ACTION_PATH/dist/index.js
           shell: bash
+          env:
+              INPUT_OUTPUT-DIR: ${{ inputs.output-dir }}
+              INPUT_SITE-DIR: ${{ inputs.site-dir }}
+              INPUT_SCAN-URL-RELATIVE-PATH: ${{ inputs.scan-url-relative-path }}
+              INPUT_CHROME-PATH: ${{ inputs.chrome-path }}
+              INPUT_REPO-TOKEN: ${{ inputs.repo-token }}
+              INPUT_URL: ${{ inputs.url }}
+              INPUT_MAX-URLS: ${{ inputs.max-urls }}
+              INPUT_DISCOVERY-PATTERNS: ${{ inputs.discovery-patterns }}
+              INPUT_INPUT-FILE: ${{ inputs.input-file }}
+              INPUT_INPUT-URLS: ${{ inputs.input-urls }}
+              INPUT_LOCALHOST-PORT: ${{ inputs.localhost-port }}
