@@ -39,7 +39,7 @@
         "@types/express": "^4.17.12",
         "@types/jest": "^26.0.24",
         "@types/lodash": "^4.14.171",
-        "@types/marked": "^2.0.3",
+        "@types/marked": "^2.0.4",
         "@types/marked-terminal": "^3.1.2",
         "@types/normalize-path": "^3.0.0",
         "@types/puppeteer-core": "^5.4.0",
