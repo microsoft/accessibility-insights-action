@@ -24,7 +24,7 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         site-dir: ${{ github.workspace }}/dev/website-root
-        discovery-patterns: http://localhost:38821/linked2/
+        discovery-patterns: http://localhost:38821/linked2/.*
         localhost-port: 38821
 
     - name: Upload report artifact
