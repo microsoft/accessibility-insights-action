@@ -42,7 +42,7 @@ inputs:
         description: 'The preferred local website TCP port to use when scanning local website content.'
         required: false
     scan-timeout:
-        description: 'The maximum timeout in milliseconds for the full scan'
+        description: 'The maximum timeout in milliseconds for the scan (excluding dependency setup)'
         required: false
         default: 90000
 runs:

@@ -81,6 +81,8 @@ describe(Scanner, () => {
             taskConfigMock.object,
             crawlerParametersBuilder.object,
         );
+
+        taskConfigMock.setup((m) => m.getScanTimeout()).returns(_ => scanTimeoutMsec);
     });
 
     describe('scan', () => {
@@ -138,7 +140,6 @@ describe(Scanner, () => {
         });
 
         function setupMocksForSuccessfulScan(): void {
-            taskConfigMock.setup((m) => m.getScanTimeout()).returns(_ => scanTimeoutMsec);
             taskConfigMock.setup((m) => m.getUrl()).returns((_) => scanArguments.url);
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
             crawlArgumentHandlerMock.setup((m) => m.processScanArguments(It.isAny())).returns((_) => scanArguments);
