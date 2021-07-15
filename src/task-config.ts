@@ -68,6 +68,10 @@ export class TaskConfig {
         return isEmpty(value) ? undefined : value;
     }
 
+    public getScanTimeout(): number {
+        return parseInt(this.actionCoreObj.getInput('scan-timeout'));
+    }
+
     public getRunId(): number {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
     }

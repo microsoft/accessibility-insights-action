@@ -41,6 +41,10 @@ inputs:
     localhost-port:
         description: 'The preferred local website TCP port to use when scanning local website content.'
         required: false
+    scan-timeout:
+        description: 'The maximum timeout in milliseconds for the full scan'
+        required: false
+        default: 90000
 runs:
     using: 'composite'
     steps:
@@ -76,3 +80,4 @@ runs:
               INPUT_INPUT-FILE: ${{ inputs.input-file }}
               INPUT_INPUT-URLS: ${{ inputs.input-urls }}
               INPUT_LOCALHOST-PORT: ${{ inputs.localhost-port }}
+              INPUT_SCAN-TIMEOUT: ${{ inputs.scan-timeout }}
