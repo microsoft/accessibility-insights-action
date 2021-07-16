@@ -12,7 +12,7 @@
         "**/test-results",
         "**/dist",
         "**/*.snap",
-        "NOTICES.txt"
+        "NOTICE.txt"
     ],
     "license": "./copyright-header.txt",
     "licenseFormats": {

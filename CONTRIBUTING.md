@@ -24,7 +24,7 @@ To create a new release, a repo maintainer should follow these steps:
 1. Create and merge a release pull request to `main` which:
     - Updates `/package.json` with a new semantic version number
     - Updates `/docs/usage.md` if needed to reference the upcoming tag
-    - Updates `/NOTICES.txt` based on the dependencies in `yarn.lock`
+    - Updates `/NOTICE.txt` based on the dependencies in `yarn.lock`
     - Updates `/dist/` with the results of `yarn build`
 2. Validate the release build
     - Wait for a passing CI build against `main`
