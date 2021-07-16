@@ -41,6 +41,7 @@ describe(TaskConfig, () => {
         ${'discovery-patterns'}     | ${'abc'}                  | ${'abc'}                                               | ${() => taskConfig.getDiscoveryPatterns()}
         ${'input-urls'}             | ${'abc'}                  | ${'abc'}                                               | ${() => taskConfig.getInputUrls()}
         ${'max-urls'}               | ${'20'}                   | ${20}                                                  | ${() => taskConfig.getMaxUrls()}
+        ${'scan-timeout'}           | ${'100000'}               | ${100000}                                              | ${() => taskConfig.getScanTimeout()}
         ${'localhost-port'}         | ${'8080'}                 | ${8080}                                                | ${() => taskConfig.getLocalhostPort()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,

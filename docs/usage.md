@@ -141,3 +141,4 @@ You can choose to block pull requests if the action finds accessibility issues.
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
 -   If you can't find an artifact, note that your workflow must include an `actions/upload-artifact` step to add the report folder to your check results. See the "Basic template" above.
 -   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `scan-url-relative-path`.
+-   (not released to a tag yet) If the scan takes longer than 90 seconds, you can override the default timeout via `scan-timeout`
