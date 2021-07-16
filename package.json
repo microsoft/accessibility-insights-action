@@ -96,6 +96,7 @@
         "y18n": ">=5.0.5",
         "socket.io": ">=2.4.0",
         "marked": ">=2.0.0",
-        "hosted-git-info": ">=3.0.8"
+        "hosted-git-info": ">=3.0.8",
+        "http-signature": ">=1.3.1"
     }
 }
