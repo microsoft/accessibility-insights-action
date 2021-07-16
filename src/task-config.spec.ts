@@ -3,6 +3,8 @@
 import 'reflect-metadata';
 
 import * as actionCore from '@actions/core';
+import normalizePath from 'normalize-path';
+import path from 'path';
 import { Mock, Times, IMock } from 'typemoq';
 import { TaskConfig } from './task-config';
 
@@ -23,19 +25,23 @@ describe(TaskConfig, () => {
         actionCoreMock.verifyAll();
     });
 
+    function getPlatformAgnosticPath(inputPath: string): string {
+        return normalizePath(path.resolve(inputPath));
+    }
+
     it.each`
-        inputOption                 | inputValue                | expectedValue                 | getInputFunc
-        ${'repo-token'}             | ${'token'}                | ${'token'}                    | ${() => taskConfig.getToken()}
-        ${'scan-url-relative-path'} | ${'path'}                 | ${'path'}                     | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chrome-path'}            | ${'./../src/chrome-path'} | ${__dirname + '/chrome-path'} | ${() => taskConfig.getChromePath()}
-        ${'input-file'}             | ${'./../src/input-file'}  | ${__dirname + '/input-file'}  | ${() => taskConfig.getInputFile()}
-        ${'output-dir'}             | ${'./../src/output-dir'}  | ${__dirname + '/output-dir'}  | ${() => taskConfig.getReportOutDir()}
-        ${'site-dir'}               | ${'path'}                 | ${'path'}                     | ${() => taskConfig.getSiteDir()}
-        ${'url'}                    | ${'url'}                  | ${'url'}                      | ${() => taskConfig.getUrl()}
-        ${'discovery-patterns'}     | ${'abc'}                  | ${'abc'}                      | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'input-urls'}             | ${'abc'}                  | ${'abc'}                      | ${() => taskConfig.getInputUrls()}
-        ${'max-urls'}               | ${'20'}                   | ${20}                         | ${() => taskConfig.getMaxUrls()}
-        ${'localhost-port'}         | ${'8080'}                 | ${8080}                       | ${() => taskConfig.getLocalhostPort()}
+        inputOption                 | inputValue                | expectedValue                                          | getInputFunc
+        ${'repo-token'}             | ${'token'}                | ${'token'}                                             | ${() => taskConfig.getToken()}
+        ${'scan-url-relative-path'} | ${'path'}                 | ${'path'}                                              | ${() => taskConfig.getScanUrlRelativePath()}
+        ${'chrome-path'}            | ${'./../src/chrome-path'} | ${getPlatformAgnosticPath(__dirname + '/chrome-path')} | ${() => taskConfig.getChromePath()}
+        ${'input-file'}             | ${'./../src/input-file'}  | ${getPlatformAgnosticPath(__dirname + '/input-file')}  | ${() => taskConfig.getInputFile()}
+        ${'output-dir'}             | ${'./../src/output-dir'}  | ${getPlatformAgnosticPath(__dirname + '/output-dir')}  | ${() => taskConfig.getReportOutDir()}
+        ${'site-dir'}               | ${'path'}                 | ${'path'}                                              | ${() => taskConfig.getSiteDir()}
+        ${'url'}                    | ${'url'}                  | ${'url'}                                               | ${() => taskConfig.getUrl()}
+        ${'discovery-patterns'}     | ${'abc'}                  | ${'abc'}                                               | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'input-urls'}             | ${'abc'}                  | ${'abc'}                                               | ${() => taskConfig.getInputUrls()}
+        ${'max-urls'}               | ${'20'}                   | ${20}                                                  | ${() => taskConfig.getMaxUrls()}
+        ${'localhost-port'}         | ${'8080'}                 | ${8080}                                                | ${() => taskConfig.getLocalhostPort()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
@@ -81,7 +87,7 @@ describe(TaskConfig, () => {
 
         const absolutePath = taskConfig.getInputFile();
 
-        expect(absolutePath).toBe(`${workspace}/file.txt`);
+        expect(absolutePath).toBe(getPlatformAgnosticPath(`${workspace}/file.txt`));
     });
 
     it('should return run id from environment', () => {
