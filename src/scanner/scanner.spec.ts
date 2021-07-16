@@ -50,6 +50,8 @@ describe(Scanner, () => {
         },
     };
 
+    const scanTimeoutMsec = 100000;
+
     beforeEach(() => {
         aiCrawlerMock = Mock.ofType<AICrawler>();
         reportGeneratorMock = Mock.ofType(ConsolidatedReportGenerator);
@@ -105,12 +107,12 @@ describe(Scanner, () => {
         });
 
         it('reports error when timeout occurs', async () => {
-            const errorMessage = `Scan timed out after 90 seconds`;
+            const errorMessage = `Scan timed out after ${scanTimeoutMsec / 1000} seconds`;
+            localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup((em) => em(1)).verifiable(Times.once());
-
+            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
             setupWaitForPromiseToReturnTimeoutPromise();
-
             await scanner.scan();
 
             verifyMocks();
@@ -120,6 +122,7 @@ describe(Scanner, () => {
             const errorMessage = 'some err';
             const error = new Error(errorMessage);
 
+            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
             progressReporterMock.setup((m) => m.start()).throws(error);
 
             loggerMock
@@ -137,6 +140,7 @@ describe(Scanner, () => {
         });
 
         function setupMocksForSuccessfulScan(): void {
+            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
             taskConfigMock.setup((m) => m.getUrl()).returns((_) => scanArguments.url);
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
             crawlArgumentHandlerMock.setup((m) => m.processScanArguments(It.isAny())).returns((_) => scanArguments);
@@ -172,7 +176,7 @@ describe(Scanner, () => {
 
         function setupWaitForPromisetoReturnOriginalPromise(): void {
             promiseUtilsMock
-                .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
+                .setup((s) => s.waitFor(It.isAny(), scanTimeoutMsec, It.isAny()))
                 // eslint-disable-next-line @typescript-eslint/require-await
                 .returns(async (scanPromiseObj) => {
                     return scanPromiseObj;
@@ -182,7 +186,7 @@ describe(Scanner, () => {
 
         function setupWaitForPromiseToReturnTimeoutPromise(): void {
             promiseUtilsMock
-                .setup((s) => s.waitFor(It.isAny(), 90000, It.isAny()))
+                .setup((s) => s.waitFor(It.isAny(), scanTimeoutMsec, It.isAny()))
                 // eslint-disable-next-line @typescript-eslint/require-await
                 .returns(async (_, __, timeoutCb) => {
                     return timeoutCb();

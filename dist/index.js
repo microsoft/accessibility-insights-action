@@ -1445,8 +1445,9 @@ function _objectWithoutProperties(source, excluded) {
   return target;
 }
 
-const VERSION = "3.4.0";
+const VERSION = "3.5.1";
 
+const _excluded = ["authStrategy"];
 class Octokit {
   constructor(options = {}) {
     const hook = new beforeAfterHook.Collection();
@@ -1508,7 +1509,7 @@ class Octokit {
       const {
         authStrategy
       } = options,
-            otherOptions = _objectWithoutProperties(options, ["authStrategy"]);
+            otherOptions = _objectWithoutProperties(options, _excluded);
 
       const auth = authStrategy(Object.assign({
         request: this.request,
@@ -2039,7 +2040,7 @@ exports.isPlainObject = isPlainObject;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 
-var request = __webpack_require__(/*! @octokit/request */ "./node_modules/@octokit/request/dist-node/index.js");
+var request = __webpack_require__(/*! @octokit/request */ "./node_modules/@octokit/graphql/node_modules/@octokit/request/dist-node/index.js");
 var universalUserAgent = __webpack_require__(/*! universal-user-agent */ "./node_modules/universal-user-agent/dist-node/index.js");
 
 const VERSION = "4.6.2";
@@ -2151,6 +2152,216 @@ function withCustomRequest(customRequest) {
 exports.graphql = graphql$1;
 exports.withCustomRequest = withCustomRequest;
 //# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@octokit/graphql/node_modules/@octokit/request/dist-node/index.js":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/@octokit/graphql/node_modules/@octokit/request/dist-node/index.js ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var endpoint = __webpack_require__(/*! @octokit/endpoint */ "./node_modules/@octokit/endpoint/dist-node/index.js");
+var universalUserAgent = __webpack_require__(/*! universal-user-agent */ "./node_modules/universal-user-agent/dist-node/index.js");
+var isPlainObject = __webpack_require__(/*! is-plain-object */ "./node_modules/@octokit/graphql/node_modules/is-plain-object/dist/is-plain-object.js");
+var nodeFetch = _interopDefault(__webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/lib/index.js"));
+var requestError = __webpack_require__(/*! @octokit/request-error */ "./node_modules/@octokit/request-error/dist-node/index.js");
+
+const VERSION = "5.4.15";
+
+function getBufferResponse(response) {
+  return response.arrayBuffer();
+}
+
+function fetchWrapper(requestOptions) {
+  if (isPlainObject.isPlainObject(requestOptions.body) || Array.isArray(requestOptions.body)) {
+    requestOptions.body = JSON.stringify(requestOptions.body);
+  }
+
+  let headers = {};
+  let status;
+  let url;
+  const fetch = requestOptions.request && requestOptions.request.fetch || nodeFetch;
+  return fetch(requestOptions.url, Object.assign({
+    method: requestOptions.method,
+    body: requestOptions.body,
+    headers: requestOptions.headers,
+    redirect: requestOptions.redirect
+  }, // `requestOptions.request.agent` type is incompatible
+  // see https://github.com/octokit/types.ts/pull/264
+  requestOptions.request)).then(response => {
+    url = response.url;
+    status = response.status;
+
+    for (const keyAndValue of response.headers) {
+      headers[keyAndValue[0]] = keyAndValue[1];
+    }
+
+    if (status === 204 || status === 205) {
+      return;
+    } // GitHub API returns 200 for HEAD requests
+
+
+    if (requestOptions.method === "HEAD") {
+      if (status < 400) {
+        return;
+      }
+
+      throw new requestError.RequestError(response.statusText, status, {
+        headers,
+        request: requestOptions
+      });
+    }
+
+    if (status === 304) {
+      throw new requestError.RequestError("Not modified", status, {
+        headers,
+        request: requestOptions
+      });
+    }
+
+    if (status >= 400) {
+      return response.text().then(message => {
+        const error = new requestError.RequestError(message, status, {
+          headers,
+          request: requestOptions
+        });
+
+        try {
+          let responseBody = JSON.parse(error.message);
+          Object.assign(error, responseBody);
+          let errors = responseBody.errors; // Assumption `errors` would always be in Array format
+
+          error.message = error.message + ": " + errors.map(JSON.stringify).join(", ");
+        } catch (e) {// ignore, see octokit/rest.js#684
+        }
+
+        throw error;
+      });
+    }
+
+    const contentType = response.headers.get("content-type");
+
+    if (/application\/json/.test(contentType)) {
+      return response.json();
+    }
+
+    if (!contentType || /^text\/|charset=utf-8$/.test(contentType)) {
+      return response.text();
+    }
+
+    return getBufferResponse(response);
+  }).then(data => {
+    return {
+      status,
+      url,
+      headers,
+      data
+    };
+  }).catch(error => {
+    if (error instanceof requestError.RequestError) {
+      throw error;
+    }
+
+    throw new requestError.RequestError(error.message, 500, {
+      headers,
+      request: requestOptions
+    });
+  });
+}
+
+function withDefaults(oldEndpoint, newDefaults) {
+  const endpoint = oldEndpoint.defaults(newDefaults);
+
+  const newApi = function (route, parameters) {
+    const endpointOptions = endpoint.merge(route, parameters);
+
+    if (!endpointOptions.request || !endpointOptions.request.hook) {
+      return fetchWrapper(endpoint.parse(endpointOptions));
+    }
+
+    const request = (route, parameters) => {
+      return fetchWrapper(endpoint.parse(endpoint.merge(route, parameters)));
+    };
+
+    Object.assign(request, {
+      endpoint,
+      defaults: withDefaults.bind(null, endpoint)
+    });
+    return endpointOptions.request.hook(request, endpointOptions);
+  };
+
+  return Object.assign(newApi, {
+    endpoint,
+    defaults: withDefaults.bind(null, endpoint)
+  });
+}
+
+const request = withDefaults(endpoint.endpoint, {
+  headers: {
+    "user-agent": `octokit-request.js/${VERSION} ${universalUserAgent.getUserAgent()}`
+  }
+});
+
+exports.request = request;
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@octokit/graphql/node_modules/is-plain-object/dist/is-plain-object.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/@octokit/graphql/node_modules/is-plain-object/dist/is-plain-object.js ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+function isObject(o) {
+  return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isPlainObject(o) {
+  var ctor,prot;
+
+  if (isObject(o) === false) return false;
+
+  // If has modified constructor
+  ctor = o.constructor;
+  if (ctor === undefined) return true;
+
+  // If has modified prototype
+  prot = ctor.prototype;
+  if (isObject(prot) === false) return false;
+
+  // If constructor does not have an Object-specific method
+  if (prot.hasOwnProperty('isPrototypeOf') === false) {
+    return false;
+  }
+
+  // Most likely a plain Object
+  return true;
+}
+
+exports.isPlainObject = isPlainObject;
 
 
 /***/ }),
@@ -2551,6 +2762,7 @@ const Endpoints = {
     getSubscriptionPlanForAccountStubbed: ["GET /marketplace_listing/stubbed/accounts/{account_id}"],
     getUserInstallation: ["GET /users/{username}/installation"],
     getWebhookConfigForApp: ["GET /app/hook/config"],
+    getWebhookDelivery: ["GET /app/hook/deliveries/{delivery_id}"],
     listAccountsForPlan: ["GET /marketplace_listing/plans/{plan_id}/accounts"],
     listAccountsForPlanStubbed: ["GET /marketplace_listing/stubbed/plans/{plan_id}/accounts"],
     listInstallationReposForAuthenticatedUser: ["GET /user/installations/{installation_id}/repositories"],
@@ -2561,6 +2773,8 @@ const Endpoints = {
     listReposAccessibleToInstallation: ["GET /installation/repositories"],
     listSubscriptionsForAuthenticatedUser: ["GET /user/marketplace_purchases"],
     listSubscriptionsForAuthenticatedUserStubbed: ["GET /user/marketplace_purchases/stubbed"],
+    listWebhookDeliveries: ["GET /app/hook/deliveries"],
+    redeliverWebhookDelivery: ["POST /app/hook/deliveries/{delivery_id}/attempts"],
     removeRepoFromInstallation: ["DELETE /user/installations/{installation_id}/repositories/{repository_id}"],
     resetToken: ["PATCH /applications/{client_id}/token"],
     revokeInstallationAccessToken: ["DELETE /installation/token"],
@@ -2850,6 +3064,7 @@ const Endpoints = {
     getMembershipForUser: ["GET /orgs/{org}/memberships/{username}"],
     getWebhook: ["GET /orgs/{org}/hooks/{hook_id}"],
     getWebhookConfigForOrg: ["GET /orgs/{org}/hooks/{hook_id}/config"],
+    getWebhookDelivery: ["GET /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}"],
     list: ["GET /organizations"],
     listAppInstallations: ["GET /orgs/{org}/installations"],
     listBlockedUsers: ["GET /orgs/{org}/blocks"],
@@ -2862,8 +3077,10 @@ const Endpoints = {
     listOutsideCollaborators: ["GET /orgs/{org}/outside_collaborators"],
     listPendingInvitations: ["GET /orgs/{org}/invitations"],
     listPublicMembers: ["GET /orgs/{org}/public_members"],
+    listWebhookDeliveries: ["GET /orgs/{org}/hooks/{hook_id}/deliveries"],
     listWebhooks: ["GET /orgs/{org}/hooks"],
     pingWebhook: ["POST /orgs/{org}/hooks/{hook_id}/pings"],
+    redeliverWebhookDelivery: ["POST /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}/attempts"],
     removeMember: ["DELETE /orgs/{org}/members/{username}"],
     removeMembershipForUser: ["DELETE /orgs/{org}/memberships/{username}"],
     removeOutsideCollaborator: ["DELETE /orgs/{org}/outside_collaborators/{username}"],
@@ -3322,6 +3539,7 @@ const Endpoints = {
     getViews: ["GET /repos/{owner}/{repo}/traffic/views"],
     getWebhook: ["GET /repos/{owner}/{repo}/hooks/{hook_id}"],
     getWebhookConfigForRepo: ["GET /repos/{owner}/{repo}/hooks/{hook_id}/config"],
+    getWebhookDelivery: ["GET /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}"],
     listBranches: ["GET /repos/{owner}/{repo}/branches"],
     listBranchesForHeadCommit: ["GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head", {
       mediaType: {
@@ -3355,9 +3573,11 @@ const Endpoints = {
     listReleases: ["GET /repos/{owner}/{repo}/releases"],
     listTags: ["GET /repos/{owner}/{repo}/tags"],
     listTeams: ["GET /repos/{owner}/{repo}/teams"],
+    listWebhookDeliveries: ["GET /repos/{owner}/{repo}/hooks/{hook_id}/deliveries"],
     listWebhooks: ["GET /repos/{owner}/{repo}/hooks"],
     merge: ["POST /repos/{owner}/{repo}/merges"],
     pingWebhook: ["POST /repos/{owner}/{repo}/hooks/{hook_id}/pings"],
+    redeliverWebhookDelivery: ["POST /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}/attempts"],
     removeAppAccessRestrictions: ["DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps", {}, {
       mapToData: "apps"
     }],
@@ -3514,7 +3734,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "5.3.1";
+const VERSION = "5.4.1";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
@@ -3702,15 +3922,17 @@ var endpoint = __webpack_require__(/*! @octokit/endpoint */ "./node_modules/@oct
 var universalUserAgent = __webpack_require__(/*! universal-user-agent */ "./node_modules/universal-user-agent/dist-node/index.js");
 var isPlainObject = __webpack_require__(/*! is-plain-object */ "./node_modules/@octokit/request/node_modules/is-plain-object/dist/is-plain-object.js");
 var nodeFetch = _interopDefault(__webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/lib/index.js"));
-var requestError = __webpack_require__(/*! @octokit/request-error */ "./node_modules/@octokit/request-error/dist-node/index.js");
+var requestError = __webpack_require__(/*! @octokit/request-error */ "./node_modules/@octokit/request/node_modules/@octokit/request-error/dist-node/index.js");
 
-const VERSION = "5.4.15";
+const VERSION = "5.6.0";
 
 function getBufferResponse(response) {
   return response.arrayBuffer();
 }
 
 function fetchWrapper(requestOptions) {
+  const log = requestOptions.request && requestOptions.request.log ? requestOptions.request.log : console;
+
   if (isPlainObject.isPlainObject(requestOptions.body) || Array.isArray(requestOptions.body)) {
     requestOptions.body = JSON.stringify(requestOptions.body);
   }
@@ -3726,12 +3948,18 @@ function fetchWrapper(requestOptions) {
     redirect: requestOptions.redirect
   }, // `requestOptions.request.agent` type is incompatible
   // see https://github.com/octokit/types.ts/pull/264
-  requestOptions.request)).then(response => {
+  requestOptions.request)).then(async response => {
     url = response.url;
     status = response.status;
 
     for (const keyAndValue of response.headers) {
       headers[keyAndValue[0]] = keyAndValue[1];
+    }
+
+    if ("deprecation" in headers) {
+      const matches = headers.link && headers.link.match(/<([^>]+)>; rel="deprecation"/);
+      const deprecationLink = matches && matches.pop();
+      log.warn(`[@octokit/request] "${requestOptions.method} ${requestOptions.url}" is deprecated. It is scheduled to be removed on ${headers.sunset}${deprecationLink ? `. See ${deprecationLink}` : ""}`);
     }
 
     if (status === 204 || status === 205) {
@@ -3745,49 +3973,43 @@ function fetchWrapper(requestOptions) {
       }
 
       throw new requestError.RequestError(response.statusText, status, {
-        headers,
+        response: {
+          url,
+          status,
+          headers,
+          data: undefined
+        },
         request: requestOptions
       });
     }
 
     if (status === 304) {
       throw new requestError.RequestError("Not modified", status, {
-        headers,
+        response: {
+          url,
+          status,
+          headers,
+          data: await getResponseData(response)
+        },
         request: requestOptions
       });
     }
 
     if (status >= 400) {
-      return response.text().then(message => {
-        const error = new requestError.RequestError(message, status, {
+      const data = await getResponseData(response);
+      const error = new requestError.RequestError(toErrorMessage(data), status, {
+        response: {
+          url,
+          status,
           headers,
-          request: requestOptions
-        });
-
-        try {
-          let responseBody = JSON.parse(error.message);
-          Object.assign(error, responseBody);
-          let errors = responseBody.errors; // Assumption `errors` would always be in Array format
-
-          error.message = error.message + ": " + errors.map(JSON.stringify).join(", ");
-        } catch (e) {// ignore, see octokit/rest.js#684
-        }
-
-        throw error;
+          data
+        },
+        request: requestOptions
       });
+      throw error;
     }
 
-    const contentType = response.headers.get("content-type");
-
-    if (/application\/json/.test(contentType)) {
-      return response.json();
-    }
-
-    if (!contentType || /^text\/|charset=utf-8$/.test(contentType)) {
-      return response.text();
-    }
-
-    return getBufferResponse(response);
+    return getResponseData(response);
   }).then(data => {
     return {
       status,
@@ -3796,15 +4018,40 @@ function fetchWrapper(requestOptions) {
       data
     };
   }).catch(error => {
-    if (error instanceof requestError.RequestError) {
-      throw error;
-    }
-
+    if (error instanceof requestError.RequestError) throw error;
     throw new requestError.RequestError(error.message, 500, {
-      headers,
       request: requestOptions
     });
   });
+}
+
+async function getResponseData(response) {
+  const contentType = response.headers.get("content-type");
+
+  if (/application\/json/.test(contentType)) {
+    return response.json();
+  }
+
+  if (!contentType || /^text\/|charset=utf-8$/.test(contentType)) {
+    return response.text();
+  }
+
+  return getBufferResponse(response);
+}
+
+function toErrorMessage(data) {
+  if (typeof data === "string") return data; // istanbul ignore else - just in case
+
+  if ("message" in data) {
+    if (Array.isArray(data.errors)) {
+      return `${data.message}: ${data.errors.map(JSON.stringify).join(", ")}`;
+    }
+
+    return data.message;
+  } // istanbul ignore next - just in case
+
+
+  return `Unknown error: ${JSON.stringify(data)}`;
 }
 
 function withDefaults(oldEndpoint, newDefaults) {
@@ -3841,6 +4088,91 @@ const request = withDefaults(endpoint.endpoint, {
 });
 
 exports.request = request;
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@octokit/request/node_modules/@octokit/request-error/dist-node/index.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/@octokit/request/node_modules/@octokit/request-error/dist-node/index.js ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var deprecation = __webpack_require__(/*! deprecation */ "./node_modules/deprecation/dist-node/index.js");
+var once = _interopDefault(__webpack_require__(/*! once */ "./node_modules/once/once.js"));
+
+const logOnceCode = once(deprecation => console.warn(deprecation));
+const logOnceHeaders = once(deprecation => console.warn(deprecation));
+/**
+ * Error with extra properties to help with debugging
+ */
+
+class RequestError extends Error {
+  constructor(message, statusCode, options) {
+    super(message); // Maintains proper stack trace (only available on V8)
+
+    /* istanbul ignore next */
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
+
+    this.name = "HttpError";
+    this.status = statusCode;
+    let headers;
+
+    if ("headers" in options && typeof options.headers !== "undefined") {
+      headers = options.headers;
+    }
+
+    if ("response" in options) {
+      this.response = options.response;
+      headers = options.response.headers;
+    } // redact request credentials without mutating original request options
+
+
+    const requestCopy = Object.assign({}, options.request);
+
+    if (options.request.headers.authorization) {
+      requestCopy.headers = Object.assign({}, options.request.headers, {
+        authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
+      });
+    }
+
+    requestCopy.url = requestCopy.url // client_id & client_secret can be passed as URL query parameters to increase rate limit
+    // see https://developer.github.com/v3/#increasing-the-unauthenticated-rate-limit-for-oauth-applications
+    .replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]") // OAuth tokens can be passed as URL query parameters, although it is not recommended
+    // see https://developer.github.com/v3/#oauth2-token-sent-in-a-header
+    .replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
+    this.request = requestCopy; // deprecations
+
+    Object.defineProperty(this, "code", {
+      get() {
+        logOnceCode(new deprecation.Deprecation("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
+        return statusCode;
+      }
+
+    });
+    Object.defineProperty(this, "headers", {
+      get() {
+        logOnceHeaders(new deprecation.Deprecation("[@octokit/request-error] `error.headers` is deprecated, use `error.response.headers`."));
+        return headers || {};
+      }
+
+    });
+  }
+
+}
+
+exports.RequestError = RequestError;
 //# sourceMappingURL=index.js.map
 
 
@@ -3911,7 +4243,7 @@ var pluginRequestLog = __webpack_require__(/*! @octokit/plugin-request-log */ ".
 var pluginPaginateRest = __webpack_require__(/*! @octokit/plugin-paginate-rest */ "./node_modules/@octokit/plugin-paginate-rest/dist-node/index.js");
 var pluginRestEndpointMethods = __webpack_require__(/*! @octokit/plugin-rest-endpoint-methods */ "./node_modules/@octokit/plugin-rest-endpoint-methods/dist-node/index.js");
 
-const VERSION = "18.5.6";
+const VERSION = "18.6.7";
 
 const Octokit = core.Octokit.plugin(pluginRequestLog.requestLog, pluginRestEndpointMethods.legacyRestEndpointMethods, pluginPaginateRest.paginateRest).defaults({
   userAgent: `octokit-rest.js/${VERSION}`
@@ -51920,9 +52252,22 @@ module.exports = class Lexer {
     if (this.options.pedantic) {
       src = src.replace(/^ +$/gm, '');
     }
-    let token, i, l, lastToken;
+    let token, i, l, lastToken, cutSrc, lastParagraphClipped;
 
     while (src) {
+      if (this.options.extensions
+        && this.options.extensions.block
+        && this.options.extensions.block.some((extTokenizer) => {
+          if (token = extTokenizer.call(this, src, tokens)) {
+            src = src.substring(token.raw.length);
+            tokens.push(token);
+            return true;
+          }
+          return false;
+        })) {
+        continue;
+      }
+
       // newline
       if (token = this.tokenizer.space(src)) {
         src = src.substring(token.raw.length);
@@ -52027,9 +52372,30 @@ module.exports = class Lexer {
       }
 
       // top-level paragraph
-      if (top && (token = this.tokenizer.paragraph(src))) {
+      // prevent paragraph consuming extensions by clipping 'src' to extension start
+      cutSrc = src;
+      if (this.options.extensions && this.options.extensions.startBlock) {
+        let startIndex = Infinity;
+        const tempSrc = src.slice(1);
+        let tempStart;
+        this.options.extensions.startBlock.forEach(function(getStartIndex) {
+          tempStart = getStartIndex.call(this, tempSrc);
+          if (typeof tempStart === 'number' && tempStart >= 0) { startIndex = Math.min(startIndex, tempStart); }
+        });
+        if (startIndex < Infinity && startIndex >= 0) {
+          cutSrc = src.substring(0, startIndex + 1);
+        }
+      }
+      if (top && (token = this.tokenizer.paragraph(cutSrc))) {
+        lastToken = tokens[tokens.length - 1];
+        if (lastParagraphClipped && lastToken.type === 'paragraph') {
+          lastToken.raw += '\n' + token.raw;
+          lastToken.text += '\n' + token.text;
+        } else {
+          tokens.push(token);
+        }
+        lastParagraphClipped = (cutSrc.length !== src.length);
         src = src.substring(token.raw.length);
-        tokens.push(token);
         continue;
       }
 
@@ -52129,7 +52495,7 @@ module.exports = class Lexer {
    * Lexing/Compiling
    */
   inlineTokens(src, tokens = [], inLink = false, inRawBlock = false) {
-    let token, lastToken;
+    let token, lastToken, cutSrc;
 
     // String with links masked to avoid interference with em and strong
     let maskedSrc = src;
@@ -52163,6 +52529,20 @@ module.exports = class Lexer {
       }
       keepPrevChar = false;
 
+      // extensions
+      if (this.options.extensions
+        && this.options.extensions.inline
+        && this.options.extensions.inline.some((extTokenizer) => {
+          if (token = extTokenizer.call(this, src, tokens)) {
+            src = src.substring(token.raw.length);
+            tokens.push(token);
+            return true;
+          }
+          return false;
+        })) {
+        continue;
+      }
+
       // escape
       if (token = this.tokenizer.escape(src)) {
         src = src.substring(token.raw.length);
@@ -52175,7 +52555,7 @@ module.exports = class Lexer {
         src = src.substring(token.raw.length);
         inLink = token.inLink;
         inRawBlock = token.inRawBlock;
-        const lastToken = tokens[tokens.length - 1];
+        lastToken = tokens[tokens.length - 1];
         if (lastToken && token.type === 'text' && lastToken.type === 'text') {
           lastToken.raw += token.raw;
           lastToken.text += token.text;
@@ -52198,7 +52578,7 @@ module.exports = class Lexer {
       // reflink, nolink
       if (token = this.tokenizer.reflink(src, this.tokens.links)) {
         src = src.substring(token.raw.length);
-        const lastToken = tokens[tokens.length - 1];
+        lastToken = tokens[tokens.length - 1];
         if (token.type === 'link') {
           token.tokens = this.inlineTokens(token.text, [], true, inRawBlock);
           tokens.push(token);
@@ -52256,7 +52636,21 @@ module.exports = class Lexer {
       }
 
       // text
-      if (token = this.tokenizer.inlineText(src, inRawBlock, smartypants)) {
+      // prevent inlineText consuming extensions by clipping 'src' to extension start
+      cutSrc = src;
+      if (this.options.extensions && this.options.extensions.startInline) {
+        let startIndex = Infinity;
+        const tempSrc = src.slice(1);
+        let tempStart;
+        this.options.extensions.startInline.forEach(function(getStartIndex) {
+          tempStart = getStartIndex.call(this, tempSrc);
+          if (typeof tempStart === 'number' && tempStart >= 0) { startIndex = Math.min(startIndex, tempStart); }
+        });
+        if (startIndex < Infinity && startIndex >= 0) {
+          cutSrc = src.substring(0, startIndex + 1);
+        }
+      }
+      if (token = this.tokenizer.inlineText(cutSrc, inRawBlock, smartypants)) {
         src = src.substring(token.raw.length);
         if (token.raw.slice(-1) !== '_') { // Track prevChar before string of ____ started
           prevChar = token.raw.slice(-1);
@@ -52355,11 +52749,22 @@ module.exports = class Parser {
       item,
       checked,
       task,
-      checkbox;
+      checkbox,
+      ret;
 
     const l = tokens.length;
     for (i = 0; i < l; i++) {
       token = tokens[i];
+
+      // Run any renderer extensions
+      if (this.options.extensions && this.options.extensions.renderers && this.options.extensions.renderers[token.type]) {
+        ret = this.options.extensions.renderers[token.type].call(this, token);
+        if (ret !== false || !['space', 'hr', 'heading', 'code', 'table', 'blockquote', 'list', 'html', 'paragraph', 'text'].includes(token.type)) {
+          out += ret || '';
+          continue;
+        }
+      }
+
       switch (token.type) {
         case 'space': {
           continue;
@@ -52477,6 +52882,7 @@ module.exports = class Parser {
           out += top ? this.renderer.paragraph(body) : body;
           continue;
         }
+
         default: {
           const errMsg = 'Token with "' + token.type + '" type was not found.';
           if (this.options.silent) {
@@ -52499,11 +52905,22 @@ module.exports = class Parser {
     renderer = renderer || this.renderer;
     let out = '',
       i,
-      token;
+      token,
+      ret;
 
     const l = tokens.length;
     for (i = 0; i < l; i++) {
       token = tokens[i];
+
+      // Run any renderer extensions
+      if (this.options.extensions && this.options.extensions.renderers && this.options.extensions.renderers[token.type]) {
+        ret = this.options.extensions.renderers[token.type].call(this, token);
+        if (ret !== false || !['escape', 'html', 'link', 'image', 'strong', 'em', 'codespan', 'br', 'del', 'text'].includes(token.type)) {
+          out += ret || '';
+          continue;
+        }
+      }
+
       switch (token.type) {
         case 'escape': {
           out += renderer.text(token.text);
@@ -53601,6 +54018,7 @@ function getDefaults() {
   return {
     baseUrl: null,
     breaks: false,
+    extensions: null,
     gfm: true,
     headerIds: true,
     headerPrefix: '',
@@ -54052,46 +54470,114 @@ marked.defaults = defaults;
  * Use Extension
  */
 
-marked.use = function(extension) {
-  const opts = merge({}, extension);
-  if (extension.renderer) {
-    const renderer = marked.defaults.renderer || new Renderer();
-    for (const prop in extension.renderer) {
-      const prevRenderer = renderer[prop];
-      renderer[prop] = (...args) => {
-        let ret = extension.renderer[prop].apply(renderer, args);
-        if (ret === false) {
-          ret = prevRenderer.apply(renderer, args);
+marked.use = function(...args) {
+  const opts = merge({}, ...args);
+  const extensions = marked.defaults.extensions || { renderers: {}, childTokens: {} };
+  let hasExtensions;
+
+  args.forEach((pack) => {
+    // ==-- Parse "addon" extensions --== //
+    if (pack.extensions) {
+      hasExtensions = true;
+      pack.extensions.forEach((ext) => {
+        if (!ext.name) {
+          throw new Error('extension name required');
         }
-        return ret;
-      };
-    }
-    opts.renderer = renderer;
-  }
-  if (extension.tokenizer) {
-    const tokenizer = marked.defaults.tokenizer || new Tokenizer();
-    for (const prop in extension.tokenizer) {
-      const prevTokenizer = tokenizer[prop];
-      tokenizer[prop] = (...args) => {
-        let ret = extension.tokenizer[prop].apply(tokenizer, args);
-        if (ret === false) {
-          ret = prevTokenizer.apply(tokenizer, args);
+        if (ext.renderer) { // Renderer extensions
+          const prevRenderer = extensions.renderers ? extensions.renderers[ext.name] : null;
+          if (prevRenderer) {
+            // Replace extension with func to run new extension but fall back if false
+            extensions.renderers[ext.name] = function(...args) {
+              let ret = ext.renderer.apply(this, args);
+              if (ret === false) {
+                ret = prevRenderer.apply(this, args);
+              }
+              return ret;
+            };
+          } else {
+            extensions.renderers[ext.name] = ext.renderer;
+          }
         }
-        return ret;
-      };
+        if (ext.tokenizer) { // Tokenizer Extensions
+          if (!ext.level || (ext.level !== 'block' && ext.level !== 'inline')) {
+            throw new Error("extension level must be 'block' or 'inline'");
+          }
+          if (extensions[ext.level]) {
+            extensions[ext.level].unshift(ext.tokenizer);
+          } else {
+            extensions[ext.level] = [ext.tokenizer];
+          }
+          if (ext.start) { // Function to check for start of token
+            if (ext.level === 'block') {
+              if (extensions.startBlock) {
+                extensions.startBlock.push(ext.start);
+              } else {
+                extensions.startBlock = [ext.start];
+              }
+            } else if (ext.level === 'inline') {
+              if (extensions.startInline) {
+                extensions.startInline.push(ext.start);
+              } else {
+                extensions.startInline = [ext.start];
+              }
+            }
+          }
+        }
+        if (ext.childTokens) { // Child tokens to be visited by walkTokens
+          extensions.childTokens[ext.name] = ext.childTokens;
+        }
+      });
     }
-    opts.tokenizer = tokenizer;
-  }
-  if (extension.walkTokens) {
-    const walkTokens = marked.defaults.walkTokens;
-    opts.walkTokens = (token) => {
-      extension.walkTokens(token);
-      if (walkTokens) {
-        walkTokens(token);
+
+    // ==-- Parse "overwrite" extensions --== //
+    if (pack.renderer) {
+      const renderer = marked.defaults.renderer || new Renderer();
+      for (const prop in pack.renderer) {
+        const prevRenderer = renderer[prop];
+        // Replace renderer with func to run extension, but fall back if false
+        renderer[prop] = (...args) => {
+          let ret = pack.renderer[prop].apply(renderer, args);
+          if (ret === false) {
+            ret = prevRenderer.apply(renderer, args);
+          }
+          return ret;
+        };
       }
-    };
-  }
-  marked.setOptions(opts);
+      opts.renderer = renderer;
+    }
+    if (pack.tokenizer) {
+      const tokenizer = marked.defaults.tokenizer || new Tokenizer();
+      for (const prop in pack.tokenizer) {
+        const prevTokenizer = tokenizer[prop];
+        // Replace tokenizer with func to run extension, but fall back if false
+        tokenizer[prop] = (...args) => {
+          let ret = pack.tokenizer[prop].apply(tokenizer, args);
+          if (ret === false) {
+            ret = prevTokenizer.apply(tokenizer, args);
+          }
+          return ret;
+        };
+      }
+      opts.tokenizer = tokenizer;
+    }
+
+    // ==-- Parse WalkTokens extensions --== //
+    if (pack.walkTokens) {
+      const walkTokens = marked.defaults.walkTokens;
+      opts.walkTokens = (token) => {
+        pack.walkTokens.call(this, token);
+        if (walkTokens) {
+          walkTokens(token);
+        }
+      };
+    }
+
+    if (hasExtensions) {
+      opts.extensions = extensions;
+    }
+
+    marked.setOptions(opts);
+  });
 };
 
 /**
@@ -54118,7 +54604,11 @@ marked.walkTokens = function(tokens, callback) {
         break;
       }
       default: {
-        if (token.tokens) {
+        if (marked.defaults.extensions && marked.defaults.extensions.childTokens && marked.defaults.extensions.childTokens[token.type]) { // Walk any extensions
+          marked.defaults.extensions.childTokens[token.type].forEach(function(childTokens) {
+            marked.walkTokens(token[childTokens], callback);
+          });
+        } else if (token.tokens) {
           marked.walkTokens(token.tokens, callback);
         }
       }
@@ -54207,14 +54697,14 @@ const block = {
   blockquote: /^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/,
   list: /^( {0,3})(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?! {0,3}bull )\n*|\s*$)/,
   html: '^ {0,3}(?:' // optional indentation
-    + '<(script|pre|style)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)' // (1)
+    + '<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)' // (1)
     + '|comment[^\\n]*(\\n+|$)' // (2)
     + '|<\\?[\\s\\S]*?(?:\\?>\\n*|$)' // (3)
     + '|<![A-Z][\\s\\S]*?(?:>\\n*|$)' // (4)
     + '|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)' // (5)
     + '|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n *)+\\n|$)' // (6)
-    + '|<(?!script|pre|style)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)' // (7) open tag
-    + '|</(?!script|pre|style)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)' // (7) closing tag
+    + '|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)' // (7) open tag
+    + '|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)' // (7) closing tag
     + ')',
   def: /^ {0,3}\[(label)\]: *\n? *<?([^\s>]+)>?(?:(?: +\n? *| *\n *)(title))? *(?:\n+|$)/,
   nptable: noopTest,
@@ -54269,7 +54759,7 @@ block.paragraph = edit(block._paragraph)
   .replace('blockquote', ' {0,3}>')
   .replace('fences', ' {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n')
   .replace('list', ' {0,3}(?:[*+-]|1[.)]) ') // only lists starting from 1 can interrupt
-  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|!--)')
+  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)')
   .replace('tag', block._tag) // pars can be interrupted by type (6) html blocks
   .getRegex();
 
@@ -54303,7 +54793,7 @@ block.gfm.nptable = edit(block.gfm.nptable)
   .replace('code', ' {4}[^\\n]')
   .replace('fences', ' {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n')
   .replace('list', ' {0,3}(?:[*+-]|1[.)]) ') // only lists starting from 1 can interrupt
-  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|!--)')
+  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)')
   .replace('tag', block._tag) // tables can be interrupted by type (6) html blocks
   .getRegex();
 
@@ -54314,7 +54804,7 @@ block.gfm.table = edit(block.gfm.table)
   .replace('code', ' {4}[^\\n]')
   .replace('fences', ' {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n')
   .replace('list', ' {0,3}(?:[*+-]|1[.)]) ') // only lists starting from 1 can interrupt
-  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|!--)')
+  .replace('html', '</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)')
   .replace('tag', block._tag) // tables can be interrupted by type (6) html blocks
   .getRegex();
 
@@ -66578,13 +67068,13 @@ let Scanner = class Scanner {
         this.crawlArgumentHandler = crawlArgumentHandler;
         this.taskConfig = taskConfig;
         this.crawlerParametersBuilder = crawlerParametersBuilder;
-        this.scanTimeoutMsec = 90000;
     }
     scan() {
         return __awaiter(this, void 0, void 0, function* () {
+            const scanTimeoutMsec = this.taskConfig.getScanTimeout();
             // eslint-disable-next-line @typescript-eslint/require-await
-            yield this.promiseUtils.waitFor(this.invokeScan(), this.scanTimeoutMsec, () => __awaiter(this, void 0, void 0, function* () {
-                this.logger.logError(`Scan timed out after ${this.scanTimeoutMsec / 1000} seconds`);
+            yield this.promiseUtils.waitFor(this.invokeScan(), scanTimeoutMsec, () => __awaiter(this, void 0, void 0, function* () {
+                this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
                 this.currentProcess.exit(1);
             }));
         });
@@ -66751,6 +67241,9 @@ let TaskConfig = class TaskConfig {
     getInputUrls() {
         const value = this.actionCoreObj.getInput('input-urls');
         return lodash_1.isEmpty(value) ? undefined : value;
+    }
+    getScanTimeout() {
+        return parseInt(this.actionCoreObj.getInput('scan-timeout'));
     }
     getRunId() {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
@@ -68215,7 +68708,7 @@ function wrappy (fn, cb) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("accessibility-insights-report");;
+module.exports = require("accessibility-insights-report");
 
 /***/ }),
 
@@ -68226,7 +68719,7 @@ module.exports = require("accessibility-insights-report");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("accessibility-insights-scan");;
+module.exports = require("accessibility-insights-scan");
 
 /***/ }),
 
@@ -68237,7 +68730,7 @@ module.exports = require("accessibility-insights-scan");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("assert");;
+module.exports = require("assert");
 
 /***/ }),
 
@@ -68248,7 +68741,7 @@ module.exports = require("assert");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("axe-core");;
+module.exports = require("axe-core");
 
 /***/ }),
 
@@ -68259,7 +68752,7 @@ module.exports = require("axe-core");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("buffer");;
+module.exports = require("buffer");
 
 /***/ }),
 
@@ -68270,7 +68763,7 @@ module.exports = require("buffer");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("crypto");;
+module.exports = require("crypto");
 
 /***/ }),
 
@@ -68281,7 +68774,7 @@ module.exports = require("crypto");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("events");;
+module.exports = require("events");
 
 /***/ }),
 
@@ -68292,7 +68785,7 @@ module.exports = require("events");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("fs");;
+module.exports = require("fs");
 
 /***/ }),
 
@@ -68303,7 +68796,7 @@ module.exports = require("fs");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("http");;
+module.exports = require("http");
 
 /***/ }),
 
@@ -68314,7 +68807,7 @@ module.exports = require("http");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("https");;
+module.exports = require("https");
 
 /***/ }),
 
@@ -68325,7 +68818,7 @@ module.exports = require("https");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("module");;
+module.exports = require("module");
 
 /***/ }),
 
@@ -68336,7 +68829,7 @@ module.exports = require("module");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("net");;
+module.exports = require("net");
 
 /***/ }),
 
@@ -68347,7 +68840,7 @@ module.exports = require("net");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("os");;
+module.exports = require("os");
 
 /***/ }),
 
@@ -68358,7 +68851,7 @@ module.exports = require("os");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("path");;
+module.exports = require("path");
 
 /***/ }),
 
@@ -68369,7 +68862,7 @@ module.exports = require("path");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("querystring");;
+module.exports = require("querystring");
 
 /***/ }),
 
@@ -68380,7 +68873,7 @@ module.exports = require("querystring");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("stream");;
+module.exports = require("stream");
 
 /***/ }),
 
@@ -68391,7 +68884,7 @@ module.exports = require("stream");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("string_decoder");;
+module.exports = require("string_decoder");
 
 /***/ }),
 
@@ -68402,7 +68895,7 @@ module.exports = require("string_decoder");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("tls");;
+module.exports = require("tls");
 
 /***/ }),
 
@@ -68413,7 +68906,7 @@ module.exports = require("tls");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("tty");;
+module.exports = require("tty");
 
 /***/ }),
 
@@ -68424,7 +68917,7 @@ module.exports = require("tty");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("url");;
+module.exports = require("url");
 
 /***/ }),
 
@@ -68435,7 +68928,7 @@ module.exports = require("url");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("util");;
+module.exports = require("util");
 
 /***/ }),
 
@@ -68446,7 +68939,7 @@ module.exports = require("util");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("zlib");;
+module.exports = require("zlib");
 
 /***/ })
 
