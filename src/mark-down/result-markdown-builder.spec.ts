@@ -4,6 +4,8 @@ import 'reflect-metadata';
 
 import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import * as axe from 'axe-core';
+import * as path from 'path';
 
 describe(ResultMarkdownBuilder, () => {
     let combinedReportResult: CombinedReportParameters;
@@ -68,5 +70,36 @@ describe(ResultMarkdownBuilder, () => {
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
         expect(actualContent).toMatchSnapshot();
+    });
+
+    it('escapes content for all possible axe rules', () => {
+        const failedRules = axe.getRules().map((r) => ({
+            ruleId: r.ruleId,
+            description: r.description,
+        }));
+
+        combinedReportResult = {
+            axeVersion: 'axeVersion',
+            userAgent: 'userAgent',
+            results: {
+                resultsByRule: {
+                    failed: failedRules.map((rule) => ({
+                        failed: [{ rule }],
+                    })),
+                    passed: [{}],
+                    notApplicable: [{}, {}],
+                },
+                urlResults: {
+                    passedUrls: 1,
+                    failedUrls: 1,
+                    unscannableUrls: 1,
+                },
+            },
+        } as any;
+
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
+
+        const snapshotFile = path.join(__dirname, '__custom-snapshots__', 'axe-descriptions.snap.md');
+        expect(actualContent).toMatchFile(snapshotFile);
     });
 });

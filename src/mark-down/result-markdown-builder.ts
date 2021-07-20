@@ -4,7 +4,7 @@
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { injectable } from 'inversify';
 import { brand } from '../content/strings';
-import { bold, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
+import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
 
 @injectable()
 export class ResultMarkdownBuilder {
@@ -82,7 +82,7 @@ export class ResultMarkdownBuilder {
     };
 
     private failedRuleListItem = (failureCount: number, ruleId: string, description: string) => {
-        return listItem(`${bold(`${failureCount} × ${ruleId}`)}:  ${description}`);
+        return listItem(`${bold(`${failureCount} × ${escaped(ruleId)}`)}:  ${escaped(description)}`);
     };
 
     private scanResultDetails(scanResult: string, footer?: string): string {

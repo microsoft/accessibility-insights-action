@@ -29,7 +29,7 @@ module.exports = {
         '@uifabric/styling': '@uifabric/styling/lib-commonjs',
     },
     reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/test-results/unit', outputName: 'junit.xml' }]],
-    setupFilesAfterEnv: ['jest-extended'],
+    setupFilesAfterEnv: ['jest-extended', `<rootDir>/src/jest-setup.ts`],
     transform: {
         '^.+\\.(ts|tsx)$': 'ts-jest',
     },

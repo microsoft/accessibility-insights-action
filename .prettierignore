@@ -12,6 +12,7 @@
 **/*.png
 **/*.sh
 **/*.ts.snap
+**/*.snap.md
 **/bin/
 **/obj/
 **/yarn-*.log

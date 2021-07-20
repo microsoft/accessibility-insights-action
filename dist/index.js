@@ -66143,8 +66143,12 @@ exports.Logger = Logger;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.sectionSeparator = exports.footerSeparator = exports.productTitle = exports.bold = exports.heading = exports.listItem = exports.image = exports.link = exports.snippet = void 0;
+exports.sectionSeparator = exports.footerSeparator = exports.productTitle = exports.bold = exports.heading = exports.listItem = exports.image = exports.link = exports.snippet = exports.escaped = void 0;
 const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
+const escaped = (markdown) => {
+    return markdown.replace(/</g, '\\<');
+};
+exports.escaped = escaped;
 const snippet = (text) => {
     return `\`${text}\``;
 };
@@ -66284,7 +66288,7 @@ let ResultMarkdownBuilder = class ResultMarkdownBuilder {
             return lines.join('');
         };
         this.failedRuleListItem = (failureCount, ruleId, description) => {
-            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${failureCount} × ${ruleId}`)}:  ${description}`);
+            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${failureCount} × ${markdown_formatter_1.escaped(ruleId)}`)}:  ${markdown_formatter_1.escaped(description)}`);
         };
     }
     buildErrorContent() {

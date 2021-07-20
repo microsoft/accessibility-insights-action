@@ -12,6 +12,7 @@
         "**/test-results",
         "**/dist",
         "**/*.snap",
+        "**/*.snap.md",
         "NOTICES.txt"
     ],
     "license": "./copyright-header.txt",

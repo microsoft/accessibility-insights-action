@@ -54,6 +54,7 @@
         "fork-ts-checker-webpack-plugin": "^6.2.12",
         "jest": "^27.0.6",
         "jest-extended": "^0.11.5",
+        "jest-file-snapshot": "^0.5.0",
         "jest-junit": "^12.2.0",
         "license-check-and-add": "^4.0.2",
         "mockdate": "^3.0.5",
