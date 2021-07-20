@@ -48,7 +48,7 @@
         "@typescript-eslint/eslint-plugin": "^4.28.4",
         "@typescript-eslint/parser": "^4.28.4",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
-        "codecov": "^3.8.2",
+        "codecov": "^3.8.3",
         "eslint": "^7.31.0",
         "eslint-plugin-security": "^1.4.0",
         "fork-ts-checker-webpack-plugin": "^6.2.12",
