@@ -16,7 +16,7 @@ import {
 
 describe('MarkdownFormatter', () => {
     it('escaped', () => {
-        expect(escaped('This string contains the <img> tag')).toMatchSnapshot();
+        expect(escaped('<img>')).toEqual('\\<img>');
     });
 
     it('snippet', () => {
