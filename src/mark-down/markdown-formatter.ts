@@ -3,6 +3,10 @@
 
 import { brand, brandLogoImg, toolName } from '../content/strings';
 
+export const escaped = (markdown: string): string => {
+    return markdown.replace(/</g, '\\<');
+};
+
 export const snippet = (text: string): string => {
     return `\`${text}\``;
 };

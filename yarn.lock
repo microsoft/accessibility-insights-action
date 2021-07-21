@@ -3573,7 +3573,7 @@ filenamify-url@^2.1.1, filenamify-url@^2.1.2:
     filenamify "^4.3.0"
     humanize-url "^2.1.1"
 
-filenamify@^4.1.0, filenamify@^4.3.0:
+filenamify@^4.1.0, filenamify@^4.2.0, filenamify@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/filenamify/-/filenamify-4.3.0.tgz#62391cb58f02b09971c9d4f9d63b3cf9aba03106"
   integrity sha512-hcFKyUG57yWGAzu1CMt/dPzYZuv+jAJUT85bL8mrXvNe6hWj6yEHEc4EdcgiA6Z3oi1/9wXJdZPXF2dZNgwgOg==
@@ -4620,7 +4620,7 @@ jest-diff@^24.9.0:
     jest-get-type "^24.9.0"
     pretty-format "^24.9.0"
 
-jest-diff@^26.0.0:
+jest-diff@^26.0.0, jest-diff@^26.6.1:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-26.6.2.tgz#1aa7468b52c3a68d7d5c5fdcdfcd5e49bd164394"
   integrity sha512-6m+9Z3Gv9wN0WFVasqjCL/06+EFCMTqDEUl/b87HYK2rAPTyfz4ZIuSlPhY51PIQRWx5TaxeF1qmXKe9gfN3sA==
@@ -4691,6 +4691,16 @@ jest-extended@^0.11.5:
     expect "^24.1.0"
     jest-get-type "^22.4.3"
     jest-matcher-utils "^22.0.0"
+
+jest-file-snapshot@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/jest-file-snapshot/-/jest-file-snapshot-0.5.0.tgz#8b0169a94f2716109f8a0e1d015895b54e927525"
+  integrity sha512-A3cqn9RRB6yl/bMsN9+EiNU94JTptLmoFqmSfSeuku22UYotYF6C/Ntw7C2Kai0C7deirYfpDwRpdlyLhItvMQ==
+  dependencies:
+    chalk "^4.1.0"
+    filenamify "^4.2.0"
+    jest-diff "^26.6.1"
+    mkdirp "^1.0.4"
 
 jest-get-type@^22.4.3:
   version "22.4.3"

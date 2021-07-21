@@ -1,9 +1,24 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { bold, footerSeparator, heading, image, link, listItem, productTitle, sectionSeparator, snippet } from './markdown-formatter';
+import {
+    bold,
+    escaped,
+    footerSeparator,
+    heading,
+    image,
+    link,
+    listItem,
+    productTitle,
+    sectionSeparator,
+    snippet,
+} from './markdown-formatter';
 
 describe('MarkdownFormatter', () => {
+    it('escaped', () => {
+        expect(escaped('<img>')).toEqual('\\<img>');
+    });
+
     it('snippet', () => {
         expect(snippet('code')).toMatchSnapshot();
     });
