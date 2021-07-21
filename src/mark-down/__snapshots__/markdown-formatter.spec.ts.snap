@@ -2,6 +2,8 @@
 
 exports[`MarkdownFormatter bold 1`] = `"**text**"`;
 
+exports[`MarkdownFormatter escaped 1`] = `"This string contains the \\\\<img> tag"`;
+
 exports[`MarkdownFormatter footerSeparator 1`] = `"---"`;
 
 exports[`MarkdownFormatter heading 1`] = `"## heading"`;
