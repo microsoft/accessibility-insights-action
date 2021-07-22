@@ -8,7 +8,7 @@ Licensed under the MIT License.
 To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
 
 -   `microsoft/accessibility-insights-action@v2` is updated with each `v2.x.y` release to refer to the most recent API-compatible version.
--   `microsoft/accessibility-insights-action@v2.1.1` refers to the exact version `v2.1.1`; use this to pin to a specific version.
+-   `microsoft/accessibility-insights-action@v2.2.0` refers to the exact version `v2.2.0`; use this to pin to a specific version.
 
 Avoid referring to `@main` directly; it may contain undocumented breaking changes.
 
@@ -141,4 +141,4 @@ You can choose to block pull requests if the action finds accessibility issues.
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
 -   If you can't find an artifact, note that your workflow must include an `actions/upload-artifact` step to add the report folder to your check results. See the "Basic template" above.
 -   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `scan-url-relative-path`.
--   (not released to a tag yet) If the scan takes longer than 90 seconds, you can override the default timeout via `scan-timeout`
+-   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scan-timeout`
