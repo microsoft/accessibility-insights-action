@@ -16,20 +16,3 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Release instructions
-
-To create a new release, a repo maintainer should follow these steps:
-
-1. Create and merge a release pull request to `main` which:
-    - Updates `/package.json` with a new semantic version number
-    - Updates `/docs/usage.md` if needed to reference the upcoming tag
-    - Updates `/NOTICES.txt` based on the dependencies in `yarn.lock`
-    - Updates `/dist/` with the results of `yarn build`
-2. Validate the release build
-    - Wait for a passing CI build against `main`
-    - Update a separate test repository to refer to `accessibility-insights-action@mergecommithash` and verify that it functions as expected
-3. Create/update the corresponding git tags for the release:
-    - Create a new release tag using the version in `package.json` (eg, `git tag v1.2.3`)
-    - Update the corresponding major-version tag (eg, `git tag -f v1`)
-    - Push both tags
