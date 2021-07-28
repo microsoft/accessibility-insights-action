@@ -6,23 +6,3 @@ jobs:
       pool:
           vmImage: 'ubuntu-16.04'
           demands: npm
-      steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
-
-          - script: yarn install --frozen-lockfile
-            displayName: Install dependencies
-
-          - script: yarn copyright:check
-            displayName: Check copyright headers
-
-          - script: yarn format:check
-            displayName: Check code formatting
-
-          - script: yarn cbuild
-            displayName: Build
-
-          - script: yarn lint:check
-            displayName: Check for lint errors
