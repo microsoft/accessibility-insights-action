@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 jobs:
-    - job: 'Build & check code styling'
+    - job: 'Build and check code styling'
       pool:
           vmImage: 'ubuntu-16.04'
           demands: npm
