@@ -5,35 +5,66 @@ Licensed under the MIT License.
 
 ## Release Strategy
 
-This repo will be the release point for our GitHub action. We will use a release strategy that enables supports for multiple versions, while providing sufficient flexibility to also support releases other than actions. To this end, we will adopt the following branch structure for releases of major versions 1 to N of the GitHub action:
+### Release Branch
+
+This repo will be the release point for our GitHub action. We'll create a single top-level `/release` branch, parallel to the `/main` branch, and it will be used by all consumers.
 
 ```
 /main
 /release
-  /action
-    /v1
-    .
-    .
-    .
-    /vN
 ```
 
-Releases of other components (such as the Azure DevOps extension) will be siblings of the `/release/action` branch.
+### Pipeline manipulation of `release` branch
 
-The contents of each versioned branch will get completely refreshed with each new release, so syncing the version branch will always return the latest release of _that version_. We will also create a new tag (_e.g._, `v1.0.3`) with each new release. All branches under the `/release` branch will be locked down by branch policy that restricts all changes to the build pipeline. One potential exception to this practice might be a repo administrator creating the new branch (_e.g._, `/release/v2`) when a new major release is being prepared.
+For each release, the pipeline will do the following:
 
-Users wishing to always use _latest release_ of the `v1` action would include the following in their yml file:
+-   Clone the `/release` branch at its latest commit
+-   Delete all files from the `/release` branch
+-   Copy the newly built distributable files to the `/release` branch
+-   Commit the changes to the `/release` branch
+-   Create a tag that corresponds to the commit. Expected format is `v1.0.3`
+-   Create or update the major version tag (name matches the major version of the just-created tag, so `v1` in this case) to reference the same commit. We will only update this tag if the new release is a higher version than the major version tag, so if the major version tag pointed to `v1.0.4`, we wouldn't "rewind" it back to `v1.0.3`
 
-```
-  steps:
-    name: Check Accessibility
-    uses: actions/microsoft/accessibility-insights-action/release/action/v1
-```
+### Models for consuming the action
 
-Users wishing to use a _specific release_ (_e.g._, `v1.0.3`) of the `v1` action would include the following in their yml file:
+#### Pin to the latest version a major version
+
+The yaml file excerpt would look something like this:
 
 ```
   steps:
     name: Check Accessibility
-    uses: actions/microsoft/accessibility-insights-action/release/action/v1@v1.0.3
+    uses: actions/microsoft/accessibility-insights-action@v1
+```
+
+#### Pin to a specific release
+
+The yaml file excerpt would look something like this:
+
+```
+  steps:
+    name: Check Accessibility
+    uses: actions/microsoft/accessibility-insights-action@v1.0.3
+```
+
+#### Use the most recent commit to the release branch
+
+Note that this is generally not recommended, both because it will float and because the returned version is unpredictable. It will always return the _most recent commit_ to the `/release` branch, which is not guaranteed to be the latest _version_ in some maintenance scenarios. That said, it is a supported scenario:
+
+The yaml file excerpt would look something like this:
+
+```
+  steps:
+    name: Check Accessibility
+    uses: actions/microsoft/accessibility-insights-action/release
+```
+
+#### Use the latest version
+
+If we need this functionality (for the validation pipeilne, perhaps), we can make the release pipeline responsible for maintaining a `latest` tag that always references the release with the _highest version_. If we do this, then the yaml file excerpt would look something like this:
+
+```
+  steps:
+    name: Check Accessibility
+    uses: actions/microsoft/accessibility-insights-action@latest
 ```
