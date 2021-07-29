@@ -73,6 +73,7 @@ On each iteration, the ADO extension release pipeline will do the following:
 #### Pipeline questions:
 
 -   What should trigger the build pipeline? Every commit?
+-   What should trigger the release pipelines? Manually triggered?
 -   How do we tag the sources repo when the Action release pipeline runs?
 -   Are there scenarios where we would publish _just_ the action or _just_ the ADO extension?
 
