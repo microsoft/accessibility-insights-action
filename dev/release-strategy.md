@@ -76,6 +76,7 @@ On each iteration, the ADO extension release pipeline will do the following:
 -   What should trigger the release pipelines? Manually triggered?
 -   How do we tag the sources repo when the Action release pipeline runs?
 -   Are there scenarios where we would publish _just_ the action or _just_ the ADO extension?
+-   Do we need Canary/Insider/Production for release validation, or are we OK with just Production?
 
 ### Models for consuming the action
 
