@@ -2,47 +2,64 @@
 # Licensed under the MIT License.
 
 jobs:
-    - job: 'BuildAndCheckCodeStyling'
-      pool:
-          vmImage: 'ubuntu-16.04'
-          demands: npm
-      steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
+    # - job: 'BuildAndCheckCodeStyling'
+    #   pool:
+    #       vmImage: 'ubuntu-16.04'
+    #       demands: npm
+    #   steps:
+    #       - task: NodeTool@0
+    #         inputs:
+    #             versionSpec: '12.x'
+    #         displayName: use node 12.x
 
-          - script: yarn install --frozen-lockfile
-            displayName: Install dependencies
+    #       - script: yarn install --frozen-lockfile
+    #         displayName: Install dependencies
 
-          - script: yarn copyright:check
-            displayName: Check copyright headers
+    #       - script: yarn copyright:check
+    #         displayName: Check copyright headers
 
-          - script: yarn format:check
-            displayName: Check code formatting
+    #       - script: yarn format:check
+    #         displayName: Check code formatting
 
-          - script: yarn cbuild
-            displayName: Build
+    #       - script: yarn cbuild
+    #         displayName: Build
 
-          - script: yarn lint:check
-            displayName: Check for lint errors
+    #       - script: yarn lint:check
+    #         displayName: Check for lint errors
+
+    # - job: 'Tests'
+    #   pool:
+    #       vmImage: 'ubuntu-16.04'
+    #       demands: npm
+    #   steps:
+    #       - task: NodeTool@0
+    #         inputs:
+    #             versionSpec: '12.x'
+    #         displayName: use node 12.x
+
+    #       - script: yarn install --frozen-lockfile
+    #         displayName: Install dependencies
+
+    #       - script: yarn test --ci --coverage
+    #         displayName: Run tests
+    #         env:
+    #             NODE_OPTIONS: --max_old_space_size=4096
+
+    #       - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
+    #         displayName: Publish code coverage to codecov
 
     - job: 'Tests'
       pool:
           vmImage: 'ubuntu-16.04'
           demands: npm
       steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
+          # - task: NodeTool@0
+          #   inputs:
+          #       versionSpec: '12.x'
+          #   displayName: use node 12.x
 
-          - script: yarn install --frozen-lockfile
-            displayName: Install dependencies
-          - script: yarn test --ci --coverage
-            displayName: Run tests
-            env:
-                NODE_OPTIONS: --max_old_space_size=4096
+          - script: git checkout -b releases/ortiga
+            displayName: create release branch
 
-          - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
-            displayName: Publish code coverage to codecov
+          - script: git push --set-upstream origin releases/ortiga
+            displayName: push branch
