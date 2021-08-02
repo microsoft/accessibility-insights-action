@@ -48,16 +48,3 @@ inputs:
 runs:
     using: 'node12'
     main: 'dist/index.js'
-    env:
-        INPUT_OUTPUT-DIR: ${{ inputs.output-dir }}
-        INPUT_SITE-DIR: ${{ inputs.site-dir }}
-        INPUT_SCAN-URL-RELATIVE-PATH: ${{ inputs.scan-url-relative-path }}
-        INPUT_CHROME-PATH: ${{ inputs.chrome-path }}
-        INPUT_REPO-TOKEN: ${{ inputs.repo-token }}
-        INPUT_URL: ${{ inputs.url }}
-        INPUT_MAX-URLS: ${{ inputs.max-urls }}
-        INPUT_DISCOVERY-PATTERNS: ${{ inputs.discovery-patterns }}
-        INPUT_INPUT-FILE: ${{ inputs.input-file }}
-        INPUT_INPUT-URLS: ${{ inputs.input-urls }}
-        INPUT_LOCALHOST-PORT: ${{ inputs.localhost-port }}
-        INPUT_SCAN-TIMEOUT: ${{ inputs.scan-timeout }}
