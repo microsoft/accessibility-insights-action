@@ -74,10 +74,10 @@ git commit -am "commit changes"
 echo "push changes"
 git push
 
-echo "include dist to check in"
+echo "exclude dist to check in"
 sed -i 's/no-dist/dist/g' .gitignore
 
-echo "include node_modules to check in"
+echo "exclude node_modules to check in"
 sed -i 's/no-node_modules/node_modules/g' .gitignore
 
 echo "git add"
