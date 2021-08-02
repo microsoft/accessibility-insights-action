@@ -9,9 +9,11 @@ on:
       release_tag:
         description: 'Enter the tag'
         required: true
+        default: ''
       commit_sha:
         description: 'Enter the SHA commit you'd like to release'
         required: false
+        default: ''
 
   jobs:
     Release:
