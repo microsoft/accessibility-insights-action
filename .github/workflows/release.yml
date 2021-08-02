@@ -35,4 +35,4 @@ jobs:
         run: yarn cbuild
 
       - name: Run the release script
-        run: sh "./release.sh ${{ github.event.inputs.release-tag }} ${{ github.event.inputs.commit-sha }}"
+        run: sh ./release.sh ${{ github.event.inputs.release-tag }} ${{ github.event.inputs.commit-sha }}
