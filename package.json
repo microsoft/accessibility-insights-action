@@ -2,14 +2,16 @@
     "name": "accessibility-insights-action",
     "private": true,
     "version": "0.0.0",
-    "workspaces": ["packages/*"],
+    "workspaces": [
+        "packages/*"
+    ],
     "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
     "scripts": {
         "build": "lerna run build",
         "clean": "lerna run clean",
         "cbuild": "lerna run cbuild",
-        "format:check": "lerna run format:check",
-        "format:fix": "lerna run format:fix",
+        "format:check": "prettier --check \"**/*\"",
+        "format:fix": "prettier --write \"**/*\"",
         "lint:check": "lerna run lint:check",
         "lint:fix": "lerna run lint:fix",
         "copyright:check": "license-check-and-add check -f ./license-check-and-add-config.json",

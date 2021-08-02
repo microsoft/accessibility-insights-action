@@ -9,8 +9,6 @@
         "watch:build": "webpack --config ./webpack.config.js --watch",
         "cbuild": "npm-run-all --serial clean build",
         "clean": "rimraf dist test-results accessibility-insights-action/dist",
-        "format:check": "prettier --check \"**/*\"",
-        "format:fix": "prettier --write \"**/*\"",
         "lint:check": "eslint \"src/**/*.{js,ts}\"",
         "lint:fix": "eslint \"src/**/*.{js,ts}\" --quiet --fix",
         "test": "jest",
