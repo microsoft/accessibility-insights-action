@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-**/node_modules
+node_modules/
 drop/
 test-results/
 out/
