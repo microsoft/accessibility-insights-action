@@ -9,7 +9,7 @@ jobs:
         name: Run action in a local dev environment
         steps:
             - name: Scan local website for accessibility issues
-              uses: ./
+              uses: ./packages/gh-action
               with:
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
                   site-dir: ${{ github.workspace }}/dev/website-root
