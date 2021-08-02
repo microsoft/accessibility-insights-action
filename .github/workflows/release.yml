@@ -14,8 +14,7 @@ on:
         required: false
 
   jobs:
-    release:
-      name: Create a new release
+    Release:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout repo
