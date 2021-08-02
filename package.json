@@ -7,14 +7,15 @@
     "scripts": {
         "build": "lerna run build",
         "clean": "lerna run clean",
+        "cbuild": "lerna run cbuild",
         "format:check": "lerna run format:check",
         "format:fix": "lerna run format:fix",
         "lint:check": "lerna run lint:check",
         "lint:fix": "lerna run lint:fix",
-        "copyright:check": "lerna run copyright:check",
-        "copyright:fix": "lerna run copyright:fix",
+        "copyright:check": "license-check-and-add check -f ./license-check-and-add-config.json",
+        "copyright:fix": "license-check-and-add add -f ./license-check-and-add-config.json",
         "test": "lerna run test",
-        "precheckin": "lerna run precheckin"
+        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test"
     },
     "repository": {
         "type": "git",
