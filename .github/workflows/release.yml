@@ -9,7 +9,7 @@ on:
       tag:
         description: 'Enter the tag'
         required: true
-      SHA:
+      sha:
         description: 'Enter the SHA commit you'd like to release'
         required: false
 
