@@ -4,33 +4,33 @@
 name: Release Action
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Enter the tag'
-        required: true
-      SHA:
-        description: 'Enter the SHA commit you'd like to release'
-        required: false
+    workflow_dispatch:
+        inputs:
+            tag:
+                description: 'Enter the tag'
+                required: true
+            SHA:
+                description: 'Enter the SHA commit you'd like to release'
+                required: false
 
 jobs:
-  release:
-    name: Create a new release
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repo
-    uses: actions/checkout@v2
-      
-    - name: Setup node
-    uses: actions/setup-node@v1
-    with:
-        node-version: 12.x
-        
-    - name: Install dependencies
-    run: yarn install --frozen-lockfile
-    
-    - name: Build
-    run: yarn cbuild
+    release:
+        name: Create a new release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+            uses: actions/checkout@v2
 
-    - name: Run the release script
-    run: ./release.ps1 ${{ github.event.inputs.tag }}!" ${{ github.event.inputs.SHA }}!"
+            - name: Setup node
+            uses: actions/setup-node@v1
+            with:
+            node-version: 12.x
+
+            - name: Install dependencies
+            run: yarn install --frozen-lockfile
+
+            - name: Build
+            run: yarn cbuild
+
+            - name: Run the release script
+            run: ./release.ps1 ${{ github.event.inputs.tag }}!" ${{ github.event.inputs.SHA }}!"
