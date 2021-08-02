@@ -6,10 +6,10 @@ name: Release Action
 on:
   workflow_dispatch:
     inputs:
-      tag:
+      release_tag:
         description: 'Enter the tag'
         required: true
-      sha:
+      commit_sha:
         description: 'Enter the SHA commit you'd like to release'
         required: false
 
@@ -32,4 +32,4 @@ on:
           run: yarn cbuild
 
         - name: Run the release script
-          run: ./release.ps1 ${{ github.event.inputs.tag }} ${{ github.event.inputs.SHA }}
+          run: ./release.ps1 ${{ github.event.inputs.release_tag }} ${{ github.event.inputs.commit_sha }}
