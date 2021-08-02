@@ -17,7 +17,7 @@ on:
       
       
   jobs:
-    Release:
+    release:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout repo
