@@ -7,16 +7,16 @@
     ],
     "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
     "scripts": {
-        "build": "lerna run build",
-        "clean": "lerna run clean",
-        "cbuild": "lerna run cbuild",
+        "build": "lerna run build --stream",
+        "clean": "lerna run clean --stream",
+        "cbuild": "lerna run cbuild --stream",
         "format:check": "prettier --check \"**/*\"",
         "format:fix": "prettier --write \"**/*\"",
-        "lint:check": "lerna run lint:check",
-        "lint:fix": "lerna run lint:fix",
+        "lint:check": "lerna run lint:check --stream",
+        "lint:fix": "lerna run lint:fix --stream",
         "copyright:check": "license-check-and-add check -f ./license-check-and-add-config.json",
         "copyright:fix": "license-check-and-add add -f ./license-check-and-add-config.json",
-        "test": "lerna run test",
+        "test": "lerna run test --stream",
         "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test"
     },
     "repository": {
