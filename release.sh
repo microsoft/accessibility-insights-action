@@ -18,7 +18,7 @@ echo "Create a new branch"
 git checkout -b releases/$tag $sha
 
 echo "Save a copy of packages.json"
-cp ./packages.json ./old_packages.json
+cp ./package.json ./old_package.json
 
 echo "Create packages.json for external packages"
 node ./create-package-json-for-externals.js
@@ -57,7 +57,13 @@ echo "delete the packages.json to restore the old one"
 rm ./package.json
 
 echo "restore the old package.json"
-mv ./old_packages.json ./packages.json
+mv ./old_package.json ./package.json
+
+echo "delete old node_modules"
+rm -rf node_modules
+
+echo "delete dist"
+rm -rf dist
 
 echo "git add"
 git add --all
