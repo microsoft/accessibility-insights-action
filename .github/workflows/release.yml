@@ -16,23 +16,23 @@ on:
         default: ''
       
       
-  jobs:
-    release:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repo
-          uses: actions/checkout@v2
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-        - name: Setup node
-          uses: actions/setup-node@v1
-          with:
-            node-version: 12.x
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
 
-        - name: Install dependencies
-          run: yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-        - name: Build
-          run: yarn cbuild
+      - name: Build
+        run: yarn cbuild
 
-        - name: Run the release script
-          run: ./release.ps1 ${{ github.event.inputs.release-tag }} ${{ github.event.inputs.commit-sha }}
+      - name: Run the release script
+        run: ./release.ps1 ${{ github.event.inputs.release-tag }} ${{ github.event.inputs.commit-sha }}
