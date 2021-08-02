@@ -18,7 +18,7 @@ echo "Create a new branch"
 git checkout -b releases/$tag $sha
 
 echo "Save a copy of packages.json"
-cp packages.json old_packages.json
+cp ./packages.json ./old_packages.json
 
 echo "Create packages.json for external packages"
 node ./create-package-json-for-externals.js
@@ -54,10 +54,19 @@ echo "push the release tag"
 git push origin $tag
 
 echo "delete the packages.json to restore the old one"
-rm package.json
+rm ./package.json
 
 echo "restore the old package.json"
-mv old_packages.json packages.json
+mv ./old_packages.json ./packages.json
+
+echo "git add"
+git add --all
+
+echo "git commit"
+git commit -am "commit changes"
+
+echo "push changes"
+git push
 
 echo "include dist to check in"
 sed -i 's/no-dist/dist/g' .gitignore
