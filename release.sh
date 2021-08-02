@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
@@ -44,7 +46,6 @@ git commit -am "commit changes"
 
 echo "push the branch"
 git push --set-upstream origin releases/$tag
-
 
 echo "create a release tag"
 git tag $tag

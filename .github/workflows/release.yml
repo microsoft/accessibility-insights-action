@@ -35,4 +35,5 @@ jobs:
         run: yarn cbuild
 
       - name: Run the release script
-        run: pwsh -f ./release.ps1 ${{ github.event.inputs.release-tag }} ${{ github.event.inputs.commit-sha }}
+        shell: bash
+        run: ./release.sh ${{ github.event.inputs.release-tag }} ${{ github.event.inputs.commit-sha }}
