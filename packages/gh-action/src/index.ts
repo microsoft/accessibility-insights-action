@@ -3,9 +3,9 @@
 import 'reflect-metadata';
 import './module-name-mapper';
 
-import { setupIocContainer } from './ioc/setup-ioc-container';
-import { Logger } from './logger/logger';
-import { Scanner } from './scanner/scanner';
+import { setupIocContainer } from 'shared';
+import { Logger } from 'shared';
+import { Scanner } from 'shared';
 
 (async () => {
     const container = setupIocContainer();

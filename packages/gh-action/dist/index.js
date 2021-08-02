@@ -68724,111 +68724,6 @@ function toIdentifier (str) {
 
 /***/ }),
 
-/***/ "./src/axe/axe-info.ts":
-/*!*****************************!*\
-  !*** ./src/axe/axe-info.ts ***!
-  \*****************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AxeInfo = void 0;
-const Axe = __importStar(__webpack_require__(/*! axe-core */ "axe-core"));
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-let AxeInfo = class AxeInfo {
-    constructor(axe = Axe) {
-        this.axe = axe;
-    }
-    get version() {
-        return this.axe.version;
-    }
-};
-AxeInfo = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [Object])
-], AxeInfo);
-exports.AxeInfo = AxeInfo;
-
-
-/***/ }),
-
-/***/ "./src/content/mark-down-strings.ts":
-/*!******************************************!*\
-  !*** ./src/content/mark-down-strings.ts ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.disclaimerText = exports.wcag21AALink = exports.webToolLink = exports.assessmentLink = void 0;
-const markdown_formatter_1 = __webpack_require__(/*! ../mark-down/markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
-const strings_1 = __webpack_require__(/*! ./strings */ "./src/content/strings.ts");
-exports.assessmentLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/getstarted/assessment', 'Assessments');
-exports.webToolLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/overview', strings_1.webToolName);
-exports.wcag21AALink = markdown_formatter_1.link('https://www.w3.org/WAI/WCAG21/quickref/?currentsidebar=%23col_customize&levels=aaa', 'WCAG 2.1 AA');
-exports.disclaimerText = `The ${strings_1.toolName} runs a set of automated checks to help find some of the most common accessibility issues. The automated checks can detect accessibility problems such as missing or invalid properties, but most accessibility problems can only be discovered through manual testing.\n\nWe recommend automated testing, to continuously protect against some common issues, and regular ${exports.assessmentLink} using ${exports.webToolLink}, a free and open source tool that helps you assess your website or web app for ${exports.wcag21AALink} coverage.`;
-
-
-/***/ }),
-
-/***/ "./src/content/strings.ts":
-/*!********************************!*\
-  !*** ./src/content/strings.ts ***!
-  \********************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.checkRunDetailsTitle = exports.checkRunName = exports.brandLogoImg = exports.webToolName = exports.toolName = exports.productName = exports.title = exports.brand = void 0;
-exports.brand = 'Accessibility Insights';
-exports.title = `${exports.brand} Action`;
-exports.productName = exports.title;
-exports.toolName = exports.title;
-exports.webToolName = `${exports.brand} Web`;
-exports.brandLogoImg = 'https://accessibilityinsights.io/img/a11yinsights-blue.svg';
-exports.checkRunName = 'Accessibility Checks';
-exports.checkRunDetailsTitle = `Accessibility Automated Checks Results`;
-
-
-/***/ }),
-
 /***/ "./src/index.ts":
 /*!**********************!*\
   !*** ./src/index.ts ***!
@@ -68851,659 +68746,19 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 // Licensed under the MIT License.
 __webpack_require__(/*! reflect-metadata */ "../../node_modules/reflect-metadata/Reflect.js");
 __webpack_require__(/*! ./module-name-mapper */ "./src/module-name-mapper.ts");
-const setup_ioc_container_1 = __webpack_require__(/*! ./ioc/setup-ioc-container */ "./src/ioc/setup-ioc-container.ts");
-const logger_1 = __webpack_require__(/*! ./logger/logger */ "./src/logger/logger.ts");
-const scanner_1 = __webpack_require__(/*! ./scanner/scanner */ "./src/scanner/scanner.ts");
+const shared_1 = __webpack_require__(/*! shared */ "../shared/dist/index.js");
+const shared_2 = __webpack_require__(/*! shared */ "../shared/dist/index.js");
+const shared_3 = __webpack_require__(/*! shared */ "../shared/dist/index.js");
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const container = setup_ioc_container_1.setupIocContainer();
-    const logger = container.get(logger_1.Logger);
+    const container = shared_1.setupIocContainer();
+    const logger = container.get(shared_2.Logger);
     yield logger.setup();
-    const scanner = container.get(scanner_1.Scanner);
+    const scanner = container.get(shared_3.Scanner);
     yield scanner.scan();
 }))().catch((error) => {
     console.log('Exception thrown in action: ', error);
     process.exit(1);
 });
-
-
-/***/ }),
-
-/***/ "./src/ioc/ioc-types.ts":
-/*!******************************!*\
-  !*** ./src/ioc/ioc-types.ts ***!
-  \******************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.iocTypes = void 0;
-exports.iocTypes = {
-    Process: 'Process',
-    Console: 'Console',
-    ReportFactory: 'ReportFactory',
-    GetPort: 'GetPort',
-    Express: 'Express',
-    ServeStatic: 'ServeStatic',
-    Github: 'Github',
-};
-
-
-/***/ }),
-
-/***/ "./src/ioc/setup-ioc-container.ts":
-/*!****************************************!*\
-  !*** ./src/ioc/setup-ioc-container.ts ***!
-  \****************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setupIocContainer = void 0;
-const github = __importStar(__webpack_require__(/*! @actions/github */ "../../node_modules/@actions/github/lib/github.js"));
-const rest_1 = __webpack_require__(/*! @octokit/rest */ "../../node_modules/@octokit/rest/dist-node/index.js");
-const accessibility_insights_report_1 = __webpack_require__(/*! accessibility-insights-report */ "accessibility-insights-report");
-const express_1 = __importDefault(__webpack_require__(/*! express */ "../../node_modules/express/index.js"));
-const get_port_1 = __importDefault(__webpack_require__(/*! get-port */ "../../node_modules/get-port/index.js"));
-const inversify = __importStar(__webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js"));
-const serve_static_1 = __importDefault(__webpack_require__(/*! serve-static */ "../../node_modules/serve-static/index.js"));
-const console_logger_client_1 = __webpack_require__(/*! ../logger/console-logger-client */ "./src/logger/console-logger-client.ts");
-const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
-const scanner_1 = __webpack_require__(/*! ../scanner/scanner */ "./src/scanner/scanner.ts");
-const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
-const ioc_types_1 = __webpack_require__(/*! ./ioc-types */ "./src/ioc/ioc-types.ts");
-const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
-function setupIocContainer() {
-    const container = new inversify.Container({ autoBindInjectable: true });
-    accessibility_insights_scan_1.setupCliContainer(container);
-    container.bind(scanner_1.Scanner).toSelf().inSingletonScope();
-    container.bind(ioc_types_1.iocTypes.Console).toConstantValue(console);
-    container.bind(ioc_types_1.iocTypes.Process).toConstantValue(process);
-    container.bind(ioc_types_1.iocTypes.GetPort).toConstantValue(get_port_1.default);
-    container.bind(ioc_types_1.iocTypes.Express).toConstantValue(express_1.default);
-    container.bind(ioc_types_1.iocTypes.ServeStatic).toConstantValue(serve_static_1.default);
-    container.bind(ioc_types_1.iocTypes.ReportFactory).toConstantValue(accessibility_insights_report_1.reporterFactory);
-    container.bind(ioc_types_1.iocTypes.Github).toConstantValue(github);
-    container
-        .bind(rest_1.Octokit)
-        .toDynamicValue((context) => {
-        const taskConfig = context.container.get(task_config_1.TaskConfig);
-        return new rest_1.Octokit({ auth: taskConfig.getToken() });
-    })
-        .inSingletonScope();
-    container
-        .bind(logger_1.Logger)
-        .toDynamicValue((context) => {
-        const consoleLoggerClient = context.container.get(console_logger_client_1.ConsoleLoggerClient);
-        return new logger_1.Logger([consoleLoggerClient], context.container.get(ioc_types_1.iocTypes.Process));
-    })
-        .inSingletonScope();
-    return container;
-}
-exports.setupIocContainer = setupIocContainer;
-
-
-/***/ }),
-
-/***/ "./src/local-file-server.ts":
-/*!**********************************!*\
-  !*** ./src/local-file-server.ts ***!
-  \**********************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var _a, _b;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.LocalFileServer = void 0;
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
-const ioc_types_1 = __webpack_require__(/*! ./ioc/ioc-types */ "./src/ioc/ioc-types.ts");
-const logger_1 = __webpack_require__(/*! ./logger/logger */ "./src/logger/logger.ts");
-const task_config_1 = __webpack_require__(/*! ./task-config */ "./src/task-config.ts");
-let LocalFileServer = class LocalFileServer {
-    constructor(taskConfig, logger, getPortFunc, expressFunc, serveStaticFunc) {
-        this.taskConfig = taskConfig;
-        this.logger = logger;
-        this.getPortFunc = getPortFunc;
-        this.expressFunc = expressFunc;
-        this.serveStaticFunc = serveStaticFunc;
-    }
-    start() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (lodash_1.isNil(this.startServerPromise)) {
-                this.startServerPromise = this.startServer();
-            }
-            return this.startServerPromise;
-        });
-    }
-    stop() {
-        if (!lodash_1.isNil(this.startServerPromise)) {
-            this.startServerPromise = undefined;
-            this.server.close();
-        }
-    }
-    startServer() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const port = yield this.getTcpPort();
-            const root = this.taskConfig.getSiteDir();
-            const app = this.expressFunc();
-            app.use(this.serveStaticFunc(root));
-            this.server = app.listen(port);
-            const url = `http://localhost:${port}`;
-            this.logger.logInfo(`Started local web server. Url: ${url} Root directory: ${root}`);
-            return url;
-        });
-    }
-    getTcpPort() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const localhostPort = this.taskConfig.getLocalhostPort();
-            if (localhostPort) {
-                return this.getPortFunc({ port: localhostPort });
-            }
-            else {
-                return this.getPortFunc();
-            }
-        });
-    }
-};
-LocalFileServer = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(task_config_1.TaskConfig)),
-    __param(1, inversify_1.inject(logger_1.Logger)),
-    __param(2, inversify_1.inject(ioc_types_1.iocTypes.GetPort)),
-    __param(3, inversify_1.inject(ioc_types_1.iocTypes.Express)),
-    __param(4, inversify_1.inject(ioc_types_1.iocTypes.ServeStatic)),
-    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, typeof (_b = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _b : Object, Object, Object, Object])
-], LocalFileServer);
-exports.LocalFileServer = LocalFileServer;
-
-
-/***/ }),
-
-/***/ "./src/logger/console-logger-client.ts":
-/*!*********************************************!*\
-  !*** ./src/logger/console-logger-client.ts ***!
-  \*********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ConsoleLoggerClient = void 0;
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
-const util = __importStar(__webpack_require__(/*! util */ "util"));
-const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
-const logger_client_1 = __webpack_require__(/*! ./logger-client */ "./src/logger/logger-client.ts");
-let ConsoleLoggerClient = class ConsoleLoggerClient {
-    constructor(consoleObject) {
-        this.consoleObject = consoleObject;
-    }
-    // eslint-disable-next-line @typescript-eslint/require-await
-    setup(baseProperties) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.baseProperties = baseProperties;
-        });
-    }
-    log(message, logLevel, properties) {
-        this.logInConsole(`[Trace][${logger_client_1.LogLevel[logLevel]}]${this.getPrintablePropertiesString(properties)}`, message);
-    }
-    trackException(error) {
-        this.logInConsole(`[Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
-    }
-    setCustomProperties(properties) {
-        this.baseProperties = Object.assign(Object.assign({}, this.baseProperties), properties);
-    }
-    getPrintablePropertiesString(properties) {
-        const allProperties = Object.assign(Object.assign({}, this.baseProperties), properties);
-        return lodash_1.isEmpty(allProperties) ? '' : `[properties - ${this.getPrintableString(allProperties)}]`;
-    }
-    getPrintableString(obj) {
-        return util.inspect(obj, { depth: null });
-    }
-    logInConsole(tag, content) {
-        this.consoleObject.log(`${tag} === ${content}`);
-    }
-};
-ConsoleLoggerClient = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(ioc_types_1.iocTypes.Console)),
-    __metadata("design:paramtypes", [Object])
-], ConsoleLoggerClient);
-exports.ConsoleLoggerClient = ConsoleLoggerClient;
-
-
-/***/ }),
-
-/***/ "./src/logger/logger-client.ts":
-/*!*************************************!*\
-  !*** ./src/logger/logger-client.ts ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.LogLevel = void 0;
-var LogLevel;
-(function (LogLevel) {
-    LogLevel[LogLevel["info"] = 0] = "info";
-    LogLevel[LogLevel["warn"] = 1] = "warn";
-    LogLevel[LogLevel["verbose"] = 2] = "verbose";
-    LogLevel[LogLevel["error"] = 3] = "error";
-})(LogLevel = exports.LogLevel || (exports.LogLevel = {}));
-
-
-/***/ }),
-
-/***/ "./src/logger/logger.ts":
-/*!******************************!*\
-  !*** ./src/logger/logger.ts ***!
-  \******************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Logger = void 0;
-const verror_1 = __webpack_require__(/*! verror */ "../../node_modules/verror/lib/verror.js");
-const utils = __importStar(__webpack_require__(/*! util */ "util"));
-const logger_client_1 = __webpack_require__(/*! ./logger-client */ "./src/logger/logger-client.ts");
-const serialize_error_1 = __webpack_require__(/*! serialize-error */ "../../node_modules/serialize-error/index.js");
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
-class Logger {
-    constructor(loggerClients, currentProcess) {
-        this.loggerClients = loggerClients;
-        this.currentProcess = currentProcess;
-        this.initialized = false;
-        this.isDebugEnabled = false;
-    }
-    setup(baseProperties) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (this.initialized === true) {
-                return;
-            }
-            yield Promise.all(this.loggerClients.map((client) => __awaiter(this, void 0, void 0, function* () {
-                yield client.setup(baseProperties);
-            })));
-            this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
-            this.initialized = true;
-        });
-    }
-    log(message, logLevel, properties) {
-        this.ensureInitialized();
-        this.invokeLoggerClient((client) => client.log(message, logLevel, properties));
-    }
-    logInfo(message, properties) {
-        this.log(message, logger_client_1.LogLevel.info, properties);
-    }
-    logVerbose(message, properties) {
-        if (this.isDebugEnabled) {
-            this.log(message, logger_client_1.LogLevel.verbose, properties);
-        }
-    }
-    logWarn(message, properties) {
-        this.log(message, logger_client_1.LogLevel.warn, properties);
-    }
-    logError(message, properties) {
-        this.log(message, logger_client_1.LogLevel.error, properties);
-    }
-    trackException(error) {
-        this.ensureInitialized();
-        this.invokeLoggerClient((client) => client.trackException(error));
-    }
-    trackExceptionAny(underlyingErrorData, message) {
-        const parsedErrorObject = underlyingErrorData instanceof Error ? underlyingErrorData : new Error(this.serializeError(underlyingErrorData));
-        this.trackException(new verror_1.VError(parsedErrorObject, message));
-    }
-    serializeError(error) {
-        return utils.inspect(serialize_error_1.serializeError(error), false, null);
-    }
-    invokeLoggerClient(action) {
-        this.loggerClients.forEach((client) => {
-            action(client);
-        });
-    }
-    ensureInitialized() {
-        if (this.initialized === true) {
-            return;
-        }
-        throw new Error('The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.');
-    }
-}
-exports.Logger = Logger;
-
-
-/***/ }),
-
-/***/ "./src/mark-down/markdown-formatter.ts":
-/*!*********************************************!*\
-  !*** ./src/mark-down/markdown-formatter.ts ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.sectionSeparator = exports.footerSeparator = exports.productTitle = exports.bold = exports.heading = exports.listItem = exports.image = exports.link = exports.snippet = exports.escaped = void 0;
-const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
-const escaped = (markdown) => {
-    return markdown.replace(/</g, '\\<');
-};
-exports.escaped = escaped;
-const snippet = (text) => {
-    return `\`${text}\``;
-};
-exports.snippet = snippet;
-const link = (href, text) => {
-    return `[${text}](${href})`;
-};
-exports.link = link;
-const image = (altText, src) => {
-    return `![${altText}](${src})`;
-};
-exports.image = image;
-const listItem = (text) => {
-    return `* ${text}`;
-};
-exports.listItem = listItem;
-const heading = (text, headingLevel) => {
-    return `${'#'.repeat(headingLevel)} ${text}`;
-};
-exports.heading = heading;
-const bold = (text) => {
-    return `**${text}**`;
-};
-exports.bold = bold;
-const productTitle = () => {
-    return `${exports.image(`${strings_1.brand}`, strings_1.brandLogoImg)} ${strings_1.toolName}`;
-};
-exports.productTitle = productTitle;
-const footerSeparator = () => `---`;
-exports.footerSeparator = footerSeparator;
-const sectionSeparator = () => '\n';
-exports.sectionSeparator = sectionSeparator;
-
-
-/***/ }),
-
-/***/ "./src/mark-down/report-markdown-convertor.ts":
-/*!****************************************************!*\
-  !*** ./src/mark-down/report-markdown-convertor.ts ***!
-  \****************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var _a;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ReportMarkdownConvertor = void 0;
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const result_markdown_builder_1 = __webpack_require__(/*! ./result-markdown-builder */ "./src/mark-down/result-markdown-builder.ts");
-let ReportMarkdownConvertor = class ReportMarkdownConvertor {
-    constructor(checkResultMarkdownBuilder) {
-        this.checkResultMarkdownBuilder = checkResultMarkdownBuilder;
-    }
-    convert(combinedReportResult) {
-        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult);
-    }
-    getErrorMarkdown() {
-        return this.checkResultMarkdownBuilder.buildErrorContent();
-    }
-};
-ReportMarkdownConvertor = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(result_markdown_builder_1.ResultMarkdownBuilder)),
-    __metadata("design:paramtypes", [typeof (_a = typeof result_markdown_builder_1.ResultMarkdownBuilder !== "undefined" && result_markdown_builder_1.ResultMarkdownBuilder) === "function" ? _a : Object])
-], ReportMarkdownConvertor);
-exports.ReportMarkdownConvertor = ReportMarkdownConvertor;
-
-
-/***/ }),
-
-/***/ "./src/mark-down/result-markdown-builder.ts":
-/*!**************************************************!*\
-  !*** ./src/mark-down/result-markdown-builder.ts ***!
-  \**************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ResultMarkdownBuilder = void 0;
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
-const markdown_formatter_1 = __webpack_require__(/*! ./markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
-let ResultMarkdownBuilder = class ResultMarkdownBuilder {
-    constructor() {
-        this.headingWithMessage = (message) => {
-            if (message) {
-                return markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}: ${message}`, 3);
-            }
-            return markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}`, 3);
-        };
-        this.urlsListItem = (passedUrls, unscannableUrls, failedUrls) => {
-            const failedUrlsSummary = `${failedUrls} URL(s) failed, `;
-            const passedAndUnscannableUrlsSummary = `${passedUrls} URL(s) passed, and ${unscannableUrls} were not scannable`;
-            const urlsSummary = failedUrls === 0 ? passedAndUnscannableUrlsSummary : failedUrlsSummary.concat(passedAndUnscannableUrlsSummary);
-            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`URLs`)}: ${urlsSummary}`);
-        };
-        this.rulesListItem = (passedChecks, inapplicableChecks, failedChecks) => {
-            const failedRulesSummary = `${failedChecks} check(s) failed, `;
-            const passedAndInapplicableRulesSummary = `${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`;
-            const rulesSummary = failedChecks === 0 ? passedAndInapplicableRulesSummary : failedRulesSummary.concat(passedAndInapplicableRulesSummary);
-            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`Rules`)}: ${rulesSummary}`);
-        };
-        this.failureDetails = (combinedReportResult) => {
-            if (combinedReportResult.results.resultsByRule.failed.length === 0) {
-                return '';
-            }
-            const failedRulesList = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
-                const failureCount = failuresGroup.failed.length;
-                const ruleId = failuresGroup.failed[0].rule.ruleId;
-                const ruleDescription = failuresGroup.failed[0].rule.description;
-                return [this.failedRuleListItem(failureCount, ruleId, ruleDescription), markdown_formatter_1.sectionSeparator()].join('');
-            });
-            const lines = [markdown_formatter_1.sectionSeparator(), `${markdown_formatter_1.heading('Failed instances', 4)}`, markdown_formatter_1.sectionSeparator(), ...failedRulesList];
-            return lines.join('');
-        };
-        this.failedRuleListItem = (failureCount, ruleId, description) => {
-            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${failureCount} × ${markdown_formatter_1.escaped(ruleId)}`)}:  ${markdown_formatter_1.escaped(description)}`);
-        };
-    }
-    buildErrorContent() {
-        const lines = [
-            this.headingWithMessage('Something went wrong'),
-            markdown_formatter_1.sectionSeparator(),
-            `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
-            markdown_formatter_1.sectionSeparator(),
-        ];
-        return this.scanResultDetails(lines.join(''));
-    }
-    buildContent(combinedReportResult) {
-        const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
-        const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
-        const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
-        const lines = [
-            failedChecks === 0 ? this.headingWithMessage('All applicable checks passed') : this.headingWithMessage(),
-            markdown_formatter_1.sectionSeparator(),
-            this.urlsListItem(combinedReportResult.results.urlResults.passedUrls, combinedReportResult.results.urlResults.unscannableUrls, combinedReportResult.results.urlResults.failedUrls),
-            markdown_formatter_1.sectionSeparator(),
-            this.rulesListItem(passedChecks, inapplicableChecks, failedChecks),
-            markdown_formatter_1.sectionSeparator(),
-            this.downloadArtifacts(),
-            this.failureDetails(combinedReportResult),
-        ];
-        return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));
-    }
-    scanResultDetails(scanResult, footer) {
-        const lines = [scanResult, markdown_formatter_1.sectionSeparator(), markdown_formatter_1.footerSeparator(), markdown_formatter_1.sectionSeparator(), footer];
-        return lines.join('');
-    }
-    scanResultFooter(combinedReportResult) {
-        const axeVersion = combinedReportResult.axeVersion;
-        const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
-        const axeLink = markdown_formatter_1.link(axeCoreUrl, `axe-core ${axeVersion}`);
-        return `This scan used ${axeLink} with ${combinedReportResult.userAgent}.`;
-    }
-    downloadArtifacts() {
-        const artifactName = `${strings_1.brand} artifact`;
-        return markdown_formatter_1.listItem(`Download the ${markdown_formatter_1.bold(artifactName)} to view the detailed results of these checks`);
-    }
-};
-ResultMarkdownBuilder = __decorate([
-    inversify_1.injectable()
-], ResultMarkdownBuilder);
-exports.ResultMarkdownBuilder = ResultMarkdownBuilder;
 
 
 /***/ }),
@@ -69535,972 +68790,6 @@ moduleRef._resolveFilename = new Proxy(moduleRef._resolveFilename, {
         return path;
     },
 });
-
-
-/***/ }),
-
-/***/ "./src/progress-reporter/all-progress-reporter.ts":
-/*!********************************************************!*\
-  !*** ./src/progress-reporter/all-progress-reporter.ts ***!
-  \********************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var _a, _b;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AllProgressReporter = void 0;
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const check_run_creator_1 = __webpack_require__(/*! ./check-run/check-run-creator */ "./src/progress-reporter/check-run/check-run-creator.ts");
-const progress_reporter_1 = __webpack_require__(/*! ./progress-reporter */ "./src/progress-reporter/progress-reporter.ts");
-const pull_request_comment_creator_1 = __webpack_require__(/*! ./pull-request/pull-request-comment-creator */ "./src/progress-reporter/pull-request/pull-request-comment-creator.ts");
-let AllProgressReporter = class AllProgressReporter extends progress_reporter_1.ProgressReporter {
-    constructor(pullRequestCommentCreator, checkRunCreator) {
-        super();
-        this.progressReporters = [checkRunCreator, pullRequestCommentCreator];
-    }
-    start() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.execute((r) => r.start());
-        });
-    }
-    completeRun(combinedReportResult) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.execute((r) => r.completeRun(combinedReportResult));
-        });
-    }
-    failRun(message) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.execute((r) => r.failRun(message));
-        });
-    }
-    execute(callback) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const length = this.progressReporters.length;
-            for (let pos = 0; pos < length; pos += 1) {
-                yield callback(this.progressReporters[pos]);
-            }
-        });
-    }
-};
-AllProgressReporter = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(pull_request_comment_creator_1.PullRequestCommentCreator)),
-    __param(1, inversify_1.inject(check_run_creator_1.CheckRunCreator)),
-    __metadata("design:paramtypes", [typeof (_a = typeof pull_request_comment_creator_1.PullRequestCommentCreator !== "undefined" && pull_request_comment_creator_1.PullRequestCommentCreator) === "function" ? _a : Object, typeof (_b = typeof check_run_creator_1.CheckRunCreator !== "undefined" && check_run_creator_1.CheckRunCreator) === "function" ? _b : Object])
-], AllProgressReporter);
-exports.AllProgressReporter = AllProgressReporter;
-
-
-/***/ }),
-
-/***/ "./src/progress-reporter/check-run/check-run-creator.ts":
-/*!**************************************************************!*\
-  !*** ./src/progress-reporter/check-run/check-run-creator.ts ***!
-  \**************************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var _a, _b, _c;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CheckRunCreator = void 0;
-const rest_1 = __webpack_require__(/*! @octokit/rest */ "../../node_modules/@octokit/rest/dist-node/index.js");
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
-const mark_down_strings_1 = __webpack_require__(/*! ../../content/mark-down-strings */ "./src/content/mark-down-strings.ts");
-const strings_1 = __webpack_require__(/*! ../../content/strings */ "./src/content/strings.ts");
-const ioc_types_1 = __webpack_require__(/*! ../../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
-const logger_1 = __webpack_require__(/*! ../../logger/logger */ "./src/logger/logger.ts");
-const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "./src/mark-down/report-markdown-convertor.ts");
-const progress_reporter_1 = __webpack_require__(/*! ../progress-reporter */ "./src/progress-reporter/progress-reporter.ts");
-let CheckRunCreator = class CheckRunCreator extends progress_reporter_1.ProgressReporter {
-    constructor(reportMarkdownConvertor, octokit, githubObj, logger) {
-        super();
-        this.reportMarkdownConvertor = reportMarkdownConvertor;
-        this.octokit = octokit;
-        this.githubObj = githubObj;
-        this.logger = logger;
-    }
-    start() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.logMessage('Creating check run with status as in progress');
-            const response = yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
-                return yield this.octokit.checks.create({
-                    owner: this.githubObj.context.repo.owner,
-                    repo: this.githubObj.context.repo.repo,
-                    name: strings_1.checkRunName,
-                    status: 'in_progress',
-                    head_sha: lodash_1.isNil(this.githubObj.context.payload.pull_request)
-                        ? this.githubObj.context.sha
-                        : this.githubObj.context.payload.pull_request.head.sha,
-                });
-            }));
-            this.a11yCheck = response === null || response === void 0 ? void 0 : response.data;
-        });
-    }
-    completeRun(combinedReportResult) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.logMessage('Updating check run with status as completed');
-            const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
-            this.traceMarkdown(reportMarkdown);
-            yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
-                return yield this.octokit.checks.update({
-                    owner: this.githubObj.context.repo.owner,
-                    repo: this.githubObj.context.repo.repo,
-                    check_run_id: this.a11yCheck.id,
-                    name: strings_1.checkRunName,
-                    status: 'completed',
-                    conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
-                    output: this.getScanOutput(reportMarkdown),
-                });
-            }));
-        });
-    }
-    failRun() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.logMessage('Updating check run with status as failed');
-            const reportMarkdown = this.reportMarkdownConvertor.getErrorMarkdown();
-            this.traceMarkdown(reportMarkdown);
-            yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
-                return yield this.octokit.checks.update({
-                    owner: this.githubObj.context.repo.owner,
-                    repo: this.githubObj.context.repo.repo,
-                    check_run_id: this.a11yCheck.id,
-                    name: strings_1.checkRunName,
-                    status: 'completed',
-                    conclusion: 'failure',
-                    output: {
-                        title: strings_1.checkRunDetailsTitle,
-                        summary: mark_down_strings_1.disclaimerText,
-                        annotations: [],
-                        text: reportMarkdown,
-                    },
-                });
-            }));
-        });
-    }
-    logMessage(message) {
-        this.logger.logInfo(`${message}`);
-    }
-    getScanOutput(text) {
-        return {
-            title: strings_1.checkRunDetailsTitle,
-            summary: mark_down_strings_1.disclaimerText,
-            text,
-        };
-    }
-};
-CheckRunCreator = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(report_markdown_convertor_1.ReportMarkdownConvertor)),
-    __param(1, inversify_1.inject(rest_1.Octokit)),
-    __param(2, inversify_1.inject(ioc_types_1.iocTypes.Github)),
-    __param(3, inversify_1.inject(logger_1.Logger)),
-    __metadata("design:paramtypes", [typeof (_a = typeof report_markdown_convertor_1.ReportMarkdownConvertor !== "undefined" && report_markdown_convertor_1.ReportMarkdownConvertor) === "function" ? _a : Object, typeof (_b = typeof rest_1.Octokit !== "undefined" && rest_1.Octokit) === "function" ? _b : Object, Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object])
-], CheckRunCreator);
-exports.CheckRunCreator = CheckRunCreator;
-
-
-/***/ }),
-
-/***/ "./src/progress-reporter/progress-reporter.ts":
-/*!****************************************************!*\
-  !*** ./src/progress-reporter/progress-reporter.ts ***!
-  \****************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ProgressReporter = void 0;
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const marked_1 = __importDefault(__webpack_require__(/*! marked */ "../../node_modules/marked/src/marked.js"));
-const marked_terminal_1 = __importDefault(__webpack_require__(/*! marked-terminal */ "../../node_modules/marked-terminal/index.js"));
-let ProgressReporter = class ProgressReporter {
-    constructor() {
-        if (process.env.ACT === 'true') {
-            marked_1.default.setOptions({
-                renderer: new marked_terminal_1.default(),
-            });
-        }
-    }
-    invoke(fn) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return process.env.ACT !== 'true' ? fn() : Promise.resolve(undefined);
-        });
-    }
-    traceMarkdown(markdown) {
-        if (process.env.ACT === 'true') {
-            console.log('[ProgressReporter] ===');
-            console.log(marked_1.default(markdown));
-        }
-    }
-};
-ProgressReporter = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
-], ProgressReporter);
-exports.ProgressReporter = ProgressReporter;
-
-
-/***/ }),
-
-/***/ "./src/progress-reporter/pull-request/pull-request-comment-creator.ts":
-/*!****************************************************************************!*\
-  !*** ./src/progress-reporter/pull-request/pull-request-comment-creator.ts ***!
-  \****************************************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var _a, _b, _c;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PullRequestCommentCreator = void 0;
-const rest_1 = __webpack_require__(/*! @octokit/rest */ "../../node_modules/@octokit/rest/dist-node/index.js");
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
-const ioc_types_1 = __webpack_require__(/*! ../../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
-const logger_1 = __webpack_require__(/*! ../../logger/logger */ "./src/logger/logger.ts");
-const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "./src/mark-down/report-markdown-convertor.ts");
-const markdown_formatter_1 = __webpack_require__(/*! ../../mark-down/markdown-formatter */ "./src/mark-down/markdown-formatter.ts");
-const progress_reporter_1 = __webpack_require__(/*! ../progress-reporter */ "./src/progress-reporter/progress-reporter.ts");
-let PullRequestCommentCreator = class PullRequestCommentCreator extends progress_reporter_1.ProgressReporter {
-    constructor(reportMarkdownConvertor, octokit, githubObj, logger) {
-        super();
-        this.reportMarkdownConvertor = reportMarkdownConvertor;
-        this.octokit = octokit;
-        this.githubObj = githubObj;
-        this.logger = logger;
-    }
-    start() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // We don't do anything for pull request flow
-        });
-    }
-    completeRun(combinedReportResult) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.isSupported()) {
-                return;
-            }
-            const pullRequest = this.githubObj.context.payload.pull_request;
-            const existingComment = yield this.findComment(pullRequest.number);
-            const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
-            this.traceMarkdown(reportMarkdown);
-            if (lodash_1.isNil(existingComment)) {
-                this.logMessage('Creating new comment');
-                yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
-                    return yield this.octokit.issues.createComment({
-                        owner: this.githubObj.context.repo.owner,
-                        repo: this.githubObj.context.repo.repo,
-                        body: reportMarkdown,
-                        issue_number: pullRequest.number,
-                    });
-                }));
-            }
-            else {
-                this.logMessage('Updating existing comment');
-                yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
-                    return yield this.octokit.issues.updateComment({
-                        owner: this.githubObj.context.repo.owner,
-                        repo: this.githubObj.context.repo.repo,
-                        body: reportMarkdown,
-                        comment_id: existingComment.id,
-                    });
-                }));
-            }
-        });
-    }
-    // eslint-disable-next-line @typescript-eslint/require-await
-    failRun(message) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.isSupported()) {
-                return;
-            }
-            throw message;
-        });
-    }
-    isSupported() {
-        return this.githubObj.context.eventName === 'pull_request';
-    }
-    findComment(pullRequestNumber) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const commentsResponse = yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
-                return yield this.octokit.issues.listComments({
-                    issue_number: pullRequestNumber,
-                    owner: this.githubObj.context.repo.owner,
-                    repo: this.githubObj.context.repo.repo,
-                });
-            }));
-            const comments = commentsResponse.data;
-            return comments.find((c) => !lodash_1.isEmpty(c.body) && !lodash_1.isEmpty(c.user) && c.user.login === 'github-actions[bot]' && c.body.includes(markdown_formatter_1.productTitle()));
-        });
-    }
-    logMessage(message) {
-        this.logger.logInfo(`${message}`);
-    }
-};
-PullRequestCommentCreator = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(report_markdown_convertor_1.ReportMarkdownConvertor)),
-    __param(1, inversify_1.inject(rest_1.Octokit)),
-    __param(2, inversify_1.inject(ioc_types_1.iocTypes.Github)),
-    __param(3, inversify_1.inject(logger_1.Logger)),
-    __metadata("design:paramtypes", [typeof (_a = typeof report_markdown_convertor_1.ReportMarkdownConvertor !== "undefined" && report_markdown_convertor_1.ReportMarkdownConvertor) === "function" ? _a : Object, typeof (_b = typeof rest_1.Octokit !== "undefined" && rest_1.Octokit) === "function" ? _b : Object, Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object])
-], PullRequestCommentCreator);
-exports.PullRequestCommentCreator = PullRequestCommentCreator;
-
-
-/***/ }),
-
-/***/ "./src/report/consolidated-report-generator.ts":
-/*!*****************************************************!*\
-  !*** ./src/report/consolidated-report-generator.ts ***!
-  \*****************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var _a, _b, _c;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ConsolidatedReportGenerator = void 0;
-const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
-const accessibility_insights_report_1 = __webpack_require__(/*! accessibility-insights-report */ "accessibility-insights-report");
-const fs = __importStar(__webpack_require__(/*! fs */ "fs"));
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
-const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
-let ConsolidatedReportGenerator = class ConsolidatedReportGenerator {
-    constructor(taskConfig, reporterFactoryFunc, logger, fileSystemObj = fs) {
-        this.taskConfig = taskConfig;
-        this.reporterFactoryFunc = reporterFactoryFunc;
-        this.logger = logger;
-        this.fileSystemObj = fileSystemObj;
-    }
-    generateReport(combinedReportData) {
-        const reporter = this.reporterFactoryFunc();
-        const htmlReportContent = reporter.fromCombinedResults(combinedReportData).asHTML();
-        const outDirectory = this.taskConfig.getReportOutDir();
-        const reportFileName = `${outDirectory}/index.html`;
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        if (!this.fileSystemObj.existsSync(outDirectory)) {
-            this.logger.logInfo(`Report output directory does not exists. Creating directory ${outDirectory}`);
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
-            this.fileSystemObj.mkdirSync(outDirectory);
-        }
-        this.saveHtmlReport(reportFileName, htmlReportContent);
-        return reportFileName;
-    }
-    saveHtmlReport(fileName, content) {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        this.fileSystemObj.writeFileSync(fileName, content);
-        this.logger.logInfo(`Scan report saved successfully as ${fileName}`);
-    }
-};
-ConsolidatedReportGenerator = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(task_config_1.TaskConfig)),
-    __param(1, inversify_1.inject(ioc_types_1.iocTypes.ReportFactory)),
-    __param(2, inversify_1.inject(logger_1.Logger)),
-    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, typeof (_b = typeof accessibility_insights_report_1.ReporterFactory !== "undefined" && accessibility_insights_report_1.ReporterFactory) === "function" ? _b : Object, typeof (_c = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _c : Object, Object])
-], ConsolidatedReportGenerator);
-exports.ConsolidatedReportGenerator = ConsolidatedReportGenerator;
-
-
-/***/ }),
-
-/***/ "./src/scanner/crawl-argument-handler.ts":
-/*!***********************************************!*\
-  !*** ./src/scanner/crawl-argument-handler.ts ***!
-  \***********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var _a, _b;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CrawlArgumentHandler = void 0;
-const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const path_1 = __webpack_require__(/*! path */ "path");
-const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
-const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
-const scan_url_resolver_1 = __webpack_require__(/*! ./scan-url-resolver */ "./src/scanner/scan-url-resolver.ts");
-let CrawlArgumentHandler = class CrawlArgumentHandler {
-    constructor(taskConfig, scanUrlResolver, resolvePath = path_1.resolve, validateScanArgumentsExt = accessibility_insights_scan_1.validateScanArguments) {
-        this.taskConfig = taskConfig;
-        this.scanUrlResolver = scanUrlResolver;
-        this.resolvePath = resolvePath;
-        this.validateScanArgumentsExt = validateScanArgumentsExt;
-    }
-    processScanArguments(localServerUrl) {
-        let scanArguments = this.getInitialScanArguments();
-        if (lodash_1.isEmpty(scanArguments.url)) {
-            scanArguments = Object.assign(Object.assign({}, scanArguments), this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl));
-        }
-        this.validateScanArgumentsExt(scanArguments);
-        return scanArguments;
-    }
-    getInitialScanArguments() {
-        const inputFile = this.taskConfig.getInputFile() || undefined;
-        const inputUrlsArg = this.taskConfig.getInputUrls() || undefined;
-        const discoveryPatternsArg = this.taskConfig.getDiscoveryPatterns() || undefined;
-        const args = {
-            inputFile,
-            output: this.taskConfig.getReportOutDir(),
-            maxUrls: this.taskConfig.getMaxUrls(),
-            chromePath: this.taskConfig.getChromePath(),
-            // axeSourcePath is relative to /dist/index.js, not this source file
-            axeSourcePath: this.resolvePath(__dirname, 'node_modules', 'axe-core', 'axe.js'),
-            crawl: true,
-            restart: true,
-            discoveryPatterns: discoveryPatternsArg === null || discoveryPatternsArg === void 0 ? void 0 : discoveryPatternsArg.split(/\s+/),
-            inputUrls: inputUrlsArg === null || inputUrlsArg === void 0 ? void 0 : inputUrlsArg.split(/\s+/),
-            url: this.taskConfig.getUrl(),
-        };
-        return args;
-    }
-};
-CrawlArgumentHandler = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(task_config_1.TaskConfig)),
-    __param(1, inversify_1.inject(scan_url_resolver_1.ScanUrlResolver)),
-    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, typeof (_b = typeof scan_url_resolver_1.ScanUrlResolver !== "undefined" && scan_url_resolver_1.ScanUrlResolver) === "function" ? _b : Object, Object, Object])
-], CrawlArgumentHandler);
-exports.CrawlArgumentHandler = CrawlArgumentHandler;
-
-
-/***/ }),
-
-/***/ "./src/scanner/scan-url-resolver.ts":
-/*!******************************************!*\
-  !*** ./src/scanner/scan-url-resolver.ts ***!
-  \******************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var _a;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ScanUrlResolver = void 0;
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
-const url_1 = __webpack_require__(/*! url */ "url");
-let ScanUrlResolver = class ScanUrlResolver {
-    constructor(taskConfig, resolveUrl = url_1.resolve) {
-        this.taskConfig = taskConfig;
-        this.resolveUrl = resolveUrl;
-    }
-    resolveLocallyHostedUrls(baseUrl) {
-        return {
-            url: this.resolveUrl(baseUrl, this.taskConfig.getScanUrlRelativePath()),
-        };
-    }
-};
-ScanUrlResolver = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(task_config_1.TaskConfig)),
-    __metadata("design:paramtypes", [typeof (_a = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _a : Object, Object])
-], ScanUrlResolver);
-exports.ScanUrlResolver = ScanUrlResolver;
-
-
-/***/ }),
-
-/***/ "./src/scanner/scanner.ts":
-/*!********************************!*\
-  !*** ./src/scanner/scanner.ts ***!
-  \********************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Scanner = void 0;
-const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const util = __importStar(__webpack_require__(/*! util */ "util"));
-const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "./src/ioc/ioc-types.ts");
-const local_file_server_1 = __webpack_require__(/*! ../local-file-server */ "./src/local-file-server.ts");
-const logger_1 = __webpack_require__(/*! ../logger/logger */ "./src/logger/logger.ts");
-const all_progress_reporter_1 = __webpack_require__(/*! ../progress-reporter/all-progress-reporter */ "./src/progress-reporter/all-progress-reporter.ts");
-const promise_utils_1 = __webpack_require__(/*! ../utils/promise-utils */ "./src/utils/promise-utils.ts");
-const strings_1 = __webpack_require__(/*! ../content/strings */ "./src/content/strings.ts");
-const axe_info_1 = __webpack_require__(/*! ../axe/axe-info */ "./src/axe/axe-info.ts");
-const consolidated_report_generator_1 = __webpack_require__(/*! ../report/consolidated-report-generator */ "./src/report/consolidated-report-generator.ts");
-const crawl_argument_handler_1 = __webpack_require__(/*! ./crawl-argument-handler */ "./src/scanner/crawl-argument-handler.ts");
-const task_config_1 = __webpack_require__(/*! ../task-config */ "./src/task-config.ts");
-const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
-let Scanner = class Scanner {
-    constructor(crawler, reportGenerator, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger, crawlArgumentHandler, taskConfig, crawlerParametersBuilder) {
-        this.crawler = crawler;
-        this.reportGenerator = reportGenerator;
-        this.allProgressReporter = allProgressReporter;
-        this.fileServer = fileServer;
-        this.promiseUtils = promiseUtils;
-        this.axeInfo = axeInfo;
-        this.combinedReportDataConverter = combinedReportDataConverter;
-        this.currentProcess = currentProcess;
-        this.logger = logger;
-        this.crawlArgumentHandler = crawlArgumentHandler;
-        this.taskConfig = taskConfig;
-        this.crawlerParametersBuilder = crawlerParametersBuilder;
-    }
-    scan() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const scanTimeoutMsec = this.taskConfig.getScanTimeout();
-            // eslint-disable-next-line @typescript-eslint/require-await
-            yield this.promiseUtils.waitFor(this.invokeScan(), scanTimeoutMsec, () => __awaiter(this, void 0, void 0, function* () {
-                this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
-                this.currentProcess.exit(1);
-            }));
-        });
-    }
-    invokeScan() {
-        var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            let scanArguments;
-            let localServerUrl;
-            try {
-                yield this.allProgressReporter.start();
-                if (lodash_1.isEmpty(this.taskConfig.getUrl())) {
-                    localServerUrl = yield this.fileServer.start();
-                }
-                scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
-                this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
-                this.logger.logInfo(`Chrome app executable: ${(_a = scanArguments.chromePath) !== null && _a !== void 0 ? _a : 'system default'}`);
-                const crawlerParameters = this.crawlerParametersBuilder.build(scanArguments);
-                const scanStarted = new Date();
-                const combinedScanResult = yield this.crawler.crawl(crawlerParameters);
-                const scanEnded = new Date();
-                const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
-                this.reportGenerator.generateReport(combinedReportResult);
-                yield this.allProgressReporter.completeRun(combinedReportResult);
-            }
-            catch (error) {
-                this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments === null || scanArguments === void 0 ? void 0 : scanArguments.url}`);
-                yield this.allProgressReporter.failRun(util.inspect(error));
-            }
-            finally {
-                this.fileServer.stop();
-                this.logger.logInfo(`Accessibility scanning of URL ${scanArguments === null || scanArguments === void 0 ? void 0 : scanArguments.url} completed`);
-            }
-        });
-    }
-    getCombinedReportResult(combinedScanResult, scanStarted, scanEnded) {
-        var _a;
-        const scanResultData = {
-            baseUrl: (_a = combinedScanResult.scanMetadata.baseUrl) !== null && _a !== void 0 ? _a : 'n/a',
-            basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
-            scanEngineName: strings_1.toolName,
-            axeCoreVersion: this.axeInfo.version,
-            browserUserAgent: combinedScanResult.scanMetadata.userAgent,
-            urlCount: combinedScanResult.urlCount,
-            scanStarted,
-            scanEnded,
-            browserResolution: '1920x1080', // resoluton is fixed by crawler implementation
-        };
-        return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
-    }
-};
-Scanner = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(accessibility_insights_scan_1.AICrawler)),
-    __param(1, inversify_1.inject(consolidated_report_generator_1.ConsolidatedReportGenerator)),
-    __param(2, inversify_1.inject(all_progress_reporter_1.AllProgressReporter)),
-    __param(3, inversify_1.inject(local_file_server_1.LocalFileServer)),
-    __param(4, inversify_1.inject(promise_utils_1.PromiseUtils)),
-    __param(5, inversify_1.inject(axe_info_1.AxeInfo)),
-    __param(6, inversify_1.inject(accessibility_insights_scan_1.AICombinedReportDataConverter)),
-    __param(7, inversify_1.inject(ioc_types_1.iocTypes.Process)),
-    __param(8, inversify_1.inject(logger_1.Logger)),
-    __param(9, inversify_1.inject(crawl_argument_handler_1.CrawlArgumentHandler)),
-    __param(10, inversify_1.inject(task_config_1.TaskConfig)),
-    __param(11, inversify_1.inject(accessibility_insights_scan_1.CrawlerParametersBuilder)),
-    __metadata("design:paramtypes", [typeof (_a = typeof accessibility_insights_scan_1.AICrawler !== "undefined" && accessibility_insights_scan_1.AICrawler) === "function" ? _a : Object, typeof (_b = typeof consolidated_report_generator_1.ConsolidatedReportGenerator !== "undefined" && consolidated_report_generator_1.ConsolidatedReportGenerator) === "function" ? _b : Object, typeof (_c = typeof all_progress_reporter_1.AllProgressReporter !== "undefined" && all_progress_reporter_1.AllProgressReporter) === "function" ? _c : Object, typeof (_d = typeof local_file_server_1.LocalFileServer !== "undefined" && local_file_server_1.LocalFileServer) === "function" ? _d : Object, typeof (_e = typeof promise_utils_1.PromiseUtils !== "undefined" && promise_utils_1.PromiseUtils) === "function" ? _e : Object, typeof (_f = typeof axe_info_1.AxeInfo !== "undefined" && axe_info_1.AxeInfo) === "function" ? _f : Object, typeof (_g = typeof accessibility_insights_scan_1.AICombinedReportDataConverter !== "undefined" && accessibility_insights_scan_1.AICombinedReportDataConverter) === "function" ? _g : Object, Object, typeof (_h = typeof logger_1.Logger !== "undefined" && logger_1.Logger) === "function" ? _h : Object, typeof (_j = typeof crawl_argument_handler_1.CrawlArgumentHandler !== "undefined" && crawl_argument_handler_1.CrawlArgumentHandler) === "function" ? _j : Object, typeof (_k = typeof task_config_1.TaskConfig !== "undefined" && task_config_1.TaskConfig) === "function" ? _k : Object, typeof (_l = typeof accessibility_insights_scan_1.CrawlerParametersBuilder !== "undefined" && accessibility_insights_scan_1.CrawlerParametersBuilder) === "function" ? _l : Object])
-], Scanner);
-exports.Scanner = Scanner;
-
-
-/***/ }),
-
-/***/ "./src/task-config.ts":
-/*!****************************!*\
-  !*** ./src/task-config.ts ***!
-  \****************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.TaskConfig = void 0;
-const actionCore = __importStar(__webpack_require__(/*! @actions/core */ "../../node_modules/@actions/core/lib/core.js"));
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
-const ioc_types_1 = __webpack_require__(/*! ./ioc/ioc-types */ "./src/ioc/ioc-types.ts");
-const normalize_path_1 = __importDefault(__webpack_require__(/*! normalize-path */ "../../node_modules/normalize-path/index.js"));
-const path_1 = __webpack_require__(/*! path */ "path");
-let TaskConfig = class TaskConfig {
-    constructor(processObj, actionCoreObj = actionCore, resolvePath = path_1.resolve) {
-        this.processObj = processObj;
-        this.actionCoreObj = actionCoreObj;
-        this.resolvePath = resolvePath;
-    }
-    getReportOutDir() {
-        return this.getAbsolutePath(this.actionCoreObj.getInput('output-dir'));
-    }
-    getSiteDir() {
-        return this.actionCoreObj.getInput('site-dir');
-    }
-    getScanUrlRelativePath() {
-        return this.actionCoreObj.getInput('scan-url-relative-path');
-    }
-    getToken() {
-        return this.actionCoreObj.getInput('repo-token');
-    }
-    getChromePath() {
-        let chromePath;
-        chromePath = this.getAbsolutePath(this.actionCoreObj.getInput('chrome-path'));
-        if (lodash_1.isEmpty(chromePath)) {
-            chromePath = this.processObj.env.CHROME_BIN;
-        }
-        return chromePath;
-    }
-    getUrl() {
-        return this.actionCoreObj.getInput('url');
-    }
-    getMaxUrls() {
-        return parseInt(this.actionCoreObj.getInput('max-urls'));
-    }
-    getDiscoveryPatterns() {
-        const value = this.actionCoreObj.getInput('discovery-patterns');
-        return lodash_1.isEmpty(value) ? undefined : value;
-    }
-    getInputFile() {
-        return this.getAbsolutePath(this.actionCoreObj.getInput('input-file'));
-    }
-    getInputUrls() {
-        const value = this.actionCoreObj.getInput('input-urls');
-        return lodash_1.isEmpty(value) ? undefined : value;
-    }
-    getScanTimeout() {
-        return parseInt(this.actionCoreObj.getInput('scan-timeout'));
-    }
-    getRunId() {
-        return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
-    }
-    getLocalhostPort() {
-        const value = this.actionCoreObj.getInput('localhost-port');
-        return lodash_1.isEmpty(value) ? undefined : parseInt(value, 10);
-    }
-    getAbsolutePath(path) {
-        var _a;
-        if (lodash_1.isEmpty(path)) {
-            return undefined;
-        }
-        const dirname = (_a = this.processObj.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : __dirname;
-        return normalize_path_1.default(this.resolvePath(dirname, normalize_path_1.default(path)));
-    }
-};
-TaskConfig = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(ioc_types_1.iocTypes.Process)),
-    __metadata("design:paramtypes", [Object, Object, Object])
-], TaskConfig);
-exports.TaskConfig = TaskConfig;
-
-
-/***/ }),
-
-/***/ "./src/utils/promise-utils.ts":
-/*!************************************!*\
-  !*** ./src/utils/promise-utils.ts ***!
-  \************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PromiseUtils = void 0;
-const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
-let PromiseUtils = class PromiseUtils {
-    waitFor(promise, timeoutMsec, onTimeoutCallback) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let timeoutHandle;
-            let hasTimedOut = false;
-            const timeoutPromise = new Promise((resolve) => {
-                timeoutHandle = setTimeout(() => {
-                    hasTimedOut = true;
-                    resolve();
-                }, timeoutMsec);
-            });
-            const racePromise = Promise.race([promise, timeoutPromise]);
-            try {
-                yield racePromise;
-            }
-            finally {
-                clearTimeout(timeoutHandle);
-            }
-            if (hasTimedOut) {
-                return onTimeoutCallback();
-            }
-            return promise;
-        });
-    }
-};
-PromiseUtils = __decorate([
-    inversify_1.injectable()
-], PromiseUtils);
-exports.PromiseUtils = PromiseUtils;
 
 
 /***/ }),
@@ -71871,6 +70160,1743 @@ function wrappy (fn, cb) {
   }
 }
 
+
+/***/ }),
+
+/***/ "../shared/dist/axe/axe-info.js":
+/*!**************************************!*\
+  !*** ../shared/dist/axe/axe-info.js ***!
+  \**************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AxeInfo = void 0;
+const Axe = __importStar(__webpack_require__(/*! axe-core */ "axe-core"));
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+let AxeInfo = class AxeInfo {
+    constructor(axe = Axe) {
+        this.axe = axe;
+    }
+    get version() {
+        return this.axe.version;
+    }
+};
+AxeInfo = __decorate([
+    inversify_1.injectable(),
+    __metadata("design:paramtypes", [Object])
+], AxeInfo);
+exports.AxeInfo = AxeInfo;
+//# sourceMappingURL=axe-info.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/content/mark-down-strings.js":
+/*!***************************************************!*\
+  !*** ../shared/dist/content/mark-down-strings.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.disclaimerText = exports.wcag21AALink = exports.webToolLink = exports.assessmentLink = void 0;
+const markdown_formatter_1 = __webpack_require__(/*! ../mark-down/markdown-formatter */ "../shared/dist/mark-down/markdown-formatter.js");
+const strings_1 = __webpack_require__(/*! ./strings */ "../shared/dist/content/strings.js");
+exports.assessmentLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/getstarted/assessment', 'Assessments');
+exports.webToolLink = markdown_formatter_1.link('https://accessibilityinsights.io/docs/en/web/overview', strings_1.webToolName);
+exports.wcag21AALink = markdown_formatter_1.link('https://www.w3.org/WAI/WCAG21/quickref/?currentsidebar=%23col_customize&levels=aaa', 'WCAG 2.1 AA');
+exports.disclaimerText = `The ${strings_1.toolName} runs a set of automated checks to help find some of the most common accessibility issues. The automated checks can detect accessibility problems such as missing or invalid properties, but most accessibility problems can only be discovered through manual testing.\n\nWe recommend automated testing, to continuously protect against some common issues, and regular ${exports.assessmentLink} using ${exports.webToolLink}, a free and open source tool that helps you assess your website or web app for ${exports.wcag21AALink} coverage.`;
+//# sourceMappingURL=mark-down-strings.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/content/strings.js":
+/*!*****************************************!*\
+  !*** ../shared/dist/content/strings.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.checkRunDetailsTitle = exports.checkRunName = exports.brandLogoImg = exports.webToolName = exports.toolName = exports.productName = exports.title = exports.brand = void 0;
+exports.brand = 'Accessibility Insights';
+exports.title = `${exports.brand} Action`;
+exports.productName = exports.title;
+exports.toolName = exports.title;
+exports.webToolName = `${exports.brand} Web`;
+exports.brandLogoImg = 'https://accessibilityinsights.io/img/a11yinsights-blue.svg';
+exports.checkRunName = 'Accessibility Checks';
+exports.checkRunDetailsTitle = `Accessibility Automated Checks Results`;
+//# sourceMappingURL=strings.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/index.js":
+/*!*******************************!*\
+  !*** ../shared/dist/index.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Scanner = exports.Logger = exports.setupIocContainer = void 0;
+var setup_ioc_container_1 = __webpack_require__(/*! ./ioc/setup-ioc-container */ "../shared/dist/ioc/setup-ioc-container.js");
+Object.defineProperty(exports, "setupIocContainer", ({ enumerable: true, get: function () { return setup_ioc_container_1.setupIocContainer; } }));
+var logger_1 = __webpack_require__(/*! ./logger/logger */ "../shared/dist/logger/logger.js");
+Object.defineProperty(exports, "Logger", ({ enumerable: true, get: function () { return logger_1.Logger; } }));
+var scanner_1 = __webpack_require__(/*! ./scanner/scanner */ "../shared/dist/scanner/scanner.js");
+Object.defineProperty(exports, "Scanner", ({ enumerable: true, get: function () { return scanner_1.Scanner; } }));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/ioc/ioc-types.js":
+/*!***************************************!*\
+  !*** ../shared/dist/ioc/ioc-types.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.iocTypes = void 0;
+exports.iocTypes = {
+    Process: 'Process',
+    Console: 'Console',
+    ReportFactory: 'ReportFactory',
+    GetPort: 'GetPort',
+    Express: 'Express',
+    ServeStatic: 'ServeStatic',
+    Github: 'Github',
+};
+//# sourceMappingURL=ioc-types.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/ioc/setup-ioc-container.js":
+/*!*************************************************!*\
+  !*** ../shared/dist/ioc/setup-ioc-container.js ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.setupIocContainer = void 0;
+const github = __importStar(__webpack_require__(/*! @actions/github */ "../../node_modules/@actions/github/lib/github.js"));
+const rest_1 = __webpack_require__(/*! @octokit/rest */ "../../node_modules/@octokit/rest/dist-node/index.js");
+const accessibility_insights_report_1 = __webpack_require__(/*! accessibility-insights-report */ "accessibility-insights-report");
+const express_1 = __importDefault(__webpack_require__(/*! express */ "../../node_modules/express/index.js"));
+const get_port_1 = __importDefault(__webpack_require__(/*! get-port */ "../../node_modules/get-port/index.js"));
+const inversify = __importStar(__webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js"));
+const serve_static_1 = __importDefault(__webpack_require__(/*! serve-static */ "../../node_modules/serve-static/index.js"));
+const console_logger_client_1 = __webpack_require__(/*! ../logger/console-logger-client */ "../shared/dist/logger/console-logger-client.js");
+const logger_1 = __webpack_require__(/*! ../logger/logger */ "../shared/dist/logger/logger.js");
+const scanner_1 = __webpack_require__(/*! ../scanner/scanner */ "../shared/dist/scanner/scanner.js");
+const task_config_1 = __webpack_require__(/*! ../task-config */ "../shared/dist/task-config.js");
+const ioc_types_1 = __webpack_require__(/*! ./ioc-types */ "../shared/dist/ioc/ioc-types.js");
+const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
+function setupIocContainer() {
+    const container = new inversify.Container({ autoBindInjectable: true });
+    accessibility_insights_scan_1.setupCliContainer(container);
+    container.bind(scanner_1.Scanner).toSelf().inSingletonScope();
+    container.bind(ioc_types_1.iocTypes.Console).toConstantValue(console);
+    container.bind(ioc_types_1.iocTypes.Process).toConstantValue(process);
+    container.bind(ioc_types_1.iocTypes.GetPort).toConstantValue(get_port_1.default);
+    container.bind(ioc_types_1.iocTypes.Express).toConstantValue(express_1.default);
+    container.bind(ioc_types_1.iocTypes.ServeStatic).toConstantValue(serve_static_1.default);
+    container.bind(ioc_types_1.iocTypes.ReportFactory).toConstantValue(accessibility_insights_report_1.reporterFactory);
+    container.bind(ioc_types_1.iocTypes.Github).toConstantValue(github);
+    container
+        .bind(rest_1.Octokit)
+        .toDynamicValue((context) => {
+        const taskConfig = context.container.get(task_config_1.TaskConfig);
+        return new rest_1.Octokit({ auth: taskConfig.getToken() });
+    })
+        .inSingletonScope();
+    container
+        .bind(logger_1.Logger)
+        .toDynamicValue((context) => {
+        const consoleLoggerClient = context.container.get(console_logger_client_1.ConsoleLoggerClient);
+        return new logger_1.Logger([consoleLoggerClient], context.container.get(ioc_types_1.iocTypes.Process));
+    })
+        .inSingletonScope();
+    return container;
+}
+exports.setupIocContainer = setupIocContainer;
+//# sourceMappingURL=setup-ioc-container.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/local-file-server.js":
+/*!*******************************************!*\
+  !*** ../shared/dist/local-file-server.js ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LocalFileServer = void 0;
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
+const ioc_types_1 = __webpack_require__(/*! ./ioc/ioc-types */ "../shared/dist/ioc/ioc-types.js");
+const logger_1 = __webpack_require__(/*! ./logger/logger */ "../shared/dist/logger/logger.js");
+const task_config_1 = __webpack_require__(/*! ./task-config */ "../shared/dist/task-config.js");
+let LocalFileServer = class LocalFileServer {
+    constructor(taskConfig, logger, getPortFunc, expressFunc, serveStaticFunc) {
+        this.taskConfig = taskConfig;
+        this.logger = logger;
+        this.getPortFunc = getPortFunc;
+        this.expressFunc = expressFunc;
+        this.serveStaticFunc = serveStaticFunc;
+    }
+    start() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (lodash_1.isNil(this.startServerPromise)) {
+                this.startServerPromise = this.startServer();
+            }
+            return this.startServerPromise;
+        });
+    }
+    stop() {
+        if (!lodash_1.isNil(this.startServerPromise)) {
+            this.startServerPromise = undefined;
+            this.server.close();
+        }
+    }
+    startServer() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const port = yield this.getTcpPort();
+            const root = this.taskConfig.getSiteDir();
+            const app = this.expressFunc();
+            app.use(this.serveStaticFunc(root));
+            this.server = app.listen(port);
+            const url = `http://localhost:${port}`;
+            this.logger.logInfo(`Started local web server. Url: ${url} Root directory: ${root}`);
+            return url;
+        });
+    }
+    getTcpPort() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const localhostPort = this.taskConfig.getLocalhostPort();
+            if (localhostPort) {
+                return this.getPortFunc({ port: localhostPort });
+            }
+            else {
+                return this.getPortFunc();
+            }
+        });
+    }
+};
+LocalFileServer = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(task_config_1.TaskConfig)),
+    __param(1, inversify_1.inject(logger_1.Logger)),
+    __param(2, inversify_1.inject(ioc_types_1.iocTypes.GetPort)),
+    __param(3, inversify_1.inject(ioc_types_1.iocTypes.Express)),
+    __param(4, inversify_1.inject(ioc_types_1.iocTypes.ServeStatic)),
+    __metadata("design:paramtypes", [task_config_1.TaskConfig,
+        logger_1.Logger, Object, Object, Object])
+], LocalFileServer);
+exports.LocalFileServer = LocalFileServer;
+//# sourceMappingURL=local-file-server.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/logger/console-logger-client.js":
+/*!******************************************************!*\
+  !*** ../shared/dist/logger/console-logger-client.js ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ConsoleLoggerClient = void 0;
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
+const util = __importStar(__webpack_require__(/*! util */ "util"));
+const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "../shared/dist/ioc/ioc-types.js");
+const logger_client_1 = __webpack_require__(/*! ./logger-client */ "../shared/dist/logger/logger-client.js");
+let ConsoleLoggerClient = class ConsoleLoggerClient {
+    constructor(consoleObject) {
+        this.consoleObject = consoleObject;
+    }
+    // eslint-disable-next-line @typescript-eslint/require-await
+    setup(baseProperties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.baseProperties = baseProperties;
+        });
+    }
+    log(message, logLevel, properties) {
+        this.logInConsole(`[Trace][${logger_client_1.LogLevel[logLevel]}]${this.getPrintablePropertiesString(properties)}`, message);
+    }
+    trackException(error) {
+        this.logInConsole(`[Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
+    }
+    setCustomProperties(properties) {
+        this.baseProperties = Object.assign(Object.assign({}, this.baseProperties), properties);
+    }
+    getPrintablePropertiesString(properties) {
+        const allProperties = Object.assign(Object.assign({}, this.baseProperties), properties);
+        return lodash_1.isEmpty(allProperties) ? '' : `[properties - ${this.getPrintableString(allProperties)}]`;
+    }
+    getPrintableString(obj) {
+        return util.inspect(obj, { depth: null });
+    }
+    logInConsole(tag, content) {
+        this.consoleObject.log(`${tag} === ${content}`);
+    }
+};
+ConsoleLoggerClient = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(ioc_types_1.iocTypes.Console)),
+    __metadata("design:paramtypes", [Object])
+], ConsoleLoggerClient);
+exports.ConsoleLoggerClient = ConsoleLoggerClient;
+//# sourceMappingURL=console-logger-client.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/logger/logger-client.js":
+/*!**********************************************!*\
+  !*** ../shared/dist/logger/logger-client.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LogLevel = void 0;
+var LogLevel;
+(function (LogLevel) {
+    LogLevel[LogLevel["info"] = 0] = "info";
+    LogLevel[LogLevel["warn"] = 1] = "warn";
+    LogLevel[LogLevel["verbose"] = 2] = "verbose";
+    LogLevel[LogLevel["error"] = 3] = "error";
+})(LogLevel = exports.LogLevel || (exports.LogLevel = {}));
+//# sourceMappingURL=logger-client.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/logger/logger.js":
+/*!***************************************!*\
+  !*** ../shared/dist/logger/logger.js ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Logger = void 0;
+const verror_1 = __webpack_require__(/*! verror */ "../../node_modules/verror/lib/verror.js");
+const utils = __importStar(__webpack_require__(/*! util */ "util"));
+const logger_client_1 = __webpack_require__(/*! ./logger-client */ "../shared/dist/logger/logger-client.js");
+const serialize_error_1 = __webpack_require__(/*! serialize-error */ "../../node_modules/serialize-error/index.js");
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
+class Logger {
+    constructor(loggerClients, currentProcess) {
+        this.loggerClients = loggerClients;
+        this.currentProcess = currentProcess;
+        this.initialized = false;
+        this.isDebugEnabled = false;
+    }
+    setup(baseProperties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.initialized === true) {
+                return;
+            }
+            yield Promise.all(this.loggerClients.map((client) => __awaiter(this, void 0, void 0, function* () {
+                yield client.setup(baseProperties);
+            })));
+            this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
+            this.initialized = true;
+        });
+    }
+    log(message, logLevel, properties) {
+        this.ensureInitialized();
+        this.invokeLoggerClient((client) => client.log(message, logLevel, properties));
+    }
+    logInfo(message, properties) {
+        this.log(message, logger_client_1.LogLevel.info, properties);
+    }
+    logVerbose(message, properties) {
+        if (this.isDebugEnabled) {
+            this.log(message, logger_client_1.LogLevel.verbose, properties);
+        }
+    }
+    logWarn(message, properties) {
+        this.log(message, logger_client_1.LogLevel.warn, properties);
+    }
+    logError(message, properties) {
+        this.log(message, logger_client_1.LogLevel.error, properties);
+    }
+    trackException(error) {
+        this.ensureInitialized();
+        this.invokeLoggerClient((client) => client.trackException(error));
+    }
+    trackExceptionAny(underlyingErrorData, message) {
+        const parsedErrorObject = underlyingErrorData instanceof Error ? underlyingErrorData : new Error(this.serializeError(underlyingErrorData));
+        this.trackException(new verror_1.VError(parsedErrorObject, message));
+    }
+    serializeError(error) {
+        return utils.inspect(serialize_error_1.serializeError(error), false, null);
+    }
+    invokeLoggerClient(action) {
+        this.loggerClients.forEach((client) => {
+            action(client);
+        });
+    }
+    ensureInitialized() {
+        if (this.initialized === true) {
+            return;
+        }
+        throw new Error('The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.');
+    }
+}
+exports.Logger = Logger;
+//# sourceMappingURL=logger.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/mark-down/markdown-formatter.js":
+/*!******************************************************!*\
+  !*** ../shared/dist/mark-down/markdown-formatter.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.sectionSeparator = exports.footerSeparator = exports.productTitle = exports.bold = exports.heading = exports.listItem = exports.image = exports.link = exports.snippet = exports.escaped = void 0;
+const strings_1 = __webpack_require__(/*! ../content/strings */ "../shared/dist/content/strings.js");
+const escaped = (markdown) => {
+    return markdown.replace(/</g, '\\<');
+};
+exports.escaped = escaped;
+const snippet = (text) => {
+    return `\`${text}\``;
+};
+exports.snippet = snippet;
+const link = (href, text) => {
+    return `[${text}](${href})`;
+};
+exports.link = link;
+const image = (altText, src) => {
+    return `![${altText}](${src})`;
+};
+exports.image = image;
+const listItem = (text) => {
+    return `* ${text}`;
+};
+exports.listItem = listItem;
+const heading = (text, headingLevel) => {
+    return `${'#'.repeat(headingLevel)} ${text}`;
+};
+exports.heading = heading;
+const bold = (text) => {
+    return `**${text}**`;
+};
+exports.bold = bold;
+const productTitle = () => {
+    return `${exports.image(`${strings_1.brand}`, strings_1.brandLogoImg)} ${strings_1.toolName}`;
+};
+exports.productTitle = productTitle;
+const footerSeparator = () => `---`;
+exports.footerSeparator = footerSeparator;
+const sectionSeparator = () => '\n';
+exports.sectionSeparator = sectionSeparator;
+//# sourceMappingURL=markdown-formatter.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/mark-down/report-markdown-convertor.js":
+/*!*************************************************************!*\
+  !*** ../shared/dist/mark-down/report-markdown-convertor.js ***!
+  \*************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReportMarkdownConvertor = void 0;
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const result_markdown_builder_1 = __webpack_require__(/*! ./result-markdown-builder */ "../shared/dist/mark-down/result-markdown-builder.js");
+let ReportMarkdownConvertor = class ReportMarkdownConvertor {
+    constructor(checkResultMarkdownBuilder) {
+        this.checkResultMarkdownBuilder = checkResultMarkdownBuilder;
+    }
+    convert(combinedReportResult) {
+        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult);
+    }
+    getErrorMarkdown() {
+        return this.checkResultMarkdownBuilder.buildErrorContent();
+    }
+};
+ReportMarkdownConvertor = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(result_markdown_builder_1.ResultMarkdownBuilder)),
+    __metadata("design:paramtypes", [result_markdown_builder_1.ResultMarkdownBuilder])
+], ReportMarkdownConvertor);
+exports.ReportMarkdownConvertor = ReportMarkdownConvertor;
+//# sourceMappingURL=report-markdown-convertor.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/mark-down/result-markdown-builder.js":
+/*!***********************************************************!*\
+  !*** ../shared/dist/mark-down/result-markdown-builder.js ***!
+  \***********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ResultMarkdownBuilder = void 0;
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const strings_1 = __webpack_require__(/*! ../content/strings */ "../shared/dist/content/strings.js");
+const markdown_formatter_1 = __webpack_require__(/*! ./markdown-formatter */ "../shared/dist/mark-down/markdown-formatter.js");
+let ResultMarkdownBuilder = class ResultMarkdownBuilder {
+    constructor() {
+        this.headingWithMessage = (message) => {
+            if (message) {
+                return markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}: ${message}`, 3);
+            }
+            return markdown_formatter_1.heading(`${markdown_formatter_1.productTitle()}`, 3);
+        };
+        this.urlsListItem = (passedUrls, unscannableUrls, failedUrls) => {
+            const failedUrlsSummary = `${failedUrls} URL(s) failed, `;
+            const passedAndUnscannableUrlsSummary = `${passedUrls} URL(s) passed, and ${unscannableUrls} were not scannable`;
+            const urlsSummary = failedUrls === 0 ? passedAndUnscannableUrlsSummary : failedUrlsSummary.concat(passedAndUnscannableUrlsSummary);
+            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`URLs`)}: ${urlsSummary}`);
+        };
+        this.rulesListItem = (passedChecks, inapplicableChecks, failedChecks) => {
+            const failedRulesSummary = `${failedChecks} check(s) failed, `;
+            const passedAndInapplicableRulesSummary = `${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`;
+            const rulesSummary = failedChecks === 0 ? passedAndInapplicableRulesSummary : failedRulesSummary.concat(passedAndInapplicableRulesSummary);
+            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`Rules`)}: ${rulesSummary}`);
+        };
+        this.failureDetails = (combinedReportResult) => {
+            if (combinedReportResult.results.resultsByRule.failed.length === 0) {
+                return '';
+            }
+            const failedRulesList = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
+                const failureCount = failuresGroup.failed.length;
+                const ruleId = failuresGroup.failed[0].rule.ruleId;
+                const ruleDescription = failuresGroup.failed[0].rule.description;
+                return [this.failedRuleListItem(failureCount, ruleId, ruleDescription), markdown_formatter_1.sectionSeparator()].join('');
+            });
+            const lines = [markdown_formatter_1.sectionSeparator(), `${markdown_formatter_1.heading('Failed instances', 4)}`, markdown_formatter_1.sectionSeparator(), ...failedRulesList];
+            return lines.join('');
+        };
+        this.failedRuleListItem = (failureCount, ruleId, description) => {
+            return markdown_formatter_1.listItem(`${markdown_formatter_1.bold(`${failureCount} × ${markdown_formatter_1.escaped(ruleId)}`)}:  ${markdown_formatter_1.escaped(description)}`);
+        };
+    }
+    buildErrorContent() {
+        const lines = [
+            this.headingWithMessage('Something went wrong'),
+            markdown_formatter_1.sectionSeparator(),
+            `You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.`,
+            markdown_formatter_1.sectionSeparator(),
+        ];
+        return this.scanResultDetails(lines.join(''));
+    }
+    buildContent(combinedReportResult) {
+        const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
+        const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
+        const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
+        const lines = [
+            failedChecks === 0 ? this.headingWithMessage('All applicable checks passed') : this.headingWithMessage(),
+            markdown_formatter_1.sectionSeparator(),
+            this.urlsListItem(combinedReportResult.results.urlResults.passedUrls, combinedReportResult.results.urlResults.unscannableUrls, combinedReportResult.results.urlResults.failedUrls),
+            markdown_formatter_1.sectionSeparator(),
+            this.rulesListItem(passedChecks, inapplicableChecks, failedChecks),
+            markdown_formatter_1.sectionSeparator(),
+            this.downloadArtifacts(),
+            this.failureDetails(combinedReportResult),
+        ];
+        return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));
+    }
+    scanResultDetails(scanResult, footer) {
+        const lines = [scanResult, markdown_formatter_1.sectionSeparator(), markdown_formatter_1.footerSeparator(), markdown_formatter_1.sectionSeparator(), footer];
+        return lines.join('');
+    }
+    scanResultFooter(combinedReportResult) {
+        const axeVersion = combinedReportResult.axeVersion;
+        const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
+        const axeLink = markdown_formatter_1.link(axeCoreUrl, `axe-core ${axeVersion}`);
+        return `This scan used ${axeLink} with ${combinedReportResult.userAgent}.`;
+    }
+    downloadArtifacts() {
+        const artifactName = `${strings_1.brand} artifact`;
+        return markdown_formatter_1.listItem(`Download the ${markdown_formatter_1.bold(artifactName)} to view the detailed results of these checks`);
+    }
+};
+ResultMarkdownBuilder = __decorate([
+    inversify_1.injectable()
+], ResultMarkdownBuilder);
+exports.ResultMarkdownBuilder = ResultMarkdownBuilder;
+//# sourceMappingURL=result-markdown-builder.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/progress-reporter/all-progress-reporter.js":
+/*!*****************************************************************!*\
+  !*** ../shared/dist/progress-reporter/all-progress-reporter.js ***!
+  \*****************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AllProgressReporter = void 0;
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const check_run_creator_1 = __webpack_require__(/*! ./check-run/check-run-creator */ "../shared/dist/progress-reporter/check-run/check-run-creator.js");
+const progress_reporter_1 = __webpack_require__(/*! ./progress-reporter */ "../shared/dist/progress-reporter/progress-reporter.js");
+const pull_request_comment_creator_1 = __webpack_require__(/*! ./pull-request/pull-request-comment-creator */ "../shared/dist/progress-reporter/pull-request/pull-request-comment-creator.js");
+let AllProgressReporter = class AllProgressReporter extends progress_reporter_1.ProgressReporter {
+    constructor(pullRequestCommentCreator, checkRunCreator) {
+        super();
+        this.progressReporters = [checkRunCreator, pullRequestCommentCreator];
+    }
+    start() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.execute((r) => r.start());
+        });
+    }
+    completeRun(combinedReportResult) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.execute((r) => r.completeRun(combinedReportResult));
+        });
+    }
+    failRun(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.execute((r) => r.failRun(message));
+        });
+    }
+    execute(callback) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const length = this.progressReporters.length;
+            for (let pos = 0; pos < length; pos += 1) {
+                yield callback(this.progressReporters[pos]);
+            }
+        });
+    }
+};
+AllProgressReporter = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(pull_request_comment_creator_1.PullRequestCommentCreator)),
+    __param(1, inversify_1.inject(check_run_creator_1.CheckRunCreator)),
+    __metadata("design:paramtypes", [pull_request_comment_creator_1.PullRequestCommentCreator,
+        check_run_creator_1.CheckRunCreator])
+], AllProgressReporter);
+exports.AllProgressReporter = AllProgressReporter;
+//# sourceMappingURL=all-progress-reporter.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/progress-reporter/check-run/check-run-creator.js":
+/*!***********************************************************************!*\
+  !*** ../shared/dist/progress-reporter/check-run/check-run-creator.js ***!
+  \***********************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CheckRunCreator = void 0;
+const rest_1 = __webpack_require__(/*! @octokit/rest */ "../../node_modules/@octokit/rest/dist-node/index.js");
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
+const mark_down_strings_1 = __webpack_require__(/*! ../../content/mark-down-strings */ "../shared/dist/content/mark-down-strings.js");
+const strings_1 = __webpack_require__(/*! ../../content/strings */ "../shared/dist/content/strings.js");
+const ioc_types_1 = __webpack_require__(/*! ../../ioc/ioc-types */ "../shared/dist/ioc/ioc-types.js");
+const logger_1 = __webpack_require__(/*! ../../logger/logger */ "../shared/dist/logger/logger.js");
+const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "../shared/dist/mark-down/report-markdown-convertor.js");
+const progress_reporter_1 = __webpack_require__(/*! ../progress-reporter */ "../shared/dist/progress-reporter/progress-reporter.js");
+let CheckRunCreator = class CheckRunCreator extends progress_reporter_1.ProgressReporter {
+    constructor(reportMarkdownConvertor, octokit, githubObj, logger) {
+        super();
+        this.reportMarkdownConvertor = reportMarkdownConvertor;
+        this.octokit = octokit;
+        this.githubObj = githubObj;
+        this.logger = logger;
+    }
+    start() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.logMessage('Creating check run with status as in progress');
+            const response = yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                return yield this.octokit.checks.create({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    name: strings_1.checkRunName,
+                    status: 'in_progress',
+                    head_sha: lodash_1.isNil(this.githubObj.context.payload.pull_request)
+                        ? this.githubObj.context.sha
+                        : this.githubObj.context.payload.pull_request.head.sha,
+                });
+            }));
+            this.a11yCheck = response === null || response === void 0 ? void 0 : response.data;
+        });
+    }
+    completeRun(combinedReportResult) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.logMessage('Updating check run with status as completed');
+            const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
+            this.traceMarkdown(reportMarkdown);
+            yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                return yield this.octokit.checks.update({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    check_run_id: this.a11yCheck.id,
+                    name: strings_1.checkRunName,
+                    status: 'completed',
+                    conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
+                    output: this.getScanOutput(reportMarkdown),
+                });
+            }));
+        });
+    }
+    failRun() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.logMessage('Updating check run with status as failed');
+            const reportMarkdown = this.reportMarkdownConvertor.getErrorMarkdown();
+            this.traceMarkdown(reportMarkdown);
+            yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                return yield this.octokit.checks.update({
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                    check_run_id: this.a11yCheck.id,
+                    name: strings_1.checkRunName,
+                    status: 'completed',
+                    conclusion: 'failure',
+                    output: {
+                        title: strings_1.checkRunDetailsTitle,
+                        summary: mark_down_strings_1.disclaimerText,
+                        annotations: [],
+                        text: reportMarkdown,
+                    },
+                });
+            }));
+        });
+    }
+    logMessage(message) {
+        this.logger.logInfo(`${message}`);
+    }
+    getScanOutput(text) {
+        return {
+            title: strings_1.checkRunDetailsTitle,
+            summary: mark_down_strings_1.disclaimerText,
+            text,
+        };
+    }
+};
+CheckRunCreator = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(report_markdown_convertor_1.ReportMarkdownConvertor)),
+    __param(1, inversify_1.inject(rest_1.Octokit)),
+    __param(2, inversify_1.inject(ioc_types_1.iocTypes.Github)),
+    __param(3, inversify_1.inject(logger_1.Logger)),
+    __metadata("design:paramtypes", [report_markdown_convertor_1.ReportMarkdownConvertor,
+        rest_1.Octokit, Object, logger_1.Logger])
+], CheckRunCreator);
+exports.CheckRunCreator = CheckRunCreator;
+//# sourceMappingURL=check-run-creator.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/progress-reporter/progress-reporter.js":
+/*!*************************************************************!*\
+  !*** ../shared/dist/progress-reporter/progress-reporter.js ***!
+  \*************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ProgressReporter = void 0;
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const marked_1 = __importDefault(__webpack_require__(/*! marked */ "../../node_modules/marked/src/marked.js"));
+const marked_terminal_1 = __importDefault(__webpack_require__(/*! marked-terminal */ "../../node_modules/marked-terminal/index.js"));
+let ProgressReporter = class ProgressReporter {
+    constructor() {
+        if (process.env.ACT === 'true') {
+            marked_1.default.setOptions({
+                renderer: new marked_terminal_1.default(),
+            });
+        }
+    }
+    invoke(fn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return process.env.ACT !== 'true' ? fn() : Promise.resolve(undefined);
+        });
+    }
+    traceMarkdown(markdown) {
+        if (process.env.ACT === 'true') {
+            console.log('[ProgressReporter] ===');
+            console.log(marked_1.default(markdown));
+        }
+    }
+};
+ProgressReporter = __decorate([
+    inversify_1.injectable(),
+    __metadata("design:paramtypes", [])
+], ProgressReporter);
+exports.ProgressReporter = ProgressReporter;
+//# sourceMappingURL=progress-reporter.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/progress-reporter/pull-request/pull-request-comment-creator.js":
+/*!*************************************************************************************!*\
+  !*** ../shared/dist/progress-reporter/pull-request/pull-request-comment-creator.js ***!
+  \*************************************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PullRequestCommentCreator = void 0;
+const rest_1 = __webpack_require__(/*! @octokit/rest */ "../../node_modules/@octokit/rest/dist-node/index.js");
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
+const ioc_types_1 = __webpack_require__(/*! ../../ioc/ioc-types */ "../shared/dist/ioc/ioc-types.js");
+const logger_1 = __webpack_require__(/*! ../../logger/logger */ "../shared/dist/logger/logger.js");
+const report_markdown_convertor_1 = __webpack_require__(/*! ../../mark-down/report-markdown-convertor */ "../shared/dist/mark-down/report-markdown-convertor.js");
+const markdown_formatter_1 = __webpack_require__(/*! ../../mark-down/markdown-formatter */ "../shared/dist/mark-down/markdown-formatter.js");
+const progress_reporter_1 = __webpack_require__(/*! ../progress-reporter */ "../shared/dist/progress-reporter/progress-reporter.js");
+let PullRequestCommentCreator = class PullRequestCommentCreator extends progress_reporter_1.ProgressReporter {
+    constructor(reportMarkdownConvertor, octokit, githubObj, logger) {
+        super();
+        this.reportMarkdownConvertor = reportMarkdownConvertor;
+        this.octokit = octokit;
+        this.githubObj = githubObj;
+        this.logger = logger;
+    }
+    start() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // We don't do anything for pull request flow
+        });
+    }
+    completeRun(combinedReportResult) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.isSupported()) {
+                return;
+            }
+            const pullRequest = this.githubObj.context.payload.pull_request;
+            const existingComment = yield this.findComment(pullRequest.number);
+            const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
+            this.traceMarkdown(reportMarkdown);
+            if (lodash_1.isNil(existingComment)) {
+                this.logMessage('Creating new comment');
+                yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                    return yield this.octokit.issues.createComment({
+                        owner: this.githubObj.context.repo.owner,
+                        repo: this.githubObj.context.repo.repo,
+                        body: reportMarkdown,
+                        issue_number: pullRequest.number,
+                    });
+                }));
+            }
+            else {
+                this.logMessage('Updating existing comment');
+                yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                    return yield this.octokit.issues.updateComment({
+                        owner: this.githubObj.context.repo.owner,
+                        repo: this.githubObj.context.repo.repo,
+                        body: reportMarkdown,
+                        comment_id: existingComment.id,
+                    });
+                }));
+            }
+        });
+    }
+    // eslint-disable-next-line @typescript-eslint/require-await
+    failRun(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.isSupported()) {
+                return;
+            }
+            throw message;
+        });
+    }
+    isSupported() {
+        return this.githubObj.context.eventName === 'pull_request';
+    }
+    findComment(pullRequestNumber) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const commentsResponse = yield this.invoke(() => __awaiter(this, void 0, void 0, function* () {
+                return yield this.octokit.issues.listComments({
+                    issue_number: pullRequestNumber,
+                    owner: this.githubObj.context.repo.owner,
+                    repo: this.githubObj.context.repo.repo,
+                });
+            }));
+            const comments = commentsResponse.data;
+            return comments.find((c) => !lodash_1.isEmpty(c.body) && !lodash_1.isEmpty(c.user) && c.user.login === 'github-actions[bot]' && c.body.includes(markdown_formatter_1.productTitle()));
+        });
+    }
+    logMessage(message) {
+        this.logger.logInfo(`${message}`);
+    }
+};
+PullRequestCommentCreator = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(report_markdown_convertor_1.ReportMarkdownConvertor)),
+    __param(1, inversify_1.inject(rest_1.Octokit)),
+    __param(2, inversify_1.inject(ioc_types_1.iocTypes.Github)),
+    __param(3, inversify_1.inject(logger_1.Logger)),
+    __metadata("design:paramtypes", [report_markdown_convertor_1.ReportMarkdownConvertor,
+        rest_1.Octokit, Object, logger_1.Logger])
+], PullRequestCommentCreator);
+exports.PullRequestCommentCreator = PullRequestCommentCreator;
+//# sourceMappingURL=pull-request-comment-creator.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/report/consolidated-report-generator.js":
+/*!**************************************************************!*\
+  !*** ../shared/dist/report/consolidated-report-generator.js ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ConsolidatedReportGenerator = void 0;
+const logger_1 = __webpack_require__(/*! ../logger/logger */ "../shared/dist/logger/logger.js");
+const fs = __importStar(__webpack_require__(/*! fs */ "fs"));
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "../shared/dist/ioc/ioc-types.js");
+const task_config_1 = __webpack_require__(/*! ../task-config */ "../shared/dist/task-config.js");
+let ConsolidatedReportGenerator = class ConsolidatedReportGenerator {
+    constructor(taskConfig, reporterFactoryFunc, logger, fileSystemObj = fs) {
+        this.taskConfig = taskConfig;
+        this.reporterFactoryFunc = reporterFactoryFunc;
+        this.logger = logger;
+        this.fileSystemObj = fileSystemObj;
+    }
+    generateReport(combinedReportData) {
+        const reporter = this.reporterFactoryFunc();
+        const htmlReportContent = reporter.fromCombinedResults(combinedReportData).asHTML();
+        const outDirectory = this.taskConfig.getReportOutDir();
+        const reportFileName = `${outDirectory}/index.html`;
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        if (!this.fileSystemObj.existsSync(outDirectory)) {
+            this.logger.logInfo(`Report output directory does not exists. Creating directory ${outDirectory}`);
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            this.fileSystemObj.mkdirSync(outDirectory);
+        }
+        this.saveHtmlReport(reportFileName, htmlReportContent);
+        return reportFileName;
+    }
+    saveHtmlReport(fileName, content) {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        this.fileSystemObj.writeFileSync(fileName, content);
+        this.logger.logInfo(`Scan report saved successfully as ${fileName}`);
+    }
+};
+ConsolidatedReportGenerator = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(task_config_1.TaskConfig)),
+    __param(1, inversify_1.inject(ioc_types_1.iocTypes.ReportFactory)),
+    __param(2, inversify_1.inject(logger_1.Logger)),
+    __metadata("design:paramtypes", [task_config_1.TaskConfig, Function, logger_1.Logger, Object])
+], ConsolidatedReportGenerator);
+exports.ConsolidatedReportGenerator = ConsolidatedReportGenerator;
+//# sourceMappingURL=consolidated-report-generator.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/scanner/crawl-argument-handler.js":
+/*!********************************************************!*\
+  !*** ../shared/dist/scanner/crawl-argument-handler.js ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CrawlArgumentHandler = void 0;
+const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const path_1 = __webpack_require__(/*! path */ "path");
+const task_config_1 = __webpack_require__(/*! ../task-config */ "../shared/dist/task-config.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
+const scan_url_resolver_1 = __webpack_require__(/*! ./scan-url-resolver */ "../shared/dist/scanner/scan-url-resolver.js");
+let CrawlArgumentHandler = class CrawlArgumentHandler {
+    constructor(taskConfig, scanUrlResolver, resolvePath = path_1.resolve, validateScanArgumentsExt = accessibility_insights_scan_1.validateScanArguments) {
+        this.taskConfig = taskConfig;
+        this.scanUrlResolver = scanUrlResolver;
+        this.resolvePath = resolvePath;
+        this.validateScanArgumentsExt = validateScanArgumentsExt;
+    }
+    processScanArguments(localServerUrl) {
+        let scanArguments = this.getInitialScanArguments();
+        if (lodash_1.isEmpty(scanArguments.url)) {
+            scanArguments = Object.assign(Object.assign({}, scanArguments), this.scanUrlResolver.resolveLocallyHostedUrls(localServerUrl));
+        }
+        this.validateScanArgumentsExt(scanArguments);
+        return scanArguments;
+    }
+    getInitialScanArguments() {
+        const inputFile = this.taskConfig.getInputFile() || undefined;
+        const inputUrlsArg = this.taskConfig.getInputUrls() || undefined;
+        const discoveryPatternsArg = this.taskConfig.getDiscoveryPatterns() || undefined;
+        const args = {
+            inputFile,
+            output: this.taskConfig.getReportOutDir(),
+            maxUrls: this.taskConfig.getMaxUrls(),
+            chromePath: this.taskConfig.getChromePath(),
+            // axeSourcePath is relative to /dist/index.js, not this source file
+            axeSourcePath: this.resolvePath(__dirname, 'node_modules', 'axe-core', 'axe.js'),
+            crawl: true,
+            restart: true,
+            discoveryPatterns: discoveryPatternsArg === null || discoveryPatternsArg === void 0 ? void 0 : discoveryPatternsArg.split(/\s+/),
+            inputUrls: inputUrlsArg === null || inputUrlsArg === void 0 ? void 0 : inputUrlsArg.split(/\s+/),
+            url: this.taskConfig.getUrl(),
+        };
+        return args;
+    }
+};
+CrawlArgumentHandler = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(task_config_1.TaskConfig)),
+    __param(1, inversify_1.inject(scan_url_resolver_1.ScanUrlResolver)),
+    __metadata("design:paramtypes", [task_config_1.TaskConfig,
+        scan_url_resolver_1.ScanUrlResolver, Object, Object])
+], CrawlArgumentHandler);
+exports.CrawlArgumentHandler = CrawlArgumentHandler;
+//# sourceMappingURL=crawl-argument-handler.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/scanner/scan-url-resolver.js":
+/*!***************************************************!*\
+  !*** ../shared/dist/scanner/scan-url-resolver.js ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ScanUrlResolver = void 0;
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const task_config_1 = __webpack_require__(/*! ../task-config */ "../shared/dist/task-config.js");
+const url_1 = __webpack_require__(/*! url */ "url");
+let ScanUrlResolver = class ScanUrlResolver {
+    constructor(taskConfig, resolveUrl = url_1.resolve) {
+        this.taskConfig = taskConfig;
+        this.resolveUrl = resolveUrl;
+    }
+    resolveLocallyHostedUrls(baseUrl) {
+        return {
+            url: this.resolveUrl(baseUrl, this.taskConfig.getScanUrlRelativePath()),
+        };
+    }
+};
+ScanUrlResolver = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(task_config_1.TaskConfig)),
+    __metadata("design:paramtypes", [task_config_1.TaskConfig, Object])
+], ScanUrlResolver);
+exports.ScanUrlResolver = ScanUrlResolver;
+//# sourceMappingURL=scan-url-resolver.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/scanner/scanner.js":
+/*!*****************************************!*\
+  !*** ../shared/dist/scanner/scanner.js ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Scanner = void 0;
+const accessibility_insights_scan_1 = __webpack_require__(/*! accessibility-insights-scan */ "accessibility-insights-scan");
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const util = __importStar(__webpack_require__(/*! util */ "util"));
+const ioc_types_1 = __webpack_require__(/*! ../ioc/ioc-types */ "../shared/dist/ioc/ioc-types.js");
+const local_file_server_1 = __webpack_require__(/*! ../local-file-server */ "../shared/dist/local-file-server.js");
+const logger_1 = __webpack_require__(/*! ../logger/logger */ "../shared/dist/logger/logger.js");
+const all_progress_reporter_1 = __webpack_require__(/*! ../progress-reporter/all-progress-reporter */ "../shared/dist/progress-reporter/all-progress-reporter.js");
+const promise_utils_1 = __webpack_require__(/*! ../utils/promise-utils */ "../shared/dist/utils/promise-utils.js");
+const strings_1 = __webpack_require__(/*! ../content/strings */ "../shared/dist/content/strings.js");
+const axe_info_1 = __webpack_require__(/*! ../axe/axe-info */ "../shared/dist/axe/axe-info.js");
+const consolidated_report_generator_1 = __webpack_require__(/*! ../report/consolidated-report-generator */ "../shared/dist/report/consolidated-report-generator.js");
+const crawl_argument_handler_1 = __webpack_require__(/*! ./crawl-argument-handler */ "../shared/dist/scanner/crawl-argument-handler.js");
+const task_config_1 = __webpack_require__(/*! ../task-config */ "../shared/dist/task-config.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
+let Scanner = class Scanner {
+    constructor(crawler, reportGenerator, allProgressReporter, fileServer, promiseUtils, axeInfo, combinedReportDataConverter, currentProcess, logger, crawlArgumentHandler, taskConfig, crawlerParametersBuilder) {
+        this.crawler = crawler;
+        this.reportGenerator = reportGenerator;
+        this.allProgressReporter = allProgressReporter;
+        this.fileServer = fileServer;
+        this.promiseUtils = promiseUtils;
+        this.axeInfo = axeInfo;
+        this.combinedReportDataConverter = combinedReportDataConverter;
+        this.currentProcess = currentProcess;
+        this.logger = logger;
+        this.crawlArgumentHandler = crawlArgumentHandler;
+        this.taskConfig = taskConfig;
+        this.crawlerParametersBuilder = crawlerParametersBuilder;
+    }
+    scan() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const scanTimeoutMsec = this.taskConfig.getScanTimeout();
+            // eslint-disable-next-line @typescript-eslint/require-await
+            yield this.promiseUtils.waitFor(this.invokeScan(), scanTimeoutMsec, () => __awaiter(this, void 0, void 0, function* () {
+                this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
+                this.currentProcess.exit(1);
+            }));
+        });
+    }
+    invokeScan() {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            let scanArguments;
+            let localServerUrl;
+            try {
+                yield this.allProgressReporter.start();
+                if (lodash_1.isEmpty(this.taskConfig.getUrl())) {
+                    localServerUrl = yield this.fileServer.start();
+                }
+                scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
+                this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
+                this.logger.logInfo(`Chrome app executable: ${(_a = scanArguments.chromePath) !== null && _a !== void 0 ? _a : 'system default'}`);
+                const crawlerParameters = this.crawlerParametersBuilder.build(scanArguments);
+                const scanStarted = new Date();
+                const combinedScanResult = yield this.crawler.crawl(crawlerParameters);
+                const scanEnded = new Date();
+                const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
+                this.reportGenerator.generateReport(combinedReportResult);
+                yield this.allProgressReporter.completeRun(combinedReportResult);
+            }
+            catch (error) {
+                this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments === null || scanArguments === void 0 ? void 0 : scanArguments.url}`);
+                yield this.allProgressReporter.failRun(util.inspect(error));
+            }
+            finally {
+                this.fileServer.stop();
+                this.logger.logInfo(`Accessibility scanning of URL ${scanArguments === null || scanArguments === void 0 ? void 0 : scanArguments.url} completed`);
+            }
+        });
+    }
+    getCombinedReportResult(combinedScanResult, scanStarted, scanEnded) {
+        var _a;
+        const scanResultData = {
+            baseUrl: (_a = combinedScanResult.scanMetadata.baseUrl) !== null && _a !== void 0 ? _a : 'n/a',
+            basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
+            scanEngineName: strings_1.toolName,
+            axeCoreVersion: this.axeInfo.version,
+            browserUserAgent: combinedScanResult.scanMetadata.userAgent,
+            urlCount: combinedScanResult.urlCount,
+            scanStarted,
+            scanEnded,
+            browserResolution: '1920x1080', // resoluton is fixed by crawler implementation
+        };
+        return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
+    }
+};
+Scanner = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(accessibility_insights_scan_1.AICrawler)),
+    __param(1, inversify_1.inject(consolidated_report_generator_1.ConsolidatedReportGenerator)),
+    __param(2, inversify_1.inject(all_progress_reporter_1.AllProgressReporter)),
+    __param(3, inversify_1.inject(local_file_server_1.LocalFileServer)),
+    __param(4, inversify_1.inject(promise_utils_1.PromiseUtils)),
+    __param(5, inversify_1.inject(axe_info_1.AxeInfo)),
+    __param(6, inversify_1.inject(accessibility_insights_scan_1.AICombinedReportDataConverter)),
+    __param(7, inversify_1.inject(ioc_types_1.iocTypes.Process)),
+    __param(8, inversify_1.inject(logger_1.Logger)),
+    __param(9, inversify_1.inject(crawl_argument_handler_1.CrawlArgumentHandler)),
+    __param(10, inversify_1.inject(task_config_1.TaskConfig)),
+    __param(11, inversify_1.inject(accessibility_insights_scan_1.CrawlerParametersBuilder)),
+    __metadata("design:paramtypes", [accessibility_insights_scan_1.AICrawler,
+        consolidated_report_generator_1.ConsolidatedReportGenerator,
+        all_progress_reporter_1.AllProgressReporter,
+        local_file_server_1.LocalFileServer,
+        promise_utils_1.PromiseUtils,
+        axe_info_1.AxeInfo,
+        accessibility_insights_scan_1.AICombinedReportDataConverter, Object, logger_1.Logger,
+        crawl_argument_handler_1.CrawlArgumentHandler,
+        task_config_1.TaskConfig,
+        accessibility_insights_scan_1.CrawlerParametersBuilder])
+], Scanner);
+exports.Scanner = Scanner;
+//# sourceMappingURL=scanner.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/task-config.js":
+/*!*************************************!*\
+  !*** ../shared/dist/task-config.js ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TaskConfig = void 0;
+const actionCore = __importStar(__webpack_require__(/*! @actions/core */ "../../node_modules/@actions/core/lib/core.js"));
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "../../node_modules/lodash/lodash.js");
+const ioc_types_1 = __webpack_require__(/*! ./ioc/ioc-types */ "../shared/dist/ioc/ioc-types.js");
+const normalize_path_1 = __importDefault(__webpack_require__(/*! normalize-path */ "../../node_modules/normalize-path/index.js"));
+const path_1 = __webpack_require__(/*! path */ "path");
+let TaskConfig = class TaskConfig {
+    constructor(processObj, actionCoreObj = actionCore, resolvePath = path_1.resolve) {
+        this.processObj = processObj;
+        this.actionCoreObj = actionCoreObj;
+        this.resolvePath = resolvePath;
+    }
+    getReportOutDir() {
+        return this.getAbsolutePath(this.actionCoreObj.getInput('output-dir'));
+    }
+    getSiteDir() {
+        return this.actionCoreObj.getInput('site-dir');
+    }
+    getScanUrlRelativePath() {
+        return this.actionCoreObj.getInput('scan-url-relative-path');
+    }
+    getToken() {
+        return this.actionCoreObj.getInput('repo-token');
+    }
+    getChromePath() {
+        let chromePath;
+        chromePath = this.getAbsolutePath(this.actionCoreObj.getInput('chrome-path'));
+        if (lodash_1.isEmpty(chromePath)) {
+            chromePath = this.processObj.env.CHROME_BIN;
+        }
+        return chromePath;
+    }
+    getUrl() {
+        return this.actionCoreObj.getInput('url');
+    }
+    getMaxUrls() {
+        return parseInt(this.actionCoreObj.getInput('max-urls'));
+    }
+    getDiscoveryPatterns() {
+        const value = this.actionCoreObj.getInput('discovery-patterns');
+        return lodash_1.isEmpty(value) ? undefined : value;
+    }
+    getInputFile() {
+        return this.getAbsolutePath(this.actionCoreObj.getInput('input-file'));
+    }
+    getInputUrls() {
+        const value = this.actionCoreObj.getInput('input-urls');
+        return lodash_1.isEmpty(value) ? undefined : value;
+    }
+    getScanTimeout() {
+        return parseInt(this.actionCoreObj.getInput('scan-timeout'));
+    }
+    getRunId() {
+        return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
+    }
+    getLocalhostPort() {
+        const value = this.actionCoreObj.getInput('localhost-port');
+        return lodash_1.isEmpty(value) ? undefined : parseInt(value, 10);
+    }
+    getAbsolutePath(path) {
+        var _a;
+        if (lodash_1.isEmpty(path)) {
+            return undefined;
+        }
+        const dirname = (_a = this.processObj.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : __dirname;
+        return normalize_path_1.default(this.resolvePath(dirname, normalize_path_1.default(path)));
+    }
+};
+TaskConfig = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(ioc_types_1.iocTypes.Process)),
+    __metadata("design:paramtypes", [Object, Object, Object])
+], TaskConfig);
+exports.TaskConfig = TaskConfig;
+//# sourceMappingURL=task-config.js.map
+
+/***/ }),
+
+/***/ "../shared/dist/utils/promise-utils.js":
+/*!*********************************************!*\
+  !*** ../shared/dist/utils/promise-utils.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PromiseUtils = void 0;
+const inversify_1 = __webpack_require__(/*! inversify */ "../../node_modules/inversify/lib/inversify.js");
+let PromiseUtils = class PromiseUtils {
+    waitFor(promise, timeoutMsec, onTimeoutCallback) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let timeoutHandle;
+            let hasTimedOut = false;
+            const timeoutPromise = new Promise((resolve) => {
+                timeoutHandle = setTimeout(() => {
+                    hasTimedOut = true;
+                    resolve();
+                }, timeoutMsec);
+            });
+            const racePromise = Promise.race([promise, timeoutPromise]);
+            try {
+                yield racePromise;
+            }
+            finally {
+                clearTimeout(timeoutHandle);
+            }
+            if (hasTimedOut) {
+                return onTimeoutCallback();
+            }
+            return promise;
+        });
+    }
+};
+PromiseUtils = __decorate([
+    inversify_1.injectable()
+], PromiseUtils);
+exports.PromiseUtils = PromiseUtils;
+//# sourceMappingURL=promise-utils.js.map
 
 /***/ }),
 

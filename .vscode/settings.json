@@ -5,6 +5,7 @@
     "prettier.requireConfig": true,
     "eslint.validate": ["typescript", "javascript"],
     "eslint.enable": true,
+    "eslint.workingDirectories": ["packages/gh-action", "packages/shared"],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
@@ -12,7 +13,6 @@
     "files.exclude": {
         "**/node_modules/": true,
         "**/.git": true,
-        "**/dist": true,
         "**/out": true,
         "**/test-results": true
     }
