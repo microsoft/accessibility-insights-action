@@ -10,7 +10,12 @@ on:
         description: 'Enter the tag'
         required: true
         default: ''
-        
+      commit-sha:
+        description: 'Enter the commit sha'
+        required: false
+        default: ''
+      
+      
   jobs:
     Release:
       runs-on: ubuntu-latest
