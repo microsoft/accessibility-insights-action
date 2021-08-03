@@ -15,7 +15,7 @@ module.exports = (env) => {
             ['index']: path.resolve('./src/index.ts'),
         },
         // We special case MPL-licensed dependencies ('axe-core', '@axe-core/puppeteer') because we want to avoid including their source in the same file as non-MPL code.
-        externals: ['proxy-chain' /*'axe-core' , 'accessibility-insights-report', 'accessibility-insights-scan'*/],
+        externals: ['axe-core', 'accessibility-insights-report', 'accessibility-insights-scan'],
         mode: 'development',
         module: {
             rules: [
@@ -49,6 +49,11 @@ module.exports = (env) => {
             }),
             new ForkTsCheckerWebpackPlugin(),
             new CaseSensitivePathsPlugin(),
+            new copyWebpackPlugin({
+                patterns: [
+                    `node_modules/axe-core/*`, // we only use the root-level axe.min.js and the package metadata/LICENSE stuff
+                ],
+            }),
         ],
         resolve: {
             extensions: ['.ts', '.js', '.json'],
