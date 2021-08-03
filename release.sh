@@ -17,9 +17,6 @@ git config --global user.email "a11y-insights-team@microsoft.com"
 echo "Create a new branch"
 git checkout -b releases/$tag $sha
 
-echo "Create packages.json for external packages"
-node ./create-package-json-for-externals.js
-
 echo "include dist to check in"
 sed -i 's/dist/no-dist/g' .gitignore
 

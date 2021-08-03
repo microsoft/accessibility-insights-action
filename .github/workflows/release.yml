@@ -9,12 +9,9 @@ on:
       release-tag:
         description: 'Enter the tag'
         required: true
-        default: ''
       commit-sha:
         description: 'Enter the commit sha'
-        required: false
-        default: ''
-      
+        required: true     
       
 jobs:
   release:
