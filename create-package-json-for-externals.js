@@ -26,5 +26,4 @@ const newPackageJson = {
     devDependencies: undefined,
 };
 
-fs.rmdirSync('./package.json', { recursive: true });
-fs.writeFileSync('./package.json', JSON.stringify(newPackageJson, undefined, 4));
+fs.writeFileSync('./dist/package.json', JSON.stringify(newPackageJson, undefined, 4));

@@ -17,26 +17,11 @@ git config --global user.email "a11y-insights-team@microsoft.com"
 echo "Create a new branch"
 git checkout -b releases/$tag $sha
 
-echo "Save a copy of packages.json"
-cp ./package.json ./old_package.json
-
 echo "Create packages.json for external packages"
 node ./create-package-json-for-externals.js
 
-echo "delete old node_modules"
-rm -rf node_modules
-
-echo "install external dependencies"
-yarn install --frozen-lockfile --production --ignore-optional --ignore-engines
-
-echo "delete pupetter chromium folder"
-rm -rf node_modules/puppeteer/.local-chromium
-
 echo "include dist to check in"
 sed -i 's/dist/no-dist/g' .gitignore
-
-echo "include node_modules to check in"
-sed -i 's/node_modules/no-node_modules/g' .gitignore
 
 echo "git add"
 git add --all
@@ -53,15 +38,6 @@ git tag $tag
 echo "push the release tag"
 git push origin $tag
 
-echo "delete the packages.json to restore the old one"
-rm ./package.json
-
-echo "restore the old package.json"
-mv ./old_package.json ./package.json
-
-echo "delete old node_modules"
-rm -rf node_modules
-
 echo "delete dist"
 rm -rf dist
 
@@ -76,9 +52,6 @@ git push
 
 echo "exclude dist to check in"
 sed -i 's/no-dist/dist/g' .gitignore
-
-echo "exclude node_modules to check in"
-sed -i 's/no-node_modules/node_modules/g' .gitignore
 
 echo "git add"
 git add --all

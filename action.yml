@@ -46,5 +46,38 @@ inputs:
         required: false
         default: 90000
 runs:
-    using: 'node12'
-    main: 'dist/index.js'
+    using: 'composite'
+    steps:
+        - name: Install npm packages
+          run: |
+              echo 'Installing npm packages...'
+              cd $GITHUB_ACTION_PATH/dist && yarn install --frozen-lockfile --production --ignore-optional --ignore-engines
+              echo 'npm packages successfully installed'
+          shell: bash
+        - name: Setup local docker container
+          run: |
+              if [[ $ACT == true && ! -f '/usr/bin/chromium' ]]; then
+                  apt-get update \
+                  && apt-get -y install chromium chromium-l10n \
+                  && apt-get -y install procps
+                  echo 'Chromium package successfully installed on docker container'
+              fi
+          shell: bash
+        - name: Run action
+          run: |
+              echo 'Starting accessibility scanner...'
+              node $GITHUB_ACTION_PATH/dist/index.js
+          shell: bash
+          env:
+              INPUT_OUTPUT-DIR: ${{ inputs.output-dir }}
+              INPUT_SITE-DIR: ${{ inputs.site-dir }}
+              INPUT_SCAN-URL-RELATIVE-PATH: ${{ inputs.scan-url-relative-path }}
+              INPUT_CHROME-PATH: ${{ inputs.chrome-path }}
+              INPUT_REPO-TOKEN: ${{ inputs.repo-token }}
+              INPUT_URL: ${{ inputs.url }}
+              INPUT_MAX-URLS: ${{ inputs.max-urls }}
+              INPUT_DISCOVERY-PATTERNS: ${{ inputs.discovery-patterns }}
+              INPUT_INPUT-FILE: ${{ inputs.input-file }}
+              INPUT_INPUT-URLS: ${{ inputs.input-urls }}
+              INPUT_LOCALHOST-PORT: ${{ inputs.localhost-port }}
+              INPUT_SCAN-TIMEOUT: ${{ inputs.scan-timeout }}
