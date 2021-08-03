@@ -33,3 +33,5 @@ jobs:
 
       - name: Run the release script
         run: sh ./release.sh ${{ github.event.inputs.release-tag }} ${{ github.event.inputs.commit-sha }}
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
