@@ -27,7 +27,7 @@ echo "delete old node_modules"
 rm -rf node_modules
 
 echo "install external dependencies"
-run: yarn install --frozen-lockfile
+yarn install --frozen-lockfile
 
 echo "delete pupetter chromium folder"
 rm -rf node_modules/puppeteer/.local-chromium
