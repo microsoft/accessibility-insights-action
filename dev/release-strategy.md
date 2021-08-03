@@ -5,18 +5,17 @@ Licensed under the MIT License.
 
 ## Release Strategy
 
-### Repos
+### Repo
 
--   We will store the sources in the `accessibility-insights-action` repo (unchanged from today)
--   We will store the action releases in a _separate_ repo. Name is TBD, but maybe `accessibility-insights-action-dist`. For purposes of this doc, we'll call the two repos "the sources repo" and "the distribution repo"
--   For a given release (_e.g._, `v1.0.3`), we will use the same tag name in both repos to make it easy to correlate the two.
--   All changes to the distribution repo will be controlled by the pipeline
--   Each release in the distribution repo will be in a branch that matches its tag. That branch will contain just the files needed to release the action (`action.yml`, the code packed into `index.js`, etc.)
--   Consuming actions will reference the distribution repo.
+-   We will store the both the sources and the releases in the `accessibility-insights-action` repo (unchanged from today). If we later decide to change this, we will move the source code to a new repo and keep the consumption experience unchanged.
+-   All code contributions will merge into the main branch
+-   All releases will be pipeline-controlled
+-   We will create a new branch for each release of the GitHub Action. That branch will contain just the files needed to release the action (`action.yml`, the code packed into `index.js`, etc.)
+-   The existing ./dist folder of the repo will first be removed, then added to `./.gitignore`. It will exist only for local building and testing
 
-### Branches in the distribution repo
+### Release branches
 
-The distribution repo will contain 1 branch per released version. The name of the branch will be the same as the name of the release, as shown here:
+The repo will contain 1 branch per released version of the GitHub action. We are explicitly assuming that the ADO extension will release via the ADO marketplace and will not require a corresponding release branch. The name of the branch will be the same as the name of the release for the GitHub Action, as shown here:
 
 ```
 /v1.0.1
@@ -25,9 +24,11 @@ The distribution repo will contain 1 branch per released version. The name of th
 /v2.0.0
 ```
 
-### Tags in the distribution repo
+### Tags
 
-The distribution repo will have a tag that points to each specific release within the repo. In addition, each major release version will have a tag that points to the latest release of that major version. We could optionally also have a `latest` tag, which would point to the highest released version, as shown here:
+#### Release tags
+
+Each release of the GitHub Action will have a tag that points to each specific release branch within the repo. In addition, each major release version will have a tag that points to the latest release of that major version. We could optionally also have a `latest` tag, which would point to the highest released version, as shown here:
 
 ```
 /v1.0.1   <== v1.0.1
@@ -36,46 +37,59 @@ The distribution repo will have a tag that points to each specific release withi
 /v2.0.0   <== v2.0.0, v2, latest
 ```
 
+#### Source tags
+
+Each release will have a tag that points to the corresponding sources in the main branch. These tags _must_ have names that are distinct from the release tags, since they point to different branches. To make the tags as intuitive as possible, and to support releases of different packages (_e.g._, the GitHub Action vs the ADO extension), we will use the following pattern
+
+| Version | Type of release | Source tag release |
+| ------- | --------------- | ------------------ |
+| v1.0.2  | GitHub Action   | v1.0.2-sources-gh  |
+| v1.0.2  | ADO Extension   | v1.0.2-sources-ado |
+
+It is expected that there will be some cases where the `-gh` suffixed tag and the `-ado` suffixed tag will point to the same commit.
+
 ### Pipelines
 
-Logically we will have a build pipeline and 2 release pipelines (one for the GitHub action, one for the ADO extension). These may or may not be completely separate pipelines at first. Here are the responsibilities of each pipeline
+Logically we will have one build pipeline and two release pipelines (one for the GitHub action, one for the ADO extension). These may or may not be completely separate pipelines at first. Here are the responsibilities of each pipeline.
 
 #### Build pipeline
 
-On each iteration, the build pipeline will do the following:
+On each iteration, the **build pipeline** will do the following:
 
--   Clone the source repo
+-   Clone the repo (`main` branch)
 -   Build the `/dist` folder and the _signed_ ADO extension (if signing is required)
 -   Perform any possible self-validation
--   Publish the contents of the `/dist` folder as an artifact
--   Publish the ADO extension as an artifact
+-   Publish the contents of the `/dist` folder as the _Action artifact_
+-   Publish the ADO extension as the _ADO artifact_
 
 #### Action release pipeline
 
-On each iteration, the action release pipeline will do the following:
+On each iteration, the **action release pipeline** will do the following: Assume that our release version is `vX.Y.Z`
 
--   Clone the distribution repo
--   Download the action artifact created by the release pipeline
--   Create a new branch of the appropriate name (probably fail if the branch already exists)
--   Copy the action artifact into the new branch
+-   Clone the repo
+-   Download the _Action artifact_ created by the build pipeline
+-   Create a new branch (_releases/vX.Y.Z_), probably failing the release if the branch already exists
+-   Copy the _Action artifact_ into the new branch
 -   Commit the new branch
--   Create a release tag
--   Create or update the major version tag
--   Create or update the `latest` tag (if we use it)
+-   Create a release tag (_vX.Y.Z_)
+-   Create or update the major version tag (_vX_)
+-   Create or update the `latest` tag (if we use it and if no higher-versioned release already exists)
+-   Create a tag that corresponds to the SHA that build this release (_vX.Y.X-sources-gh_)
+-   Push all new tags
 
 #### ADO extension release pipeline
 
-On each iteration, the ADO extension release pipeline will do the following:
+On each iteration, the **ADO extension release** pipeline will do the following:
 
--   Download the action artifact created by the release pipeline
--   Publish the ADO artifact
+-   Download the _ADO artifact_ created by the build pipeline
+-   Publish the ADO artifact to the marketplace
+-   Create a tag that corresponds to the SHA that build this release (_vX.Y.X-sources-ado_)
+-   Push the new tag
 
 #### Pipeline questions:
 
--   What should trigger the build pipeline? Every commit?
+-   What should trigger the **build pipeline**? Every commit?
 -   What should trigger the release pipelines? Manually triggered?
--   How do we tag the sources repo when the Action release pipeline runs?
--   Are there scenarios where we would publish _just_ the action or _just_ the ADO extension?
 -   Do we need Canary/Insider/Production for release validation, or are we OK with just Production?
 
 ### Models for consuming the action
@@ -87,7 +101,7 @@ The yaml file excerpt would look something like this:
 ```
   steps:
     name: Check Accessibility
-    uses: actions/microsoft/accessibility-insights-action-dist@v1
+    uses: actions/microsoft/accessibility-insights-action@v1
 ```
 
 #### Pin to a specific release
@@ -97,7 +111,7 @@ The yaml file excerpt would look something like this:
 ```
   steps:
     name: Check Accessibility
-    uses: actions/microsoft/accessibility-insights-action-dist@v1.0.3
+    uses: actions/microsoft/accessibility-insights-action@v1.0.3
 ```
 
 #### Use the latest version
