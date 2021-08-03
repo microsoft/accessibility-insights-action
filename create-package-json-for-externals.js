@@ -11,7 +11,7 @@ const webpackConfig = getWebpackConfig();
 const webpackExternals = webpackConfig.externals ? webpackConfig.externals : [];
 
 const imagePackageDependencies = {};
-webpackExternals.forEach(packageName => {
+webpackExternals.forEach((packageName) => {
     if (packageDependencies.hasOwnProperty(packageName)) {
         imagePackageDependencies[packageName] = packageDependencies[packageName];
     } else {
