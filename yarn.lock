@@ -6193,6 +6193,13 @@ proxy-addr@~2.0.5:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
 
+proxy-chain@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/proxy-chain/-/proxy-chain-1.0.2.tgz#bfbb61461e86ee072f3c40a6ccd25612ed7960f2"
+  integrity sha512-T334LUVvsrzCSePc/l+E+Ew2zPsZnQVkG9P52nscqT0jbCNy/IcNT1UjUoyL9EW3yvrzAeBiDAMTHpczIg69+A==
+  dependencies:
+    underscore "^1.9.1"
+
 proxy-chain@^0.4.4:
   version "0.4.9"
   resolved "https://registry.yarnpkg.com/proxy-chain/-/proxy-chain-0.4.9.tgz#34896bdf3fab730852cd1f9800ffd65cf14637ef"

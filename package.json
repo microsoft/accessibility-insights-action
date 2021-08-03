@@ -86,7 +86,8 @@
         "reflect-metadata": "^0.1.13",
         "serialize-error": "^8.0.1",
         "serve-static": "^1.14.1",
-        "verror": "^1.10.0"
+        "verror": "^1.10.0",
+        "proxy-chain": "1.0.2"
     },
     "resolutions": {
         "@actions/http-client": ">=1.0.8",
