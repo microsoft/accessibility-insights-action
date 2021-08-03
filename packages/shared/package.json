@@ -11,8 +11,7 @@
         "lint:check": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\"",
         "lint:fix": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\" --quiet --fix",
         "test": "jest",
-        "watch:test": "jest --watch",
-        "publish-code-coverage": "npx codecov"
+        "watch:test": "jest --watch"
     },
     "repository": {
         "type": "git",
