@@ -164,6 +164,6 @@ jobs:
 
           - task: PublishBuildArtifacts@1
             inputs:
-                pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
+                pathtoPublish: '$(System.DefaultWorkingDirectory)/src/NOTICE.html'
                 artifactName: 'drop'
             displayName: publish drop
