@@ -10,9 +10,9 @@ echo "Creating a new release"
 echo "Tag  $tag"
 echo "SHA $sha"
 
-echo "Setting user name and email"
-git config --global user.name "a11y-insights"
-git config --global user.email "a11y-insights-team@microsoft.com"
+# echo "Setting user name and email"
+# git config --global user.name "a11y-insights"
+# git config --global user.email "a11y-insights-team@microsoft.com"
 
 echo "pull all"
 git pull
