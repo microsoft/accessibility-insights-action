@@ -2,9 +2,7 @@
 # Licensed under the MIT License.
 
 variables:
-    windowsImage: 'windows-2019'
-    macImage: 'macOS-10.15'
-    linuxImage: 'ubuntu-18.04'
+    linuxImage: 'Hosted Ubuntu 1604'
 
 jobs:
     - job: 'BuildAndCheckCodeStyling'
