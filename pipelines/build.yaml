@@ -162,7 +162,7 @@ jobs:
             timeoutInMinutes: 5
 
           - script: yarn install --frozen-lockfile
-          displayName: Install dependencies
+            displayName: Install dependencies
 
           - script: yarn cbuild
             displayName: Build
