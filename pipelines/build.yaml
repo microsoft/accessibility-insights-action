@@ -137,7 +137,10 @@ jobs:
       pool:
           vmImage: $(linuxImage)
       steps:
-          - template: pipeline/install-node-prerequisites.yaml
+          - task: NodeTool@0
+            inputs:
+                versionSpec: '12.x'
+            displayName: use node 12.x
 
           - task: ComponentGovernanceComponentDetection@0
             displayName: 'dependency detection (Component Governance)'
