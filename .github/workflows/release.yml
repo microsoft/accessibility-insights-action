@@ -22,7 +22,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.inputs.commit-sha }}
+          token: ${{ secrets.access_token }}
 
       - name: Setup node
         uses: actions/setup-node@v1
@@ -36,4 +36,4 @@ jobs:
         run: yarn cbuild
 
       - name: Run the release script
-        run: sh ./release.sh ${{ github.event.inputs.release-tag }}
+        run: sh ./release.sh ${{ github.event.inputs.release-tag }} ${{ github.event.inputs.commit-sha }}

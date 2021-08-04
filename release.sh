@@ -4,9 +4,11 @@
 # Licensed under the MIT License.
 
 tag="$1"
+sha="$2"
 
 echo "Creating a new release"
 echo "Tag  $tag"
+echo "SHA $sha"
 
 echo "Setting user name and email"
 git config --global user.name "a11y-insights"
@@ -16,7 +18,7 @@ echo "git pull"
 git pull
 
 echo "Create a new branch"
-git checkout -b releases/gh/$tag
+git checkout -b releases/gh/$tag $sha
 
 echo "include dist to check in"
 sed -i 's/dist/no-dist/g' .gitignore
