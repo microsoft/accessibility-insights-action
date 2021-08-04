@@ -1,13 +1,10 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-variables:
-    linuxImage: 'Hosted Ubuntu 1604'
-
 jobs:
     - job: 'BuildAndCheckCodeStyling'
       pool:
-          vmImage: $(linuxImage)
+          vmImage: 'Hosted Ubuntu 1604'
           demands: npm
       steps:
           - task: NodeTool@0
@@ -32,7 +29,7 @@ jobs:
 
     - job: 'Tests'
       pool:
-          vmImage: $(linuxImage)
+          vmImage: 'Hosted Ubuntu 1604'
           demands: npm
       steps:
           - task: NodeTool@0
@@ -53,7 +50,7 @@ jobs:
 
     - job: 'SDT'
       pool:
-          vmImage: $(linuxImage)
+          vmImage: 'Hosted Ubuntu 1604'
           demands: npm
       steps:
           - task: NodeTool@0
@@ -135,7 +132,8 @@ jobs:
 
     - job: 'publish_build_drops'
       pool:
-          vmImage: $(linuxImage)
+          vmImage: 'Hosted Ubuntu 1604'
+          demands: npm
       steps:
           - task: NodeTool@0
             inputs:
