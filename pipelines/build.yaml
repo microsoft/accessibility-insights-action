@@ -104,9 +104,9 @@ jobs:
                 uploadRoslyn: false
                 uploadTSLint: false
 
-            - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@1
-              displayName: 'Break build on CredScan violations'
-              inputs:
+          - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@1
+            displayName: 'Break build on CredScan violations'
+            inputs:
                 CredScan: true
 
     - job: 'Release'
@@ -125,4 +125,4 @@ jobs:
           - script: git push --set-upstream origin releases/ortiga100
             displayName: push branch
             env:
-              GH_TOKEN: $(github-ada-cat-auth-token)
+                GH_TOKEN: $(github-ada-cat-auth-token)
