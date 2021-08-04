@@ -11,14 +11,11 @@ echo "Tag  $tag"
 echo "SHA $sha"
 
 echo "Setting user name and email"
-git config --global user.name "ahmedabdoortiga"
-git config --global user.email "ahmohame@microsoft.com"
-
-echo "authenticating"
-curl -H "Authorization: token $3" https://api.github.com/user
+git config --global user.name "a11y-insights"
+git config --global user.email "a11y-insights-team@microsoft.com"
 
 echo "pull all"
-git pull --all
+git pull
 
 echo "Create a new branch"
 git checkout -b releases/$tag $sha
