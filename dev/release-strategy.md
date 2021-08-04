@@ -54,10 +54,10 @@ Logically we will have one build workflow and two release workflows (one for the
 
 #### Build workflow
 
-This will be implemented as a GitHub action that triggers on each commit. When triggered,, the **build workflow** will do the following:
+This will be implemented as a GitHub action that triggers on each commit. When triggered, the **build workflow** will do the following:
 
 -   Clone the repo (`main` branch) at the lastest SHA
--   Build the `/dist` folder and ADO extension (Open question: Should we sign in this action?)
+-   Build the `/dist` folder and ADO extension
 -   Perform any possible self-validation
 
 #### Action release workflow
@@ -66,7 +66,7 @@ This will be implemented as a GitHub action that is manually triggered. When tri
 
 -   Clone the repo (`main` branch) at a specific SHA
 -   Build the `/dist` folder as the _Action artifact_
--   Create a new branch (_releases/vX.Y.Z_), probably failing the release if the branch already exists
+-   Create a new parentless branch (_releases/gh/vX.Y.Z_), failing if the branch already exists.
 -   Copy the _Action artifact_ into the new branch
 -   Commit the new branch
 -   Create a release tag (_vX.Y.Z_)
@@ -85,8 +85,10 @@ This will be implemented as an ADO pipeline that is manually triggered. When tri
 -   Create a tag that corresponds to the SHA that build this release (_vX.Y.X-sources-ado_)
 -   Push the new tag
 
-#### Workflow questions:
+#### Open questions:
 
+-   Is it possible to generate the Action's ThirdPartyNotices file through a GitHub action, or is that only available through an ADO pipeline?
+-   Should we sign bits during the build workflow, or should we accept the risk of discovering signing issues only in the release workflows?
 -   Do we need Canary/Insider/Production for release validation, or are we OK with just Production?
 
 ### Models for consuming the action
