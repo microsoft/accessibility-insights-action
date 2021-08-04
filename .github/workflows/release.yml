@@ -22,8 +22,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-          persist-credentials: false
+          token: ${{ secrets.OUTH }}
 
       - name: Setup node
         uses: actions/setup-node@v1
