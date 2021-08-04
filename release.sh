@@ -14,6 +14,9 @@ echo "Setting user name and email"
 git config --global user.name "a11y-insights"
 git config --global user.email "a11y-insights-team@microsoft.com"
 
+echo "authenticationg"
+curl -H "Authorization: token $3" https://api.github.com/user
+
 echo "pull all"
 git pull --all
 
