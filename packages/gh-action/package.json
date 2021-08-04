@@ -1,5 +1,5 @@
 {
-    "name": "accessibility-insights-gh-action",
+    "name": "@accessibility-insights-action/gh-action",
     "private": true,
     "version": "2.2.0",
     "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
@@ -33,6 +33,6 @@
     "devDependencies": {},
     "dependencies": {
         "reflect-metadata": "^0.1.13",
-        "shared": "^1.0.0"
+        "@accessibility-insights-action/shared": "^1.0.0"
     }
 }

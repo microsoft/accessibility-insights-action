@@ -70019,9 +70019,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 // Licensed under the MIT License.
 __webpack_require__(/*! reflect-metadata */ "../../node_modules/reflect-metadata/Reflect.js");
 __webpack_require__(/*! ./module-name-mapper */ "./src/module-name-mapper.ts");
-const shared_1 = __webpack_require__(/*! shared */ "../shared/dist/index.js");
-const shared_2 = __webpack_require__(/*! shared */ "../shared/dist/index.js");
-const shared_3 = __webpack_require__(/*! shared */ "../shared/dist/index.js");
+const shared_1 = __webpack_require__(/*! @accessibility-insights-action/shared */ "../shared/dist/index.js");
+const shared_2 = __webpack_require__(/*! @accessibility-insights-action/shared */ "../shared/dist/index.js");
+const shared_3 = __webpack_require__(/*! @accessibility-insights-action/shared */ "../shared/dist/index.js");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const container = shared_1.setupIocContainer();
     const logger = container.get(shared_2.Logger);
