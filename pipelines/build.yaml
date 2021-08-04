@@ -51,69 +51,69 @@ jobs:
           - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
             displayName: Publish code coverage to codecov
 
-    - job: 'SDT'
-      pool:
-          vmImage: $(linuxImage)
-          demands: npm
-      steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
+    # - job: 'SDT'
+    #   pool:
+    #       vmImage: $(linuxImage)
+    #       demands: npm
+    #   steps:
+    #       - task: NodeTool@0
+    #         inputs:
+    #             versionSpec: '12.x'
+    #         displayName: use node 12.x
 
-          - script: yarn install --frozen-lockfile
-            displayName: Install dependencies
+    #       - script: yarn install --frozen-lockfile
+    #         displayName: Install dependencies
 
-          - script: yarn cbuild
-            displayName: Build
+    #       - script: yarn cbuild
+    #         displayName: Build
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
-            displayName: 'Run CredScan'
-            inputs:
-                toolMajorVersion: V2
-                debugMode: false
+    #       - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
+    #         displayName: 'Run CredScan'
+    #         inputs:
+    #             toolMajorVersion: V2
+    #             debugMode: false
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-policheck.PoliCheck@1
-            displayName: 'Run PoliCheck'
-            inputs:
-                targetType: F
-                SOMEnabled: true
+    #       - task: securedevelopmentteam.vss-secure-development-tools.build-task-policheck.PoliCheck@1
+    #         displayName: 'Run PoliCheck'
+    #         inputs:
+    #             targetType: F
+    #             SOMEnabled: true
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
-            displayName: 'Generate CodeAnalysisLogs for TSA'
-            inputs:
-                CredScan: true
-                PoliCheck: true
+    #       - task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
+    #         displayName: 'Generate CodeAnalysisLogs for TSA'
+    #         inputs:
+    #             CredScan: true
+    #             PoliCheck: true
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@2
-            displayName: 'Publish CodeAnalysisLogs Artifact for Scans tab UI'
-            condition: succeededOrFailed()
+    #       - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@2
+    #         displayName: 'Publish CodeAnalysisLogs Artifact for Scans tab UI'
+    #         condition: succeededOrFailed()
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-uploadtotsa.TSAUpload@1
-            displayName: 'TSA Upload'
-            inputs:
-                tsaVersion: TsaV2
-                codebase: NewOrUpdate
-                codeBaseName: '$(TSACodebaseName)'
-                notificationAlias: '$(notificationAlias)'
-                codeBaseAdmins: '$(codeBaseAdmins)'
-                instanceUrlForTsaV2: $(instanceUrlForTsaV2)
-                projectNameMSENG: $(projectNameMSENG)
-                areaPath: '$(areaPath)'
-                iterationPath: '$(iterationPath)'
-                uploadAPIScan: false
-                uploadBinSkim: false
-                uploadFortifySCA: false
-                uploadFxCop: false
-                uploadModernCop: false
-                uploadPREfast: false
-                uploadRoslyn: false
-                uploadTSLint: false
+    #       - task: securedevelopmentteam.vss-secure-development-tools.build-task-uploadtotsa.TSAUpload@1
+    #         displayName: 'TSA Upload'
+    #         inputs:
+    #             tsaVersion: TsaV2
+    #             codebase: NewOrUpdate
+    #             codeBaseName: '$(TSACodebaseName)'
+    #             notificationAlias: '$(notificationAlias)'
+    #             codeBaseAdmins: '$(codeBaseAdmins)'
+    #             instanceUrlForTsaV2: $(instanceUrlForTsaV2)
+    #             projectNameMSENG: $(projectNameMSENG)
+    #             areaPath: '$(areaPath)'
+    #             iterationPath: '$(iterationPath)'
+    #             uploadAPIScan: false
+    #             uploadBinSkim: false
+    #             uploadFortifySCA: false
+    #             uploadFxCop: false
+    #             uploadModernCop: false
+    #             uploadPREfast: false
+    #             uploadRoslyn: false
+    #             uploadTSLint: false
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@1
-            displayName: 'Break build on CredScan violations'
-            inputs:
-                CredScan: true
+    #       - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@1
+    #         displayName: 'Break build on CredScan violations'
+    #         inputs:
+    #             CredScan: true
 
     # - job: 'Release'
     #   pool:
