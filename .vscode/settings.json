@@ -4,8 +4,7 @@
     "files.insertFinalNewline": true,
     "prettier.requireConfig": true,
     "eslint.validate": ["typescript", "javascript"],
-    "eslint.enable": true,
-    "eslint.workingDirectories": ["packages/gh-action", "packages/shared"],
+    "eslint.workingDirectories": [{ "pattern": "./packages/*/" }],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
