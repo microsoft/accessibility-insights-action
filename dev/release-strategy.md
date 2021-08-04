@@ -18,10 +18,10 @@ Licensed under the MIT License.
 The repo will contain 1 branch per released version of the GitHub action. We are explicitly assuming that the ADO extension will release via the ADO marketplace and will not require a corresponding release branch. The name of the branch will be the same as the name of the release for the GitHub Action, as shown here:
 
 ```
-/v1.0.1
-/v1.0.2
-/v1.0.3
-/v2.0.0
+v1.0.1
+v1.0.2
+v1.0.3
+v2.0.0
 ```
 
 ### Tags
@@ -31,10 +31,10 @@ The repo will contain 1 branch per released version of the GitHub action. We are
 Each release of the GitHub Action will have a tag that points to each specific release branch within the repo. In addition, each major release version will have a tag that points to the latest release of that major version. We could optionally also have a `latest` tag, which would point to the highest released version, as shown here:
 
 ```
-/v1.0.1   <== v1.0.1
-/v1.0.2   <== v1.0.2
-/v1.0.3   <== v1.0.3, v1
-/v2.0.0   <== v2.0.0, v2, latest
+v1.0.1   <== v1.0.1
+v1.0.2   <== v1.0.2
+v1.0.3   <== v1.0.3, v1
+v2.0.0   <== v2.0.0, v2, latest
 ```
 
 #### Source tags
