@@ -160,9 +160,11 @@ jobs:
                 outputformat: html
             timeoutInMinutes: 5
 
-          - script: yarn build:all
-            displayName: build:all
-            timeoutInMinutes: 10
+          - script: yarn install --frozen-lockfile
+          displayName: Install dependencies
+
+          - script: yarn cbuild
+            displayName: Build
 
           - task: PublishBuildArtifacts@1
             inputs:
