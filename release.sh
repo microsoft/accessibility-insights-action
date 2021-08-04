@@ -14,6 +14,9 @@ echo "Setting user name and email"
 git config --global user.name "a11y-insights"
 git config --global user.email "a11y-insights-team@microsoft.com"
 
+echo "git pull"
+git pull
+
 echo "Create a new branch"
 git checkout -b releases/$tag $sha
 
