@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 variables:
-    linuxImage: 'ubuntu-16.04'
+    linuxImage: 'ubuntu-18.04'
     windowsImage: 'windows-2019'
 
 jobs:
