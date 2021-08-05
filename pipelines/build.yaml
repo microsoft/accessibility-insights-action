@@ -44,7 +44,7 @@ jobs:
           - script: yarn install --frozen-lockfile
             displayName: Install dependencies
 
-          - script: run: yarn test -- -- --ci --coverage
+          - script: yarn test -- -- --ci --coverage
             displayName: Run tests
             env:
                 NODE_OPTIONS: --max_old_space_size=4096
