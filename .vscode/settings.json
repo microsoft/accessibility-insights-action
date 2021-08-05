@@ -4,16 +4,14 @@
     "files.insertFinalNewline": true,
     "prettier.requireConfig": true,
     "eslint.validate": ["typescript", "javascript"],
-    "eslint.enable": true,
+    "eslint.workingDirectories": [{ "pattern": "./packages/*/" }],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
     "shellformat.effectLanguages": ["shellscript"],
     "files.exclude": {
         "**/node_modules/": true,
-        "**/packages/": true,
         "**/.git": true,
-        "**/dist": true,
         "**/out": true,
         "**/test-results": true
     }

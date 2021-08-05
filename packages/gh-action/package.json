@@ -1,0 +1,38 @@
+{
+    "name": "@accessibility-insights-action/gh-action",
+    "private": true,
+    "version": "2.2.0",
+    "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "webpack --config ./webpack.config.js && node create-image-package-metadata.js",
+        "watch:build": "webpack --config ./webpack.config.js --watch",
+        "cbuild": "npm-run-all --serial clean build",
+        "clean": "rimraf dist test-results accessibility-insights-action/dist",
+        "lint:check": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\"",
+        "lint:fix": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\" --quiet --fix",
+        "test": "jest",
+        "watch:test": "jest --watch",
+        "deploy": "mkdir -p ./accessibility-insights-action && cp -r ./dist ./accessibility-insights-action || xcopy .\\dist .\\accessibility-insights-action\\dist\\ /s /e /r /y /q",
+        "act:run": "act -W \"./dev/github/workflows/\" -b -r --env CHROME_BIN=/usr/bin/chromium",
+        "act": "npm-run-all --serial deploy act:run"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/accessibility-insights-action.git"
+    },
+    "keywords": [
+        "actions"
+    ],
+    "author": "Microsoft",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/microsoft/accessibility-insights-action/issues"
+    },
+    "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
+    "devDependencies": {},
+    "dependencies": {
+        "reflect-metadata": "^0.1.13",
+        "@accessibility-insights-action/shared": "^1.0.0"
+    }
+}
