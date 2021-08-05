@@ -162,8 +162,15 @@ jobs:
           - script: yarn cbuild
             displayName: Build
 
+          - task: CopyFiles@2
+            displayName: 'Copy Files to: d'
+            inputs:
+              SourceFolder: d
+              Contents: '$(System.DefaultWorkingDirectory)/src/NOTICE.html /
+              $(System.DefaultWorkingDirectory)/dist'
+              TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
           - task: PublishBuildArtifacts@1
             inputs:
-                pathtoPublish: '$(System.DefaultWorkingDirectory)/src/NOTICE.html'
+                pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
                 artifactName: 'drop'
             displayName: publish drop
