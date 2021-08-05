@@ -155,7 +155,7 @@ jobs:
                     $(System.DefaultWorkingDirectory)/NOTICE.html
                     $(System.DefaultWorkingDirectory)/dist/index.js
                     $(System.DefaultWorkingDirectory)/dist/package.json
-                    $(System.DefaultWorkingDirectory)/dist/package.json
+                    $(System.DefaultWorkingDirectory)/dist/yarn.lock
                     $(System.DefaultWorkingDirectory)/action.yml
                     $(System.DefaultWorkingDirectory)/RELEASE_COMMIT.md
 
