@@ -144,6 +144,11 @@ jobs:
           - script: yarn cbuild
             displayName: Build
 
+          - bash: |
+                sed -i "s/Commit_Message/$(Build.SourceVersionMessage)/g" RELEASE_COMMIT.md
+                sed -i "s/Commit_SHA/$(Build.SourceVersion)/g" RELEASE_COMMIT.md
+            displayName: generate release README Info
+
           - task: CopyFiles@2
             displayName: 'Copy Files to: drop'
             inputs:
@@ -151,7 +156,7 @@ jobs:
                     $(System.DefaultWorkingDirectory)/NOTICE.html
                     $(System.DefaultWorkingDirectory)/dist/**
                     $(System.DefaultWorkingDirectory)/action.yml
-                    $(System.DefaultWorkingDirectory)/README.md
+                    $(System.DefaultWorkingDirectory)/RELEASE_COMMIT.md
 
                 TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
 
