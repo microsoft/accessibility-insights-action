@@ -163,12 +163,12 @@ jobs:
             displayName: Build
 
           - task: CopyFiles@2
-            displayName: 'Copy Files to: d'
+            displayName: 'Copy Files to: drop'
             inputs:
-              SourceFolder: d
-              Contents: '$(System.DefaultWorkingDirectory)/src/NOTICE.html /
-              $(System.DefaultWorkingDirectory)/dist'
-              TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
+                Contents: |
+                    '$(System.DefaultWorkingDirectory)/src/NOTICE.html' /
+                    '$(System.DefaultWorkingDirectory)/dist'
+                TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
           - task: PublishBuildArtifacts@1
             inputs:
                 pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
