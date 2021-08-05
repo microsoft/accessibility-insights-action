@@ -23,6 +23,7 @@ README.md
 action.yml
 /dist
     index.js
+    index.js.map
     package.json
     yarn.lock
 ```
