@@ -49,6 +49,8 @@ module.exports = (env) => {
             }),
             new ForkTsCheckerWebpackPlugin(),
             new CaseSensitivePathsPlugin(),
+            // we ignore encoding because of https://github.com/microsoft/accessibility-insights-action/pull/752#issuecomment-893026690
+            new webpack.IgnorePlugin({ resourceRegExp: /^encoding$/, contextRegExp: /node-fetch/ }),
         ],
         resolve: {
             extensions: ['.ts', '.js', '.json'],
