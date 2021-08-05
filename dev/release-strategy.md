@@ -10,25 +10,18 @@ Licensed under the MIT License.
 -   We will store the both the sources and the releases in the `accessibility-insights-action` repo (unchanged from today). If we later decide to change this, we will move the source code to a new repo and keep the consumption experience unchanged.
 -   All code contributions will merge into the main branch
 -   All releases will be workflow-controlled
--   We will create a new branch for each release of the GitHub Action. That branch will contain just the files needed to release the action (`action.yml`, the code packed into `index.js`, etc.)
+-   We will create a new commit for each release of the GitHub Action.
 -   The existing ./dist folder of the repo will first be removed, then added to `./.gitignore`. It will exist only for local building and testing
 
 ### Release branches
 
-The repo will contain 1 branch per released version of the GitHub action. We are explicitly assuming that the ADO extension will release via the ADO marketplace and will not require a corresponding release branch. The name of the branch will be the same as the name of the release for the GitHub Action, as shown here:
-
-```
-v1.0.1
-v1.0.2
-v1.0.3
-v2.0.0
-```
+Each release will be associated with a commit containing _just the files needed for release_ (_i.e._, without the original source files). To minimize potential confusion, our preferred option is to keep each of these commits _disassociated_ from any specific branch. We believe that this is possible with relatively little effort. If, however, this proves infeasible, then we will have exactly _one_ branch used for releases of the GitHub action. That branch will be named `releases/gh`. We currently believe that the ADO extension will release via the ADO marketplace and will _not_ require a corresponding release commit. In a worst-case scenario (we need branches both for both action and for ADO), we will use a branch named `releases/ado` for ADO releases.
 
 ### Tags
 
 #### Release tags
 
-Each release of the GitHub Action will have a tag that points to each specific release branch within the repo. In addition, each major release version will have a tag that points to the latest release of that major version. We could optionally also have a `latest` tag, which would point to the highest released version, as shown here:
+Each release of the GitHub Action will have a tag that points to a specific commit within the repo. That commit will contain just the files needed to release the action (current thought is `index.js`, `action.yaml`, `notice.html`, `license.md`, `readme.md`--the readme will probably point back to the source tag used to create the release). In addition, each major release version will have a tag that points to the latest release of that major version. We could optionally also have a `latest` tag, which would point to the highest released version, as shown here:
 
 ```
 v1.0.1   <== v1.0.1
@@ -39,7 +32,7 @@ v2.0.0   <== v2.0.0, v2, latest
 
 #### Source tags
 
-Each release will have a tag that points to the corresponding sources in the main branch. These tags _must_ have names that are distinct from the release tags, since they point to different branches. To make the tags as intuitive as possible, and to support releases of different packages (_e.g._, the GitHub Action vs the ADO extension), we will use the following pattern
+Each release will have a corresponding tag that identifies the commit used to generate that release. These tags _must_ have names that are distinct from the release tags, since they point to different commits. To make the tags as intuitive as possible, and to support releases of different packages (_e.g._, the GitHub Action vs the ADO extension), we will use the following pattern
 
 | Version | Type of release | Source tag release |
 | ------- | --------------- | ------------------ |
@@ -54,7 +47,7 @@ Logically we will have one build workflow and two release workflows (one for the
 
 #### Build workflow
 
-This will be implemented as a GitHub action that triggers on each commit. When triggered, the **build workflow** will do the following:
+This will be implemented as a GitHub action if possible, an ADO pipeline if not. In either case, the workflow will trigger on each commit. Once triggered, the **build workflow** will do the following:
 
 -   Clone the repo (`main` branch) at the lastest SHA
 -   Build the `/dist` folder and ADO extension
@@ -62,27 +55,28 @@ This will be implemented as a GitHub action that triggers on each commit. When t
 
 #### Action release workflow
 
-This will be implemented as a GitHub action that is manually triggered. When triggered, the **action release workflow** will do the following: Assume that our release version is `vX.Y.Z`
+This will be implemented as a GitHub action if possible, an ADO pipeline if not. In either case, the workflow will be manually triggered. Once triggered, the **action release workflow** will do the following: Assume that our release version is `vX.Y.Z`
 
--   Clone the repo (`main` branch) at a specific SHA
+-   Clone the repo at a specified source commit
 -   Build the `/dist` folder as the _Action artifact_
--   Create a new parentless branch (_releases/gh/vX.Y.Z_), failing if the branch already exists.
+-   Create a new orphaned branch (_releases/gh/vX.Y.Z_), failing if the branch already exists.
 -   Copy the _Action artifact_ into the new branch
 -   Commit the new branch
 -   Create a release tag (_vX.Y.Z_)
 -   Create or update the major version tag (_vX_)
 -   Create or update the `latest` tag (if we use it and if no higher-versioned release already exists)
--   Create a tag that corresponds to the SHA that build this release (_vX.Y.X-sources-gh_)
--   Push all new tags
+-   Create a `vX.Y.Z-sources-gh` tag that corresponds to the specified source commit
+-   Push all of the created/updated tags
+-   Delete the orphaned branch. The commit will now exist outside of any branch
 
 #### ADO extension release workflow
 
-This will be implemented as an ADO pipeline that is manually triggered. When triggered, the **ADO extension release workflow** will do the following:
+This will be implemented as an ADO pipeline that is manually triggered. Once triggered, the **ADO extension release workflow** will do the following:
 
--   Clone the repo (`main` branch) at a specific SHA
--   Build and sign the _ADO artifact_ from the sources in `main`
+-   Clone the repo at a specified source commit
+-   Build and sign the _ADO artifact_
 -   Publish the _ADO artifact_ to the marketplace
--   Create a tag that corresponds to the SHA that build this release (_vX.Y.X-sources-ado_)
+-   Create a `vX.Y.Z-sources-ado` tag that corresponds to the specified source commit
 -   Push the new tag
 
 #### Open questions:
