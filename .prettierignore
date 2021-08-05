@@ -15,9 +15,9 @@
 **/*.snap.md
 **/bin/
 **/obj/
+**/dist/
 **/yarn-*.log
 copyright-header.txt
-dist/
 LICENSE
 NOTICES.txt
 test-results/

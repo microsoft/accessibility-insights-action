@@ -54,13 +54,16 @@ jobs:
     - name: Install dependencies
       run: yarn install --frozen-lockfile
     
+    - name: Build
+      run: yarn cbuild
+
     - name: Run tests
-      run: yarn test --ci --coverage
+      run: yarn test -- -- --ci --coverage
       env:
         NODE_OPTIONS: --max_old_space_size=4096
 
     - name: Publish code coverage to codecov
-      run: yarn publish-code-coverage -t ${{ secrets.CODECOV_TOKEN }}
+      run: yarn publish-code-coverage -- -t ${{ secrets.CODECOV_TOKEN }}
 
   self-test:
     name: Self-validate action
@@ -84,7 +87,7 @@ jobs:
       run: yarn cbuild
 
     - name: Scan test site
-      uses: ./
+      uses: ./packages/gh-action/
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         site-dir: ${{ github.workspace }}/dev/website-root
