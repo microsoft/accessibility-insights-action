@@ -167,7 +167,7 @@ jobs:
             inputs:
                 Contents: |
                     $(System.DefaultWorkingDirectory)/src/NOTICE.html
-                    $(System.DefaultWorkingDirectory)/dist
+                    $(System.DefaultWorkingDirectory)/dist/**
                     $(System.DefaultWorkingDirectory)/action.yml
                     $(System.DefaultWorkingDirectory)/README.md
 
