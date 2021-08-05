@@ -126,23 +126,22 @@ jobs:
                 versionSpec: '12.x'
             displayName: use node 12.x
 
+          - script: yarn install --frozen-lockfile
+            displayName: Install dependencies
+
+          - script: yarn cbuild
+            displayName: Build
+
           - task: ComponentGovernanceComponentDetection@0
             displayName: 'dependency detection (Component Governance)'
             inputs:
                 ignoreDirectories: 'drop,dist,extension,node_modules'
-                verbosity: Normal
 
           - task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
             displayName: 'generate NOTICE.html file'
             inputs:
                 outputfile: '$(System.DefaultWorkingDirectory)/NOTICE.html'
                 outputformat: html
-
-          - script: yarn install --frozen-lockfile
-            displayName: Install dependencies
-
-          - script: yarn cbuild
-            displayName: Build
 
           - bash: |
                 sed -i "s/Commit_Message/$(Build.SourceVersionMessage)/g" RELEASE_COMMIT.md
