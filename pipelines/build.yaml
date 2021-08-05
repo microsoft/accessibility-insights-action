@@ -116,7 +116,7 @@ jobs:
     #         inputs:
     #             CredScan: true
 
-    - job: 'Publish Build Drops'
+    - job: 'PublishBuildDrops'
       pool:
           vmImage: $(linuxImage)
           demands: npm
