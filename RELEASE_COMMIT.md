@@ -5,4 +5,4 @@ Licensed under the MIT License.
 
 # About
 
-This release was generated from this source tree [Commit_Message](https://github.com/AhmedAbdoOrtiga/accessibility-insights-action/tree/Commit_SHA).
+This release was generated from this source tree [Commit_Message](https://github.com/microsoft/accessibility-insights-action/tree/Commit_SHA).
