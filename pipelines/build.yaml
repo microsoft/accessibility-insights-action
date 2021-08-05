@@ -153,11 +153,11 @@ jobs:
             inputs:
                 Contents: |
                     $(System.DefaultWorkingDirectory)/NOTICE.html
-                    $(System.DefaultWorkingDirectory)/dist/index.js
-                    $(System.DefaultWorkingDirectory)/dist/package.json
-                    $(System.DefaultWorkingDirectory)/dist/yarn.lock
-                    $(System.DefaultWorkingDirectory)/action.yml
-                    $(System.DefaultWorkingDirectory)/RELEASE_COMMIT.md
+                    $(System.DefaultWorkingDirectory)/packages/gh-action/dist/index.js
+                    $(System.DefaultWorkingDirectory)/packages/gh-action/dist/package.json
+                    $(System.DefaultWorkingDirectory)/packages/gh-action/dist/yarn.lock
+                    $(System.DefaultWorkingDirectory)/packages/gh-action/action.yml
+                    $(System.DefaultWorkingDirectory)/packages/RELEASE_COMMIT.md
 
                 TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
 
