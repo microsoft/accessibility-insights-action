@@ -44,7 +44,7 @@ jobs:
           - script: yarn install --frozen-lockfile
             displayName: Install dependencies
 
-          - script: yarn test --ci --coverage
+          - script: run: yarn test -- -- --ci --coverage
             displayName: Run tests
             env:
                 NODE_OPTIONS: --max_old_space_size=4096
@@ -144,8 +144,8 @@ jobs:
                 outputformat: html
 
           - bash: |
-                sed -i "s/Commit_Message/$(Build.SourceVersionMessage)/g" RELEASE_COMMIT.md
-                sed -i "s/Commit_SHA/$(Build.SourceVersion)/g" RELEASE_COMMIT.md
+                sed -i "s/Commit_Message/$(Build.SourceVersionMessage)/g" "./packages/RELEASE_COMMIT.md"
+                sed -i "s/Commit_SHA/$(Build.SourceVersion)/g" "./packages/RELEASE_COMMIT.md"
             displayName: generate release README Info
 
           - task: CopyFiles@2
