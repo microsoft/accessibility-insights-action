@@ -23,8 +23,8 @@ To make a change, you can follow these steps:
 -   run `yarn build` and/or `yarn test`. If you're changing `shared`, you may need to build it before `gh-action` picks up changes.
 -   test your changes either
     -   locally: follow the instructions below this section
-    -   remotely: push your post-build changes to GitHub and consume your branch from a separate repository. Replace `uses: microsoft/accessibility-insights-action@v2` with `uses: YourAccount/accessibility-insights-action@YourBranchOrSHA`
--   push your post-build changes to GitHub (notably, your diff will likely include `dist/index.js`)
+    -   remotely: push your changes to GitHub and consume your branch from a separate repository. Replace `uses: microsoft/accessibility-insights-action@v2` with `uses: YourAccount/accessibility-insights-action@YourBranchOrSHA`
+-   push your changes to GitHub
 -   create a pull request. If your branch is on the main repo, the PR build should run your implementation against the test files in `website-root`.
 
 # Run GitHub Actions locally
