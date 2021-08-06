@@ -46,7 +46,7 @@ export class PullRequestCommentCreator extends ProgressReporter {
                     await this.octokit.issues.createComment({
                         owner: this.githubObj.context.repo.owner,
                         repo: this.githubObj.context.repo.repo,
-                        body: reportMarkdown,
+                        body: "placeholder markdown",
                         issue_number: pullRequest.number,
                     }),
             );
@@ -57,7 +57,7 @@ export class PullRequestCommentCreator extends ProgressReporter {
                     await this.octokit.issues.updateComment({
                         owner: this.githubObj.context.repo.owner,
                         repo: this.githubObj.context.repo.repo,
-                        body: reportMarkdown,
+                        body: "placeholder markdown update",
                         comment_id: existingComment.id,
                     }),
             );
