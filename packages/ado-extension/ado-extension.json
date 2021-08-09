@@ -8,13 +8,11 @@
         {
             "id": "Microsoft.VisualStudio.Services"
         }
-    ],    
-    "description": "Scan accessibility issues in an Azure DevOps pipeline",
-    "categories": [
-        "Azure Pipelines"
     ],
+    "description": "Scan accessibility issues in an Azure DevOps pipeline",
+    "categories": ["Azure Pipelines"],
     "icons": {
-        "default": "pkg/extension-icon.png"        
+        "default": "pkg/extension-icon.png"
     },
     "files": [
         {
@@ -25,9 +23,7 @@
         {
             "id": "accessibility-insights-ado-task",
             "type": "ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
+            "targets": ["ms.vss-distributed-task.tasks"],
             "properties": {
                 "name": "pkg"
             }

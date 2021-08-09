@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 // run from root folder, this scripts prepares the dist folder
 
 const fs = require('fs-extra');
