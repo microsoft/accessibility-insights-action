@@ -57,17 +57,6 @@ jobs:
           vmImage: $(windowsImage)
           demands: npm
       steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
-
-          - script: yarn install --frozen-lockfile
-            displayName: Install dependencies
-
-          - script: yarn cbuild
-            displayName: Build
-
           - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
             displayName: 'Run CredScan'
             inputs:
