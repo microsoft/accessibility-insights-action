@@ -10,19 +10,19 @@ const taskJson = JSON.parse(fs.readFileSync('task.json'));
 const extensionJson = JSON.parse(fs.readFileSync('ado-extension.json'));
 
 const overrideExtensionName = process.env.ADO_EXTENSION_NAME;
-if (overrideExtensionName?.length > 0) {
+if (overrideExtensionName && overrideExtensionName.length > 0) {
     taskJson.name = overrideExtensionName;
     taskJson.friendlyName = overrideExtensionName;
     extensionJson.name = overrideExtensionName;
 }
 
 const overrideExtensionId = process.env.ADO_EXTENSION_ID;
-if (overrideExtensionId?.length > 0) {
+if (overrideExtensionId && overrideExtensionId.length > 0) {
     extensionJson.id = overrideExtensionId;
 }
 
 const overrideTaskId = process.env.ADO_TASK_ID;
-if (overrideTaskId?.length > 0) {
+if (overrideTaskId && overrideTaskId.length > 0) {
     taskJson.id = overrideTaskId;
 }
 
