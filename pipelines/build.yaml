@@ -1,6 +1,11 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+trigger: # trigger only affects CI builds
+    branches:
+        include:
+            - main
+
 variables:
     linuxImage: 'ubuntu-18.04'
     windowsImage: 'windows-2019'
@@ -31,19 +36,6 @@ jobs:
           - script: yarn lint:check
             displayName: Check for lint errors
 
-    - job: 'Tests'
-      pool:
-          vmImage: $(linuxImage)
-          demands: npm
-      steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
-
-          - script: yarn install --frozen-lockfile
-            displayName: Install dependencies
-
           - script: yarn test -- -- --ci --coverage
             displayName: Run tests
             env:
@@ -53,6 +45,7 @@ jobs:
             displayName: Publish code coverage to codecov
 
     - job: 'SDT'
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       pool:
           vmImage: $(windowsImage)
           demands: npm
@@ -162,3 +155,9 @@ jobs:
                 pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
                 artifactName: 'drop'
             displayName: publish drop
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
+                artifactName: 'ado-extension-drop'
+            displayName: publish ado-extension-drop
