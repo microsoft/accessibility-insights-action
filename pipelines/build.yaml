@@ -31,19 +31,6 @@ jobs:
           - script: yarn lint:check
             displayName: Check for lint errors
 
-    - job: 'Tests'
-      pool:
-          vmImage: $(linuxImage)
-          demands: npm
-      steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
-
-          - script: yarn install --frozen-lockfile
-            displayName: Install dependencies
-
           - script: yarn test -- -- --ci --coverage
             displayName: Run tests
             env:
@@ -53,7 +40,7 @@ jobs:
             displayName: Publish code coverage to codecov
 
     - job: 'SDT'
-      condition: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       pool:
           vmImage: $(windowsImage)
           demands: npm
