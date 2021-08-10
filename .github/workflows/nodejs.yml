@@ -72,7 +72,20 @@ jobs:
       checks: write
       pull-requests: write
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+      
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+    
+    - name: Build
+      run: yarn cbuild
+
     - name: Scan test site
       uses: ./packages/gh-action/
       with:

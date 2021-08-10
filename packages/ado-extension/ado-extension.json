@@ -1,0 +1,32 @@
+{
+    "manifestVersion": 1,
+    "id": "accessibility-insights-ado-extension",
+    "name": "Accessibility Insights Azure DevOps Extension",
+    "version": "1.0.1",
+    "publisher": "accessibility-insights-feature-crew",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "description": "Scan accessibility issues in an Azure DevOps pipeline",
+    "categories": ["Azure Pipelines"],
+    "icons": {
+        "default": "pkg/extension-icon.png"
+    },
+    "files": [
+        {
+            "path": "pkg"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "accessibility-insights-ado-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": ["ms.vss-distributed-task.tasks"],
+            "properties": {
+                "name": "pkg"
+            }
+        }
+    ]
+}

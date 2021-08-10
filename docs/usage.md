@@ -16,7 +16,7 @@ Avoid referring to `@main` directly; it may contain undocumented breaking change
 
 Reference this action in your GitHub workflow with the snippets on this page.
 
--   See [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/main/action.yml) for option descriptions.
+-   See [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/v2/action.yml) for option descriptions. Make sure you view the correct source file for your version (e.g. v2 in the URL)
 -   See [GitHub's documentation](https://docs.github.com/en/actions/learn-github-actions/introduction-to-github-actions#create-an-example-workflow) for a primer on GitHub actions.
 
 ### Basic template
@@ -95,7 +95,7 @@ Generally `/` on Ubuntu and `//` on Windows are good defaults for `scan-url-rela
 
 ### Modify crawling options
 
-The action supports several crawling options defined in [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/main/action.yml).
+The action supports several crawling options defined in [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/v2/action.yml).
 
 For instance, you can:
 
