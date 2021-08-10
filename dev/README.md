@@ -3,6 +3,16 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License.
 -->
 
+# Project structure
+
+This repository contains code for two projects:
+
+-   `packages/gh-action` contains a GitHub action, also released to tags in this repository
+-   `packages/ado-extension` is an in-progress Azure DevOps extension
+-   `packages/shared` contains most of the shared logic from the two projects; over time, product-specific code should move from `packages/shared` into the appropriate product folder
+
+We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, running yarn scripts in the root directory should produce output from all packages.
+
 # Development workflow
 
 To make a change, you can follow these steps:
@@ -10,11 +20,11 @@ To make a change, you can follow these steps:
 -   clone the repository. While our team typically uses forks, the action (and therefore our self-test workflow) doesn't support pull requests from forks yet (tracked [here](https://github.com/microsoft/accessibility-insights-action/issues/629)). For this reason, maintainers might consider working off branches of the main repository. To test a fork, you can consume your fork's branch from a different repository.
 -   run `yarn install`. You might encounter `Found incompatible module` because one of our dependencies expects node versions `^10.17.0 || ^12.3.0`. You can use `yarn install --ignore-engines` to ignore this error.
 -   make your code change
--   run `yarn build` and/or `yarn test`
+-   run `yarn build` and/or `yarn test`. If you're changing `shared`, you may need to build it before `gh-action` picks up changes.
 -   test your changes either
     -   locally: follow the instructions below this section
-    -   remotely: push your post-build changes to GitHub and consume your branch from a separate repository. Replace `uses: microsoft/accessibility-insights-action@v2` with `uses: YourAccount/accessibility-insights-action@YourBranchOrSHA`
--   push your post-build changes to GitHub (notably, your diff will likely include `dist/index.js`)
+    -   remotely: push your changes to GitHub and consume your branch from a separate repository. Replace `uses: microsoft/accessibility-insights-action@v2` with `uses: YourAccount/accessibility-insights-action@YourBranchOrSHA`
+-   push your changes to GitHub
 -   create a pull request. If your branch is on the main repo, the PR build should run your implementation against the test files in `website-root`.
 
 # Run GitHub Actions locally
