@@ -132,11 +132,6 @@ jobs:
                 outputfile: '$(System.DefaultWorkingDirectory)/NOTICE.html'
                 outputformat: html
 
-          - bash: |
-                sed -i "s/Commit_Message/$(Build.SourceVersionMessage)/g" "./packages/RELEASE_COMMIT.md"
-                sed -i "s/Commit_SHA/$(Build.SourceVersion)/g" "./packages/RELEASE_COMMIT.md"
-            displayName: generate release README Info
-
           - task: CopyFiles@2
             displayName: 'Copy Files to: drop'
             inputs:
@@ -146,9 +141,21 @@ jobs:
                     $(System.DefaultWorkingDirectory)/packages/gh-action/dist/package.json
                     $(System.DefaultWorkingDirectory)/packages/gh-action/dist/yarn.lock
                     $(System.DefaultWorkingDirectory)/packages/gh-action/action.yml
-                    $(System.DefaultWorkingDirectory)/packages/RELEASE_COMMIT.md
 
                 TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
+
+          - bash: |
+                echo '<!--
+                                  Copyright (c) Microsoft Corporation. All rights reserved.
+                                  Licensed under the MIT License.
+                                  -->
+                                  
+                                  # About
+                                  
+                                  This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
+                                  ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
+
+            displayName: 'Generate Release README Info'
 
           - task: PublishBuildArtifacts@1
             inputs:
