@@ -94,20 +94,3 @@ _Note_: When run act first time choose **large** image option.
 _Note_: When you get an error about composite actions is not supported then [build act from source](https://github.com/nektos/act#building-from-source) to use latest features.
 
 Action is running inside a docker container. After action is completed the docker container is still running to preserve chrome setup and reduce subsequent action startup time.
-
-# Release instructions
-
-To create a new release, a repo maintainer should follow these steps:
-
-1. Create and merge a release pull request to `main` which:
-    - Updates `/package.json` with a new semantic version number
-    - Updates `/docs/usage.md` if needed to reference the upcoming tag
-    - Updates `/dist/` with the results of `yarn build`
-    - Updates `/NOTICES.txt` based on the dependencies in `yarn.lock`. If your release PR updates `yarn.lock`, you might consider splitting this step out into a separate follow-up PR.
-2. Validate the release build
-    - Wait for a passing CI build against `main`
-    - Update a separate test repository to refer to `accessibility-insights-action@mergecommithash` and verify that it functions as expected
-3. Create/update the corresponding git tags for the release:
-    - Create a new release tag using the version in `package.json` (eg, `git tag v1.2.3`)
-    - Update the corresponding major-version tag (eg, `git tag -f v1`)
-    - Push both tags
