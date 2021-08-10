@@ -1,6 +1,11 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+trigger: # trigger only affects CI builds
+    branches:
+        include:
+            - main
+
 variables:
     linuxImage: 'ubuntu-18.04'
     windowsImage: 'windows-2019'
