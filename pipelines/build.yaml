@@ -53,6 +53,7 @@ jobs:
             displayName: Publish code coverage to codecov
 
     - job: 'SDT'
+      condition: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
       pool:
           vmImage: $(windowsImage)
           demands: npm
@@ -162,3 +163,9 @@ jobs:
                 pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
                 artifactName: 'drop'
             displayName: publish drop
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
+                artifactName: 'ado-extension-drop'
+            displayName: publish ado-extension-drop
