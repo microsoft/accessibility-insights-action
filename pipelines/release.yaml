@@ -61,6 +61,7 @@ stages:
                       extensionName: '$(ExtensionName)'
                       extensionVersion: '$(Task.Extension.Version)'
                       updateTasksVersion: true
+                      updateTasksId: true
                       updateTasksVersionType: 'patch'
                       extensionVisibility: 'private'
                       extensionPricing: 'free'
