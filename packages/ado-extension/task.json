@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
     "id": "9fbe8277-f1b8-4d71-9045-5e6d815b46d8",
-    "name": "AI task for ADO",
+    "name": "accessibility-insights",
     "friendlyName": "AI task",
     "description": "Accessbility Insights Task for ADO pipeline",
     "helpMarkDown": "",
