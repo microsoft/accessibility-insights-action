@@ -29,6 +29,10 @@ stages:
       jobs:
           - job:
             steps:
+                - task: TfxInstaller@3
+                  inputs:
+                      version: 'v0.9.x'
+
                 - task: DownloadPipelineArtifact@2
                   inputs:
                       source: 'specific'
