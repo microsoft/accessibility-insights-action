@@ -8,8 +8,8 @@ import 'reflect-metadata';
 
 describe('Sample task tests', function () {
     it('should succeed with simple inputs', function (done: Mocha.Done) {
-        let tp = path.join(__dirname, 'run.js');
-        let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
+        const tp = path.join(__dirname, 'run.js');
+        const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
 
         tr.run();
         console.log(tr.succeeded);
