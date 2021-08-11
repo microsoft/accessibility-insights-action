@@ -90,7 +90,7 @@ stages:
                   inputs:
                       buildType: 'current'
                       downloadType: 'single'
-                      artifactName: '$(ArtifactName)'
+                      artifactName: 'vsix'
                       downloadPath: '$(System.DefaultWorkingDirectory)'
 
                 - task: PublishAzureDevOpsExtension@3
