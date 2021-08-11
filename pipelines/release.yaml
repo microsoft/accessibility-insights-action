@@ -41,7 +41,7 @@ stages:
                       pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
                       runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
                       artifact: ado-extension-drop
-                      path: '$(System.DefaultWorkingDirectory)'
+                      path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
 
                 - task: QueryAzureDevOpsExtensionVersion@3
                   inputs:
