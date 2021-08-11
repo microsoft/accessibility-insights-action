@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import tmrm = require('azure-pipelines-task-lib/mock-run');
 import path = require('path');
 
