@@ -51,6 +51,7 @@ stages:
                       extensionId: '$(ExtensionID)'
                       versionAction: 'Patch'
                       outputVariable: 'Task.Extension.Version'
+                      extensionVersionOverride: 'extensionVersionOverride'
 
                 - task: PackageAzureDevOpsExtension@3
                   inputs:
@@ -103,3 +104,4 @@ stages:
                       updateTasksVersion: false
                       extensionVisibility: 'private'
                       extensionPricing: 'free'
+                      shareWith: 'accessibility-insights-private'

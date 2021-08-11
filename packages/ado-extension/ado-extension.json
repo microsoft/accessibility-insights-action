@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "accessibility-insights-ado-extension",
     "name": "Accessibility Insights Azure DevOps Extension",
-    "version": "1.0.1",
+    "version": "0.1.0",
     "publisher": "accessibility-insights-feature-crew",
     "targets": [
         {
