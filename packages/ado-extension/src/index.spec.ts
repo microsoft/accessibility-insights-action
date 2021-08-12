@@ -15,12 +15,10 @@ describe('Sample task tests', () => {
 
         const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath);
 
-        testSubject.run();
+        await Promise.resolve(testSubject.run());
         expect(testSubject.succeeded).toBe(true);
         expect(testSubject.warningIssues.length).toBe(0);
         expect(testSubject.errorIssues.length).toBe(0);
         expect(testSubject.stdOutContained('https://www.washington.edu/accesscomputing/AU/before.html')).toBe(true);
-
-        return Promise.resolve();
     });
 });
