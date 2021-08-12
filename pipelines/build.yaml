@@ -44,10 +44,6 @@ jobs:
           - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
             displayName: Publish code coverage to codecov
 
-          - script: yarn test:e2e
-            workingDirectory: $(System.DefaultWorkingDirectory)/packages/ado-extension
-            displayName: 'ADO e2e'
-
     - job: 'SDT'
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       pool:
