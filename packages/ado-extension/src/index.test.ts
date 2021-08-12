@@ -8,7 +8,7 @@ import fs from 'fs';
 
 describe('Sample task tests', function () {
     it('should succeed with simple inputs', function (done: Mocha.Done) {
-        const compiledSourcePath = path.join(__dirname, '../dist/pkg/run.js');
+        const compiledSourcePath = path.join(__dirname, 'run.js');
 
         // test need a yarn build run before
         expect(fs.existsSync(compiledSourcePath)).toBe(true);
