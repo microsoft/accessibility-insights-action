@@ -14,7 +14,7 @@
         "start": "node dist/pkg/index.js",
         "test": "jest",
         "watch:test": "jest --watch",
-        "test:e2e": "mocha dist/pkg/*.test.js"
+        "test:e2e": "tsc && mocha dist/pkg/*.test.js"
     },
     "repository": {
         "type": "git",

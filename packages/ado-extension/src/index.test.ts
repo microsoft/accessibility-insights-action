@@ -4,14 +4,10 @@
 import * as path from 'path';
 import * as assert from 'assert';
 import * as ttm from 'azure-pipelines-task-lib/mock-test';
-import fs from 'fs';
 
 describe('Sample task tests', function () {
     it('should succeed with simple inputs', function (done: Mocha.Done) {
         const compiledSourcePath = path.join(__dirname, 'run.js');
-
-        // test need a yarn build run before
-        expect(fs.existsSync(compiledSourcePath)).toBe(true);
 
         const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath);
 
