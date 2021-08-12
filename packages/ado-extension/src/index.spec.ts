@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import 'reflect-metadata';
 
 import * as path from 'path';
+import * as assert from 'assert';
 import * as ttm from 'azure-pipelines-task-lib/mock-test';
 import fs from 'fs';
-const cp = require('child_process');
 
-describe('Sample task tests', () => {
-    it('should succeed with simple inputs', () => {
+describe('Sample task tests', function () {
+    it('should succeed with simple inputs', function (done: Mocha.Done) {
         const compiledSourcePath = path.join(__dirname, '../dist/pkg/run.js');
 
         // test need a yarn build run before
@@ -16,12 +15,16 @@ describe('Sample task tests', () => {
 
         const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath);
 
-        console.log(cp.execSync(`node ${compiledSourcePath}`, { env: process.env }).toString());
-
         testSubject.run();
-        expect(testSubject.succeeded).toBe(true);
-        expect(testSubject.warningIssues.length).toBe(0);
-        expect(testSubject.errorIssues.length).toBe(0);
-        expect(testSubject.stdOutContained('https://www.washington.edu/accesscomputing/AU/before.html')).toBe(true);
+        console.log(testSubject.succeeded);
+        assert.equal(testSubject.succeeded, true, 'should have succeeded');
+        assert.equal(testSubject.warningIssues.length, 0, 'should have no warnings');
+        assert.equal(testSubject.errorIssues.length, 0, 'should have no errors');
+        assert.equal(
+            testSubject.stdOutContained('https://www.washington.edu/accesscomputing/AU/before.html'),
+            true,
+            'should display the input url',
+        );
+        done();
     });
 });
