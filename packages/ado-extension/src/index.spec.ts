@@ -19,6 +19,6 @@ describe('Sample task tests', () => {
         expect(testSubject.succeeded).toBe(true);
         expect(testSubject.warningIssues.length).toBe(0);
         expect(testSubject.errorIssues.length).toBe(0);
-        expect(testSubject.stdOutContained('Hello World')).toBe(true);
+        expect(testSubject.stdOutContained('https://www.washington.edu/accesscomputing/AU/before.html')).toBe(true);
     });
 });
