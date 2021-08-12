@@ -7,7 +7,7 @@ import * as ttm from 'azure-pipelines-task-lib/mock-test';
 import fs from 'fs';
 
 describe('Sample task tests', () => {
-    it('should succeed with simple inputs', () => {
+    it('should succeed with simple inputs', async () => {
         const compiledSourcePath = path.join(__dirname, '../dist/pkg/run.js');
 
         // test need a yarn build run before
@@ -20,5 +20,7 @@ describe('Sample task tests', () => {
         expect(testSubject.warningIssues.length).toBe(0);
         expect(testSubject.errorIssues.length).toBe(0);
         expect(testSubject.stdOutContained('https://www.washington.edu/accesscomputing/AU/before.html')).toBe(true);
+
+        return Promise.resolve();
     });
 });
