@@ -42,8 +42,7 @@ jobs:
                 NODE_OPTIONS: --max_old_space_size=4096
 
           - script: yarn test:e2e
-            workingDirectory: $(System.DefaultWorkingDirectory)/packages/ado-extension
-            displayName: 'ADO e2e'
+            displayName: 'Run e2e tests'
 
           - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
             displayName: Publish code coverage to codecov
@@ -118,6 +117,12 @@ jobs:
           - script: yarn cbuild
             displayName: Build
 
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
+                artifactName: 'ado-extension-drop'
+            displayName: publish ado-extension-drop
+
           - task: ComponentGovernanceComponentDetection@0
             displayName: 'dependency detection (Component Governance)'
             inputs:
@@ -159,9 +164,3 @@ jobs:
                 pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
                 artifactName: 'drop'
             displayName: publish drop
-
-          - task: PublishBuildArtifacts@1
-            inputs:
-                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
-                artifactName: 'ado-extension-drop'
-            displayName: publish ado-extension-drop
