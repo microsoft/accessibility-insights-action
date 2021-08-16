@@ -1,25 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { execSync } from 'child_process';
-
-export function installRuntimeDependencies() {
-    console.log('installing runtime dependencies...');
-    execSync('yarn install --prod --ignore-engines --frozen-lockfile', {
-        stdio: 'inherit',
-        cwd: __dirname,
-    });
-}
+import { installRuntimeDependencies } from './install-runtime-dependencies';
 
 installRuntimeDependencies();
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-import('azure-pipelines-task-lib/task').then((adoTask) => {
-    const url = adoTask.getInput('url', true);
-    console.log('running the accessibility scans ...');
-    execSync(`node ado-extension.js ${url}`, {
-        stdio: 'inherit',
-        cwd: __dirname,
-        env: process.env,
-    });
+import('./ado-extension').then((adoExtension) => {
+    adoExtension.runScan();
 });
