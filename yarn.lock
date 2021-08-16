@@ -1873,9 +1873,9 @@
   integrity sha512-7EIraBEyRHEe7CH+Fm1XvgqU6uwZN8Q7jppJGcqjROMT29qhAuuOxYB1uEY5UMYQKEmA5D+5tBnhdaPXSsLONA==
 
 "@types/node@>=10.0.0":
-  version "16.4.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.10.tgz#e57e2a54fc6da58da94b3571b1cb456d39f88597"
-  integrity sha512-TmVHsm43br64js9BqHWqiDZA+xMtbUpI1MBIA0EyiBmoV9pcEYFOSdj5fr6enZNfh4fChh+AGOLIzGwJnkshyQ==
+  version "16.6.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.6.1.tgz#aee62c7b966f55fc66c7b6dfa1d58db2a616da61"
+  integrity sha512-Sr7BhXEAer9xyGuCN3Ek9eg9xPviCF2gfu9kTfuU2HkTVAMYSDeX40fvpmo72n5nansg3nsBjuQBrsS28r+NUw==
 
 "@types/node@^10.0.3":
   version "10.17.60"
@@ -2920,10 +2920,10 @@ azure-devops-node-api@^8.1.1:
     typed-rest-client "1.2.0"
     underscore "1.8.3"
 
-azure-pipelines-task-lib@^3.1.6:
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-3.1.6.tgz#e45cee9872d6179d24d7d2df358c9141e85249b3"
-  integrity sha512-aOHWzKt0EdTv+o3dTDx80T4AVtLH94iqtJxC7PozATiKH4iVi4Jgt+phV/4KfmnYNHSv/RxKIW9GcNFWFKh7Ug==
+azure-pipelines-task-lib@^3.1.7:
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-3.1.7.tgz#4cf6422404745484d7ecc7d3fa37dbfe4e1d0f64"
+  integrity sha512-1gLT06MWDK/1SyNL5nsci0YkVBOC5FM33xBuAoZrTvz6vpGyNcd5bSWSnvp45scOmvgPQic6KfY6tbHKOPB75g==
   dependencies:
     minimatch "3.0.4"
     mockery "^1.7.0"
