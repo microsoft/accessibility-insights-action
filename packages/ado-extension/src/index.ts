@@ -13,6 +13,7 @@ export function installRuntimeDependencies() {
 
 installRuntimeDependencies();
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 import('azure-pipelines-task-lib/task').then((adoTask) => {
     const url = adoTask.getInput('url', true);
     console.log('running the accessibility scans ...');
