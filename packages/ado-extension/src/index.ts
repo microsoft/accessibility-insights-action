@@ -20,5 +20,6 @@ import('azure-pipelines-task-lib/task').then((adoTask) => {
     execSync(`node ado-extension.js ${url}`, {
         stdio: 'inherit',
         cwd: __dirname,
+        env: process.env,
     });
 });
