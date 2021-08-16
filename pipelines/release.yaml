@@ -5,7 +5,7 @@ parameters:
     - name: variableGroupName
       displayName: Deployment Variable Group
       type: string
-      default: accessibility-task
+      default: accessibility-task-canary
 
 trigger: none
 
@@ -25,10 +25,10 @@ resources:
               branches: [main]
 
 # We purposely break if the build is on a non-main branch but
-# specifies the accessibility-insights-ado-extension extension ID
+# specifies the canary extension ID
 stages:
     - stage: package_vsix_file
-      condition: or(ne(variables.extensionId, 'accessibility-insights-ado-extension'), eq(variables.isMain, true))
+      condition: or(ne(variables.extensionId, 'canary'), eq(variables.isMain, true))
       jobs:
           - job:
             steps:
