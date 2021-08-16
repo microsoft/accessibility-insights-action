@@ -34,8 +34,8 @@ console.log(JSON.stringify(taskJson, null, 4));
 fs.writeJSONSync('dist/pkg/task.json', taskJson);
 console.log('copied task.json to dist/pkg/task.json with any overrides');
 
-fs.copyFileSync('package.json', 'dist/pkg/package.json');
-console.log('copied package.json to dist/pkg/package.json');
+fs.copyFileSync('external-package.json', 'dist/pkg/package.json');
+console.log('copied external-package.json to dist/pkg/package.json');
 
 fs.copyFileSync('../../yarn.lock', 'dist/pkg/yarn.lock');
 console.log('copied yarn.lock to dist/pkg/yarn.lock');
