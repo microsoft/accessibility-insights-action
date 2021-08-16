@@ -16,6 +16,8 @@ variables:
     - group: ${{ parameters.variableGroupName }}
     - name: isMain
       value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+    - name: resourceIsMain
+      value: $[eq(variables['resources.pipeline.accessibility-insights-action-ci.sourceBranch'], 'refs/heads/main')]
 
 resources:
     pipelines:
@@ -28,7 +30,7 @@ resources:
 # specifies the canary extension ID
 stages:
     - stage: package_vsix_file
-      condition: or(ne(variables.extensionId, 'canary'), eq(variables.isMain, true))
+      condition: or(ne(variables.extensionId, 'canary'), eq(variables.resourceIsMain, true))
       jobs:
           - job:
             steps:
