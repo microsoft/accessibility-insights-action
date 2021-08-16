@@ -2920,7 +2920,7 @@ azure-devops-node-api@^8.1.1:
     typed-rest-client "1.2.0"
     underscore "1.8.3"
 
-azure-pipelines-task-lib@^3.1.6:
+azure-pipelines-task-lib@^3.1.7:
   version "3.1.7"
   resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-3.1.7.tgz#4cf6422404745484d7ecc7d3fa37dbfe4e1d0f64"
   integrity sha512-1gLT06MWDK/1SyNL5nsci0YkVBOC5FM33xBuAoZrTvz6vpGyNcd5bSWSnvp45scOmvgPQic6KfY6tbHKOPB75g==
