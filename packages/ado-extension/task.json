@@ -2,10 +2,10 @@
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
     "id": "9fbe8277-f1b8-4d71-9045-5e6d815b46d8",
     "name": "accessibility-insights",
-    "friendlyName": "AI task",
-    "description": "Accessbility Insights Task for ADO pipeline",
+    "friendlyName": "Accessibility Insights Azure DevOps Task",
+    "description": "Scan accessibility issues in an Azure DevOps pipeline",
     "helpMarkDown": "",
-    "category": "Utility",
+    "category": "Test",
     "author": "Accessibility Insights",
     "version": {
         "Major": 0,
