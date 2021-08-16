@@ -13,10 +13,10 @@ describe('Sample task tests', function () {
 
         testSubject.run();
         console.log(testSubject.succeeded);
-        assert.equal(testSubject.succeeded, true, 'should have succeeded');
-        assert.equal(testSubject.warningIssues.length, 0, 'should have no warnings');
-        assert.equal(testSubject.errorIssues.length, 0, 'should have no errors');
-        assert.equal(
+        assert.strictEqual(testSubject.succeeded, true, 'should have succeeded');
+        assert.strictEqual(testSubject.warningIssues.length, 0, 'should have no warnings');
+        assert.strictEqual(testSubject.errorIssues.length, 0, 'should have no errors');
+        assert.strictEqual(
             testSubject.stdOutContained('https://www.washington.edu/accesscomputing/AU/before.html'),
             true,
             'should display the input url',
