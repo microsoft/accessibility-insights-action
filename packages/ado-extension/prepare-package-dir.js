@@ -8,6 +8,7 @@ const fs = require('fs-extra');
 // different versions of the extension with the same YAML
 const taskJson = JSON.parse(fs.readFileSync('task.json'));
 const extensionJson = JSON.parse(fs.readFileSync('ado-extension.json'));
+const packageJson = JSON.parse(fs.readFileSync('package.json'));
 
 const overrideExtensionName = process.env.ADO_EXTENSION_NAME;
 if (overrideExtensionName && overrideExtensionName.length > 0) {
@@ -26,6 +27,22 @@ if (overrideTaskId && overrideTaskId.length > 0) {
     taskJson.id = overrideTaskId;
 }
 
+var newDependencies = {};
+
+for (var packageName in packageJson['dependencies']) {
+    if (!packageName.startsWith('@accessibility-insights-action')) {
+        newDependencies[packageName] = packageJson['dependencies'][packageName];
+    }
+}
+
+const newPackageJson = {
+    ...packageJson,
+    dependencies: newDependencies,
+};
+
+fs.writeFileSync('dist/pkg/package.json', JSON.stringify(newPackageJson, undefined, 4));
+console.log('copied package.json to dist/pkg/package.json');
+
 console.log(JSON.stringify(extensionJson, null, 4));
 fs.writeJSONSync('dist/ado-extension.json', extensionJson);
 console.log('copied ado-extension.json to dist/pkg/ado-extension.json with any overrides');
@@ -33,9 +50,6 @@ console.log('copied ado-extension.json to dist/pkg/ado-extension.json with any o
 console.log(JSON.stringify(taskJson, null, 4));
 fs.writeJSONSync('dist/pkg/task.json', taskJson);
 console.log('copied task.json to dist/pkg/task.json with any overrides');
-
-fs.copyFileSync('package.json', 'dist/pkg/package.json');
-console.log('copied package.json to dist/pkg/package.json');
 
 fs.copyFileSync('../../yarn.lock', 'dist/pkg/yarn.lock');
 console.log('copied yarn.lock to dist/pkg/yarn.lock');
