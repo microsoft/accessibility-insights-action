@@ -19,12 +19,11 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([Octokit])('verify singleton resolution %p', (key: any) => {
+    test.each([iocTypes.TaskConfig, Octokit])('verify singleton resolution %p', (key: any) => {
         verifySingletonDependencyResolution(testSubject, key);
     });
     test.each([
         { key: GitHubIocTypes.Github, value: github },
-        { key: iocTypes.TaskConfig, value: GHTaskConfig },
         { key: iocTypes.ProgressReporters, value: [PullRequestCommentCreator, CheckRunCreator] },
     ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
         expect(testSubject.get(pair.key)).toEqual(pair.value);

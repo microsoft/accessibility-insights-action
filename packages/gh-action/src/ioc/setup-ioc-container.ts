@@ -13,7 +13,7 @@ import { CheckRunCreator } from '../check-run/check-run-creator';
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
     container.bind(GitHubIocTypes.Github).toConstantValue(github);
-    container.bind(iocTypes.TaskConfig).toConstantValue(GHTaskConfig);
+    container.bind(iocTypes.TaskConfig).to(GHTaskConfig).inSingletonScope();
     container.bind(iocTypes.ProgressReporters).toConstantValue([PullRequestCommentCreator, CheckRunCreator]);
 
     container
