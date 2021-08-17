@@ -19,15 +19,18 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([iocTypes.TaskConfig, Octokit])('verify singleton resolution %p', (key: any) => {
-        verifySingletonDependencyResolution(testSubject, key);
-    });
-    test.each([
-        { key: GitHubIocTypes.Github, value: github },
-        { key: iocTypes.ProgressReporters, value: [PullRequestCommentCreator, CheckRunCreator] },
-    ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
-        expect(testSubject.get(pair.key)).toEqual(pair.value);
-    });
+    test.each([CheckRunCreator, PullRequestCommentCreator, iocTypes.TaskConfig, iocTypes.ProgressReporters, Octokit])(
+        'verify singleton resolution %p',
+        (key: any) => {
+            verifySingletonDependencyResolution(testSubject, key);
+        },
+    );
+    test.each([{ key: GitHubIocTypes.Github, value: github }])(
+        'verify constant value resolution %s',
+        (pair: { key: string; value: any }) => {
+            expect(testSubject.get(pair.key)).toEqual(pair.value);
+        },
+    );
 
     function verifySingletonDependencyResolution(container: Container, key: any): void {
         expect(container.get(key)).toBeDefined();

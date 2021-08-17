@@ -4,7 +4,7 @@
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import * as inversify from 'inversify';
-import { iocTypes, setupSharedIocContainer } from '@accessibility-insights-action/shared';
+import { iocTypes, setupSharedIocContainer, ProgressReporter } from '@accessibility-insights-action/shared';
 import { GHTaskConfig } from '../task-config/gh-task-config';
 import { GitHubIocTypes } from './gh-ioc-types';
 import { PullRequestCommentCreator } from '../pull-request/pull-request-comment-creator';
@@ -14,7 +14,17 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
     container = setupSharedIocContainer(container);
     container.bind(GitHubIocTypes.Github).toConstantValue(github);
     container.bind(iocTypes.TaskConfig).to(GHTaskConfig).inSingletonScope();
-    container.bind(iocTypes.ProgressReporters).toConstantValue([PullRequestCommentCreator, CheckRunCreator]);
+    container.bind(CheckRunCreator).toSelf().inSingletonScope();
+    container.bind(PullRequestCommentCreator).toSelf().inSingletonScope();
+    container
+        .bind(iocTypes.ProgressReporters)
+        .toDynamicValue((context) => {
+            const pullRequestCommentCreator = context.container.get(PullRequestCommentCreator);
+            const checkRunCreator = context.container.get(CheckRunCreator);
+
+            return { checkRunCreator, pullRequestCommentCreator };
+        })
+        .inSingletonScope();
 
     container
         .bind(Octokit)
