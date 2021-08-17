@@ -8,6 +8,8 @@ import { Container } from 'inversify';
 import { setupIocContainer } from './setup-ioc-container';
 import { iocTypes } from '@accessibility-insights-action/shared';
 import { GHTaskConfig } from '../task-config/gh-task-config';
+import { PullRequestCommentCreator } from '../pull-request/pull-request-comment-creator';
+import { CheckRunCreator } from '../check-run/check-run-creator';
 
 describe(setupIocContainer, () => {
     let testSubject: Container;
@@ -22,8 +24,9 @@ describe(setupIocContainer, () => {
     test.each([
         { key: iocTypes.Github, value: github },
         { key: iocTypes.TaskConfig, value: GHTaskConfig },
+        { key: iocTypes.ProgressReporters, value: [PullRequestCommentCreator, CheckRunCreator] },
     ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
-        expect(testSubject.get(pair.key)).toBe(pair.value);
+        expect(testSubject.get(pair.key)).toEqual(pair.value);
     });
 
     function verifySingletonDependencyResolution(container: Container, key: any): void {

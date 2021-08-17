@@ -2,21 +2,14 @@
 // Licensed under the MIT License.
 
 import { inject, injectable } from 'inversify';
-import { CheckRunCreator } from './check-run/check-run-creator';
 import { ProgressReporter } from './progress-reporter';
-import { PullRequestCommentCreator } from './pull-request/pull-request-comment-creator';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { iocTypes } from '../ioc/ioc-types';
 
 @injectable()
 export class AllProgressReporter extends ProgressReporter {
-    private readonly progressReporters: ProgressReporter[];
-
-    constructor(
-        @inject(PullRequestCommentCreator) pullRequestCommentCreator: PullRequestCommentCreator,
-        @inject(CheckRunCreator) checkRunCreator: CheckRunCreator,
-    ) {
+    constructor(@inject(iocTypes.ProgressReporters) protected readonly progressReporters: ProgressReporter[]) {
         super();
-        this.progressReporters = [checkRunCreator, pullRequestCommentCreator];
     }
 
     public async start(): Promise<void> {

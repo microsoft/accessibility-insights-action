@@ -3,12 +3,12 @@
 import 'reflect-metadata';
 import './module-name-mapper';
 
-import { setupSharedIocContainer } from '@accessibility-insights-action/shared';
 import { Logger } from '@accessibility-insights-action/shared';
 import { Scanner } from '@accessibility-insights-action/shared';
+import { setupIocContainer } from './ioc/setup-ioc-container';
 
 (async () => {
-    const container = setupSharedIocContainer();
+    const container = setupIocContainer();
     const logger = container.get(Logger);
     await logger.setup();
 

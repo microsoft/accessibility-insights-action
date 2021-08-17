@@ -5,12 +5,15 @@ import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { inject, injectable } from 'inversify';
 import { isNil } from 'lodash';
-import { disclaimerText } from '../../content/mark-down-strings';
-import { checkRunDetailsTitle, checkRunName } from '../../content/strings';
-import { iocTypes } from '../../ioc/ioc-types';
-import { Logger } from '../../logger/logger';
-import { ReportMarkdownConvertor } from '../../mark-down/report-markdown-convertor';
-import { ProgressReporter } from '../progress-reporter';
+import {
+    iocTypes,
+    Logger,
+    ProgressReporter,
+    ReportMarkdownConvertor,
+    checkRunDetailsTitle,
+    checkRunName,
+    disclaimerText,
+} from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 // Pulling these types from RestEndpointMethodTypes would be better, but we can't do so until

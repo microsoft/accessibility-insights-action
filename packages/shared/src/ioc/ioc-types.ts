@@ -10,4 +10,5 @@ export const iocTypes = {
     ServeStatic: 'ServeStatic',
     Github: 'Github',
     TaskConfig: 'TaskConfig',
+    ProgressReporters: 'ProgressReporters',
 };
