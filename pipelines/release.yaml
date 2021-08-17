@@ -1,0 +1,113 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+parameters:
+    - name: variableGroupName
+      displayName: Deployment Variable Group
+      type: string
+      default: accessibility-task-canary
+
+trigger: none
+
+pool:
+    vmImage: ubuntu-latest
+
+variables:
+    - group: ${{ parameters.variableGroupName }}
+    - name: isMain
+      value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+    - name: resourceIsMain
+      value: $[eq(variables['resources.pipeline.accessibility-insights-action-ci.sourceBranch'], 'refs/heads/main')]
+
+resources:
+    pipelines:
+        - pipeline: accessibility-insights-action-ci
+          source: accessibility-insights-action-ci
+          trigger:
+              branches: [main]
+
+# We purposely break if the build is on a non-main branch but
+# specifies the canary extension ID
+stages:
+    - stage: package_vsix_file
+      condition: or(ne(variables.extensionId, 'canary'), eq(variables.resourceIsMain, true))
+      jobs:
+          - job:
+            steps:
+                - task: TfxInstaller@3
+                  inputs:
+                      version: 'v0.7.x'
+
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                      source: 'specific'
+                      runVersion: 'specific'
+                      project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
+                      pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
+                      runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
+                      artifact: ado-extension-drop
+                      path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+
+                - task: QueryAzureDevOpsExtensionVersion@3
+                  inputs:
+                      connectTo: 'VsTeam'
+                      connectedServiceName: 'vs-marketplace'
+                      publisherId: '$(PublisherID)'
+                      extensionId: '$(ExtensionID)'
+                      versionAction: 'Patch'
+                      outputVariable: 'Task.Extension.Version'
+                      extensionVersionOverride: 'extensionVersionOverride'
+
+                - task: PackageAzureDevOpsExtension@3
+                  inputs:
+                      rootFolder: '$(System.DefaultWorkingDirectory)/ado-extension-drop/'
+                      publisherId: '$(PublisherID)'
+                      extensionId: '$(ExtensionID)'
+                      extensionName: '$(ExtensionName)'
+                      extensionVersion: '$(Task.Extension.Version)'
+                      updateTasksVersion: true
+                      updateTasksId: true
+                      updateTasksVersionType: 'patch'
+                      extensionVisibility: 'private'
+                      extensionPricing: 'free'
+                      patternManifest: 'ado-extension.json'
+
+                - task: CopyFiles@2
+                  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+                  inputs:
+                      Contents: '**/*.vsix'
+                      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+                - task: PublishBuildArtifacts@1
+                  inputs:
+                      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+                      ArtifactName: 'vsix'
+                      publishLocation: 'Container'
+
+    - stage: publish_vsix_file
+      jobs:
+          - job:
+            steps:
+                - task: TfxInstaller@3
+                  inputs:
+                      version: 'v0.7.x'
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                      buildType: 'current'
+                      downloadType: 'single'
+                      artifactName: 'vsix'
+                      downloadPath: '$(System.DefaultWorkingDirectory)'
+
+                - task: PublishAzureDevOpsExtension@3
+                  inputs:
+                      connectTo: 'VsTeam'
+                      connectedServiceName: 'vs-marketplace'
+                      fileType: 'vsix'
+                      vsixFile: 'vsix/*.vsix'
+                      publisherId: '$(PublisherID)'
+                      extensionId: '$(ExtensionID)'
+                      extensionName: '$(ExtensionName)'
+                      updateTasksVersion: false
+                      extensionVisibility: 'private'
+                      extensionPricing: 'free'
+                      shareWith: 'accessibility-insights-private'

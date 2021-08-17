@@ -1,9 +1,9 @@
 {
     "manifestVersion": 1,
-    "id": "accessibility-insights-ado-extension",
-    "name": "Accessibility Insights Azure DevOps Extension",
-    "version": "1.0.1",
-    "publisher": "accessibility-insights-feature-crew",
+    "id": "accessibility-insights",
+    "name": "Accessibility Insights for Azure DevOps",
+    "version": "0.1.0",
+    "publisher": "accessibility-insights",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
@@ -21,7 +21,7 @@
     ],
     "contributions": [
         {
-            "id": "accessibility-insights-ado-task",
+            "id": "task",
             "type": "ms.vss-distributed-task.task",
             "targets": ["ms.vss-distributed-task.tasks"],
             "properties": {
