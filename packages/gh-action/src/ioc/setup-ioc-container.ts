@@ -4,7 +4,7 @@
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import * as inversify from 'inversify';
-import { iocTypes, setupSharedIocContainer, ProgressReporter } from '@accessibility-insights-action/shared';
+import { iocTypes, setupSharedIocContainer } from '@accessibility-insights-action/shared';
 import { GHTaskConfig } from '../task-config/gh-task-config';
 import { GitHubIocTypes } from './gh-ioc-types';
 import { PullRequestCommentCreator } from '../pull-request/pull-request-comment-creator';
