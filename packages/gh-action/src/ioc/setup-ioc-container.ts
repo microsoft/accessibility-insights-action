@@ -22,7 +22,7 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
             const pullRequestCommentCreator = context.container.get(PullRequestCommentCreator);
             const checkRunCreator = context.container.get(CheckRunCreator);
 
-            return { checkRunCreator, pullRequestCommentCreator };
+            return [checkRunCreator, pullRequestCommentCreator];
         })
         .inSingletonScope();
 
