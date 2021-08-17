@@ -10,6 +10,7 @@ import { iocTypes } from '@accessibility-insights-action/shared';
 import { GHTaskConfig } from '../task-config/gh-task-config';
 import { PullRequestCommentCreator } from '../pull-request/pull-request-comment-creator';
 import { CheckRunCreator } from '../check-run/check-run-creator';
+import { GitHubIocTypes } from './gh-ioc-types';
 
 describe(setupIocContainer, () => {
     let testSubject: Container;
@@ -22,7 +23,7 @@ describe(setupIocContainer, () => {
         verifySingletonDependencyResolution(testSubject, key);
     });
     test.each([
-        { key: iocTypes.Github, value: github },
+        { key: GitHubIocTypes.Github, value: github },
         { key: iocTypes.TaskConfig, value: GHTaskConfig },
         { key: iocTypes.ProgressReporters, value: [PullRequestCommentCreator, CheckRunCreator] },
     ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {

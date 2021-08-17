@@ -5,8 +5,9 @@ import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { inject, injectable } from 'inversify';
 import { isEmpty, isNil } from 'lodash';
-import { iocTypes, Logger, ProgressReporter, ReportMarkdownConvertor, productTitle } from '@accessibility-insights-action/shared';
+import { Logger, ProgressReporter, ReportMarkdownConvertor, productTitle } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { GitHubIocTypes } from '../ioc/gh-ioc-types';
 
 type ListCommentsResponseItem = RestEndpointMethodTypes['issues']['listComments']['response']['data'][0];
 
@@ -15,7 +16,7 @@ export class PullRequestCommentCreator extends ProgressReporter {
     constructor(
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
-        @inject(iocTypes.Github) private readonly githubObj: typeof github,
+        @inject(GitHubIocTypes.Github) private readonly githubObj: typeof github,
         @inject(Logger) private readonly logger: Logger,
     ) {
         super();

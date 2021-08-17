@@ -8,7 +8,6 @@ export const iocTypes = {
     GetPort: 'GetPort',
     Express: 'Express',
     ServeStatic: 'ServeStatic',
-    Github: 'Github',
     TaskConfig: 'TaskConfig',
     ProgressReporters: 'ProgressReporters',
 };

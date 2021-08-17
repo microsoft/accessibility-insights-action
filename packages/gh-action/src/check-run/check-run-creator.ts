@@ -6,7 +6,6 @@ import { Octokit } from '@octokit/rest';
 import { inject, injectable } from 'inversify';
 import { isNil } from 'lodash';
 import {
-    iocTypes,
     Logger,
     ProgressReporter,
     ReportMarkdownConvertor,
@@ -15,6 +14,7 @@ import {
     disclaimerText,
 } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { GitHubIocTypes } from '../ioc/gh-ioc-types';
 
 // Pulling these types from RestEndpointMethodTypes would be better, but we can't do so until
 // https://github.com/octokit/rest.js/issues/2000 is resolved. The better versions would be:
@@ -41,7 +41,7 @@ export class CheckRunCreator extends ProgressReporter {
     constructor(
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Octokit) private readonly octokit: Octokit,
-        @inject(iocTypes.Github) private readonly githubObj: typeof github,
+        @inject(GitHubIocTypes.Github) private readonly githubObj: typeof github,
         @inject(Logger) private readonly logger: Logger,
     ) {
         super();
