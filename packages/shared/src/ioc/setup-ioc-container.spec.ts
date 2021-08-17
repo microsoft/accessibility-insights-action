@@ -12,13 +12,14 @@ import serveStatic from 'serve-static';
 import { Logger } from '../logger/logger';
 import { Scanner } from '../scanner/scanner';
 import { iocTypes } from './ioc-types';
-import { setupIocContainer } from './setup-ioc-container';
+import { setupSharedIocContainer } from './setup-ioc-container';
+import { TaskConfig } from '../task-config';
 
-describe(setupIocContainer, () => {
+describe(setupSharedIocContainer, () => {
     let testSubject: Container;
 
     beforeEach(() => {
-        testSubject = setupIocContainer();
+        testSubject = setupSharedIocContainer();
     });
 
     test.each([Scanner, Octokit, Logger])('verify singleton resolution %p', (key: any) => {
@@ -32,6 +33,7 @@ describe(setupIocContainer, () => {
         { key: iocTypes.ServeStatic, value: serveStatic },
         { key: iocTypes.ReportFactory, value: reporterFactory },
         { key: iocTypes.Github, value: github },
+        { key: iocTypes.TaskConfig, value: TaskConfig },
     ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
         expect(testSubject.get(pair.key)).toBe(pair.value);
     });

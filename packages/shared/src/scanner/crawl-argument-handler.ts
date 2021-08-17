@@ -7,11 +7,12 @@ import { resolve } from 'path';
 import { TaskConfig } from '../task-config';
 import { isEmpty } from 'lodash';
 import { ScanUrlResolver } from './scan-url-resolver';
+import { iocTypes } from '../ioc/ioc-types';
 
 @injectable()
 export class CrawlArgumentHandler {
     constructor(
-        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
         private readonly resolvePath: typeof resolve = resolve,
         private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,

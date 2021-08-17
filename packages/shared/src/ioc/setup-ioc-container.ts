@@ -15,8 +15,7 @@ import { TaskConfig } from '../task-config';
 import { iocTypes } from './ioc-types';
 import { setupCliContainer } from 'accessibility-insights-scan';
 
-export function setupIocContainer(): inversify.Container {
-    const container = new inversify.Container({ autoBindInjectable: true });
+export function setupSharedIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     setupCliContainer(container);
 
     container.bind(Scanner).toSelf().inSingletonScope();
@@ -30,10 +29,8 @@ export function setupIocContainer(): inversify.Container {
 
     container
         .bind(Octokit)
-        .toDynamicValue((context) => {
-            const taskConfig = context.container.get(TaskConfig);
-
-            return new Octokit({ auth: taskConfig.getToken() });
+        .toDynamicValue(() => {
+            return new Octokit({ auth: '' });
         })
         .inSingletonScope();
 

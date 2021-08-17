@@ -6,19 +6,19 @@ import * as actionCore from '@actions/core';
 import normalizePath from 'normalize-path';
 import path from 'path';
 import { Mock, Times, IMock } from 'typemoq';
-import { TaskConfig } from './task-config';
+import { GHTaskConfig } from './gh-task-config';
 
-describe(TaskConfig, () => {
+describe(GHTaskConfig, () => {
     let processStub: any;
     let actionCoreMock: IMock<typeof actionCore>;
-    let taskConfig: TaskConfig;
+    let taskConfig: GHTaskConfig;
 
     beforeEach(() => {
         processStub = {
             env: {},
         } as any;
         actionCoreMock = Mock.ofType<typeof actionCore>();
-        taskConfig = new TaskConfig(processStub, actionCoreMock.object);
+        taskConfig = new GHTaskConfig(processStub, actionCoreMock.object);
     });
 
     afterEach(() => {
@@ -30,19 +30,19 @@ describe(TaskConfig, () => {
     }
 
     it.each`
-        inputOption                 | inputValue                | expectedValue                                          | getInputFunc
-        ${'repo-token'}             | ${'token'}                | ${'token'}                                             | ${() => taskConfig.getToken()}
-        ${'scan-url-relative-path'} | ${'path'}                 | ${'path'}                                              | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chrome-path'}            | ${'./../src/chrome-path'} | ${getPlatformAgnosticPath(__dirname + '/chrome-path')} | ${() => taskConfig.getChromePath()}
-        ${'input-file'}             | ${'./../src/input-file'}  | ${getPlatformAgnosticPath(__dirname + '/input-file')}  | ${() => taskConfig.getInputFile()}
-        ${'output-dir'}             | ${'./../src/output-dir'}  | ${getPlatformAgnosticPath(__dirname + '/output-dir')}  | ${() => taskConfig.getReportOutDir()}
-        ${'site-dir'}               | ${'path'}                 | ${'path'}                                              | ${() => taskConfig.getSiteDir()}
-        ${'url'}                    | ${'url'}                  | ${'url'}                                               | ${() => taskConfig.getUrl()}
-        ${'discovery-patterns'}     | ${'abc'}                  | ${'abc'}                                               | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'input-urls'}             | ${'abc'}                  | ${'abc'}                                               | ${() => taskConfig.getInputUrls()}
-        ${'max-urls'}               | ${'20'}                   | ${20}                                                  | ${() => taskConfig.getMaxUrls()}
-        ${'scan-timeout'}           | ${'100000'}               | ${100000}                                              | ${() => taskConfig.getScanTimeout()}
-        ${'localhost-port'}         | ${'8080'}                 | ${8080}                                                | ${() => taskConfig.getLocalhostPort()}
+        inputOption                 | inputValue         | expectedValue                                          | getInputFunc
+        ${'repo-token'}             | ${'token'}         | ${'token'}                                             | ${() => taskConfig.getToken()}
+        ${'scan-url-relative-path'} | ${'path'}          | ${'path'}                                              | ${() => taskConfig.getScanUrlRelativePath()}
+        ${'chrome-path'}            | ${'./chrome-path'} | ${getPlatformAgnosticPath(__dirname + '/chrome-path')} | ${() => taskConfig.getChromePath()}
+        ${'input-file'}             | ${'./input-file'}  | ${getPlatformAgnosticPath(__dirname + '/input-file')}  | ${() => taskConfig.getInputFile()}
+        ${'output-dir'}             | ${'./output-dir'}  | ${getPlatformAgnosticPath(__dirname + '/output-dir')}  | ${() => taskConfig.getReportOutDir()}
+        ${'site-dir'}               | ${'path'}          | ${'path'}                                              | ${() => taskConfig.getSiteDir()}
+        ${'url'}                    | ${'url'}           | ${'url'}                                               | ${() => taskConfig.getUrl()}
+        ${'discovery-patterns'}     | ${'abc'}           | ${'abc'}                                               | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'input-urls'}             | ${'abc'}           | ${'abc'}                                               | ${() => taskConfig.getInputUrls()}
+        ${'max-urls'}               | ${'20'}            | ${20}                                                  | ${() => taskConfig.getMaxUrls()}
+        ${'scan-timeout'}           | ${'100000'}        | ${100000}                                              | ${() => taskConfig.getScanTimeout()}
+        ${'localhost-port'}         | ${'8080'}          | ${8080}                                                | ${() => taskConfig.getLocalhostPort()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
@@ -66,7 +66,7 @@ describe(TaskConfig, () => {
             .setup((o) => o.getInput('chrome-path'))
             .returns(() => '')
             .verifiable(Times.once());
-        taskConfig = new TaskConfig(processStub, actionCoreMock.object);
+        taskConfig = new GHTaskConfig(processStub, actionCoreMock.object);
 
         const absolutePath = taskConfig.getChromePath();
 
@@ -84,7 +84,7 @@ describe(TaskConfig, () => {
             .setup((o) => o.getInput('input-file'))
             .returns(() => './file.txt')
             .verifiable(Times.once());
-        taskConfig = new TaskConfig(processStub, actionCoreMock.object);
+        taskConfig = new GHTaskConfig(processStub, actionCoreMock.object);
 
         const absolutePath = taskConfig.getInputFile();
 
@@ -98,7 +98,7 @@ describe(TaskConfig, () => {
                 GITHUB_RUN_ID: `${runId}`,
             },
         } as any;
-        taskConfig = new TaskConfig(processStub, actionCoreMock.object);
+        taskConfig = new GHTaskConfig(processStub, actionCoreMock.object);
 
         const actualRunId = taskConfig.getRunId();
 

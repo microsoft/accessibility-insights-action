@@ -29,10 +29,49 @@ class MockableExpress implements ExpressInterface {
     }
 }
 
+class TaskConfigBase extends TaskConfig {
+    getReportOutDir(): string {
+        throw new Error('Method not implemented.');
+    }
+    getSiteDir(): string {
+        throw new Error('Method not implemented.');
+    }
+    getScanUrlRelativePath(): string {
+        throw new Error('Method not implemented.');
+    }
+    getToken(): string {
+        throw new Error('Method not implemented.');
+    }
+    getChromePath(): string {
+        throw new Error('Method not implemented.');
+    }
+    getUrl(): string {
+        throw new Error('Method not implemented.');
+    }
+    getMaxUrls(): number {
+        throw new Error('Method not implemented.');
+    }
+    getDiscoveryPatterns(): string {
+        throw new Error('Method not implemented.');
+    }
+    getInputFile(): string {
+        throw new Error('Method not implemented.');
+    }
+    getInputUrls(): string {
+        throw new Error('Method not implemented.');
+    }
+    getScanTimeout(): number {
+        throw new Error('Method not implemented.');
+    }
+    getLocalhostPort(): number {
+        throw new Error('Method not implemented.');
+    }
+}
+
 describe(LocalFileServer, () => {
     let localFileServer: LocalFileServer;
     let loggerMock: IMock<Logger>;
-    let taskConfigMock: IMock<TaskConfig>;
+    let taskConfigMock: IMock<TaskConfigBase>;
     let getPortMock: IMock<typeof getPort>;
     let expressMock: IMock<typeof express>;
     let serverStaticMock: IMock<typeof serveStatic>;
@@ -44,7 +83,7 @@ describe(LocalFileServer, () => {
 
     beforeEach(() => {
         loggerMock = Mock.ofType(Logger);
-        taskConfigMock = Mock.ofType(TaskConfig);
+        taskConfigMock = Mock.ofType(TaskConfigBase);
         getPortMock = Mock.ofType<typeof getPort>();
         serverStaticMock = Mock.ofType<typeof serveStatic>();
         expressMock = Mock.ofType<typeof express>();

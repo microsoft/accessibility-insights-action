@@ -17,7 +17,7 @@ export class LocalFileServer {
     private startServerPromise: Promise<string>;
 
     constructor(
-        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(Logger) private readonly logger: Logger,
         @inject(iocTypes.GetPort) private readonly getPortFunc: typeof getPort,
         @inject(iocTypes.Express) private readonly expressFunc: typeof express,

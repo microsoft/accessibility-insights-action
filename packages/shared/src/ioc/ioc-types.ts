@@ -9,4 +9,5 @@ export const iocTypes = {
     Express: 'Express',
     ServeStatic: 'ServeStatic',
     Github: 'Github',
+    TaskConfig: 'TaskConfig',
 };

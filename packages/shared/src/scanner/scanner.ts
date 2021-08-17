@@ -36,7 +36,7 @@ export class Scanner {
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
         @inject(CrawlArgumentHandler) private readonly crawlArgumentHandler: CrawlArgumentHandler,
-        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(CrawlerParametersBuilder) private readonly crawlerParametersBuilder: CrawlerParametersBuilder,
     ) {}
 
