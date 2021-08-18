@@ -30,10 +30,9 @@
         "url": "https://github.com/microsoft/accessibility-insights-action/issues"
     },
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
-    "devDependencies": {
-        "inversify": "^5.1.1"
-    },
+    "devDependencies": {},
     "dependencies": {
+        "inversify": "^5.1.1",
         "@actions/core": "^1.4.0",
         "@actions/github": "^5.0.0",
         "@octokit/rest": "^18.9.0",

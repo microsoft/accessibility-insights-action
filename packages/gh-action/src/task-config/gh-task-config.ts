@@ -5,10 +5,9 @@ import * as actionCore from '@actions/core';
 import { inject, injectable } from 'inversify';
 import { isEmpty } from 'lodash';
 import * as process from 'process';
-import { iocTypes } from '@accessibility-insights-action/shared';
+import { iocTypes, TaskConfig } from '@accessibility-insights-action/shared';
 import normalizePath from 'normalize-path';
 import { resolve } from 'path';
-import { TaskConfig } from '@accessibility-insights-action/shared/dist/task-config';
 
 @injectable()
 export class GHTaskConfig extends TaskConfig {
