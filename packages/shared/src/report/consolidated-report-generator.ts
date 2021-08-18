@@ -11,7 +11,7 @@ import { TaskConfig } from '../task-config';
 @injectable()
 export class ConsolidatedReportGenerator {
     constructor(
-        @inject(TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(iocTypes.ReportFactory) private readonly reporterFactoryFunc: ReporterFactory,
         @inject(Logger) private readonly logger: Logger,
         private readonly fileSystemObj: typeof fs = fs,

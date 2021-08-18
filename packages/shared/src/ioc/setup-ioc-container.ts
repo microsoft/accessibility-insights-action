@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as github from '@actions/github';
-import { Octokit } from '@octokit/rest';
 import { reporterFactory } from 'accessibility-insights-report';
 import express from 'express';
 import getPort from 'get-port';
@@ -14,9 +12,18 @@ import { Scanner } from '../scanner/scanner';
 import { TaskConfig } from '../task-config';
 import { iocTypes } from './ioc-types';
 import { setupCliContainer } from 'accessibility-insights-scan';
+import { ProgressReporter } from '../progress-reporter/progress-reporter';
 
-export function setupIocContainer(): inversify.Container {
-    const container = new inversify.Container({ autoBindInjectable: true });
+export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
+    setupSharedIocContainer(container);
+
+    container.bind(iocTypes.TaskConfig).toConstantValue(TaskConfig);
+    container.bind(iocTypes.ProgressReporters).toConstantValue([ProgressReporter]);
+
+    return container;
+}
+
+export function setupSharedIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     setupCliContainer(container);
 
     container.bind(Scanner).toSelf().inSingletonScope();
@@ -26,16 +33,6 @@ export function setupIocContainer(): inversify.Container {
     container.bind(iocTypes.Express).toConstantValue(express);
     container.bind(iocTypes.ServeStatic).toConstantValue(serveStatic);
     container.bind(iocTypes.ReportFactory).toConstantValue(reporterFactory);
-    container.bind(iocTypes.Github).toConstantValue(github);
-
-    container
-        .bind(Octokit)
-        .toDynamicValue((context) => {
-            const taskConfig = context.container.get(TaskConfig);
-
-            return new Octokit({ auth: taskConfig.getToken() });
-        })
-        .inSingletonScope();
 
     container
         .bind(Logger)

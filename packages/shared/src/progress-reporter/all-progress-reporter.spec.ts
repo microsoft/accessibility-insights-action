@@ -4,20 +4,15 @@ import 'reflect-metadata';
 
 import { IMock, Mock, Times } from 'typemoq';
 import { AllProgressReporter } from './all-progress-reporter';
-import { CheckRunCreator } from './check-run/check-run-creator';
 import { ProgressReporter } from './progress-reporter';
-import { PullRequestCommentCreator } from './pull-request/pull-request-comment-creator';
 
 describe(AllProgressReporter, () => {
     let testSubject: AllProgressReporter;
-    let pullRequestCommentCreator: IMock<PullRequestCommentCreator>;
-    let checkRunCreatorMock: IMock<CheckRunCreator>;
+    let progressReporterMock: IMock<ProgressReporter>;
 
     beforeEach(() => {
-        checkRunCreatorMock = Mock.ofType(CheckRunCreator);
-        pullRequestCommentCreator = Mock.ofType(PullRequestCommentCreator);
-
-        testSubject = new AllProgressReporter(pullRequestCommentCreator.object, checkRunCreatorMock.object);
+        progressReporterMock = Mock.ofType<ProgressReporter>();
+        testSubject = new AllProgressReporter([progressReporterMock.object]);
     });
 
     it('start should invoke all reporters', async () => {
@@ -56,12 +51,10 @@ describe(AllProgressReporter, () => {
     });
 
     afterEach(() => {
-        checkRunCreatorMock.verifyAll();
-        pullRequestCommentCreator.verifyAll();
+        progressReporterMock.verifyAll();
     });
 
     function executeOnReporter(callback: (reporter: IMock<ProgressReporter>) => void): void {
-        callback(checkRunCreatorMock);
-        callback(pullRequestCommentCreator);
+        callback(progressReporterMock);
     }
 });

@@ -5,9 +5,8 @@ import 'reflect-metadata';
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
-import { Logger } from '../../logger/logger';
-import { ReportMarkdownConvertor } from '../../mark-down/report-markdown-convertor';
-import { productTitle } from '../../mark-down/markdown-formatter';
+import { Logger, ReportMarkdownConvertor, productTitle } from '@accessibility-insights-action/shared';
+
 import { PullRequestCommentCreator } from './pull-request-comment-creator';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 

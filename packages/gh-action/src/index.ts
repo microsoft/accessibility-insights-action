@@ -3,9 +3,9 @@
 import 'reflect-metadata';
 import './module-name-mapper';
 
-import { setupIocContainer } from '@accessibility-insights-action/shared';
 import { Logger } from '@accessibility-insights-action/shared';
 import { Scanner } from '@accessibility-insights-action/shared';
+import { setupIocContainer } from './ioc/setup-ioc-container';
 
 (async () => {
     const container = setupIocContainer();

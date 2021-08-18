@@ -44,7 +44,7 @@ describe(LocalFileServer, () => {
 
     beforeEach(() => {
         loggerMock = Mock.ofType(Logger);
-        taskConfigMock = Mock.ofType(TaskConfig);
+        taskConfigMock = Mock.ofType<TaskConfig>();
         getPortMock = Mock.ofType<typeof getPort>();
         serverStaticMock = Mock.ofType<typeof serveStatic>();
         expressMock = Mock.ofType<typeof express>();

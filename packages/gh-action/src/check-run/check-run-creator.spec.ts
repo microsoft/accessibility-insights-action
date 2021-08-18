@@ -5,10 +5,7 @@ import 'reflect-metadata';
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import { IMock, Mock, Times } from 'typemoq';
-import { disclaimerText } from '../../content/mark-down-strings';
-import { checkRunDetailsTitle } from '../../content/strings';
-import { Logger } from '../../logger/logger';
-import { ReportMarkdownConvertor } from '../../mark-down/report-markdown-convertor';
+import { Logger, ReportMarkdownConvertor, checkRunDetailsTitle, disclaimerText } from '@accessibility-insights-action/shared';
 import { CheckRunCreator } from './check-run-creator';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
