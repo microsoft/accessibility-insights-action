@@ -1,0 +1,60 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+parameters:
+    - name: environment
+      displayName: deployment environment
+      type: string
+
+steps:
+    - bash: |
+          echo publisher ID: $(PublisherID)
+          echo extension ID: $(ExtensionID)
+          echo extension name: $(ExtensionName)
+          echo extensionVersionOverride: $(extensionVersionOverride)
+          echo environment: ${{ parameters.environment }}
+
+    - task: TfxInstaller@3
+      inputs:
+          version: 'v0.7.x'
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+          source: 'specific'
+          runVersion: 'specific'
+          project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
+          pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
+          runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
+          artifact: ado-extension-drop
+          path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+
+    - task: QueryAzureDevOpsExtensionVersion@3
+      inputs:
+          connectTo: 'VsTeam'
+          connectedServiceName: 'vs-marketplace'
+          publisherId: '$(PublisherID)'
+          extensionId: '$(ExtensionID)'
+          versionAction: 'Patch'
+          outputVariable: 'Task.Extension.Version'
+          extensionVersionOverride: 'extensionVersionOverride'
+
+    - task: PackageAzureDevOpsExtension@3
+      inputs:
+          rootFolder: '$(System.DefaultWorkingDirectory)/ado-extension-drop/'
+          publisherId: '$(PublisherID)'
+          extensionId: '$(ExtensionID)'
+          extensionName: '$(ExtensionName)'
+          extensionVersion: '$(Task.Extension.Version)'
+          updateTasksVersion: true
+          updateTasksId: true
+          updateTasksVersionType: 'major'
+          extensionVisibility: 'private'
+          extensionPricing: 'free'
+          patternManifest: 'ado-extension.json'
+          outputPath: '$(Build.ArtifactStagingDirectory)/${{ parameters.environment }}.vsix'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: '${{ parameters.environment }}-vsix'
+          publishLocation: 'Container'

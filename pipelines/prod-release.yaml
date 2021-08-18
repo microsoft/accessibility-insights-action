@@ -1,0 +1,39 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+parameters:
+    - name: versionOverride
+      displayName: Version to deploy
+      type: string
+      default: ''
+
+trigger: none
+
+pool:
+    vmImage: ubuntu-latest
+
+resources:
+    pipelines:
+        - pipeline: accessibility-insights-action-ci
+          source: accessibility-insights-action-ci
+
+variables:
+    - name: extensionVersionOverride
+      value: ${{ parameters.versionOverride }}
+
+stages:
+    - stage: package_publish_staging
+      variables:
+          - group: ado-extension-staging
+      jobs:
+          - template: release-template.yaml
+            parameters:
+                environment: ado-extension-staging
+
+    - stage: package_publish_prod
+      variables:
+          - group: ado-extension-prod
+      jobs:
+          - template: release-template.yaml
+            parameters:
+                environment: ado-extension-prod

@@ -1,0 +1,25 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+parameters:
+    - name: environment
+      displayName: deployment environment
+      type: string
+
+jobs:
+    - job: package_job
+      steps:
+          - template: package-vsix-file.yaml
+            parameters:
+                environment: ${{ parameters.environment }}
+    - deployment: publish_vsix_file
+      displayName: deploy vsix file
+      dependsOn: package_job
+      environment: ${{ parameters.environment }}
+      strategy:
+          runOnce:
+              deploy:
+                  steps:
+                      - template: publish-vsix-file.yaml
+                        parameters:
+                            environment: ${{ parameters.environment }}
