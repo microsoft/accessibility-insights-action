@@ -117,12 +117,6 @@ jobs:
           - script: yarn cbuild
             displayName: Build
 
-          - task: PublishBuildArtifacts@1
-            inputs:
-                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
-                artifactName: 'ado-extension-drop'
-            displayName: publish ado-extension-drop
-
           - task: ComponentGovernanceComponentDetection@0
             displayName: 'dependency detection (Component Governance)'
             inputs:
@@ -135,7 +129,7 @@ jobs:
                 outputformat: html
 
           - task: CopyFiles@2
-            displayName: 'Copy Files to: drop'
+            displayName: 'Copy Files to: gh-drop'
             inputs:
                 Contents: |
                     $(System.DefaultWorkingDirectory)/NOTICE.html
@@ -145,6 +139,14 @@ jobs:
                     $(System.DefaultWorkingDirectory)/packages/gh-action/action.yml
 
                 TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
+
+          - task: CopyFiles@2
+            displayName: 'Copy Files to: ado-drop'
+            inputs:
+                Contents: |
+                    $(System.DefaultWorkingDirectory)/NOTICE.html
+
+                TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
 
           - bash: |
                 echo '<!--
@@ -164,3 +166,9 @@ jobs:
                 pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
                 artifactName: 'drop'
             displayName: publish drop
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
+                artifactName: 'ado-extension-drop'
+            displayName: publish ado-extension-drop
