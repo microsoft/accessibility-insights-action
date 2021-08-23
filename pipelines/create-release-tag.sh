@@ -30,4 +30,4 @@ echo 'create release tag'
 git tag $TAG
 
 echo 'push the release tag'
-git push origin $TAG
+git push https://$REPO_TOKEN@$REPOURL $TAG
