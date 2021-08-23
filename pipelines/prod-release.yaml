@@ -2,14 +2,14 @@
 # Licensed under the MIT License.
 
 parameters:
-    - name: versionOverride
-      displayName: Version to deploy
+    - name: prodVersionOverride
+      displayName: Production version to deploy
       type: string
       default: ''
-    - name: tag
-      displayName: release tag
+    - name: stagingVersionOverride
+      displayName: Override staging version
       type: string
-      default: ''
+      default: 'increment'
 
 trigger: none
 
@@ -21,16 +21,13 @@ resources:
         - pipeline: accessibility-insights-action-ci
           source: accessibility-insights-action-ci
 
-variables:
-    - name: extensionVersionOverride
-      value: ${{ parameters.versionOverride }}
-    - name: tag
-      value: ${{ parameters.tag }}
-
 stages:
     - stage: package_publish_staging
       variables:
           - group: ado-extension-staging
+      ${{ if ne(${{ parameters.stagingVersionOverride }}, 'increment') }}:
+          - name: extensionVersionOverride
+            value: ${{ parameters.stagingVersionOverride }}
       jobs:
           - template: release-template.yaml
             parameters:
@@ -39,6 +36,10 @@ stages:
     - stage: package_publish_prod
       variables:
           - group: ado-extension-prod
+          - name: extensionVersionOverride
+            value: ${{ parameters.prodVersionOverride }}
+          - name: tag
+            value: v${{ parameters.prodVersionOverride }}-sources-ado
       jobs:
           - template: release-template.yaml
             parameters:
