@@ -6,6 +6,10 @@ parameters:
       displayName: Version to deploy
       type: string
       default: ''
+    - name: tag
+      displayName: release tag
+      type: string
+      default: ''
 
 trigger: none
 
@@ -20,6 +24,8 @@ resources:
 variables:
     - name: extensionVersionOverride
       value: ${{ parameters.versionOverride }}
+    - name: tag
+      value: ${{ parameters.tag }}
 
 stages:
     - stage: package_publish_staging
@@ -29,6 +35,31 @@ stages:
           - template: release-template.yaml
             parameters:
                 environment: ado-extension-staging
+
+    - stage: create_release_tag
+      jobs:
+          - job: 'CreateReleaseTag'
+            steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                      source: 'specific'
+                      runVersion: 'specific'
+                      project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
+                      pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
+                      runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
+                      artifact: ado-extension-drop
+                      path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+
+                - task: GitHubRelease@1
+                  displayName: 'GitHub release'
+                  inputs:
+                      tag: '$(tag)'
+                      action: edit
+                      tagSource: userSpecifiedTag
+                      gitHubConnection: 'ada-cat-github-repo-access'
+                      isPreRelease: true
+                      target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
+                      assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
 
     - stage: package_publish_prod
       variables:

@@ -117,12 +117,6 @@ jobs:
           - script: yarn cbuild
             displayName: Build
 
-          - task: PublishBuildArtifacts@1
-            inputs:
-                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
-                artifactName: 'ado-extension-drop'
-            displayName: publish ado-extension-drop
-
           - task: ComponentGovernanceComponentDetection@0
             displayName: 'dependency detection (Component Governance)'
             inputs:
@@ -135,7 +129,7 @@ jobs:
                 outputformat: html
 
           - task: CopyFiles@2
-            displayName: 'Copy Files to: drop'
+            displayName: 'Copy Files to: gh-drop'
             inputs:
                 Contents: |
                     $(System.DefaultWorkingDirectory)/NOTICE.html
@@ -146,21 +140,43 @@ jobs:
 
                 TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
 
+          - task: CopyFiles@2
+            displayName: 'Copy Notices.html to: ado-drop'
+            inputs:
+                Contents: |
+                    $(System.DefaultWorkingDirectory)/NOTICE.html
+
+                TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
+
           - bash: |
                 echo '<!--
-                                  Copyright (c) Microsoft Corporation. All rights reserved.
-                                  Licensed under the MIT License.
-                                  -->
+                      Copyright (c) Microsoft Corporation. All rights reserved.
+                      Licensed under the MIT License.
+                      -->
                                   
-                                  # About
+                      # About
                                   
-                                  This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
-                                  ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
+                      This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
+                      ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
 
             displayName: 'Generate Release README Info'
+
+          - task: CopyFiles@2
+            displayName: 'Copy ReadMe to: ado-drop'
+            inputs:
+                Contents: |
+                    $(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md
+
+                TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
 
           - task: PublishBuildArtifacts@1
             inputs:
                 pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
                 artifactName: 'drop'
             displayName: publish drop
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
+                artifactName: 'ado-extension-drop'
+            displayName: publish ado-extension-drop
