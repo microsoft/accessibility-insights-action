@@ -36,7 +36,7 @@ stages:
 
     - stage: create_release_tag
       jobs:
-          - job: 'Create a Release Tag'
+          - job: 'CreateReleaseTag'
             steps:
                 - task: Bash@3
                   displayName: 'Create New Release $(tag)'
