@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 echo 'cloning the repo'
 git clone https://$REPO_TOKEN@$REPO_URL
 
