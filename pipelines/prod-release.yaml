@@ -25,9 +25,9 @@ stages:
     - stage: package_publish_staging
       variables:
           - group: ado-extension-staging
-      ${{ if ne(parameters.stagingVersionOverride, 'increment') }}:
-          - name: extensionVersionOverride
-            value: ${{ parameters.stagingVersionOverride }}
+          - ${{ if ne(parameters.stagingVersionOverride, 'increment') }}:
+                - name: extensionVersionOverride
+                  value: ${{ parameters.stagingVersionOverride }}
       jobs:
           - template: release-template.yaml
             parameters:
