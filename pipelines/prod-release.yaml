@@ -36,8 +36,14 @@ stages:
             parameters:
                 environment: ado-extension-staging
 
-    - stage: create_release_tag
+    - stage: package_publish_prod
+      variables:
+          - group: ado-extension-prod
       jobs:
+          - template: release-template.yaml
+            parameters:
+                environment: ado-extension-prod
+
           - job: 'CreateReleaseTag'
             steps:
                 - task: DownloadPipelineArtifact@2
@@ -60,11 +66,3 @@ stages:
                       isPreRelease: true
                       target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
                       assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
-
-    - stage: package_publish_prod
-      variables:
-          - group: ado-extension-prod
-      jobs:
-          - template: release-template.yaml
-            parameters:
-                environment: ado-extension-prod
