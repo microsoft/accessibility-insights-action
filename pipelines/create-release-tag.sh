@@ -14,10 +14,10 @@ echo 'delete all files in the repo'
 git rm -rf .
 
 echo 'copy drop artifacts to the branch'
-cp -r '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html' '$(System.DefaultWorkingDirectory)/accessibility-insights-action/'
-cp -r '$(System.DefaultWorkingDirectory)/ado-extension-drop/ado-extension.json' '$(System.DefaultWorkingDirectory)/accessibility-insights-action/'
-cp -r '$(System.DefaultWorkingDirectory)/ado-extension-drop/pkg' '$(System.DefaultWorkingDirectory)/accessibility-insights-action/pkg'
-cp -r '$(System.DefaultWorkingDirectory)/ado-extension-drop/drop/RELEASE_COMMIT.md' '$(System.DefaultWorkingDirectory)/accessibility-insights-action/README.md'
+cp -r "$WORK_DIR/ado-extension-drop/NOTICE.html" "$WORK_DIR/accessibility-insights-action/"
+cp -r "$WORK_DIR/ado-extension-drop/ado-extension.json" "$WORK_DIR/accessibility-insights-action/"
+cp -r "$WORK_DIR/ado-extension-drop/pkg" "$WORK_DIR/accessibility-insights-action/pkg"
+cp -r "$WORK_DIR/ado-extension-drop/drop/RELEASE_COMMIT.md" "$WORK_DIR/accessibility-insights-action/README.md"
 
 echo 'git add'
 git add .

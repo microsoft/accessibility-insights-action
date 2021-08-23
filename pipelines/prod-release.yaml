@@ -61,6 +61,7 @@ stages:
                       EMAIL: $(email)
                       REPO_TOKEN: $(github-ada-cat-auth-token)
                       REPO_URL: $(repo-url)
+                      WORK_DIR: $(System.DefaultWorkingDirectory)
 
     # - stage: package_publish_prod
     #   variables:
