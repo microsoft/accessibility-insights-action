@@ -1910,9 +1910,9 @@
   integrity sha512-7EIraBEyRHEe7CH+Fm1XvgqU6uwZN8Q7jppJGcqjROMT29qhAuuOxYB1uEY5UMYQKEmA5D+5tBnhdaPXSsLONA==
 
 "@types/node@>=10.0.0":
-  version "16.6.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.6.1.tgz#aee62c7b966f55fc66c7b6dfa1d58db2a616da61"
-  integrity sha512-Sr7BhXEAer9xyGuCN3Ek9eg9xPviCF2gfu9kTfuU2HkTVAMYSDeX40fvpmo72n5nansg3nsBjuQBrsS28r+NUw==
+  version "16.6.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.6.2.tgz#331b7b9f8621c638284787c5559423822fdffc50"
+  integrity sha512-LSw8TZt12ZudbpHc6EkIyDM3nHVWKYrAvGy6EAJfNfjusbwnThqjqxUKKRwuV3iWYeW/LYMzNgaq3MaLffQ2xA==
 
 "@types/node@^10.0.3":
   version "10.17.60"
@@ -2923,10 +2923,10 @@ azure-devops-node-api@^8.1.1:
     typed-rest-client "1.2.0"
     underscore "1.8.3"
 
-azure-pipelines-task-lib@^3.1.7:
-  version "3.1.7"
-  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-3.1.7.tgz#4cf6422404745484d7ecc7d3fa37dbfe4e1d0f64"
-  integrity sha512-1gLT06MWDK/1SyNL5nsci0YkVBOC5FM33xBuAoZrTvz6vpGyNcd5bSWSnvp45scOmvgPQic6KfY6tbHKOPB75g==
+azure-pipelines-task-lib@^3.1.8:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-3.1.8.tgz#83343ceb2a6606bb029e2ba245317eb4e004cde7"
+  integrity sha512-33FlyFnom0vnutfT7B2HmSE2d15mwr9XPXFlWCY7kUUF4Ry4xtRabU+6dRDPWtsC8DDgubN3c5erQaRCkG9Y7Q==
   dependencies:
     minimatch "3.0.4"
     mockery "^1.7.0"
@@ -7644,9 +7644,9 @@ marked-terminal@^4.1.1:
     supports-hyperlinks "^2.1.0"
 
 marked@>=2.0.0, marked@^2.0.0, marked@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-2.1.3.tgz#bd017cef6431724fd4b27e0657f5ceb14bff3753"
-  integrity sha512-/Q+7MGzaETqifOMWYEA7HVMaZb4XbcRfaOzcSsHZEith83KGlvaSG33u0SKu89Mj5h+T8V2hM+8O45Qc5XTgwA==
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-3.0.0.tgz#ac8369b7ddeef15fbbce870d14f321bdb20ca4e2"
+  integrity sha512-IF2MYfFafPsLIhzLTu63secRBwOmIY+vwS+ei6qg8F+bTS+MxH6ONYRmuseGdZqF44qvoi3nP/rlpClBdgLbiQ==
 
 match-all@^1.2.6:
   version "1.2.6"
