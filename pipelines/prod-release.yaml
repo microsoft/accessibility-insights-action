@@ -55,6 +55,10 @@ stages:
                   inputs:
                       targetType: filePath
                       filePath: '$(System.DefaultWorkingDirectory)/pipelines/create-release-tag.sh'
+                  env:
+                      TAG: $(tag)
+                      USER: $(user)
+                      EMAIL: $(email)
 
     # - stage: package_publish_prod
     #   variables:
