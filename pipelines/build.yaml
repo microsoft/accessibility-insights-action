@@ -141,7 +141,7 @@ jobs:
                 TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
 
           - task: CopyFiles@2
-            displayName: 'Copy Files to: ado-drop'
+            displayName: 'Copy Notices.html to: ado-drop'
             inputs:
                 Contents: |
                     $(System.DefaultWorkingDirectory)/NOTICE.html
@@ -160,6 +160,14 @@ jobs:
                                   ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
 
             displayName: 'Generate Release README Info'
+
+          - task: CopyFiles@2
+            displayName: 'Copy ReadMe to: ado-drop'
+            inputs:
+                Contents: |
+                    $(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md
+
+                TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
 
           - task: PublishBuildArtifacts@1
             inputs:
