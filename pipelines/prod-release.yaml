@@ -54,6 +54,7 @@ stages:
                   displayName: 'GitHub release (create)'
                   inputs:
                       tag: '$(tag)'
+                      tagSource: userSpecifiedTag
                       gitHubConnection: 'ada-cat-github-repo-access'
                       target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
                       assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
