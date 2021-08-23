@@ -167,7 +167,7 @@ jobs:
                 Contents: |
                     $(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md
 
-                TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
+                TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist/README.md'
 
           - task: PublishBuildArtifacts@1
             inputs:
