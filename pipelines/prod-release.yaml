@@ -59,6 +59,8 @@ stages:
                       TAG: $(tag)
                       USER: $(user)
                       EMAIL: $(email)
+                      REPO_TOKEN: $(github-ada-cat-auth-token)
+                      REPO_URL: $(repo-url)
 
     # - stage: package_publish_prod
     #   variables:

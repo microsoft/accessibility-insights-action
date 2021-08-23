@@ -1,3 +1,9 @@
+echo 'cloning the repo'
+git clone https://$REPO_TOKEN@$REPOURL
+
+echo 'cd to repo folder'
+cd accessibility-insights-action
+
 echo "Setting user name and email"
 git config --global user.name $USER
 git config --global user.email $EMAIL
