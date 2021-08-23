@@ -28,13 +28,13 @@ variables:
       value: ${{ parameters.tag }}
 
 stages:
-    # - stage: package_publish_staging
-    #   variables:
-    #       - group: ado-extension-staging
-    #   jobs:
-    #       - template: release-template.yaml
-    #         parameters:
-    #             environment: ado-extension-staging
+    - stage: package_publish_staging
+      variables:
+          - group: ado-extension-staging
+      jobs:
+          - template: release-template.yaml
+            parameters:
+                environment: ado-extension-staging
 
     - stage: create_release_tag
       jobs:
@@ -63,10 +63,10 @@ stages:
                       REPO_URL: $(repo-url)
                       WORK_DIR: $(System.DefaultWorkingDirectory)
 
-    # - stage: package_publish_prod
-    #   variables:
-    #       - group: ado-extension-prod
-    #   jobs:
-    #       - template: release-template.yaml
-    #         parameters:
-    #             environment: ado-extension-prod
+    - stage: package_publish_prod
+      variables:
+          - group: ado-extension-prod
+      jobs:
+          - template: release-template.yaml
+            parameters:
+                environment: ado-extension-prod
