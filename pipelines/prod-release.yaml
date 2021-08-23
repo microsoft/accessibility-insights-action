@@ -37,10 +37,10 @@ stages:
                 vmImage: $(vmImage)
             steps:
                 - task: Bash@3
-                displayName: 'Create New Release $(tag)'
-                inputs:
-                    targetType: filePath
-                    filePath: ./create_release_tag.sh
+                  displayName: 'Create New Release $(tag)'
+                  inputs:
+                      targetType: filePath
+                      filePath: ./create_release_tag.sh
 
     # - stage: package_publish_prod
     #   variables:
