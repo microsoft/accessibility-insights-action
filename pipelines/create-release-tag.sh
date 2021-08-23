@@ -1,5 +1,5 @@
 echo "Setting user name and email"
-git config --global user.name $(user-name)
+git config --global user.name $(user)
 git config --global user.email $(email)
 
 echo 'create a new branch to use for creating the release'
