@@ -38,6 +38,16 @@ stages:
       jobs:
           - job: 'CreateReleaseTag'
             steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                      source: 'specific'
+                      runVersion: 'specific'
+                      project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
+                      pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
+                      runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
+                      artifact: ado-extension-drop
+                      path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+
                 - task: Bash@3
                   displayName: 'Create New Release $(tag)'
                   inputs:
