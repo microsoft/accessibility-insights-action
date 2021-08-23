@@ -36,13 +36,13 @@ stages:
 
     - stage: create_release_tag
       jobs:
-          - job: 'BuildAndCheckCodeStyling'
+          - job: 'Create a Release Tag'
             steps:
                 - task: Bash@3
                   displayName: 'Create New Release $(tag)'
                   inputs:
                       targetType: filePath
-                      filePath: create_release_tag.sh
+                      filePath: '$(System.DefaultWorkingDirectory)/pipelines/create_release_tag.sh'
 
     # - stage: package_publish_prod
     #   variables:
