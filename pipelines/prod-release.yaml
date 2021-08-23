@@ -42,7 +42,7 @@ stages:
                   displayName: 'Create New Release $(tag)'
                   inputs:
                       targetType: filePath
-                      filePath: create-release-tag.sh
+                      filePath: '$(System.DefaultWorkingDirectory)/pipelines/create-release-tag.sh'
 
     # - stage: package_publish_prod
     #   variables:
