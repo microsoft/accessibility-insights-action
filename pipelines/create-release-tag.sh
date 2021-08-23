@@ -1,9 +1,8 @@
 echo 'cloning the repo'
-git clone https://$REPO_TOKEN@$REPOURL
+git clone https://$REPO_TOKEN@$REPO_URL
 
 echo 'cd to repo folder'
 cd accessibility-insights-action
-
 echo "Setting user name and email"
 git config --global user.name $USER
 git config --global user.email $EMAIL
@@ -30,4 +29,4 @@ echo 'create release tag'
 git tag $TAG
 
 echo 'push the release tag'
-git push https://$REPO_TOKEN@$REPOURL $TAG
+git push origin $TAG
