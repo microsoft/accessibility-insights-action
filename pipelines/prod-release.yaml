@@ -51,9 +51,10 @@ stages:
                       path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
 
                 - task: GitHubRelease@1
-                  displayName: 'GitHub release (create)'
+                  displayName: 'GitHub release'
                   inputs:
                       tag: '$(tag)'
+                      action: edit
                       tagSource: userSpecifiedTag
                       gitHubConnection: 'ada-cat-github-repo-access'
                       isPreRelease: true
