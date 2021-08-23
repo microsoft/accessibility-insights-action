@@ -28,13 +28,13 @@ variables:
       value: ${{ parameters.tag }}
 
 stages:
-    - stage: package_publish_staging
-      variables:
-          - group: ado-extension-staging
-      jobs:
-          - template: release-template.yaml
-            parameters:
-                environment: ado-extension-staging
+    # - stage: package_publish_staging
+    #   variables:
+    #       - group: ado-extension-staging
+    #   jobs:
+    #       - template: release-template.yaml
+    #         parameters:
+    #             environment: ado-extension-staging
 
     - stage: create_release_tag
       jobs:
@@ -50,23 +50,31 @@ stages:
                       artifact: ado-extension-drop
                       path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
 
-                - task: Bash@3
-                  displayName: 'Create New Release $(tag)'
+                - task: GitHubRelease@1
+                  displayName: 'GitHub release (create)'
                   inputs:
-                      targetType: filePath
-                      filePath: '$(System.DefaultWorkingDirectory)/pipelines/create-release-tag.sh'
-                  env:
-                      TAG: $(tag)
-                      USER: $(user)
-                      EMAIL: $(email)
-                      REPO_TOKEN: $(github-ada-cat-auth-token)
-                      REPO_URL: $(repo-url)
-                      WORK_DIR: $(System.DefaultWorkingDirectory)
+                      tag: '$(tag)'
+                      gitHubConnection: 'ada-cat-github-repo-access'
+                      target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
+                      assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
 
-    - stage: package_publish_prod
-      variables:
-          - group: ado-extension-prod
-      jobs:
-          - template: release-template.yaml
-            parameters:
-                environment: ado-extension-prod
+    #             - task: Bash@3
+    #               displayName: 'Create New Release $(tag)'
+    #               inputs:
+    #                   targetType: filePath
+    #                   filePath: '$(System.DefaultWorkingDirectory)/pipelines/create-release-tag.sh'
+    #               env:
+    #                   TAG: $(tag)
+    #                   USER: $(user)
+    #                   EMAIL: $(email)
+    #                   REPO_TOKEN: $(github-ada-cat-auth-token)
+    #                   REPO_URL: $(repo-url)
+    #                   WORK_DIR: $(System.DefaultWorkingDirectory)
+
+    # - stage: package_publish_prod
+    #   variables:
+    #       - group: ado-extension-prod
+    #   jobs:
+    #       - template: release-template.yaml
+    #         parameters:
+    #             environment: ado-extension-prod
