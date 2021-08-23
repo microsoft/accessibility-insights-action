@@ -22,18 +22,31 @@ variables:
       value: ${{ parameters.versionOverride }}
 
 stages:
-    - stage: package_publish_staging
-      variables:
-          - group: ado-extension-staging
-      jobs:
-          - template: release-template.yaml
-            parameters:
-                environment: ado-extension-staging
+    # - stage: package_publish_staging
+    #   variables:
+    #       - group: ado-extension-staging
+    #   jobs:
+    #       - template: release-template.yaml
+    #         parameters:
+    #             environment: ado-extension-staging
 
-    - stage: package_publish_prod
-      variables:
-          - group: ado-extension-prod
-      jobs:
-          - template: release-template.yaml
-            parameters:
-                environment: ado-extension-prod
+    - stage: create_release_tag
+        jobs:
+            - job: 'BuildAndCheckCodeStyling'
+            pool:
+                vmImage: $(vmImage)
+                demands: npm
+            steps:
+                - task: Bash@3
+                displayName: 'Create New Release $(tag)'
+                inputs:
+                    targetType: filePath
+                    filePath: ./create_release_tag.sh
+
+    # - stage: package_publish_prod
+    #   variables:
+    #       - group: ado-extension-prod
+    #   jobs:
+    #       - template: release-template.yaml
+    #         parameters:
+    #             environment: ado-extension-prod
