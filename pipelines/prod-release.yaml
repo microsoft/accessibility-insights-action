@@ -24,6 +24,8 @@ resources:
 variables:
     - name: extensionVersionOverride
       value: ${{ parameters.versionOverride }}
+    - name: tag
+      value: ${{ parameters.tag }}
 
 stages:
     # - stage: package_publish_staging
