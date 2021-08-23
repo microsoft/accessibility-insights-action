@@ -6,6 +6,10 @@ parameters:
       displayName: Version to deploy
       type: string
       default: ''
+    - name: tag
+      displayName: release tag
+      type: string
+      default: ''
 
 trigger: none
 
@@ -33,8 +37,6 @@ stages:
     - stage: create_release_tag
       jobs:
           - job: 'BuildAndCheckCodeStyling'
-            pool:
-                vmImage: $(vmImage)
             steps:
                 - task: Bash@3
                   displayName: 'Create New Release $(tag)'
