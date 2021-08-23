@@ -43,26 +43,26 @@ stages:
           - template: release-template.yaml
             parameters:
                 environment: ado-extension-prod
-                
-          - job: 'CreateReleaseTag'
-          steps:
-              - task: DownloadPipelineArtifact@2
-                inputs:
-                    source: 'specific'
-                    runVersion: 'specific'
-                    project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
-                    pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
-                    runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
-                    artifact: ado-extension-drop
-                    path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
 
-              - task: GitHubRelease@1
-                displayName: 'GitHub release'
-                inputs:
-                    tag: '$(tag)'
-                    action: edit
-                    tagSource: userSpecifiedTag
-                    gitHubConnection: 'ada-cat-github-repo-access'
-                    isPreRelease: true
-                    target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
-                    assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
+          - job: 'CreateReleaseTag'
+            steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                      source: 'specific'
+                      runVersion: 'specific'
+                      project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
+                      pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
+                      runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
+                      artifact: ado-extension-drop
+                      path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+
+                - task: GitHubRelease@1
+                  displayName: 'GitHub release'
+                  inputs:
+                      tag: '$(tag)'
+                      action: edit
+                      tagSource: userSpecifiedTag
+                      gitHubConnection: 'ada-cat-github-repo-access'
+                      isPreRelease: true
+                      target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
+                      assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
