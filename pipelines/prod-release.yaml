@@ -31,11 +31,10 @@ stages:
     #             environment: ado-extension-staging
 
     - stage: create_release_tag
-        jobs:
-            - job: 'BuildAndCheckCodeStyling'
+      jobs:
+          - job: 'BuildAndCheckCodeStyling'
             pool:
                 vmImage: $(vmImage)
-                demands: npm
             steps:
                 - task: Bash@3
                 displayName: 'Create New Release $(tag)'
