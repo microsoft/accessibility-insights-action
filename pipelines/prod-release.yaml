@@ -39,7 +39,6 @@ stages:
             value: v${{ parameters.prodVersionOverride }}-sources-ado
       jobs:
           - job: 'CreateReleaseTag'
-            dependsOn: publish_vsix_file
             steps:
                 - task: DownloadPipelineArtifact@2
                   inputs:
