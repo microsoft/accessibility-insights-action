@@ -150,14 +150,14 @@ jobs:
 
           - bash: |
                 echo '<!--
-                      Copyright (c) Microsoft Corporation. All rights reserved.
-                      Licensed under the MIT License.
-                      -->
-                                  
-                      # About
-                                  
-                      This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
-                      ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
+                Copyright (c) Microsoft Corporation. All rights reserved.
+                Licensed under the MIT License.
+                -->
+                              
+                # About
+                              
+                This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
+                ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
 
             displayName: 'Generate Release README Info'
 
