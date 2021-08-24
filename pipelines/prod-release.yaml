@@ -33,20 +33,12 @@ stages:
             parameters:
                 environment: ado-extension-staging
 
-    - stage: package_publish_prod
+    - stage: create_release_tag
       variables:
-          - group: ado-extension-prod
-          - name: extensionVersionOverride
-            value: ${{ parameters.prodVersionOverride }}
           - name: tag
             value: v${{ parameters.prodVersionOverride }}-sources-ado
       jobs:
-          - template: release-template.yaml
-            parameters:
-                environment: ado-extension-prod
-
           - job: 'CreateReleaseTag'
-            dependsOn: publish_vsix_file
             steps:
                 - task: DownloadPipelineArtifact@2
                   inputs:
@@ -69,3 +61,13 @@ stages:
                       isDraft: true
                       target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
                       assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
+
+    - stage: package_publish_prod
+      variables:
+          - group: ado-extension-prod
+          - name: extensionVersionOverride
+            value: ${{ parameters.prodVersionOverride }}
+      jobs:
+          - template: release-template.yaml
+            parameters:
+                environment: ado-extension-prod
