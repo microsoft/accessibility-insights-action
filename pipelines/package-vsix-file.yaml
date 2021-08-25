@@ -69,7 +69,7 @@ steps:
               [
                   {
                   "KeyCode" : "CP-233016",
-                  "operationSetCode" : "OpcSign",
+                  "OperationCode" : "OpcSign",
                   "parameters": {
                     "FileDigest": "/fd sha256"
                   },
