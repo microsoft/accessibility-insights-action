@@ -65,38 +65,37 @@ steps:
           FolderPath: '$(Build.ArtifactStagingDirectory)'
           Pattern: '${{ parameters.environment }}.vsix'
           signConfigType: inlineSignParams
-          inlineOperation: | 
-          [
-                {
-                    "KeyCode" : "CP-233016",
-                    "operationSetCode" : "SigntoolSign",
-                    "parameters": [
-                        {
-                        "parameterName": "OpusName",
-                        "parameterValue": "Microsoft"
-                        },
-                        {
-                        "parameterName": "OpusInfo",
-                        "parameterValue": "http://www.microsoft.com"
-                        },
-                        {
-                        "parameterName": "PageHash",
-                        "parameterValue": "/NPH"
-                        },
-                        {
-                        "parameterName": "FileDigest",
-                        "parameterValue": "/fd sha256"
-                        },
-                        {
-                        "parameterName": "TimeStamp",
-                        "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
-                        }
-                    ],
-                    "toolName": "signtool.exe",
-                    "toolVersion": "6.2.9304.0"
-                }
-            ]
-        }
+          inlineOperation: |
+              [
+                  {
+                  "KeyCode" : "CP-233016",
+                  "operationSetCode" : "SigntoolSign",
+                  "parameters": [
+                      {
+                      "parameterName": "OpusName",
+                      "parameterValue": "Microsoft"
+                      },
+                      {
+                      "parameterName": "OpusInfo",
+                      "parameterValue": "http://www.microsoft.com"
+                      },
+                      {
+                      "parameterName": "PageHash",
+                      "parameterValue": "/NPH"
+                      },
+                      {
+                      "parameterName": "FileDigest",
+                      "parameterValue": "/fd sha256"
+                      },
+                      {
+                      "parameterName": "TimeStamp",
+                      "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                      }
+                  ],
+                  "toolName": "signtool.exe",
+                  "toolVersion": "6.2.9304.0"
+                  }
+              ]
 
     - task: PublishBuildArtifacts@1
       inputs:
