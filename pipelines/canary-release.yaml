@@ -29,7 +29,7 @@ resources:
               branches: [main]
 
 stages:
-    - stage: package_publish_staging
+    - stage: package_publish_canary
       variables:
           - group: ${{ parameters.variableGroupName }}
       jobs:
