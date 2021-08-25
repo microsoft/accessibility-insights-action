@@ -78,7 +78,7 @@ steps:
                   },
                   {
                   "KeyCode": "CP-233016",
-                  "OperationCode": "SigntoolVerify",
+                  "OperationCode": "OpcVerify",
                   "Parameters": {},
                   "ToolName": "sign",
                   "ToolVersion": "1.0"
