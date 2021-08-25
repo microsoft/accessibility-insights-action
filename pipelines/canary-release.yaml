@@ -37,5 +37,7 @@ stages:
             parameters:
                 ${{ if eq(parameters.variableGroupName, 'ado-extension-canary') }}:
                     environment: ado-extension-canary
+                    shouldSign: false
                 ${{ if ne(parameters.variableGroupName, 'ado-extension-canary') }}:
                     environment: ado-extension-test
+                    shouldSign: false

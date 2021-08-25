@@ -5,6 +5,9 @@ parameters:
     - name: environment
       displayName: deployment environment
       type: string
+    - name: shouldSign
+      displayName: whether to sign VSIX file
+      type: string
 
 steps:
     - bash: |
@@ -13,6 +16,7 @@ steps:
           echo extension name: $(ExtensionName)
           echo extensionVersionOverride: $(extensionVersionOverride)
           echo environment: ${{ parameters.environment }}
+          echo shouldSign: ${{ parameters.shouldSign }}
 
     - task: TfxInstaller@3
       inputs:
@@ -52,6 +56,47 @@ steps:
           extensionPricing: 'free'
           patternManifest: 'ado-extension.json'
           outputPath: '$(Build.ArtifactStagingDirectory)/${{ parameters.environment }}.vsix'
+
+    - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
+        condition: and(succeeded(), eq('${{ parameters.shouldSign }}', 'true'))
+          displayName: 'ESRP: Sign VSIX file '
+          inputs:
+              ConnectedServiceName: 'ESRP Code Signing'
+              FolderPath: '$(Build.ArtifactStagingDirectory)'
+              Pattern: '${{ parameters.environment }}.vsix'
+              signConfigType: inlineSignParams
+              inlineOperation: | 
+              [
+                    {
+                        "KeyCode" : "CP-233016",
+                        "operationSetCode" : "SigntoolSign",
+                        "parameters": [
+                            {
+                            "parameterName": "OpusName",
+                            "parameterValue": "Microsoft"
+                            },
+                            {
+                            "parameterName": "OpusInfo",
+                            "parameterValue": "http://www.microsoft.com"
+                            },
+                            {
+                            "parameterName": "PageHash",
+                            "parameterValue": "/NPH"
+                            },
+                            {
+                            "parameterName": "FileDigest",
+                            "parameterValue": "/fd sha256"
+                            },
+                            {
+                            "parameterName": "TimeStamp",
+                            "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                            }
+                        ],
+                        "toolName": "signtool.exe",
+                        "toolVersion": "6.2.9304.0"
+                    }
+                ]
+            }
 
     - task: PublishBuildArtifacts@1
       inputs:
