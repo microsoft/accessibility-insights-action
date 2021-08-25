@@ -69,31 +69,24 @@ steps:
               [
                   {
                   "KeyCode" : "CP-233016",
-                  "operationSetCode" : "SigntoolSign",
+                  "operationSetCode" : "OpcSign",
                   "parameters": [
-                      {
-                      "parameterName": "OpusName",
-                      "parameterValue": "Microsoft"
-                      },
-                      {
-                      "parameterName": "OpusInfo",
-                      "parameterValue": "http://www.microsoft.com"
-                      },
-                      {
-                      "parameterName": "PageHash",
-                      "parameterValue": "/NPH"
-                      },
                       {
                       "parameterName": "FileDigest",
                       "parameterValue": "/fd sha256"
-                      },
-                      {
-                      "parameterName": "TimeStamp",
-                      "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
                       }
                   ],
-                  "toolName": "signtool.exe",
-                  "toolVersion": "6.2.9304.0"
+                  "toolName": "sign",
+                  "toolVersion": "1.0"
+                  },
+                  {
+                  "KeyCode" : "CP-233016",
+                  "operationSetCode" : "OpcVerify",
+                  "parameters": [
+                      {}
+                  ],
+                  "toolName": "sign",
+                  "toolVersion": "1.0"
                   }
               ]
 
