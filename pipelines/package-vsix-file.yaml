@@ -69,12 +69,19 @@ steps:
               [
                   {
                   "KeyCode" : "CP-233016",
-                  "OperationCode" : "OpcSign",
+                  "OperationCode" : "SigntoolSign",
                   "parameters": {
                     "FileDigest": "/fd sha256"
                   },
                   "toolName": "sign",
                   "toolVersion": "1.0"
+                  },
+                  {
+                  "KeyCode": "CP-233016",
+                  "OperationCode": "SigntoolVerify",
+                  "Parameters": {},
+                  "ToolName": "sign",
+                  "ToolVersion": "1.0"
                   }
               ]
 
