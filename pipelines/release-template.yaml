@@ -5,6 +5,9 @@ parameters:
     - name: environment
       displayName: deployment environment
       type: string
+    - name: shouldSign
+      displayName: whether to sign VSIX file
+      type: string
 
 jobs:
     - job: package_job
@@ -12,6 +15,7 @@ jobs:
           - template: package-vsix-file.yaml
             parameters:
                 environment: ${{ parameters.environment }}
+                shouldSign: ${{ parameters.shouldSign }}
     - deployment: publish_vsix_file
       displayName: deploy vsix file
       dependsOn: package_job
