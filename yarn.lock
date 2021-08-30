@@ -2456,6 +2456,21 @@ accessibility-insights-report@4.1.2:
     react-helmet "^6.1.0"
     uuid "^8.3.2"
 
+accessibility-insights-report@4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.1.5.tgz#703b5672b6baffd5e6f0a7ef7d42301168123f00"
+  integrity sha512-Yu2MAJJukzBByj3EK22UVj4sAe9WfgRfib2zf/Gvpq2LZ7K88ZzdUboL6lKmCueJmPkY7AGKvLxbPf4dyfu+OQ==
+  dependencies:
+    axe-core "4.3.2"
+    classnames "^2.3.1"
+    lodash "^4.17.21"
+    luxon "^2.0.2"
+    office-ui-fabric-react "7.98.0"
+    react "^16.14.0"
+    react-dom "^16.14.0"
+    react-helmet "^6.1.0"
+    uuid "^8.3.2"
+
 accessibility-insights-scan@0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-0.8.1.tgz#920b23044c43dc67c963015cc823db551fc47c2c"
@@ -2936,10 +2951,15 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axe-core@4.2.1, axe-core@^4.1.1:
+axe-core@4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.2.1.tgz#2e50bcf10ee5b819014f6e342e41e45096239e34"
   integrity sha512-evY7DN8qSIbsW2H/TWQ1bX3sXN1d4MNb5Vb4n7BzPuCwRHdkZ1H2eNLuSh73EoQqkGKUtju2G2HCcjCfhvZIAA==
+
+axe-core@4.3.2, axe-core@^4.1.1:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.2.tgz#fcf8777b82c62cfc69c7e9f32c0d2226287680e7"
+  integrity sha512-5LMaDRWm8ZFPAEdzTYmgjjEdj1YnQcpfrVajO/sn/LhbpGp0Y0H64c2hLZI1gRMxfA+w1S71Uc/nHaOXgcCvGg==
 
 axios@>=0.21.1, axios@^0.21.1:
   version "0.21.1"
@@ -7559,6 +7579,11 @@ luxon@^1.26.0:
   version "1.27.0"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.27.0.tgz#ae10c69113d85dab8f15f5e8390d0cbeddf4f00f"
   integrity sha512-VKsFsPggTA0DvnxtJdiExAucKdAnwbCCNlMM5ENvHlxubqWd0xhZcdb4XgZ7QFNhaRhilXCFxHuoObP5BNA4PA==
+
+luxon@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-2.0.2.tgz#11f2cd4a11655fdf92e076b5782d7ede5bcdd133"
+  integrity sha512-ZRioYLCgRHrtTORaZX1mx+jtxKtKuI5ZDvHNAmqpUzGqSrR+tL4FVLn/CUGMA3h0+AKD1MAxGI5GnCqR5txNqg==
 
 make-dir@^2.1.0:
   version "2.1.0"
