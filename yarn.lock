@@ -5146,7 +5146,7 @@ filename-reserved-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/filename-reserved-regex/-/filename-reserved-regex-2.0.0.tgz#abf73dfab735d045440abfea2d91f389ebbfa229"
   integrity sha1-q/c9+rc10EVECr/qLZHzieu/oik=
 
-filenamify-url@^2.1.1, filenamify-url@^2.1.2:
+filenamify-url@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/filenamify-url/-/filenamify-url-2.1.2.tgz#844607d5e86919617340ba0fad4b458dae247100"
   integrity sha512-3rMbAr7vDNMOGsj1aMniQFl749QjgM+lMJ/77ZRSPTIgxvolZwoQbn8dXLs7xfd+hAdli+oTnSWZNkJJLWQFEQ==
@@ -5154,10 +5154,27 @@ filenamify-url@^2.1.1, filenamify-url@^2.1.2:
     filenamify "^4.3.0"
     humanize-url "^2.1.1"
 
+filenamify-url@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/filenamify-url/-/filenamify-url-3.0.0.tgz#dc24426b6d8f4e153781c54a29a95490a67be8c6"
+  integrity sha512-8wbXil432tPxajYfC9HT8va8zbst17aEgGIrzCvYFZe89TfIPUE/rSFmcROXCoinnn5fxv6UfICmPmHL1gRZ2Q==
+  dependencies:
+    filenamify "^5.0.1"
+    humanize-url "^3.0.0"
+
 filenamify@^4.1.0, filenamify@^4.2.0, filenamify@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/filenamify/-/filenamify-4.3.0.tgz#62391cb58f02b09971c9d4f9d63b3cf9aba03106"
   integrity sha512-hcFKyUG57yWGAzu1CMt/dPzYZuv+jAJUT85bL8mrXvNe6hWj6yEHEc4EdcgiA6Z3oi1/9wXJdZPXF2dZNgwgOg==
+  dependencies:
+    filename-reserved-regex "^2.0.0"
+    strip-outer "^1.0.1"
+    trim-repeated "^1.0.0"
+
+filenamify@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/filenamify/-/filenamify-5.0.1.tgz#dca105c0d610ecc6f3249957fd11733019d1f64b"
+  integrity sha512-JaWJHplckZTbg9jgZmOeXq1Sm7GiylBTSacyW45YO9QGsQSELlC9PTKkDBOo+3VHdS2a7dvgyaHe7XcVlEitxw==
   dependencies:
     filename-reserved-regex "^2.0.0"
     strip-outer "^1.0.1"
@@ -5932,6 +5949,13 @@ humanize-url@^2.1.1:
   integrity sha512-V4nxsPGNE7mPjr1qDp471YfW8nhBiTRWrG/4usZlpvFU8I7gsV7Jvrrzv/snbLm5dWO3dr1ennu2YqnhTWFmYA==
   dependencies:
     normalize-url "^4.5.1"
+
+humanize-url@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/humanize-url/-/humanize-url-3.0.0.tgz#349e988d00614cdfba80bdf4bc482737f6918b61"
+  integrity sha512-oWcYrKNVa+bCX9ACFZ85H8l1+QcwBJ64xH5+PHYoLe/Y5aToOfw3s3OZqRA/OyJPcWOXuDLo3qil5CYvTMtp0A==
+  dependencies:
+    normalize-url "^7.0.0"
 
 i@0.3.x:
   version "0.3.6"
@@ -8233,6 +8257,11 @@ normalize-url@^4.1.0, normalize-url@^4.5.1:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.1.tgz#0dd90cf1288ee1d1313b87081c9a5932ee48518a"
   integrity sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==
+
+normalize-url@^7.0.0:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-7.0.1.tgz#44b67c94ecb2cd31d2d0491fe5cc13abb990e787"
+  integrity sha512-WjLnBQVhYX5XRIectq7CEXgu7O13OB1vsj3rkVItD4c48G/JRD5dohJ1R5vVwZ5wI2/SJDNHfpdQ0Xsqbr1dhQ==
 
 npm-bundled@^1.1.1:
   version "1.1.2"
