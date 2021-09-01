@@ -20,7 +20,5 @@ export abstract class TaskConfig {
     abstract getInputUrls(): string;
     abstract getScanTimeout(): number;
     abstract getLocalhostPort(): number;
-    public getRunId(): number {
-        return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
-    }
+    abstract getRunId(): number;
 }
