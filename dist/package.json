@@ -1,0 +1,25 @@
+{
+    "name": "@accessibility-insights-action/gh-action",
+    "private": true,
+    "version": "2.2.0",
+    "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
+    "main": "dist/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/accessibility-insights-action.git"
+    },
+    "keywords": [
+        "actions"
+    ],
+    "author": "Microsoft",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/microsoft/accessibility-insights-action/issues"
+    },
+    "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
+    "dependencies": {
+        "axe-core": "4.3.2",
+        "accessibility-insights-report": "4.1.5",
+        "accessibility-insights-scan": "0.9.0"
+    }
+}
