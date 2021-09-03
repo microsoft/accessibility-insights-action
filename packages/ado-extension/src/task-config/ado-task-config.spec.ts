@@ -42,6 +42,7 @@ describe(ADOTaskConfig, () => {
         ${'inputUrls'}                  | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getInputUrls()}
         ${'maxUrls'}                    | ${'20'}           | ${20}                                                 | ${() => taskConfig.getMaxUrls()}
         ${'scanTimeout'}                | ${'100000'}       | ${100000}                                             | ${() => taskConfig.getScanTimeout()}
+        ${'localhostPort'}              | ${'8080'}         | ${8080}                                               | ${() => taskConfig.getLocalhostPort()}
         ${'repoServiceConnectionName'}  | ${'testName'}     | ${'testName'}                                         | ${() => taskConfig.getRepoServiceConnectionName()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
