@@ -85,7 +85,7 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getRepoServiceConnectionName(): string {
-        return this.adoTaskObj.getInput('repoServiceConnectionName')
+        return this.adoTaskObj.getInput('repoServiceConnectionName');
     }
 
     public getFailOnAccessibilityError(): boolean {
