@@ -109,6 +109,14 @@
             "defaultValue": "90000",
             "required": false,
             "helpMarkDown": "The maximum timeout in milliseconds for the scan (excluding dependency setup)."
+        },
+        {
+            "name": "failOnAccessibilityError",
+            "type": "boolean",
+            "label": "Fail on Accessibility Error",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Fail the task if there are accessibility issues."
         }
     ],
     "execution": {
