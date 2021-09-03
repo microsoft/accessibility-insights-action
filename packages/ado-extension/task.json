@@ -114,7 +114,7 @@
             "name": "failOnAccessibilityError",
             "type": "boolean",
             "label": "Fail on Accessibility Error",
-            "defaultValue": "false",
+            "defaultValue": false,
             "required": false,
             "helpMarkDown": "Fail the task if there are accessibility issues."
         }
