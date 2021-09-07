@@ -20,24 +20,24 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getReportOutDir(): string {
-        return this.getAbsolutePath(this.adoTaskObj.getInput('output-dir'));
+        return this.getAbsolutePath(this.adoTaskObj.getInput('outputDir'));
     }
 
     public getSiteDir(): string {
-        return this.adoTaskObj.getInput('site-dir');
+        return this.adoTaskObj.getInput('siteDir');
     }
 
     public getScanUrlRelativePath(): string {
-        return this.adoTaskObj.getInput('scan-url-relative-path');
+        return this.adoTaskObj.getInput('scanUrlRelativePath');
     }
 
     public getToken(): string {
-        return this.adoTaskObj.getInput('repo-token');
+        return this.adoTaskObj.getInput('repoToken');
     }
 
     public getChromePath(): string {
         let chromePath;
-        chromePath = this.getAbsolutePath(this.adoTaskObj.getInput('chrome-path'));
+        chromePath = this.getAbsolutePath(this.adoTaskObj.getInput('chromePath'));
 
         if (isEmpty(chromePath)) {
             chromePath = this.processObj.env.CHROME_BIN;
@@ -51,31 +51,31 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getMaxUrls(): number {
-        return parseInt(this.adoTaskObj.getInput('max-urls'));
+        return parseInt(this.adoTaskObj.getInput('maxUrls'));
     }
 
     public getDiscoveryPatterns(): string {
-        const value = this.adoTaskObj.getInput('discovery-patterns');
+        const value = this.adoTaskObj.getInput('discoveryPatterns');
 
         return isEmpty(value) ? undefined : value;
     }
 
     public getInputFile(): string {
-        return this.getAbsolutePath(this.adoTaskObj.getInput('input-file'));
+        return this.getAbsolutePath(this.adoTaskObj.getInput('inputFile'));
     }
 
     public getInputUrls(): string {
-        const value = this.adoTaskObj.getInput('input-urls');
+        const value = this.adoTaskObj.getInput('inputUrls');
 
         return isEmpty(value) ? undefined : value;
     }
 
     public getScanTimeout(): number {
-        return parseInt(this.adoTaskObj.getInput('scan-timeout'));
+        return parseInt(this.adoTaskObj.getInput('scanTimeout'));
     }
 
     public getLocalhostPort(): number {
-        const value = this.adoTaskObj.getInput('localhost-port');
+        const value = this.adoTaskObj.getInput('localhostPort');
 
         return isEmpty(value) ? undefined : parseInt(value, 10);
     }

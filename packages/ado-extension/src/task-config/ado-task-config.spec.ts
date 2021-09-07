@@ -30,19 +30,19 @@ describe(ADOTaskConfig, () => {
     }
 
     it.each`
-        inputOption                 | inputValue         | expectedValue                                          | getInputFunc
-        ${'repo-token'}             | ${'token'}         | ${'token'}                                             | ${() => taskConfig.getToken()}
-        ${'scan-url-relative-path'} | ${'path'}          | ${'path'}                                              | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chrome-path'}            | ${'./chrome-path'} | ${getPlatformAgnosticPath(__dirname + '/chrome-path')} | ${() => taskConfig.getChromePath()}
-        ${'input-file'}             | ${'./input-file'}  | ${getPlatformAgnosticPath(__dirname + '/input-file')}  | ${() => taskConfig.getInputFile()}
-        ${'output-dir'}             | ${'./output-dir'}  | ${getPlatformAgnosticPath(__dirname + '/output-dir')}  | ${() => taskConfig.getReportOutDir()}
-        ${'site-dir'}               | ${'path'}          | ${'path'}                                              | ${() => taskConfig.getSiteDir()}
-        ${'url'}                    | ${'url'}           | ${'url'}                                               | ${() => taskConfig.getUrl()}
-        ${'discovery-patterns'}     | ${'abc'}           | ${'abc'}                                               | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'input-urls'}             | ${'abc'}           | ${'abc'}                                               | ${() => taskConfig.getInputUrls()}
-        ${'max-urls'}               | ${'20'}            | ${20}                                                  | ${() => taskConfig.getMaxUrls()}
-        ${'scan-timeout'}           | ${'100000'}        | ${100000}                                              | ${() => taskConfig.getScanTimeout()}
-        ${'localhost-port'}         | ${'8080'}          | ${8080}                                                | ${() => taskConfig.getLocalhostPort()}
+        inputOption              | inputValue        | expectedValue                                         | getInputFunc
+        ${'repoToken'}           | ${'token'}        | ${'token'}                                            | ${() => taskConfig.getToken()}
+        ${'scanUrlRelativePath'} | ${'path'}         | ${'path'}                                             | ${() => taskConfig.getScanUrlRelativePath()}
+        ${'chromePath'}          | ${'./chromePath'} | ${getPlatformAgnosticPath(__dirname + '/chromePath')} | ${() => taskConfig.getChromePath()}
+        ${'inputFile'}           | ${'./inputFile'}  | ${getPlatformAgnosticPath(__dirname + '/inputFile')}  | ${() => taskConfig.getInputFile()}
+        ${'outputDir'}           | ${'./outputDir'}  | ${getPlatformAgnosticPath(__dirname + '/outputDir')}  | ${() => taskConfig.getReportOutDir()}
+        ${'siteDir'}             | ${'path'}         | ${'path'}                                             | ${() => taskConfig.getSiteDir()}
+        ${'url'}                 | ${'url'}          | ${'url'}                                              | ${() => taskConfig.getUrl()}
+        ${'discoveryPatterns'}   | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'inputUrls'}           | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getInputUrls()}
+        ${'maxUrls'}             | ${'20'}           | ${20}                                                 | ${() => taskConfig.getMaxUrls()}
+        ${'scanTimeout'}         | ${'100000'}       | ${100000}                                             | ${() => taskConfig.getScanTimeout()}
+        ${'localhostPort'}       | ${'8080'}         | ${8080}                                               | ${() => taskConfig.getLocalhostPort()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
@@ -63,7 +63,7 @@ describe(ADOTaskConfig, () => {
             },
         } as any;
         adoTaskMock
-            .setup((o) => o.getInput('chrome-path'))
+            .setup((o) => o.getInput('chromePath'))
             .returns(() => '')
             .verifiable(Times.once());
         taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
@@ -81,7 +81,7 @@ describe(ADOTaskConfig, () => {
             },
         } as any;
         adoTaskMock
-            .setup((o) => o.getInput('input-file'))
+            .setup((o) => o.getInput('inputFile'))
             .returns(() => './file.txt')
             .verifiable(Times.once());
         taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
