@@ -30,24 +30,40 @@ describe(ADOTaskConfig, () => {
     }
 
     it.each`
-        inputOption              | inputValue        | expectedValue                                         | getInputFunc
-        ${'repoToken'}           | ${'token'}        | ${'token'}                                            | ${() => taskConfig.getToken()}
-        ${'scanUrlRelativePath'} | ${'path'}         | ${'path'}                                             | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chromePath'}          | ${'./chromePath'} | ${getPlatformAgnosticPath(__dirname + '/chromePath')} | ${() => taskConfig.getChromePath()}
-        ${'inputFile'}           | ${'./inputFile'}  | ${getPlatformAgnosticPath(__dirname + '/inputFile')}  | ${() => taskConfig.getInputFile()}
-        ${'outputDir'}           | ${'./outputDir'}  | ${getPlatformAgnosticPath(__dirname + '/outputDir')}  | ${() => taskConfig.getReportOutDir()}
-        ${'siteDir'}             | ${'path'}         | ${'path'}                                             | ${() => taskConfig.getSiteDir()}
-        ${'url'}                 | ${'url'}          | ${'url'}                                              | ${() => taskConfig.getUrl()}
-        ${'discoveryPatterns'}   | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'inputUrls'}           | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getInputUrls()}
-        ${'maxUrls'}             | ${'20'}           | ${20}                                                 | ${() => taskConfig.getMaxUrls()}
-        ${'scanTimeout'}         | ${'100000'}       | ${100000}                                             | ${() => taskConfig.getScanTimeout()}
-        ${'localhostPort'}       | ${'8080'}         | ${8080}                                               | ${() => taskConfig.getLocalhostPort()}
+        inputOption                    | inputValue        | expectedValue                                         | getInputFunc
+        ${'repoToken'}                 | ${'token'}        | ${'token'}                                            | ${() => taskConfig.getToken()}
+        ${'scanUrlRelativePath'}       | ${'path'}         | ${'path'}                                             | ${() => taskConfig.getScanUrlRelativePath()}
+        ${'chromePath'}                | ${'./chromePath'} | ${getPlatformAgnosticPath(__dirname + '/chromePath')} | ${() => taskConfig.getChromePath()}
+        ${'inputFile'}                 | ${'./inputFile'}  | ${getPlatformAgnosticPath(__dirname + '/inputFile')}  | ${() => taskConfig.getInputFile()}
+        ${'outputDir'}                 | ${'./outputDir'}  | ${getPlatformAgnosticPath(__dirname + '/outputDir')}  | ${() => taskConfig.getReportOutDir()}
+        ${'siteDir'}                   | ${'path'}         | ${'path'}                                             | ${() => taskConfig.getSiteDir()}
+        ${'url'}                       | ${'url'}          | ${'url'}                                              | ${() => taskConfig.getUrl()}
+        ${'discoveryPatterns'}         | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'inputUrls'}                 | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getInputUrls()}
+        ${'maxUrls'}                   | ${'20'}           | ${20}                                                 | ${() => taskConfig.getMaxUrls()}
+        ${'scanTimeout'}               | ${'100000'}       | ${100000}                                             | ${() => taskConfig.getScanTimeout()}
+        ${'localhostPort'}             | ${'8080'}         | ${8080}                                               | ${() => taskConfig.getLocalhostPort()}
+        ${'repoServiceConnectionName'} | ${'testName'}     | ${'testName'}                                         | ${() => taskConfig.getRepoServiceConnectionName()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
             adoTaskMock
                 .setup((am) => am.getInput(inputOption))
+                .returns(() => inputValue)
+                .verifiable(Times.once());
+            const retrievedOption = getInputFunc();
+            expect(retrievedOption).toStrictEqual(expectedValue);
+        },
+    );
+
+    it.each`
+        inputOption                   | inputValue | expectedValue | getInputFunc
+        ${'failOnAccessibilityError'} | ${true}    | ${true}       | ${() => taskConfig.getFailOnAccessibilityError()}
+    `(
+        `bool input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
+        ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
+            adoTaskMock
+                .setup((am) => am.getBoolInput(inputOption))
                 .returns(() => inputValue)
                 .verifiable(Times.once());
             const retrievedOption = getInputFunc();

@@ -84,6 +84,14 @@ export class ADOTaskConfig extends TaskConfig {
         return parseInt(this.processObj.env.BUILD_BUILDID, 10);
     }
 
+    public getRepoServiceConnectionName(): string {
+        return this.adoTaskObj.getInput('repoServiceConnectionName');
+    }
+
+    public getFailOnAccessibilityError(): boolean {
+        return this.adoTaskObj.getBoolInput('failOnAccessibilityError');
+    }
+
     private getAbsolutePath(path: string): string {
         if (isEmpty(path)) {
             return undefined;
