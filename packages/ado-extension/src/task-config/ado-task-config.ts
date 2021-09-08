@@ -20,24 +20,27 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getReportOutDir(): string {
-        return this.getAbsolutePath(this.adoTaskObj.getInput('outputDir'));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return this.getAbsolutePath(this.adoTaskObj.getInput('outputDir'))!;
     }
 
     public getSiteDir(): string {
-        return this.adoTaskObj.getInput('siteDir');
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return this.adoTaskObj.getInput('siteDir')!;
     }
 
     public getScanUrlRelativePath(): string {
-        return this.adoTaskObj.getInput('scanUrlRelativePath');
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return this.adoTaskObj.getInput('scanUrlRelativePath')!;
     }
 
-    public getToken(): string {
-        return this.adoTaskObj.getInput('repoToken');
+    public getToken(): string | undefined {
+        return this.adoTaskObj.getInput('repoToken') || undefined;
     }
 
-    public getChromePath(): string {
-        let chromePath;
-        chromePath = this.getAbsolutePath(this.adoTaskObj.getInput('chromePath'));
+    public getChromePath(): string | undefined {
+        let chromePath = this.adoTaskObj.getInput('chromePath') || undefined;
+        chromePath = this.getAbsolutePath(chromePath);
 
         if (isEmpty(chromePath)) {
             chromePath = this.processObj.env.CHROME_BIN;
@@ -46,59 +49,68 @@ export class ADOTaskConfig extends TaskConfig {
         return chromePath;
     }
 
-    public getUrl(): string {
-        return this.adoTaskObj.getInput('url');
+    public getUrl(): string | undefined {
+        const value = this.adoTaskObj.getInput('url');
+
+        return isEmpty(value) ? undefined : value;
     }
 
     public getMaxUrls(): number {
-        return parseInt(this.adoTaskObj.getInput('maxUrls'));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return parseInt(this.adoTaskObj.getInput('maxUrls')!);
     }
 
-    public getDiscoveryPatterns(): string {
+    public getDiscoveryPatterns(): string | undefined {
         const value = this.adoTaskObj.getInput('discoveryPatterns');
 
         return isEmpty(value) ? undefined : value;
     }
 
-    public getInputFile(): string {
-        return this.getAbsolutePath(this.adoTaskObj.getInput('inputFile'));
+    public getInputFile(): string | undefined {
+        return this.getAbsolutePath(this.adoTaskObj.getInput('inputFile') ?? undefined);
     }
 
-    public getInputUrls(): string {
+    public getInputUrls(): string | undefined {
         const value = this.adoTaskObj.getInput('inputUrls');
 
         return isEmpty(value) ? undefined : value;
     }
 
     public getScanTimeout(): number {
-        return parseInt(this.adoTaskObj.getInput('scanTimeout'));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return parseInt(this.adoTaskObj.getInput('scanTimeout')!);
     }
 
-    public getLocalhostPort(): number {
+    public getLocalhostPort(): number | undefined {
         const value = this.adoTaskObj.getInput('localhostPort');
 
-        return isEmpty(value) ? undefined : parseInt(value, 10);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return isEmpty(value) ? undefined : parseInt(value!, 10);
     }
 
-    public getRunId(): number {
-        return parseInt(this.processObj.env.BUILD_BUILDID, 10);
+    public getRunId(): number | undefined {
+        const value = this.processObj.env.BUILD_BUILDID;
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return isEmpty(value) ? undefined : parseInt(value!, 10);
     }
 
-    public getRepoServiceConnectionName(): string {
-        return this.adoTaskObj.getInput('repoServiceConnectionName');
+    public getRepoServiceConnectionName(): string | undefined {
+        return this.adoTaskObj.getInput('repoServiceConnectionName') ?? undefined;
     }
 
     public getFailOnAccessibilityError(): boolean {
         return this.adoTaskObj.getBoolInput('failOnAccessibilityError');
     }
 
-    private getAbsolutePath(path: string): string {
+    private getAbsolutePath(path: string | undefined): string | undefined {
         if (isEmpty(path)) {
             return undefined;
         }
 
         const dirname = this.processObj.env.PIPELINE_WORKSPACE ?? __dirname;
 
-        return normalizePath(this.resolvePath(dirname, normalizePath(path)));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return normalizePath(this.resolvePath(dirname, normalizePath(path!)));
     }
 }

@@ -9,14 +9,14 @@ import { Mock, Times, IMock } from 'typemoq';
 import { ADOTaskConfig } from './ado-task-config';
 
 describe(ADOTaskConfig, () => {
-    let processStub: any;
+    let processStub: NodeJS.Process;
     let adoTaskMock: IMock<typeof adoTask>;
     let taskConfig: ADOTaskConfig;
 
     beforeEach(() => {
         processStub = {
             env: {},
-        } as any;
+        } as NodeJS.Process;
         adoTaskMock = Mock.ofType<typeof adoTask>();
         taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
     });
@@ -32,26 +32,34 @@ describe(ADOTaskConfig, () => {
     it.each`
         inputOption                    | inputValue        | expectedValue                                         | getInputFunc
         ${'repoToken'}                 | ${'token'}        | ${'token'}                                            | ${() => taskConfig.getToken()}
+        ${'repoToken'}                 | ${undefined}      | ${undefined}                                          | ${() => taskConfig.getToken()}
         ${'scanUrlRelativePath'}       | ${'path'}         | ${'path'}                                             | ${() => taskConfig.getScanUrlRelativePath()}
         ${'chromePath'}                | ${'./chromePath'} | ${getPlatformAgnosticPath(__dirname + '/chromePath')} | ${() => taskConfig.getChromePath()}
+        ${'chromePath'}                | ${undefined}      | ${undefined}                                          | ${() => taskConfig.getChromePath()}
         ${'inputFile'}                 | ${'./inputFile'}  | ${getPlatformAgnosticPath(__dirname + '/inputFile')}  | ${() => taskConfig.getInputFile()}
+        ${'inputFile'}                 | ${undefined}      | ${undefined}                                          | ${() => taskConfig.getInputFile()}
         ${'outputDir'}                 | ${'./outputDir'}  | ${getPlatformAgnosticPath(__dirname + '/outputDir')}  | ${() => taskConfig.getReportOutDir()}
         ${'siteDir'}                   | ${'path'}         | ${'path'}                                             | ${() => taskConfig.getSiteDir()}
         ${'url'}                       | ${'url'}          | ${'url'}                                              | ${() => taskConfig.getUrl()}
+        ${'url'}                       | ${undefined}      | ${undefined}                                          | ${() => taskConfig.getUrl()}
         ${'discoveryPatterns'}         | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'discoveryPatterns'}         | ${undefined}      | ${undefined}                                          | ${() => taskConfig.getDiscoveryPatterns()}
         ${'inputUrls'}                 | ${'abc'}          | ${'abc'}                                              | ${() => taskConfig.getInputUrls()}
+        ${'inputUrls'}                 | ${undefined}      | ${undefined}                                          | ${() => taskConfig.getInputUrls()}
         ${'maxUrls'}                   | ${'20'}           | ${20}                                                 | ${() => taskConfig.getMaxUrls()}
         ${'scanTimeout'}               | ${'100000'}       | ${100000}                                             | ${() => taskConfig.getScanTimeout()}
         ${'localhostPort'}             | ${'8080'}         | ${8080}                                               | ${() => taskConfig.getLocalhostPort()}
+        ${'localhostPort'}             | ${undefined}      | ${undefined}                                          | ${() => taskConfig.getLocalhostPort()}
         ${'repoServiceConnectionName'} | ${'testName'}     | ${'testName'}                                         | ${() => taskConfig.getRepoServiceConnectionName()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
             adoTaskMock
                 .setup((am) => am.getInput(inputOption))
-                .returns(() => inputValue)
+                .returns(() => inputValue as string)
                 .verifiable(Times.once());
-            const retrievedOption = getInputFunc();
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            const retrievedOption: unknown = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },
     );
@@ -64,9 +72,10 @@ describe(ADOTaskConfig, () => {
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
             adoTaskMock
                 .setup((am) => am.getBoolInput(inputOption))
-                .returns(() => inputValue)
+                .returns(() => inputValue as boolean)
                 .verifiable(Times.once());
-            const retrievedOption = getInputFunc();
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            const retrievedOption: unknown = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },
     );
@@ -77,7 +86,7 @@ describe(ADOTaskConfig, () => {
             env: {
                 CHROME_BIN: chromePath,
             },
-        } as any;
+        } as unknown as NodeJS.Process;
         adoTaskMock
             .setup((o) => o.getInput('chromePath'))
             .returns(() => '')
@@ -95,7 +104,7 @@ describe(ADOTaskConfig, () => {
             env: {
                 PIPELINE_WORKSPACE: workspace,
             },
-        } as any;
+        } as unknown as NodeJS.Process;
         adoTaskMock
             .setup((o) => o.getInput('inputFile'))
             .returns(() => './file.txt')
@@ -113,7 +122,7 @@ describe(ADOTaskConfig, () => {
             env: {
                 BUILD_BUILDID: `${runId}`,
             },
-        } as any;
+        } as unknown as NodeJS.Process;
         taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
 
         const actualRunId = taskConfig.getRunId();
