@@ -4,6 +4,6 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "outDir": "./dist/pkg/",
-        "strictNullChecks": true,
+        "strictNullChecks": true
     }
 }

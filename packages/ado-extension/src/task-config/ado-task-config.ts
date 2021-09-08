@@ -60,7 +60,7 @@ export class ADOTaskConfig extends TaskConfig {
         return parseInt(this.adoTaskObj.getInput('maxUrls')!);
     }
 
-    public getDiscoveryPatterns(): string | undefined{
+    public getDiscoveryPatterns(): string | undefined {
         const value = this.adoTaskObj.getInput('discoveryPatterns');
 
         return isEmpty(value) ? undefined : value;
