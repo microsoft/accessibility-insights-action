@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { AdoIocTypes } from '../../ioc/ado-ioc-types';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
 import { Logger } from '@accessibility-insights-action/shared';
@@ -20,8 +21,8 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Logger) private readonly logger: Logger,
-        private readonly adoTask: typeof AdoTask,
-        nodeApi: typeof NodeApi,
+        @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
+        @inject(AdoIocTypes.NodeApi) nodeApi: typeof NodeApi,
     ) {
         super();
         if (!this.isSupported()) {
