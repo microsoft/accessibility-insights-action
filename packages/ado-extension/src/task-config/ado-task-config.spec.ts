@@ -72,9 +72,10 @@ describe(ADOTaskConfig, () => {
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
             adoTaskMock
                 .setup((am) => am.getBoolInput(inputOption))
-                .returns(() => inputValue)
+                .returns(() => inputValue as boolean)
                 .verifiable(Times.once());
-            const retrievedOption = getInputFunc();
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            const retrievedOption: unknown = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },
     );
