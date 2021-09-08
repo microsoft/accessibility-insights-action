@@ -5,8 +5,10 @@ import * as adoTask from 'azure-pipelines-task-lib/task';
 
 export function runScan() {
     try {
-        const url = adoTask.getInput('url', true) || 'url';
-        console.log(`Scanning ${url}`);
+        const url = adoTask.getInput('url', true);
+        if (url) {
+            console.log(`Scanning ${url}`);
+        }
     } catch (error) {
         console.log('Exception thrown in action: ', error);
         process.exit(1);
