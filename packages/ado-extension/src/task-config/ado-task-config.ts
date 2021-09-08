@@ -95,6 +95,14 @@ export class ADOTaskConfig extends TaskConfig {
         return isEmpty(value) ? undefined : parseInt(value!, 10);
     }
 
+    public getRepoServiceConnectionName(): string {
+        return this.adoTaskObj.getInput('repoServiceConnectionName');
+    }
+
+    public getFailOnAccessibilityError(): boolean {
+        return this.adoTaskObj.getBoolInput('failOnAccessibilityError');
+    }
+
     private getAbsolutePath(path: string | undefined): string | undefined {
         if (isEmpty(path)) {
             return undefined;

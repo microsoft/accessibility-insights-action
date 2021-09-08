@@ -50,6 +50,7 @@ describe(ADOTaskConfig, () => {
         ${'scanTimeout'}         | ${'100000'}       | ${100000}                                             | ${() => taskConfig.getScanTimeout()}
         ${'localhostPort'}       | ${'8080'}         | ${8080}                                               | ${() => taskConfig.getLocalhostPort()}
         ${'localhostPort'}       | ${undefined}      | ${undefined}                                          | ${() => taskConfig.getLocalhostPort()}
+        ${'repoServiceConnectionName'} | ${'testName'}     | ${'testName'}                                   | ${() => taskConfig.getRepoServiceConnectionName()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
@@ -59,6 +60,21 @@ describe(ADOTaskConfig, () => {
                 .verifiable(Times.once());
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             const retrievedOption: unknown = getInputFunc();
+            expect(retrievedOption).toStrictEqual(expectedValue);
+        },
+    );
+
+    it.each`
+        inputOption                   | inputValue | expectedValue | getInputFunc
+        ${'failOnAccessibilityError'} | ${true}    | ${true}       | ${() => taskConfig.getFailOnAccessibilityError()}
+    `(
+        `bool input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
+        ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
+            adoTaskMock
+                .setup((am) => am.getBoolInput(inputOption))
+                .returns(() => inputValue)
+                .verifiable(Times.once());
+            const retrievedOption = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },
     );
