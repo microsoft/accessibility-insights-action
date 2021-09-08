@@ -43,11 +43,22 @@ describe(ADOTaskConfig, () => {
             verifyAllMocks();
         });
 
+        it('should not initialize if missing required variable', () => {
+            const apitoken = 'token';
+            setupIsSupportedReturnsTrue();
+            setupInitializeWithServiceConnectionName(apitoken);
+            setupInitializeMissingVariable(apitoken);
+
+            expect(() => buildPrCommentCreatorWithMocks()).toThrow('Unable to find System.TeamFoundationCollectionUri');
+
+            verifyAllMocks();
+        });
+
         it('should initialize if isSupported returns true and serviceConnectionName is set', () => {
             const apitoken = 'token';
             setupIsSupportedReturnsTrue();
             setupInitializeWithServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken);
+            setupInitializeSetConnection(apitoken, webApiMock.object);
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
@@ -58,7 +69,7 @@ describe(ADOTaskConfig, () => {
             const apitoken = 'token';
             setupIsSupportedReturnsTrue();
             setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken);
+            setupInitializeSetConnection(apitoken, webApiMock.object);
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
@@ -212,7 +223,7 @@ describe(ADOTaskConfig, () => {
             .returns(() => '')
             .verifiable(Times.once());
         adoTaskMock
-            .setup((o) => o.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', true))
+            .setup((o) => o.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', false))
             .returns(() => apitoken)
             .verifiable(Times.once());
     };
@@ -231,12 +242,12 @@ describe(ADOTaskConfig, () => {
             .returns(() => serviceConnection)
             .verifiable(Times.once());
         adoTaskMock
-            .setup((o) => o.getEndpointAuthorization(serviceConnection, true))
+            .setup((o) => o.getEndpointAuthorization(serviceConnection, false))
             .returns(() => endpointAuthorizationStub)
             .verifiable(Times.once());
     };
 
-    const setupInitializeSetConnection = (apitoken: string, connection?: nodeApi.WebApi) => {
+    const setupInitializeSetConnection = (apitoken: string, connection: nodeApi.WebApi) => {
         const url = 'url';
         const handlerStub = {
             prepareRequest: () => {
@@ -257,6 +268,25 @@ describe(ADOTaskConfig, () => {
         nodeApiMock
             .setup((o) => new o.WebApi(url, handlerStub))
             .returns(() => connection)
+            .verifiable(Times.once());
+    };
+
+    const setupInitializeMissingVariable = (apitoken: string) => {
+        const handlerStub = {
+            prepareRequest: () => {
+                return;
+            },
+            canHandleAuthentication: () => false,
+            handleAuthentication: () => Promise.reject(),
+        };
+
+        nodeApiMock
+            .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
+            .returns(() => handlerStub)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getVariable('System.TeamFoundationCollectionUri'))
+            .returns(() => undefined)
             .verifiable(Times.once());
     };
 
