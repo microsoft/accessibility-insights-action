@@ -11,14 +11,14 @@ export abstract class TaskConfig {
     abstract getReportOutDir(): string;
     abstract getSiteDir(): string;
     abstract getScanUrlRelativePath(): string;
-    abstract getToken(): string;
-    abstract getChromePath(): string;
-    abstract getUrl(): string;
+    abstract getToken(): string | undefined;
+    abstract getChromePath(): string | undefined;
+    abstract getUrl(): string | undefined;
     abstract getMaxUrls(): number;
-    abstract getDiscoveryPatterns(): string;
-    abstract getInputFile(): string;
-    abstract getInputUrls(): string;
+    abstract getDiscoveryPatterns(): string | undefined;
+    abstract getInputFile(): string | undefined;
+    abstract getInputUrls(): string | undefined;
     abstract getScanTimeout(): number;
-    abstract getLocalhostPort(): number;
-    abstract getRunId(): number;
+    abstract getLocalhostPort(): number | undefined;
+    abstract getRunId(): number | undefined;
 }
