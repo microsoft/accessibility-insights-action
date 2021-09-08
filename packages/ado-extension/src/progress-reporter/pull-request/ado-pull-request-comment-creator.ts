@@ -55,8 +55,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
 
     private getVariableOrThrow(variableName: string): string {
         const potentialVariable = this.adoTask.getVariable(variableName);
-        if (potentialVariable === undefined)
-        {
+        if (potentialVariable === undefined) {
             throw `Unable to find ${variableName}`;
         }
         return potentialVariable;

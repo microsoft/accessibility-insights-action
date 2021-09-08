@@ -48,8 +48,8 @@ describe(ADOTaskConfig, () => {
             setupIsSupportedReturnsTrue();
             setupInitializeWithServiceConnectionName(apitoken);
             setupInitializeMissingVariable(apitoken);
-            
-            expect(() => buildPrCommentCreatorWithMocks()).toThrow('Unable to find System.TeamFoundationCollectionUri')
+
+            expect(() => buildPrCommentCreatorWithMocks()).toThrow('Unable to find System.TeamFoundationCollectionUri');
 
             verifyAllMocks();
         });
