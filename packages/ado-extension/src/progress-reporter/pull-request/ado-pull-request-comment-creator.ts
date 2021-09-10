@@ -6,7 +6,7 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
 import { Logger } from '@accessibility-insights-action/shared';
 import { ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
-import { ProgressReporter } from '@accessibility-insights-action/shared';
+import { productTitle, ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as AdoTask from 'azure-pipelines-task-lib/task';
 import * as NodeApi from 'azure-devops-node-api';
@@ -79,18 +79,19 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
 
         const gitApiObject: GitApi.IGitApi = await this.connection.getGitApi();
         const prThreads = await gitApiObject.getThreads(repoId, prId);
-        const existingThread = prThreads.find((p) => p.comments?.some((c) => c.content?.includes('Accessibility Insights')));
-        if (existingThread === undefined || existingThread.id === undefined) {
+        const existingThread = prThreads.find((p) => p.comments?.some((c) => c.content?.includes(productTitle())));
+        const existingComment = existingThread?.comments?.find((c) => c.content?.includes(productTitle()));
+        const newComment = {
+            parentCommentId: 0,
+            content: reportMarkdown,
+            commentType: GitInterfaces.CommentType.Text,
+        };
+
+        if (existingThread === undefined || existingThread.id === undefined || existingComment?.id === undefined) {
             this.logMessage(`Didn't find an existing thread, making a new thread`);
             await gitApiObject.createThread(
                 {
-                    comments: [
-                        {
-                            parentCommentId: 0,
-                            content: reportMarkdown,
-                            commentType: GitInterfaces.CommentType.Text,
-                        },
-                    ],
+                    comments: [newComment],
                     status: GitInterfaces.CommentThreadStatus.Active,
                 },
                 repoId,
@@ -98,10 +99,11 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             );
         } else {
             this.logMessage(`Already found a thread from us`);
+            await gitApiObject.updateComment(newComment, repoId, prId, existingThread.id, existingComment.id);
             await gitApiObject.createComment(
                 {
                     parentCommentId: 0,
-                    content: 'Ran again', // TODO: maybe edit parent comment with markdown?
+                    content: 'Ran again, results comment updated',
                     commentType: GitInterfaces.CommentType.Text,
                 },
                 repoId,

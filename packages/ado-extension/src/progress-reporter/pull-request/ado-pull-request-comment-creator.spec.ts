@@ -89,21 +89,59 @@ describe(ADOTaskConfig, () => {
             verifyAllMocks();
         });
 
-        it('should create a new thread if none exists', async () => {
-            const apitoken = 'token';
-            const reportMd = '#markdown';
-            const prId = 11; // arbitrary number
-            const repoId = 'repo-id';
-            const reportStub: CombinedReportParameters = {} as CombinedReportParameters;
-            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [];
+        const apitoken = 'token';
+        const reportMd = '#markdown';
+        const prId = 11; // arbitrary number
+        const repoId = 'repo-id';
+        const reportStub: CombinedReportParameters = {} as CombinedReportParameters;
+        const threadId = 9; // arbitrary number
+        const commentId = 7; // arbitrary number
+        const contentWithMatchingString =
+            '![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: A comment from Accessibility Insights';
+        const expectedComment = {
+            parentCommentId: 0,
+            content: reportMd,
+            commentType: GitInterfaces.CommentType.Text,
+        };
+
+        const commentWithIdWithoutMatch = {
+            parentCommentId: 0,
+            content: 'Not accessibility insights related',
+            commentType: GitInterfaces.CommentType.Text,
+            id: commentId,
+        };
+        const commentWithoutIdWithMatch = {
+            parentCommentId: 0,
+            content: contentWithMatchingString,
+            commentType: GitInterfaces.CommentType.Text,
+        };
+        const commentWithIdWithMatch = {
+            parentCommentId: 0,
+            content: contentWithMatchingString,
+            commentType: GitInterfaces.CommentType.Text,
+            id: commentId,
+        };
+        const makeThreadWithoutId = (comment: GitInterfaces.Comment) => {
+            return {
+                comments: [comment],
+            };
+        };
+        const makeThreadWithId = (comment: GitInterfaces.Comment) => {
+            return {
+                comments: [comment],
+                id: threadId,
+            };
+        };
+
+        it.each`
+            thread                                            | condition
+            ${makeThreadWithId(commentWithIdWithoutMatch)}    | ${`no matching comment found`}
+            ${makeThreadWithoutId(commentWithoutIdWithMatch)} | ${`matching comment missing id`}
+            ${makeThreadWithoutId(commentWithIdWithMatch)}    | ${`matching thread missing id`}
+        `(`should create new thread if $condition`, async ({ thread }) => {
+            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [thread as GitInterfaces.GitPullRequestCommentThread];
             const newThread = {
-                comments: [
-                    {
-                        parentCommentId: 0,
-                        content: reportMd,
-                        commentType: GitInterfaces.CommentType.Text,
-                    },
-                ],
+                comments: [expectedComment],
                 status: GitInterfaces.CommentThreadStatus.Active,
             };
 
@@ -121,31 +159,17 @@ describe(ADOTaskConfig, () => {
         });
 
         it('should comment on an existing thread if one exists', async () => {
-            const apitoken = 'token';
-            const reportMd = '#markdown';
-            const prId = 11; // arbitrary number
-            const threadId = 9; // arbitrary number
-            const repoId = 'repo-id';
-            const reportStub: CombinedReportParameters = {} as CombinedReportParameters;
-            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [
-                {
-                    comments: [
-                        {
-                            content: 'A comment from Accessibility Insights',
-                        },
-                    ],
-                    id: threadId,
-                },
-            ];
+            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [makeThreadWithId(commentWithIdWithMatch)];
             const newComment = {
                 parentCommentId: 0,
-                content: 'Ran again',
+                content: 'Ran again, results comment updated',
                 commentType: GitInterfaces.CommentType.Text,
             };
 
             setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
             loggerMock.setup((o) => o.logInfo('Already found a thread from us')).verifiable(Times.once());
 
+            gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createComment(newComment, repoId, prId, threadId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
             setupInitializeWithoutServiceConnectionName(apitoken);
