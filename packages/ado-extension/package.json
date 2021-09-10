@@ -5,7 +5,7 @@
     "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
     "main": "dist/pkg/index.js",
     "scripts": {
-        "build": "tsc && node prepare-package-dir.js",
+        "build": "webpack --config ./webpack.config.js && node prepare-package-dir.js",
         "cbuild": "npm-run-all --serial clean build",
         "clean": "rimraf dist",
         "lint:check": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\"",
