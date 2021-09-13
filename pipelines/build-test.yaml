@@ -25,7 +25,7 @@ jobs:
           - script: yarn cbuild
             displayName: Build
 
-          - task: accessibility-insights.test.task.accessibility-insights-test@9
+          - task: accessibility-insights.test.task.accessibility-insights-test@10
             inputs:
                 siteDir: $(System.DefaultWorkingDirectory)/dev/website-root
                 repoServiceConnectionName: 'ADO test ortiga'
