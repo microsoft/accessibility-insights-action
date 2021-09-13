@@ -9,6 +9,7 @@ import { setupIocContainer } from './setup-ioc-container';
 import { iocTypes } from '@accessibility-insights-action/shared';
 import { AdoPullRequestCommentCreator } from '../progress-reporter/pull-request/ado-pull-request-comment-creator';
 import { AdoIocTypes } from './ado-ioc-types';
+import * as process from 'process';
 
 describe(setupIocContainer, () => {
     let testSubject: Container;
@@ -17,12 +18,14 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([iocTypes.TaskConfig, AdoPullRequestCommentCreator, iocTypes.ProgressReporters])(
-        'verify singleton resolution %p',
-        (key: any) => {
-            verifySingletonDependencyResolution(testSubject, key);
-        },
-    );
+    test.each([iocTypes.TaskConfig, AdoPullRequestCommentCreator])('verify singleton resolution %p', (key: any) => {
+        verifySingletonDependencyResolution(testSubject, key);
+    });
+
+    test.each(['TfsGit', 'GitHub', ''])('verify progress reporter resolution %p', (key: any) => {
+        process.env.BUILD_REPOSITORY_PROVIDER = key;
+        verifySingletonDependencyResolution(testSubject, iocTypes.ProgressReporters);
+    });
 
     test.each([
         { key: AdoIocTypes.AdoTask, value: AdoTask },

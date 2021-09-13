@@ -8,6 +8,7 @@ import { iocTypes, setupSharedIocContainer } from '@accessibility-insights-actio
 import { ADOTaskConfig } from '../task-config/ado-task-config';
 import { AdoPullRequestCommentCreator } from '../progress-reporter/pull-request/ado-pull-request-comment-creator';
 import { AdoIocTypes } from './ado-ioc-types';
+import * as process from 'process';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
@@ -18,9 +19,18 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
     container
         .bind(iocTypes.ProgressReporters)
         .toDynamicValue((context) => {
-            const pullRequestCommentCreator = context.container.get(AdoPullRequestCommentCreator);
-
-            return [pullRequestCommentCreator];
+            switch (process.env.BUILD_REPOSITORY_PROVIDER) {
+                case 'TfsGit': {
+                    const pullRequestCommentCreator = context.container.get(AdoPullRequestCommentCreator);
+                    return [pullRequestCommentCreator];
+                }
+                case 'GitHub': {
+                    return [];
+                }
+                default: {
+                    return [];
+                }
+            }
         })
         .inSingletonScope();
 
