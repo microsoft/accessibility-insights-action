@@ -20,13 +20,16 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
         .bind(iocTypes.ProgressReporters)
         .toDynamicValue((context) => {
             switch (process.env.BUILD_REPOSITORY_PROVIDER) {
-                case 'TfsGit':
+                case 'TfsGit': {
                     const pullRequestCommentCreator = context.container.get(AdoPullRequestCommentCreator);
                     return [pullRequestCommentCreator];
-                case 'GitHub':
+                }
+                case 'GitHub': {
                     return [];
-                default:
+                }
+                default: {
                     return [];
+                }
             }
         })
         .inSingletonScope();
