@@ -1,0 +1,31 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+trigger: # trigger only affects CI builds
+    branches:
+        include:
+            - main
+
+variables:
+    linuxImage: 'ubuntu-18.04'
+    windowsImage: 'windows-2019'
+
+jobs:
+    - job: 'BuildAndCheckCodeStyling'
+      pool:
+          vmImage: $(linuxImage)
+          demands: npm
+      steps:
+          - task: NodeTool@0
+            inputs:
+                versionSpec: '12.x'
+            displayName: use node 12.x
+
+          - script: yarn install --frozen-lockfile
+            displayName: Install dependencies
+
+          - script: yarn cbuild
+            displayName: Build
+
+          - script: yarn test:e2e
+            displayName: 'Run e2e tests'
