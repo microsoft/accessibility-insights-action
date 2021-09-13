@@ -102,7 +102,7 @@ describe(ADOTaskConfig, () => {
         const workspace = '/home/user/workspace';
         processStub = {
             env: {
-                PIPELINE_WORKSPACE: workspace,
+                SYSTEM_DEFAULTWORKINGDIRECTORY: workspace,
             },
         } as unknown as NodeJS.Process;
         adoTaskMock

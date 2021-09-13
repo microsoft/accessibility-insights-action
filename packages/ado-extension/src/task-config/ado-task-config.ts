@@ -108,7 +108,7 @@ export class ADOTaskConfig extends TaskConfig {
             return undefined;
         }
 
-        const dirname = this.processObj.env.PIPELINE_WORKSPACE ?? __dirname;
+        const dirname = this.processObj.env.SYSTEM_DEFAULTWORKINGDIRECTORY ?? __dirname;
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return normalizePath(this.resolvePath(dirname, normalizePath(path!)));
