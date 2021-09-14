@@ -19,7 +19,7 @@ Reference this extension in your Azure pipelines with the snippets on this page.
 
 Save this workflow file in your Azure DevOps repo as `azure-pipelines.yml` or in your GitHub repo as `/pipelines/accessibility-validation.yml`. This template saves results to `output-dir` (default: `_accessibility-reports`) and uploads an artifact to the build in Azure DevOps.
 
-When you push this file to your repository, you should see the action running in the build.
+When you push this file to your repository, you should see the task running in the build.
 
 ```yml
 trigger:
@@ -33,7 +33,7 @@ steps:
 
     - task: accessibility-insights.prod.task.accessibility-insights@0
       inputs:
-          repoServiceConnectionName: ''
+          repoServiceConnectionName: 'myRepoServiceConnection'
           # Provide either siteDir or url
           # siteDir: '$(System.DefaultWorkingDirectory)/path-to-built-website'
           # url: 'your-website-url'
@@ -61,8 +61,8 @@ Provide the location of your built HTML files using `siteDir` and (optionally) `
 ```yml
 - task: accessibility-insights.prod.task.accessibility-insights@0
   inputs:
-      site-dir: '$(System.DefaultWorkingDirectory)/website/root'
-      scan-url-relative-path: '/' # use '//' if windows agent
+      siteDir: '$(System.DefaultWorkingDirectory)/website/root'
+      scanUrlRelativePath: '/' # use '//' if Windows agent
 ```
 
 The file server will host files inside `siteDir`. The action begins crawling from `http://localhost:port/scanUrlRelativePath/`.
@@ -119,4 +119,4 @@ You can choose to block pull requests if the extension finds accessibility issue
 -   If the action fails to complete, you can check the build logs for execution errors.
 -   If you can't find an artifact, note that your workflow must include a `publish` step to add the report folder to your check results. See the [Basic template](#basic-template) above and [Azure DevOps documentation on publishing artifacts](https://docs.microsoft.com/en-us/azure/devops/pipelines/artifacts/pipeline-artifacts?view=azure-devops&tabs=yaml#publish-artifacts).
 -   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `scanUrlRelativePath`.
--   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scanTimeout`
+-   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scanTimeout`.
