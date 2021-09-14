@@ -37,10 +37,8 @@ steps:
           # site-dir: ${{ github.workspace }}/path-to-built-website
           # url: your-website-url
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-          pathToPublish: '$(System.DefaultWorkingDirectory)_accessibility-reports'
-          artifactName: 'accessibility-reports'
+    - publish: '$(System.DefaultWorkingDirectory)_accessibility-reports'
+      artifact: 'accessibility-reports'
 ```
 
 ### Scan a URL
@@ -119,6 +117,6 @@ You can choose to block pull requests if the action finds accessibility issues.
 -   If the action didn't trigger as you expected, check the `trigger` or `pr` sections of your yml file. Make sure any listed branch names are correct for your repository.
 -   If the action fails to complete, you can check the build logs for execution errors.
 <!-- Using the template above, these logs will be in the `Scan for accessibility issues` step. -->
--   If you can't find an artifact, note that your workflow must include a `PublishBuildArtifacts` step to add the report folder to your check results. See the "Basic template" above.
+-   If you can't find an artifact, note that your workflow must include a `publish` step to add the report folder to your check results. See the "Basic template" above and [Azure DevOps documentation on publishing artifacts](https://docs.microsoft.com/en-us/azure/devops/pipelines/artifacts/pipeline-artifacts?view=azure-devops&tabs=yaml#publish-artifacts).
 -   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `scan-url-relative-path`.
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scan-timeout`
