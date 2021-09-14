@@ -53,13 +53,6 @@
             "helpMarkDown": "Path to Chrome executable."
         },
         {
-            "name": "repoToken",
-            "type": "string",
-            "label": "Repo Token",
-            "required": false,
-            "helpMarkDown": "GitHub API access token."
-        },
-        {
             "name": "url",
             "type": "string",
             "label": "Website URL",
