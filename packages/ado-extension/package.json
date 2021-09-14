@@ -14,7 +14,8 @@
         "start": "node dist/pkg/index.js",
         "test": "jest",
         "watch:test": "jest --watch",
-        "test:e2e": "mocha src/*.test.js"
+        "test:tsc": "rimraf dist && tsc && node prepare-package-dir.js",
+        "test:e2e": "mocha dist/pkg/*.test.js"
     },
     "repository": {
         "type": "git",
@@ -32,8 +33,9 @@
         "tfx-cli": "^0.9.2"
     },
     "dependencies": {
-        "reflect-metadata": "^0.1.13",
+        "@accessibility-insights-action/shared": "^1.0.0",
+        "azure-devops-node-api": "11.0.1",
         "azure-pipelines-task-lib": "^3.1.9",
-        "@accessibility-insights-action/shared": "^1.0.0"
+        "reflect-metadata": "^0.1.13"
     }
 }

@@ -12,14 +12,15 @@ describe('Sample task tests', function () {
         const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath);
 
         testSubject.run();
-        console.log(testSubject.succeeded);
+        console.log(testSubject.stdout);
         assert.strictEqual(testSubject.succeeded, true, 'should have succeeded');
         assert.strictEqual(testSubject.warningIssues.length, 0, 'should have no warnings');
         assert.strictEqual(testSubject.errorIssues.length, 0, 'should have no errors');
+        assert.strictEqual(testSubject.stdOutContained('installing runtime dependencies'), true, 'should install run time dependencies');
         assert.strictEqual(
-            testSubject.stdOutContained('https://www.washington.edu/accesscomputing/AU/before.html'),
+            testSubject.stdOutContained('Found 4 accessibility issues on page http://localhost:'),
             true,
-            'should display the input url',
+            'should find accessibility issues',
         );
         done();
     });

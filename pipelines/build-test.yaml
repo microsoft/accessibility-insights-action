@@ -24,8 +24,5 @@ jobs:
           - script: yarn install --frozen-lockfile
             displayName: Install dependencies
 
-          - script: yarn cbuild
-            displayName: Build
-
           - script: yarn test:e2e
             displayName: 'Run e2e tests'

@@ -3,7 +3,7 @@
 
 import { ScanArguments, validateScanArguments } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import { resolve } from 'path';
+import * as path from 'path';
 import { TaskConfig } from '../task-config';
 import { isEmpty } from 'lodash';
 import { ScanUrlResolver } from './scan-url-resolver';
@@ -14,7 +14,7 @@ export class CrawlArgumentHandler {
     constructor(
         @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
-        private readonly resolvePath: typeof resolve = resolve,
+        private readonly resolvePath: typeof path = path,
         private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,
     ) {}
 
@@ -44,7 +44,7 @@ export class CrawlArgumentHandler {
             maxUrls: this.taskConfig.getMaxUrls(),
             chromePath: this.taskConfig.getChromePath(),
             // axeSourcePath is relative to /dist/index.js, not this source file
-            axeSourcePath: this.resolvePath(__dirname, 'node_modules', 'axe-core', 'axe.js'),
+            axeSourcePath: this.resolvePath.join(__dirname, '../../../node_modules/axe=core/axe.js'),
             crawl: true,
             restart: true,
             discoveryPatterns: discoveryPatternsArg?.split(/\s+/),
