@@ -12,6 +12,7 @@ import * as AdoTask from 'azure-pipelines-task-lib/task';
 import * as NodeApi from 'azure-devops-node-api';
 import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
+import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
 
 @injectable()
 export class AdoPullRequestCommentCreator extends ProgressReporter {
@@ -22,35 +23,55 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Logger) private readonly logger: Logger,
         @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
-        @inject(AdoIocTypes.NodeApi) nodeApi: typeof NodeApi,
+        @inject(AdoIocTypes.NodeApi) private readonly nodeApi: typeof NodeApi,
     ) {
         super();
         if (!this.isSupported()) {
             return;
         }
 
-        let token: string;
+        const authHandler = this.getAuthHandler();
+        const url = this.getVariableOrThrow('System.TeamFoundationCollectionUri');
+        this.connection = new nodeApi.WebApi(url, authHandler);
+    }
 
-        const serviceConnectionName = adoTaskConfig.getRepoServiceConnectionName();
+    private getAuthHandler(): VsoBaseInterfaces.IRequestHandler {
+        const serviceConnectionName = this.adoTaskConfig.getRepoServiceConnectionName();
+
         if (serviceConnectionName !== undefined && serviceConnectionName?.length > 0) {
-            // Will throw if no creds found
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const userProvidedServiceConnection = adoTask.getEndpointAuthorization(serviceConnectionName, false)!;
-
-            // We should check the different schemes supported and access the appropriate params. Here we assume it's Token-based
-            // https://docs.microsoft.com/en-us/azure/devops/extend/develop/auth-schemes?view=azure-devops
-            token = userProvidedServiceConnection.parameters['apitoken'];
-            console.log('Using token provided by service connection passed in by user');
+            return this.getAuthHandlerForServiceConnection(serviceConnectionName);
         } else {
             // falling back to build agent default creds. Will throw if no creds found
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            token = adoTask.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', false)!;
+            const token = this.adoTask.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', false)!;
             console.log('Could not find a service connection passed in by the user. Trying to use default build agent creds');
+            return this.nodeApi.getPersonalAccessTokenHandler(token);
         }
+    }
 
-        const authHandler = nodeApi.getPersonalAccessTokenHandler(token);
-        const url = this.getVariableOrThrow('System.TeamFoundationCollectionUri');
-        this.connection = new nodeApi.WebApi(url, authHandler);
+    private getAuthHandlerForServiceConnection(serviceConnectionName: string): VsoBaseInterfaces.IRequestHandler {
+        // Will throw if no creds found
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const endpointAuth = this.adoTask.getEndpointAuthorization(serviceConnectionName, false)!;
+        const authScheme = this.adoTask.getEndpointAuthorizationScheme(serviceConnectionName, true);
+
+        switch (authScheme) {
+            case 'token': {
+                const token = endpointAuth.parameters['apitoken'];
+                console.log('Using token provided by service connection passed in by user');
+                return this.nodeApi.getPersonalAccessTokenHandler(token);
+            }
+            case 'usernamepassword': {
+                const username = endpointAuth.parameters['username'];
+                const password = endpointAuth.parameters['password'];
+                console.log('Using credentials provided by service connection passed in by user');
+                return this.nodeApi.getBasicHandler(username, password);
+            }
+            default:
+                // we only expect basic or token auth:
+                // https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#azure-repos
+                throw 'Unsupported auth scheme. Please use token or basic auth.';
+        }
     }
 
     private getVariableOrThrow(variableName: string): string {
