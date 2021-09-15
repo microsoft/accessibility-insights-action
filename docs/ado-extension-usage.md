@@ -17,7 +17,7 @@ Reference this extension in your Azure pipelines with the snippets on this page.
 
 ### Basic template
 
-Save this workflow file in your Azure DevOps repo as `azure-pipelines.yml` or in your GitHub repo as `/pipelines/accessibility-validation.yml`. This template saves results to `output-dir` (default: `_accessibility-reports`) and uploads an artifact to the build in Azure DevOps.
+Save this workflow file in your Azure DevOps repo as `azure-pipelines.yml` or in your GitHub repo as `/pipelines/accessibility-validation.yml`. This template saves results to `outputDir` (default: `_accessibility-reports`) and uploads an artifact to the build in Azure DevOps.
 
 When you push this file to your repository, you should see the task running in the build.
 
@@ -38,7 +38,7 @@ steps:
           # siteDir: '$(System.DefaultWorkingDirectory)/path-to-built-website'
           # url: 'your-website-url'
 
-    - publish: '$(System.DefaultWorkingDirectory)_accessibility-reports'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
       artifact: 'accessibility-reports'
 ```
 
@@ -102,7 +102,7 @@ Examples:
 
 ## Viewing results
 
--   An HTML report containing detailed results is saved to disk. To view it, you need to have added the step to upload artifacts to your yml file (see [Basic template](#basic-template)). Navigate to Artifacts from the build. Under `_accessibility-reports`, you'll find the downloadable report labeled `index.html`.
+-   An HTML report containing detailed results is saved to disk. To view it, you need to have added the step to upload artifacts to your yml file (see [Basic template](#basic-template)). Navigate to Artifacts from the build. Under `accessibility-reports`, you'll find the downloadable report labeled `index.html`.
 
 -   If the workflow was triggered by a pull request, the action should leave a comment on the Azure DevOps pull request with results. The extension does not leave comments on repos in GitHub.
 
@@ -116,7 +116,7 @@ You can choose to block pull requests if the extension finds accessibility issue
 ## Troubleshooting
 
 -   If the action didn't trigger as you expected, check the `trigger` or `pr` sections of your yml file. Make sure any listed branch names are correct for your repository.
--   If the action fails to complete, you can check the build logs for execution errors.
+-   If the action fails to complete, you can check the build logs for execution errors. These logs will be in the `accessibilityinsights` step.
 -   If you can't find an artifact, note that your workflow must include a `publish` step to add the report folder to your check results. See the [Basic template](#basic-template) above and [Azure DevOps documentation on publishing artifacts](https://docs.microsoft.com/en-us/azure/devops/pipelines/artifacts/pipeline-artifacts?view=azure-devops&tabs=yaml#publish-artifacts).
 -   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `scanUrlRelativePath`.
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scanTimeout`.
