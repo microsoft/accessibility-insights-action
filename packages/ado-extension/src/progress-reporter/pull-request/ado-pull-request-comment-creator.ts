@@ -53,19 +53,20 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         // Will throw if no creds found
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const endpointAuth = this.adoTask.getEndpointAuthorization(serviceConnectionName, false)!;
-        let token: string, username: string, password: string;
         const authScheme = this.adoTask.getEndpointAuthorizationScheme(serviceConnectionName, true);
 
         switch (authScheme) {
-            case 'token':
-                token = endpointAuth.parameters['apitoken'];
+            case 'token': {
+                const token = endpointAuth.parameters['apitoken'];
                 console.log('Using token provided by service connection passed in by user');
                 return this.nodeApi.getPersonalAccessTokenHandler(token);
-            case 'usernamepassword':
-                username = endpointAuth.parameters['username'];
-                password = endpointAuth.parameters['password'];
+            }
+            case 'usernamepassword': {
+                const username = endpointAuth.parameters['username'];
+                const password = endpointAuth.parameters['password'];
                 console.log('Using credentials provided by service connection passed in by user');
                 return this.nodeApi.getBasicHandler(username, password);
+            }
             default:
                 // we only expect basic or token auth:
                 // https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#azure-repos
