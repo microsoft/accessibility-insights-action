@@ -144,7 +144,6 @@ describe(ADOTaskConfig, () => {
             commentType: GitInterfaces.CommentType.Text,
             id: commentId,
         };
-
         const prevCommentWithIdWithMatch = {
             parentCommentId: commentId,
             content: contentWithMatchingString.replace('Results from Current Run', 'Results from Previous Run'),
@@ -211,32 +210,32 @@ describe(ADOTaskConfig, () => {
             verifyAllMocks();
         });
 
-        it('should comment on an existing thread if one exists, previous runs', async () => {
-            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [
-                makeThreadWithId([commentWithIdWithMatch, prevCommentWithIdWithMatch]),
-            ];
+    it('should comment on an existing thread if one exists, previous runs', async () => {
+        const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [
+            makeThreadWithId([commentWithIdWithMatch, prevCommentWithIdWithMatch]),
+        ];
 
-            const newPrevComment = {
-                parentCommentId: prevCommentWithIdWithMatch.parentCommentId,
-                content: commentWithIdWithMatch.content?.replace('Results from Current Run', 'Results from Previous Run'),
-                commentType: GitInterfaces.CommentType.Text,
-            };
+        const newPrevComment = {
+            parentCommentId: prevCommentWithIdWithMatch.parentCommentId,
+            content: commentWithIdWithMatch.content?.replace('Results from Current Run', 'Results from Previous Run'),
+            commentType: GitInterfaces.CommentType.Text,
+        };
 
-            setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
-            loggerMock.setup((o) => o.logInfo('Already found a thread from us, found previous runs')).verifiable(Times.once());
+        setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
+        loggerMock.setup((o) => o.logInfo('Already found a thread from us, found previous runs')).verifiable(Times.once());
 
-            gitApiMock.setup((o) => o.updateComment(newPrevComment, repoId, prId, threadId, commentId + 1)).verifiable(Times.once());
-            gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
-            setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
-            prCommentCreator = buildPrCommentCreatorWithMocks();
+        gitApiMock.setup((o) => o.updateComment(newPrevComment, repoId, prId, threadId, commentId + 1)).verifiable(Times.once());
+        gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
+        setupIsSupportedReturnsTrue();
+        setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
+        prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            await prCommentCreator.completeRun(reportStub);
+        await prCommentCreator.completeRun(reportStub);
 
-            verifyAllMocks();
-        });
+        verifyAllMocks();
     });
+});
 
     describe('failRun', () => {
         it('do nothing if isSupported returns false', async () => {
