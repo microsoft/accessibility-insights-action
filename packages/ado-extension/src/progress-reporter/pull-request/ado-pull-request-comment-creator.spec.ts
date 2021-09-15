@@ -24,6 +24,14 @@ describe(ADOTaskConfig, () => {
     let webApiMock: IMock<nodeApi.WebApi>;
     let prCommentCreator: ADOPullRequestCommentCreator;
 
+    const handlerStub = {
+        prepareRequest: () => {
+            return;
+        },
+        canHandleAuthentication: () => false,
+        handleAuthentication: () => Promise.reject(),
+    };
+
     beforeEach(() => {
         adoTaskMock = Mock.ofType<typeof adoTask>(undefined, MockBehavior.Strict);
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
@@ -44,21 +52,38 @@ describe(ADOTaskConfig, () => {
         });
 
         it('should not initialize if missing required variable', () => {
-            const apitoken = 'token';
             setupIsSupportedReturnsTrue();
-            setupInitializeWithServiceConnectionName(apitoken);
-            setupInitializeMissingVariable(apitoken);
+            setupInitializeWithTokenServiceConnection();
+            setupInitializeMissingVariable();
 
             expect(() => buildPrCommentCreatorWithMocks()).toThrow('Unable to find System.TeamFoundationCollectionUri');
 
             verifyAllMocks();
         });
 
-        it('should initialize if isSupported returns true and serviceConnectionName is set', () => {
-            const apitoken = 'token';
+        it('should not initialize if serviceConnection uses unsupported auth', () => {
             setupIsSupportedReturnsTrue();
-            setupInitializeWithServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithUnsupportedServiceConnection();
+
+            expect(() => buildPrCommentCreatorWithMocks()).toThrow('Unsupported auth scheme. Please use token or basic auth.');
+
+            verifyAllMocks();
+        });
+
+        it('should initialize if isSupported returns true and serviceConnection uses basic auth', () => {
+            setupIsSupportedReturnsTrue();
+            setupInitializeWithBasicServiceConnection();
+            setupInitializeSetConnection(webApiMock.object);
+
+            prCommentCreator = buildPrCommentCreatorWithMocks();
+
+            verifyAllMocks();
+        });
+
+        it('should initialize if isSupported returns true and serviceConnection uses token auth', () => {
+            setupIsSupportedReturnsTrue();
+            setupInitializeWithTokenServiceConnection();
+            setupInitializeSetConnection(webApiMock.object);
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
@@ -66,10 +91,9 @@ describe(ADOTaskConfig, () => {
         });
 
         it('should initialize if isSupported returns true and serviceConnectionName is not set', () => {
-            const apitoken = 'token';
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
@@ -89,7 +113,6 @@ describe(ADOTaskConfig, () => {
             verifyAllMocks();
         });
 
-        const apitoken = 'token';
         const reportMd = '#markdown';
         const prId = 11; // arbitrary number
         const repoId = 'repo-id';
@@ -156,8 +179,8 @@ describe(ADOTaskConfig, () => {
             loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
             await prCommentCreator.completeRun(reportStub);
@@ -179,8 +202,8 @@ describe(ADOTaskConfig, () => {
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createComment(newComment, repoId, prId, threadId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
             await prCommentCreator.completeRun(reportStub);
@@ -217,10 +240,9 @@ describe(ADOTaskConfig, () => {
 
     describe('failRun', () => {
         it('do nothing if isSupported returns false', async () => {
-            const apitoken = 'token';
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
             setupIsSupportedReturnsFalse();
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -230,10 +252,9 @@ describe(ADOTaskConfig, () => {
         });
 
         it('reject promise with matching error', async () => {
-            const apitoken = 'token';
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
             setupIsSupportedReturnsTrue();
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -274,7 +295,9 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.atLeastOnce());
     };
 
-    const setupInitializeWithoutServiceConnectionName = (apitoken: string) => {
+    const setupInitializeWithoutServiceConnectionName = () => {
+        const apitoken = 'token';
+
         adoTaskConfigMock
             .setup((o) => o.getRepoServiceConnectionName())
             .returns(() => '')
@@ -283,9 +306,15 @@ describe(ADOTaskConfig, () => {
             .setup((o) => o.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', false))
             .returns(() => apitoken)
             .verifiable(Times.once());
+        nodeApiMock
+            .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
+            .returns(() => handlerStub)
+            .verifiable(Times.once());
     };
 
-    const setupInitializeWithServiceConnectionName = (apitoken: string) => {
+    const setupInitializeWithTokenServiceConnection = () => {
+        const apitoken = 'token';
+
         const serviceConnection = 'service-connection';
         const endpointAuthorizationStub: adoTask.EndpointAuthorization = {
             parameters: {
@@ -302,22 +331,71 @@ describe(ADOTaskConfig, () => {
             .setup((o) => o.getEndpointAuthorization(serviceConnection, false))
             .returns(() => endpointAuthorizationStub)
             .verifiable(Times.once());
-    };
-
-    const setupInitializeSetConnection = (apitoken: string, connection: nodeApi.WebApi) => {
-        const url = 'url';
-        const handlerStub = {
-            prepareRequest: () => {
-                return;
-            },
-            canHandleAuthentication: () => false,
-            handleAuthentication: () => Promise.reject(),
-        };
-
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
+            .returns(() => 'token')
+            .verifiable(Times.once());
         nodeApiMock
             .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
             .returns(() => handlerStub)
             .verifiable(Times.once());
+    };
+
+    const setupInitializeWithBasicServiceConnection = () => {
+        const serviceConnection = 'service-connection',
+            username = 'user',
+            password = 'secret';
+        const endpointAuthorizationStub: adoTask.EndpointAuthorization = {
+            parameters: {
+                username,
+                password,
+            },
+            scheme: '',
+        };
+
+        adoTaskConfigMock
+            .setup((o) => o.getRepoServiceConnectionName())
+            .returns(() => serviceConnection)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorization(serviceConnection, false))
+            .returns(() => endpointAuthorizationStub)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
+            .returns(() => 'usernamepassword')
+            .verifiable(Times.once());
+
+        nodeApiMock
+            .setup((o) => o.getBasicHandler(username, password))
+            .returns(() => handlerStub)
+            .verifiable(Times.once());
+    };
+
+    const setupInitializeWithUnsupportedServiceConnection = () => {
+        const serviceConnection = 'service-connection';
+        const endpointAuthorizationStub: adoTask.EndpointAuthorization = {
+            parameters: {},
+            scheme: '',
+        };
+
+        adoTaskConfigMock
+            .setup((o) => o.getRepoServiceConnectionName())
+            .returns(() => serviceConnection)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorization(serviceConnection, false))
+            .returns(() => endpointAuthorizationStub)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
+            .returns(() => 'other')
+            .verifiable(Times.once());
+    };
+
+    const setupInitializeSetConnection = (connection: nodeApi.WebApi) => {
+        const url = 'url';
+
         adoTaskMock
             .setup((o) => o.getVariable('System.TeamFoundationCollectionUri'))
             .returns(() => url)
@@ -328,19 +406,7 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.once());
     };
 
-    const setupInitializeMissingVariable = (apitoken: string) => {
-        const handlerStub = {
-            prepareRequest: () => {
-                return;
-            },
-            canHandleAuthentication: () => false,
-            handleAuthentication: () => Promise.reject(),
-        };
-
-        nodeApiMock
-            .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
-            .returns(() => handlerStub)
-            .verifiable(Times.once());
+    const setupInitializeMissingVariable = () => {
         adoTaskMock
             .setup((o) => o.getVariable('System.TeamFoundationCollectionUri'))
             .returns(() => undefined)
