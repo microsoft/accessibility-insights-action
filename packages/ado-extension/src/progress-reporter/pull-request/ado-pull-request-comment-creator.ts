@@ -101,36 +101,51 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         const gitApiObject: GitApi.IGitApi = await this.connection.getGitApi();
         const prThreads = await gitApiObject.getThreads(repoId, prId);
         const existingThread = prThreads.find((p) => p.comments?.some((c) => c.content?.includes(productTitle())));
-        const existingComment = existingThread?.comments?.find((c) => c.content?.includes(productTitle()));
-        const newComment = {
+        const existingCurrentComment = existingThread?.comments?.find(
+            (c) => c.content?.includes(productTitle()) && c.content?.includes('Results from Current Run'),
+        );
+        const existingPreviousComment = existingThread?.comments?.find(
+            (c) => c.content?.includes(productTitle()) && c.content?.includes('Results from Previous Run'),
+        );
+        const newCurrentComment = {
             parentCommentId: 0,
-            content: reportMarkdown,
+            content: '### Results from Current Run\n' + reportMarkdown,
             commentType: GitInterfaces.CommentType.Text,
         };
 
-        if (existingThread === undefined || existingThread.id === undefined || existingComment?.id === undefined) {
+        if (existingThread === undefined || existingThread.id === undefined || existingCurrentComment?.id === undefined) {
             this.logMessage(`Didn't find an existing thread, making a new thread`);
             await gitApiObject.createThread(
                 {
-                    comments: [newComment],
+                    comments: [newCurrentComment],
                     status: GitInterfaces.CommentThreadStatus.Active,
                 },
                 repoId,
                 prId,
             );
-        } else {
-            this.logMessage(`Already found a thread from us`);
-            await gitApiObject.updateComment(newComment, repoId, prId, existingThread.id, existingComment.id);
+        } else if (existingPreviousComment?.id === undefined) {
+            this.logMessage(`Already found a thread from us, no previous runs`);
+            await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
             await gitApiObject.createComment(
                 {
                     parentCommentId: 0,
-                    content: 'Ran again, results comment updated',
+                    content: existingCurrentComment.content?.replace('Results from Current Run', 'Results from Previous Run'),
                     commentType: GitInterfaces.CommentType.Text,
                 },
                 repoId,
                 prId,
                 existingThread.id,
             );
+        } else {
+            this.logMessage(`Already found a thread from us, found previous runs`);
+            const newPreviousComment = {
+                parentCommentId: existingPreviousComment.parentCommentId,
+                content: existingCurrentComment.content?.replace('Results from Current Run', 'Results from Previous Run'),
+                commentType: existingPreviousComment.commentType,
+            };
+
+            await gitApiObject.updateComment(newPreviousComment, repoId, prId, existingThread.id, existingPreviousComment.id);
+            await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
         }
     }
 

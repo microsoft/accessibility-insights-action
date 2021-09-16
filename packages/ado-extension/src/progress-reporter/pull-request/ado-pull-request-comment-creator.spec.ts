@@ -120,10 +120,10 @@ describe(ADOTaskConfig, () => {
         const threadId = 9; // arbitrary number
         const commentId = 7; // arbitrary number
         const contentWithMatchingString =
-            '![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: A comment from Accessibility Insights';
+            '### Results from Current Run\n![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: A comment from Accessibility Insights';
         const expectedComment = {
             parentCommentId: 0,
-            content: reportMd,
+            content: '### Results from Current Run\n' + reportMd,
             commentType: GitInterfaces.CommentType.Text,
         };
 
@@ -144,23 +144,29 @@ describe(ADOTaskConfig, () => {
             commentType: GitInterfaces.CommentType.Text,
             id: commentId,
         };
-        const makeThreadWithoutId = (comment: GitInterfaces.Comment) => {
+        const prevCommentWithIdWithMatch = {
+            parentCommentId: commentId,
+            content: contentWithMatchingString.replace('Results from Current Run', 'Results from Previous Run'),
+            commentType: GitInterfaces.CommentType.Text,
+            id: commentId + 1,
+        };
+        const makeThreadWithoutId = (comments: GitInterfaces.Comment[]) => {
             return {
-                comments: [comment],
+                comments: comments,
             };
         };
-        const makeThreadWithId = (comment: GitInterfaces.Comment) => {
+        const makeThreadWithId = (comments: GitInterfaces.Comment[]) => {
             return {
-                comments: [comment],
+                comments: comments,
                 id: threadId,
             };
         };
 
         it.each`
-            thread                                            | condition
-            ${makeThreadWithId(commentWithIdWithoutMatch)}    | ${`no matching comment found`}
-            ${makeThreadWithoutId(commentWithoutIdWithMatch)} | ${`matching comment missing id`}
-            ${makeThreadWithoutId(commentWithIdWithMatch)}    | ${`matching thread missing id`}
+            thread                                              | condition
+            ${makeThreadWithId([commentWithIdWithoutMatch])}    | ${`no matching comment found`}
+            ${makeThreadWithoutId([commentWithoutIdWithMatch])} | ${`matching comment missing id`}
+            ${makeThreadWithoutId([commentWithIdWithMatch])}    | ${`matching thread missing id`}
         `(`should create new thread if $condition`, async ({ thread }) => {
             const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [thread as GitInterfaces.GitPullRequestCommentThread];
             const newThread = {
@@ -181,19 +187,45 @@ describe(ADOTaskConfig, () => {
             verifyAllMocks();
         });
 
-        it('should comment on an existing thread if one exists', async () => {
-            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [makeThreadWithId(commentWithIdWithMatch)];
+        it('should comment on an existing thread if one exists, no previous runs', async () => {
+            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [makeThreadWithId([commentWithIdWithMatch])];
             const newComment = {
                 parentCommentId: 0,
-                content: 'Ran again, results comment updated',
+                content: commentWithIdWithMatch.content?.replace('Results from Current Run', 'Results from Previous Run'),
                 commentType: GitInterfaces.CommentType.Text,
             };
 
             setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
-            loggerMock.setup((o) => o.logInfo('Already found a thread from us')).verifiable(Times.once());
+            loggerMock.setup((o) => o.logInfo('Already found a thread from us, no previous runs')).verifiable(Times.once());
 
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createComment(newComment, repoId, prId, threadId)).verifiable(Times.once());
+            setupIsSupportedReturnsTrue();
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
+            prCommentCreator = buildPrCommentCreatorWithMocks();
+
+            await prCommentCreator.completeRun(reportStub);
+
+            verifyAllMocks();
+        });
+
+        it('should comment on an existing thread if one exists, previous runs', async () => {
+            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [
+                makeThreadWithId([commentWithIdWithMatch, prevCommentWithIdWithMatch]),
+            ];
+
+            const newPrevComment = {
+                parentCommentId: prevCommentWithIdWithMatch.parentCommentId,
+                content: commentWithIdWithMatch.content?.replace('Results from Current Run', 'Results from Previous Run'),
+                commentType: GitInterfaces.CommentType.Text,
+            };
+
+            setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
+            loggerMock.setup((o) => o.logInfo('Already found a thread from us, found previous runs')).verifiable(Times.once());
+
+            gitApiMock.setup((o) => o.updateComment(newPrevComment, repoId, prId, threadId, commentId + 1)).verifiable(Times.once());
+            gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
