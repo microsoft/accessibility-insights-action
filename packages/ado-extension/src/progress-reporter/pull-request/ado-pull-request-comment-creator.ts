@@ -53,7 +53,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         // Will throw if no creds found
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const endpointAuth = this.adoTask.getEndpointAuthorization(serviceConnectionName, false)!;
-        const authScheme = this.adoTask.getEndpointAuthorizationScheme(serviceConnectionName, true);
+        const authScheme = this.adoTask.getEndpointAuthorizationScheme(serviceConnectionName, true)?.toLowerCase();
 
         switch (authScheme) {
             case 'token': {

@@ -332,7 +332,7 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.once());
         adoTaskMock
             .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
-            .returns(() => 'token')
+            .returns(() => 'Token')
             .verifiable(Times.once());
         nodeApiMock
             .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
@@ -342,7 +342,9 @@ describe(ADOTaskConfig, () => {
 
     const setupInitializeWithBasicServiceConnection = () => {
         const serviceConnection = 'service-connection',
+            //[SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Fake creds")]
             username = 'user',
+            //[SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Fake creds")]
             password = 'secret';
         const endpointAuthorizationStub: adoTask.EndpointAuthorization = {
             parameters: {
@@ -362,7 +364,7 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.once());
         adoTaskMock
             .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
-            .returns(() => 'usernamepassword')
+            .returns(() => 'UsernamePassword')
             .verifiable(Times.once());
 
         nodeApiMock
@@ -388,7 +390,7 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.once());
         adoTaskMock
             .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
-            .returns(() => 'other')
+            .returns(() => undefined)
             .verifiable(Times.once());
     };
 
