@@ -37,7 +37,7 @@
         "inversify": "^5.1.1",
         "lodash": "^4.17.21",
         "marked": "^3.0.4",
-        "marked-terminal": "^4.1.1",
+        "marked-terminal": "^4.2.0",
         "normalize-path": "^3.0.0",
         "reflect-metadata": "^0.1.13",
         "serialize-error": "^8.0.1",
