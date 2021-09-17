@@ -8,7 +8,7 @@ import * as nodeApi from 'azure-devops-node-api';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 
 import { Mock, Times, IMock, MockBehavior } from 'typemoq';
-import { AdoPullRequestCommentCreator as ADOPullRequestCommentCreator } from './ado-pull-request-comment-creator';
+import { AdoPullRequestCommentCreator as ADOPullRequestCommentCreator, AdoPullRequestCommentCreator } from './ado-pull-request-comment-creator';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
@@ -120,10 +120,10 @@ describe(ADOTaskConfig, () => {
         const threadId = 9; // arbitrary number
         const commentId = 7; // arbitrary number
         const contentWithMatchingString =
-            '### Results from Current Run\n![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: A comment from Accessibility Insights';
+        AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE + '![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: A comment from Accessibility Insights';
         const expectedComment = {
             parentCommentId: 0,
-            content: '### Results from Current Run\n' + reportMd,
+            content: ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd,
             commentType: GitInterfaces.CommentType.Text,
         };
 
@@ -146,7 +146,7 @@ describe(ADOTaskConfig, () => {
         };
         const prevCommentWithIdWithMatch = {
             parentCommentId: commentId,
-            content: contentWithMatchingString.replace('Results from Current Run', 'Results from Previous Run'),
+            content: contentWithMatchingString.replace(AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE, AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE),
             commentType: GitInterfaces.CommentType.Text,
             id: commentId + 1,
         };
@@ -428,8 +428,8 @@ describe(ADOTaskConfig, () => {
     ) => {
         makeGitApiMockThenable();
         reportMarkdownConvertorMock
-            .setup((o) => o.convert(reportStub))
-            .returns(() => reportMd)
+            .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE))
+            .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
             .verifiable(Times.once());
         adoTaskMock
             .setup((o) => o.getVariable('System.PullRequest.PullRequestId'))
