@@ -17,6 +17,8 @@ import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoB
 @injectable()
 export class AdoPullRequestCommentCreator extends ProgressReporter {
     private connection: NodeApi.WebApi;
+    public static readonly CURRENT_COMMENT_TITLE = 'Results from Current Run';
+    public static readonly PREVIOUS_COMMENT_TITLE = 'Results from Previous Run';
 
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
@@ -91,7 +93,10 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             return;
         }
 
-        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
+        const reportMarkdown = this.reportMarkdownConvertor.convert(
+            combinedReportResult,
+            AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+        );
         this.traceMarkdown(reportMarkdown);
 
         const prId = parseInt(this.getVariableOrThrow('System.PullRequest.PullRequestId'));
@@ -102,14 +107,14 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         const prThreads = await gitApiObject.getThreads(repoId, prId);
         const existingThread = prThreads.find((p) => p.comments?.some((c) => c.content?.includes(productTitle())));
         const existingCurrentComment = existingThread?.comments?.find(
-            (c) => c.content?.includes(productTitle()) && c.content?.includes('Results from Current Run'),
+            (c) => c.content?.includes(productTitle()) && c.content?.includes(AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE),
         );
         const existingPreviousComment = existingThread?.comments?.find(
-            (c) => c.content?.includes(productTitle()) && c.content?.includes('Results from Previous Run'),
+            (c) => c.content?.includes(productTitle()) && c.content?.includes(AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE),
         );
         const newCurrentComment = {
             parentCommentId: 0,
-            content: '### Results from Current Run\n' + reportMarkdown,
+            content: reportMarkdown,
             commentType: GitInterfaces.CommentType.Text,
         };
 
@@ -129,7 +134,10 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             await gitApiObject.createComment(
                 {
                     parentCommentId: 0,
-                    content: existingCurrentComment.content?.replace('Results from Current Run', 'Results from Previous Run'),
+                    content: existingCurrentComment.content?.replace(
+                        AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                        AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE,
+                    ),
                     commentType: GitInterfaces.CommentType.Text,
                 },
                 repoId,
@@ -140,13 +148,18 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             this.logMessage(`Already found a thread from us, found previous runs`);
             const newPreviousComment = {
                 parentCommentId: existingPreviousComment.parentCommentId,
-                content: existingCurrentComment.content?.replace('Results from Current Run', 'Results from Previous Run'),
+                content: existingCurrentComment.content?.replace(
+                    AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                    AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE,
+                ),
                 commentType: existingPreviousComment.commentType,
             };
 
             await gitApiObject.updateComment(newPreviousComment, repoId, prId, existingThread.id, existingPreviousComment.id);
             await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
         }
+
+        await this.failOnAccessibilityError(combinedReportResult);
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -156,6 +169,12 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         }
 
         throw message;
+    }
+
+    private async failOnAccessibilityError(combinedReportResult: CombinedReportParameters): Promise<void> {
+        if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
+            await this.failRun('Failed Accessibility Error');
+        }
     }
 
     private isSupported(): boolean {

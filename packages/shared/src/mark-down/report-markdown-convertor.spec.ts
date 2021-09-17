@@ -35,9 +35,16 @@ describe(ReportMarkdownConvertor, () => {
     });
 
     it('convert report', () => {
-        resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult)).verifiable();
+        resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined)).verifiable();
 
         reportMarkdownConvertor.convert(combinedReportResult);
+    });
+
+    it('convert report with title', () => {
+        const title = 'some title';
+        resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title)).verifiable();
+
+        reportMarkdownConvertor.convert(combinedReportResult, title);
     });
 
     it('get error markdown', () => {

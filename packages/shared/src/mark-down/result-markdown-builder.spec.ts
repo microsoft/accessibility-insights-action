@@ -102,4 +102,28 @@ describe(ResultMarkdownBuilder, () => {
         const snapshotFile = path.join(__dirname, '__custom-snapshots__', 'axe-descriptions.snap.md');
         expect(actualContent).toMatchFile(snapshotFile);
     });
+
+    it('builds content with title', () => {
+        const title = 'some title';
+        combinedReportResult = {
+            axeVersion: 'axeVersion',
+            userAgent: 'userAgent',
+            results: {
+                resultsByRule: {
+                    failed: [],
+                    passed: [],
+                    notApplicable: [],
+                },
+                urlResults: {
+                    passedUrls: 0,
+                    failedUrls: 0,
+                    unscannableUrls: 0,
+                },
+            },
+        } as any;
+
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, title);
+
+        expect(actualContent).toMatchSnapshot();
+    });
 });
