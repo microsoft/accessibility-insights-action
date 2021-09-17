@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "accessibility-insights",
-    "name": "Accessibility Insights for Azure DevOps - Test",
+    "name": "Accessibility Insights for Azure DevOps",
     "version": "0.1.0",
     "publisher": "accessibility-insights",
     "targets": [
