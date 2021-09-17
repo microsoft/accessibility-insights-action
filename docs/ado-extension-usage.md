@@ -41,6 +41,7 @@ steps:
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
       displayName: Upload report artifact
+      condition: always()
       artifact: 'accessibility-reports'
 ```
 
@@ -64,7 +65,6 @@ Provide the location of your built HTML files using `siteDir` and (optionally) `
 ```yml
 - task: accessibility-insights.prod.task.accessibility-insights@1
   displayName: Scan for accessibility issues
-  condition: always()
   inputs:
       siteDir: '$(System.DefaultWorkingDirectory)/website/root'
       scanUrlRelativePath: '/' # use '//' if Windows agent
