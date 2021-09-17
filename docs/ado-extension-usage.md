@@ -31,7 +31,8 @@ pool:
 steps:
     # Insert any jobs here required to build your website files
 
-    - task: accessibility-insights.prod.task.accessibility-insights@0
+    - task: accessibility-insights.prod.task.accessibility-insights@1
+      displayName: Scan for accessibility issues
       inputs:
           repoServiceConnectionName: 'myRepoServiceConnection'
           # Provide either siteDir or url
@@ -39,6 +40,8 @@ steps:
           # url: 'your-website-url'
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
+      displayName: Upload report artifact
+      condition: always()
       artifact: 'accessibility-reports'
 ```
 
@@ -47,7 +50,8 @@ steps:
 Provide the website URL. The URL should already be hosted - something like `http://localhost:12345/` or `https://example.com`.
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@0
+- task: accessibility-insights.prod.task.accessibility-insights@1
+  displayName: Scan for accessibility issues
   inputs:
       url: 'http://localhost:12345/'
 ```
@@ -59,7 +63,8 @@ The `url` parameter takes priority over `siteDir`. If `url` is provided, static 
 Provide the location of your built HTML files using `siteDir` and (optionally) `scanUrlRelativePath`. The action will serve the site for you using `express`.
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@0
+- task: accessibility-insights.prod.task.accessibility-insights@1
+  displayName: Scan for accessibility issues
   inputs:
       siteDir: '$(System.DefaultWorkingDirectory)/website/root'
       scanUrlRelativePath: '/' # use '//' if Windows agent
@@ -86,14 +91,16 @@ For `discoveryPatterns`, `inputFile`, and `inputUrls`, note that these options e
 Examples:
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@0
+- task: accessibility-insights.prod.task.accessibility-insights@1
+  displayName: Scan for accessibility issues (with url)
   inputs:
       url: 'http://localhost:12345/'
       inputUrls: 'http://localhost:12345/other-url http://localhost:12345/other-url2'
 ```
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@0
+- task: accessibility-insights.prod.task.accessibility-insights@1
+  displayName: Scan for accessibility issues (with siteDir)
   inputs:
       siteDir: '$(System.DefaultWorkingDirectory)/website/root'
       localhostPort: '12345'
@@ -112,11 +119,12 @@ You can choose to block pull requests if the extension finds accessibility issue
 
 1. Ensure the extension is [triggered on each pull request](https://docs.microsoft.com/en-us/azure/devops/pipelines/customize-pipeline?view=azure-devops#customize-ci-triggers).
 2. Ensure that you have set the `failOnAccessibilityError` input variable to `true`.
+3. Ensure that the `Upload report artifact` step is [set to always run](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml)
 
 ## Troubleshooting
 
 -   If the action didn't trigger as you expected, check the `trigger` or `pr` sections of your yml file. Make sure any listed branch names are correct for your repository.
--   If the action fails to complete, you can check the build logs for execution errors. These logs will be in the `accessibilityinsights` step.
+-   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
 -   If you can't find an artifact, note that your workflow must include a `publish` step to add the report folder to your check results. See the [Basic template](#basic-template) above and [Azure DevOps documentation on publishing artifacts](https://docs.microsoft.com/en-us/azure/devops/pipelines/artifacts/pipeline-artifacts?view=azure-devops&tabs=yaml#publish-artifacts).
 -   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `scanUrlRelativePath`.
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scanTimeout`.
