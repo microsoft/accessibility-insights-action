@@ -40,11 +40,8 @@ export class ResultMarkdownBuilder {
             this.failureDetails(combinedReportResult),
         ];
 
-        if(title!==undefined){
-            lines = [
-                heading(title, 3),
-                sectionSeparator(),
-            ].concat(lines);
+        if (title !== undefined) {
+            lines = [heading(title, 3), sectionSeparator()].concat(lines);
         }
 
         return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));

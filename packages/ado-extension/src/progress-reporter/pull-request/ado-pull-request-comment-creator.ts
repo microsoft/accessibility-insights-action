@@ -19,7 +19,6 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
     private connection: NodeApi.WebApi;
     public static readonly CURRENT_COMMENT_TITLE = 'Results from Current Run';
     public static readonly PREVIOUS_COMMENT_TITLE = 'Results from Previous Run';
-    
 
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
@@ -56,7 +55,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         // Will throw if no creds found
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const endpointAuth = this.adoTask.getEndpointAuthorization(serviceConnectionName, false)!;
-        const authScheme = this.adoTask.getEndpointAuthorizationScheme(serviceConnectionName, true);
+        const authScheme = this.adoTask.getEndpointAuthorizationScheme(serviceConnectionName, true)?.toLowerCase();
 
         switch (authScheme) {
             case 'token': {
@@ -94,7 +93,10 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             return;
         }
 
-        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE);
+        const reportMarkdown = this.reportMarkdownConvertor.convert(
+            combinedReportResult,
+            AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+        );
         this.traceMarkdown(reportMarkdown);
 
         const prId = parseInt(this.getVariableOrThrow('System.PullRequest.PullRequestId'));
@@ -108,7 +110,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             (c) => c.content?.includes(productTitle()) && c.content?.includes(AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE),
         );
         const existingPreviousComment = existingThread?.comments?.find(
-            (c) => c.content?.includes(productTitle()) && c.content?.includes( AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE),
+            (c) => c.content?.includes(productTitle()) && c.content?.includes(AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE),
         );
         const newCurrentComment = {
             parentCommentId: 0,
@@ -132,7 +134,10 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             await gitApiObject.createComment(
                 {
                     parentCommentId: 0,
-                    content: existingCurrentComment.content?.replace(AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE, AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE),
+                    content: existingCurrentComment.content?.replace(
+                        AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                        AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE,
+                    ),
                     commentType: GitInterfaces.CommentType.Text,
                 },
                 repoId,
@@ -143,13 +148,18 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             this.logMessage(`Already found a thread from us, found previous runs`);
             const newPreviousComment = {
                 parentCommentId: existingPreviousComment.parentCommentId,
-                content: existingCurrentComment.content?.replace(AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE, AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE),
+                content: existingCurrentComment.content?.replace(
+                    AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                    AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE,
+                ),
                 commentType: existingPreviousComment.commentType,
             };
 
             await gitApiObject.updateComment(newPreviousComment, repoId, prId, existingThread.id, existingPreviousComment.id);
             await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
         }
+
+        await this.failOnAccessibilityError(combinedReportResult);
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -159,6 +169,12 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         }
 
         throw message;
+    }
+
+    private async failOnAccessibilityError(combinedReportResult: CombinedReportParameters): Promise<void> {
+        if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
+            await this.failRun('Failed Accessibility Error');
+        }
     }
 
     private isSupported(): boolean {

@@ -8,7 +8,10 @@ import * as nodeApi from 'azure-devops-node-api';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 
 import { Mock, Times, IMock, MockBehavior } from 'typemoq';
-import { AdoPullRequestCommentCreator as ADOPullRequestCommentCreator, AdoPullRequestCommentCreator } from './ado-pull-request-comment-creator';
+import {
+    AdoPullRequestCommentCreator as ADOPullRequestCommentCreator,
+    AdoPullRequestCommentCreator,
+} from './ado-pull-request-comment-creator';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
@@ -116,11 +119,18 @@ describe(ADOTaskConfig, () => {
         const reportMd = '#markdown';
         const prId = 11; // arbitrary number
         const repoId = 'repo-id';
-        const reportStub: CombinedReportParameters = {} as CombinedReportParameters;
+        const reportStub: CombinedReportParameters = {
+            results: {
+                urlResults: {
+                    failedUrls: 1,
+                },
+            },
+        } as CombinedReportParameters;
         const threadId = 9; // arbitrary number
         const commentId = 7; // arbitrary number
         const contentWithMatchingString =
-        AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE + '![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: A comment from Accessibility Insights';
+            AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE +
+            '![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: A comment from Accessibility Insights';
         const expectedComment = {
             parentCommentId: 0,
             content: ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd,
@@ -146,7 +156,10 @@ describe(ADOTaskConfig, () => {
         };
         const prevCommentWithIdWithMatch = {
             parentCommentId: commentId,
-            content: contentWithMatchingString.replace(AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE, AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE),
+            content: contentWithMatchingString.replace(
+                AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE,
+            ),
             commentType: GitInterfaces.CommentType.Text,
             id: commentId + 1,
         };
@@ -178,6 +191,7 @@ describe(ADOTaskConfig, () => {
             loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
+            setupFailOnAccessibilityError(false);
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -201,6 +215,7 @@ describe(ADOTaskConfig, () => {
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createComment(newComment, repoId, prId, threadId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
+            setupFailOnAccessibilityError(true);
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -227,6 +242,7 @@ describe(ADOTaskConfig, () => {
             gitApiMock.setup((o) => o.updateComment(newPrevComment, repoId, prId, threadId, commentId + 1)).verifiable(Times.once());
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
+            setupFailOnAccessibilityError(true);
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -287,6 +303,13 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.atLeastOnce());
     };
 
+    const setupFailOnAccessibilityError = (fail: boolean) => {
+        adoTaskConfigMock
+            .setup((o) => o.getFailOnAccessibilityError())
+            .returns(() => fail)
+            .verifiable(Times.atLeastOnce());
+    };
+
     const setupIsSupportedReturnsFalse = () => {
         adoTaskMock
             .setup((o) => o.getVariable('Build.Reason'))
@@ -332,7 +355,7 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.once());
         adoTaskMock
             .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
-            .returns(() => 'token')
+            .returns(() => 'Token')
             .verifiable(Times.once());
         nodeApiMock
             .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
@@ -342,7 +365,9 @@ describe(ADOTaskConfig, () => {
 
     const setupInitializeWithBasicServiceConnection = () => {
         const serviceConnection = 'service-connection',
+            //[SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Fake creds")]
             username = 'user',
+            //[SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Fake creds")]
             password = 'secret';
         const endpointAuthorizationStub: adoTask.EndpointAuthorization = {
             parameters: {
@@ -362,7 +387,7 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.once());
         adoTaskMock
             .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
-            .returns(() => 'usernamepassword')
+            .returns(() => 'UsernamePassword')
             .verifiable(Times.once());
 
         nodeApiMock
@@ -388,7 +413,7 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.once());
         adoTaskMock
             .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
-            .returns(() => 'other')
+            .returns(() => undefined)
             .verifiable(Times.once());
     };
 
@@ -398,7 +423,7 @@ describe(ADOTaskConfig, () => {
         adoTaskMock
             .setup((o) => o.getVariable('System.TeamFoundationCollectionUri'))
             .returns(() => url)
-            .verifiable(Times.once());
+            .verifiable(Times.atLeastOnce());
         nodeApiMock
             .setup((o) => new o.WebApi(url, handlerStub))
             .returns(() => connection)
@@ -434,11 +459,11 @@ describe(ADOTaskConfig, () => {
         adoTaskMock
             .setup((o) => o.getVariable('System.PullRequest.PullRequestId'))
             .returns(() => prId.toString())
-            .verifiable(Times.once());
+            .verifiable(Times.atLeastOnce());
         adoTaskMock
             .setup((o) => o.getVariable('Build.Repository.ID'))
             .returns(() => repoId)
-            .verifiable(Times.once());
+            .verifiable(Times.atLeastOnce());
         loggerMock.setup((o) => o.logInfo(`PR is ${prId}, repo is ${repoId}`)).verifiable(Times.once());
 
         webApiMock
