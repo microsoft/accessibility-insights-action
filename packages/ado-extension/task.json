@@ -8,8 +8,8 @@
     "category": "Test",
     "author": "Accessibility Insights",
     "version": {
-        "Major": 0,
-        "Minor": 1,
+        "Major": 1,
+        "Minor": 0,
         "Patch": 0
     },
     "instanceNameFormat": "Run accessibility testing",
@@ -51,13 +51,6 @@
             "label": "Chrome Path",
             "required": false,
             "helpMarkDown": "Path to Chrome executable."
-        },
-        {
-            "name": "repoToken",
-            "type": "string",
-            "label": "Repo Token",
-            "required": false,
-            "helpMarkDown": "GitHub API access token."
         },
         {
             "name": "url",

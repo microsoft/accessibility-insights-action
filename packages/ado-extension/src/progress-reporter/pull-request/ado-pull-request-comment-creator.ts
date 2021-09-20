@@ -12,45 +12,68 @@ import * as AdoTask from 'azure-pipelines-task-lib/task';
 import * as NodeApi from 'azure-devops-node-api';
 import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
+import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
 
 @injectable()
 export class AdoPullRequestCommentCreator extends ProgressReporter {
     private connection: NodeApi.WebApi;
+    public static readonly CURRENT_COMMENT_TITLE = 'Results from Current Run';
+    public static readonly PREVIOUS_COMMENT_TITLE = 'Results from Previous Run';
 
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Logger) private readonly logger: Logger,
         @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
-        @inject(AdoIocTypes.NodeApi) nodeApi: typeof NodeApi,
+        @inject(AdoIocTypes.NodeApi) private readonly nodeApi: typeof NodeApi,
     ) {
         super();
         if (!this.isSupported()) {
             return;
         }
 
-        let token: string;
+        const authHandler = this.getAuthHandler();
+        const url = this.getVariableOrThrow('System.TeamFoundationCollectionUri');
+        this.connection = new nodeApi.WebApi(url, authHandler);
+    }
 
-        const serviceConnectionName = adoTaskConfig.getRepoServiceConnectionName();
+    private getAuthHandler(): VsoBaseInterfaces.IRequestHandler {
+        const serviceConnectionName = this.adoTaskConfig.getRepoServiceConnectionName();
+
         if (serviceConnectionName !== undefined && serviceConnectionName?.length > 0) {
-            // Will throw if no creds found
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const userProvidedServiceConnection = adoTask.getEndpointAuthorization(serviceConnectionName, false)!;
-
-            // We should check the different schemes supported and access the appropriate params. Here we assume it's Token-based
-            // https://docs.microsoft.com/en-us/azure/devops/extend/develop/auth-schemes?view=azure-devops
-            token = userProvidedServiceConnection.parameters['apitoken'];
-            console.log('Using token provided by service connection passed in by user');
+            return this.getAuthHandlerForServiceConnection(serviceConnectionName);
         } else {
             // falling back to build agent default creds. Will throw if no creds found
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            token = adoTask.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', false)!;
+            const token = this.adoTask.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', false)!;
             console.log('Could not find a service connection passed in by the user. Trying to use default build agent creds');
+            return this.nodeApi.getPersonalAccessTokenHandler(token);
         }
+    }
 
-        const authHandler = nodeApi.getPersonalAccessTokenHandler(token);
-        const url = this.getVariableOrThrow('System.TeamFoundationCollectionUri');
-        this.connection = new nodeApi.WebApi(url, authHandler);
+    private getAuthHandlerForServiceConnection(serviceConnectionName: string): VsoBaseInterfaces.IRequestHandler {
+        // Will throw if no creds found
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const endpointAuth = this.adoTask.getEndpointAuthorization(serviceConnectionName, false)!;
+        const authScheme = this.adoTask.getEndpointAuthorizationScheme(serviceConnectionName, true)?.toLowerCase();
+
+        switch (authScheme) {
+            case 'token': {
+                const token = endpointAuth.parameters['apitoken'];
+                console.log('Using token provided by service connection passed in by user');
+                return this.nodeApi.getPersonalAccessTokenHandler(token);
+            }
+            case 'usernamepassword': {
+                const username = endpointAuth.parameters['username'];
+                const password = endpointAuth.parameters['password'];
+                console.log('Using credentials provided by service connection passed in by user');
+                return this.nodeApi.getBasicHandler(username, password);
+            }
+            default:
+                // we only expect basic or token auth:
+                // https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#azure-repos
+                throw 'Unsupported auth scheme. Please use token or basic auth.';
+        }
     }
 
     private getVariableOrThrow(variableName: string): string {
@@ -70,7 +93,10 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             return;
         }
 
-        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
+        const reportMarkdown = this.reportMarkdownConvertor.convert(
+            combinedReportResult,
+            AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+        );
         this.traceMarkdown(reportMarkdown);
 
         const prId = parseInt(this.getVariableOrThrow('System.PullRequest.PullRequestId'));
@@ -80,37 +106,60 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         const gitApiObject: GitApi.IGitApi = await this.connection.getGitApi();
         const prThreads = await gitApiObject.getThreads(repoId, prId);
         const existingThread = prThreads.find((p) => p.comments?.some((c) => c.content?.includes(productTitle())));
-        const existingComment = existingThread?.comments?.find((c) => c.content?.includes(productTitle()));
-        const newComment = {
+        const existingCurrentComment = existingThread?.comments?.find(
+            (c) => c.content?.includes(productTitle()) && c.content?.includes(AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE),
+        );
+        const existingPreviousComment = existingThread?.comments?.find(
+            (c) => c.content?.includes(productTitle()) && c.content?.includes(AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE),
+        );
+        const newCurrentComment = {
             parentCommentId: 0,
             content: reportMarkdown,
             commentType: GitInterfaces.CommentType.Text,
         };
 
-        if (existingThread === undefined || existingThread.id === undefined || existingComment?.id === undefined) {
+        if (existingThread === undefined || existingThread.id === undefined || existingCurrentComment?.id === undefined) {
             this.logMessage(`Didn't find an existing thread, making a new thread`);
             await gitApiObject.createThread(
                 {
-                    comments: [newComment],
+                    comments: [newCurrentComment],
                     status: GitInterfaces.CommentThreadStatus.Active,
                 },
                 repoId,
                 prId,
             );
-        } else {
-            this.logMessage(`Already found a thread from us`);
-            await gitApiObject.updateComment(newComment, repoId, prId, existingThread.id, existingComment.id);
+        } else if (existingPreviousComment?.id === undefined) {
+            this.logMessage(`Already found a thread from us, no previous runs`);
+            await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
             await gitApiObject.createComment(
                 {
                     parentCommentId: 0,
-                    content: 'Ran again, results comment updated',
+                    content: existingCurrentComment.content?.replace(
+                        AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                        AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE,
+                    ),
                     commentType: GitInterfaces.CommentType.Text,
                 },
                 repoId,
                 prId,
                 existingThread.id,
             );
+        } else {
+            this.logMessage(`Already found a thread from us, found previous runs`);
+            const newPreviousComment = {
+                parentCommentId: existingPreviousComment.parentCommentId,
+                content: existingCurrentComment.content?.replace(
+                    AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                    AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE,
+                ),
+                commentType: existingPreviousComment.commentType,
+            };
+
+            await gitApiObject.updateComment(newPreviousComment, repoId, prId, existingThread.id, existingPreviousComment.id);
+            await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
         }
+
+        this.failOnAccessibilityError(combinedReportResult);
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -120,6 +169,12 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         }
 
         throw message;
+    }
+
+    private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {
+        if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
+            throw 'Failed Accessibility Error';
+        }
     }
 
     private isSupported(): boolean {

@@ -8,7 +8,10 @@ import * as nodeApi from 'azure-devops-node-api';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 
 import { Mock, Times, IMock, MockBehavior } from 'typemoq';
-import { AdoPullRequestCommentCreator as ADOPullRequestCommentCreator } from './ado-pull-request-comment-creator';
+import {
+    AdoPullRequestCommentCreator as ADOPullRequestCommentCreator,
+    AdoPullRequestCommentCreator,
+} from './ado-pull-request-comment-creator';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
@@ -23,6 +26,14 @@ describe(ADOTaskConfig, () => {
     let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
     let webApiMock: IMock<nodeApi.WebApi>;
     let prCommentCreator: ADOPullRequestCommentCreator;
+
+    const handlerStub = {
+        prepareRequest: () => {
+            return;
+        },
+        canHandleAuthentication: () => false,
+        handleAuthentication: () => Promise.reject(),
+    };
 
     beforeEach(() => {
         adoTaskMock = Mock.ofType<typeof adoTask>(undefined, MockBehavior.Strict);
@@ -44,21 +55,38 @@ describe(ADOTaskConfig, () => {
         });
 
         it('should not initialize if missing required variable', () => {
-            const apitoken = 'token';
             setupIsSupportedReturnsTrue();
-            setupInitializeWithServiceConnectionName(apitoken);
-            setupInitializeMissingVariable(apitoken);
+            setupInitializeWithTokenServiceConnection();
+            setupInitializeMissingVariable();
 
             expect(() => buildPrCommentCreatorWithMocks()).toThrow('Unable to find System.TeamFoundationCollectionUri');
 
             verifyAllMocks();
         });
 
-        it('should initialize if isSupported returns true and serviceConnectionName is set', () => {
-            const apitoken = 'token';
+        it('should not initialize if serviceConnection uses unsupported auth', () => {
             setupIsSupportedReturnsTrue();
-            setupInitializeWithServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithUnsupportedServiceConnection();
+
+            expect(() => buildPrCommentCreatorWithMocks()).toThrow('Unsupported auth scheme. Please use token or basic auth.');
+
+            verifyAllMocks();
+        });
+
+        it('should initialize if isSupported returns true and serviceConnection uses basic auth', () => {
+            setupIsSupportedReturnsTrue();
+            setupInitializeWithBasicServiceConnection();
+            setupInitializeSetConnection(webApiMock.object);
+
+            prCommentCreator = buildPrCommentCreatorWithMocks();
+
+            verifyAllMocks();
+        });
+
+        it('should initialize if isSupported returns true and serviceConnection uses token auth', () => {
+            setupIsSupportedReturnsTrue();
+            setupInitializeWithTokenServiceConnection();
+            setupInitializeSetConnection(webApiMock.object);
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
@@ -66,10 +94,9 @@ describe(ADOTaskConfig, () => {
         });
 
         it('should initialize if isSupported returns true and serviceConnectionName is not set', () => {
-            const apitoken = 'token';
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
@@ -89,18 +116,24 @@ describe(ADOTaskConfig, () => {
             verifyAllMocks();
         });
 
-        const apitoken = 'token';
         const reportMd = '#markdown';
         const prId = 11; // arbitrary number
         const repoId = 'repo-id';
-        const reportStub: CombinedReportParameters = {} as CombinedReportParameters;
+        const reportStub: CombinedReportParameters = {
+            results: {
+                urlResults: {
+                    failedUrls: 1,
+                },
+            },
+        } as CombinedReportParameters;
         const threadId = 9; // arbitrary number
         const commentId = 7; // arbitrary number
         const contentWithMatchingString =
+            AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE +
             '![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: A comment from Accessibility Insights';
         const expectedComment = {
             parentCommentId: 0,
-            content: reportMd,
+            content: ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd,
             commentType: GitInterfaces.CommentType.Text,
         };
 
@@ -121,23 +154,32 @@ describe(ADOTaskConfig, () => {
             commentType: GitInterfaces.CommentType.Text,
             id: commentId,
         };
-        const makeThreadWithoutId = (comment: GitInterfaces.Comment) => {
+        const prevCommentWithIdWithMatch = {
+            parentCommentId: commentId,
+            content: contentWithMatchingString.replace(
+                AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                AdoPullRequestCommentCreator.PREVIOUS_COMMENT_TITLE,
+            ),
+            commentType: GitInterfaces.CommentType.Text,
+            id: commentId + 1,
+        };
+        const makeThreadWithoutId = (comments: GitInterfaces.Comment[]) => {
             return {
-                comments: [comment],
+                comments: comments,
             };
         };
-        const makeThreadWithId = (comment: GitInterfaces.Comment) => {
+        const makeThreadWithId = (comments: GitInterfaces.Comment[]) => {
             return {
-                comments: [comment],
+                comments: comments,
                 id: threadId,
             };
         };
 
         it.each`
-            thread                                            | condition
-            ${makeThreadWithId(commentWithIdWithoutMatch)}    | ${`no matching comment found`}
-            ${makeThreadWithoutId(commentWithoutIdWithMatch)} | ${`matching comment missing id`}
-            ${makeThreadWithoutId(commentWithIdWithMatch)}    | ${`matching thread missing id`}
+            thread                                              | condition
+            ${makeThreadWithId([commentWithIdWithoutMatch])}    | ${`no matching comment found`}
+            ${makeThreadWithoutId([commentWithoutIdWithMatch])} | ${`matching comment missing id`}
+            ${makeThreadWithoutId([commentWithIdWithMatch])}    | ${`matching thread missing id`}
         `(`should create new thread if $condition`, async ({ thread }) => {
             const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [thread as GitInterfaces.GitPullRequestCommentThread];
             const newThread = {
@@ -149,8 +191,9 @@ describe(ADOTaskConfig, () => {
             loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupFailOnAccessibilityError(false);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
             await prCommentCreator.completeRun(reportStub);
@@ -158,25 +201,65 @@ describe(ADOTaskConfig, () => {
             verifyAllMocks();
         });
 
-        it('should comment on an existing thread if one exists', async () => {
-            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [makeThreadWithId(commentWithIdWithMatch)];
+        it('should comment on an existing thread if one exists, no previous runs', async () => {
+            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [makeThreadWithId([commentWithIdWithMatch])];
             const newComment = {
                 parentCommentId: 0,
-                content: 'Ran again, results comment updated',
+                content: commentWithIdWithMatch.content?.replace('Results from Current Run', 'Results from Previous Run'),
                 commentType: GitInterfaces.CommentType.Text,
             };
 
             setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
-            loggerMock.setup((o) => o.logInfo('Already found a thread from us')).verifiable(Times.once());
+            loggerMock.setup((o) => o.logInfo('Already found a thread from us, no previous runs')).verifiable(Times.once());
 
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createComment(newComment, repoId, prId, threadId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupFailOnAccessibilityError(true);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            await prCommentCreator.completeRun(reportStub);
+            let reason: Error = new Error('Should fail!');
+            try {
+                await prCommentCreator.completeRun(reportStub);
+            } catch (error) {
+                reason = error;
+            }
+            expect(reason).toEqual('Failed Accessibility Error');
+
+            verifyAllMocks();
+        });
+
+        it('should comment on an existing thread if one exists, previous runs', async () => {
+            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [
+                makeThreadWithId([commentWithIdWithMatch, prevCommentWithIdWithMatch]),
+            ];
+
+            const newPrevComment = {
+                parentCommentId: prevCommentWithIdWithMatch.parentCommentId,
+                content: commentWithIdWithMatch.content?.replace('Results from Current Run', 'Results from Previous Run'),
+                commentType: GitInterfaces.CommentType.Text,
+            };
+
+            setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
+            loggerMock.setup((o) => o.logInfo('Already found a thread from us, found previous runs')).verifiable(Times.once());
+
+            gitApiMock.setup((o) => o.updateComment(newPrevComment, repoId, prId, threadId, commentId + 1)).verifiable(Times.once());
+            gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
+            setupIsSupportedReturnsTrue();
+            setupFailOnAccessibilityError(true);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
+            prCommentCreator = buildPrCommentCreatorWithMocks();
+
+            let reason: Error = new Error('Should fail!');
+            try {
+                await prCommentCreator.completeRun(reportStub);
+            } catch (error) {
+                reason = error;
+            }
+            expect(reason).toEqual('Failed Accessibility Error');
 
             verifyAllMocks();
         });
@@ -184,10 +267,9 @@ describe(ADOTaskConfig, () => {
 
     describe('failRun', () => {
         it('do nothing if isSupported returns false', async () => {
-            const apitoken = 'token';
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
             setupIsSupportedReturnsFalse();
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -197,10 +279,9 @@ describe(ADOTaskConfig, () => {
         });
 
         it('reject promise with matching error', async () => {
-            const apitoken = 'token';
             setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName(apitoken);
-            setupInitializeSetConnection(apitoken, webApiMock.object);
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
             setupIsSupportedReturnsTrue();
 
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -234,6 +315,13 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.atLeastOnce());
     };
 
+    const setupFailOnAccessibilityError = (fail: boolean) => {
+        adoTaskConfigMock
+            .setup((o) => o.getFailOnAccessibilityError())
+            .returns(() => fail)
+            .verifiable(Times.atLeastOnce());
+    };
+
     const setupIsSupportedReturnsFalse = () => {
         adoTaskMock
             .setup((o) => o.getVariable('Build.Reason'))
@@ -241,7 +329,9 @@ describe(ADOTaskConfig, () => {
             .verifiable(Times.atLeastOnce());
     };
 
-    const setupInitializeWithoutServiceConnectionName = (apitoken: string) => {
+    const setupInitializeWithoutServiceConnectionName = () => {
+        const apitoken = 'token';
+
         adoTaskConfigMock
             .setup((o) => o.getRepoServiceConnectionName())
             .returns(() => '')
@@ -250,9 +340,15 @@ describe(ADOTaskConfig, () => {
             .setup((o) => o.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', false))
             .returns(() => apitoken)
             .verifiable(Times.once());
+        nodeApiMock
+            .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
+            .returns(() => handlerStub)
+            .verifiable(Times.once());
     };
 
-    const setupInitializeWithServiceConnectionName = (apitoken: string) => {
+    const setupInitializeWithTokenServiceConnection = () => {
+        const apitoken = 'token';
+
         const serviceConnection = 'service-connection';
         const endpointAuthorizationStub: adoTask.EndpointAuthorization = {
             parameters: {
@@ -269,45 +365,84 @@ describe(ADOTaskConfig, () => {
             .setup((o) => o.getEndpointAuthorization(serviceConnection, false))
             .returns(() => endpointAuthorizationStub)
             .verifiable(Times.once());
-    };
-
-    const setupInitializeSetConnection = (apitoken: string, connection: nodeApi.WebApi) => {
-        const url = 'url';
-        const handlerStub = {
-            prepareRequest: () => {
-                return;
-            },
-            canHandleAuthentication: () => false,
-            handleAuthentication: () => Promise.reject(),
-        };
-
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
+            .returns(() => 'Token')
+            .verifiable(Times.once());
         nodeApiMock
             .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
             .returns(() => handlerStub)
             .verifiable(Times.once());
+    };
+
+    const setupInitializeWithBasicServiceConnection = () => {
+        const serviceConnection = 'service-connection',
+            //[SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Fake creds")]
+            username = 'user',
+            //[SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Fake creds")]
+            password = 'secret';
+        const endpointAuthorizationStub: adoTask.EndpointAuthorization = {
+            parameters: {
+                username,
+                password,
+            },
+            scheme: '',
+        };
+
+        adoTaskConfigMock
+            .setup((o) => o.getRepoServiceConnectionName())
+            .returns(() => serviceConnection)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorization(serviceConnection, false))
+            .returns(() => endpointAuthorizationStub)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
+            .returns(() => 'UsernamePassword')
+            .verifiable(Times.once());
+
+        nodeApiMock
+            .setup((o) => o.getBasicHandler(username, password))
+            .returns(() => handlerStub)
+            .verifiable(Times.once());
+    };
+
+    const setupInitializeWithUnsupportedServiceConnection = () => {
+        const serviceConnection = 'service-connection';
+        const endpointAuthorizationStub: adoTask.EndpointAuthorization = {
+            parameters: {},
+            scheme: '',
+        };
+
+        adoTaskConfigMock
+            .setup((o) => o.getRepoServiceConnectionName())
+            .returns(() => serviceConnection)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorization(serviceConnection, false))
+            .returns(() => endpointAuthorizationStub)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getEndpointAuthorizationScheme(serviceConnection, true))
+            .returns(() => undefined)
+            .verifiable(Times.once());
+    };
+
+    const setupInitializeSetConnection = (connection: nodeApi.WebApi) => {
+        const url = 'url';
+
         adoTaskMock
             .setup((o) => o.getVariable('System.TeamFoundationCollectionUri'))
             .returns(() => url)
-            .verifiable(Times.once());
+            .verifiable(Times.atLeastOnce());
         nodeApiMock
             .setup((o) => new o.WebApi(url, handlerStub))
             .returns(() => connection)
             .verifiable(Times.once());
     };
 
-    const setupInitializeMissingVariable = (apitoken: string) => {
-        const handlerStub = {
-            prepareRequest: () => {
-                return;
-            },
-            canHandleAuthentication: () => false,
-            handleAuthentication: () => Promise.reject(),
-        };
-
-        nodeApiMock
-            .setup((o) => o.getPersonalAccessTokenHandler(apitoken))
-            .returns(() => handlerStub)
-            .verifiable(Times.once());
+    const setupInitializeMissingVariable = () => {
         adoTaskMock
             .setup((o) => o.getVariable('System.TeamFoundationCollectionUri'))
             .returns(() => undefined)
@@ -330,17 +465,17 @@ describe(ADOTaskConfig, () => {
     ) => {
         makeGitApiMockThenable();
         reportMarkdownConvertorMock
-            .setup((o) => o.convert(reportStub))
-            .returns(() => reportMd)
+            .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE))
+            .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
             .verifiable(Times.once());
         adoTaskMock
             .setup((o) => o.getVariable('System.PullRequest.PullRequestId'))
             .returns(() => prId.toString())
-            .verifiable(Times.once());
+            .verifiable(Times.atLeastOnce());
         adoTaskMock
             .setup((o) => o.getVariable('Build.Repository.ID'))
             .returns(() => repoId)
-            .verifiable(Times.once());
+            .verifiable(Times.atLeastOnce());
         loggerMock.setup((o) => o.logInfo(`PR is ${prId}, repo is ${repoId}`)).verifiable(Times.once());
 
         webApiMock

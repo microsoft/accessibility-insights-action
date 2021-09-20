@@ -22,6 +22,16 @@ exports[`ResultMarkdownBuilder builds content with no failures 1`] = `
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
+exports[`ResultMarkdownBuilder builds content with title 1`] = `
+"### some title
+### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: All applicable checks passed
+* **URLs**: 0 URL(s) passed, and 0 were not scannable
+* **Rules**: 0 check(s) passed, and 0 were not applicable
+* Download the **Accessibility Insights artifact** to view the detailed results of these checks
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
 exports[`ResultMarkdownBuilder builds error content 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: Something went wrong
 You can review the log to troubleshoot the issue. Fix it and re-run the workflow to run the automated accessibility checks again.

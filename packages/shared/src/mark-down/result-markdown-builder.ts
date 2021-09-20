@@ -19,12 +19,12 @@ export class ResultMarkdownBuilder {
         return this.scanResultDetails(lines.join(''));
     }
 
-    public buildContent(combinedReportResult: CombinedReportParameters): string {
+    public buildContent(combinedReportResult: CombinedReportParameters, title?: string): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
 
-        const lines = [
+        let lines = [
             failedChecks === 0 ? this.headingWithMessage('All applicable checks passed') : this.headingWithMessage(),
             sectionSeparator(),
             this.urlsListItem(
@@ -39,6 +39,10 @@ export class ResultMarkdownBuilder {
             this.downloadArtifacts(),
             this.failureDetails(combinedReportResult),
         ];
+
+        if (title !== undefined) {
+            lines = [heading(title, 3), sectionSeparator()].concat(lines);
+        }
 
         return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));
     }
