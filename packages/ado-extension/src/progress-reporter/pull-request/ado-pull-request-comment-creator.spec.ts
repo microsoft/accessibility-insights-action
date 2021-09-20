@@ -215,12 +215,18 @@ describe(ADOTaskConfig, () => {
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createComment(newComment, repoId, prId, threadId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupFailOnAccessibilityError(false);
+            setupFailOnAccessibilityError(true);
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            await prCommentCreator.completeRun(reportStub);
+            let reason: Error = new Error ('Should fail!');
+            try {
+                await prCommentCreator.completeRun(reportStub);
+            } catch (error) {
+                reason = error
+            }
+            expect(reason).toEqual('Failed Accessibility Error');
 
             verifyAllMocks();
         });
@@ -242,12 +248,18 @@ describe(ADOTaskConfig, () => {
             gitApiMock.setup((o) => o.updateComment(newPrevComment, repoId, prId, threadId, commentId + 1)).verifiable(Times.once());
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupFailOnAccessibilityError(false);
+            setupFailOnAccessibilityError(true);
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            await prCommentCreator.completeRun(reportStub);
+            let reason: Error = new Error ('Should fail!');
+            try {
+                await prCommentCreator.completeRun(reportStub);
+            } catch (error) {
+                reason = error
+            }
+            expect(reason).toEqual('Failed Accessibility Error');
 
             verifyAllMocks();
         });
