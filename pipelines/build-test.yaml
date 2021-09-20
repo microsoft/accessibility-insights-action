@@ -1,10 +1,8 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-trigger: # trigger only affects CI builds
-    branches:
-        include:
-            - main
+trigger:
+    - main
 
 variables:
     linuxImage: 'ubuntu-18.04'
@@ -24,5 +22,19 @@ jobs:
           - script: yarn install --frozen-lockfile
             displayName: Install dependencies
 
-          - script: yarn test:e2e
-            displayName: 'Run e2e tests'
+          - script: yarn cbuild
+            displayName: Build
+
+          - task: accessibility-insights.staging.task.accessibility-insights@1
+            inputs:
+                siteDir: $(System.DefaultWorkingDirectory)/dev/website-root
+                repoServiceConnectionName: 'ADO test ortiga'
+                failOnAccessibilityError: true
+            displayName: 'Run accessibility testing'
+
+          - task: PublishBuildArtifacts@1
+            condition: always()
+            inputs:
+                pathtoPublish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
+                artifactName: Report
+            displayName: publish accessibility reports
