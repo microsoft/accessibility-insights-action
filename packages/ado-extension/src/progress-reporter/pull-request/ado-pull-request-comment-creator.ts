@@ -159,7 +159,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
         }
 
-        await this.failOnAccessibilityError(combinedReportResult);
+        this.failOnAccessibilityError(combinedReportResult);
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -171,9 +171,9 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         throw message;
     }
 
-    private async failOnAccessibilityError(combinedReportResult: CombinedReportParameters): Promise<void> {
+    private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {
         if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
-            await this.failRun('Failed Accessibility Error');
+            throw 'Failed Accessibility Error';
         }
     }
 
