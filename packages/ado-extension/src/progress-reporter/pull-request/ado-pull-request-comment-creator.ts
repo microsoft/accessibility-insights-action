@@ -92,7 +92,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         if (!this.isSupported()) {
             return;
         }
-        
+
         const reportMarkdown = this.reportMarkdownConvertor.convert(
             combinedReportResult,
             AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,

@@ -220,11 +220,11 @@ describe(ADOTaskConfig, () => {
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            let reason: Error = new Error ('Should fail!');
+            let reason: Error = new Error('Should fail!');
             try {
                 await prCommentCreator.completeRun(reportStub);
             } catch (error) {
-                reason = error
+                reason = error;
             }
             expect(reason).toEqual('Failed Accessibility Error');
 
@@ -253,11 +253,11 @@ describe(ADOTaskConfig, () => {
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            let reason: Error = new Error ('Should fail!');
+            let reason: Error = new Error('Should fail!');
             try {
                 await prCommentCreator.completeRun(reportStub);
             } catch (error) {
-                reason = error
+                reason = error;
             }
             expect(reason).toEqual('Failed Accessibility Error');
 
