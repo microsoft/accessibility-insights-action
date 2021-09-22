@@ -8,6 +8,9 @@ parameters:
     - name: shouldSign
       displayName: whether to sign VSIX file
       type: string
+    - name: visibility
+      displayName: marketplace visibility
+      type: string
 
 jobs:
     - job: package_job
