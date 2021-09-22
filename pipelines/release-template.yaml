@@ -16,6 +16,7 @@ jobs:
             parameters:
                 environment: ${{ parameters.environment }}
                 shouldSign: ${{ parameters.shouldSign }}
+                visibility: ${{parameters.visibility}}
     - deployment: publish_vsix_file
       displayName: deploy vsix file
       dependsOn: package_job
@@ -27,3 +28,4 @@ jobs:
                       - template: publish-vsix-file.yaml
                         parameters:
                             environment: ${{ parameters.environment }}
+                            visibility: ${{parameters.visibility}}
