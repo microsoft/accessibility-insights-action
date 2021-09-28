@@ -33,7 +33,7 @@ stages:
             parameters:
                 environment: ado-extension-staging
                 shouldSign: true
-                visibility: private
+                visibility: preview
 
     - stage: create_release_tag
       variables:
@@ -74,4 +74,4 @@ stages:
             parameters:
                 environment: ado-extension-prod
                 shouldSign: true
-                visibility: public
+                visibility: preview
