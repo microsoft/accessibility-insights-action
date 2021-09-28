@@ -38,7 +38,7 @@ stages:
                 ${{ if eq(parameters.variableGroupName, 'ado-extension-canary') }}:
                     environment: ado-extension-canary
                     shouldSign: false
-                    visibility: private
+                    visibility: preview
                 ${{ if ne(parameters.variableGroupName, 'ado-extension-canary') }}:
                     environment: ado-extension-test
                     shouldSign: false
