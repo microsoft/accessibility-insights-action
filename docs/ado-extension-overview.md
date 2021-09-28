@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License.
 -->
 
-# Accessibility Insights Extension
+# Accessibility Insights for Azure DevOps
 
 _This extension is in beta and preview mode._
 
@@ -11,7 +11,7 @@ Accessibility Insights for Azure DevOps is an extension that enables you to inte
 
 ## Features
 
--   Scan all the pages in your website, using the crawler, or define a list of URLs to scan
+-   Scan all the pages in your website using the crawler, or define a list of URLs to scan
 
 -   Get a combined and deduplicated report of all issues found in the scan
 
