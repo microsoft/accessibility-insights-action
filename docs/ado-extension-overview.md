@@ -11,7 +11,7 @@ The Accessibility Insights for Azure DevOps extension enables you to integrate A
 
 ## Features
 
--   Define a list of URLs or use the crawler to scan all the pages in your website
+-   Scan all the pages in your website, using the crawler, or define a list of URLs to scan
 
 -   Get a combined and deduplicated report of all issues found in the scan
 
