@@ -66,5 +66,8 @@ console.log('copied task.json to dist/pkg/task.json with any overrides');
 fs.copyFileSync('../../yarn.lock', 'dist/pkg/yarn.lock');
 console.log('copied yarn.lock to dist/pkg/yarn.lock');
 
+fs.copyFileSync('../../docs/ado-extension-overview.md', 'dist/overview.md');
+console.log('copied ado-extension-overview.md to dist/overview.md');
+
 fs.copyFileSync('../../icons/brand-blue-48px.png', 'dist/pkg/extension-icon.png');
 console.log('copied brand-blue-48px.png to dist/pkg/extension-icon.png');
