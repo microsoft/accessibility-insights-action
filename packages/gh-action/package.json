@@ -33,7 +33,7 @@
     "devDependencies": {},
     "dependencies": {
         "inversify": "^5.1.1",
-        "@actions/core": "^1.5.0",
+        "@actions/core": "^1.6.0",
         "@actions/github": "^5.0.0",
         "@octokit/rest": "^18.11.2",
         "reflect-metadata": "^0.1.13",
