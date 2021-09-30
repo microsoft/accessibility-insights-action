@@ -51,8 +51,7 @@ inputs:
         default: true
     base-line-file:
         description: 'Path to existing baseline file, will generate delta between the generated one and the old one if exists.'
-        required: true
-        default: true
+        required: false
 runs:
     using: 'composite'
     steps:
