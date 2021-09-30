@@ -88,10 +88,6 @@ export class GHTaskConfig extends TaskConfig {
         return this.actionCoreObj.getBooleanInput('base-line');
     }
 
-    public getBaseLine1(): string {
-        return this.actionCoreObj.getInput('base-line');
-    }
-
     public getBaseLineFile(): string | undefined {
         const value = this.getAbsolutePath(this.actionCoreObj.getInput('base-line-file'));
 
