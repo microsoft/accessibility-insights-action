@@ -45,6 +45,14 @@ inputs:
         description: 'The maximum timeout in milliseconds for the scan (excluding dependency setup)'
         required: false
         default: 90000
+    base-line:
+        description: 'Generate Baseline if true.'
+        required: true
+        default: true
+    base-line-file:
+        description: 'Path to existing baseline file, will generate delta between the generated one and the old one if exists.'
+        required: true
+        default: true
 runs:
     using: 'composite'
     steps:

@@ -84,6 +84,20 @@ export class GHTaskConfig extends TaskConfig {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
     }
 
+    public getBaseLine(): boolean {
+        return this.actionCoreObj.getBooleanInput('base-line');
+    }
+
+    public getBaseLine1(): string {
+        return this.actionCoreObj.getInput('base-line');
+    }
+
+    public getBaseLineFile(): string | undefined {
+        const value = this.getAbsolutePath(this.actionCoreObj.getInput('base-line-file'));
+
+        return isEmpty(value) ? undefined : value;
+    }
+
     private getAbsolutePath(path: string): string {
         if (isEmpty(path)) {
             return undefined;

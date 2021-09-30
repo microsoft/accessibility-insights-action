@@ -110,6 +110,21 @@
             "defaultValue": false,
             "required": false,
             "helpMarkDown": "Fail the task if there are accessibility issues."
+        },
+        {
+            "name": "baseLine",
+            "type": "boolean",
+            "label": "Generate Baseline?",
+            "defaultValue": true,
+            "required": true,
+            "helpMarkDown": "Generate Baseline if true."
+        },
+        {
+            "name": "baseLineFile",
+            "type": "string",
+            "label": "Generate Baseline?",
+            "required": false,
+            "helpMarkDown": "Path to existing baseline file, will generate delta between the generated one and the old one if exists."
         }
     ],
     "execution": {
