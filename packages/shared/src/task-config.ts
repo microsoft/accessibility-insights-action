@@ -11,7 +11,9 @@ export abstract class TaskConfig {
     abstract getReportOutDir(): string;
     abstract getSiteDir(): string;
     abstract getScanUrlRelativePath(): string;
-    abstract getBaseLine(): boolean;
+    abstract getBaseline(): boolean;
+    abstract getBaselineName(): string | undefined;
+    abstract getBaselineFile(): string | undefined;
     abstract getToken(): string | undefined;
     abstract getChromePath(): string | undefined;
     abstract getUrl(): string | undefined;
@@ -22,5 +24,4 @@ export abstract class TaskConfig {
     abstract getScanTimeout(): number;
     abstract getLocalhostPort(): number | undefined;
     abstract getRunId(): number | undefined;
-    abstract getBaseLineFile(): string | undefined;
 }
