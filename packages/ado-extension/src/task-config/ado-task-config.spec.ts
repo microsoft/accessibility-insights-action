@@ -51,24 +51,15 @@ describe(ADOTaskConfig, () => {
         ${'localhostPort'}             | ${'8080'}           | ${8080}                                                 | ${() => taskConfig.getLocalhostPort()}
         ${'localhostPort'}             | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getLocalhostPort()}
         ${'repoServiceConnectionName'} | ${'testName'}       | ${'testName'}                                           | ${() => taskConfig.getRepoServiceConnectionName()}
-        ${'baseline'}                  | ${true}             | ${true}                                                 | ${() => taskConfig.getBaseline()}
         ${'baselineFile'}              | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
-        ${'baselineName'}              | ${'baselineName'}   | ${'baselineName'}                                       | ${() => taskConfig.getBaselineName()}
-        ${'baselineName'}              | ${undefined}        | ${'newBaseline'}                                        | ${() => taskConfig.getBaselineName()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
-            if (typeof inputValue === 'boolean') {
-                adoTaskMock
-                    .setup((am) => am.getBoolInput(inputOption))
-                    .returns(() => inputValue)
-                    .verifiable(Times.once());
-            } else {
-                adoTaskMock
-                    .setup((am) => am.getInput(inputOption))
-                    .returns(() => inputValue as string)
-                    .verifiable(Times.once());
-            }
+            adoTaskMock
+                .setup((am) => am.getInput(inputOption))
+                .returns(() => inputValue as string)
+                .verifiable(Times.once());
+
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             const retrievedOption: unknown = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);

@@ -103,20 +103,10 @@ export class ADOTaskConfig extends TaskConfig {
         return this.adoTaskObj.getBoolInput('failOnAccessibilityError');
     }
 
-    public getBaseline(): boolean {
-        return this.adoTaskObj.getBoolInput('baseline');
-    }
-
     public getBaselineFile(): string | undefined {
         const value = this.getAbsolutePath(this.adoTaskObj.getInput('baselineFile'));
 
         return isEmpty(value) ? undefined : value;
-    }
-
-    public getBaselineName(): string | undefined {
-        const value = this.adoTaskObj.getInput('baselineName');
-
-        return isEmpty(value) ? 'newBaseline' : value;
     }
 
     private getAbsolutePath(path: string | undefined): string | undefined {

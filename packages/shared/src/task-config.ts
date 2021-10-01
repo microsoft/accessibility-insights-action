@@ -11,8 +11,6 @@ export abstract class TaskConfig {
     abstract getReportOutDir(): string;
     abstract getSiteDir(): string;
     abstract getScanUrlRelativePath(): string;
-    abstract getBaseline(): boolean;
-    abstract getBaselineName(): string | undefined;
     abstract getBaselineFile(): string | undefined;
     abstract getToken(): string | undefined;
     abstract getChromePath(): string | undefined;

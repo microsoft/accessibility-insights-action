@@ -112,26 +112,11 @@
             "helpMarkDown": "Fail the task if there are accessibility issues."
         },
         {
-            "name": "baseline",
-            "type": "boolean",
-            "label": "Generate Baseline?",
-            "defaultValue": true,
-            "required": true,
-            "helpMarkDown": "Generate Baseline if true."
-        },
-        {
             "name": "baselineFile",
             "type": "string",
-            "label": "Old Baseline File Path",
+            "label": "Baseline File Path",
             "required": false,
-            "helpMarkDown": "Path to existing baseline file, will generate delta between the generated one and the old one if exists."
-        },
-        {
-            "name": "baselineName",
-            "type": "string",
-            "label": "New Baseline File Name",
-            "required": false,
-            "helpMarkDown": "The file name of the new generated baseline, newBaseline will be used if not provided and baseline is set to true."
+            "helpMarkDown": "The old baseline file path, a new baseline will be generated with the same name, if null baseline option will be disabled."
         }
     ],
     "execution": {

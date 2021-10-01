@@ -45,15 +45,8 @@ inputs:
         description: 'The maximum timeout in milliseconds for the scan (excluding dependency setup)'
         required: false
         default: 90000
-    baseline:
-        description: 'Generate a baseline if true.'
-        required: true
-        default: true
     baseline-file:
-        description: 'Path to existing baseline file, will generate delta between the generated one and the old one if exists.'
-        required: false
-    baseline-name:
-        description: 'The file name of the new generated baseline, newBaseline will be used if not provided and baseline is set to true.'
+        description: 'The old baseline file path, a new baseline will be generated with the same name, if null baseline option will be disabled.'
         required: false
 runs:
     using: 'composite'

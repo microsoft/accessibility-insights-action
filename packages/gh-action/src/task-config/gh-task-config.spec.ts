@@ -43,24 +43,15 @@ describe(GHTaskConfig, () => {
         ${'max-urls'}               | ${'20'}              | ${20}                                                    | ${() => taskConfig.getMaxUrls()}
         ${'scan-timeout'}           | ${'100000'}          | ${100000}                                                | ${() => taskConfig.getScanTimeout()}
         ${'localhost-port'}         | ${'8080'}            | ${8080}                                                  | ${() => taskConfig.getLocalhostPort()}
-        ${'baseline'}               | ${true}              | ${true}                                                  | ${() => taskConfig.getBaseline()}
         ${'baseline-file'}          | ${'./baseline-file'} | ${getPlatformAgnosticPath(__dirname + '/baseline-file')} | ${() => taskConfig.getBaselineFile()}
-        ${'baseline-name'}          | ${'baseline-name'}   | ${'baseline-name'}                                       | ${() => taskConfig.getBaselineName()}
-        ${'baseline-name'}          | ${undefined}         | ${'newBaseline'}                                         | ${() => taskConfig.getBaselineName()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
-            if (typeof inputValue === 'boolean') {
-                actionCoreMock
-                    .setup((am) => am.getBooleanInput(inputOption))
-                    .returns(() => inputValue)
-                    .verifiable(Times.once());
-            } else {
-                actionCoreMock
-                    .setup((am) => am.getInput(inputOption))
-                    .returns(() => inputValue)
-                    .verifiable(Times.once());
-            }
+            actionCoreMock
+                .setup((am) => am.getInput(inputOption))
+                .returns(() => inputValue)
+                .verifiable(Times.once());
+
             const retrievedOption = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },
