@@ -45,6 +45,9 @@ inputs:
         description: 'The maximum timeout in milliseconds for the scan (excluding dependency setup)'
         required: false
         default: 90000
+    baseline-file:
+        description: 'The old baseline file path, a new baseline will be generated with the same name, if null baseline option will be disabled.'
+        required: false
 runs:
     using: 'composite'
     steps:

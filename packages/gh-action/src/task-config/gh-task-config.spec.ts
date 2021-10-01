@@ -30,19 +30,20 @@ describe(GHTaskConfig, () => {
     }
 
     it.each`
-        inputOption                 | inputValue         | expectedValue                                          | getInputFunc
-        ${'repo-token'}             | ${'token'}         | ${'token'}                                             | ${() => taskConfig.getToken()}
-        ${'scan-url-relative-path'} | ${'path'}          | ${'path'}                                              | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chrome-path'}            | ${'./chrome-path'} | ${getPlatformAgnosticPath(__dirname + '/chrome-path')} | ${() => taskConfig.getChromePath()}
-        ${'input-file'}             | ${'./input-file'}  | ${getPlatformAgnosticPath(__dirname + '/input-file')}  | ${() => taskConfig.getInputFile()}
-        ${'output-dir'}             | ${'./output-dir'}  | ${getPlatformAgnosticPath(__dirname + '/output-dir')}  | ${() => taskConfig.getReportOutDir()}
-        ${'site-dir'}               | ${'path'}          | ${'path'}                                              | ${() => taskConfig.getSiteDir()}
-        ${'url'}                    | ${'url'}           | ${'url'}                                               | ${() => taskConfig.getUrl()}
-        ${'discovery-patterns'}     | ${'abc'}           | ${'abc'}                                               | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'input-urls'}             | ${'abc'}           | ${'abc'}                                               | ${() => taskConfig.getInputUrls()}
-        ${'max-urls'}               | ${'20'}            | ${20}                                                  | ${() => taskConfig.getMaxUrls()}
-        ${'scan-timeout'}           | ${'100000'}        | ${100000}                                              | ${() => taskConfig.getScanTimeout()}
-        ${'localhost-port'}         | ${'8080'}          | ${8080}                                                | ${() => taskConfig.getLocalhostPort()}
+        inputOption                 | inputValue           | expectedValue                                            | getInputFunc
+        ${'repo-token'}             | ${'token'}           | ${'token'}                                               | ${() => taskConfig.getToken()}
+        ${'scan-url-relative-path'} | ${'path'}            | ${'path'}                                                | ${() => taskConfig.getScanUrlRelativePath()}
+        ${'chrome-path'}            | ${'./chrome-path'}   | ${getPlatformAgnosticPath(__dirname + '/chrome-path')}   | ${() => taskConfig.getChromePath()}
+        ${'input-file'}             | ${'./input-file'}    | ${getPlatformAgnosticPath(__dirname + '/input-file')}    | ${() => taskConfig.getInputFile()}
+        ${'output-dir'}             | ${'./output-dir'}    | ${getPlatformAgnosticPath(__dirname + '/output-dir')}    | ${() => taskConfig.getReportOutDir()}
+        ${'site-dir'}               | ${'path'}            | ${'path'}                                                | ${() => taskConfig.getSiteDir()}
+        ${'url'}                    | ${'url'}             | ${'url'}                                                 | ${() => taskConfig.getUrl()}
+        ${'discovery-patterns'}     | ${'abc'}             | ${'abc'}                                                 | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'input-urls'}             | ${'abc'}             | ${'abc'}                                                 | ${() => taskConfig.getInputUrls()}
+        ${'max-urls'}               | ${'20'}              | ${20}                                                    | ${() => taskConfig.getMaxUrls()}
+        ${'scan-timeout'}           | ${'100000'}          | ${100000}                                                | ${() => taskConfig.getScanTimeout()}
+        ${'localhost-port'}         | ${'8080'}            | ${8080}                                                  | ${() => taskConfig.getLocalhostPort()}
+        ${'baseline-file'}          | ${'./baseline-file'} | ${getPlatformAgnosticPath(__dirname + '/baseline-file')} | ${() => taskConfig.getBaselineFile()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
@@ -50,6 +51,7 @@ describe(GHTaskConfig, () => {
                 .setup((am) => am.getInput(inputOption))
                 .returns(() => inputValue)
                 .verifiable(Times.once());
+
             const retrievedOption = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },

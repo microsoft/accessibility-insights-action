@@ -110,6 +110,13 @@
             "defaultValue": false,
             "required": false,
             "helpMarkDown": "Fail the task if there are accessibility issues."
+        },
+        {
+            "name": "baselineFile",
+            "type": "string",
+            "label": "Baseline File Path",
+            "required": false,
+            "helpMarkDown": "The old baseline file path, a new baseline will be generated with the same name, if null baseline option will be disabled."
         }
     ],
     "execution": {
