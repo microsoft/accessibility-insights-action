@@ -35,7 +35,7 @@
         "inversify": "^5.1.1",
         "@actions/core": "^1.6.0",
         "@actions/github": "^5.0.0",
-        "@octokit/rest": "^18.11.3",
+        "@octokit/rest": "^18.11.4",
         "reflect-metadata": "^0.1.13",
         "@accessibility-insights-action/shared": "^1.0.0"
     }
