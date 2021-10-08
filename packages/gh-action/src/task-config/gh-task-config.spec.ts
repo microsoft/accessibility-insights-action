@@ -44,14 +44,21 @@ describe(GHTaskConfig, () => {
         ${'scan-timeout'}           | ${'100000'}          | ${100000}                                                | ${() => taskConfig.getScanTimeout()}
         ${'localhost-port'}         | ${'8080'}            | ${8080}                                                  | ${() => taskConfig.getLocalhostPort()}
         ${'baseline-file'}          | ${'./baseline-file'} | ${getPlatformAgnosticPath(__dirname + '/baseline-file')} | ${() => taskConfig.getBaselineFile()}
+        ${'single-worker'}          | ${true}              | ${true}                                                  | ${() => taskConfig.getSingleWorker()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
-            actionCoreMock
-                .setup((am) => am.getInput(inputOption))
-                .returns(() => inputValue)
-                .verifiable(Times.once());
-
+            if (typeof inputValue == 'boolean') {
+                actionCoreMock
+                    .setup((am) => am.getBooleanInput(inputOption))
+                    .returns(() => inputValue)
+                    .verifiable(Times.once());
+            } else {
+                actionCoreMock
+                    .setup((am) => am.getInput(inputOption))
+                    .returns(() => inputValue)
+                    .verifiable(Times.once());
+            }
             const retrievedOption = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },

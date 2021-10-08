@@ -48,6 +48,10 @@ inputs:
     baseline-file:
         description: 'The old baseline file path, a new baseline will be generated with the same name, if null baseline option will be disabled.'
         required: false
+    single-worker:
+        description: 'To help getting a deterministic result, either use a single worker or make sure that maxUrls is greater than total number of urls in the website.'
+        required: true
+        default: true
 runs:
     using: 'composite'
     steps:
