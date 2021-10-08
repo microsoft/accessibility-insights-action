@@ -286,13 +286,9 @@ describe(ADOPullRequestCommentCreator, () => {
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            let reason: Error = new Error('Should fail!');
-            try {
-                await prCommentCreator.completeRun(reportStub, baselineEvaluationStub);
-            } catch (error) {
-                reason = error as Error;
-            }
-            expect(reason).toEqual('Failed: New accessibility errors found, not in the baseline. See PR comment for more info.');
+            await expect(prCommentCreator.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
+                'Failed: The baseline file needs to be updated. See the PR comments for more details.',
+            );
 
             verifyAllMocks();
         });

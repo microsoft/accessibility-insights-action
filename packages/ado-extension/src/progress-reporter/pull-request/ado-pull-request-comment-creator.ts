@@ -183,7 +183,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
 
     private failOnBaselineNotUpdated(suggestedBaselineUpdate: null | BaselineFileContent): void {
         if (this.adoTaskConfig.getBaselineFile() !== undefined && suggestedBaselineUpdate !== null) {
-            throw 'Failed: New accessibility errors found, not in the baseline. See PR comment for more info.';
+            throw new Error('Failed: The baseline file needs to be updated. See the PR comments for more details.');
         }
     }
 
