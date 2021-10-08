@@ -7,7 +7,7 @@ import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as nodeApi from 'azure-devops-node-api';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 
-import { Mock, Times, IMock, MockBehavior } from 'typemoq';
+import { It, Mock, Times, IMock, MockBehavior } from 'typemoq';
 import {
     AdoPullRequestCommentCreator as ADOPullRequestCommentCreator,
     AdoPullRequestCommentCreator,
@@ -16,6 +16,7 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/dist/baseline-types';
 
 describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;
@@ -263,6 +264,38 @@ describe(ADOPullRequestCommentCreator, () => {
 
             verifyAllMocks();
         });
+
+        it('should throw error if baseline needs to be updated', async () => {
+            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [commentWithIdWithoutMatch];
+            const newThread = {
+                comments: [expectedComment],
+                status: GitInterfaces.CommentThreadStatus.Active,
+            };
+
+            const baselineEvaluationStub = {
+                suggestedBaselineUpdate: {} as BaselineFileContent,
+            } as BaselineEvaluation;
+
+            setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
+            loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
+            gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
+            setupIsSupportedReturnsTrue();
+            setupFailOnAccessibilityError(false);
+            setupBaselineFileExists();
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
+            prCommentCreator = buildPrCommentCreatorWithMocks();
+
+            let reason: Error = new Error('Should fail!');
+            try {
+                await prCommentCreator.completeRun(reportStub, baselineEvaluationStub);
+            } catch (error) {
+                reason = error as Error;
+            }
+            expect(reason).toEqual('Failed: New accessibility errors found, not in the baseline. See PR comment for more info.');
+
+            verifyAllMocks();
+        });
     });
 
     describe('failRun', () => {
@@ -319,6 +352,20 @@ describe(ADOPullRequestCommentCreator, () => {
         adoTaskConfigMock
             .setup((o) => o.getFailOnAccessibilityError())
             .returns(() => fail)
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setupBaselineFileExists = () => {
+        adoTaskConfigMock
+            .setup((o) => o.getBaselineFile())
+            .returns(() => It.isAnyString())
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setupBaselineFileDoesNotExist = () => {
+        adoTaskConfigMock
+            .setup((o) => o.getBaselineFile())
+            .returns(() => undefined)
             .verifiable(Times.atLeastOnce());
     };
 
