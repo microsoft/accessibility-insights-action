@@ -13,6 +13,7 @@ import * as NodeApi from 'azure-devops-node-api';
 import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
+import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/src/baseline-types';
 
 @injectable()
 export class AdoPullRequestCommentCreator extends ProgressReporter {
@@ -88,7 +89,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         // We don't do anything for pull request flow
     }
 
-    public async completeRun(combinedReportResult: CombinedReportParameters): Promise<void> {
+    public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
         if (!this.isSupported()) {
             return;
         }
@@ -160,6 +161,9 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         }
 
         this.failOnAccessibilityError(combinedReportResult);
+        if (baselineEvaluation) {
+            this.failOnBaselineNotUpdated(baselineEvaluation.suggestedBaselineUpdate);
+        }
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -173,7 +177,13 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
 
     private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {
         if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
-            throw 'Failed Accessibility Error';
+            throw new Error('Failed Accessibility Error');
+        }
+    }
+
+    private failOnBaselineNotUpdated(suggestedBaselineUpdate: null | BaselineFileContent): void {
+        if (this.adoTaskConfig.getBaselineFile() !== undefined && suggestedBaselineUpdate !== null) {
+            throw new Error('Failed: The baseline file needs to be updated. See the PR comments for more details.');
         }
     }
 

@@ -5,6 +5,7 @@ import { inject, injectable } from 'inversify';
 import { ProgressReporter } from './progress-reporter';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { iocTypes } from '../ioc/ioc-types';
+import { BaselineEvaluation } from '../baseline-types';
 
 @injectable()
 export class AllProgressReporter extends ProgressReporter {
@@ -16,8 +17,12 @@ export class AllProgressReporter extends ProgressReporter {
         await this.execute((r) => r.start());
     }
 
-    public async completeRun(combinedReportResult: CombinedReportParameters): Promise<void> {
-        await this.execute((r) => r.completeRun(combinedReportResult));
+    public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
+        if (baselineEvaluation) {
+            await this.execute((r) => r.completeRun(combinedReportResult, baselineEvaluation));
+        } else {
+            await this.execute((r) => r.completeRun(combinedReportResult));
+        }
     }
 
     public async failRun(message: string): Promise<void> {

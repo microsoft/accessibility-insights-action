@@ -7,7 +7,7 @@ import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as nodeApi from 'azure-devops-node-api';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 
-import { Mock, Times, IMock, MockBehavior } from 'typemoq';
+import { It, Mock, Times, IMock, MockBehavior } from 'typemoq';
 import {
     AdoPullRequestCommentCreator as ADOPullRequestCommentCreator,
     AdoPullRequestCommentCreator,
@@ -16,8 +16,9 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/dist/baseline-types';
 
-describe(ADOTaskConfig, () => {
+describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let gitApiMock: IMock<GitApi.IGitApi>;
@@ -220,13 +221,7 @@ describe(ADOTaskConfig, () => {
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            let reason: Error = new Error('Should fail!');
-            try {
-                await prCommentCreator.completeRun(reportStub);
-            } catch (error) {
-                reason = error;
-            }
-            expect(reason).toEqual('Failed Accessibility Error');
+            await expect(prCommentCreator.completeRun(reportStub)).rejects.toThrowError('Failed Accessibility Error');
 
             verifyAllMocks();
         });
@@ -253,13 +248,35 @@ describe(ADOTaskConfig, () => {
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            let reason: Error = new Error('Should fail!');
-            try {
-                await prCommentCreator.completeRun(reportStub);
-            } catch (error) {
-                reason = error;
-            }
-            expect(reason).toEqual('Failed Accessibility Error');
+            await expect(prCommentCreator.completeRun(reportStub)).rejects.toThrowError('Failed Accessibility Error');
+
+            verifyAllMocks();
+        });
+
+        it('should throw error if baseline needs to be updated', async () => {
+            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [commentWithIdWithoutMatch];
+            const newThread = {
+                comments: [expectedComment],
+                status: GitInterfaces.CommentThreadStatus.Active,
+            };
+
+            const baselineEvaluationStub = {
+                suggestedBaselineUpdate: {} as BaselineFileContent,
+            } as BaselineEvaluation;
+
+            setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
+            loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
+            gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
+            setupIsSupportedReturnsTrue();
+            setupFailOnAccessibilityError(false);
+            setupBaselineFileParameterExists();
+            setupInitializeWithoutServiceConnectionName();
+            setupInitializeSetConnection(webApiMock.object);
+            prCommentCreator = buildPrCommentCreatorWithMocks();
+
+            await expect(prCommentCreator.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
+                'Failed: The baseline file needs to be updated. See the PR comments for more details.',
+            );
 
             verifyAllMocks();
         });
@@ -319,6 +336,13 @@ describe(ADOTaskConfig, () => {
         adoTaskConfigMock
             .setup((o) => o.getFailOnAccessibilityError())
             .returns(() => fail)
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setupBaselineFileParameterExists = () => {
+        adoTaskConfigMock
+            .setup((o) => o.getBaselineFile())
+            .returns(() => It.isAnyString())
             .verifiable(Times.atLeastOnce());
     };
 
