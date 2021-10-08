@@ -42,7 +42,7 @@ describe(ResultMarkdownBuilder, () => {
                     unscannableUrls: 7,
                 },
             },
-        } as any;
+        } as CombinedReportParameters;
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
@@ -65,7 +65,7 @@ describe(ResultMarkdownBuilder, () => {
                     unscannableUrls: 7,
                 },
             },
-        } as any;
+        } as CombinedReportParameters;
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
@@ -95,7 +95,7 @@ describe(ResultMarkdownBuilder, () => {
                     unscannableUrls: 1,
                 },
             },
-        } as any;
+        } as CombinedReportParameters;
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
@@ -120,7 +120,7 @@ describe(ResultMarkdownBuilder, () => {
                     unscannableUrls: 0,
                 },
             },
-        } as any;
+        } as CombinedReportParameters;
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, title);
 
