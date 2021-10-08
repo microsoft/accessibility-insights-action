@@ -20,7 +20,12 @@ export class ResultMarkdownBuilder {
         return this.scanResultDetails(lines.join(''));
     }
 
-    public buildContent(combinedReportResult: CombinedReportParameters, title?: string, baselineEvaluation?: BaselineEvaluation): string {
+    public buildContent(
+        combinedReportResult: CombinedReportParameters,
+        title?: string,
+        baselineFileName?: string,
+        baselineEvaluation?: BaselineEvaluation,
+    ): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);

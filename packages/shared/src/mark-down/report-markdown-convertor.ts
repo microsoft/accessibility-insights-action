@@ -10,8 +10,13 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 export class ReportMarkdownConvertor {
     constructor(@inject(ResultMarkdownBuilder) private readonly checkResultMarkdownBuilder: ResultMarkdownBuilder) {}
 
-    public convert(combinedReportResult: CombinedReportParameters, title?: string, baselineEvaluation?: BaselineEvaluation): string {
-        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, baselineEvaluation);
+    public convert(
+        combinedReportResult: CombinedReportParameters,
+        title?: string,
+        baselineFileName?: string,
+        baselineEvaluation?: BaselineEvaluation,
+    ): string {
+        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, baselineFileName, baselineEvaluation);
     }
 
     public getErrorMarkdown(): string {

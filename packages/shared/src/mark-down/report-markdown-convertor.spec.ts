@@ -6,6 +6,7 @@ import { IMock, Mock } from 'typemoq';
 import { ReportMarkdownConvertor } from './report-markdown-convertor';
 import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { BaselineEvaluation } from '../baseline-types';
 
 describe(ReportMarkdownConvertor, () => {
     let resultMarkdownBuilderMock: IMock<ResultMarkdownBuilder>;
@@ -34,17 +35,30 @@ describe(ReportMarkdownConvertor, () => {
         expect(reportMarkdownConvertor).not.toBeNull();
     });
 
-    it('convert report', () => {
-        resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined)).verifiable();
+    describe('convert', () => {
+        it('report', () => {
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined, undefined)).verifiable();
 
-        reportMarkdownConvertor.convert(combinedReportResult);
-    });
+            reportMarkdownConvertor.convert(combinedReportResult);
+        });
 
-    it('convert report with title', () => {
-        const title = 'some title';
-        resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title)).verifiable();
+        it('report with title', () => {
+            const title = 'some title';
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined, undefined)).verifiable();
 
-        reportMarkdownConvertor.convert(combinedReportResult, title);
+            reportMarkdownConvertor.convert(combinedReportResult, title);
+        });
+
+        it('report with title and baseline', () => {
+            const title = 'some title';
+            const baselineFileName = 'some filename';
+            const baselineEvaluationStub = {} as BaselineEvaluation;
+            resultMarkdownBuilderMock
+                .setup((o) => o.buildContent(combinedReportResult, title, baselineFileName, baselineEvaluationStub))
+                .verifiable();
+
+            reportMarkdownConvertor.convert(combinedReportResult, title, baselineFileName, baselineEvaluationStub);
+        });
     });
 
     it('get error markdown', () => {
