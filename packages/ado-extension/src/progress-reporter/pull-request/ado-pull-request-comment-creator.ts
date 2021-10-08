@@ -177,7 +177,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
 
     private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {
         if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
-            throw 'Failed Accessibility Error';
+            throw new Error('Failed Accessibility Error');
         }
     }
 

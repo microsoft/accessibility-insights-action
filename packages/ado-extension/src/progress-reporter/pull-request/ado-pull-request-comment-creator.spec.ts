@@ -221,13 +221,7 @@ describe(ADOPullRequestCommentCreator, () => {
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            let reason: Error = new Error('Should fail!');
-            try {
-                await prCommentCreator.completeRun(reportStub);
-            } catch (error) {
-                reason = error as Error;
-            }
-            expect(reason).toEqual('Failed Accessibility Error');
+            await expect(prCommentCreator.completeRun(reportStub)).rejects.toThrowError('Failed Accessibility Error');
 
             verifyAllMocks();
         });
@@ -254,13 +248,7 @@ describe(ADOPullRequestCommentCreator, () => {
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            let reason: Error = new Error('Should fail!');
-            try {
-                await prCommentCreator.completeRun(reportStub);
-            } catch (error) {
-                reason = error as Error;
-            }
-            expect(reason).toEqual('Failed Accessibility Error');
+            await expect(prCommentCreator.completeRun(reportStub)).rejects.toThrowError('Failed Accessibility Error');
 
             verifyAllMocks();
         });
