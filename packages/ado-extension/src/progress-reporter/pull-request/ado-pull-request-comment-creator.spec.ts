@@ -17,7 +17,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 
-describe(ADOTaskConfig, () => {
+describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let gitApiMock: IMock<GitApi.IGitApi>;
@@ -224,7 +224,7 @@ describe(ADOTaskConfig, () => {
             try {
                 await prCommentCreator.completeRun(reportStub);
             } catch (error) {
-                reason = error;
+                reason = error as Error;
             }
             expect(reason).toEqual('Failed Accessibility Error');
 
@@ -257,7 +257,7 @@ describe(ADOTaskConfig, () => {
             try {
                 await prCommentCreator.completeRun(reportStub);
             } catch (error) {
-                reason = error;
+                reason = error as Error;
             }
             expect(reason).toEqual('Failed Accessibility Error');
 
