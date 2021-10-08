@@ -94,10 +94,17 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             return;
         }
 
-        const reportMarkdown = this.reportMarkdownConvertor.convert(
-            combinedReportResult,
-            AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
-        );
+        let reportMarkdown: string;
+
+        if (this.adoTaskConfig.getBaselineFile() === undefined) {
+            reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE);
+        } else {
+            reportMarkdown = this.reportMarkdownConvertor.convert(
+                combinedReportResult,
+                AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                baselineEvaluation,
+            );
+        }
         this.traceMarkdown(reportMarkdown);
 
         const prId = parseInt(this.getVariableOrThrow('System.PullRequest.PullRequestId'));

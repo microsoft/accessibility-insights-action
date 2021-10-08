@@ -3,6 +3,7 @@
 
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { injectable } from 'inversify';
+import { BaselineEvaluation } from '../baseline-types';
 import { brand } from '../content/strings';
 import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
 
@@ -19,7 +20,7 @@ export class ResultMarkdownBuilder {
         return this.scanResultDetails(lines.join(''));
     }
 
-    public buildContent(combinedReportResult: CombinedReportParameters, title?: string): string {
+    public buildContent(combinedReportResult: CombinedReportParameters, title?: string, baselineEvaluation?: BaselineEvaluation): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);

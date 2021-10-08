@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { inject, injectable } from 'inversify';
+import { BaselineEvaluation } from '../baseline-types';
 import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
@@ -9,8 +10,8 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 export class ReportMarkdownConvertor {
     constructor(@inject(ResultMarkdownBuilder) private readonly checkResultMarkdownBuilder: ResultMarkdownBuilder) {}
 
-    public convert(combinedReportResult: CombinedReportParameters, title?: string): string {
-        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title);
+    public convert(combinedReportResult: CombinedReportParameters, title?: string, baselineEvaluation?: BaselineEvaluation): string {
+        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, baselineEvaluation);
     }
 
     public getErrorMarkdown(): string {
