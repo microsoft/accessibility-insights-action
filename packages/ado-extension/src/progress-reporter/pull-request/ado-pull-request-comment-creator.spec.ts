@@ -269,7 +269,7 @@ describe(ADOPullRequestCommentCreator, () => {
             gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
             setupFailOnAccessibilityError(false);
-            setupBaselineFileExists();
+            setupBaselineFileParameterExists();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -339,7 +339,7 @@ describe(ADOPullRequestCommentCreator, () => {
             .verifiable(Times.atLeastOnce());
     };
 
-    const setupBaselineFileExists = () => {
+    const setupBaselineFileParameterExists = () => {
         adoTaskConfigMock
             .setup((o) => o.getBaselineFile())
             .returns(() => It.isAnyString())
