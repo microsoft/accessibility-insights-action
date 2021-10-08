@@ -52,6 +52,7 @@ describe(ADOTaskConfig, () => {
         ${'localhostPort'}             | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getLocalhostPort()}
         ${'repoServiceConnectionName'} | ${'testName'}       | ${'testName'}                                           | ${() => taskConfig.getRepoServiceConnectionName()}
         ${'baselineFile'}              | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
+        ${'failOnAccessibilityError'}  | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
         ${'singleWorker'}              | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
@@ -67,22 +68,6 @@ describe(ADOTaskConfig, () => {
                     .returns(() => inputValue as string)
                     .verifiable(Times.once());
             }
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            const retrievedOption: unknown = getInputFunc();
-            expect(retrievedOption).toStrictEqual(expectedValue);
-        },
-    );
-
-    it.each`
-        inputOption                   | inputValue | expectedValue | getInputFunc
-        ${'failOnAccessibilityError'} | ${true}    | ${true}       | ${() => taskConfig.getFailOnAccessibilityError()}
-    `(
-        `bool input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
-        ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
-            adoTaskMock
-                .setup((am) => am.getBoolInput(inputOption))
-                .returns(() => inputValue as boolean)
-                .verifiable(Times.once());
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             const retrievedOption: unknown = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
