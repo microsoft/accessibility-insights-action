@@ -84,6 +84,10 @@ export class GHTaskConfig extends TaskConfig {
         return parseInt(this.processObj.env.GITHUB_RUN_ID, 10);
     }
 
+    public getSingleWorker(): boolean {
+        return this.actionCoreObj.getBooleanInput('single-worker');
+    }
+
     public getBaselineFile(): string | undefined {
         const value = this.getAbsolutePath(this.actionCoreObj.getInput('baseline-file'));
 

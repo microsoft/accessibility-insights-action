@@ -5,6 +5,7 @@ import { injectable } from 'inversify';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import marked from 'marked';
 import TerminalRenderer from 'marked-terminal';
+import { BaselineEvaluation } from '../baseline-types';
 
 @injectable()
 export abstract class ProgressReporter {
@@ -17,7 +18,7 @@ export abstract class ProgressReporter {
     }
 
     public abstract start(): Promise<void>;
-    public abstract completeRun(combinedReportResult: CombinedReportParameters): Promise<void>;
+    public abstract completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void>;
     public abstract failRun(message: string): Promise<void>;
 
     protected async invoke<T>(fn: () => Promise<T>): Promise<T> {

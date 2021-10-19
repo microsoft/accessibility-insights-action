@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+import { CombinedReportParameters } from 'accessibility-insights-report';
 import 'reflect-metadata';
 
 import { IMock, Mock, Times } from 'typemoq';
+import { BaselineEvaluation } from '../baseline-types';
 import { AllProgressReporter } from './all-progress-reporter';
 import { ProgressReporter } from './progress-reporter';
 
@@ -26,16 +28,31 @@ describe(AllProgressReporter, () => {
         await testSubject.start();
     });
 
-    it('complete should invoke all reporters', async () => {
-        const axeResults = 'axe results' as any;
-        executeOnReporter((reporter) => {
-            reporter
-                .setup((p) => p.completeRun(axeResults))
-                .returns(() => Promise.resolve())
-                .verifiable(Times.once());
+    describe('complete', () => {
+        it('should invoke all reporters', async () => {
+            const axeResults = 'axe results' as unknown as CombinedReportParameters;
+            executeOnReporter((reporter) => {
+                reporter
+                    .setup((p) => p.completeRun(axeResults))
+                    .returns(() => Promise.resolve())
+                    .verifiable(Times.once());
+            });
+
+            await testSubject.completeRun(axeResults);
         });
 
-        await testSubject.completeRun(axeResults);
+        it('should invoke all reporters when baselineEvaluation is available', async () => {
+            const axeResults = 'axe results' as unknown as CombinedReportParameters;
+            const baselineEvalStub = 'baseline evaluation' as unknown as BaselineEvaluation;
+            executeOnReporter((reporter) => {
+                reporter
+                    .setup((p) => p.completeRun(axeResults, baselineEvalStub))
+                    .returns(() => Promise.resolve())
+                    .verifiable(Times.once());
+            });
+
+            await testSubject.completeRun(axeResults, baselineEvalStub);
+        });
     });
 
     it('failRun should invoke all reporters', async () => {
