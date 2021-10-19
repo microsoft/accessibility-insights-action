@@ -39,3 +39,72 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 ---
 "
 `;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and new failures 1`] = `
+"### some title
+### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
+**4 failure instances**
+* (3) **rule id**:  rule description
+* (1) **rule id 2**:  rule description 2
+
+**1 failure instances in baseline**
+(not shown; see [baselining docs](temporarily-empty) for how to include new failures into the baseline)
+
+See all failures and scan details by downloading the report from [run artifacts](temporarily-empty)
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 4 with failures, 1 passed, 2 not applicable
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no new failures 1`] = `
+"### some title
+### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+**:white_check_mark: No failures not in baseline**
+No failures were detected by automatic scanning except those which exist in the baseline.
+
+**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+**1 failure instances in baseline**
+(not shown; see [baselining docs](temporarily-empty))
+
+See all failures and scan details by downloading the report from [run artifacts](temporarily-empty)
+---
+#### Scan summary
+**URLs**: 0 with failures, 0 passed, 0 not scannable
+**Rules**: 0 with failures, 0 passed, 0 not applicable
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are no baseline failures and no new failures 1`] = `
+"### some title
+### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+**:white_check_mark: No failures detected**
+No failures were detected by automatic scanning.
+
+**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+
+
+See scan details by downloading the report from [run artifacts](temporarily-empty)
+---
+#### Scan summary
+**URLs**: 0 with failures, 0 passed, 0 not scannable
+**Rules**: 0 with failures, 0 passed, 0 not applicable
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there was no baseline detected 1`] = `
+"### some title
+### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: All applicable checks passed
+* **URLs**: 0 URL(s) passed, and 0 were not scannable
+* **Rules**: 0 check(s) passed, and 0 were not applicable
+* Download the **Accessibility Insights artifact** to view the detailed results of these checks
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;

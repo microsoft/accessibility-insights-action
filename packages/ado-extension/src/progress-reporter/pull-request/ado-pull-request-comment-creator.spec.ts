@@ -268,9 +268,11 @@ describe(ADOPullRequestCommentCreator, () => {
             } as BaselineEvaluation;
 
             setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
-            reportMarkdownConvertorMock.reset();                                                                                           
+            reportMarkdownConvertorMock.reset();
             reportMarkdownConvertorMock
-                .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, 'baseline-file', baselineEvaluationStub))
+                .setup((o) =>
+                    o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, 'baseline-file', baselineEvaluationStub),
+                )
                 .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
                 .verifiable(Times.once());
             loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
@@ -280,7 +282,7 @@ describe(ADOPullRequestCommentCreator, () => {
             setupBaselineFileParameterExists();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
-            
+
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
             await expect(prCommentCreator.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
