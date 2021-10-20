@@ -46,7 +46,7 @@ export class ResultMarkdownBuilder {
             this.failureDetails(combinedReportResult),
         ];
 
-        if (baselineFileName !== undefined) {
+        // if (baselineFileName !== undefined) {
             lines = [
                 this.headingWithMessage(),
                 sectionSeparator(),
@@ -69,7 +69,7 @@ export class ResultMarkdownBuilder {
                 sectionSeparator(),
                 this.rulesListItemBaseline(passedChecks, inapplicableChecks, failedChecks),
             ];
-        }
+        // }
 
         if (title !== undefined) {
             lines = [heading(title, 3), sectionSeparator()].concat(lines);
@@ -94,7 +94,9 @@ export class ResultMarkdownBuilder {
             lines = [bold('Baseline not detected'), sectionSeparator(), baselineHelpText];
         } else if (baselineEvaluation !== undefined) {
             const baselineFailures = baselineEvaluation.totalBaselineViolations;
-            if (baselineFailures > 0) {
+            if (baselineFailures === undefined) {
+                lines = [bold('Baseline not detected'), sectionSeparator(), baselineHelpText];
+            } else if (baselineFailures > 0) {
                 const headingWithBaselineFailures = `${baselineFailures} failure instances in baseline`;
                 let baselineFailuresHelpText = `not shown; see ${baseliningDocsLink}`;
                 if (failedChecks > 0) {
@@ -163,7 +165,7 @@ export class ResultMarkdownBuilder {
             const pointRight = ':point_right:';
             let failureDetailsHeading = `${checkMark} No failures detected`;
             let failureDetailsDescription = `No failures were detected by automatic scanning.`;
-            if (baselineEvaluation.totalBaselineViolations > 0) {
+            if (baselineEvaluation !== undefined && baselineEvaluation.totalBaselineViolations > 0) {
                 failureDetailsHeading = `${checkMark} No failures not in baseline`;
                 failureDetailsDescription = 'No failures were detected by automatic scanning except those which exist in the baseline.';
             }
