@@ -129,6 +129,7 @@ describe(ResultMarkdownBuilder, () => {
     });
 
     describe('with baseline', () => {
+        const canBaseline = true;
         let baselineFileName = 'baseline file';
 
         it('builds content when there are baseline failures and new failures', () => {
@@ -162,6 +163,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(
                 combinedReportResult,
                 undefined,
+                canBaseline,
                 baselineFileName,
                 baselineEvaluation,
             );
@@ -193,6 +195,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(
                 combinedReportResult,
                 undefined,
+                canBaseline,
                 baselineFileName,
                 baselineEvaluation,
             );
@@ -224,6 +227,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(
                 combinedReportResult,
                 undefined,
+                canBaseline,
                 baselineFileName,
                 baselineEvaluation,
             );
@@ -262,6 +266,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(
                 combinedReportResult,
                 undefined,
+                canBaseline,
                 baselineFileName,
                 baselineEvaluation,
             );
@@ -288,7 +293,13 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineFileName, baselineEvaluation);
+            const actualContent = checkResultMarkdownBuilder.buildContent(
+                combinedReportResult,
+                undefined,
+                canBaseline,
+                baselineFileName,
+                baselineEvaluation,
+            );
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -319,7 +330,13 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineFileName, baselineEvaluation);
+            const actualContent = checkResultMarkdownBuilder.buildContent(
+                combinedReportResult,
+                undefined,
+                canBaseline,
+                baselineFileName,
+                baselineEvaluation,
+            );
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -351,10 +368,16 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineFileName, baselineEvaluation);
+            const actualContent = checkResultMarkdownBuilder.buildContent(
+                combinedReportResult,
+                undefined,
+                canBaseline,
+                baselineFileName,
+                baselineEvaluation,
+            );
 
             expect(actualContent).toMatchSnapshot();
-        })
+        });
 
         it('builds content when there are no new failures and baseline failures are undefined', () => {
             const baselineEvaluation = {
@@ -377,7 +400,13 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineFileName, baselineEvaluation);
+            const actualContent = checkResultMarkdownBuilder.buildContent(
+                combinedReportResult,
+                undefined,
+                canBaseline,
+                baselineFileName,
+                baselineEvaluation,
+            );
 
             expect(actualContent).toMatchSnapshot();
         });

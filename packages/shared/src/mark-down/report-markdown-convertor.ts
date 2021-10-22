@@ -13,10 +13,11 @@ export class ReportMarkdownConvertor {
     public convert(
         combinedReportResult: CombinedReportParameters,
         title?: string,
+        canBaseline?: boolean,
         baselineFileName?: string,
         baselineEvaluation?: BaselineEvaluation,
     ): string {
-        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, baselineFileName, baselineEvaluation);
+        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, canBaseline, baselineFileName, baselineEvaluation);
     }
 
     public getErrorMarkdown(): string {

@@ -23,6 +23,7 @@ export class ResultMarkdownBuilder {
     public buildContent(
         combinedReportResult: CombinedReportParameters,
         title?: string,
+        canBaseline?: boolean,
         baselineFileName?: string,
         baselineEvaluation?: BaselineEvaluation,
     ): string {
@@ -46,7 +47,7 @@ export class ResultMarkdownBuilder {
             this.failureDetails(combinedReportResult),
         ];
 
-        if (baselineFileName !== undefined) { // user triggered baselining
+        if (canBaseline) { // baselining is available
             lines = [
                 this.headingWithMessage(),
                 sectionSeparator(),
