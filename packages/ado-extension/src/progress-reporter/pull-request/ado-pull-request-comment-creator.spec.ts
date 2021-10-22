@@ -263,6 +263,7 @@ describe(ADOPullRequestCommentCreator, () => {
                 status: GitInterfaces.CommentThreadStatus.Active,
             };
 
+            const canBaseline = true;
             const baselineEvaluationStub = {
                 suggestedBaselineUpdate: {} as BaselineFileContent,
             } as BaselineEvaluation;
@@ -271,7 +272,7 @@ describe(ADOPullRequestCommentCreator, () => {
             reportMarkdownConvertorMock.reset();
             reportMarkdownConvertorMock
                 .setup((o) =>
-                    o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, 'baseline-file', baselineEvaluationStub),
+                    o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, canBaseline, 'baseline-file', baselineEvaluationStub),
                 )
                 .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
                 .verifiable(Times.once());
@@ -507,7 +508,7 @@ describe(ADOPullRequestCommentCreator, () => {
     ) => {
         makeGitApiMockThenable();
         reportMarkdownConvertorMock
-            .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE))
+            .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, true))
             .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
             .verifiable(Times.once());
         adoTaskMock
