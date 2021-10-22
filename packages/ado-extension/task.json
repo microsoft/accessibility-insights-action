@@ -117,6 +117,14 @@
             "label": "Baseline File Path",
             "required": false,
             "helpMarkDown": "The old baseline file path, a new baseline will be generated with the same name, if null baseline option will be disabled."
+        },
+        {
+            "name": "singleWorker",
+            "type": "boolean",
+            "label": "Uses a single crawler worker.",
+            "required": true,
+            "defaultValue": true,
+            "helpMarkDown": "To get deterministic scanning results, either specify the singleWorker parameter or ensure that the value specified for the maxUrls parameter is larger than the total number of urls in the web site being scanned."
         }
     ],
     "execution": {

@@ -50,6 +50,7 @@ export class CrawlArgumentHandler {
             discoveryPatterns: discoveryPatternsArg?.split(/\s+/),
             inputUrls: inputUrlsArg?.split(/\s+/),
             url: this.taskConfig.getUrl(),
+            //to-do singleWorker: this.taskConfig.getSingleWorker()
         };
 
         return args;
