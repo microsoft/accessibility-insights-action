@@ -46,7 +46,7 @@ export class ResultMarkdownBuilder {
             this.failureDetails(combinedReportResult),
         ];
 
-        // if (baselineFileName !== undefined) {
+        if (baselineFileName !== undefined) { // user triggered baselining
             lines = [
                 this.headingWithMessage(),
                 sectionSeparator(),
@@ -56,6 +56,7 @@ export class ResultMarkdownBuilder {
                 sectionSeparator(),
                 sectionSeparator(),
                 this.downloadArtifactsWithLink(failedChecks, baselineEvaluation),
+                sectionSeparator(),
                 sectionSeparator(),
                 footerSeparator(),
                 sectionSeparator(),
@@ -68,8 +69,9 @@ export class ResultMarkdownBuilder {
                 ),
                 sectionSeparator(),
                 this.rulesListItemBaseline(passedChecks, inapplicableChecks, failedChecks),
+                sectionSeparator(),
             ];
-        // }
+        }
 
         if (title !== undefined) {
             lines = [heading(title, 3), sectionSeparator()].concat(lines);
@@ -87,15 +89,19 @@ export class ResultMarkdownBuilder {
 
     private baselineInfo = (baselineFileName: string, baselineEvaluation?: BaselineEvaluation, failedChecks?: number): string => {
         const baseliningDocsLink = link('temporarily-empty', 'baselining docs'); // TODO update link
-        const baselineHelpText = `A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See ${baseliningDocsLink} for more.`;
+        const scanArgumentsLink = link('temporarily-empty', 'scan arguments'); // TODO update link
+        const baselineNotConfiguredHelpText = `A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See ${baseliningDocsLink} for more.`;
+        const baselineNotDetectedHelpText = `To update the baseline with these changes, copy the updated baseline file to ${scanArgumentsLink}. See ${baseliningDocsLink} for more.`;
         let lines = [''];
 
         if (baselineFileName === undefined) {
-            lines = [bold('Baseline not detected'), sectionSeparator(), baselineHelpText];
-        } else if (baselineEvaluation !== undefined) {
+            lines = [bold('Baseline not configured'), sectionSeparator(), baselineNotConfiguredHelpText];
+        } else if (baselineEvaluation === undefined) {
+            lines = [bold('Baseline not detected'), sectionSeparator(), baselineNotDetectedHelpText];
+        } else {
             const baselineFailures = baselineEvaluation.totalBaselineViolations;
-            if (baselineFailures === undefined) {
-                lines = [bold('Baseline not detected'), sectionSeparator(), baselineHelpText];
+            if (baselineFailures === undefined || (baselineFailures === 0 && failedChecks > 0)) {
+                lines = [bold('Baseline not detected'), sectionSeparator(), baselineNotDetectedHelpText];
             } else if (baselineFailures > 0) {
                 const headingWithBaselineFailures = `${baselineFailures} failure instances in baseline`;
                 let baselineFailuresHelpText = `not shown; see ${baseliningDocsLink}`;
@@ -191,7 +197,11 @@ export class ResultMarkdownBuilder {
                 const ruleDescription = failuresGroup.failed[0].rule.description;
                 return [this.failedRuleListItemBaseline(failureCount, ruleId, ruleDescription), sectionSeparator()].join('');
             });
-            lines = [sectionSeparator(), bold(`${failedChecks} failure instances`), sectionSeparator(), ...failedRulesList];
+            let failureInstancesHeading = `${failedChecks} failure instances`;
+            if (baselineEvaluation !== undefined && baselineEvaluation.totalBaselineViolations > 0) {
+                failureInstancesHeading = failureInstancesHeading.concat(' not in baseline');
+            }
+            lines = [sectionSeparator(), bold(failureInstancesHeading), sectionSeparator(), ...failedRulesList];
         }
 
         return lines.join('');
@@ -223,7 +233,7 @@ export class ResultMarkdownBuilder {
     private downloadArtifactsWithLink(failedChecks: number, baselineEvaluation?: BaselineEvaluation): string {
         const artifactsLink = link('temporarily-empty', 'run artifacts'); // TODO update link
         let details = 'all failures and scan details';
-        if (failedChecks === 0 && baselineEvaluation !== undefined && baselineEvaluation.totalBaselineViolations === 0) {
+        if (failedChecks === 0 && baselineEvaluation !== undefined && !baselineEvaluation.totalBaselineViolations) {
             details = 'scan details';
         }
         return `See ${details} by downloading the report from ${artifactsLink}`;
