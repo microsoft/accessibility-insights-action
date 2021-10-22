@@ -99,7 +99,11 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         const baselineFileName = this.adoTaskConfig.getBaselineFile();
 
         if (baselineFileName === undefined) {
-            reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE, canBaseline);
+            reportMarkdown = this.reportMarkdownConvertor.convert(
+                combinedReportResult,
+                AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                canBaseline,
+            );
         } else {
             reportMarkdown = this.reportMarkdownConvertor.convert(
                 combinedReportResult,

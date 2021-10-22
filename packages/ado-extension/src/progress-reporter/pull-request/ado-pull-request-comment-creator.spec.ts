@@ -272,7 +272,13 @@ describe(ADOPullRequestCommentCreator, () => {
             reportMarkdownConvertorMock.reset();
             reportMarkdownConvertorMock
                 .setup((o) =>
-                    o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, canBaseline, 'baseline-file', baselineEvaluationStub),
+                    o.convert(
+                        reportStub,
+                        ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+                        canBaseline,
+                        'baseline-file',
+                        baselineEvaluationStub,
+                    ),
                 )
                 .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
                 .verifiable(Times.once());

@@ -47,7 +47,8 @@ export class ResultMarkdownBuilder {
             this.failureDetails(combinedReportResult),
         ];
 
-        if (canBaseline) { // baselining is available
+        // baselining is available
+        if (canBaseline) {
             lines = [
                 this.headingWithMessage(),
                 sectionSeparator(),

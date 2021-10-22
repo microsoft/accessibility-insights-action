@@ -37,14 +37,18 @@ describe(ReportMarkdownConvertor, () => {
 
     describe('convert', () => {
         it('report', () => {
-            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined, undefined, undefined)).verifiable();
+            resultMarkdownBuilderMock
+                .setup((o) => o.buildContent(combinedReportResult, undefined, undefined, undefined, undefined))
+                .verifiable();
 
             reportMarkdownConvertor.convert(combinedReportResult);
         });
 
         it('report with title', () => {
             const title = 'some title';
-            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined, undefined, undefined)).verifiable();
+            resultMarkdownBuilderMock
+                .setup((o) => o.buildContent(combinedReportResult, title, undefined, undefined, undefined))
+                .verifiable();
 
             reportMarkdownConvertor.convert(combinedReportResult, title);
         });
