@@ -7,7 +7,7 @@ import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as nodeApi from 'azure-devops-node-api';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 
-import { It, Mock, Times, IMock, MockBehavior } from 'typemoq';
+import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import {
     AdoPullRequestCommentCreator as ADOPullRequestCommentCreator,
     AdoPullRequestCommentCreator,
