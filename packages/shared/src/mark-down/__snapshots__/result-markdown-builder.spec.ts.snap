@@ -50,7 +50,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are basel
 **1 failure instances in baseline**
 (not shown; see [baselining docs](temporarily-empty) for how to include new failures into the baseline)
 
-See all failures and scan details by downloading the report from [run artifacts](temporarily-empty)
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
@@ -71,7 +71,7 @@ No failures were detected by automatic scanning except those which exist in the 
 **1 failure instances in baseline**
 (not shown; see [baselining docs](temporarily-empty))
 
-See all failures and scan details by downloading the report from [run artifacts](temporarily-empty)
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
@@ -90,9 +90,9 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are new f
 * (1) **rule id 2**:  rule description 2
 
 **Baseline not detected**
-To update the baseline with these changes, copy the updated baseline file to [scan arguments](temporarily-empty). See [baselining docs](temporarily-empty) for more.
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](temporarily-empty) for more.
 
-See all failures and scan details by downloading the report from [run artifacts](temporarily-empty)
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
@@ -111,9 +111,9 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are new f
 * (1) **rule id 2**:  rule description 2
 
 **Baseline not detected**
-To update the baseline with these changes, copy the updated baseline file to [scan arguments](temporarily-empty). See [baselining docs](temporarily-empty) for more.
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](temporarily-empty) for more.
 
-See all failures and scan details by downloading the report from [run artifacts](temporarily-empty)
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
@@ -133,7 +133,7 @@ No failures were detected by automatic scanning.
 
 
 
-See scan details by downloading the report from [run artifacts](temporarily-empty)
+See scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
@@ -154,7 +154,7 @@ No failures were detected by automatic scanning.
 **Baseline not configured**
 A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](temporarily-empty) for more.
 
-See scan details by downloading the report from [run artifacts](temporarily-empty)
+See scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
@@ -173,9 +173,9 @@ No failures were detected by automatic scanning.
 **:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 **Baseline not detected**
-To update the baseline with these changes, copy the updated baseline file to [scan arguments](temporarily-empty). See [baselining docs](temporarily-empty) for more.
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](temporarily-empty) for more.
 
-See all failures and scan details by downloading the report from [run artifacts](temporarily-empty)
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
@@ -196,7 +196,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there is no bas
 **Baseline not configured**
 A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](temporarily-empty) for more.
 
-See all failures and scan details by downloading the report from [run artifacts](temporarily-empty)
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
