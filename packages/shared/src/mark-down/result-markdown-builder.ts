@@ -49,7 +49,7 @@ export class ResultMarkdownBuilder {
                 sectionSeparator(),
                 this.failureDetailsBaseline(combinedReportResult, failedChecks, baselineInfo.baselineEvaluation),
                 sectionSeparator(),
-                this.baselineInfo(baselineInfo.baselineFileName, baselineInfo.baselineEvaluation, failedChecks),
+                this.baselineDetails(baselineInfo, failedChecks),
                 sectionSeparator(),
                 sectionSeparator(),
                 this.downloadArtifactsWithLink(failedChecks, baselineInfo.baselineEvaluation),
@@ -84,7 +84,9 @@ export class ResultMarkdownBuilder {
         return heading(`${productTitle()}`, 3);
     };
 
-    private baselineInfo = (baselineFileName: string, baselineEvaluation?: BaselineEvaluation, failedChecks?: number): string => {
+    private baselineDetails = (baselineInfo: BaselineInfo, failedChecks?: number): string => {
+        const baselineFileName = baselineInfo.baselineFileName;
+        const baselineEvaluation = baselineInfo.baselineEvaluation;
         const baseliningDocsLink = link('temporarily-empty', 'baselining docs'); // TODO update link
         const scanArgumentsLink = link('temporarily-empty', 'scan arguments'); // TODO update link
         const baselineNotConfiguredHelpText = `A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See ${baseliningDocsLink} for more.`;
