@@ -3,6 +3,7 @@
 
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { injectable } from 'inversify';
+import { BaselineInfo } from '../baseline-info';
 import { BaselineEvaluation } from '../baseline-types';
 import { brand } from '../content/strings';
 import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
@@ -20,13 +21,7 @@ export class ResultMarkdownBuilder {
         return this.scanResultDetails(lines.join(''));
     }
 
-    public buildContent(
-        combinedReportResult: CombinedReportParameters,
-        title?: string,
-        canBaseline?: boolean,
-        baselineFileName?: string,
-        baselineEvaluation?: BaselineEvaluation,
-    ): string {
+    public buildContent(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
@@ -48,16 +43,16 @@ export class ResultMarkdownBuilder {
         ];
 
         // baselining is available
-        if (canBaseline) {
+        if (baselineInfo !== undefined) {
             lines = [
                 this.headingWithMessage(),
                 sectionSeparator(),
-                this.failureDetailsBaseline(combinedReportResult, failedChecks, baselineEvaluation),
+                this.failureDetailsBaseline(combinedReportResult, failedChecks, baselineInfo.baselineEvaluation),
                 sectionSeparator(),
-                this.baselineInfo(baselineFileName, baselineEvaluation, failedChecks),
+                this.baselineInfo(baselineInfo.baselineFileName, baselineInfo.baselineEvaluation, failedChecks),
                 sectionSeparator(),
                 sectionSeparator(),
-                this.downloadArtifactsWithLink(failedChecks, baselineEvaluation),
+                this.downloadArtifactsWithLink(failedChecks, baselineInfo.baselineEvaluation),
                 sectionSeparator(),
                 sectionSeparator(),
                 footerSeparator(),

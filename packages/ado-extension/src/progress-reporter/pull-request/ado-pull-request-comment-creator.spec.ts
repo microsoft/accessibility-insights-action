@@ -17,6 +17,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/dist/baseline-types';
+import { BaselineInfo} from '@accessibility-insights-action/shared/dist/baseline-info';
 
 describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;
@@ -263,23 +264,18 @@ describe(ADOPullRequestCommentCreator, () => {
                 status: GitInterfaces.CommentThreadStatus.Active,
             };
 
-            const canBaseline = true;
             const baselineEvaluationStub = {
                 suggestedBaselineUpdate: {} as BaselineFileContent,
             } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName: 'baseline-file',
+                baselineEvaluation: baselineEvaluationStub,
+            };
 
             setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
             reportMarkdownConvertorMock.reset();
             reportMarkdownConvertorMock
-                .setup((o) =>
-                    o.convert(
-                        reportStub,
-                        ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
-                        canBaseline,
-                        'baseline-file',
-                        baselineEvaluationStub,
-                    ),
-                )
+                .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, baselineInfo))
                 .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
                 .verifiable(Times.once());
             loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
@@ -513,8 +509,9 @@ describe(ADOPullRequestCommentCreator, () => {
         threadsStub: GitInterfaces.GitPullRequestCommentThread[],
     ) => {
         makeGitApiMockThenable();
+        const baselineInfoStub = {};
         reportMarkdownConvertorMock
-            .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, true))
+            .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, baselineInfoStub))
             .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
             .verifiable(Times.once());
         adoTaskMock

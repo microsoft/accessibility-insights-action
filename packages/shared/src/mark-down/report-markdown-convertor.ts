@@ -2,22 +2,16 @@
 // Licensed under the MIT License.
 
 import { inject, injectable } from 'inversify';
-import { BaselineEvaluation } from '../baseline-types';
 import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { BaselineInfo } from '../baseline-info';
 
 @injectable()
 export class ReportMarkdownConvertor {
     constructor(@inject(ResultMarkdownBuilder) private readonly checkResultMarkdownBuilder: ResultMarkdownBuilder) {}
 
-    public convert(
-        combinedReportResult: CombinedReportParameters,
-        title?: string,
-        canBaseline?: boolean,
-        baselineFileName?: string,
-        baselineEvaluation?: BaselineEvaluation,
-    ): string {
-        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, canBaseline, baselineFileName, baselineEvaluation);
+    public convert(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
+        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, baselineInfo);
     }
 
     public getErrorMarkdown(): string {

@@ -7,6 +7,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as axe from 'axe-core';
 import * as path from 'path';
 import { BaselineEvaluation } from '../baseline-types';
+import { BaselineInfo } from '../baseline-info';
 
 describe(ResultMarkdownBuilder, () => {
     let combinedReportResult: CombinedReportParameters;
@@ -129,13 +130,16 @@ describe(ResultMarkdownBuilder, () => {
     });
 
     describe('with baseline', () => {
-        const canBaseline = true;
         let baselineFileName = 'baseline file';
 
         it('builds content when there are baseline failures and new failures', () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 1,
             } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
             combinedReportResult = {
                 axeVersion: 'axeVersion',
                 userAgent: 'userAgent',
@@ -160,13 +164,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(
-                combinedReportResult,
-                undefined,
-                canBaseline,
-                baselineFileName,
-                baselineEvaluation,
-            );
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -175,6 +173,10 @@ describe(ResultMarkdownBuilder, () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 1,
             } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
             combinedReportResult = {
                 axeVersion: 'axeVersion',
                 userAgent: 'userAgent',
@@ -192,13 +194,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(
-                combinedReportResult,
-                undefined,
-                canBaseline,
-                baselineFileName,
-                baselineEvaluation,
-            );
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -207,6 +203,10 @@ describe(ResultMarkdownBuilder, () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 0,
             } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
             combinedReportResult = {
                 axeVersion: 'axeVersion',
                 userAgent: 'userAgent',
@@ -224,13 +224,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(
-                combinedReportResult,
-                undefined,
-                canBaseline,
-                baselineFileName,
-                baselineEvaluation,
-            );
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -239,6 +233,10 @@ describe(ResultMarkdownBuilder, () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 0,
             } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
             combinedReportResult = {
                 axeVersion: 'axeVersion',
                 userAgent: 'userAgent',
@@ -263,19 +261,17 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(
-                combinedReportResult,
-                undefined,
-                canBaseline,
-                baselineFileName,
-                baselineEvaluation,
-            );
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
         });
 
         it('builds content when there are no new failures and no baseline detected', () => {
             const baselineEvaluation: BaselineEvaluation = undefined;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
             combinedReportResult = {
                 axeVersion: 'axeVersion',
                 userAgent: 'userAgent',
@@ -293,19 +289,17 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(
-                combinedReportResult,
-                undefined,
-                canBaseline,
-                baselineFileName,
-                baselineEvaluation,
-            );
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
         });
 
         it('builds content when there are new failures and no baseline detected', () => {
             const baselineEvaluation: BaselineEvaluation = undefined;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
             combinedReportResult = {
                 axeVersion: 'axeVersion',
                 userAgent: 'userAgent',
@@ -330,13 +324,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(
-                combinedReportResult,
-                undefined,
-                canBaseline,
-                baselineFileName,
-                baselineEvaluation,
-            );
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -344,6 +332,10 @@ describe(ResultMarkdownBuilder, () => {
         it('builds content when there is no baseline configured', () => {
             baselineFileName = undefined;
             const baselineEvaluation: BaselineEvaluation = undefined;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
             combinedReportResult = {
                 axeVersion: 'axeVersion',
                 userAgent: 'userAgent',
@@ -368,13 +360,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(
-                combinedReportResult,
-                undefined,
-                canBaseline,
-                baselineFileName,
-                baselineEvaluation,
-            );
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -383,6 +369,10 @@ describe(ResultMarkdownBuilder, () => {
             const baselineEvaluation = {
                 totalBaselineViolations: undefined,
             } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
             combinedReportResult = {
                 axeVersion: 'axeVersion',
                 userAgent: 'userAgent',
@@ -400,13 +390,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(
-                combinedReportResult,
-                undefined,
-                canBaseline,
-                baselineFileName,
-                baselineEvaluation,
-            );
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
         });

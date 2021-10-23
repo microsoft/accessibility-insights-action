@@ -37,32 +37,26 @@ describe(ReportMarkdownConvertor, () => {
 
     describe('convert', () => {
         it('report', () => {
-            resultMarkdownBuilderMock
-                .setup((o) => o.buildContent(combinedReportResult, undefined, undefined, undefined, undefined))
-                .verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined)).verifiable();
 
             reportMarkdownConvertor.convert(combinedReportResult);
         });
 
         it('report with title', () => {
             const title = 'some title';
-            resultMarkdownBuilderMock
-                .setup((o) => o.buildContent(combinedReportResult, title, undefined, undefined, undefined))
-                .verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined)).verifiable();
 
             reportMarkdownConvertor.convert(combinedReportResult, title);
         });
 
-        it('report with title and baseline', () => {
-            const title = 'some title';
-            const canBaseline = true;
-            const baselineFileName = 'some filename';
-            const baselineEvaluationStub = {} as BaselineEvaluation;
-            resultMarkdownBuilderMock
-                .setup((o) => o.buildContent(combinedReportResult, title, canBaseline, baselineFileName, baselineEvaluationStub))
-                .verifiable();
+        it('report with baseline', () => {
+            const baselineInfo = {
+                baselineFileName: 'some filename',
+                baselineEvaluationStub: {} as BaselineEvaluation,
+            };
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, baselineInfo)).verifiable();
 
-            reportMarkdownConvertor.convert(combinedReportResult, title, canBaseline, baselineFileName, baselineEvaluationStub);
+            reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
         });
     });
 
