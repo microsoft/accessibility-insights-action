@@ -18,6 +18,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/dist/baseline-types';
 import { BaselineInfo } from '@accessibility-insights-action/shared/dist/baseline-info';
+import { ADOArtifactsInfoProvider } from '../../task-config/ado-artifacts-info-provider';
 
 describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;
@@ -27,6 +28,7 @@ describe(ADOPullRequestCommentCreator, () => {
     let nodeApiMock: IMock<typeof nodeApi>;
     let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
     let webApiMock: IMock<nodeApi.WebApi>;
+    let artifactsInfoProviderMock: IMock<ADOArtifactsInfoProvider>;
     let prCommentCreator: ADOPullRequestCommentCreator;
 
     const handlerStub = {
@@ -325,6 +327,7 @@ describe(ADOPullRequestCommentCreator, () => {
     const buildPrCommentCreatorWithMocks = () =>
         new ADOPullRequestCommentCreator(
             adoTaskConfigMock.object,
+            artifactsInfoProviderMock.object,
             reportMarkdownConvertorMock.object,
             loggerMock.object,
             adoTaskMock.object,

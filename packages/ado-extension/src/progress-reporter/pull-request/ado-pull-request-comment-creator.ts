@@ -15,6 +15,7 @@ import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
 import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/src/baseline-types';
 import { BaselineInfo } from '@accessibility-insights-action/shared/src/baseline-info';
+import { ADOArtifactsInfoProvider } from '../../task-config/ado-artifacts-info-provider';
 
 @injectable()
 export class AdoPullRequestCommentCreator extends ProgressReporter {
@@ -24,6 +25,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
 
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
+        @inject(ADOArtifactsInfoProvider) private readonly artifactsInfoProvider: ADOArtifactsInfoProvider,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Logger) private readonly logger: Logger,
         @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
@@ -99,6 +101,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             combinedReportResult,
             AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
             this.getBaselineInfo(baselineEvaluation),
+            this.artifactsInfoProvider,
         );
         this.traceMarkdown(reportMarkdown);
 

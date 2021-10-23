@@ -8,6 +8,8 @@ import * as axe from 'axe-core';
 import * as path from 'path';
 import { BaselineEvaluation } from '../baseline-types';
 import { BaselineInfo } from '../baseline-info';
+import { ArtifactsInfoProvider } from '../artifacts-info-provider';
+import { IMock, Mock, MockBehavior, Times } from 'typemoq';
 
 describe(ResultMarkdownBuilder, () => {
     let combinedReportResult: CombinedReportParameters;
@@ -130,7 +132,13 @@ describe(ResultMarkdownBuilder, () => {
     });
 
     describe('with baseline', () => {
+        let artifactsInfoProviderMock: IMock<ArtifactsInfoProvider>;
         let baselineFileName = 'baseline file';
+
+        beforeEach(() => {
+            artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
+            artifactsInfoProviderMock.setup(aip => aip.getArtifactsUrl()).returns(() => 'artifacts-url').verifiable(Times.atLeastOnce());
+        });
 
         it('builds content when there are baseline failures and new failures', () => {
             const baselineEvaluation = {
@@ -164,7 +172,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo, artifactsInfoProviderMock.object);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -194,7 +202,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo, artifactsInfoProviderMock.object);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -224,7 +232,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo, artifactsInfoProviderMock.object);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -261,7 +269,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo, artifactsInfoProviderMock.object);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -289,7 +297,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo, artifactsInfoProviderMock.object);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -324,7 +332,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo, artifactsInfoProviderMock.object);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -360,7 +368,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo, artifactsInfoProviderMock.object);
 
             expect(actualContent).toMatchSnapshot();
         });
@@ -390,7 +398,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             } as CombinedReportParameters;
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo, artifactsInfoProviderMock.object);
 
             expect(actualContent).toMatchSnapshot();
         });
