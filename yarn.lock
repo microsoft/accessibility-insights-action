@@ -2555,6 +2555,21 @@ accessibility-insights-report@4.1.5:
     react-helmet "^6.1.0"
     uuid "^8.3.2"
 
+accessibility-insights-report@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.2.0.tgz#3b454debf9e752504511ed880bbefabd2c1d5240"
+  integrity sha512-6UOH1WehCG8xdESpFa9l1CPhzLmN9Xp+G23CD2qNED3ErLvicCaJ+ymE2sRaBhtxia2twUx+k6A+jqznb1H2Ag==
+  dependencies:
+    axe-core "4.3.2"
+    classnames "^2.3.1"
+    lodash "^4.17.21"
+    luxon "^2.0.2"
+    office-ui-fabric-react "7.98.1"
+    react "^16.14.0"
+    react-dom "^16.14.0"
+    react-helmet "^6.1.0"
+    uuid "^8.3.2"
+
 accessibility-insights-scan@0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-0.9.0.tgz#d41ea2fb528cd4dee89d7a698d21617d147e70c0"
@@ -8634,6 +8649,23 @@ office-ui-fabric-react@7.98.0:
   version "7.98.0"
   resolved "https://registry.yarnpkg.com/office-ui-fabric-react/-/office-ui-fabric-react-7.98.0.tgz#81a1c539fa1cb59a55e2661eb66b4880eb096dae"
   integrity sha512-IRugms2gN6AVkaZ9ff63nU6fXn3b0uaoEuYoe5nYaoXp9zZOIjr2QweiiWw99x2O8euC48CJGNzZdJ8ic9Y2rw==
+  dependencies:
+    "@fluentui/react-focus" "^7.1.0"
+    "@microsoft/load-themed-styles" "^1.10.26"
+    "@uifabric/foundation" "^7.5.14"
+    "@uifabric/icons" "^7.3.13"
+    "@uifabric/merge-styles" "^7.8.6"
+    "@uifabric/react-hooks" "^7.0.15"
+    "@uifabric/set-version" "^7.0.5"
+    "@uifabric/styling" "^7.10.14"
+    "@uifabric/utilities" "^7.12.5"
+    prop-types "^15.7.2"
+    tslib "^1.10.0"
+
+office-ui-fabric-react@7.98.1:
+  version "7.98.1"
+  resolved "https://registry.yarnpkg.com/office-ui-fabric-react/-/office-ui-fabric-react-7.98.1.tgz#687778890cf9ccba47166749211a81d67be1d69f"
+  integrity sha512-Lr8iAIiWcDzKqBnCGk8m62c9fyJ96TzQxvNuCB6V89J5YAFJKXb1GwSKxKJATvP5qSCYF78UpvIPFdsJLiGqKw==
   dependencies:
     "@fluentui/react-focus" "^7.1.0"
     "@microsoft/load-themed-styles" "^1.10.26"
