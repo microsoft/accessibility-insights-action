@@ -95,26 +95,11 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             return;
         }
 
-        let reportMarkdown: string;
-        const baselineFileName = this.adoTaskConfig.getBaselineFile();
-
-        if (baselineFileName === undefined) {
-            reportMarkdown = this.reportMarkdownConvertor.convert(
-                combinedReportResult,
-                AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
-                {},
-            );
-        } else {
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            reportMarkdown = this.reportMarkdownConvertor.convert(
-                combinedReportResult,
-                AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
-                baselineInfo,
-            );
-        }
+        const reportMarkdown = this.reportMarkdownConvertor.convert(
+            combinedReportResult,
+            AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+            this.getBaselineInfo(baselineEvaluation),
+        );
         this.traceMarkdown(reportMarkdown);
 
         const prId = parseInt(this.getVariableOrThrow('System.PullRequest.PullRequestId'));
@@ -190,6 +175,16 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         }
 
         throw message;
+    }
+
+    private getBaselineInfo(baselineEvaluation?: BaselineEvaluation): BaselineInfo {
+        const baselineFileName = this.adoTaskConfig.getBaselineFile();
+
+        if (!baselineFileName) {
+            return {} as BaselineInfo;
+        }
+
+        return { baselineFileName, baselineEvaluation };
     }
 
     private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {
