@@ -13,8 +13,8 @@ import * as NodeApi from 'azure-devops-node-api';
 import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
-import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/src/baseline-types';
-import { BaselineInfo } from '@accessibility-insights-action/shared/src/baseline-info';
+import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/dist/baseline-types';
+import { BaselineInfo } from '@accessibility-insights-action/shared/dist/baseline-info';
 import { ADOArtifactsInfoProvider } from '../../task-config/ado-artifacts-info-provider';
 
 @injectable()
