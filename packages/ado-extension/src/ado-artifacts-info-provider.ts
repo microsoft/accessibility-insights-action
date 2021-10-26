@@ -20,6 +20,6 @@ export class ADOArtifactsInfoProvider extends ArtifactsInfoProvider {
     }
 
     public getCommitHash(): string | undefined {
-        return this.adoTaskConfig.getCommitHash();
+        return this.adoTaskConfig.getCommitHash()?.substring(0, 8);
     }
 }

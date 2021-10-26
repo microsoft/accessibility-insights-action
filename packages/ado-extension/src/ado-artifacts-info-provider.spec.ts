@@ -31,10 +31,11 @@ describe(ADOArtifactsInfoProvider, () => {
         expect(actualArtifactsUrl).toEqual(expectedArtifactsUrl);
     });
 
-    it('getCommitHash gets the commit hash from the adoTaskConfig', () => {
-        const commitHashStub = 'abcd1234';
+    it('getCommitHash returns expected commit hash from the adoTaskConfig', () => {
+        const commitHashStub = 'abcd1234efgh5678ijklmno';
+        const truncatedCommitHashStub = 'abcd1234';
         adoTaskConfigMock.setup(atc => atc.getCommitHash()).returns(() => commitHashStub).verifiable(Times.once());
 
-        expect(adoArtifactsInfoProvider.getCommitHash()).toEqual(commitHashStub);
-    })
+        expect(adoArtifactsInfoProvider.getCommitHash()).toEqual(truncatedCommitHashStub);
+    });
 });
