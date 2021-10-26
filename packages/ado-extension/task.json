@@ -122,9 +122,7 @@
             "name": "singleWorker",
             "type": "boolean",
             "label": "Uses a single crawler worker.",
-            "required": true,
-            "defaultValue": true,
-            "helpMarkDown": "To get deterministic scanning results, either specify the singleWorker parameter or ensure that the value specified for the maxUrls parameter is larger than the total number of urls in the web site being scanned."
+            "helpMarkDown": "To get deterministic scanning results, either specify the singleWorker parameter or ensure that the value specified for the maxUrls parameter is larger than the total number of urls in the web site being scanned. Default is true."
         }
     ],
     "execution": {
