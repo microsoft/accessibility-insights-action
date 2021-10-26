@@ -171,7 +171,7 @@ export class ResultMarkdownBuilder {
             let failureDetailsHeading = `${checkMark} No failures detected`;
             let failureDetailsDescription = `No failures were detected by automatic scanning.`;
             if (baselineEvaluation !== undefined && baselineEvaluation.totalBaselineViolations > 0) {
-                failureDetailsHeading = `${checkMark} No failures not in baseline`;
+                failureDetailsHeading = `${checkMark} No new failures`;
                 failureDetailsDescription = 'No failures were detected by automatic scanning except those which exist in the baseline.';
             }
             const nextStepHeading = `${pointRight} Next step:`;
