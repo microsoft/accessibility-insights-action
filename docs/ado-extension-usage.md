@@ -41,7 +41,7 @@ steps:
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
       displayName: Upload report artifact
-      condition: always()
+      condition: succeededOrFailed()
       artifact: 'accessibility-reports'
 ```
 
@@ -156,7 +156,7 @@ You can choose to block pull requests if the extension finds accessibility issue
 
 1. Ensure the extension is [triggered on each pull request](https://docs.microsoft.com/en-us/azure/devops/pipelines/customize-pipeline?view=azure-devops#customize-ci-triggers).
 2. Ensure that you have set the `failOnAccessibilityError` input variable to `true`.
-3. Ensure that the `Upload report artifact` step is [set to always run](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml)
+3. Ensure that the `Upload report artifact` step runs even in failure cases using [**succeededOrFailed()**](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml)
 
 ## Troubleshooting
 
