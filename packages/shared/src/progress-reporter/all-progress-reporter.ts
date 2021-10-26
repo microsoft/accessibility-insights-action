@@ -6,6 +6,7 @@ import { ProgressReporter } from './progress-reporter';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { iocTypes } from '../ioc/ioc-types';
 import { BaselineEvaluation } from '../baseline-types';
+import { Logger } from '../logger/logger';
 
 @injectable()
 export class AllProgressReporter extends ProgressReporter {
@@ -13,8 +14,8 @@ export class AllProgressReporter extends ProgressReporter {
         super();
     }
 
-    public async start(): Promise<void> {
-        await this.execute((r) => r.start());
+    public async start(logger?: Logger): Promise<void> {
+        await this.execute((r) => r.start(), logger);
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
@@ -29,10 +30,13 @@ export class AllProgressReporter extends ProgressReporter {
         await this.execute((r) => r.failRun(message));
     }
 
-    private async execute(callback: (reporter: ProgressReporter) => Promise<void>): Promise<void> {
+    private async execute(callback: (reporter: ProgressReporter) => Promise<void>, logger?: Logger): Promise<void> {
         const length = this.progressReporters.length;
+        logger?.logInfo(`DHT - Found ${length} reporters`);
         for (let pos = 0; pos < length; pos += 1) {
-            await callback(this.progressReporters[pos]);
+            const reporter: ProgressReporter = this.progressReporters[pos];
+            logger?.logInfo(`DHT - calling reporter # ${pos}`);
+            await callback(reporter);
         }
     }
 }
