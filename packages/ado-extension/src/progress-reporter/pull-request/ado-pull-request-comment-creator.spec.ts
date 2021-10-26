@@ -18,7 +18,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/dist/baseline-types';
 import { BaselineInfo } from '@accessibility-insights-action/shared/dist/baseline-info';
-import { ADOArtifactsInfoProvider } from '../../task-config/ado-artifacts-info-provider';
+import { ADOArtifactsInfoProvider } from '../../ado-artifacts-info-provider';
 
 describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;

@@ -4,7 +4,7 @@ import { ArtifactsInfoProvider } from '@accessibility-insights-action/shared/dis
 import { inject, injectable } from 'inversify';
 
 import normalizePath from 'normalize-path';
-import { ADOTaskConfig } from './ado-task-config';
+import { ADOTaskConfig } from './task-config/ado-task-config';
 
 @injectable()
 export class ADOArtifactsInfoProvider extends ArtifactsInfoProvider {
