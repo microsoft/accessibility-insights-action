@@ -104,8 +104,7 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getSingleWorker(): boolean {
-        const value = this.adoTaskObj.getBoolInput('singleWorker');
-        return isEmpty(value) ? true : value;
+        return this.adoTaskObj.getBoolInput('singleWorker');
     }
 
     public getBaselineFile(): string | undefined {
