@@ -107,6 +107,43 @@ Examples:
       inputUrls: 'http://localhost:12345/unlinked-page.html'
 ```
 
+## Using a baseline file
+
+Baseline files are intended to make it easy to detect accessibility changes introduced by a PR. A baseline file exists in the repo and represents the last known accessibility scan results. During each PR, the scanner runs on the PR output and compares the results to the baseline file. Any difference represents changes that are caused by the PR in question. The PR author then chooses between changing the code (if the change was unintended) or updating the baseline file (if the change was intended). The workflow is as follows:
+
+1. The accessibility scanner runs on each PR iteration.
+2. If the scanner results match the baseline file, the scanner task succeeds. There is no need to modify the baseline file for these PR's.
+3. If the scanner results do not match the baseline file, the scanner task fails and creates an updated baseline file. If the author chooses to update the baseline file, they download the updated baseline file from the build artifacts, incorporate it into the PR, and push a new commit. This triggers a new PR iteration where the baseline file should now be current.
+
+For a commit that initially specifies a baseline file, the scanner will fail in step2. Download the updated baseline file, incorporate it into the PR, and push the result.
+
+### Baseline files
+
+Each baseline file is a text-based file hosted in your repo. It tracks known accessibility violations. If your pipeline runs PR's in multiple environments (different browsers and/or operating systems), you should use a separate baseline file for each environment. This allows for a clear signal of how each environment is impacted by any specific change. Even though the baseline file is textual, merging of this file is strongly discouraged. In the case where the baseline file has been modified by competing commits, the safest option is to merge changes from **main** and simply accept the current **main** version of the baseline file, then push that change to the PR. This will trigger a new scan and ensure that any accessibility scan results that are reported are limited to those related to the current PR.
+
+The baseline file is specified as a parameter to the scanning task, as shown below.
+
+### Publishing baseline files
+
+When the scanning tool fails, it creates a new baseline file--reflecting the current accessibility scanner results--on the disk of the build machine. This file has the same filename as the input baseline file. You must configure your pipeline to publish the updated baseline file as an artifact so that the PR author can easily access the updated baseline file. The recommended practice is to publish the entire scanner's output folder on every iteration, _including iterations where the accessibility scanner task failed_. This will provide the combined accessibility scan results on _every_ build, as well as the modified baseline file when changes are required.
+
+### Example YAML
+
+Here is an example of a YAML file that is configured to take advantage of a baseline, assuming just one environment:
+
+```yml
+- task: accessibility-insights.prod.task.accessibility-insights@1
+  displayName: Scan for accessibility issues
+  inputs:
+      url: 'http://localhost:12345/'
+      baselineFile: '$(Build.SourcesDirectory)/baselines/my-web-site.baseline'
+
+- publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
+  displayName: Upload report artifacts
+  condition: succeededOrFailed()
+  artifact: 'accessibility-reports'
+```
+
 ## Viewing results
 
 -   An HTML report containing detailed results is saved to disk. To view it, you need to have added the step to upload artifacts to your yml file (see [Basic template](#basic-template)). Navigate to Artifacts from the build. Under `accessibility-reports`, you'll find the downloadable report labeled `index.html`.
