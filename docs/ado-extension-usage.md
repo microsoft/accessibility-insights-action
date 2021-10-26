@@ -121,7 +121,7 @@ For a commit that initially specifies a baseline file, the scanner will fail in 
 
 Each baseline file is a text-based file hosted in your repo. It tracks known accessibility violations. If your pipeline runs PR's in multiple environments (different browsers and/or operating systems), you should use a separate baseline file for each environment. This allows for a clear signal of how each environment is impacted by any specific change. Even though the baseline file is textual, merging of this file is strongly discouraged. In the case where the baseline file has been modified by competing commits, the safest option is to merge changes from **main** and simply accept the current **main** version of the baseline file, then push that change to the PR. This will trigger a new scan and ensure that any accessibility scan results that are reported are limited to those related to the current PR.
 
-The baseline file is specified as a parameter to the scanning task, as shown below.
+The baseline file is specified as a parameter to the scanning task, as shown in the YAML below.
 
 ### Publishing baseline files
 
