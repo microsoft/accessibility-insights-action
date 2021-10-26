@@ -24,6 +24,7 @@ export type BaselineEvaluation = {
     fixedViolationsByRule: CountsByRule;
     totalNewViolations: number;
     totalFixedViolations: number;
+    totalBaselineViolations?: number;
 };
 
 export type BaselineResult = {

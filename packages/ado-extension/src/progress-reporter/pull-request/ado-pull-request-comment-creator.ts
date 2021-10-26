@@ -14,6 +14,7 @@ import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
 import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/src/baseline-types';
+import { BaselineInfo } from '@accessibility-insights-action/shared/src/baseline-info';
 
 @injectable()
 export class AdoPullRequestCommentCreator extends ProgressReporter {
@@ -97,6 +98,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         const reportMarkdown = this.reportMarkdownConvertor.convert(
             combinedReportResult,
             AdoPullRequestCommentCreator.CURRENT_COMMENT_TITLE,
+            this.getBaselineInfo(baselineEvaluation),
         );
         this.traceMarkdown(reportMarkdown);
 
@@ -173,6 +175,16 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         }
 
         throw message;
+    }
+
+    private getBaselineInfo(baselineEvaluation?: BaselineEvaluation): BaselineInfo {
+        const baselineFileName = this.adoTaskConfig.getBaselineFile();
+
+        if (!baselineFileName) {
+            return {} as BaselineInfo;
+        }
+
+        return { baselineFileName, baselineEvaluation };
     }
 
     private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {

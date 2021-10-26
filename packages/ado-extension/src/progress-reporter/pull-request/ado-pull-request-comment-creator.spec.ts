@@ -7,7 +7,7 @@ import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as nodeApi from 'azure-devops-node-api';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 
-import { It, Mock, Times, IMock, MockBehavior } from 'typemoq';
+import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import {
     AdoPullRequestCommentCreator as ADOPullRequestCommentCreator,
     AdoPullRequestCommentCreator,
@@ -17,6 +17,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/dist/baseline-types';
+import { BaselineInfo } from '@accessibility-insights-action/shared/dist/baseline-info';
 
 describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;
@@ -193,6 +194,7 @@ describe(ADOPullRequestCommentCreator, () => {
             gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
             setupFailOnAccessibilityError(false);
+            setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -217,6 +219,7 @@ describe(ADOPullRequestCommentCreator, () => {
             gitApiMock.setup((o) => o.createComment(newComment, repoId, prId, threadId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
             setupFailOnAccessibilityError(true);
+            setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -244,6 +247,7 @@ describe(ADOPullRequestCommentCreator, () => {
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
             setupFailOnAccessibilityError(true);
+            setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
@@ -263,8 +267,17 @@ describe(ADOPullRequestCommentCreator, () => {
             const baselineEvaluationStub = {
                 suggestedBaselineUpdate: {} as BaselineFileContent,
             } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName: 'baseline-file',
+                baselineEvaluation: baselineEvaluationStub,
+            };
 
             setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
+            reportMarkdownConvertorMock.reset();
+            reportMarkdownConvertorMock
+                .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, baselineInfo))
+                .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
+                .verifiable(Times.once());
             loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
@@ -272,6 +285,7 @@ describe(ADOPullRequestCommentCreator, () => {
             setupBaselineFileParameterExists();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
+
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
             await expect(prCommentCreator.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
@@ -342,7 +356,14 @@ describe(ADOPullRequestCommentCreator, () => {
     const setupBaselineFileParameterExists = () => {
         adoTaskConfigMock
             .setup((o) => o.getBaselineFile())
-            .returns(() => It.isAnyString())
+            .returns(() => 'baseline-file')
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setupBaselineFileParameterDoesNotExist = () => {
+        adoTaskConfigMock
+            .setup((o) => o.getBaselineFile())
+            .returns(() => undefined)
             .verifiable(Times.atLeastOnce());
     };
 
@@ -488,8 +509,9 @@ describe(ADOPullRequestCommentCreator, () => {
         threadsStub: GitInterfaces.GitPullRequestCommentThread[],
     ) => {
         makeGitApiMockThenable();
+        const baselineInfoStub = {};
         reportMarkdownConvertorMock
-            .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE))
+            .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, baselineInfoStub))
             .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
             .verifiable(Times.once());
         adoTaskMock

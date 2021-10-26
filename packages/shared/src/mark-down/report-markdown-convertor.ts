@@ -4,13 +4,14 @@
 import { inject, injectable } from 'inversify';
 import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { BaselineInfo } from '../baseline-info';
 
 @injectable()
 export class ReportMarkdownConvertor {
     constructor(@inject(ResultMarkdownBuilder) private readonly checkResultMarkdownBuilder: ResultMarkdownBuilder) {}
 
-    public convert(combinedReportResult: CombinedReportParameters, title?: string): string {
-        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title);
+    public convert(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
+        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, baselineInfo);
     }
 
     public getErrorMarkdown(): string {

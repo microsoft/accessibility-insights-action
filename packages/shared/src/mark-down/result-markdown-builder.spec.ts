@@ -6,6 +6,8 @@ import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as axe from 'axe-core';
 import * as path from 'path';
+import { BaselineEvaluation } from '../baseline-types';
+import { BaselineInfo } from '../baseline-info';
 
 describe(ResultMarkdownBuilder, () => {
     let combinedReportResult: CombinedReportParameters;
@@ -42,7 +44,7 @@ describe(ResultMarkdownBuilder, () => {
                     unscannableUrls: 7,
                 },
             },
-        } as any;
+        } as CombinedReportParameters;
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
@@ -65,7 +67,7 @@ describe(ResultMarkdownBuilder, () => {
                     unscannableUrls: 7,
                 },
             },
-        } as any;
+        } as CombinedReportParameters;
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
@@ -95,7 +97,7 @@ describe(ResultMarkdownBuilder, () => {
                     unscannableUrls: 1,
                 },
             },
-        } as any;
+        } as CombinedReportParameters;
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
@@ -120,10 +122,277 @@ describe(ResultMarkdownBuilder, () => {
                     unscannableUrls: 0,
                 },
             },
-        } as any;
+        } as CombinedReportParameters;
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, title);
 
         expect(actualContent).toMatchSnapshot();
+    });
+
+    describe('with baseline', () => {
+        let baselineFileName = 'baseline file';
+
+        it('builds content when there are baseline failures and new failures', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: 1,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            combinedReportResult = {
+                axeVersion: 'axeVersion',
+                userAgent: 'userAgent',
+                results: {
+                    resultsByRule: {
+                        failed: [
+                            {
+                                failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
+                            },
+                            {
+                                failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
+                            },
+                        ],
+                        passed: [{}],
+                        notApplicable: [{}, {}],
+                    },
+                    urlResults: {
+                        passedUrls: 1,
+                        failedUrls: 5,
+                        unscannableUrls: 7,
+                    },
+                },
+            } as CombinedReportParameters;
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+        });
+
+        it('builds content when there are baseline failures and no new failures', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: 1,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            combinedReportResult = {
+                axeVersion: 'axeVersion',
+                userAgent: 'userAgent',
+                results: {
+                    resultsByRule: {
+                        failed: [],
+                        passed: [],
+                        notApplicable: [],
+                    },
+                    urlResults: {
+                        passedUrls: 0,
+                        failedUrls: 0,
+                        unscannableUrls: 0,
+                    },
+                },
+            } as CombinedReportParameters;
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+        });
+
+        it('builds content when there are no baseline failures and no new failures', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: 0,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            combinedReportResult = {
+                axeVersion: 'axeVersion',
+                userAgent: 'userAgent',
+                results: {
+                    resultsByRule: {
+                        failed: [],
+                        passed: [{}],
+                        notApplicable: [{}, {}],
+                    },
+                    urlResults: {
+                        passedUrls: 1,
+                        failedUrls: 0,
+                        unscannableUrls: 7,
+                    },
+                },
+            } as CombinedReportParameters;
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+        });
+
+        it('builds content when there are new failures and no baseline failures', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: 0,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            combinedReportResult = {
+                axeVersion: 'axeVersion',
+                userAgent: 'userAgent',
+                results: {
+                    resultsByRule: {
+                        failed: [
+                            {
+                                failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
+                            },
+                            {
+                                failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
+                            },
+                        ],
+                        passed: [{}],
+                        notApplicable: [{}, {}],
+                    },
+                    urlResults: {
+                        passedUrls: 1,
+                        failedUrls: 5,
+                        unscannableUrls: 7,
+                    },
+                },
+            } as CombinedReportParameters;
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+        });
+
+        it('builds content when there are no new failures and no baseline detected', () => {
+            const baselineEvaluation: BaselineEvaluation = undefined;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            combinedReportResult = {
+                axeVersion: 'axeVersion',
+                userAgent: 'userAgent',
+                results: {
+                    resultsByRule: {
+                        failed: [],
+                        passed: [],
+                        notApplicable: [],
+                    },
+                    urlResults: {
+                        passedUrls: 0,
+                        failedUrls: 0,
+                        unscannableUrls: 0,
+                    },
+                },
+            } as CombinedReportParameters;
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+        });
+
+        it('builds content when there are new failures and no baseline detected', () => {
+            const baselineEvaluation: BaselineEvaluation = undefined;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            combinedReportResult = {
+                axeVersion: 'axeVersion',
+                userAgent: 'userAgent',
+                results: {
+                    resultsByRule: {
+                        failed: [
+                            {
+                                failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
+                            },
+                            {
+                                failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
+                            },
+                        ],
+                        passed: [{}],
+                        notApplicable: [{}, {}],
+                    },
+                    urlResults: {
+                        passedUrls: 1,
+                        failedUrls: 5,
+                        unscannableUrls: 7,
+                    },
+                },
+            } as CombinedReportParameters;
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+        });
+
+        it('builds content when there is no baseline configured', () => {
+            baselineFileName = undefined;
+            const baselineEvaluation: BaselineEvaluation = undefined;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            combinedReportResult = {
+                axeVersion: 'axeVersion',
+                userAgent: 'userAgent',
+                results: {
+                    resultsByRule: {
+                        failed: [
+                            {
+                                failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
+                            },
+                            {
+                                failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
+                            },
+                        ],
+                        passed: [{}],
+                        notApplicable: [{}, {}],
+                    },
+                    urlResults: {
+                        passedUrls: 1,
+                        failedUrls: 5,
+                        unscannableUrls: 7,
+                    },
+                },
+            } as CombinedReportParameters;
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+        });
+
+        it('builds content when there are no new failures and baseline failures are undefined', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: undefined,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            combinedReportResult = {
+                axeVersion: 'axeVersion',
+                userAgent: 'userAgent',
+                results: {
+                    resultsByRule: {
+                        failed: [],
+                        passed: [],
+                        notApplicable: [],
+                    },
+                    urlResults: {
+                        passedUrls: 0,
+                        failedUrls: 0,
+                        unscannableUrls: 0,
+                    },
+                },
+            } as CombinedReportParameters;
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+        });
     });
 });
