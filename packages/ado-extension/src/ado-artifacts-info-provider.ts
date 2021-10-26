@@ -3,7 +3,6 @@
 import { ArtifactsInfoProvider } from '@accessibility-insights-action/shared/dist/artifacts-info-provider';
 import { inject, injectable } from 'inversify';
 
-import normalizePath from 'normalize-path';
 import { ADOTaskConfig } from './task-config/ado-task-config';
 
 @injectable()
@@ -17,9 +16,7 @@ export class ADOArtifactsInfoProvider extends ArtifactsInfoProvider {
             return undefined;
         }
 
-        const artifactsUrl = `${collectionUri}${teamProject}/_build/results?buildId=${runId}&view=artifacts&pathAsName=false&type=publishedArtifacts`;
-
-        return normalizePath(artifactsUrl);
+        return `${collectionUri}${teamProject}/_build/results?buildId=${runId}&view=artifacts&pathAsName=false&type=publishedArtifacts`;
     }
 
     public getCommitHash(): string | undefined {
