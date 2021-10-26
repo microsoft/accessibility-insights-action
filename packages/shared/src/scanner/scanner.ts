@@ -55,7 +55,7 @@ export class Scanner {
 
         try {
             this.logger.logInfo('DHT - Starting Progress Reporter');
-            await this.allProgressReporter.start();
+            //await this.allProgressReporter.start();
             this.logger.logInfo('DHT - Progress Reporter started');
 
             const taskConfigUrl = this.taskConfig.getUrl();
@@ -79,10 +79,10 @@ export class Scanner {
             const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportResult);
 
-            await this.allProgressReporter.completeRun(combinedReportResult);
+            //await this.allProgressReporter.completeRun(combinedReportResult);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
-            await this.allProgressReporter.failRun(util.inspect(error));
+            //await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
