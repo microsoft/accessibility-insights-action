@@ -4,7 +4,7 @@
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { injectable } from 'inversify';
 import { BaselineInfo } from '../baseline-info';
-import { BaselineEvaluation } from '../baseline-types';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { brand } from '../content/strings';
 import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
 

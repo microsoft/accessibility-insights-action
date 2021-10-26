@@ -5,7 +5,7 @@ import { inject, injectable } from 'inversify';
 import { ProgressReporter } from './progress-reporter';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { iocTypes } from '../ioc/ioc-types';
-import { BaselineEvaluation } from '../baseline-types';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 
 @injectable()
 export class AllProgressReporter extends ProgressReporter {
