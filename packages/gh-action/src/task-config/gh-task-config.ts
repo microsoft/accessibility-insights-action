@@ -85,7 +85,8 @@ export class GHTaskConfig extends TaskConfig {
     }
 
     public getSingleWorker(): boolean {
-        return this.actionCoreObj.getBooleanInput('single-worker');
+        const value = this.actionCoreObj.getBooleanInput('single-worker');
+        return isEmpty(value) ? true : value;
     }
 
     public getBaselineFile(): string | undefined {
