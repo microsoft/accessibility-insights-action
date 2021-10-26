@@ -8,4 +8,3 @@ export abstract class ArtifactsInfoProvider {
     abstract getArtifactsUrl(): string | undefined;
     abstract getCommitHash(): string | undefined;
 }
-

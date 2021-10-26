@@ -7,7 +7,9 @@ import { ADOTaskConfig } from './task-config/ado-task-config';
 
 @injectable()
 export class ADOArtifactsInfoProvider extends ArtifactsInfoProvider {
-    constructor(@inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig) { super() }
+    constructor(@inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig) {
+        super();
+    }
     public getArtifactsUrl(): string | undefined {
         const collectionUri = this.adoTaskConfig.getCollectionUri();
         const teamProject = this.adoTaskConfig.getTeamProject();

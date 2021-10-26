@@ -11,7 +11,12 @@ import { ArtifactsInfoProvider } from '../artifacts-info-provider';
 export class ReportMarkdownConvertor {
     constructor(@inject(ResultMarkdownBuilder) private readonly checkResultMarkdownBuilder: ResultMarkdownBuilder) {}
 
-    public convert(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo, artifactsInfoProvider?: ArtifactsInfoProvider): string {
+    public convert(
+        combinedReportResult: CombinedReportParameters,
+        title?: string,
+        baselineInfo?: BaselineInfo,
+        artifactsInfoProvider?: ArtifactsInfoProvider,
+    ): string {
         return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, baselineInfo, artifactsInfoProvider);
     }
 

@@ -22,7 +22,12 @@ export class ResultMarkdownBuilder {
         return this.scanResultDetails(lines.join(''));
     }
 
-    public buildContent(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo, artifactsInfoProvider?: ArtifactsInfoProvider): string {
+    public buildContent(
+        combinedReportResult: CombinedReportParameters,
+        title?: string,
+        baselineInfo?: BaselineInfo,
+        artifactsInfoProvider?: ArtifactsInfoProvider,
+    ): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
@@ -230,7 +235,11 @@ export class ResultMarkdownBuilder {
         return listItem(`Download the ${bold(artifactName)} to view the detailed results of these checks`);
     }
 
-    private downloadArtifactsWithLink(failedChecks: number, artifactsInfoProvider: ArtifactsInfoProvider, baselineEvaluation?: BaselineEvaluation): string {
+    private downloadArtifactsWithLink(
+        failedChecks: number,
+        artifactsInfoProvider: ArtifactsInfoProvider,
+        baselineEvaluation?: BaselineEvaluation,
+    ): string {
         const artifactsLink = link(artifactsInfoProvider.getArtifactsUrl(), 'run artifacts');
         let details = 'all failures and scan details';
         if (failedChecks === 0 && baselineEvaluation !== undefined && !baselineEvaluation.totalBaselineViolations) {

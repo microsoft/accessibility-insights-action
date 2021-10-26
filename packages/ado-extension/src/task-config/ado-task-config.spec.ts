@@ -128,7 +128,7 @@ describe(ADOTaskConfig, () => {
         const collectionUri = 'test-collection-uri';
         processStub = {
             env: {
-                SYSTEM_COLLECTIONURI: `${collectionUri}`
+                SYSTEM_COLLECTIONURI: `${collectionUri}`,
             },
         } as unknown as NodeJS.Process;
         taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
@@ -142,7 +142,7 @@ describe(ADOTaskConfig, () => {
         const teamProject = 'test-team-project';
         processStub = {
             env: {
-                SYSTEM_TEAMPROJECT: `${teamProject}`
+                SYSTEM_TEAMPROJECT: `${teamProject}`,
             },
         } as unknown as NodeJS.Process;
         taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
@@ -156,7 +156,7 @@ describe(ADOTaskConfig, () => {
         const commitHash = 'commit-hash';
         processStub = {
             env: {
-                BUILD_SOURCEVERSION: `${commitHash}`
+                BUILD_SOURCEVERSION: `${commitHash}`,
             },
         } as unknown as NodeJS.Process;
         taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
@@ -164,5 +164,5 @@ describe(ADOTaskConfig, () => {
         const actualCommitHash = taskConfig.getCommitHash();
 
         expect(actualCommitHash).toEqual(commitHash);
-    })
+    });
 });

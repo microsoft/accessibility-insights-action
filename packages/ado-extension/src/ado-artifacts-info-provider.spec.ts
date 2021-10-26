@@ -20,9 +20,18 @@ describe(ADOArtifactsInfoProvider, () => {
         const teamProject = 'myProject';
         const runId = 100;
 
-        adoTaskConfigMock.setup(atc => atc.getCollectionUri()).returns(() => collectionUri).verifiable(Times.once());
-        adoTaskConfigMock.setup(atc => atc.getTeamProject()).returns(() => teamProject).verifiable(Times.once());
-        adoTaskConfigMock.setup(atc => atc.getRunId()).returns(() => runId).verifiable(Times.once());
+        adoTaskConfigMock
+            .setup((atc) => atc.getCollectionUri())
+            .returns(() => collectionUri)
+            .verifiable(Times.once());
+        adoTaskConfigMock
+            .setup((atc) => atc.getTeamProject())
+            .returns(() => teamProject)
+            .verifiable(Times.once());
+        adoTaskConfigMock
+            .setup((atc) => atc.getRunId())
+            .returns(() => runId)
+            .verifiable(Times.once());
 
         const expectedArtifactsUrl = `${collectionUri}${teamProject}/_build/results?buildId=${runId}&view=artifacts&pathAsName=false&type=publishedArtifacts`;
 
@@ -31,10 +40,13 @@ describe(ADOArtifactsInfoProvider, () => {
         expect(actualArtifactsUrl).toEqual(expectedArtifactsUrl);
     });
 
-    it('getCommitHash returns expected commit hash from the adoTaskConfig', () => {
+    it('getCommitHash returns expected commit hash', () => {
         const commitHashStub = 'abcd1234efgh5678ijklmno';
         const truncatedCommitHashStub = 'abcd1234';
-        adoTaskConfigMock.setup(atc => atc.getCommitHash()).returns(() => commitHashStub).verifiable(Times.once());
+        adoTaskConfigMock
+            .setup((atc) => atc.getCommitHash())
+            .returns(() => commitHashStub)
+            .verifiable(Times.once());
 
         expect(adoArtifactsInfoProvider.getCommitHash()).toEqual(truncatedCommitHashStub);
     });
