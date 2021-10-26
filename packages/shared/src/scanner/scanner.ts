@@ -54,17 +54,12 @@ export class Scanner {
         let localServerUrl: string;
 
         try {
-            this.logger.logInfo('DHT - Starting Progress Reporter');
-            //await this.allProgressReporter.start();
-            this.logger.logInfo('DHT - Progress Reporter started');
+            await this.allProgressReporter.start();
 
-            const taskConfigUrl = this.taskConfig.getUrl();
-            this.logger.logInfo(`DHT - taskConfigUrl = ${taskConfigUrl}`);
             if (isEmpty(this.taskConfig.getUrl())) {
                 localServerUrl = await this.fileServer.start();
             }
 
-            this.logger.logInfo(`DHT - localServerUrl = ${localServerUrl}`);
             scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
@@ -79,10 +74,10 @@ export class Scanner {
             const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportResult);
 
-            //await this.allProgressReporter.completeRun(combinedReportResult);
+            await this.allProgressReporter.completeRun(combinedReportResult);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
-            //await this.allProgressReporter.failRun(util.inspect(error));
+            await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);

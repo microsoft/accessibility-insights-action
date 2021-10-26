@@ -51,17 +51,23 @@ export class CheckRunCreator extends ProgressReporter {
         this.logMessage('Creating check run with status as in progress');
         const response = await this.invoke(
             async () =>
-                await this.octokit.checks.create({
+            {
+                const head_sha = isNil(this.githubObj.context.payload.pull_request)
+                ? this.githubObj.context.sha
+                : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha;
+
+                this.logger.logInfo(`DHT - Parameters: ${this.githubObj.context.repo.owner}, ${this.githubObj.context.repo.repo}, ${checkRunName}, ${head_sha}`);
+                return await this.octokit.checks.create({
                     owner: this.githubObj.context.repo.owner,
                     repo: this.githubObj.context.repo.repo,
                     name: checkRunName,
                     status: 'in_progress',
-                    head_sha: isNil(this.githubObj.context.payload.pull_request)
-                        ? this.githubObj.context.sha
-                        : (this.githubObj.context.payload.pull_request.head as { sha: string }).sha,
-                }),
+                    head_sha,
+                })
+            }
         );
 
+        this.logger.logInfo(`DHT - Succeeded`);
         this.a11yCheck = response?.data;
     }
 
