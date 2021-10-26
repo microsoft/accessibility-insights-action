@@ -27,6 +27,7 @@ describe(CrawlArgumentHandler, () => {
         maxUrls: 10,
         chromePath: 'chrome',
         url: 'url',
+        singleWorker: false,
     };
 
     beforeEach(() => {
@@ -124,5 +125,6 @@ describe(CrawlArgumentHandler, () => {
         taskConfigMock.setup((m) => m.getDiscoveryPatterns()).returns((_) => args.discoveryPatterns);
         taskConfigMock.setup((m) => m.getInputUrls()).returns((_) => args.inputUrls);
         taskConfigMock.setup((m) => m.getUrl()).returns((_) => args.url);
+        taskConfigMock.setup((m) => m.getSingleWorker()).returns((_) => args.singleWorker);
     }
 });

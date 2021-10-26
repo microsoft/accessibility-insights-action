@@ -6,7 +6,7 @@ import { IMock, Mock } from 'typemoq';
 import { ReportMarkdownConvertor } from './report-markdown-convertor';
 import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import { BaselineEvaluation } from '../baseline-types';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 
 describe(ReportMarkdownConvertor, () => {
     let resultMarkdownBuilderMock: IMock<ResultMarkdownBuilder>;

@@ -4,7 +4,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import 'reflect-metadata';
 
 import { IMock, Mock, Times } from 'typemoq';
-import { BaselineEvaluation } from '../baseline-types';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { AllProgressReporter } from './all-progress-reporter';
 import { ProgressReporter } from './progress-reporter';
 

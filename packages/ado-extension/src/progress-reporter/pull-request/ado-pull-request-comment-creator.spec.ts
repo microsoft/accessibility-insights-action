@@ -16,7 +16,7 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
-import { BaselineEvaluation, BaselineFileContent } from '@accessibility-insights-action/shared/dist/baseline-types';
+import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
 import { BaselineInfo } from '@accessibility-insights-action/shared/dist/baseline-info';
 import { ADOArtifactsInfoProvider } from '../../ado-artifacts-info-provider';
 

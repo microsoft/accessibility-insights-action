@@ -6,7 +6,7 @@ import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as axe from 'axe-core';
 import * as path from 'path';
-import { BaselineEvaluation } from '../baseline-types';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { BaselineInfo } from '../baseline-info';
 import { ArtifactsInfoProvider } from '../artifacts-info-provider';
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
