@@ -54,12 +54,15 @@ export class Scanner {
         let localServerUrl: string;
 
         try {
+            this.logger.logInfo('DHT - In InvokeScan()');
             await this.allProgressReporter.start();
 
+            this.logger.logInfo(`DHT - this.taskConfig.getUrl() = ${this.taskConfig.getUrl()}`);
             if (isEmpty(this.taskConfig.getUrl())) {
                 localServerUrl = await this.fileServer.start();
             }
 
+            this.logger.logInfo(`DHT - localServerUrl is ${localServerUrl}`);
             scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
