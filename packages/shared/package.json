@@ -29,7 +29,7 @@
     "devDependencies": {},
     "dependencies": {
         "accessibility-insights-report": "4.2.0",
-        "accessibility-insights-scan": "0.10.2",
+        "accessibility-insights-scan": "0.10.3",
         "axe-core": "4.3.2",
         "express": "^4.17.1",
         "filenamify-url": "^3.0.0",
