@@ -71,10 +71,10 @@ export class Scanner {
             const combinedScanResult = await this.crawler.crawl(crawlerParameters);
             const scanEnded = new Date();
 
-            const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
-            this.reportGenerator.generateReport(combinedReportResult);
+            const combinedReportParameters = this.getCombinedReportParameters(combinedScanResult, scanStarted, scanEnded);
+            this.reportGenerator.generateReport(combinedReportParameters);
 
-            await this.allProgressReporter.completeRun(combinedReportResult, combinedScanResult.baselineEvaluation);
+            await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
             await this.allProgressReporter.failRun(util.inspect(error));
@@ -84,7 +84,7 @@ export class Scanner {
         }
     }
 
-    private getCombinedReportResult(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
+    private getCombinedReportParameters(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
         const scanResultData = {
             baseUrl: combinedScanResult.scanMetadata.baseUrl ?? 'n/a',
             basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
