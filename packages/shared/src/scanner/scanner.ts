@@ -74,7 +74,7 @@ export class Scanner {
             const combinedReportResult = this.getCombinedReportResult(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportResult);
 
-            await this.allProgressReporter.completeRun(combinedReportResult);
+            await this.allProgressReporter.completeRun(combinedReportResult, combinedScanResult.baselineEvaluation);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
             await this.allProgressReporter.failRun(util.inspect(error));
