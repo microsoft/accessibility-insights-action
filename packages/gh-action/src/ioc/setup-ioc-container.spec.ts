@@ -18,12 +18,16 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([CheckRunCreator, PullRequestCommentCreator, iocTypes.TaskConfig, iocTypes.ProgressReporters, Octokit, iocTypes.ArtifactsInfoProvider])(
-        'verify singleton resolution %p',
-        (key: any) => {
-            verifySingletonDependencyResolution(testSubject, key);
-        },
-    );
+    test.each([
+        CheckRunCreator,
+        PullRequestCommentCreator,
+        iocTypes.TaskConfig,
+        iocTypes.ProgressReporters,
+        Octokit,
+        iocTypes.ArtifactsInfoProvider,
+    ])('verify singleton resolution %p', (key: any) => {
+        verifySingletonDependencyResolution(testSubject, key);
+    });
     test.each([{ key: GitHubIocTypes.Github, value: github }])(
         'verify constant value resolution %s',
         (pair: { key: string; value: any }) => {

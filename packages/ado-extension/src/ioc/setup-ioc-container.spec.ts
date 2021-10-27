@@ -18,9 +18,12 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([iocTypes.TaskConfig, AdoPullRequestCommentCreator, iocTypes.ArtifactsInfoProvider])('verify singleton resolution %p', (key: any) => {
-        verifySingletonDependencyResolution(testSubject, key);
-    });
+    test.each([iocTypes.TaskConfig, AdoPullRequestCommentCreator, iocTypes.ArtifactsInfoProvider])(
+        'verify singleton resolution %p',
+        (key: any) => {
+            verifySingletonDependencyResolution(testSubject, key);
+        },
+    );
 
     test.each(['TfsGit', 'GitHub', ''])('verify progress reporter resolution %p', (key: string) => {
         process.env.BUILD_REPOSITORY_PROVIDER = key;
