@@ -8,11 +8,10 @@ import { BaselineInfo } from '../baseline-info';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { brand } from '../content/strings';
 import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
-import { ADOArtifactsInfoProvider } from '../../../ado-extension/src/ado-artifacts-info-provider';
 
 @injectable()
 export class ResultMarkdownBuilder {
-    constructor(@inject(ADOArtifactsInfoProvider) private readonly artifactsInfoProvider: ArtifactsInfoProvider) {}
+    constructor(@inject(ArtifactsInfoProvider) private readonly artifactsInfoProvider: ArtifactsInfoProvider) {}
 
     public buildErrorContent(): string {
         const lines = [

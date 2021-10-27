@@ -9,6 +9,7 @@ import { ADOTaskConfig } from '../task-config/ado-task-config';
 import { AdoPullRequestCommentCreator } from '../progress-reporter/pull-request/ado-pull-request-comment-creator';
 import { AdoIocTypes } from './ado-ioc-types';
 import * as process from 'process';
+import { ADOArtifactsInfoProvider } from '../ado-artifacts-info-provider';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
@@ -33,6 +34,7 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
             }
         })
         .inSingletonScope();
+    container.bind(iocTypes.ArtifactsInfoProvider).to(ADOArtifactsInfoProvider).inSingletonScope();
 
     return container;
 }

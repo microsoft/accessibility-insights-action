@@ -10,4 +10,5 @@ export const iocTypes = {
     ServeStatic: 'ServeStatic',
     TaskConfig: 'TaskConfig',
     ProgressReporters: 'ProgressReporters',
+    ArtifactsInfoProvider: 'ArtifactsInfoProvider',
 };

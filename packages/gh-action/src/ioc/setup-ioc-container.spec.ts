@@ -18,7 +18,7 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([CheckRunCreator, PullRequestCommentCreator, iocTypes.TaskConfig, iocTypes.ProgressReporters, Octokit])(
+    test.each([CheckRunCreator, PullRequestCommentCreator, iocTypes.TaskConfig, iocTypes.ProgressReporters, Octokit, iocTypes.ArtifactsInfoProvider])(
         'verify singleton resolution %p',
         (key: any) => {
             verifySingletonDependencyResolution(testSubject, key);

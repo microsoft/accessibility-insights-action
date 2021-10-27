@@ -14,11 +14,11 @@ import { IMock, Mock, MockBehavior, Times } from 'typemoq';
 describe(ResultMarkdownBuilder, () => {
     let combinedReportResult: CombinedReportParameters;
     let checkResultMarkdownBuilder: ResultMarkdownBuilder;
-    let adoArtifactsInfoProviderMock: IMock<ArtifactsInfoProvider>;
+    let artifactsInfoProviderMock: IMock<ArtifactsInfoProvider>;
 
     beforeEach(() => {
-        adoArtifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
-        checkResultMarkdownBuilder = new ResultMarkdownBuilder(adoArtifactsInfoProviderMock.object);
+        artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
+        checkResultMarkdownBuilder = new ResultMarkdownBuilder(artifactsInfoProviderMock.object);
     });
 
     it('builds error content', () => {
@@ -137,7 +137,7 @@ describe(ResultMarkdownBuilder, () => {
         let baselineFileName = 'baseline file';
 
         beforeEach(() => {
-            adoArtifactsInfoProviderMock
+            artifactsInfoProviderMock
                 .setup((aip) => aip.getArtifactsUrl())
                 .returns(() => 'artifacts-url')
                 .verifiable(Times.atLeastOnce());
