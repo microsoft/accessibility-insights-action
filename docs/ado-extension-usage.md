@@ -115,7 +115,7 @@ Baseline files are intended to make it easy to detect accessibility changes intr
 2. If the scanner results match the baseline file, the scanner task succeeds. There is no need to modify the baseline file for these PR's.
 3. If the scanner results do not match the baseline file, the scanner task fails and creates an updated baseline file. If the author chooses to update the baseline file, they download the updated baseline file from the build artifacts, incorporate it into the PR, and push a new commit. This triggers a new PR iteration where the baseline file should now be current.
 
-For a commit that initially specifies a baseline file, the scanner will fail in step2. Download the updated baseline file, incorporate it into the PR, and push the result.
+For a commit that initially specifies a baseline file, the scanner will fail in step 2. Download the updated baseline file, incorporate it into the PR, and push the result.
 
 ### Baseline files
 
