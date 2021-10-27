@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { ArtifactsInfoProvider } from '../artifacts-info-provider';
 import { BaselineInfo } from '../baseline-info';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
@@ -11,6 +11,8 @@ import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, 
 
 @injectable()
 export class ResultMarkdownBuilder {
+    constructor(@inject(ADOArtifactsInfoProvider) private readonly artifactsInfoProvider: ArtifactsInfoProvider) {}
+
     public buildErrorContent(): string {
         const lines = [
             this.headingWithMessage('Something went wrong'),
@@ -22,12 +24,7 @@ export class ResultMarkdownBuilder {
         return this.scanResultDetails(lines.join(''));
     }
 
-    public buildContent(
-        combinedReportResult: CombinedReportParameters,
-        title?: string,
-        baselineInfo?: BaselineInfo,
-        artifactsInfoProvider?: ArtifactsInfoProvider,
-    ): string {
+    public buildContent(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
@@ -55,10 +52,10 @@ export class ResultMarkdownBuilder {
                 sectionSeparator(),
                 this.failureDetailsBaseline(combinedReportResult, failedChecks, baselineInfo.baselineEvaluation),
                 sectionSeparator(),
-                this.baselineDetails(baselineInfo, artifactsInfoProvider, failedChecks),
+                this.baselineDetails(baselineInfo, failedChecks),
                 sectionSeparator(),
                 sectionSeparator(),
-                this.downloadArtifactsWithLink(failedChecks, artifactsInfoProvider, baselineInfo.baselineEvaluation),
+                this.downloadArtifactsWithLink(failedChecks, baselineInfo.baselineEvaluation),
                 sectionSeparator(),
                 sectionSeparator(),
                 footerSeparator(),
@@ -90,11 +87,11 @@ export class ResultMarkdownBuilder {
         return heading(`${productTitle()}`, 3);
     };
 
-    private baselineDetails = (baselineInfo: BaselineInfo, artifactsInfoProvider: ArtifactsInfoProvider, failedChecks?: number): string => {
+    private baselineDetails = (baselineInfo: BaselineInfo, failedChecks?: number): string => {
         const baselineFileName = baselineInfo.baselineFileName;
         const baselineEvaluation = baselineInfo.baselineEvaluation;
         const baseliningDocsLink = link('temporarily-empty', 'baselining docs'); // TODO update link
-        const scanArgumentsLink = link(artifactsInfoProvider.getArtifactsUrl(), 'scan arguments');
+        const scanArgumentsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'scan arguments');
         const baselineNotConfiguredHelpText = `A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See ${baseliningDocsLink} for more.`;
         const baselineNotDetectedHelpText = `To update the baseline with these changes, copy the updated baseline file to ${scanArgumentsLink}. See ${baseliningDocsLink} for more.`;
         let lines = [''];
@@ -235,12 +232,8 @@ export class ResultMarkdownBuilder {
         return listItem(`Download the ${bold(artifactName)} to view the detailed results of these checks`);
     }
 
-    private downloadArtifactsWithLink(
-        failedChecks: number,
-        artifactsInfoProvider: ArtifactsInfoProvider,
-        baselineEvaluation?: BaselineEvaluation,
-    ): string {
-        const artifactsLink = link(artifactsInfoProvider.getArtifactsUrl(), 'run artifacts');
+    private downloadArtifactsWithLink(failedChecks: number, baselineEvaluation?: BaselineEvaluation): string {
+        const artifactsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'run artifacts');
         let details = 'all failures and scan details';
         if (failedChecks === 0 && baselineEvaluation !== undefined && !baselineEvaluation.totalBaselineViolations) {
             details = 'scan details';
