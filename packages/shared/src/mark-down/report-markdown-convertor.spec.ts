@@ -7,6 +7,7 @@ import { ReportMarkdownConvertor } from './report-markdown-convertor';
 import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
+import { ArtifactsInfoProvider } from '../artifacts-info-provider';
 
 describe(ReportMarkdownConvertor, () => {
     let resultMarkdownBuilderMock: IMock<ResultMarkdownBuilder>;
@@ -37,14 +38,14 @@ describe(ReportMarkdownConvertor, () => {
 
     describe('convert', () => {
         it('report', () => {
-            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined)).verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined, undefined)).verifiable();
 
             reportMarkdownConvertor.convert(combinedReportResult);
         });
 
         it('report with title', () => {
             const title = 'some title';
-            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined)).verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined, undefined)).verifiable();
 
             reportMarkdownConvertor.convert(combinedReportResult, title);
         });
@@ -54,9 +55,18 @@ describe(ReportMarkdownConvertor, () => {
                 baselineFileName: 'some filename',
                 baselineEvaluationStub: {} as BaselineEvaluation,
             };
-            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, baselineInfo)).verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, baselineInfo, undefined)).verifiable();
 
             reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+        });
+
+        it('report with artifactsInfoProvider', () => {
+            const artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>();
+            resultMarkdownBuilderMock
+                .setup((o) => o.buildContent(combinedReportResult, undefined, undefined, artifactsInfoProviderMock.object))
+                .verifiable();
+
+            reportMarkdownConvertor.convert(combinedReportResult, undefined, undefined, artifactsInfoProviderMock.object);
         });
     });
 
