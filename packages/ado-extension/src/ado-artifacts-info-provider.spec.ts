@@ -15,39 +15,57 @@ describe(ADOArtifactsInfoProvider, () => {
         adoArtifactsInfoProvider = new ADOArtifactsInfoProvider(adoTaskConfigMock.object);
     });
 
-    it('getArtifactsUrl returns expected artifacts URL based on adoTaskConfig', () => {
+    describe('getArtifactsUrl', () => {
         const collectionUri = 'https://dev.azure.com/myOrganizationName/';
         const teamProject = 'myProject';
         const runId = 100;
-
-        adoTaskConfigMock
-            .setup((atc) => atc.getCollectionUri())
-            .returns(() => collectionUri)
-            .verifiable(Times.once());
-        adoTaskConfigMock
-            .setup((atc) => atc.getTeamProject())
-            .returns(() => teamProject)
-            .verifiable(Times.once());
-        adoTaskConfigMock
-            .setup((atc) => atc.getRunId())
-            .returns(() => runId)
-            .verifiable(Times.once());
-
         const expectedArtifactsUrl = `${collectionUri}${teamProject}/_build/results?buildId=${runId}&view=artifacts&pathAsName=false&type=publishedArtifacts`;
 
-        const actualArtifactsUrl = adoArtifactsInfoProvider.getArtifactsUrl();
+        it.each`
+            collectionUri    | teamProject    | runId        | expectedUrl
+            ${collectionUri} | ${teamProject} | ${runId}     | ${expectedArtifactsUrl}
+            ${collectionUri} | ${undefined}   | ${runId}     | ${undefined}
+            ${collectionUri} | ${teamProject} | ${undefined} | ${undefined}
+            ${collectionUri} | ${undefined}   | ${undefined} | ${undefined}
+            ${undefined}     | ${teamProject} | ${runId}     | ${undefined}
+            ${undefined}     | ${teamProject} | ${undefined} | ${undefined}
+            ${undefined}     | ${undefined}   | ${runId}     | ${undefined}
+            ${undefined}     | ${undefined}   | ${undefined} | ${undefined}
+        `(
+            `returns '$expectedUrl' with collectionUri '$collectionUri', teamProject '$teamProject', runId '$runId'`,
+            ({ collectionUri, teamProject, runId, expectedUrl }) => {
+                adoTaskConfigMock
+                    .setup((atc) => atc.getCollectionUri())
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    .returns(() => collectionUri)
+                    .verifiable(Times.once());
+                adoTaskConfigMock
+                    .setup((atc) => atc.getTeamProject())
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    .returns(() => teamProject)
+                    .verifiable(Times.once());
+                adoTaskConfigMock
+                    .setup((atc) => atc.getRunId())
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    .returns(() => runId)
+                    .verifiable(Times.once());
 
-        expect(actualArtifactsUrl).toEqual(expectedArtifactsUrl);
+                expect(adoArtifactsInfoProvider.getArtifactsUrl()).toEqual(expectedUrl);
+            },
+        );
     });
 
-    it('getCommitHash returns expected commit hash', () => {
-        const commitHashStub = 'abcd1234efgh5678ijklmno';
-        const truncatedCommitHashStub = 'abcd1234';
+    it.each`
+        hashValue                    | expectedValue
+        ${'abcd1234efgh5678ijklmno'} | ${'abcd1234'}
+        ${undefined}                 | ${undefined}
+    `(`getCommitHash with hash value '$hashValue' returns '$expectedValue'`, ({ hashValue, expectedValue }) => {
         adoTaskConfigMock
             .setup((atc) => atc.getCommitHash())
-            .returns(() => commitHashStub)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+            .returns(() => hashValue)
             .verifiable(Times.once());
 
-        expect(adoArtifactsInfoProvider.getCommitHash()).toEqual(truncatedCommitHashStub);
+        expect(adoArtifactsInfoProvider.getCommitHash()).toEqual(expectedValue);
     });
 });
