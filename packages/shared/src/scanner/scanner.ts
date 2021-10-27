@@ -84,7 +84,11 @@ export class Scanner {
         }
     }
 
-    private getCombinedReportParameters(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
+    private getCombinedReportParameters(
+        combinedScanResult: CombinedScanResult,
+        scanStarted: Date,
+        scanEnded: Date,
+    ): CombinedReportParameters {
         const scanResultData = {
             baseUrl: combinedScanResult.scanMetadata.baseUrl ?? 'n/a',
             basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
