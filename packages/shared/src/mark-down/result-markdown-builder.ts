@@ -8,6 +8,7 @@ import { BaselineInfo } from '../baseline-info';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { brand } from '../content/strings';
 import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
+import { ADOArtifactsInfoProvider } from '../../../ado-extension/src/ado-artifacts-info-provider';
 
 @injectable()
 export class ResultMarkdownBuilder {
@@ -90,7 +91,8 @@ export class ResultMarkdownBuilder {
     private baselineDetails = (baselineInfo: BaselineInfo, failedChecks?: number): string => {
         const baselineFileName = baselineInfo.baselineFileName;
         const baselineEvaluation = baselineInfo.baselineEvaluation;
-        const baseliningDocsLink = link('temporarily-empty', 'baselining docs'); // TODO update link
+        const baseliningDocsUrl = `https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file`;
+        const baseliningDocsLink = link(baseliningDocsUrl, 'baselining docs');
         const scanArgumentsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'scan arguments');
         const baselineNotConfiguredHelpText = `A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See ${baseliningDocsLink} for more.`;
         const baselineNotDetectedHelpText = `To update the baseline with these changes, copy the updated baseline file to ${scanArgumentsLink}. See ${baseliningDocsLink} for more.`;

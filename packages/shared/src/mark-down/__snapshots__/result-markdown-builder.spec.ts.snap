@@ -48,7 +48,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are basel
 * (1) **rule id 2**:  rule description 2
 
 **1 failure instances in baseline**
-(not shown; see [baselining docs](temporarily-empty) for how to include new failures into the baseline)
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to include new failures into the baseline)
 
 See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
@@ -69,7 +69,7 @@ No failures were detected by automatic scanning except those which exist in the 
 **:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 **1 failure instances in baseline**
-(not shown; see [baselining docs](temporarily-empty))
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
 
 See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
@@ -90,7 +90,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are new f
 * (1) **rule id 2**:  rule description 2
 
 **Baseline not detected**
-To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](temporarily-empty) for more.
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
 See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
@@ -111,7 +111,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are new f
 * (1) **rule id 2**:  rule description 2
 
 **Baseline not detected**
-To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](temporarily-empty) for more.
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
 See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
@@ -152,7 +152,7 @@ No failures were detected by automatic scanning.
 **:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 **Baseline not configured**
-A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](temporarily-empty) for more.
+A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
 See scan details by downloading the report from [run artifacts](artifacts-url)
 
@@ -173,7 +173,7 @@ No failures were detected by automatic scanning.
 **:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 **Baseline not detected**
-To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](temporarily-empty) for more.
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
 See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
@@ -194,7 +194,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there is no bas
 * (1) **rule id 2**:  rule description 2
 
 **Baseline not configured**
-A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](temporarily-empty) for more.
+A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
 See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
