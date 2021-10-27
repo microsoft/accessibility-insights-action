@@ -47,6 +47,7 @@ describe(ADOPullRequestCommentCreator, () => {
         nodeApiMock = Mock.ofType<typeof nodeApi>(undefined, MockBehavior.Strict);
         webApiMock = Mock.ofType<nodeApi.WebApi>(undefined, MockBehavior.Strict);
         reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>(undefined, MockBehavior.Strict);
+        artifactsInfoProviderMock = Mock.ofType<ADOArtifactsInfoProvider>(undefined, MockBehavior.Strict);
     });
 
     describe('constructor', () => {
@@ -327,7 +328,6 @@ describe(ADOPullRequestCommentCreator, () => {
     const buildPrCommentCreatorWithMocks = () =>
         new ADOPullRequestCommentCreator(
             adoTaskConfigMock.object,
-            artifactsInfoProviderMock.object,
             reportMarkdownConvertorMock.object,
             loggerMock.object,
             adoTaskMock.object,
