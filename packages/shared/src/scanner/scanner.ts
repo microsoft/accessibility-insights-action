@@ -7,7 +7,6 @@ import {
     AICombinedReportDataConverter,
     ScanArguments,
     CrawlerParametersBuilder,
-    BaselineOptions,
     BaselineOptionsBuilder,
 } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
