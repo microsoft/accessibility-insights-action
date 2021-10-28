@@ -8,6 +8,7 @@ import {
     ScanArguments,
     CrawlerParametersBuilder,
     BaselineOptionsBuilder,
+    BaselineFileUpdater,
 } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as util from 'util';
@@ -40,6 +41,7 @@ export class Scanner {
         @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(CrawlerParametersBuilder) private readonly crawlerParametersBuilder: CrawlerParametersBuilder,
         @inject(BaselineOptionsBuilder) private readonly baselineOptionsBuilder: BaselineOptionsBuilder,
+        @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
     ) {}
 
     public async scan(): Promise<void> {
@@ -75,6 +77,7 @@ export class Scanner {
 
             const combinedReportParameters = this.getCombinedReportParameters(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportParameters);
+            await this.baselineFileUpdater.updateBaseline(scanArguments, combinedScanResult.baselineEvaluation);
 
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
         } catch (error) {

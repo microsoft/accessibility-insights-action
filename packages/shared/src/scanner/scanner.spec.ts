@@ -7,6 +7,7 @@ import {
     AICombinedReportDataConverter,
     AICrawler,
     BaselineEvaluation,
+    BaselineFileUpdater,
     BaselineOptions,
     BaselineOptionsBuilder,
     CombinedScanResult,
@@ -41,6 +42,7 @@ describe(Scanner, () => {
     let taskConfigMock: IMock<TaskConfig>;
     let crawlerParametersBuilder: IMock<CrawlerParametersBuilder>;
     let baselineOptionsBuilderMock: IMock<BaselineOptionsBuilder>;
+    let baselineFileUpdaterMock: IMock<BaselineFileUpdater>;
     let scanner: Scanner;
     let combinedScanResult: CombinedScanResult;
     let scanArguments: ScanArguments;
@@ -64,6 +66,7 @@ describe(Scanner, () => {
         taskConfigMock = Mock.ofType<TaskConfig>();
         crawlerParametersBuilder = Mock.ofType<CrawlerParametersBuilder>();
         baselineOptionsBuilderMock = Mock.ofType<BaselineOptionsBuilder>(null, MockBehavior.Strict);
+        baselineFileUpdaterMock = Mock.ofType<BaselineFileUpdater>();
         scanner = new Scanner(
             aiCrawlerMock.object,
             reportGeneratorMock.object,
@@ -78,6 +81,7 @@ describe(Scanner, () => {
             taskConfigMock.object,
             crawlerParametersBuilder.object,
             baselineOptionsBuilderMock.object,
+            baselineFileUpdaterMock.object,
         );
         combinedScanResult = {
             scanMetadata: {
@@ -191,6 +195,10 @@ describe(Scanner, () => {
                 .setup((m) => m.build(scanArguments))
                 .returns(() => baselineOptions)
                 .verifiable(Times.once());
+            baselineFileUpdaterMock
+                .setup((m) => m.updateBaseline(scanArguments, baselineEvaluation))
+                .returns(() => Promise.resolve())
+                .verifiable(Times.once());
 
             combinedScanResult.baselineEvaluation = baselineEvaluation;
             aiCrawlerMock
@@ -244,5 +252,6 @@ describe(Scanner, () => {
         localFileServerMock.verifyAll();
         promiseUtilsMock.verifyAll();
         baselineOptionsBuilderMock.verifyAll();
+        baselineFileUpdaterMock.verifyAll();
     }
 });
