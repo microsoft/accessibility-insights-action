@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { ArtifactsInfoProvider } from '@accessibility-insights-action/shared/dist/artifacts-info-provider';
+import { ArtifactsInfoProvider } from '@accessibility-insights-action/shared';
 import { inject, injectable } from 'inversify';
 
 import { ADOTaskConfig } from './task-config/ado-task-config';
@@ -14,7 +14,7 @@ export class ADOArtifactsInfoProvider extends ArtifactsInfoProvider {
         const collectionUri = this.adoTaskConfig.getCollectionUri();
         const teamProject = this.adoTaskConfig.getTeamProject();
         const runId = this.adoTaskConfig.getRunId();
-        if (collectionUri === undefined || teamProject === undefined || runId === undefined) {
+        if (!collectionUri || !teamProject || !runId) {
             return undefined;
         }
 

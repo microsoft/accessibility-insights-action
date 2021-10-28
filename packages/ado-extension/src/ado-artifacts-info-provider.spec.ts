@@ -23,14 +23,33 @@ describe(ADOArtifactsInfoProvider, () => {
 
         it.each`
             collectionUri    | teamProject    | runId        | expectedUrl
-            ${collectionUri} | ${teamProject} | ${runId}     | ${expectedArtifactsUrl}
-            ${collectionUri} | ${undefined}   | ${runId}     | ${undefined}
+            ${collectionUri} | ${teamProject} | ${100}       | ${expectedArtifactsUrl}
             ${collectionUri} | ${teamProject} | ${undefined} | ${undefined}
+            ${collectionUri} | ${teamProject} | ${''}        | ${undefined}
+            ${collectionUri} | ${undefined}   | ${100}       | ${undefined}
             ${collectionUri} | ${undefined}   | ${undefined} | ${undefined}
-            ${undefined}     | ${teamProject} | ${runId}     | ${undefined}
+            ${collectionUri} | ${undefined}   | ${''}        | ${undefined}
+            ${collectionUri} | ${''}          | ${100}       | ${undefined}
+            ${collectionUri} | ${''}          | ${undefined} | ${undefined}
+            ${collectionUri} | ${''}          | ${''}        | ${undefined}
+            ${undefined}     | ${teamProject} | ${100}       | ${undefined}
             ${undefined}     | ${teamProject} | ${undefined} | ${undefined}
-            ${undefined}     | ${undefined}   | ${runId}     | ${undefined}
+            ${undefined}     | ${teamProject} | ${''}        | ${undefined}
+            ${undefined}     | ${undefined}   | ${100}       | ${undefined}
             ${undefined}     | ${undefined}   | ${undefined} | ${undefined}
+            ${undefined}     | ${undefined}   | ${''}        | ${undefined}
+            ${undefined}     | ${''}          | ${100}       | ${undefined}
+            ${undefined}     | ${''}          | ${undefined} | ${undefined}
+            ${undefined}     | ${''}          | ${''}        | ${undefined}
+            ${''}            | ${teamProject} | ${100}       | ${undefined}
+            ${''}            | ${teamProject} | ${undefined} | ${undefined}
+            ${''}            | ${teamProject} | ${''}        | ${undefined}
+            ${''}            | ${undefined}   | ${100}       | ${undefined}
+            ${''}            | ${undefined}   | ${undefined} | ${undefined}
+            ${''}            | ${undefined}   | ${''}        | ${undefined}
+            ${''}            | ${''}          | ${100}       | ${undefined}
+            ${''}            | ${''}          | ${undefined} | ${undefined}
+            ${''}            | ${''}          | ${''}        | ${undefined}
         `(
             `returns '$expectedUrl' with collectionUri '$collectionUri', teamProject '$teamProject', runId '$runId'`,
             ({ collectionUri, teamProject, runId, expectedUrl }) => {
