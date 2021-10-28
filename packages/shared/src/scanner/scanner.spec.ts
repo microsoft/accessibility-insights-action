@@ -7,6 +7,8 @@ import {
     AICombinedReportDataConverter,
     AICrawler,
     BaselineEvaluation,
+    BaselineOptions,
+    BaselineOptionsBuilder,
     CombinedScanResult,
     CrawlerParametersBuilder,
     CrawlerRunOptions,
@@ -38,6 +40,7 @@ describe(Scanner, () => {
     let crawlArgumentHandlerMock: IMock<CrawlArgumentHandler>;
     let taskConfigMock: IMock<TaskConfig>;
     let crawlerParametersBuilder: IMock<CrawlerParametersBuilder>;
+    let baselineOptionsBuilderMock: IMock<BaselineOptionsBuilder>;
     let scanner: Scanner;
     let combinedScanResult: CombinedScanResult;
     let scanArguments: ScanArguments;
@@ -60,6 +63,7 @@ describe(Scanner, () => {
         crawlArgumentHandlerMock = Mock.ofType<CrawlArgumentHandler>();
         taskConfigMock = Mock.ofType<TaskConfig>();
         crawlerParametersBuilder = Mock.ofType<CrawlerParametersBuilder>();
+        baselineOptionsBuilderMock = Mock.ofType<BaselineOptionsBuilder>(null, MockBehavior.Strict);
         scanner = new Scanner(
             aiCrawlerMock.object,
             reportGeneratorMock.object,
@@ -73,6 +77,7 @@ describe(Scanner, () => {
             crawlArgumentHandlerMock.object,
             taskConfigMock.object,
             crawlerParametersBuilder.object,
+            baselineOptionsBuilderMock.object,
         );
         combinedScanResult = {
             scanMetadata: {
@@ -164,11 +169,14 @@ describe(Scanner, () => {
                 baseUrl: scanArguments.url,
             };
 
+            const baselineOptions: BaselineOptions = {} as BaselineOptions;
+
             crawlerParametersBuilder.setup((m) => m.build(scanArguments)).returns((_) => crawlerParams);
+            baselineOptionsBuilderMock.setup((m) => m.build(scanArguments)).returns(() => baselineOptions);
 
             combinedScanResult.baselineEvaluation = baselineEvaluation;
             aiCrawlerMock
-                .setup((m) => m.crawl(crawlerParams))
+                .setup((m) => m.crawl(crawlerParams, baselineOptions))
                 .returns(async () => {
                     return Promise.resolve(combinedScanResult);
                 })
@@ -217,5 +225,6 @@ describe(Scanner, () => {
         reportGeneratorMock.verifyAll();
         localFileServerMock.verifyAll();
         promiseUtilsMock.verifyAll();
+        baselineOptionsBuilderMock.verifyAll();
     }
 });
