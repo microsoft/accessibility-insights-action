@@ -13,11 +13,13 @@ import { TaskConfig } from '../task-config';
 import { iocTypes } from './ioc-types';
 import { setupCliContainer } from 'accessibility-insights-scan';
 import { ProgressReporter } from '../progress-reporter/progress-reporter';
+import { ArtifactsInfoProvider } from '../artifacts-info-provider';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     setupSharedIocContainer(container);
 
     container.bind(iocTypes.TaskConfig).toConstantValue(TaskConfig);
+    container.bind(iocTypes.ArtifactsInfoProvider).toConstantValue(ArtifactsInfoProvider);
     container.bind(iocTypes.ProgressReporters).toConstantValue([ProgressReporter]);
 
     return container;
