@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { ArtifactsInfoProvider } from '../artifacts-info-provider';
 import { BaselineInfo } from '../baseline-info';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { brand } from '../content/strings';
@@ -10,6 +11,8 @@ import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, 
 
 @injectable()
 export class ResultMarkdownBuilder {
+    constructor(@inject(ArtifactsInfoProvider) private readonly artifactsInfoProvider: ArtifactsInfoProvider) {}
+
     public buildErrorContent(): string {
         const lines = [
             this.headingWithMessage('Something went wrong'),
@@ -87,8 +90,9 @@ export class ResultMarkdownBuilder {
     private baselineDetails = (baselineInfo: BaselineInfo, failedChecks?: number): string => {
         const baselineFileName = baselineInfo.baselineFileName;
         const baselineEvaluation = baselineInfo.baselineEvaluation;
-        const baseliningDocsLink = link('temporarily-empty', 'baselining docs'); // TODO update link
-        const scanArgumentsLink = link('temporarily-empty', 'scan arguments'); // TODO update link
+        const baseliningDocsUrl = `https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file`;
+        const baseliningDocsLink = link(baseliningDocsUrl, 'baselining docs');
+        const scanArgumentsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'scan arguments');
         const baselineNotConfiguredHelpText = `A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See ${baseliningDocsLink} for more.`;
         const baselineNotDetectedHelpText = `To update the baseline with these changes, copy the updated baseline file to ${scanArgumentsLink}. See ${baseliningDocsLink} for more.`;
         let lines = [''];
@@ -230,7 +234,7 @@ export class ResultMarkdownBuilder {
     }
 
     private downloadArtifactsWithLink(failedChecks: number, baselineEvaluation?: BaselineEvaluation): string {
-        const artifactsLink = link('temporarily-empty', 'run artifacts'); // TODO update link
+        const artifactsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'run artifacts');
         let details = 'all failures and scan details';
         if (failedChecks === 0 && baselineEvaluation !== undefined && !baselineEvaluation.totalBaselineViolations) {
             details = 'scan details';

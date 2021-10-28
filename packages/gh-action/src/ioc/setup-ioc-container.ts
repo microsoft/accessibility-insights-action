@@ -9,6 +9,7 @@ import { GHTaskConfig } from '../task-config/gh-task-config';
 import { GitHubIocTypes } from './gh-ioc-types';
 import { PullRequestCommentCreator } from '../pull-request/pull-request-comment-creator';
 import { CheckRunCreator } from '../check-run/check-run-creator';
+import { GitHubArtifactsInfoProvider } from '../gh-artifacts-info-provider';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
@@ -34,6 +35,7 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
             return new Octokit({ auth: taskConfig.getToken() });
         })
         .inSingletonScope();
+    container.bind(iocTypes.ArtifactsInfoProvider).to(GitHubArtifactsInfoProvider).inSingletonScope();
 
     return container;
 }

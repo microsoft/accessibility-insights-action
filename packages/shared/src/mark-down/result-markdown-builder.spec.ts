@@ -8,13 +8,17 @@ import * as axe from 'axe-core';
 import * as path from 'path';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { BaselineInfo } from '../baseline-info';
+import { ArtifactsInfoProvider } from '../artifacts-info-provider';
+import { IMock, Mock, MockBehavior, Times } from 'typemoq';
 
 describe(ResultMarkdownBuilder, () => {
     let combinedReportResult: CombinedReportParameters;
     let checkResultMarkdownBuilder: ResultMarkdownBuilder;
+    let artifactsInfoProviderMock: IMock<ArtifactsInfoProvider>;
 
     beforeEach(() => {
-        checkResultMarkdownBuilder = new ResultMarkdownBuilder();
+        artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
+        checkResultMarkdownBuilder = new ResultMarkdownBuilder(artifactsInfoProviderMock.object);
     });
 
     it('builds error content', () => {
@@ -132,6 +136,13 @@ describe(ResultMarkdownBuilder, () => {
     describe('with baseline', () => {
         let baselineFileName = 'baseline file';
 
+        beforeEach(() => {
+            artifactsInfoProviderMock
+                .setup((aip) => aip.getArtifactsUrl())
+                .returns(() => 'artifacts-url')
+                .verifiable(Times.atLeastOnce());
+        });
+
         it('builds content when there are baseline failures and new failures', () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 1,
@@ -167,6 +178,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
         });
 
         it('builds content when there are baseline failures and no new failures', () => {
@@ -197,6 +209,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
         });
 
         it('builds content when there are no baseline failures and no new failures', () => {
@@ -227,6 +240,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
         });
 
         it('builds content when there are new failures and no baseline failures', () => {
@@ -264,6 +278,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
         });
 
         it('builds content when there are no new failures and no baseline detected', () => {
@@ -292,6 +307,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
         });
 
         it('builds content when there are new failures and no baseline detected', () => {
@@ -327,6 +343,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
         });
 
         it('builds content when there is no baseline configured', () => {
@@ -363,6 +380,7 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
         });
 
         it('builds content when there are no new failures and baseline failures are undefined', () => {
@@ -393,6 +411,11 @@ describe(ResultMarkdownBuilder, () => {
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
         });
     });
+
+    const verifyAllMocks = (): void => {
+        artifactsInfoProviderMock.verifyAll();
+    };
 });

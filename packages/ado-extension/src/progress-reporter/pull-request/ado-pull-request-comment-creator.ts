@@ -14,7 +14,7 @@ import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
 import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
-import { BaselineInfo } from '@accessibility-insights-action/shared/src/baseline-info';
+import { BaselineInfo } from '@accessibility-insights-action/shared';
 
 @injectable()
 export class AdoPullRequestCommentCreator extends ProgressReporter {

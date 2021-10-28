@@ -113,6 +113,18 @@ export class ADOTaskConfig extends TaskConfig {
         return isEmpty(value) ? undefined : value;
     }
 
+    public getCommitHash(): string | undefined {
+        return this.processObj.env.BUILD_SOURCEVERSION ?? undefined;
+    }
+
+    public getCollectionUri(): string | undefined {
+        return this.processObj.env.SYSTEM_COLLECTIONURI ?? undefined;
+    }
+
+    public getTeamProject(): string | undefined {
+        return this.processObj.env.SYSTEM_TEAMPROJECT ?? undefined;
+    }
+
     private getAbsolutePath(path: string | undefined): string | undefined {
         if (isEmpty(path)) {
             return undefined;

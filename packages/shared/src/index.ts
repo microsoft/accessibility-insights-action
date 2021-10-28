@@ -11,3 +11,5 @@ export { productTitle } from './mark-down/markdown-formatter';
 export { disclaimerText } from './content/mark-down-strings';
 export { checkRunDetailsTitle, checkRunName } from './content/strings';
 export { TaskConfig } from './task-config';
+export { BaselineInfo } from './baseline-info';
+export { ArtifactsInfoProvider } from './artifacts-info-provider';
