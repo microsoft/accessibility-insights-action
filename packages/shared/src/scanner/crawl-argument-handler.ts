@@ -51,6 +51,7 @@ export class CrawlArgumentHandler {
             inputUrls: inputUrlsArg?.split(/\s+/),
             url: this.taskConfig.getUrl(),
             singleWorker: this.taskConfig.getSingleWorker(),
+            baselineFile: this.taskConfig.getBaselineFile() || null,
         };
 
         return args;

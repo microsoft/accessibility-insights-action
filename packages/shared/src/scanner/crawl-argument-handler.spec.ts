@@ -28,6 +28,7 @@ describe(CrawlArgumentHandler, () => {
         chromePath: 'chrome',
         url: 'url',
         singleWorker: false,
+        baselineFile: null,
     };
 
     beforeEach(() => {
@@ -110,6 +111,29 @@ describe(CrawlArgumentHandler, () => {
         expect(actualArgs).toStrictEqual(expectedArgs);
     });
 
+    it('returns baseline file when specified', () => {
+        const baselineFile = 'test.baseline';
+
+        setupProcessScanArguments({
+            baselineFile,
+        });
+
+        const expectedArgs: ScanArguments = {
+            ...actionInputDefaultArgs,
+            crawl: true,
+            restart: true,
+            axeSourcePath: 'axe',
+            discoveryPatterns: undefined,
+            inputUrls: undefined,
+            baselineFile,
+        };
+
+        validateMock.setup((m) => m(expectedArgs));
+
+        const actualArgs = crawlArgumentHandler.processScanArguments();
+        expect(actualArgs).toStrictEqual(expectedArgs);
+    });
+
     function setupProcessScanArguments(overwriteDefaultArgs?: Partial<Record<keyof ScanArguments, any>>) {
         const args = {
             ...actionInputDefaultArgs,
@@ -126,5 +150,6 @@ describe(CrawlArgumentHandler, () => {
         taskConfigMock.setup((m) => m.getInputUrls()).returns((_) => args.inputUrls);
         taskConfigMock.setup((m) => m.getUrl()).returns((_) => args.url);
         taskConfigMock.setup((m) => m.getSingleWorker()).returns((_) => args.singleWorker);
+        taskConfigMock.setup((m) => m.getBaselineFile()).returns((_) => args.baselineFile);
     }
 });

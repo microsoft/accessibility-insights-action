@@ -7,6 +7,8 @@ import {
     AICombinedReportDataConverter,
     AICrawler,
     BaselineEvaluation,
+    BaselineOptions,
+    BaselineOptionsBuilder,
     CombinedScanResult,
     CrawlerParametersBuilder,
     CrawlerRunOptions,
@@ -38,6 +40,7 @@ describe(Scanner, () => {
     let crawlArgumentHandlerMock: IMock<CrawlArgumentHandler>;
     let taskConfigMock: IMock<TaskConfig>;
     let crawlerParametersBuilder: IMock<CrawlerParametersBuilder>;
+    let baselineOptionsBuilderMock: IMock<BaselineOptionsBuilder>;
     let scanner: Scanner;
     let combinedScanResult: CombinedScanResult;
     let scanArguments: ScanArguments;
@@ -60,6 +63,7 @@ describe(Scanner, () => {
         crawlArgumentHandlerMock = Mock.ofType<CrawlArgumentHandler>();
         taskConfigMock = Mock.ofType<TaskConfig>();
         crawlerParametersBuilder = Mock.ofType<CrawlerParametersBuilder>();
+        baselineOptionsBuilderMock = Mock.ofType<BaselineOptionsBuilder>(null, MockBehavior.Strict);
         scanner = new Scanner(
             aiCrawlerMock.object,
             reportGeneratorMock.object,
@@ -73,6 +77,7 @@ describe(Scanner, () => {
             crawlArgumentHandlerMock.object,
             taskConfigMock.object,
             crawlerParametersBuilder.object,
+            baselineOptionsBuilderMock.object,
         );
         combinedScanResult = {
             scanMetadata: {
@@ -122,7 +127,10 @@ describe(Scanner, () => {
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
             exitMock.setup((em) => em(1)).verifiable(Times.once());
-            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
+            taskConfigMock
+                .setup((m) => m.getScanTimeout())
+                .returns((_) => scanTimeoutMsec)
+                .verifiable(Times.once());
             setupWaitForPromiseToReturnTimeoutPromise();
             await scanner.scan();
 
@@ -141,7 +149,7 @@ describe(Scanner, () => {
                 .verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL undefined completed`)).verifiable(Times.once());
             progressReporterMock.setup((p) => p.failRun(util.inspect(error))).verifiable(Times.once());
-            localFileServerMock.setup((m) => m.stop());
+            localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
 
             setupWaitForPromisetoReturnOriginalPromise();
 
@@ -151,10 +159,19 @@ describe(Scanner, () => {
         });
 
         function setupMocksForSuccessfulScan(baselineEvaluation?: BaselineEvaluation): void {
-            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
-            taskConfigMock.setup((m) => m.getUrl()).returns((_) => scanArguments.url);
+            taskConfigMock
+                .setup((m) => m.getScanTimeout())
+                .returns((_) => scanTimeoutMsec)
+                .verifiable(Times.once());
+            taskConfigMock
+                .setup((m) => m.getUrl())
+                .returns((_) => scanArguments.url)
+                .verifiable(Times.once());
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
-            crawlArgumentHandlerMock.setup((m) => m.processScanArguments(It.isAny())).returns((_) => scanArguments);
+            crawlArgumentHandlerMock
+                .setup((m) => m.processScanArguments(It.isAny()))
+                .returns((_) => scanArguments)
+                .verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`)).verifiable(Times.once());
             loggerMock
                 .setup((lm) => lm.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`))
@@ -164,11 +181,20 @@ describe(Scanner, () => {
                 baseUrl: scanArguments.url,
             };
 
-            crawlerParametersBuilder.setup((m) => m.build(scanArguments)).returns((_) => crawlerParams);
+            const baselineOptions: BaselineOptions = {} as BaselineOptions;
+
+            crawlerParametersBuilder
+                .setup((m) => m.build(scanArguments))
+                .returns((_) => crawlerParams)
+                .verifiable(Times.once());
+            baselineOptionsBuilderMock
+                .setup((m) => m.build(scanArguments))
+                .returns(() => baselineOptions)
+                .verifiable(Times.once());
 
             combinedScanResult.baselineEvaluation = baselineEvaluation;
             aiCrawlerMock
-                .setup((m) => m.crawl(crawlerParams))
+                .setup((m) => m.crawl(crawlerParams, baselineOptions))
                 .returns(async () => {
                     return Promise.resolve(combinedScanResult);
                 })
@@ -193,7 +219,7 @@ describe(Scanner, () => {
                 .returns(async (scanPromiseObj) => {
                     return scanPromiseObj;
                 })
-                .verifiable();
+                .verifiable(Times.once());
         }
 
         function setupWaitForPromiseToReturnTimeoutPromise(): void {
@@ -203,7 +229,7 @@ describe(Scanner, () => {
                 .returns(async (_, __, timeoutCb) => {
                     return timeoutCb();
                 })
-                .verifiable();
+                .verifiable(Times.once());
         }
     });
 
@@ -217,5 +243,6 @@ describe(Scanner, () => {
         reportGeneratorMock.verifyAll();
         localFileServerMock.verifyAll();
         promiseUtilsMock.verifyAll();
+        baselineOptionsBuilderMock.verifyAll();
     }
 });
