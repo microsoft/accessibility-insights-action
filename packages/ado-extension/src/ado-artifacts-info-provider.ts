@@ -18,7 +18,10 @@ export class ADOArtifactsInfoProvider extends ArtifactsInfoProvider {
             return undefined;
         }
 
-        return `${collectionUri}${teamProject}/_build/results?buildId=${runId}&view=artifacts&pathAsName=false&type=publishedArtifacts`;
+        const url = new URL(
+            `${collectionUri}${teamProject}/_build/results?buildId=${runId}&view=artifacts&pathAsName=false&type=publishedArtifacts`,
+        );
+        return url.toString();
     }
 
     public getCommitHash(): string | undefined {
