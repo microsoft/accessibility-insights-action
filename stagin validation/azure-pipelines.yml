@@ -1,0 +1,28 @@
+# Starter pipeline
+
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+    - lisli-test
+
+pr:
+    - main
+
+pool:
+    vmImage: ubuntu-latest
+
+steps:
+    - script: npx serve -l 5858 &
+
+    - task: accessibility-insights.staging.task.accessibility-insights@1.0.4
+      displayName: Scan for accessibility issues
+      inputs:
+          url: 'http://localhost:5858/'
+          baselineFile: 'sample.txt'
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
+      displayName: Upload report artifact
+      condition: succeededOrFailed()
+      artifact: 'accessibility-reports'
