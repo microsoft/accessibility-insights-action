@@ -15,7 +15,7 @@ pool:
 
 steps:
     - script: npx serve -l 5858 &
-    - workingDirectory: '$(System.DefaultWorkingDirectory)/stagin validation'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/stagin validation'
 
     - task: accessibility-insights.staging.task.accessibility-insights@1.0.4
       displayName: Scan for accessibility issues
