@@ -18,38 +18,41 @@ describe(ADOArtifactsInfoProvider, () => {
     describe('getArtifactsUrl', () => {
         const collectionUri = 'https://dev.azure.com/myOrganizationName/';
         const teamProject = 'myProject';
+        const teamProjectEscaped = 'my Projéct';
         const runId = 100;
         const expectedArtifactsUrl = `${collectionUri}${teamProject}/_build/results?buildId=${runId}&view=artifacts&pathAsName=false&type=publishedArtifacts`;
+        const expectedEscapedArtifactsUrl = `https://dev.azure.com/myOrganizationName/my%20Proj%C3%A9ct/_build/results?buildId=100&view=artifacts&pathAsName=false&type=publishedArtifacts`;
 
         it.each`
-            collectionUri    | teamProject    | runId        | expectedUrl
-            ${collectionUri} | ${teamProject} | ${100}       | ${expectedArtifactsUrl}
-            ${collectionUri} | ${teamProject} | ${undefined} | ${undefined}
-            ${collectionUri} | ${teamProject} | ${''}        | ${undefined}
-            ${collectionUri} | ${undefined}   | ${100}       | ${undefined}
-            ${collectionUri} | ${undefined}   | ${undefined} | ${undefined}
-            ${collectionUri} | ${undefined}   | ${''}        | ${undefined}
-            ${collectionUri} | ${''}          | ${100}       | ${undefined}
-            ${collectionUri} | ${''}          | ${undefined} | ${undefined}
-            ${collectionUri} | ${''}          | ${''}        | ${undefined}
-            ${undefined}     | ${teamProject} | ${100}       | ${undefined}
-            ${undefined}     | ${teamProject} | ${undefined} | ${undefined}
-            ${undefined}     | ${teamProject} | ${''}        | ${undefined}
-            ${undefined}     | ${undefined}   | ${100}       | ${undefined}
-            ${undefined}     | ${undefined}   | ${undefined} | ${undefined}
-            ${undefined}     | ${undefined}   | ${''}        | ${undefined}
-            ${undefined}     | ${''}          | ${100}       | ${undefined}
-            ${undefined}     | ${''}          | ${undefined} | ${undefined}
-            ${undefined}     | ${''}          | ${''}        | ${undefined}
-            ${''}            | ${teamProject} | ${100}       | ${undefined}
-            ${''}            | ${teamProject} | ${undefined} | ${undefined}
-            ${''}            | ${teamProject} | ${''}        | ${undefined}
-            ${''}            | ${undefined}   | ${100}       | ${undefined}
-            ${''}            | ${undefined}   | ${undefined} | ${undefined}
-            ${''}            | ${undefined}   | ${''}        | ${undefined}
-            ${''}            | ${''}          | ${100}       | ${undefined}
-            ${''}            | ${''}          | ${undefined} | ${undefined}
-            ${''}            | ${''}          | ${''}        | ${undefined}
+            collectionUri    | teamProject           | runId        | expectedUrl
+            ${collectionUri} | ${teamProject}        | ${100}       | ${expectedArtifactsUrl}
+            ${collectionUri} | ${teamProjectEscaped} | ${100}       | ${expectedEscapedArtifactsUrl}
+            ${collectionUri} | ${teamProject}        | ${undefined} | ${undefined}
+            ${collectionUri} | ${teamProject}        | ${''}        | ${undefined}
+            ${collectionUri} | ${undefined}          | ${100}       | ${undefined}
+            ${collectionUri} | ${undefined}          | ${undefined} | ${undefined}
+            ${collectionUri} | ${undefined}          | ${''}        | ${undefined}
+            ${collectionUri} | ${''}                 | ${100}       | ${undefined}
+            ${collectionUri} | ${''}                 | ${undefined} | ${undefined}
+            ${collectionUri} | ${''}                 | ${''}        | ${undefined}
+            ${undefined}     | ${teamProject}        | ${100}       | ${undefined}
+            ${undefined}     | ${teamProject}        | ${undefined} | ${undefined}
+            ${undefined}     | ${teamProject}        | ${''}        | ${undefined}
+            ${undefined}     | ${undefined}          | ${100}       | ${undefined}
+            ${undefined}     | ${undefined}          | ${undefined} | ${undefined}
+            ${undefined}     | ${undefined}          | ${''}        | ${undefined}
+            ${undefined}     | ${''}                 | ${100}       | ${undefined}
+            ${undefined}     | ${''}                 | ${undefined} | ${undefined}
+            ${undefined}     | ${''}                 | ${''}        | ${undefined}
+            ${''}            | ${teamProject}        | ${100}       | ${undefined}
+            ${''}            | ${teamProject}        | ${undefined} | ${undefined}
+            ${''}            | ${teamProject}        | ${''}        | ${undefined}
+            ${''}            | ${undefined}          | ${100}       | ${undefined}
+            ${''}            | ${undefined}          | ${undefined} | ${undefined}
+            ${''}            | ${undefined}          | ${''}        | ${undefined}
+            ${''}            | ${''}                 | ${100}       | ${undefined}
+            ${''}            | ${''}                 | ${undefined} | ${undefined}
+            ${''}            | ${''}                 | ${''}        | ${undefined}
         `(
             `returns '$expectedUrl' with collectionUri '$collectionUri', teamProject '$teamProject', runId '$runId'`,
             ({ collectionUri, teamProject, runId, expectedUrl }) => {
