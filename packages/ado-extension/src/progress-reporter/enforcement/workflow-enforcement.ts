@@ -25,7 +25,7 @@ export class WorkflowEnforcement extends ProgressReporter {
     }
 
     public async start(): Promise<void> {
-        // We don't do anything for pull request flow
+        // We don't do anything for workflow enforcement
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
@@ -40,10 +40,9 @@ export class WorkflowEnforcement extends ProgressReporter {
         return Promise.resolve();
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     public async failRun(message: string): Promise<void> {
         if (!this.isSupported()) {
-            return;
+            return Promise.resolve();
         }
 
         throw new Error(message);

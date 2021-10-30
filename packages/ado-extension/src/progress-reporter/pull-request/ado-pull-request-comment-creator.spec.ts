@@ -25,7 +25,6 @@ describe(ADOPullRequestCommentCreator, () => {
     let loggerMock: IMock<Logger>;
     let nodeApiMock: IMock<typeof nodeApi>;
     let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
-    let workflowEnforcementMock: IMock<ProgressReporter>;
     let webApiMock: IMock<nodeApi.WebApi>;
     let prCommentCreator: ADOPullRequestCommentCreator;
 
@@ -44,7 +43,6 @@ describe(ADOPullRequestCommentCreator, () => {
         loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
         nodeApiMock = Mock.ofType<typeof nodeApi>(undefined, MockBehavior.Strict);
         webApiMock = Mock.ofType<nodeApi.WebApi>(undefined, MockBehavior.Strict);
-        workflowEnforcementMock = Mock.ofType<ProgressReporter>(undefined, MockBehavior.Strict);
         reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>();
     });
 
@@ -197,7 +195,6 @@ describe(ADOPullRequestCommentCreator, () => {
             setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
-            setupWorkflowEnforcementMockCompleteRun(reportStub);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
             await prCommentCreator.completeRun(reportStub);
@@ -222,7 +219,6 @@ describe(ADOPullRequestCommentCreator, () => {
             setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
-            setupWorkflowEnforcementMockCompleteRun(reportStub);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
             await prCommentCreator.completeRun(reportStub);
@@ -250,7 +246,6 @@ describe(ADOPullRequestCommentCreator, () => {
             setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
-            setupWorkflowEnforcementMockCompleteRun(reportStub);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
             await prCommentCreator.completeRun(reportStub);
@@ -260,30 +255,14 @@ describe(ADOPullRequestCommentCreator, () => {
     });
 
     describe('failRun', () => {
-        it('chain to next reporter but do nothing else if isSupported returns false', async () => {
+        it('does nothing interesting', async () => {
             const message = 'message';
             setupIsSupportedReturnsTrue();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
-            setupIsSupportedReturnsFalse();
-            setupWorkflowEnforcementMockFailRun(message);
-
             prCommentCreator = buildPrCommentCreatorWithMocks();
+
             await prCommentCreator.failRun(message);
-
-            verifyAllMocks();
-        });
-
-        it('chain to next reporter then reject promise with matching error', async () => {
-            const message = 'message';
-            setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName();
-            setupInitializeSetConnection(webApiMock.object);
-            setupWorkflowEnforcementMockFailRun(message);
-
-            prCommentCreator = buildPrCommentCreatorWithMocks();
-
-            await expect(prCommentCreator.failRun(message)).rejects.toThrowError(message);
 
             verifyAllMocks();
         });
@@ -296,7 +275,6 @@ describe(ADOPullRequestCommentCreator, () => {
             loggerMock.object,
             adoTaskMock.object,
             nodeApiMock.object,
-            workflowEnforcementMock.object,
         );
 
     const verifyAllMocks = () => {
@@ -305,7 +283,6 @@ describe(ADOPullRequestCommentCreator, () => {
         loggerMock.verifyAll();
         reportMarkdownConvertorMock.verifyAll();
         webApiMock.verifyAll();
-        workflowEnforcementMock.verifyAll();
     };
 
     const setupIsSupportedReturnsTrue = () => {
@@ -439,23 +416,6 @@ describe(ADOPullRequestCommentCreator, () => {
         nodeApiMock
             .setup((o) => new o.WebApi(url, handlerStub))
             .returns(() => connection)
-            .verifiable(Times.once());
-    };
-
-    const setupWorkflowEnforcementMockCompleteRun = (
-        combinedReporterParameters: CombinedReportParameters,
-        baselineEvaluation?: BaselineEvaluation,
-    ) => {
-        workflowEnforcementMock
-            .setup((o) => o.completeRun(combinedReporterParameters, baselineEvaluation))
-            .returns(() => Promise.resolve())
-            .verifiable(Times.once());
-    };
-
-    const setupWorkflowEnforcementMockFailRun = (message: string) => {
-        workflowEnforcementMock
-            .setup((o) => o.failRun(message))
-            .returns(() => Promise.resolve())
             .verifiable(Times.once());
     };
 

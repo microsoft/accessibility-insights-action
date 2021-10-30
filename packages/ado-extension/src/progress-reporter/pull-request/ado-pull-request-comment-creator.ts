@@ -29,7 +29,6 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         @inject(Logger) private readonly logger: Logger,
         @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
         @inject(AdoIocTypes.NodeApi) private readonly nodeApi: typeof NodeApi,
-        @inject(WorkflowEnforcement) private readonly workflowEnforcement: ProgressReporter,
     ) {
         super();
         if (!this.isSupported()) {
@@ -163,19 +162,11 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             await gitApiObject.updateComment(newPreviousComment, repoId, prId, existingThread.id, existingPreviousComment.id);
             await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
         }
-
-        await this.workflowEnforcement.completeRun(combinedReportResult, baselineEvaluation);
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public async failRun(message: string): Promise<void> {
-        await this.workflowEnforcement.failRun(message);
-
-        if (!this.isSupported()) {
-            return;
-        }
-
-        throw new Error(message);
+        return Promise.resolve();
     }
 
     private getBaselineInfo(baselineEvaluation?: BaselineEvaluation): BaselineInfo {
