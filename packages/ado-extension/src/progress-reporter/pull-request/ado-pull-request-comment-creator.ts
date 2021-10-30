@@ -13,8 +13,9 @@ import * as NodeApi from 'azure-devops-node-api';
 import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
-import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { BaselineInfo } from '@accessibility-insights-action/shared';
+import { WorkflowEnforcement } from '../workflow/workflow-enforcement';
 
 @injectable()
 export class AdoPullRequestCommentCreator extends ProgressReporter {
@@ -28,6 +29,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         @inject(Logger) private readonly logger: Logger,
         @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
         @inject(AdoIocTypes.NodeApi) private readonly nodeApi: typeof NodeApi,
+        @inject(WorkflowEnforcement) private readonly workflowEnforcement: ProgressReporter,
     ) {
         super();
         if (!this.isSupported()) {
@@ -162,19 +164,18 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
         }
 
-        this.failOnAccessibilityError(combinedReportResult);
-        if (baselineEvaluation) {
-            this.failOnBaselineNotUpdated(baselineEvaluation.suggestedBaselineUpdate);
-        }
+        await this.workflowEnforcement.completeRun(combinedReportResult, baselineEvaluation);
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
     public async failRun(message: string): Promise<void> {
+        await this.workflowEnforcement.failRun(message);
+
         if (!this.isSupported()) {
             return;
         }
 
-        throw message;
+        throw new Error(message);
     }
 
     private getBaselineInfo(baselineEvaluation?: BaselineEvaluation): BaselineInfo {
@@ -185,18 +186,6 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         }
 
         return { baselineFileName, baselineEvaluation };
-    }
-
-    private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {
-        if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
-            throw new Error('Failed Accessibility Error');
-        }
-    }
-
-    private failOnBaselineNotUpdated(suggestedBaselineUpdate: null | BaselineFileContent): void {
-        if (this.adoTaskConfig.getBaselineFile() !== undefined && suggestedBaselineUpdate !== null) {
-            throw new Error('Failed: The baseline file needs to be updated. See the PR comments for more details.');
-        }
     }
 
     private isSupported(): boolean {
