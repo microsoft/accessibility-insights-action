@@ -10,7 +10,7 @@ import { AdoPullRequestCommentCreator } from '../progress-reporter/pull-request/
 import { AdoIocTypes } from './ado-ioc-types';
 import * as process from 'process';
 import { ADOArtifactsInfoProvider } from '../ado-artifacts-info-provider';
-import { WorkflowEnforcement } from '../progress-reporter/workflow/workflow-enforcement';
+import { WorkflowEnforcement } from '../progress-reporter/enforcement/workflow-enforcement';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
