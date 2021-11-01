@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as adoTask from 'azure-pipelines-task-lib/task';
-
 import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
@@ -13,12 +11,10 @@ import { WorkflowEnforcer } from './workflow-enforcer';
 
 describe(WorkflowEnforcer, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
-    let adoTaskMock: IMock<typeof adoTask>;
     let workflowEnforcer: WorkflowEnforcer;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
-        adoTaskMock = Mock.ofType<typeof adoTask>(undefined, MockBehavior.Strict);
     });
 
     describe('constructor', () => {
@@ -107,10 +103,9 @@ describe(WorkflowEnforcer, () => {
         });
     });
 
-    const buildWorkflowEnforcerWithMocks = () => new WorkflowEnforcer(adoTaskConfigMock.object, adoTaskMock.object);
+    const buildWorkflowEnforcerWithMocks = () => new WorkflowEnforcer(adoTaskConfigMock.object);
 
     const verifyAllMocks = () => {
-        adoTaskMock.verifyAll();
         adoTaskConfigMock.verifyAll();
     };
 

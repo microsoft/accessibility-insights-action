@@ -24,6 +24,7 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
         .toDynamicValue((context) => {
             switch (process.env.BUILD_REPOSITORY_PROVIDER) {
                 case 'TfsGit': {
+                    // Note: Keep the WorkflowEnforcer creator last in the array!
                     const pullRequestCommentCreator = context.container.get(AdoPullRequestCommentCreator);
                     return [pullRequestCommentCreator, context.container.get(WorkflowEnforcer)];
                 }

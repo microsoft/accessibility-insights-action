@@ -6,14 +6,12 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
 import { ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import * as AdoTask from 'azure-pipelines-task-lib/task';
-import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 
 @injectable()
 export class WorkflowEnforcer extends ProgressReporter {
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
-        @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
     ) {
         super();
     }
@@ -22,10 +20,10 @@ export class WorkflowEnforcer extends ProgressReporter {
         // We don't do anything for workflow enforcement
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
         this.failIfAccessibilityErrorExists(combinedReportResult);
         this.failIfBaselineNeedsUpdating(baselineEvaluation);
-        return Promise.resolve();
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
