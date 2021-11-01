@@ -8,6 +8,8 @@ import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { AllProgressReporter } from './all-progress-reporter';
 import { ProgressReporter } from './progress-reporter';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 describe(AllProgressReporter, () => {
     let testSubject: AllProgressReporter;
     let progressReporterMock: IMock<ProgressReporter>;
@@ -29,6 +31,13 @@ describe(AllProgressReporter, () => {
     });
 
     describe('complete', () => {
+        const failingReporterError = new Error('error from failingReporter');
+        const failingReporter = {
+            completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
+                throw failingReporterError;
+            },
+        } as ProgressReporter;
+
         it('should invoke all reporters', async () => {
             const axeResults = 'axe results' as unknown as CombinedReportParameters;
             executeOnReporter((reporter) => {
@@ -44,14 +53,33 @@ describe(AllProgressReporter, () => {
         it('should invoke all reporters when baselineEvaluation is available', async () => {
             const axeResults = 'axe results' as unknown as CombinedReportParameters;
             const baselineEvalStub = 'baseline evaluation' as unknown as BaselineEvaluation;
+
+            progressReporterMock
+                .setup((p) => p.completeRun(axeResults, baselineEvalStub))
+                .returns(() => Promise.resolve())
+                .verifiable(Times.once());
+
+            await testSubject.completeRun(axeResults);
+        });
+
+        it('should invoke subsequent reporters even if the first one throws', async () => {
+            const testSubject = new AllProgressReporter([failingReporter, progressReporterMock.object]);
+            const axeResults = 'axe results' as unknown as CombinedReportParameters;
             executeOnReporter((reporter) => {
                 reporter
-                    .setup((p) => p.completeRun(axeResults, baselineEvalStub))
+                    .setup((p) => p.completeRun(axeResults))
                     .returns(() => Promise.resolve())
                     .verifiable(Times.once());
             });
 
-            await testSubject.completeRun(axeResults, baselineEvalStub);
+            // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
+            await expect(testSubject.completeRun(axeResults)).rejects.toThrowError(failingReporterError);
+        });
+
+        it('should rethrow an AggregateError if multiple reporters throw', async () => {
+            const testSubject = new AllProgressReporter([failingReporter, failingReporter]);
+
+            await expect(testSubject.completeRun({} as CombinedReportParameters)).rejects.toThrowErrorMatchingInlineSnapshot();
         });
     });
 
