@@ -165,7 +165,7 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public async failRun(message: string): Promise<void> {
-        return Promise.resolve();
+        // This gets handled in the WorkflowEnforcer
     }
 
     private getBaselineInfo(baselineEvaluation?: BaselineEvaluation): BaselineInfo {
