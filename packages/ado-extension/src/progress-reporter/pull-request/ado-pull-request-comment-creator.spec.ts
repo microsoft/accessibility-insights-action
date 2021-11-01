@@ -15,8 +15,7 @@ import {
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
-import { Logger, ProgressReporter, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
-import { BaselineEvaluation } from 'accessibility-insights-scan';
+import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 
 describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;
