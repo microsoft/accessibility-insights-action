@@ -22,7 +22,7 @@ describe(WorkflowEnforcer, () => {
     });
 
     describe('constructor', () => {
-        it('should initialize', () => {
+        it('initializes', () => {
             workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
             verifyAllMocks();
@@ -30,35 +30,28 @@ describe(WorkflowEnforcer, () => {
     });
 
     describe('completeRun', () => {
-        it('should succeed if baseline is not enabled', async () => {
-            const reportStub = {} as CombinedReportParameters;
+        it('throws correct error if accessibility error occurred', async () => {
+            const reportStub = {
+                results: {
+                    urlResults: {
+                        failedUrls: 1,
+                    },
+                },
+            } as unknown as CombinedReportParameters;
             const baselineEvaluationStub = {} as BaselineEvaluation;
 
-            setupFailOnAccessibilityError(false);
-            setupBaselineFileParameterDoesNotExist();
+            setupFailOnAccessibilityError(true);
 
             workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
-            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
+            await expect(workflowEnforcer.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
+                'Failed Accessibility Error',
+            );
 
             verifyAllMocks();
         });
 
-        it('should succeed in happy path', async () => {
-            const reportStub = {} as CombinedReportParameters;
-            const baselineEvaluationStub = {} as BaselineEvaluation;
-
-            setupFailOnAccessibilityError(false);
-            setupBaselineFileParameterExists();
-
-            workflowEnforcer = buildWorkflowEnforcerWithMocks();
-
-            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
-
-            verifyAllMocks();
-        });
-
-        it('should throw error if baseline needs to be updated', async () => {
+        it('throws correct error if baseline needs to be updated', async () => {
             const reportStub = {} as CombinedReportParameters;
             const baselineEvaluationStub = {
                 suggestedBaselineUpdate: {} as BaselineFileContent,
@@ -76,23 +69,30 @@ describe(WorkflowEnforcer, () => {
             verifyAllMocks();
         });
 
-        it('should throw error if accessibiity error occurred', async () => {
-            const reportStub = {
-                results: {
-                    urlResults: {
-                        failedUrls: 1,
-                    },
-                },
-            } as unknown as CombinedReportParameters;
+        it('succeeds in happy path (baseline enabled)', async () => {
+            const reportStub = {} as CombinedReportParameters;
             const baselineEvaluationStub = {} as BaselineEvaluation;
 
-            setupFailOnAccessibilityError(true);
+            setupFailOnAccessibilityError(false);
+            setupBaselineFileParameterExists();
 
             workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
-            await expect(workflowEnforcer.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
-                'Failed Accessibility Error',
-            );
+            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
+
+            verifyAllMocks();
+        });
+
+        it('succeeds in happy path (baseline not enabled)', async () => {
+            const reportStub = {} as CombinedReportParameters;
+            const baselineEvaluationStub = {} as BaselineEvaluation;
+
+            setupFailOnAccessibilityError(false);
+            setupBaselineFileParameterDoesNotExist();
+
+            workflowEnforcer = buildWorkflowEnforcerWithMocks();
+
+            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
 
             verifyAllMocks();
         });
