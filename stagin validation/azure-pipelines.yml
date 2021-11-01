@@ -21,7 +21,7 @@ steps:
       displayName: Scan for accessibility issues
       inputs:
           url: 'http://localhost:5858/'
-          baselineFile: 'sample.txt'
+          baselineFile: '$(System.DefaultWorkingDirectory)/stagin validation/sample.txt'
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
       displayName: Upload report artifact
