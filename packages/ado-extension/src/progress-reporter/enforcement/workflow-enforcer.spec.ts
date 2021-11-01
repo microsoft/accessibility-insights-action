@@ -14,7 +14,7 @@ import { WorkflowEnforcer } from './workflow-enforcer';
 describe(WorkflowEnforcer, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let adoTaskMock: IMock<typeof adoTask>;
-    let workflowEnforcement: WorkflowEnforcer;
+    let workflowEnforcer: WorkflowEnforcer;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
@@ -22,30 +22,40 @@ describe(WorkflowEnforcer, () => {
     });
 
     describe('constructor', () => {
-        it('should not initialize if isSupported returns false', () => {
-            setupIsSupportedReturnsFalse();
-
-            workflowEnforcement = buildWorkflowEnforcementWithMocks();
-
-            verifyAllMocks();
-        });
-
-        it('should initialize if isSupported returns true', () => {
-            setupIsSupportedReturnsTrue();
-
-            workflowEnforcement = buildWorkflowEnforcementWithMocks();
+        it('should initialize', () => {
+            workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
             verifyAllMocks();
         });
     });
 
     describe('completeRun', () => {
-        it('should do nothing if isSupported returns false', async () => {
-            const reportStub: CombinedReportParameters = {} as CombinedReportParameters;
-            setupIsSupportedReturnsFalse();
-            workflowEnforcement = buildWorkflowEnforcementWithMocks();
+        it('should succeed if baseline is not enabled', async () => {
+            const reportStub = {} as CombinedReportParameters;
+            const baselineEvaluationStub = {
+            } as BaselineEvaluation;
 
-            await workflowEnforcement.completeRun(reportStub);
+            setupFailOnAccessibilityError(false);
+            setupBaselineFileParameterDoesNotExist();
+
+            workflowEnforcer = buildWorkflowEnforcerWithMocks();
+
+            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
+
+            verifyAllMocks();
+        });
+
+        it('should succeed in happy path', async () => {
+            const reportStub = {} as CombinedReportParameters;
+            const baselineEvaluationStub = {
+            } as BaselineEvaluation;
+
+            setupFailOnAccessibilityError(false);
+            setupBaselineFileParameterExists();
+
+            workflowEnforcer = buildWorkflowEnforcerWithMocks();
+
+            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
 
             verifyAllMocks();
         });
@@ -56,13 +66,12 @@ describe(WorkflowEnforcer, () => {
                 suggestedBaselineUpdate: {} as BaselineFileContent,
             } as BaselineEvaluation;
 
-            setupIsSupportedReturnsTrue();
             setupFailOnAccessibilityError(false);
             setupBaselineFileParameterExists();
 
-            workflowEnforcement = buildWorkflowEnforcementWithMocks();
+            workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
-            await expect(workflowEnforcement.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
+            await expect(workflowEnforcer.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
                 'Failed: The baseline file needs to be updated. See the PR comments for more details.',
             );
 
@@ -79,12 +88,11 @@ describe(WorkflowEnforcer, () => {
             } as unknown as CombinedReportParameters;
             const baselineEvaluationStub = {} as BaselineEvaluation;
 
-            setupIsSupportedReturnsTrue();
             setupFailOnAccessibilityError(true);
 
-            workflowEnforcement = buildWorkflowEnforcementWithMocks();
+            workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
-            await expect(workflowEnforcement.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
+            await expect(workflowEnforcer.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
                 'Failed Accessibility Error',
             );
 
@@ -93,38 +101,19 @@ describe(WorkflowEnforcer, () => {
     });
 
     describe('failRun', () => {
-        it('do nothing if isSupported returns false', async () => {
-            setupIsSupportedReturnsTrue();
-            setupIsSupportedReturnsFalse();
-
-            workflowEnforcement = buildWorkflowEnforcementWithMocks();
-            await workflowEnforcement.failRun('message');
-
-            verifyAllMocks();
-        });
-
         it('reject promise with matching error', async () => {
-            setupIsSupportedReturnsTrue();
+            workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
-            workflowEnforcement = buildWorkflowEnforcementWithMocks();
-
-            await expect(workflowEnforcement.failRun('message')).rejects.toThrowError('message');
+            await expect(workflowEnforcer.failRun('message')).rejects.toThrowError('message');
             verifyAllMocks();
         });
     });
 
-    const buildWorkflowEnforcementWithMocks = () => new WorkflowEnforcer(adoTaskConfigMock.object, adoTaskMock.object);
+    const buildWorkflowEnforcerWithMocks = () => new WorkflowEnforcer(adoTaskConfigMock.object, adoTaskMock.object);
 
     const verifyAllMocks = () => {
         adoTaskMock.verifyAll();
         adoTaskConfigMock.verifyAll();
-    };
-
-    const setupIsSupportedReturnsTrue = () => {
-        adoTaskMock
-            .setup((o) => o.getVariable('Build.Reason'))
-            .returns(() => 'PullRequest')
-            .verifiable(Times.atLeastOnce());
     };
 
     const setupFailOnAccessibilityError = (fail: boolean) => {
@@ -145,13 +134,6 @@ describe(WorkflowEnforcer, () => {
         adoTaskConfigMock
             .setup((o) => o.getBaselineFile())
             .returns(() => undefined)
-            .verifiable(Times.atLeastOnce());
-    };
-
-    const setupIsSupportedReturnsFalse = () => {
-        adoTaskMock
-            .setup((o) => o.getVariable('Build.Reason'))
-            .returns(() => 'CI')
             .verifiable(Times.atLeastOnce());
     };
 });

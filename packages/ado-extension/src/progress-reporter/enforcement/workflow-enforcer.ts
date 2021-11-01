@@ -19,9 +19,6 @@ export class WorkflowEnforcer extends ProgressReporter {
         @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
     ) {
         super();
-        if (!this.isSupported()) {
-            return;
-        }
     }
 
     public async start(): Promise<void> {
@@ -29,10 +26,6 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
-        if (!this.isSupported()) {
-            return;
-        }
-
         this.failOnAccessibilityError(combinedReportResult);
         if (baselineEvaluation) {
             this.failOnBaselineNotUpdated(baselineEvaluation.suggestedBaselineUpdate);
@@ -40,11 +33,8 @@ export class WorkflowEnforcer extends ProgressReporter {
         return Promise.resolve();
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async failRun(message: string): Promise<void> {
-        if (!this.isSupported()) {
-            return Promise.resolve();
-        }
-
         throw new Error(message);
     }
 
@@ -58,9 +48,5 @@ export class WorkflowEnforcer extends ProgressReporter {
         if (this.adoTaskConfig.getBaselineFile() && suggestedBaselineUpdate) {
             throw new Error('Failed: The baseline file needs to be updated. See the PR comments for more details.');
         }
-    }
-
-    private isSupported(): boolean {
-        return this.adoTask.getVariable('Build.Reason') == 'PullRequest';
     }
 }
