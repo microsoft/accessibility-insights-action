@@ -120,11 +120,4 @@ describe(WorkflowEnforcer, () => {
             .returns(() => 'baseline-file')
             .verifiable(Times.atLeastOnce());
     };
-
-    const setupBaselineFileParameterDoesNotExist = () => {
-        adoTaskConfigMock
-            .setup((o) => o.getBaselineFile())
-            .returns(() => undefined)
-            .verifiable(Times.atLeastOnce());
-    };
 });
