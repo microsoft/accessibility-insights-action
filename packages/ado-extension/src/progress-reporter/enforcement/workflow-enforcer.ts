@@ -39,7 +39,7 @@ export class WorkflowEnforcer extends ProgressReporter {
 
     private failIfBaselineNeedsUpdating(baselineEvaluation?: BaselineEvaluation): void {
         if (baselineEvaluation && this.adoTaskConfig.getBaselineFile() && baselineEvaluation.suggestedBaselineUpdate) {
-            throw new Error('Failed: The baseline file needs to be updated. See the PR comments for more details.');
+            throw new Error('Failed: The baseline file does not match scan results. If this is a PR, check the PR comments.');
         }
     }
 }

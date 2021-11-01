@@ -59,7 +59,7 @@ describe(WorkflowEnforcer, () => {
             workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
             await expect(workflowEnforcer.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
-                'Failed: The baseline file needs to be updated. See the PR comments for more details.',
+                'Failed: The baseline file does not match scan results. If this is a PR, check the PR comments.',
             );
 
             verifyAllMocks();
