@@ -23,10 +23,8 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
-        this.failOnAccessibilityError(combinedReportResult);
-        if (baselineEvaluation) {
-            this.failOnBaselineNotUpdated(baselineEvaluation.suggestedBaselineUpdate);
-        }
+        this.failIfAccessibilityErrorExists(combinedReportResult);
+        this.failIfBaselineNeedsUpdating(baselineEvaluation);
         return Promise.resolve();
     }
 
@@ -35,14 +33,14 @@ export class WorkflowEnforcer extends ProgressReporter {
         throw new Error(message);
     }
 
-    private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {
+    private failIfAccessibilityErrorExists(combinedReportResult: CombinedReportParameters): void {
         if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
             throw new Error('Failed Accessibility Error');
         }
     }
 
-    private failOnBaselineNotUpdated(suggestedBaselineUpdate: null | BaselineFileContent): void {
-        if (this.adoTaskConfig.getBaselineFile() && suggestedBaselineUpdate) {
+    private failIfBaselineNeedsUpdating(baselineEvaluation?: BaselineEvaluation): void {
+        if (baselineEvaluation && this.adoTaskConfig.getBaselineFile() && baselineEvaluation.suggestedBaselineUpdate) {
             throw new Error('Failed: The baseline file needs to be updated. See the PR comments for more details.');
         }
     }
