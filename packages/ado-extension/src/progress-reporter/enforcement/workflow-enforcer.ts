@@ -10,7 +10,7 @@ import * as AdoTask from 'azure-pipelines-task-lib/task';
 import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
 
 @injectable()
-export class WorkflowEnforcement extends ProgressReporter {
+export class WorkflowEnforcer extends ProgressReporter {
     public static readonly CURRENT_COMMENT_TITLE = 'Results from Current Run';
     public static readonly PREVIOUS_COMMENT_TITLE = 'Results from Previous Run';
 

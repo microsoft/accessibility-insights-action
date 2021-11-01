@@ -10,7 +10,7 @@ import { AdoPullRequestCommentCreator } from '../progress-reporter/pull-request/
 import { AdoIocTypes } from './ado-ioc-types';
 import * as process from 'process';
 import { ADOArtifactsInfoProvider } from '../ado-artifacts-info-provider';
-import { WorkflowEnforcement } from '../progress-reporter/enforcement/workflow-enforcement';
+import { WorkflowEnforcer } from '../progress-reporter/enforcement/workflow-enforcer';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
@@ -18,17 +18,17 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
     container.bind(AdoIocTypes.NodeApi).toConstantValue(NodeApi);
     container.bind(iocTypes.TaskConfig).to(ADOTaskConfig).inSingletonScope();
     container.bind(AdoPullRequestCommentCreator).toSelf().inSingletonScope();
-    container.bind(WorkflowEnforcement).toSelf().inSingletonScope();
+    container.bind(WorkflowEnforcer).toSelf().inSingletonScope();
     container
         .bind(iocTypes.ProgressReporters)
         .toDynamicValue((context) => {
             switch (process.env.BUILD_REPOSITORY_PROVIDER) {
                 case 'TfsGit': {
                     const pullRequestCommentCreator = context.container.get(AdoPullRequestCommentCreator);
-                    return [pullRequestCommentCreator, context.container.get(WorkflowEnforcement)];
+                    return [pullRequestCommentCreator, context.container.get(WorkflowEnforcer)];
                 }
                 default: {
-                    return [context.container.get(WorkflowEnforcement)];
+                    return [context.container.get(WorkflowEnforcer)];
                 }
             }
         })

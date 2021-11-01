@@ -9,12 +9,12 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
-import { WorkflowEnforcement } from './workflow-enforcement';
+import { WorkflowEnforcer } from './workflow-enforcer';
 
-describe(WorkflowEnforcement, () => {
+describe(WorkflowEnforcer, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let adoTaskMock: IMock<typeof adoTask>;
-    let workflowEnforcement: WorkflowEnforcement;
+    let workflowEnforcement: WorkflowEnforcer;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
@@ -113,7 +113,7 @@ describe(WorkflowEnforcement, () => {
         });
     });
 
-    const buildWorkflowEnforcementWithMocks = () => new WorkflowEnforcement(adoTaskConfigMock.object, adoTaskMock.object);
+    const buildWorkflowEnforcementWithMocks = () => new WorkflowEnforcer(adoTaskConfigMock.object, adoTaskMock.object);
 
     const verifyAllMocks = () => {
         adoTaskMock.verifyAll();
