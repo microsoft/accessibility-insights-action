@@ -3,6 +3,8 @@
 
 import { throwOnAnyErrors, AggregateError } from './aggregate-error';
 
+/* eslint-disable no-regex-spaces */
+
 describe(throwOnAnyErrors, () => {
     it('does not throw if passed zero errors', () => {
         expect(() => throwOnAnyErrors([])).not.toThrow();
@@ -32,7 +34,9 @@ describe(AggregateError, () => {
 
     beforeEach(() => {
         const firstError = new Error('first error');
+        firstError.stack = `Error: first error\n    at <normalized first location>`;
         const secondError = new Error('second error');
+        secondError.stack = `Error: second error\n    at <normalized second location>`;
         testSubject = new AggregateError([firstError, secondError]);
     });
 
@@ -45,42 +49,18 @@ describe(AggregateError, () => {
     });
 
     it('uses the pinned stack format', () => {
-        const stackWithPathsStripped = testSubject.stack.replace(/^(\s*at .+) \((.+)\)$/gm, '$1 (...)');
+        // We normalize the actual stack location because it depends on system paths/node version
+        const stackWithLocationsCollapsed = testSubject.stack
+            .replace(/^(    at) .*\n/gm, '') // This removes all stack lines except the last one (which won't have the \n)
+            .replace(/^(    at) .*$/gm, '$1 <normalized location>'); // This normalizes the path/location in the last stack line
 
-        expect(stackWithPathsStripped).toMatchInlineSnapshot(`
+        expect(stackWithLocationsCollapsed).toMatchInlineSnapshot(`
             "AggregateError: Multiple errors occurred
                 Error: first error
-                    at Object.<anonymous> (...)
-                    at Promise.then.completed (...)
-                    at new Promise (...)
-                    at callAsyncCircusFn (...)
-                    at _callCircusHook (...)
-                    at processTicksAndRejections (...)
-                    at _runTest (...)
-                    at _runTestsForDescribeBlock (...)
-                    at _runTestsForDescribeBlock (...)
-                    at run (...)
+                    at <normalized first location>
                 Error: second error
-                    at Object.<anonymous> (...)
-                    at Promise.then.completed (...)
-                    at new Promise (...)
-                    at callAsyncCircusFn (...)
-                    at _callCircusHook (...)
-                    at processTicksAndRejections (...)
-                    at _runTest (...)
-                    at _runTestsForDescribeBlock (...)
-                    at _runTestsForDescribeBlock (...)
-                    at run (...)
-                at new AggregateError (...)
-                at Object.<anonymous> (...)
-                at Promise.then.completed (...)
-                at new Promise (...)
-                at callAsyncCircusFn (...)
-                at _callCircusHook (...)
-                at processTicksAndRejections (...)
-                at _runTest (...)
-                at _runTestsForDescribeBlock (...)
-                at _runTestsForDescribeBlock (...)"
+                    at <normalized second location>
+                at <normalized location>"
         `);
     });
 
