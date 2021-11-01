@@ -79,16 +79,14 @@ describe(WorkflowEnforcer, () => {
             verifyAllMocks();
         });
 
-        it('succeeds in happy path (baseline not enabled)', async () => {
+        it('succeeds in happy path (baselineEvaluation not provided)', async () => {
             const reportStub = {} as CombinedReportParameters;
-            const baselineEvaluationStub = {} as BaselineEvaluation;
 
             setupFailOnAccessibilityError(false);
-            setupBaselineFileParameterDoesNotExist();
 
             workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
-            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
+            await workflowEnforcer.completeRun(reportStub);
 
             verifyAllMocks();
         });
