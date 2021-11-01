@@ -16,8 +16,6 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
-import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
-import { BaselineInfo } from '@accessibility-insights-action/shared';
 
 describe(ADOPullRequestCommentCreator, () => {
     let adoTaskMock: IMock<typeof adoTask>;
@@ -193,7 +191,6 @@ describe(ADOPullRequestCommentCreator, () => {
             loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupFailOnAccessibilityError(false);
             setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
@@ -218,13 +215,12 @@ describe(ADOPullRequestCommentCreator, () => {
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             gitApiMock.setup((o) => o.createComment(newComment, repoId, prId, threadId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupFailOnAccessibilityError(true);
             setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            await expect(prCommentCreator.completeRun(reportStub)).rejects.toThrowError('Failed Accessibility Error');
+            await prCommentCreator.completeRun(reportStub);
 
             verifyAllMocks();
         });
@@ -246,78 +242,27 @@ describe(ADOPullRequestCommentCreator, () => {
             gitApiMock.setup((o) => o.updateComment(newPrevComment, repoId, prId, threadId, commentId + 1)).verifiable(Times.once());
             gitApiMock.setup((o) => o.updateComment(expectedComment, repoId, prId, threadId, commentId)).verifiable(Times.once());
             setupIsSupportedReturnsTrue();
-            setupFailOnAccessibilityError(true);
             setupBaselineFileParameterDoesNotExist();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            await expect(prCommentCreator.completeRun(reportStub)).rejects.toThrowError('Failed Accessibility Error');
-
-            verifyAllMocks();
-        });
-
-        it('should throw error if baseline needs to be updated', async () => {
-            const threadsStub: GitInterfaces.GitPullRequestCommentThread[] = [commentWithIdWithoutMatch];
-            const newThread = {
-                comments: [expectedComment],
-                status: GitInterfaces.CommentThreadStatus.Active,
-            };
-
-            const baselineEvaluationStub = {
-                suggestedBaselineUpdate: {} as BaselineFileContent,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName: 'baseline-file',
-                baselineEvaluation: baselineEvaluationStub,
-            };
-
-            setupReturnPrThread(repoId, prId, reportStub, reportMd, threadsStub);
-            reportMarkdownConvertorMock.reset();
-            reportMarkdownConvertorMock
-                .setup((o) => o.convert(reportStub, ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE, baselineInfo))
-                .returns(() => ADOPullRequestCommentCreator.CURRENT_COMMENT_TITLE + reportMd)
-                .verifiable(Times.once());
-            loggerMock.setup((o) => o.logInfo(`Didn't find an existing thread, making a new thread`)).verifiable(Times.once());
-            gitApiMock.setup((o) => o.createThread(newThread, repoId, prId)).verifiable(Times.once());
-            setupIsSupportedReturnsTrue();
-            setupFailOnAccessibilityError(false);
-            setupBaselineFileParameterExists();
-            setupInitializeWithoutServiceConnectionName();
-            setupInitializeSetConnection(webApiMock.object);
-
-            prCommentCreator = buildPrCommentCreatorWithMocks();
-
-            await expect(prCommentCreator.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
-                'Failed: The baseline file needs to be updated. See the PR comments for more details.',
-            );
+            await prCommentCreator.completeRun(reportStub);
 
             verifyAllMocks();
         });
     });
 
     describe('failRun', () => {
-        it('do nothing if isSupported returns false', async () => {
+        it('does nothing interesting', async () => {
+            const message = 'message';
             setupIsSupportedReturnsTrue();
             setupInitializeWithoutServiceConnectionName();
             setupInitializeSetConnection(webApiMock.object);
-            setupIsSupportedReturnsFalse();
-
-            prCommentCreator = buildPrCommentCreatorWithMocks();
-            await prCommentCreator.failRun('message');
-
-            verifyAllMocks();
-        });
-
-        it('reject promise with matching error', async () => {
-            setupIsSupportedReturnsTrue();
-            setupInitializeWithoutServiceConnectionName();
-            setupInitializeSetConnection(webApiMock.object);
-            setupIsSupportedReturnsTrue();
-
             prCommentCreator = buildPrCommentCreatorWithMocks();
 
-            await expect(prCommentCreator.failRun('message')).rejects.toMatch('message');
+            await prCommentCreator.failRun(message);
+
             verifyAllMocks();
         });
     });
@@ -343,20 +288,6 @@ describe(ADOPullRequestCommentCreator, () => {
         adoTaskMock
             .setup((o) => o.getVariable('Build.Reason'))
             .returns(() => 'PullRequest')
-            .verifiable(Times.atLeastOnce());
-    };
-
-    const setupFailOnAccessibilityError = (fail: boolean) => {
-        adoTaskConfigMock
-            .setup((o) => o.getFailOnAccessibilityError())
-            .returns(() => fail)
-            .verifiable(Times.atLeastOnce());
-    };
-
-    const setupBaselineFileParameterExists = () => {
-        adoTaskConfigMock
-            .setup((o) => o.getBaselineFile())
-            .returns(() => 'baseline-file')
             .verifiable(Times.atLeastOnce());
     };
 
