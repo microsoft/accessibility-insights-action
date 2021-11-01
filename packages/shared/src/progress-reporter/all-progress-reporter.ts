@@ -6,7 +6,7 @@ import { ProgressReporter } from './progress-reporter';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { iocTypes } from '../ioc/ioc-types';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
-import AggregateError from 'aggregate-error';
+import { throwOnAnyErrors } from '../utils/aggregate-error';
 
 @injectable()
 export class AllProgressReporter extends ProgressReporter {
@@ -41,10 +41,6 @@ export class AllProgressReporter extends ProgressReporter {
             }
         }
 
-        if (errors.length === 1) {
-            throw errors[0];
-        } else if(errors.length > 1) {
-            throw new AggregateError(errors);
-        }
+        throwOnAnyErrors(errors);
     }
 }
