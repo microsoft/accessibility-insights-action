@@ -11,9 +11,6 @@ import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-
 
 @injectable()
 export class WorkflowEnforcer extends ProgressReporter {
-    public static readonly CURRENT_COMMENT_TITLE = 'Results from Current Run';
-    public static readonly PREVIOUS_COMMENT_TITLE = 'Results from Previous Run';
-
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
