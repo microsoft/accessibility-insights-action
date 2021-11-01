@@ -10,9 +10,7 @@ import { BaselineEvaluation } from 'accessibility-insights-scan';
 
 @injectable()
 export class WorkflowEnforcer extends ProgressReporter {
-    constructor(
-        @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
-    ) {
+    constructor(@inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig) {
         super();
     }
 
