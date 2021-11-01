@@ -51,9 +51,9 @@ export class ResultMarkdownBuilder {
             lines = [
                 this.headingWithMessage(),
                 sectionSeparator(),
-                this.failureDetailsBaseline(combinedReportResult, failedChecks, baselineInfo.baselineEvaluation),
+                this.failureDetailsBaseline(failedChecks, combinedReportResult, baselineInfo),
                 sectionSeparator(),
-                this.baselineDetails(baselineInfo, failedChecks),
+                this.baselineDetails(baselineInfo),
                 sectionSeparator(),
                 sectionSeparator(),
                 this.downloadArtifactsWithLink(failedChecks, baselineInfo.baselineEvaluation),
@@ -88,7 +88,7 @@ export class ResultMarkdownBuilder {
         return heading(`${productTitle()}`, 3);
     };
 
-    private baselineDetails = (baselineInfo: BaselineInfo, failedChecks?: number): string => {
+    private baselineDetails = (baselineInfo: BaselineInfo): string => {
         const baselineFileName = baselineInfo.baselineFileName;
         const baselineEvaluation = baselineInfo.baselineEvaluation;
         const baseliningDocsUrl = `https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file`;
@@ -103,13 +103,14 @@ export class ResultMarkdownBuilder {
         } else if (baselineEvaluation === undefined) {
             lines = [bold('Baseline not detected'), sectionSeparator(), baselineNotDetectedHelpText];
         } else {
+            const newFailures = baselineEvaluation.totalNewViolations;
             const baselineFailures = baselineEvaluation.totalBaselineViolations;
-            if (baselineFailures === undefined || (baselineFailures === 0 && failedChecks > 0)) {
+            if (baselineFailures === undefined || (baselineFailures === 0 && newFailures > 0)) {
                 lines = [bold('Baseline not detected'), sectionSeparator(), baselineNotDetectedHelpText];
             } else if (baselineFailures > 0) {
                 const headingWithBaselineFailures = `${baselineFailures} failure instances in baseline`;
                 let baselineFailuresHelpText = `not shown; see ${baseliningDocsLink}`;
-                if (failedChecks > 0) {
+                if (newFailures > 0) {
                     baselineFailuresHelpText = baselineFailuresHelpText.concat(' for how to include new failures into the baseline');
                 }
                 lines = [bold(headingWithBaselineFailures), sectionSeparator(), `(${baselineFailuresHelpText})`];
@@ -165,50 +166,86 @@ export class ResultMarkdownBuilder {
     };
 
     private failureDetailsBaseline = (
-        combinedReportResult: CombinedReportParameters,
         failedChecks: number,
-        baselineEvaluation: BaselineEvaluation,
+        combinedReportResult: CombinedReportParameters,
+        baselineInfo: BaselineInfo,
     ): string => {
         let lines = [];
-        if (failedChecks === 0) {
-            const checkMark = ':white_check_mark:';
-            const pointRight = ':point_right:';
-            let failureDetailsHeading = `${checkMark} No failures detected`;
-            let failureDetailsDescription = `No failures were detected by automatic scanning.`;
-            if (baselineEvaluation !== undefined && baselineEvaluation.totalBaselineViolations > 0) {
-                failureDetailsHeading = `${checkMark} No new failures`;
-                failureDetailsDescription = 'No failures were detected by automatic scanning except those which exist in the baseline.';
-            }
-            const nextStepHeading = `${pointRight} Next step:`;
-            const tabStopsUrl = `https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops`;
-            const tabStopsLink = link(tabStopsUrl, 'Accessibility Insights Tab Stops');
-            const nextStepDescription = ` Manually assess keyboard accessibility with ${tabStopsLink}`;
-
-            lines = [
-                bold(failureDetailsHeading),
-                sectionSeparator(),
-                failureDetailsDescription,
-                sectionSeparator(),
-                sectionSeparator(),
-                bold(nextStepHeading),
-                nextStepDescription,
-                sectionSeparator(),
-            ];
+        if (!this.hasFailures(failedChecks, baselineInfo.baselineEvaluation)) {
+            lines = this.getNoFailuresText(baselineInfo.baselineEvaluation);
         } else {
-            const failedRulesList = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
-                const failureCount = failuresGroup.failed.length;
-                const ruleId = failuresGroup.failed[0].rule.ruleId;
-                const ruleDescription = failuresGroup.failed[0].rule.description;
-                return [this.failedRuleListItemBaseline(failureCount, ruleId, ruleDescription), sectionSeparator()].join('');
-            });
-            let failureInstancesHeading = `${failedChecks} failure instances`;
-            if (baselineEvaluation !== undefined && baselineEvaluation.totalBaselineViolations > 0) {
+            let failedRulesList;
+            let failureInstances = failedChecks;
+            if (!baselineInfo.baselineEvaluation) {
+                failedRulesList = this.getFailedRulesListWithNoBaseline(combinedReportResult);
+            } else {
+                failedRulesList = this.getNewFailuresList(combinedReportResult, baselineInfo.baselineEvaluation);
+                failureInstances = baselineInfo.baselineEvaluation.totalNewViolations;
+            }
+            let failureInstancesHeading = `${failureInstances} failure instances`;
+            if (this.baselineHasFailures(baselineInfo.baselineEvaluation)) {
                 failureInstancesHeading = failureInstancesHeading.concat(' not in baseline');
             }
             lines = [sectionSeparator(), bold(failureInstancesHeading), sectionSeparator(), ...failedRulesList];
         }
 
         return lines.join('');
+    };
+
+    private getNoFailuresText = (baselineEvaluation: BaselineEvaluation): string[] => {
+        const checkMark = ':white_check_mark:';
+        const pointRight = ':point_right:';
+        let failureDetailsHeading = `${checkMark} No failures detected`;
+        let failureDetailsDescription = `No failures were detected by automatic scanning.`;
+        if (this.baselineHasFailures(baselineEvaluation)) {
+            failureDetailsHeading = `${checkMark} No new failures`;
+            failureDetailsDescription = 'No failures were detected by automatic scanning except those which exist in the baseline.';
+        }
+        const nextStepHeading = `${pointRight} Next step:`;
+        const tabStopsUrl = `https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops`;
+        const tabStopsLink = link(tabStopsUrl, 'Accessibility Insights Tab Stops');
+        const nextStepDescription = ` Manually assess keyboard accessibility with ${tabStopsLink}`;
+
+        return [
+            bold(failureDetailsHeading),
+            sectionSeparator(),
+            failureDetailsDescription,
+            sectionSeparator(),
+            sectionSeparator(),
+            bold(nextStepHeading),
+            nextStepDescription,
+            sectionSeparator(),
+        ];
+    };
+
+    private getNewFailuresList = (combinedReportResult: CombinedReportParameters, baselineEvaluation: BaselineEvaluation): string[] => {
+        const newFailuresList = [];
+        for (const ruleId in baselineEvaluation.newViolationsByRule) {
+            const failureCount = baselineEvaluation.newViolationsByRule[ruleId];
+            const ruleDescription = this.getRuleDescription(combinedReportResult, ruleId);
+            newFailuresList.push([this.failedRuleListItemBaseline(failureCount, ruleId, ruleDescription), sectionSeparator()].join(''));
+        }
+
+        return newFailuresList;
+    };
+
+    private getFailedRulesListWithNoBaseline = (combinedReportResult: CombinedReportParameters): string[] => {
+        const failedRulesList = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
+            const failureCount = failuresGroup.failed.length;
+            const ruleId = failuresGroup.failed[0].rule.ruleId;
+            const ruleDescription = failuresGroup.failed[0].rule.description;
+            return [this.failedRuleListItemBaseline(failureCount, ruleId, ruleDescription), sectionSeparator()].join('');
+        });
+
+        return failedRulesList;
+    };
+
+    private getRuleDescription = (combinedReportResult: CombinedReportParameters, ruleId: string): string => {
+        const matchingFailuresGroup = combinedReportResult.results.resultsByRule.failed.find((failuresGroup) => {
+            return failuresGroup.failed[0].rule.ruleId === ruleId;
+        });
+
+        return matchingFailuresGroup.failed[0].rule.description;
     };
 
     private failedRuleListItemBaseline = (failureCount: number, ruleId: string, description: string) => {
@@ -237,9 +274,23 @@ export class ResultMarkdownBuilder {
     private downloadArtifactsWithLink(failedChecks: number, baselineEvaluation?: BaselineEvaluation): string {
         const artifactsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'run artifacts');
         let details = 'all failures and scan details';
-        if (failedChecks === 0 && baselineEvaluation !== undefined && !baselineEvaluation.totalBaselineViolations) {
+        if (!this.baselineHasFailures(baselineEvaluation) && !this.hasFailures(failedChecks, baselineEvaluation)) {
             details = 'scan details';
         }
         return `See ${details} by downloading the report from ${artifactsLink}`;
     }
+
+    private baselineHasFailures = (baselineEvaluation: BaselineEvaluation): boolean => {
+        return (
+            baselineEvaluation !== undefined && baselineEvaluation.totalBaselineViolations && baselineEvaluation.totalBaselineViolations > 0
+        );
+    };
+
+    private hasFailures = (failedChecks: number, baselineEvaluation: BaselineEvaluation): boolean => {
+        if (baselineEvaluation !== undefined) {
+            return baselineEvaluation.totalNewViolations > 0;
+        }
+
+        return failedChecks > 0;
+    };
 }

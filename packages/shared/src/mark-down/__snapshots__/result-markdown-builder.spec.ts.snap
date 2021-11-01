@@ -43,8 +43,8 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and new failures 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
 
-**4 failure instances not in baseline**
-* (3) **rule id**:  rule description
+**3 failure instances not in baseline**
+* (2) **rule id**:  rule description
 * (1) **rule id 2**:  rule description 2
 
 **1 failure instances in baseline**
@@ -175,7 +175,7 @@ No failures were detected by automatic scanning.
 **Baseline not detected**
 To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+See scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary

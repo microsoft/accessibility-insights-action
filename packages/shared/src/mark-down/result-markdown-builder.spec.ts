@@ -6,7 +6,7 @@ import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as axe from 'axe-core';
 import * as path from 'path';
-import { BaselineEvaluation } from 'accessibility-insights-scan';
+import { BaselineEvaluation, CountsByRule } from 'accessibility-insights-scan';
 import { BaselineInfo } from '../baseline-info';
 import { ArtifactsInfoProvider } from '../artifacts-info-provider';
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
@@ -146,6 +146,8 @@ describe(ResultMarkdownBuilder, () => {
         it('builds content when there are baseline failures and new failures', () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 1,
+                totalNewViolations: 3,
+                newViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
             } as BaselineEvaluation;
             const baselineInfo: BaselineInfo = {
                 baselineFileName,
@@ -246,6 +248,8 @@ describe(ResultMarkdownBuilder, () => {
         it('builds content when there are new failures and no baseline failures', () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 0,
+                totalNewViolations: 4,
+                newViolationsByRule: { 'rule id': 3, 'rule id 2': 1 } as CountsByRule,
             } as BaselineEvaluation;
             const baselineInfo: BaselineInfo = {
                 baselineFileName,
