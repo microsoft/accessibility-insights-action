@@ -36,7 +36,7 @@ export class AllProgressReporter extends ProgressReporter {
         for (let pos = 0; pos < length; pos += 1) {
             try {
                 await callback(this.progressReporters[pos]);
-            } catch(e) {
+            } catch (e) {
                 errors.push(e);
             }
         }

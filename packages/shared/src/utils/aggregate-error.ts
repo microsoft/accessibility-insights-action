@@ -15,30 +15,28 @@ export class AggregateError extends Error {
     constructor(errors: Error[], context?: string) {
         const messagePrefix = (context ?? 'Multiple errors occurred') + '\n';
 
-        const combinedSubstacks = errors
-            .map(error => error.stack ?? error.message)
-            .join('\n');
+        const combinedSubstacks = errors.map((error) => error.stack ?? error.message).join('\n');
 
         const indentedCombinedSubstacks = combinedSubstacks
             .split('\n')
-            .map(s => '    ' + s)
+            .map((s) => '    ' + s)
             .join('\n');
 
-        const tempErrorForStack = new Error(messagePrefix + indentedCombinedSubstacks)
+        const tempErrorForStack = new Error(messagePrefix + indentedCombinedSubstacks);
         tempErrorForStack.name = 'AggregateError';
         const fullCombinedStack = tempErrorForStack.stack;
 
-        const combinedSubmessages = errors.map(e => '    ' + e.message).join('\n');
+        const combinedSubmessages = errors.map((e) => '    ' + e.message).join('\n');
         const fullCombinedMessage = messagePrefix + combinedSubmessages;
 
         super(fullCombinedMessage);
-        
+
         this.name = 'AggregateError';
         this.stack = fullCombinedStack;
-		this._errors = errors;
-	}
+        this._errors = errors;
+    }
 
-	get errors(): Error[] {
-		return this._errors.slice();
-	}
+    get errors(): Error[] {
+        return this._errors.slice();
+    }
 }
