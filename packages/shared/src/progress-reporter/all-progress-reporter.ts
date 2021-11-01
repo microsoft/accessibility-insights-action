@@ -41,6 +41,6 @@ export class AllProgressReporter extends ProgressReporter {
             }
         }
 
-        throwOnAnyErrors(errors);
+        throwOnAnyErrors(errors, 'Multiple progress reporters encountered Errors');
     }
 }

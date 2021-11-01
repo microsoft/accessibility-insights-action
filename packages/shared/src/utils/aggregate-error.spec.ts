@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import AggregateError from 'aggregate-error';
-import { throwOnAnyErrors } from './aggregate-error';
+import { throwOnAnyErrors, AggregateError } from './aggregate-error';
 
 describe(throwOnAnyErrors, () => {
     it('does not throw if passed zero errors', () => {
@@ -17,7 +16,7 @@ describe(throwOnAnyErrors, () => {
     it('throws an AggregateError if passed multiple errors', () => {
         const firstError = new Error('first error');
         const secondError = new Error('second error');
-        
+
         try {
             throwOnAnyErrors([firstError, secondError]);
             fail(); // should throw
@@ -35,14 +34,54 @@ describe(AggregateError, () => {
         const firstError = new Error('first error');
         const secondError = new Error('second error');
         testSubject = new AggregateError([firstError, secondError]);
-    })
+    });
 
     it('uses the pinned message format', () => {
-        expect(testSubject.message).toMatchInlineSnapshot();
+        expect(testSubject.message).toMatchInlineSnapshot(`
+            "Multiple errors occurred
+                first error
+                second error"
+        `);
     });
 
     it('uses the pinned stack format', () => {
-        expect(testSubject.stack).toMatchInlineSnapshot();
+        const stackWithPathsStripped = testSubject.stack.replace(/^(\s*at .+) \((.+)\)$/gm, '$1 (...)');
+
+        expect(stackWithPathsStripped).toMatchInlineSnapshot(`
+            "AggregateError: Multiple errors occurred
+                Error: first error
+                    at Object.<anonymous> (...)
+                    at Promise.then.completed (...)
+                    at new Promise (...)
+                    at callAsyncCircusFn (...)
+                    at _callCircusHook (...)
+                    at processTicksAndRejections (...)
+                    at _runTest (...)
+                    at _runTestsForDescribeBlock (...)
+                    at _runTestsForDescribeBlock (...)
+                    at run (...)
+                Error: second error
+                    at Object.<anonymous> (...)
+                    at Promise.then.completed (...)
+                    at new Promise (...)
+                    at callAsyncCircusFn (...)
+                    at _callCircusHook (...)
+                    at processTicksAndRejections (...)
+                    at _runTest (...)
+                    at _runTestsForDescribeBlock (...)
+                    at _runTestsForDescribeBlock (...)
+                    at run (...)
+                at new AggregateError (...)
+                at Object.<anonymous> (...)
+                at Promise.then.completed (...)
+                at new Promise (...)
+                at callAsyncCircusFn (...)
+                at _callCircusHook (...)
+                at processTicksAndRejections (...)
+                at _runTest (...)
+                at _runTestsForDescribeBlock (...)
+                at _runTestsForDescribeBlock (...)"
+        `);
     });
 
     it('uses the name "AggregateError"', () => {

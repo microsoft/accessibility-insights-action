@@ -59,7 +59,7 @@ describe(AllProgressReporter, () => {
                 .returns(() => Promise.resolve())
                 .verifiable(Times.once());
 
-            await testSubject.completeRun(axeResults);
+            await testSubject.completeRun(axeResults, baselineEvalStub);
         });
 
         it('should invoke subsequent reporters even if the first one throws', async () => {
@@ -79,7 +79,11 @@ describe(AllProgressReporter, () => {
         it('should rethrow an AggregateError if multiple reporters throw', async () => {
             const testSubject = new AllProgressReporter([failingReporter, failingReporter]);
 
-            await expect(testSubject.completeRun({} as CombinedReportParameters)).rejects.toThrowErrorMatchingInlineSnapshot();
+            await expect(testSubject.completeRun({} as CombinedReportParameters)).rejects.toThrowErrorMatchingInlineSnapshot(`
+                        "Multiple progress reporters encountered Errors
+                            error from failingReporter
+                            error from failingReporter"
+                    `);
         });
     });
 
