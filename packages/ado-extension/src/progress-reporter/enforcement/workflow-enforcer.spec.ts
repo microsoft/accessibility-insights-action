@@ -32,8 +32,7 @@ describe(WorkflowEnforcer, () => {
     describe('completeRun', () => {
         it('should succeed if baseline is not enabled', async () => {
             const reportStub = {} as CombinedReportParameters;
-            const baselineEvaluationStub = {
-            } as BaselineEvaluation;
+            const baselineEvaluationStub = {} as BaselineEvaluation;
 
             setupFailOnAccessibilityError(false);
             setupBaselineFileParameterDoesNotExist();
@@ -47,8 +46,7 @@ describe(WorkflowEnforcer, () => {
 
         it('should succeed in happy path', async () => {
             const reportStub = {} as CombinedReportParameters;
-            const baselineEvaluationStub = {
-            } as BaselineEvaluation;
+            const baselineEvaluationStub = {} as BaselineEvaluation;
 
             setupFailOnAccessibilityError(false);
             setupBaselineFileParameterExists();
