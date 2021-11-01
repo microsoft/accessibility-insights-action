@@ -42,7 +42,7 @@ describe(ADOPullRequestCommentCreator, () => {
         loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
         nodeApiMock = Mock.ofType<typeof nodeApi>(undefined, MockBehavior.Strict);
         webApiMock = Mock.ofType<nodeApi.WebApi>(undefined, MockBehavior.Strict);
-        reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>();
+        reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>(undefined, MockBehavior.Strict);
     });
 
     describe('constructor', () => {
