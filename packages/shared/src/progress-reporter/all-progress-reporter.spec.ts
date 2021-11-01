@@ -23,6 +23,9 @@ describe(AllProgressReporter, () => {
         async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
             throw failingReporterError;
         },
+        async failRun(message: string): Promise<void> {
+            throw failingReporterError;
+        },
     } as ProgressReporter;
 
     let testSubject: AllProgressReporter;
@@ -41,10 +44,10 @@ describe(AllProgressReporter, () => {
                     .returns(() => Promise.resolve())
                     .verifiable(Times.once());
             });
-    
+
             await testSubject.start();
         });
-    
+
         it('should invoke subsequent reporters even if the first one throws', async () => {
             testSubject = new AllProgressReporter([failingReporter, progressReporterMock.object]);
             executeOnReporter((reporter) => {
@@ -118,17 +121,45 @@ describe(AllProgressReporter, () => {
         });
     });
 
-    it('failRun should invoke all reporters', async () => {
-        testSubject = new AllProgressReporter([progressReporterMock.object]);
-        const error = 'scan error';
-        executeOnReporter((reporter) => {
-            reporter
-                .setup((p) => p.failRun(error))
-                .returns(() => Promise.resolve())
-                .verifiable(Times.once());
+    describe('failRun', () => {
+        it('should invoke all reporters', async () => {
+            testSubject = new AllProgressReporter([progressReporterMock.object]);
+            const error = 'scan error';
+            executeOnReporter((reporter) => {
+                reporter
+                    .setup((p) => p.failRun(error))
+                    .returns(() => Promise.resolve())
+                    .verifiable(Times.once());
+            });
+
+            await testSubject.failRun(error);
         });
 
-        await testSubject.failRun(error);
+        it('should invoke subsequent reporters even if the first one throws', async () => {
+            testSubject = new AllProgressReporter([failingReporter, progressReporterMock.object]);
+            const error = 'scan error';
+            executeOnReporter((reporter) => {
+                reporter
+                    .setup((p) => p.failRun(error))
+                    .returns(() => Promise.resolve())
+                    .verifiable(Times.once());
+            });
+
+            // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
+            await expect(testSubject.failRun(error)).rejects.toThrowError(failingReporterError);
+        });
+
+        it('should rethrow an AggregateError if multiple reporters throw', async () => {
+            testSubject = new AllProgressReporter([failingReporter, failingReporter]);
+            const error = 'scan error';
+
+            // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
+            await expect(testSubject.failRun(error)).rejects.toThrowErrorMatchingInlineSnapshot(`
+                        "Multiple progress reporters encountered Errors
+                            error from failingReporter
+                            error from failingReporter"
+                    `);
+        });
     });
 
     afterEach(() => {
