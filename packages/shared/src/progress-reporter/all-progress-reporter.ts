@@ -6,6 +6,7 @@ import { ProgressReporter } from './progress-reporter';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { iocTypes } from '../ioc/ioc-types';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
+import { throwOnAnyErrors } from '../utils/aggregate-error';
 
 @injectable()
 export class AllProgressReporter extends ProgressReporter {
@@ -30,9 +31,16 @@ export class AllProgressReporter extends ProgressReporter {
     }
 
     private async execute(callback: (reporter: ProgressReporter) => Promise<void>): Promise<void> {
+        const errors = [];
         const length = this.progressReporters.length;
         for (let pos = 0; pos < length; pos += 1) {
-            await callback(this.progressReporters[pos]);
+            try {
+                await callback(this.progressReporters[pos]);
+            } catch (e) {
+                errors.push(e);
+            }
         }
+
+        throwOnAnyErrors(errors, 'Multiple progress reporters encountered Errors');
     }
 }

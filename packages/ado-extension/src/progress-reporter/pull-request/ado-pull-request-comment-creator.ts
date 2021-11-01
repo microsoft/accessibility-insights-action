@@ -13,7 +13,7 @@ import * as NodeApi from 'azure-devops-node-api';
 import * as GitApi from 'azure-devops-node-api/GitApi';
 import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
-import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { BaselineInfo } from '@accessibility-insights-action/shared';
 
 @injectable()
@@ -161,20 +161,11 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
             await gitApiObject.updateComment(newPreviousComment, repoId, prId, existingThread.id, existingPreviousComment.id);
             await gitApiObject.updateComment(newCurrentComment, repoId, prId, existingThread.id, existingCurrentComment.id);
         }
-
-        this.failOnAccessibilityError(combinedReportResult);
-        if (baselineEvaluation) {
-            this.failOnBaselineNotUpdated(baselineEvaluation.suggestedBaselineUpdate);
-        }
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public async failRun(message: string): Promise<void> {
-        if (!this.isSupported()) {
-            return;
-        }
-
-        throw message;
+        // This gets handled in the WorkflowEnforcer
     }
 
     private getBaselineInfo(baselineEvaluation?: BaselineEvaluation): BaselineInfo {
@@ -185,18 +176,6 @@ export class AdoPullRequestCommentCreator extends ProgressReporter {
         }
 
         return { baselineFileName, baselineEvaluation };
-    }
-
-    private failOnAccessibilityError(combinedReportResult: CombinedReportParameters): void {
-        if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
-            throw new Error('Failed Accessibility Error');
-        }
-    }
-
-    private failOnBaselineNotUpdated(suggestedBaselineUpdate: null | BaselineFileContent): void {
-        if (this.adoTaskConfig.getBaselineFile() !== undefined && suggestedBaselineUpdate !== null) {
-            throw new Error('Failed: The baseline file needs to be updated. See the PR comments for more details.');
-        }
     }
 
     private isSupported(): boolean {
