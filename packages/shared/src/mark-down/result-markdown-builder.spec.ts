@@ -153,29 +153,7 @@ describe(ResultMarkdownBuilder, () => {
                 baselineFileName,
                 baselineEvaluation,
             };
-            combinedReportResult = {
-                axeVersion: 'axeVersion',
-                userAgent: 'userAgent',
-                results: {
-                    resultsByRule: {
-                        failed: [
-                            {
-                                failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
-                            },
-                            {
-                                failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
-                            },
-                        ],
-                        passed: [{}],
-                        notApplicable: [{}, {}],
-                    },
-                    urlResults: {
-                        passedUrls: 1,
-                        failedUrls: 5,
-                        unscannableUrls: 7,
-                    },
-                },
-            } as CombinedReportParameters;
+            setCombinedReportResultWithFailures();
 
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
@@ -248,36 +226,14 @@ describe(ResultMarkdownBuilder, () => {
         it('builds content when there are new failures and no baseline failures', () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 0,
-                totalNewViolations: 4,
-                newViolationsByRule: { 'rule id': 3, 'rule id 2': 1 } as CountsByRule,
+                totalNewViolations: 6,
+                newViolationsByRule: { 'rule id': 5, 'rule id 2': 1 } as CountsByRule,
             } as BaselineEvaluation;
             const baselineInfo: BaselineInfo = {
                 baselineFileName,
                 baselineEvaluation,
             };
-            combinedReportResult = {
-                axeVersion: 'axeVersion',
-                userAgent: 'userAgent',
-                results: {
-                    resultsByRule: {
-                        failed: [
-                            {
-                                failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
-                            },
-                            {
-                                failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
-                            },
-                        ],
-                        passed: [{}],
-                        notApplicable: [{}, {}],
-                    },
-                    urlResults: {
-                        passedUrls: 1,
-                        failedUrls: 5,
-                        unscannableUrls: 7,
-                    },
-                },
-            } as CombinedReportParameters;
+            setCombinedReportResultWithFailures();
 
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
@@ -320,29 +276,7 @@ describe(ResultMarkdownBuilder, () => {
                 baselineFileName,
                 baselineEvaluation,
             };
-            combinedReportResult = {
-                axeVersion: 'axeVersion',
-                userAgent: 'userAgent',
-                results: {
-                    resultsByRule: {
-                        failed: [
-                            {
-                                failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
-                            },
-                            {
-                                failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
-                            },
-                        ],
-                        passed: [{}],
-                        notApplicable: [{}, {}],
-                    },
-                    urlResults: {
-                        passedUrls: 1,
-                        failedUrls: 5,
-                        unscannableUrls: 7,
-                    },
-                },
-            } as CombinedReportParameters;
+            setCombinedReportResultWithFailures();
 
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
@@ -357,29 +291,7 @@ describe(ResultMarkdownBuilder, () => {
                 baselineFileName,
                 baselineEvaluation,
             };
-            combinedReportResult = {
-                axeVersion: 'axeVersion',
-                userAgent: 'userAgent',
-                results: {
-                    resultsByRule: {
-                        failed: [
-                            {
-                                failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
-                            },
-                            {
-                                failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
-                            },
-                        ],
-                        passed: [{}],
-                        notApplicable: [{}, {}],
-                    },
-                    urlResults: {
-                        passedUrls: 1,
-                        failedUrls: 5,
-                        unscannableUrls: 7,
-                    },
-                },
-            } as CombinedReportParameters;
+            setCombinedReportResultWithFailures();
 
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
@@ -418,6 +330,37 @@ describe(ResultMarkdownBuilder, () => {
             verifyAllMocks();
         });
     });
+
+    const setCombinedReportResultWithFailures = (): void => {
+        const ruleInfo1 = { ruleId: 'rule id', description: 'rule description' };
+        combinedReportResult = {
+            axeVersion: 'axeVersion',
+            userAgent: 'userAgent',
+            results: {
+                resultsByRule: {
+                    failed: [
+                        {
+                            failed: [
+                                { rule: ruleInfo1, urls: ['url 1', 'url 2'] },
+                                { rule: ruleInfo1, urls: ['url 1'] },
+                                { rule: ruleInfo1, urls: ['url 3', 'url 4'] },
+                            ],
+                        },
+                        {
+                            failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' }, urls: ['url 5'] }],
+                        },
+                    ],
+                    passed: [{}],
+                    notApplicable: [{}, {}],
+                },
+                urlResults: {
+                    passedUrls: 1,
+                    failedUrls: 5,
+                    unscannableUrls: 7,
+                },
+            },
+        } as CombinedReportParameters;
+    };
 
     const verifyAllMocks = (): void => {
         artifactsInfoProviderMock.verifyAll();

@@ -51,7 +51,7 @@ export class ResultMarkdownBuilder {
             lines = [
                 this.headingWithMessage(),
                 sectionSeparator(),
-                this.failureDetailsBaseline(failedChecks, combinedReportResult, baselineInfo),
+                this.failureDetailsBaseline(combinedReportResult, baselineInfo),
                 sectionSeparator(),
                 this.baselineDetails(baselineInfo),
                 sectionSeparator(),
@@ -165,17 +165,17 @@ export class ResultMarkdownBuilder {
         return listItem(`${bold(`${failureCount} × ${escaped(ruleId)}`)}:  ${escaped(description)}`);
     };
 
-    private failureDetailsBaseline = (
-        failedChecks: number,
-        combinedReportResult: CombinedReportParameters,
-        baselineInfo: BaselineInfo,
-    ): string => {
+    private failureDetailsBaseline = (combinedReportResult: CombinedReportParameters, baselineInfo: BaselineInfo): string => {
+        const totalFailureInstances = combinedReportResult.results.resultsByRule.failed.reduce(
+            (a, b) => a + b.failed.reduce((c, d) => c + d.urls.length, 0),
+            0,
+        );
         let lines = [];
-        if (!this.hasFailures(failedChecks, baselineInfo.baselineEvaluation)) {
+        if (!this.hasFailures(totalFailureInstances, baselineInfo.baselineEvaluation)) {
             lines = this.getNoFailuresText(baselineInfo.baselineEvaluation);
         } else {
             let failedRulesList;
-            let failureInstances = failedChecks;
+            let failureInstances = totalFailureInstances;
             if (!baselineInfo.baselineEvaluation) {
                 failedRulesList = this.getFailedRulesListWithNoBaseline(combinedReportResult);
             } else {
@@ -231,7 +231,7 @@ export class ResultMarkdownBuilder {
 
     private getFailedRulesListWithNoBaseline = (combinedReportResult: CombinedReportParameters): string[] => {
         const failedRulesList = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
-            const failureCount = failuresGroup.failed.length;
+            const failureCount = failuresGroup.failed.reduce((a, b) => a + b.urls.length, 0);
             const ruleId = failuresGroup.failed[0].rule.ruleId;
             const ruleDescription = failuresGroup.failed[0].rule.description;
             return [this.failedRuleListItemBaseline(failureCount, ruleId, ruleDescription), sectionSeparator()].join('');
