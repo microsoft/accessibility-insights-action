@@ -26,29 +26,7 @@ describe(ResultMarkdownBuilder, () => {
     });
 
     it('builds content with failures', () => {
-        combinedReportResult = {
-            axeVersion: 'axeVersion',
-            userAgent: 'userAgent',
-            results: {
-                resultsByRule: {
-                    failed: [
-                        {
-                            failed: [{ rule: { ruleId: 'rule id', description: 'rule description' } }, {}, {}],
-                        },
-                        {
-                            failed: [{ rule: { ruleId: 'rule id 2', description: 'rule description 2' } }],
-                        },
-                    ],
-                    passed: [{}],
-                    notApplicable: [{}, {}],
-                },
-                urlResults: {
-                    passedUrls: 1,
-                    failedUrls: 5,
-                    unscannableUrls: 7,
-                },
-            },
-        } as CombinedReportParameters;
+        setCombinedReportResultWithFailures();
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
@@ -56,22 +34,7 @@ describe(ResultMarkdownBuilder, () => {
     });
 
     it('builds content with no failures', () => {
-        combinedReportResult = {
-            axeVersion: 'axeVersion',
-            userAgent: 'userAgent',
-            results: {
-                resultsByRule: {
-                    failed: [],
-                    passed: [{}],
-                    notApplicable: [{}, {}],
-                },
-                urlResults: {
-                    passedUrls: 1,
-                    failedUrls: 0,
-                    unscannableUrls: 7,
-                },
-            },
-        } as CombinedReportParameters;
+        setCombinedReportResultWithNoFailures();
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
 
@@ -111,22 +74,7 @@ describe(ResultMarkdownBuilder, () => {
 
     it('builds content with title', () => {
         const title = 'some title';
-        combinedReportResult = {
-            axeVersion: 'axeVersion',
-            userAgent: 'userAgent',
-            results: {
-                resultsByRule: {
-                    failed: [],
-                    passed: [],
-                    notApplicable: [],
-                },
-                urlResults: {
-                    passedUrls: 0,
-                    failedUrls: 0,
-                    unscannableUrls: 0,
-                },
-            },
-        } as CombinedReportParameters;
+        setCombinedReportResultWithNoFailures();
 
         const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, title);
 
@@ -161,30 +109,33 @@ describe(ResultMarkdownBuilder, () => {
             verifyAllMocks();
         });
 
-        it('builds content when there are baseline failures and no new failures', () => {
+        it('builds content when baseline failures and scanned failures are the same (no new failures)', () => {
             const baselineEvaluation = {
-                totalBaselineViolations: 1,
+                totalBaselineViolations: 6,
+                totalNewViolations: 0,
             } as BaselineEvaluation;
             const baselineInfo: BaselineInfo = {
                 baselineFileName,
                 baselineEvaluation,
             };
-            combinedReportResult = {
-                axeVersion: 'axeVersion',
-                userAgent: 'userAgent',
-                results: {
-                    resultsByRule: {
-                        failed: [],
-                        passed: [],
-                        notApplicable: [],
-                    },
-                    urlResults: {
-                        passedUrls: 0,
-                        failedUrls: 0,
-                        unscannableUrls: 0,
-                    },
-                },
-            } as CombinedReportParameters;
+            setCombinedReportResultWithFailures();
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
+        });
+
+        it('builds content when there are baseline failures and no additional failures', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: 1,
+                totalNewViolations: 0,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            setCombinedReportResultWithNoFailures();
 
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
@@ -200,22 +151,7 @@ describe(ResultMarkdownBuilder, () => {
                 baselineFileName,
                 baselineEvaluation,
             };
-            combinedReportResult = {
-                axeVersion: 'axeVersion',
-                userAgent: 'userAgent',
-                results: {
-                    resultsByRule: {
-                        failed: [],
-                        passed: [{}],
-                        notApplicable: [{}, {}],
-                    },
-                    urlResults: {
-                        passedUrls: 1,
-                        failedUrls: 0,
-                        unscannableUrls: 7,
-                    },
-                },
-            } as CombinedReportParameters;
+            setCombinedReportResultWithNoFailures();
 
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
@@ -247,22 +183,7 @@ describe(ResultMarkdownBuilder, () => {
                 baselineFileName,
                 baselineEvaluation,
             };
-            combinedReportResult = {
-                axeVersion: 'axeVersion',
-                userAgent: 'userAgent',
-                results: {
-                    resultsByRule: {
-                        failed: [],
-                        passed: [],
-                        notApplicable: [],
-                    },
-                    urlResults: {
-                        passedUrls: 0,
-                        failedUrls: 0,
-                        unscannableUrls: 0,
-                    },
-                },
-            } as CombinedReportParameters;
+            setCombinedReportResultWithNoFailures();
 
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
@@ -307,22 +228,7 @@ describe(ResultMarkdownBuilder, () => {
                 baselineFileName,
                 baselineEvaluation,
             };
-            combinedReportResult = {
-                axeVersion: 'axeVersion',
-                userAgent: 'userAgent',
-                results: {
-                    resultsByRule: {
-                        failed: [],
-                        passed: [],
-                        notApplicable: [],
-                    },
-                    urlResults: {
-                        passedUrls: 0,
-                        failedUrls: 0,
-                        unscannableUrls: 0,
-                    },
-                },
-            } as CombinedReportParameters;
+            setCombinedReportResultWithNoFailures();
 
             const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
 
@@ -361,6 +267,25 @@ describe(ResultMarkdownBuilder, () => {
             },
         } as CombinedReportParameters;
     };
+
+    const setCombinedReportResultWithNoFailures = (): void => {
+        combinedReportResult = {
+            axeVersion: 'axeVersion',
+            userAgent: 'userAgent',
+            results: {
+                resultsByRule: {
+                    failed: [],
+                    passed: [{}],
+                    notApplicable: [{}, {}],
+                },
+                urlResults: {
+                    passedUrls: 1,
+                    failedUrls: 0,
+                    unscannableUrls: 7,
+                },
+            },
+        } as CombinedReportParameters;
+    }
 
     const verifyAllMocks = (): void => {
         artifactsInfoProviderMock.verifyAll();

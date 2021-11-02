@@ -25,8 +25,8 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 exports[`ResultMarkdownBuilder builds content with title 1`] = `
 "### some title
 ### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action: All applicable checks passed
-* **URLs**: 0 URL(s) passed, and 0 were not scannable
-* **Rules**: 0 check(s) passed, and 0 were not applicable
+* **URLs**: 1 URL(s) passed, and 7 were not scannable
+* **Rules**: 1 check(s) passed, and 2 were not applicable
 * Download the **Accessibility Insights artifact** to view the detailed results of these checks
 ---
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
@@ -38,6 +38,27 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 
 ---
 "
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures) 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+**:white_check_mark: No new failures**
+No failures were detected by automatic scanning except those which exist in the baseline.
+
+**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+**6 failure instances in baseline**
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 4 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and new failures 1`] = `
@@ -61,7 +82,7 @@ See all failures and scan details by downloading the report from [run artifacts]
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no new failures 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no additional failures 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
 **:white_check_mark: No new failures**
 No failures were detected by automatic scanning except those which exist in the baseline.
@@ -75,8 +96,8 @@ See all failures and scan details by downloading the report from [run artifacts]
 
 ---
 #### Scan summary
-**URLs**: 0 with failures, 0 passed, 0 not scannable
-**Rules**: 0 with failures, 0 passed, 0 not applicable
+**URLs**: 0 with failures, 1 passed, 7 not scannable
+**Rules**: 0 with failures, 1 passed, 2 not applicable
 
 ---
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
@@ -158,8 +179,8 @@ See scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
-**URLs**: 0 with failures, 0 passed, 0 not scannable
-**Rules**: 0 with failures, 0 passed, 0 not applicable
+**URLs**: 0 with failures, 1 passed, 7 not scannable
+**Rules**: 0 with failures, 1 passed, 2 not applicable
 
 ---
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
@@ -179,8 +200,8 @@ See scan details by downloading the report from [run artifacts](artifacts-url)
 
 ---
 #### Scan summary
-**URLs**: 0 with failures, 0 passed, 0 not scannable
-**Rules**: 0 with failures, 0 passed, 0 not applicable
+**URLs**: 0 with failures, 1 passed, 7 not scannable
+**Rules**: 0 with failures, 1 passed, 2 not applicable
 
 ---
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
