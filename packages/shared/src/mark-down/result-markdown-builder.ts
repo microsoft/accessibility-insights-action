@@ -56,7 +56,7 @@ export class ResultMarkdownBuilder {
                 this.baselineDetails(baselineInfo),
                 sectionSeparator(),
                 sectionSeparator(),
-                this.downloadArtifactsWithLink(failedChecks, baselineInfo.baselineEvaluation),
+                this.downloadArtifactsWithLink(combinedReportResult, baselineInfo.baselineEvaluation),
                 sectionSeparator(),
                 sectionSeparator(),
                 footerSeparator(),
@@ -166,27 +166,14 @@ export class ResultMarkdownBuilder {
     };
 
     private failureDetailsBaseline = (combinedReportResult: CombinedReportParameters, baselineInfo: BaselineInfo): string => {
-        const totalFailureInstances = combinedReportResult.results.resultsByRule.failed.reduce(
-            (a, b) => a + b.failed.reduce((c, d) => c + d.urls.length, 0),
-            0,
-        );
         let lines = [];
-        if (!this.hasFailures(totalFailureInstances, baselineInfo.baselineEvaluation)) {
-            lines = this.getNoFailuresText(baselineInfo.baselineEvaluation);
-        } else {
-            let failedRulesList;
-            let failureInstances = totalFailureInstances;
-            if (!baselineInfo.baselineEvaluation) {
-                failedRulesList = this.getFailedRulesListWithNoBaseline(combinedReportResult);
-            } else {
-                failedRulesList = this.getNewFailuresList(combinedReportResult, baselineInfo.baselineEvaluation);
-                failureInstances = baselineInfo.baselineEvaluation.totalNewViolations;
-            }
-            let failureInstancesHeading = `${failureInstances} failure instances`;
-            if (this.baselineHasFailures(baselineInfo.baselineEvaluation)) {
-                failureInstancesHeading = failureInstancesHeading.concat(' not in baseline');
-            }
+        if (this.hasFailures(combinedReportResult, baselineInfo.baselineEvaluation)) {
+            const failedRulesList = this.getFailedRulesList(combinedReportResult, baselineInfo.baselineEvaluation);
+            const failureInstances = this.getFailureInstances(combinedReportResult, baselineInfo.baselineEvaluation);
+            const failureInstancesHeading = this.getFailureInstancesHeading(failureInstances, baselineInfo.baselineEvaluation);
             lines = [sectionSeparator(), bold(failureInstancesHeading), sectionSeparator(), ...failedRulesList];
+        } else {
+            lines = this.getNoFailuresText(baselineInfo.baselineEvaluation);
         }
 
         return lines.join('');
@@ -216,6 +203,35 @@ export class ResultMarkdownBuilder {
             nextStepDescription,
             sectionSeparator(),
         ];
+    };
+
+    private getTotalFailureInstancesFromResults = (combinedReportResult: CombinedReportParameters): number => {
+        return combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.reduce((c, d) => c + d.urls.length, 0), 0);
+    };
+
+    private getFailureInstances = (combinedReportResult: CombinedReportParameters, baselineEvaluation: BaselineEvaluation): number => {
+        if (baselineEvaluation) {
+            return baselineEvaluation.totalNewViolations;
+        }
+
+        return this.getTotalFailureInstancesFromResults(combinedReportResult);
+    };
+
+    private getFailureInstancesHeading = (failureInstances: number, baselineEvaluation: BaselineEvaluation): string => {
+        let failureInstancesHeading = `${failureInstances} failure instances`;
+        if (this.baselineHasFailures(baselineEvaluation)) {
+            failureInstancesHeading = failureInstancesHeading.concat(' not in baseline');
+        }
+
+        return failureInstancesHeading;
+    };
+
+    private getFailedRulesList = (combinedReportResult: CombinedReportParameters, baselineEvaluation: BaselineEvaluation): string[] => {
+        if (baselineEvaluation) {
+            return this.getNewFailuresList(combinedReportResult, baselineEvaluation);
+        }
+
+        return this.getFailedRulesListWithNoBaseline(combinedReportResult);
     };
 
     private getNewFailuresList = (combinedReportResult: CombinedReportParameters, baselineEvaluation: BaselineEvaluation): string[] => {
@@ -271,10 +287,10 @@ export class ResultMarkdownBuilder {
         return listItem(`Download the ${bold(artifactName)} to view the detailed results of these checks`);
     }
 
-    private downloadArtifactsWithLink(failedChecks: number, baselineEvaluation?: BaselineEvaluation): string {
+    private downloadArtifactsWithLink(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): string {
         const artifactsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'run artifacts');
         let details = 'all failures and scan details';
-        if (!this.baselineHasFailures(baselineEvaluation) && !this.hasFailures(failedChecks, baselineEvaluation)) {
+        if (!this.baselineHasFailures(baselineEvaluation) && !this.hasFailures(combinedReportResult, baselineEvaluation)) {
             details = 'scan details';
         }
         return `See ${details} by downloading the report from ${artifactsLink}`;
@@ -286,11 +302,11 @@ export class ResultMarkdownBuilder {
         );
     };
 
-    private hasFailures = (failedChecks: number, baselineEvaluation: BaselineEvaluation): boolean => {
+    private hasFailures = (combinedReportResult: CombinedReportParameters, baselineEvaluation: BaselineEvaluation): boolean => {
         if (baselineEvaluation !== undefined) {
             return baselineEvaluation.totalNewViolations > 0;
         }
 
-        return failedChecks > 0;
+        return this.getTotalFailureInstancesFromResults(combinedReportResult) > 0;
     };
 }
