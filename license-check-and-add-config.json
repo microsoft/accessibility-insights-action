@@ -11,6 +11,7 @@
         "**/.gitattributes",
         "**/test-results",
         "**/dist",
+        "**/*.baseline",
         "**/*.snap",
         "**/*.snap.md",
         "**/*.taskkey",
