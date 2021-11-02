@@ -145,9 +145,9 @@ describe(ResultMarkdownBuilder, () => {
 
         it('builds content when there are baseline failures and new failures', () => {
             const baselineEvaluation = {
-                totalBaselineViolations: 1,
-                totalNewViolations: 3,
-                newViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
+                totalBaselineViolations: 2,
+                totalNewViolations: 4,
+                newViolationsByRule: { 'rule id': 3, 'rule id 2': 1 } as CountsByRule,
             } as BaselineEvaluation;
             const baselineInfo: BaselineInfo = {
                 baselineFileName,
