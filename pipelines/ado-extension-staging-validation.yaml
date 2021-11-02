@@ -80,6 +80,7 @@ steps:
           outputDir: '_accessibility-reports-case-4'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/missing-failures-5858.baseline'
       condition: succeededOrFailed()
+      continueOnError: true
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-4'
       displayName: 'case 4: upload report artifact'
@@ -93,6 +94,7 @@ steps:
           outputDir: '_accessibility-reports-case-5'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/with-resolved-failures-5858.baseline'
       condition: succeededOrFailed()
+      continueOnError: true
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-5'
       displayName: 'case 5: upload report artifact'
@@ -106,6 +108,7 @@ steps:
           outputDir: '_accessibility-reports-case-6'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
       condition: succeededOrFailed()
+      continueOnError: true
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-6'
       displayName: 'case 6: upload report artifact'
@@ -119,6 +122,7 @@ steps:
           failOnAccessibilityError: true
           outputDir: '_accessibility-reports-case-7'
       condition: succeededOrFailed()
+      continueOnError: true
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-7'
       displayName: 'case 7: upload report artifact'
