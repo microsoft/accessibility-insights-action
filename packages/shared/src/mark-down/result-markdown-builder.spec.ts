@@ -285,7 +285,7 @@ describe(ResultMarkdownBuilder, () => {
                 },
             },
         } as CombinedReportParameters;
-    }
+    };
 
     const verifyAllMocks = (): void => {
         artifactsInfoProviderMock.verifyAll();
