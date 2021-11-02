@@ -35,6 +35,7 @@ pool:
 steps:
     # reused by all "url" cases
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
+      displayName: 'Start /dev/website-root test server at http://localhost:5858'
 
     - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should succeed] case 1: siteDir, no baseline'
