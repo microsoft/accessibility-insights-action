@@ -36,91 +36,91 @@ steps:
     # reused by all "url" cases
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
 
-    - displayName: '[should succeed] case 1: siteDir, no baseline'
-      task: accessibility-insights.staging.task.accessibility-insights@1
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should succeed] case 1: siteDir, no baseline'
       inputs:
           siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           # intentionally omits outputDir; should go to default _accessibility-reports
       condition: succeededOrFailed()
 
-    - displayName: 'case 1: upload report artifact'
-      publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
+      displayName: 'case 1: upload report artifact'
       artifact: 'accessibility-reports-case-1'
       condition: succeededOrFailed()
 
-    - displayName: '[should succeed] case 2: url, no baseline'
-      task: accessibility-insights.staging.task.accessibility-insights@1
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should succeed] case 2: url, no baseline'
       inputs:
           url: 'http://localhost:5858'
           outputDir: '_accessibility-reports-case-2'
       condition: succeededOrFailed()
 
-    - displayName: 'case 2: upload report artifact'
-      publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-2'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-2'
+      displayName: 'case 2: upload report artifact'
       artifact: 'accessibility-reports-case-2'
       condition: succeededOrFailed()
 
-    - displayName: '[should succeed] case 3: up-to-date baseline'
-      task: accessibility-insights.staging.task.accessibility-insights@1
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should succeed] case 3: up-to-date baseline'
       inputs:
           url: 'http://localhost:5858'
           outputDir: '_accessibility-reports-case-3'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
       condition: succeededOrFailed()
 
-    - displayName: 'case 3: upload report artifact'
-      publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-3'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-3'
+      displayName: 'case 3: upload report artifact'
       artifact: 'accessibility-reports-case-3'
       condition: succeededOrFailed()
 
-    - displayName: '[should fail] case 4: baseline missing failures'
-      task: accessibility-insights.staging.task.accessibility-insights@1
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should fail] case 4: baseline missing failures'
       inputs:
           url: 'http://localhost:5858'
           outputDir: '_accessibility-reports-case-4'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/missing-failures-5858.baseline'
       condition: succeededOrFailed()
 
-    - displayName: 'case 4: upload report artifact'
-      publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-4'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-4'
+      displayName: 'case 4: upload report artifact'
       artifact: 'accessibility-reports-case-4'
       condition: succeededOrFailed()
 
-    - displayName: '[should fail] case 5: baseline with resolved failures'
-      task: accessibility-insights.staging.task.accessibility-insights@1
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should fail] case 5: baseline with resolved failures'
       inputs:
           url: 'http://localhost:5858'
           outputDir: '_accessibility-reports-case-5'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/with-resolved-failures-5858.baseline'
       condition: succeededOrFailed()
 
-    - displayName: 'case 5: upload report artifact'
-      publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-5'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-5'
+      displayName: 'case 5: upload report artifact'
       artifact: 'accessibility-reports-case-5'
       condition: succeededOrFailed()
 
-    - displayName: '[should fail] case 6: new baseline file'
-      task: accessibility-insights.staging.task.accessibility-insights@1
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should fail] case 6: new baseline file'
       inputs:
           siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           outputDir: '_accessibility-reports-case-6'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
       condition: succeededOrFailed()
 
-    - displayName: 'case 6: upload report artifact'
-      publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-6'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-6'
+      displayName: 'case 6: upload report artifact'
       artifact: 'accessibility-reports-case-6'
       condition: succeededOrFailed()
 
-    - displayName: '[should fail] case 7: failOnAccessibilityError'
-      task: accessibility-insights.staging.task.accessibility-insights@1
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should fail] case 7: failOnAccessibilityError'
       inputs:
           url: 'http://localhost:5858'
           failOnAccessibilityError: true
           outputDir: '_accessibility-reports-case-7'
       condition: succeededOrFailed()
 
-    - displayName: 'case 7: upload report artifact'
-      publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-7'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-7'
+      displayName: 'case 7: upload report artifact'
       artifact: 'accessibility-reports-case-7'
       condition: succeededOrFailed()
