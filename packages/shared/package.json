@@ -36,7 +36,7 @@
         "get-port": "^5.1.1",
         "inversify": "6.0.1",
         "lodash": "^4.17.21",
-        "marked": "^3.0.8",
+        "marked": "^4.0.0",
         "marked-terminal": "^4.2.0",
         "normalize-path": "^3.0.0",
         "reflect-metadata": "^0.1.13",
