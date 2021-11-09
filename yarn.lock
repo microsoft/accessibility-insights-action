@@ -1912,18 +1912,18 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.176.tgz#641150fc1cda36fbfa329de603bbb175d7ee20c0"
   integrity sha512-xZmuPTa3rlZoIbtDUyJKZQimJV3bxCmzMIO2c9Pz9afyDro6kr7R79GwcB6mRhuoPmV2p1Vb66WOJH7F886WKQ==
 
-"@types/marked-terminal@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@types/marked-terminal/-/marked-terminal-3.1.2.tgz#b00d7e7e8024c56dd9eddbd7efc92e5a34e052df"
-  integrity sha512-q6B30Rmmsl/lIh0uP3X2OmrhlWkQOeKinMOtxHdGHMz7SyDi9Gs2CK6vuV/luxvpu0phsEAdOPiDrRlT0xCR1Q==
+"@types/marked-terminal@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@types/marked-terminal/-/marked-terminal-3.1.3.tgz#41fefdf23d6c8895c20ba57b4e21fa7e3c69efac"
+  integrity sha512-dKgOLKlI5zFb2jTbRcyQqbdrHxeU74DCOkVIZtsoB2sc1ctXZ1iB2uxG2jjAuzoLdvwHP065ijN6Q8HecWdWYg==
   dependencies:
-    "@types/marked" "*"
+    "@types/marked" "^3"
     chalk "^2.4.1"
 
-"@types/marked@*", "@types/marked@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-3.0.2.tgz#4a639575542ae7715fabbe450b08118e9093eb35"
-  integrity sha512-mGYI9qFs+i5eYaytWKBbtEMbIkrXGKuhsDpDcj70ogKS2gk1NmgEy9Z3VEKz922Lfms6eITXXqv5idlX7C/irw==
+"@types/marked@^3", "@types/marked@^3.0.2":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-3.0.3.tgz#37878f405d5f0cff0e6128cea330bd0aa8df8cb3"
+  integrity sha512-ZgAr847Wl68W+B0sWH7F4fDPxTzerLnRuUXjUpp1n4NjGSs8hgPAjAp7NQIXblG34MXTrf5wWkAK8PVJ2LIlVg==
 
 "@types/mime@^1":
   version "1.3.2"
