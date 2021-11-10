@@ -17,7 +17,7 @@ steps:
     - script: npx serve -l 5858 &
       workingDirectory: '$(System.DefaultWorkingDirectory)/stagin validation'
 
-    - task: accessibility-insights.staging.task.accessibility-insights@1.1.0
+    - task: accessibility-insights.prod.task.accessibility-insights@1.1.1
       displayName: Scan for accessibility issues
       inputs:
           url: 'http://localhost:5858/'
