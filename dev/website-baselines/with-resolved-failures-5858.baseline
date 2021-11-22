@@ -1,0 +1,65 @@
+{
+  metadata: {
+    fileFormatVersion: '1',
+  },
+  results: [
+    {
+      cssSelector: 'html',
+      htmlSnippet: '<html>',
+      rule: 'html-has-lang',
+      urls: [
+        'http://localhost:5858/',
+      ],
+    },
+    {
+      cssSelector: 'html',
+      htmlSnippet: '<html><head>\n        <title>Inner page</title>\n    </head>\n    <body>\n        <main>\n            <h1>Inner page with issues</h1>\n            <img id="non-decorative" src="./img1.png">\n            <a href="../">Back to home</a>\n        </main>\n    \n\n</body></html>',
+      rule: 'html-has-lang',
+      urls: [
+        'http://localhost:5858/linked1/inner-page',
+      ],
+    },
+    {
+      cssSelector: '#non-decorative',
+      htmlSnippet: '<img id="non-decorative" src="./img1.png">',
+      rule: 'image-alt',
+      urls: [
+        'http://localhost:5858/',
+        'http://localhost:5858/linked1/inner-page',
+      ],
+    },
+    {
+      cssSelector: '#input-radio-1',
+      htmlSnippet: '<input id="input-radio-1" type="radio" name="color" value="red" checked="">',
+      rule: 'label',
+      urls: [
+        'http://localhost:5858/',
+        'http://localhost:5858/linked1/inner-page',
+      ],
+    },
+    {
+      cssSelector: 'input[value="blue"]',
+      htmlSnippet: '<input type="radio" name="color" value="blue">',
+      rule: 'label',
+      urls: [
+        'http://localhost:5858/',
+      ],
+    },
+    {
+      cssSelector: 'input[value="purple"]',
+      htmlSnippet: '<input type="radio" name="color" value="purple">',
+      rule: 'label',
+      urls: [
+        'http://localhost:5858/',
+      ],
+    },
+    {
+      cssSelector: 'input[value="green"]',
+      htmlSnippet: '<input type="radio" name="color" value="green">',
+      rule: 'label',
+      urls: [
+        'http://localhost:5858/',
+      ],
+    },
+  ],
+}

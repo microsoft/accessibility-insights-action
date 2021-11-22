@@ -1,0 +1,131 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+# This pipeline covers the staging scenarios for the ADO extension as triggered for
+# a PR/CI build of a GitHub repo. Note that release validation *also* requires covering
+# PR/CI scenarios as triggered from an ADO repo; see the release validation OneNote
+# template for details.
+
+# A CI build will be automatically kicked off when the "publish to staging" stage
+# of prod-release is run. A PR build which triggers this pipeline can be run be
+# creating a PR which touches any file under the "/dev" folder.
+
+trigger: none
+
+pr:
+    branches:
+        include:
+            - main
+    paths:
+        include:
+            - dev
+            - pipelines/ado-extension-staging-validation.yaml
+
+resources:
+    pipelines:
+        - pipeline: prod-release
+          source: accessibility-insights-ado-extension-release-production
+          trigger:
+              stages:
+                  - package_publish_staging
+
+pool:
+    vmImage: ubuntu-latest
+
+steps:
+    # reused by all "url" cases
+    - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
+      displayName: 'Start /dev/website-root test server at http://localhost:5858'
+
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should succeed] case 1: siteDir, no baseline'
+      inputs:
+          siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+          # intentionally omits outputDir; should go to default _accessibility-reports
+      condition: succeededOrFailed()
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
+      displayName: 'case 1: upload report artifact'
+      artifact: 'accessibility-reports-case-1'
+      condition: succeededOrFailed()
+
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should succeed] case 2: url, no baseline'
+      inputs:
+          url: 'http://localhost:5858'
+          outputDir: '_accessibility-reports-case-2'
+      condition: succeededOrFailed()
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-2'
+      displayName: 'case 2: upload report artifact'
+      artifact: 'accessibility-reports-case-2'
+      condition: succeededOrFailed()
+
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should succeed] case 3: up-to-date baseline'
+      inputs:
+          url: 'http://localhost:5858'
+          outputDir: '_accessibility-reports-case-3'
+          baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
+      condition: succeededOrFailed()
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-3'
+      displayName: 'case 3: upload report artifact'
+      artifact: 'accessibility-reports-case-3'
+      condition: succeededOrFailed()
+
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should fail] case 4: baseline missing failures'
+      inputs:
+          url: 'http://localhost:5858'
+          outputDir: '_accessibility-reports-case-4'
+          baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/missing-failures-5858.baseline'
+      condition: succeededOrFailed()
+      continueOnError: true
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-4'
+      displayName: 'case 4: upload report artifact'
+      artifact: 'accessibility-reports-case-4'
+      condition: succeededOrFailed()
+
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should fail] case 5: baseline with resolved failures'
+      inputs:
+          url: 'http://localhost:5858'
+          outputDir: '_accessibility-reports-case-5'
+          baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/with-resolved-failures-5858.baseline'
+      condition: succeededOrFailed()
+      continueOnError: true
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-5'
+      displayName: 'case 5: upload report artifact'
+      artifact: 'accessibility-reports-case-5'
+      condition: succeededOrFailed()
+
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should fail] case 6: new baseline file'
+      inputs:
+          siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+          outputDir: '_accessibility-reports-case-6'
+          baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
+      condition: succeededOrFailed()
+      continueOnError: true
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-6'
+      displayName: 'case 6: upload report artifact'
+      artifact: 'accessibility-reports-case-6'
+      condition: succeededOrFailed()
+
+    - task: accessibility-insights.staging.task.accessibility-insights@1
+      displayName: '[should fail] case 7: failOnAccessibilityError'
+      inputs:
+          url: 'http://localhost:5858'
+          failOnAccessibilityError: true
+          outputDir: '_accessibility-reports-case-7'
+      condition: succeededOrFailed()
+      continueOnError: true
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-7'
+      displayName: 'case 7: upload report artifact'
+      artifact: 'accessibility-reports-case-7'
+      condition: succeededOrFailed()
