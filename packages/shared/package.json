@@ -36,12 +36,12 @@
         "get-port": "^5.1.1",
         "inversify": "6.0.1",
         "lodash": "^4.17.21",
-        "marked": "^3.0.8",
+        "marked": "^4.0.4",
         "marked-terminal": "^4.2.0",
         "normalize-path": "^3.0.0",
         "reflect-metadata": "^0.1.13",
         "serialize-error": "^8.0.1",
         "serve-static": "^1.14.1",
-        "verror": "^1.10.0"
+        "verror": "^1.10.1"
     }
 }
