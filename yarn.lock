@@ -1975,9 +1975,9 @@
   integrity sha512-7EIraBEyRHEe7CH+Fm1XvgqU6uwZN8Q7jppJGcqjROMT29qhAuuOxYB1uEY5UMYQKEmA5D+5tBnhdaPXSsLONA==
 
 "@types/node@>=10.0.0":
-  version "16.11.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.10.tgz#2e3ad0a680d96367103d3e670d41c2fed3da61ae"
-  integrity sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==
+  version "16.11.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.11.tgz#6ea7342dfb379ea1210835bada87b3c512120234"
+  integrity sha512-KB0sixD67CeecHC33MYn+eYARkqTheIRNuu97y2XMjR7Wu3XibO1vaY6VBV6O/a89SPI81cEUIYT87UqUWlZNw==
 
 "@types/node@^10.0.3":
   version "10.17.60"
@@ -4056,10 +4056,17 @@ debug@2.6.9, debug@^2.2.0:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@4.3.2, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@~4.3.1, debug@~4.3.2:
+debug@4, debug@4.3.2, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@~4.3.1:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
   integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
+  dependencies:
+    ms "2.1.2"
+
+debug@~4.3.2:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
+  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
   dependencies:
     ms "2.1.2"
 
@@ -7421,10 +7428,10 @@ marked-terminal@^4.2.0:
     node-emoji "^1.10.0"
     supports-hyperlinks "^2.1.0"
 
-marked@>=2.0.0, marked@^2.0.0, marked@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.5.tgz#85f46937f6a4616de7cbe0e1433e1640c320c729"
-  integrity sha512-eUToMA5d5lunnipkCN7zFD0RiunCF2Uo6bImEt/Qx8LZMW7oPXTw7R+f+M5V3eS7164HjEDPfW8/TrefuFhDfw==
+marked@>=2.0.0, marked@^2.0.0, marked@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.6.tgz#cd199503102b6807354f00574348d41ad4fd25d2"
+  integrity sha512-+H0bTf8DM8zLuFBUm/2VklxaCrwlBFgoJzHJcMZCnZ9cPgsllHwKpL6TPLdDeA38yPluMuVKOL1hO5w6HmG5Mg==
 
 match-all@^1.2.6:
   version "1.2.6"
