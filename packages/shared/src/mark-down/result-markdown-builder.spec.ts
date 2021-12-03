@@ -93,6 +93,7 @@ describe(ResultMarkdownBuilder, () => {
 
         it('builds content when there are baseline failures and new failures', () => {
             const baselineEvaluation = {
+                suggestedBaselineUpdate: {},
                 totalBaselineViolations: 2,
                 totalNewViolations: 4,
                 newViolationsByRule: { 'rule id': 3, 'rule id 2': 1 } as CountsByRule,
@@ -113,6 +114,46 @@ describe(ResultMarkdownBuilder, () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 6,
                 totalNewViolations: 0,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            setCombinedReportResultWithFailures();
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
+        });
+
+        it('builds content when some baseline failures have been fixed and some still occur', () => {
+            const baselineEvaluation = {
+                suggestedBaselineUpdate: {},
+                totalBaselineViolations: 9,
+                totalNewViolations: 0,
+                fixedViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
+                totalFixedViolations: 3,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            setCombinedReportResultWithFailures();
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
+        });
+
+        it('builds content when some baseline failures have been fixed and some new ones have been introduced', () => {
+            const baselineEvaluation = {
+                suggestedBaselineUpdate: {},
+                totalBaselineViolations: 9,
+                fixedViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
+                totalNewViolations: 1,
+                newViolationsByRule: { 'rule id': 1 } as CountsByRule,
             } as BaselineEvaluation;
             const baselineInfo: BaselineInfo = {
                 baselineFileName,

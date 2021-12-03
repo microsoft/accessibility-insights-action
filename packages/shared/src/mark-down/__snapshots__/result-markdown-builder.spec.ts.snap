@@ -42,6 +42,7 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 
 exports[`ResultMarkdownBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures) 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No new failures**
 No failures were detected by automatic scanning except those which exist in the baseline.
 
@@ -49,6 +50,51 @@ No failures were detected by automatic scanning except those which exist in the 
 
 **6 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 4 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some new ones have been introduced 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+**3 failure instances from baseline no longer exist:**
+* (2) **rule id**
+* (1) **rule id 2**
+
+**1 failure instances not in baseline**
+* (1) **rule id**:  rule description
+
+**9 failure instances in baseline**
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 4 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some still occur 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+**3 failure instances from baseline no longer exist:**
+* (2) **rule id**
+* (1) **rule id 2**
+
+**0 failure instances not in baseline**
+
+**9 failure instances in baseline**
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
 
 See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
@@ -69,7 +115,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are basel
 * (1) **rule id 2**:  rule description 2
 
 **2 failure instances in baseline**
-(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to include new failures into the baseline)
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
 
 See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
 
@@ -84,6 +130,7 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no additional failures 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No new failures**
 No failures were detected by automatic scanning except those which exist in the baseline.
 
@@ -147,6 +194,7 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no baseline failures and no new failures 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No failures detected**
 No failures were detected by automatic scanning.
 
@@ -167,6 +215,7 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and baseline failures are undefined 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No failures detected**
 No failures were detected by automatic scanning.
 
@@ -188,6 +237,7 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and no baseline detected 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No failures detected**
 No failures were detected by automatic scanning.
 

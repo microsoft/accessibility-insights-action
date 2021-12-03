@@ -50,7 +50,7 @@ export class ResultMarkdownBuilder {
         if (baselineInfo !== undefined) {
             lines = [
                 this.headingWithMessage(),
-                sectionSeparator(),
+                this.fixedFailureDetails(baselineInfo),
                 this.failureDetailsBaseline(combinedReportResult, baselineInfo),
                 sectionSeparator(),
                 this.baselineDetails(baselineInfo),
@@ -107,11 +107,11 @@ export class ResultMarkdownBuilder {
             const baselineFailures = baselineEvaluation.totalBaselineViolations;
             if (baselineFailures === undefined || (baselineFailures === 0 && newFailures > 0)) {
                 lines = [bold('Baseline not detected'), sectionSeparator(), baselineNotDetectedHelpText];
-            } else if (baselineFailures > 0) {
+            } else if (baselineFailures > 0 || this.shouldUpdateBaselineFile(baselineEvaluation)) {
                 const headingWithBaselineFailures = `${baselineFailures} failure instances in baseline`;
                 let baselineFailuresHelpText = `not shown; see ${baseliningDocsLink}`;
-                if (newFailures > 0) {
-                    baselineFailuresHelpText = baselineFailuresHelpText.concat(' for how to include new failures into the baseline');
+                if (this.shouldUpdateBaselineFile(baselineEvaluation)) {
+                    baselineFailuresHelpText = baselineFailuresHelpText.concat(' for how to integrate your changes into the baseline');
                 }
                 lines = [bold(headingWithBaselineFailures), sectionSeparator(), `(${baselineFailuresHelpText})`];
             }
@@ -119,6 +119,20 @@ export class ResultMarkdownBuilder {
 
         return lines.join('');
     };
+
+    private shouldUpdateBaselineFile(baselineEvaluation: BaselineEvaluation): boolean {
+        return baselineEvaluation && baselineEvaluation.suggestedBaselineUpdate ? true : false;
+    }
+
+    private hasFixedFailureResults(baselineEvaluation: BaselineEvaluation): boolean {
+        if (baselineEvaluation && baselineEvaluation.fixedViolationsByRule) {
+            for (const _ in baselineEvaluation.fixedViolationsByRule) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private urlsListItem = (passedUrls: number, unscannableUrls: number, failedUrls: number): string => {
         const failedUrlsSummary = `${failedUrls} URL(s) failed, `;
@@ -165,15 +179,42 @@ export class ResultMarkdownBuilder {
         return listItem(`${bold(`${failureCount} × ${escaped(ruleId)}`)}:  ${escaped(description)}`);
     };
 
+    private fixedFailureDetails = (baselineInfo: BaselineInfo): string => {
+        if (!baselineInfo || !this.hasFixedFailureResults(baselineInfo.baselineEvaluation)) {
+            return sectionSeparator();
+        }
+
+        let totalFixedFailureInstanceCount = 0;
+        const fixedFailureInstanceLines = [];
+        for (const ruleId in baselineInfo.baselineEvaluation.fixedViolationsByRule) {
+            const fixedFailureInstanceCount = baselineInfo.baselineEvaluation.fixedViolationsByRule[ruleId];
+            totalFixedFailureInstanceCount += fixedFailureInstanceCount;
+            fixedFailureInstanceLines.push(
+                [this.fixedRuleListItemBaseline(fixedFailureInstanceCount, ruleId), sectionSeparator()].join(''),
+            );
+        }
+
+        const lines = [
+            sectionSeparator(),
+            bold(`${totalFixedFailureInstanceCount} failure instances from baseline no longer exist:`),
+            sectionSeparator(),
+            ...fixedFailureInstanceLines,
+        ];
+        return lines.join('');
+    };
+
     private failureDetailsBaseline = (combinedReportResult: CombinedReportParameters, baselineInfo: BaselineInfo): string => {
         let lines = [];
-        if (this.hasFailures(combinedReportResult, baselineInfo.baselineEvaluation)) {
+        if (
+            this.hasFailures(combinedReportResult, baselineInfo.baselineEvaluation) ||
+            this.shouldUpdateBaselineFile(baselineInfo.baselineEvaluation)
+        ) {
             const failedRulesList = this.getFailedRulesList(combinedReportResult, baselineInfo.baselineEvaluation);
             const failureInstances = this.getFailureInstances(combinedReportResult, baselineInfo.baselineEvaluation);
             const failureInstancesHeading = this.getFailureInstancesHeading(failureInstances, baselineInfo.baselineEvaluation);
             lines = [sectionSeparator(), bold(failureInstancesHeading), sectionSeparator(), ...failedRulesList];
         } else {
-            lines = this.getNoFailuresText(baselineInfo.baselineEvaluation);
+            lines = [sectionSeparator(), ...this.getNoFailuresText(baselineInfo.baselineEvaluation)];
         }
 
         return lines.join('');
@@ -266,6 +307,10 @@ export class ResultMarkdownBuilder {
 
     private failedRuleListItemBaseline = (failureCount: number, ruleId: string, description: string) => {
         return listItem(`(${failureCount}) ${bold(escaped(ruleId))}:  ${escaped(description)}`);
+    };
+
+    private fixedRuleListItemBaseline = (failureCount: number, ruleId: string) => {
+        return listItem(`(${failureCount}) ${bold(escaped(ruleId))}`);
     };
 
     private scanResultDetails(scanResult: string, footer?: string): string {
