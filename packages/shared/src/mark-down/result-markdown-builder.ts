@@ -120,11 +120,11 @@ export class ResultMarkdownBuilder {
         return lines.join('');
     };
 
-    private shouldUpdateBaselineFile(baselineEvaluation: BaselineEvaluation) : boolean {
+    private shouldUpdateBaselineFile(baselineEvaluation: BaselineEvaluation): boolean {
         return baselineEvaluation.totalNewViolations > 0 || this.hasFixedFailureResults(baselineEvaluation);
     }
 
-    private hasFixedFailureResults(baselineEvaluation: BaselineEvaluation) : boolean {
+    private hasFixedFailureResults(baselineEvaluation: BaselineEvaluation): boolean {
         if (baselineEvaluation && baselineEvaluation.fixedViolationsByRule) {
             for (const _ in baselineEvaluation.fixedViolationsByRule) {
                 return true;
@@ -180,17 +180,18 @@ export class ResultMarkdownBuilder {
     };
 
     private fixedFailureDetails = (baselineInfo: BaselineInfo): string => {
-        if (!baselineInfo || 
-            !this.hasFixedFailureResults(baselineInfo.baselineEvaluation)) {
+        if (!baselineInfo || !this.hasFixedFailureResults(baselineInfo.baselineEvaluation)) {
             return sectionSeparator();
         }
-        
+
         let totalFixedFailureInstanceCount = 0;
         const fixedFailureInstanceLines = [];
         for (const ruleId in baselineInfo.baselineEvaluation.fixedViolationsByRule) {
             const fixedFailureInstanceCount = baselineInfo.baselineEvaluation.fixedViolationsByRule[ruleId];
             totalFixedFailureInstanceCount += fixedFailureInstanceCount;
-            fixedFailureInstanceLines.push([this.fixedRuleListItemBaseline(fixedFailureInstanceCount, ruleId), sectionSeparator()].join(''));
+            fixedFailureInstanceLines.push(
+                [this.fixedRuleListItemBaseline(fixedFailureInstanceCount, ruleId), sectionSeparator()].join(''),
+            );
         }
 
         const lines = [
