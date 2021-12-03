@@ -121,7 +121,7 @@ export class ResultMarkdownBuilder {
     };
 
     private shouldUpdateBaselineFile(baselineEvaluation: BaselineEvaluation): boolean {
-        return (baselineEvaluation && baselineEvaluation.suggestedBaselineUpdate) ? true : false;
+        return baselineEvaluation && baselineEvaluation.suggestedBaselineUpdate ? true : false;
     }
 
     private hasFixedFailureResults(baselineEvaluation: BaselineEvaluation): boolean {
@@ -205,8 +205,10 @@ export class ResultMarkdownBuilder {
 
     private failureDetailsBaseline = (combinedReportResult: CombinedReportParameters, baselineInfo: BaselineInfo): string => {
         let lines = [];
-        if (this.hasFailures(combinedReportResult, baselineInfo.baselineEvaluation) ||
-            this.shouldUpdateBaselineFile(baselineInfo.baselineEvaluation)) {
+        if (
+            this.hasFailures(combinedReportResult, baselineInfo.baselineEvaluation) ||
+            this.shouldUpdateBaselineFile(baselineInfo.baselineEvaluation)
+        ) {
             const failedRulesList = this.getFailedRulesList(combinedReportResult, baselineInfo.baselineEvaluation);
             const failureInstances = this.getFailureInstances(combinedReportResult, baselineInfo.baselineEvaluation);
             const failureInstancesHeading = this.getFailureInstancesHeading(failureInstances, baselineInfo.baselineEvaluation);
