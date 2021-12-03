@@ -107,7 +107,7 @@ export class ResultMarkdownBuilder {
             const baselineFailures = baselineEvaluation.totalBaselineViolations;
             if (baselineFailures === undefined || (baselineFailures === 0 && newFailures > 0)) {
                 lines = [bold('Baseline not detected'), sectionSeparator(), baselineNotDetectedHelpText];
-            } else if (baselineFailures > 0) {
+            } else if (baselineFailures > 0 || this.shouldUpdateBaselineFile(baselineEvaluation)) {
                 const headingWithBaselineFailures = `${baselineFailures} failure instances in baseline`;
                 let baselineFailuresHelpText = `not shown; see ${baseliningDocsLink}`;
                 if (this.shouldUpdateBaselineFile(baselineEvaluation)) {
@@ -121,7 +121,7 @@ export class ResultMarkdownBuilder {
     };
 
     private shouldUpdateBaselineFile(baselineEvaluation: BaselineEvaluation): boolean {
-        return baselineEvaluation.totalNewViolations > 0 || this.hasFixedFailureResults(baselineEvaluation);
+        return (baselineEvaluation && baselineEvaluation.suggestedBaselineUpdate) ? true : false;
     }
 
     private hasFixedFailureResults(baselineEvaluation: BaselineEvaluation): boolean {
@@ -205,7 +205,8 @@ export class ResultMarkdownBuilder {
 
     private failureDetailsBaseline = (combinedReportResult: CombinedReportParameters, baselineInfo: BaselineInfo): string => {
         let lines = [];
-        if (this.hasFailures(combinedReportResult, baselineInfo.baselineEvaluation)) {
+        if (this.hasFailures(combinedReportResult, baselineInfo.baselineEvaluation) ||
+            this.shouldUpdateBaselineFile(baselineInfo.baselineEvaluation)) {
             const failedRulesList = this.getFailedRulesList(combinedReportResult, baselineInfo.baselineEvaluation);
             const failureInstances = this.getFailureInstances(combinedReportResult, baselineInfo.baselineEvaluation);
             const failureInstancesHeading = this.getFailureInstancesHeading(failureInstances, baselineInfo.baselineEvaluation);

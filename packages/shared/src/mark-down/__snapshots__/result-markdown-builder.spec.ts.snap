@@ -91,10 +91,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when some baseline f
 * (2) **rule id**
 * (1) **rule id 2**
 
-**:white_check_mark: No new failures**
-No failures were detected by automatic scanning except those which exist in the baseline.
-
-**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+**0 failure instances not in baseline**
 
 **9 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
