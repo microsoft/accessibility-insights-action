@@ -126,6 +126,43 @@ describe(ResultMarkdownBuilder, () => {
             verifyAllMocks();
         });
 
+        it('builds content when some baseline failures have been fixed and some still occur', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: 9,
+                totalNewViolations: 0,
+                fixedViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            setCombinedReportResultWithFailures();
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
+        });
+
+        it('builds content when some baseline failures have been fixed and some new ones have been introduced', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: 9,
+                fixedViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
+                totalNewViolations: 1,
+                newViolationsByRule: { 'rule id': 1 } as CountsByRule,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            setCombinedReportResultWithFailures();
+
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
+        });
+
         it('builds content when there are baseline failures and no additional failures', () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 1,
