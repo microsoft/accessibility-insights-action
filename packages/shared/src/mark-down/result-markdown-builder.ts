@@ -51,7 +51,6 @@ export class ResultMarkdownBuilder {
             lines = [
                 this.headingWithMessage(),
                 this.fixedFailureDetails(baselineInfo),
-                sectionSeparator(),
                 this.failureDetailsBaseline(combinedReportResult, baselineInfo),
                 sectionSeparator(),
                 this.baselineDetails(baselineInfo),
@@ -183,7 +182,7 @@ export class ResultMarkdownBuilder {
     private fixedFailureDetails = (baselineInfo: BaselineInfo): string => {
         if (!baselineInfo || 
             !this.hasFixedFailureResults(baselineInfo.baselineEvaluation)) {
-            return '';
+            return sectionSeparator();
         }
         
         let totalFixedFailureInstanceCount = 0;
@@ -211,7 +210,7 @@ export class ResultMarkdownBuilder {
             const failureInstancesHeading = this.getFailureInstancesHeading(failureInstances, baselineInfo.baselineEvaluation);
             lines = [sectionSeparator(), bold(failureInstancesHeading), sectionSeparator(), ...failedRulesList];
         } else {
-            lines = this.getNoFailuresText(baselineInfo.baselineEvaluation);
+            lines = [sectionSeparator(), ...this.getNoFailuresText(baselineInfo.baselineEvaluation)];
         }
 
         return lines.join('');

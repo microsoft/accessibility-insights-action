@@ -42,6 +42,7 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 
 exports[`ResultMarkdownBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures) 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No new failures**
 No failures were detected by automatic scanning except those which exist in the baseline.
 
@@ -66,7 +67,6 @@ exports[`ResultMarkdownBuilder with baseline builds content when some baseline f
 **3 failure instances from baseline no longer exist:**
 * (2) **rule id**
 * (1) **rule id 2**
-
 
 **1 failure instances not in baseline**
 * (1) **rule id**:  rule description
@@ -133,6 +133,7 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no additional failures 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No new failures**
 No failures were detected by automatic scanning except those which exist in the baseline.
 
@@ -196,6 +197,7 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no baseline failures and no new failures 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No failures detected**
 No failures were detected by automatic scanning.
 
@@ -216,6 +218,7 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and baseline failures are undefined 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No failures detected**
 No failures were detected by automatic scanning.
 
@@ -237,6 +240,7 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and no baseline detected 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+
 **:white_check_mark: No failures detected**
 No failures were detected by automatic scanning.
 
