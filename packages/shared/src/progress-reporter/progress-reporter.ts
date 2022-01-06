@@ -3,7 +3,7 @@
 
 import { injectable } from 'inversify';
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import marked from 'marked';
+import { marked } from 'marked';
 import TerminalRenderer from 'marked-terminal';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 
