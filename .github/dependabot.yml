@@ -28,3 +28,8 @@ updates:
   - dependency-name: puppeteer-core
     versions:
     - "> 5.3.1"
+    # marked-terminal v5 depends on chalk v5 which uses the node: protocol;
+    # this protocol is not supported in node 10, the ADO execution environment
+  - dependency-name: marked-terminal
+    versions:
+    - ">= 5"
