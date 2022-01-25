@@ -81,7 +81,6 @@
         "ansi-regex": "^5.0.1",
         "nth-check": ">=2.0.1",
         "tar": ">=6.1.9",
-        "jszip": ">=3.7.0",
         "**/azure-pipeline-task-lib/shelljs": "^0.8.5",
         "underscore": ">=1.12.1"
     }
