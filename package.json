@@ -69,10 +69,8 @@
         "webpack-cli": "^4.9.2"
     },
     "resolutions": {
-        "@actions/http-client": ">=1.0.8",
         "apify-shared": ">=0.5.0",
         "axios": ">=0.21.1",
-        "minimist": ">=1.2.3",
         "serialize-javascript": ">=3.1.0",
         "y18n": ">=5.0.5",
         "socket.io": ">=2.4.0",
@@ -82,10 +80,8 @@
         "css-what": ">=5.0.1",
         "ansi-regex": "^5.0.1",
         "nth-check": ">=2.0.1",
-        "set-value": ">=4.0.1",
         "tar": ">=6.1.9",
-        "jszip": ">=3.7.0",
-        "**/azure-pipeline-task-lib/shelljs": "^0.8.5",
+        "**/tfx-cli/shelljs": "^0.8.5",
         "underscore": ">=1.12.1"
     }
 }
