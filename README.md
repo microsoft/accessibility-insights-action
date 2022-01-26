@@ -22,6 +22,6 @@ For more information, see [How to use the GitHub Action](docs/gh-action-usage.md
 
 ## Contributing
 
-To build and test, see [developer docs](./dev/README.md) for more details.
+To build and test, see [developer docs](./dev/README.md).
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for more info about the contributor license agreement.
