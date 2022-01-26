@@ -1,9 +1,9 @@
 {
     "ignore": [
         ".git",
+        ".github",
         "./.dependabot",
         "**/yarn.lock",
-        "**/.github/pull_request_template.md",
         "**/CODEOWNERS",
         "package.json",
         "cred-scan-suppressions.json",
