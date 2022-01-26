@@ -20,6 +20,8 @@ Automated checks can detect some common accessibility problems such as missing o
 
 For more information, see [How to use the GitHub Action](docs/gh-action-usage.md) and [How to use the Azure DevOps extension](docs/ado-extension-usage.md).
 
+To build and test, see [developer docs](./dev/README.md) for more details.
+
 ## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
@@ -34,4 +36,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) and [dev docs](./dev/README.md) for more details.
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
