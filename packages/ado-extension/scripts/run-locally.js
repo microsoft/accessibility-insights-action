@@ -11,11 +11,16 @@ pairs inside local-overrides.json. For instance:
     {
         name: "url",
         value: "https://accessibilityinsights.io"
+    },
+    {
+        name: "singleWorker",
+        value: true
     }
 ]
 
 Valid names include any input name in task.json, e.g.
-outputDir, siteDir, etc.
+outputDir, siteDir, etc. Boolean values can be provided
+without quotes, like singleWorker above.
 */
 
 const mockRunner = require('azure-pipelines-task-lib/mock-run');
