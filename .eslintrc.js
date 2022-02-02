@@ -35,4 +35,5 @@ module.exports = {
             },
         },
     ],
+    ignorePatterns: ['**/*.js'],
 };

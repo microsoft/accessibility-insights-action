@@ -11,7 +11,7 @@
         "lint:check": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\"",
         "lint:fix": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\" --quiet --fix",
         "package": "cd dist && tfx extension create --manifest-globs ado-extension.json",
-        "start": "node dist/pkg/index.js",
+        "start": "node scripts/run-locally.js",
         "test": "jest",
         "watch:test": "jest --watch",
         "test:e2e": "tsc && mocha dist/pkg/*.test.js"
