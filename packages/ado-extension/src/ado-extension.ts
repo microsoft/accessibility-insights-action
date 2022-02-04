@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable prefer-rest-params */
-
 import 'reflect-metadata';
 import './module-name-mapper';
 
 import { Logger } from '@accessibility-insights-action/shared';
 import { Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
+import { hookStderr } from '@accessibility-insights-action/shared';
+import { hookStdout } from '@accessibility-insights-action/shared';
 
 export function runScan() {
     (async () => {
+        hookStderr();
+        hookStdout();
 
         // function hookOutputStream(stream: NodeJS.WriteStream, callback: any) {
         //     const old_write = stream.write;
-          
+
         //     console.log('DHT = input = ')
         //     const y = function (buffer: string | Uint8Array, cb?: ((err?: Error | undefined) => void) | undefined): boolean || (str: string | Uint8Array, encoding?: BufferEncoding | undefined, cb?: ((err?: Error | undefined) => void) | undefined): boolean) {}
 

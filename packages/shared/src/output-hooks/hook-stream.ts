@@ -1,78 +1,34 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import process from 'node:process';
-import {Buffer} from 'node:buffer';
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/unbound-method */
 
-const hook = (stream, options, transform) => {
-	if (typeof options !== 'object') {
-		transform = options;
-		options = {};
-	}
+export type StreamTransformer = (data: string) => string;
 
-	options = {
-		silent: true,
-		once: false,
-		...options,
-	};
-
-	let unhookFunction;
-
-	const promise = new Promise(resolve => {
-		const {write} = stream;
-
-		const unhook = () => {
-			stream.write = write;
-			resolve();
-		};
-
-		stream.write = (output, encoding, callback) => {
-			const callbackReturnValue = transform(String(output), unhook);
-
-			if (options.once) {
-				unhook();
-			}
-
-			if (options.silent) {
-				return typeof callbackReturnValue === 'boolean' ? callbackReturnValue : true;
-			}
-
-			let returnValue;
-			if (typeof callbackReturnValue === 'string') {
-				returnValue = typeof encoding === 'string' ? Buffer.from(callbackReturnValue).toString(encoding) : callbackReturnValue;
-			}
-
-			returnValue = returnValue || (Buffer.isBuffer(callbackReturnValue) ? callbackReturnValue : output);
-
-			return write.call(stream, returnValue, encoding, callback);
-		};
-
-		unhookFunction = unhook;
-	});
-
-	promise.unhook = unhookFunction;
-
-	return promise;
+type WriteFunc = {
+    (buffer: string | Uint8Array, cb?: (err?: Error) => void): boolean;
+    (str: string | Uint8Array, encoding?: BufferEncoding, cb?: (err?: Error) => void): boolean;
 };
 
-export function hookStd(options, transform) {
-	const streams = options.streams || [process.stdout, process.stderr];
-	const streamPromises = streams.map(stream => hook(stream, options, transform));
+export const hookStream = (stream: NodeJS.WriteStream, transformer: (arg0: string) => string): (() => void) => {
+    const oldWrite: WriteFunc = stream.write;
 
-	const promise = Promise.all(streamPromises);
-	promise.unhook = () => {
-		for (const streamPromise of streamPromises) {
-			streamPromise.unhook();
-		}
-	};
+    const unhook = () => {
+        stream.write = oldWrite;
+    };
 
-	return promise;
-}
+    const newWrite = (output: string | Uint8Array, encoding?: BufferEncoding, callback?: (err?: Error) => void) => {
+        const transformedValue = transformer(String(output));
 
-export function hookStdout(...arguments_) {
-	return hook(process.stdout, ...arguments_);
-}
+        if (transformedValue) {
+            return oldWrite.call(stream, transformedValue, encoding, callback);
+        }
 
-export function hookStderr(...arguments_) {
-	return hook(process.stderr, ...arguments_);
-}
+        return false;
+    };
+
+    stream.write = newWrite as WriteFunc;
+
+    return unhook;
+};
