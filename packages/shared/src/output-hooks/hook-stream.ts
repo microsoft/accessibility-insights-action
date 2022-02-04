@@ -1,34 +1,30 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type StreamTransformer = (data: string) => string;
 
-type WriteFunc = {
-    (buffer: string | Uint8Array, cb?: (err?: Error) => void): boolean;
-    (str: string | Uint8Array, encoding?: BufferEncoding, cb?: (err?: Error) => void): boolean;
-};
-
+// This method hooks a stream at its _write method, which is the lowest level that
+// is exposed via the interface. Calling the method returned from hookStream
+// removes the hook by restoring the previous _write method.
 export const hookStream = (stream: NodeJS.WriteStream, transformer: (rawData: string) => string): (() => void) => {
-    const oldWrite: WriteFunc = stream.write;
+    const oldWrite = stream._write;
 
     const unhook = () => {
-        stream.write = oldWrite;
+        stream._write = oldWrite;
     };
 
-    const newWrite = (output: string | Uint8Array, encoding?: BufferEncoding, callback?: (err?: Error) => void) => {
-        const transformedValue = transformer(String(output));
+    const newWrite = (chunk: any, encoding: BufferEncoding, callback: (err?: Error) => void) => {
+        const transformedValue = transformer(String(chunk));
 
         if (transformedValue) {
-            return oldWrite.call(stream, transformedValue, encoding, callback);
+            oldWrite.call(stream, transformedValue, encoding, callback);
         }
-
-        return false;
     };
 
-    stream.write = newWrite as WriteFunc;
+    stream._write = newWrite;
 
     return unhook;
 };
