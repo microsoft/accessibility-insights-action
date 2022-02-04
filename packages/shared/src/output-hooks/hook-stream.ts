@@ -11,7 +11,7 @@ type WriteFunc = {
     (str: string | Uint8Array, encoding?: BufferEncoding, cb?: (err?: Error) => void): boolean;
 };
 
-export const hookStream = (stream: NodeJS.WriteStream, transformer: (arg0: string) => string): (() => void) => {
+export const hookStream = (stream: NodeJS.WriteStream, transformer: (rawData: string) => string): (() => void) => {
     const oldWrite: WriteFunc = stream.write;
 
     const unhook = () => {
