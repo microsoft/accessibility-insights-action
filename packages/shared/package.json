@@ -26,9 +26,7 @@
         "url": "https://github.com/microsoft/accessibility-insights-action/issues"
     },
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
-    "devDependencies": {
-        "@types/node": "^17.0.14"
-    },
+    "devDependencies": {},
     "dependencies": {
         "accessibility-insights-report": "4.2.0",
         "accessibility-insights-scan": "0.10.3",
