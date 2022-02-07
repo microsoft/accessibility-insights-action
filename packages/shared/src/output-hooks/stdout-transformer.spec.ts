@@ -13,6 +13,9 @@ describe(stdoutTransformer, () => {
         ${'\u001B[32mINFO\u001b[39m'}     | ${'\u001B[32mINFO\u001b[39m'}
         ${'\u001B[32mINFO\u001b[39m '}    | ${'##[debug] '}
         ${'\u001B[32mINFO\u001b[39m abc'} | ${'##[debug] abc'}
+        ${'Processing page'}              | ${'Processing page'}
+        ${'Processing page '}             | ${'##[debug] Processing page '}
+        ${'Processing page abc'}          | ${'##[debug] Processing page abc'}
     `(`input value '$input' returned as '$expectedOutput'`, ({ input, expectedOutput }) => {
         const output = stdoutTransformer(input);
         expect(output).toBe(expectedOutput);

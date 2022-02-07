@@ -15,6 +15,10 @@ const startSubstitutions: StartSubstitution[] = [
         oldStart: '\u001B[32mINFO\u001b[39m ', // Includes escape characters used for color formatting
         newStart: '##[debug] ',
     },
+    {
+        oldStart: 'Processing page ',
+        newStart: '##[debug] Processing page ',
+    },
 ];
 
 export const stdoutTransformer = (rawData: string): string => {
