@@ -17,7 +17,7 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
     container.bind(iocTypes.TaskConfig).to(GHTaskConfig).inSingletonScope();
     container.bind(CheckRunCreator).toSelf().inSingletonScope();
     container.bind(PullRequestCommentCreator).toSelf().inSingletonScope();
-    container
+    /*container
         .bind(iocTypes.ProgressReporters)
         .toDynamicValue((context) => {
             const pullRequestCommentCreator = context.container.get(PullRequestCommentCreator);
@@ -25,7 +25,7 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
 
             return [checkRunCreator, pullRequestCommentCreator];
         })
-        .inSingletonScope();
+        .inSingletonScope();*/
 
     container
         .bind(Octokit)
