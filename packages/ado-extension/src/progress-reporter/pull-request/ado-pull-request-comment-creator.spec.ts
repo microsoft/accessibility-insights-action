@@ -291,13 +291,6 @@ describe(ADOPullRequestCommentCreator, () => {
             .verifiable(Times.atLeastOnce());
     };
 
-    const setupBaselineFileParameterDoesNotExist = () => {
-        adoTaskConfigMock
-            .setup((o) => o.getBaselineFile())
-            .returns(() => undefined)
-            .verifiable(Times.atLeastOnce());
-    };
-
     const setupIsSupportedReturnsFalse = () => {
         adoTaskMock
             .setup((o) => o.getVariable('Build.Reason'))

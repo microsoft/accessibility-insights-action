@@ -6,18 +6,18 @@ import * as inversify from 'inversify';
 import * as NodeApi from 'azure-devops-node-api';
 import { iocTypes, setupSharedIocContainer } from '@accessibility-insights-action/shared';
 import { ADOTaskConfig } from '../task-config/ado-task-config';
-import { AdoPullRequestCommentCreator } from '../progress-reporter/pull-request/ado-pull-request-comment-creator';
 import { AdoIocTypes } from './ado-ioc-types';
 import * as process from 'process';
 import { ADOArtifactsInfoProvider } from '../ado-artifacts-info-provider';
 import { WorkflowEnforcer } from '../progress-reporter/enforcement/workflow-enforcer';
+import { AdoConsoleCommentCreator } from '../progress-reporter/console/ado-console-comment-creator';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
     container.bind(AdoIocTypes.AdoTask).toConstantValue(AdoTask);
     container.bind(AdoIocTypes.NodeApi).toConstantValue(NodeApi);
     container.bind(iocTypes.TaskConfig).to(ADOTaskConfig).inSingletonScope();
-    container.bind(AdoPullRequestCommentCreator).toSelf().inSingletonScope();
+    container.bind(AdoConsoleCommentCreator).toSelf().inSingletonScope();
     container.bind(WorkflowEnforcer).toSelf().inSingletonScope();
     container
         .bind(iocTypes.ProgressReporters)
@@ -25,8 +25,8 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
             switch (process.env.BUILD_REPOSITORY_PROVIDER) {
                 case 'TfsGit': {
                     // Note: Keep the WorkflowEnforcer creator last in the array!
-                    const pullRequestCommentCreator = context.container.get(AdoPullRequestCommentCreator);
-                    return [pullRequestCommentCreator, context.container.get(WorkflowEnforcer)];
+                    const consoleCommentCreator = context.container.get(AdoConsoleCommentCreator);
+                    return [consoleCommentCreator, context.container.get(WorkflowEnforcer)];
                 }
                 default: {
                     return [context.container.get(WorkflowEnforcer)];
