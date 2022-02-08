@@ -10,7 +10,6 @@ import { ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as AdoTask from 'azure-pipelines-task-lib/task';
 import * as NodeApi from 'azure-devops-node-api';
-import * as VsoBaseInterfaces from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { BaselineInfo } from '@accessibility-insights-action/shared';
 
@@ -28,57 +27,6 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         @inject(AdoIocTypes.NodeApi) private readonly nodeApi: typeof NodeApi,
     ) {
         super();
-
-        const authHandler = this.getAuthHandler();
-        const url = this.getVariableOrThrow('System.TeamFoundationCollectionUri');
-        this.connection = new nodeApi.WebApi(url, authHandler);
-    }
-
-    private getAuthHandler(): VsoBaseInterfaces.IRequestHandler {
-        const serviceConnectionName = this.adoTaskConfig.getRepoServiceConnectionName();
-
-        if (serviceConnectionName !== undefined && serviceConnectionName?.length > 0) {
-            return this.getAuthHandlerForServiceConnection(serviceConnectionName);
-        } else {
-            // falling back to build agent default creds. Will throw if no creds found
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const token = this.adoTask.getEndpointAuthorizationParameter('SystemVssConnection', 'AccessToken', false)!;
-            console.log('Could not find a service connection passed in by the user. Trying to use default build agent creds');
-            return this.nodeApi.getPersonalAccessTokenHandler(token);
-        }
-    }
-
-    private getAuthHandlerForServiceConnection(serviceConnectionName: string): VsoBaseInterfaces.IRequestHandler {
-        // Will throw if no creds found
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const endpointAuth = this.adoTask.getEndpointAuthorization(serviceConnectionName, false)!;
-        const authScheme = this.adoTask.getEndpointAuthorizationScheme(serviceConnectionName, true)?.toLowerCase();
-
-        switch (authScheme) {
-            case 'token': {
-                const token = endpointAuth.parameters['apitoken'];
-                console.log('Using token provided by service connection passed in by user');
-                return this.nodeApi.getPersonalAccessTokenHandler(token);
-            }
-            case 'usernamepassword': {
-                const username = endpointAuth.parameters['username'];
-                const password = endpointAuth.parameters['password'];
-                console.log('Using credentials provided by service connection passed in by user');
-                return this.nodeApi.getBasicHandler(username, password);
-            }
-            default:
-                // we only expect basic or token auth:
-                // https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#azure-repos
-                throw 'Unsupported auth scheme. Please use token or basic auth.';
-        }
-    }
-
-    private getVariableOrThrow(variableName: string): string {
-        const potentialVariable = this.adoTask.getVariable(variableName);
-        if (potentialVariable === undefined) {
-            throw `Unable to find ${variableName}`;
-        }
-        return potentialVariable;
     }
 
     public async start(): Promise<void> {
