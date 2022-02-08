@@ -5,11 +5,16 @@ import 'reflect-metadata';
 import './module-name-mapper';
 
 import { Logger } from '@accessibility-insights-action/shared';
+import { hookStderr } from '@accessibility-insights-action/shared';
+import { hookStdout } from '@accessibility-insights-action/shared';
 import { Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
 
 export function runScan() {
     (async () => {
+        hookStderr();
+        hookStdout();
+
         const container = setupIocContainer();
         const logger = container.get(Logger);
         await logger.setup();
