@@ -26,6 +26,18 @@ const regexTransformations: RegexTransformation[] = [
         method: useUnmodifiedString,
     },
     {
+        regex: new RegExp('^Processing page .*'),
+        method: useUnmodifiedString,
+    },
+    {
+        regex: new RegExp('^Discovered \\d* links on page '),
+        method: useUnmodifiedString,
+    },
+    {
+        regex: new RegExp('^Found \\d* accessibility issues on page '),
+        method: useUnmodifiedString,
+    },
+    {
         regex: new RegExp('^\\[Trace\\]\\[info\\] === '),
         method: replaceFirstMatchWithDebugPrefix,
     },

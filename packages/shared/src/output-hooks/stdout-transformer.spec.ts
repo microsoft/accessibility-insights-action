@@ -28,12 +28,17 @@ describe(stdoutTransformer, () => {
     });
 
     it.each`
-        input                      | expectedOutput
-        ${'##[error] abc'}         | ${'##[error] abc'}
-        ${'##[debug] abc'}         | ${'##[debug] abc'}
-        ${'##vso[task.debug] abc'} | ${'##vso[task.debug] abc'}
-    `(`Debug tag not added - input value '$input' returned as '$expectedOutput'`, ({ input, expectedOutput }) => {
+        input
+        ${'##[error] abc'}
+        ${'##[debug] abc'}
+        ${'##vso[task.debug] abc'}
+        ${'Processing page abc'}
+        ${'Discovered 2 links on page abc'}
+        ${'Discovered 2345 links on page abc'}
+        ${'Found 3 accessibility issues on page abc'}
+        ${'Found 3456 accessibility issues on page abc'}
+    `(`Debug tag not added - input value '$input' returned as '$input'`, ({ input }) => {
         const output = stdoutTransformer(input);
-        expect(output).toBe(expectedOutput);
+        expect(output).toBe(input);
     });
 });
