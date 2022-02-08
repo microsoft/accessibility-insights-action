@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type StreamTransformer = (data: string) => string;
@@ -10,13 +9,15 @@ export type StreamTransformer = (data: string) => string;
 // is exposed via the interface. Calling the method returned from hookStream
 // removes the hook by restoring the previous _write method.
 export const hookStream = (stream: NodeJS.WriteStream, transformer: (rawData: string) => string): (() => void) => {
-    const oldWrite = stream._write;
+    const oldWrite = (chunk: any, encoding: BufferEncoding, callback: (error?: Error) => void) => {
+        return stream._write(chunk, encoding, callback);
+    };
 
     const unhook = () => {
         stream._write = oldWrite;
     };
 
-    const newWrite = (chunk: any, encoding: BufferEncoding, callback: (err?: Error) => void) => {
+    const newWrite = (chunk: any, encoding: BufferEncoding, callback: (error?: Error) => void): void => {
         const transformedValue = transformer(String(chunk));
 
         if (transformedValue) {
