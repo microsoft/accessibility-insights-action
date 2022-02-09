@@ -1,21 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AdoIocTypes } from '../../ioc/ado-ioc-types';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
 import { Logger } from '@accessibility-insights-action/shared';
 import { ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import * as AdoTask from 'azure-pipelines-task-lib/task';
-import * as NodeApi from 'azure-devops-node-api';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { BaselineInfo } from '@accessibility-insights-action/shared';
 
 @injectable()
 export class AdoConsoleCommentCreator extends ProgressReporter {
-    private connection: NodeApi.WebApi;
     public static readonly CURRENT_COMMENT_TITLE = 'Results from Current Run';
     public static readonly PREVIOUS_COMMENT_TITLE = 'Results from Previous Run';
 
@@ -23,14 +19,12 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Logger) private readonly logger: Logger,
-        @inject(AdoIocTypes.AdoTask) private readonly adoTask: typeof AdoTask,
-        @inject(AdoIocTypes.NodeApi) private readonly nodeApi: typeof NodeApi,
     ) {
         super();
     }
 
     public async start(): Promise<void> {
-        // We don't do anything for pull request flow
+        // We don't do anything to start the run
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {

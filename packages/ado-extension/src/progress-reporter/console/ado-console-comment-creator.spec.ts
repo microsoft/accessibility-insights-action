@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as adoTask from 'azure-pipelines-task-lib/task';
-import * as nodeApi from 'azure-devops-node-api';
 import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { AdoConsoleCommentCreator } from './ado-console-comment-creator';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
@@ -12,20 +10,14 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 
 describe(AdoConsoleCommentCreator, () => {
-    let adoTaskMock: IMock<typeof adoTask>;
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let loggerMock: IMock<Logger>;
-    let nodeApiMock: IMock<typeof nodeApi>;
     let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
-    let webApiMock: IMock<nodeApi.WebApi>;
     let adoConsoleCommentCreator: AdoConsoleCommentCreator;
 
     beforeEach(() => {
-        adoTaskMock = Mock.ofType<typeof adoTask>(undefined, MockBehavior.Strict);
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
         loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
-        nodeApiMock = Mock.ofType<typeof nodeApi>(undefined, MockBehavior.Strict);
-        webApiMock = Mock.ofType<nodeApi.WebApi>(undefined, MockBehavior.Strict);
         reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>(undefined, MockBehavior.Strict);
     });
 
@@ -82,19 +74,11 @@ describe(AdoConsoleCommentCreator, () => {
     });
 
     const buildAdoConsoleCommentCreatorWithMocks = () =>
-        new AdoConsoleCommentCreator(
-            adoTaskConfigMock.object,
-            reportMarkdownConvertorMock.object,
-            loggerMock.object,
-            adoTaskMock.object,
-            nodeApiMock.object,
-        );
+        new AdoConsoleCommentCreator(adoTaskConfigMock.object, reportMarkdownConvertorMock.object, loggerMock.object);
 
     const verifyAllMocks = () => {
-        adoTaskMock.verifyAll();
         adoTaskConfigMock.verifyAll();
         loggerMock.verifyAll();
         reportMarkdownConvertorMock.verifyAll();
-        webApiMock.verifyAll();
     };
 });

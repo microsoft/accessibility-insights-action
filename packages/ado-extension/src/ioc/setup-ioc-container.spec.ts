@@ -8,7 +8,6 @@ import { Container } from 'inversify';
 import { setupIocContainer } from './setup-ioc-container';
 import { iocTypes } from '@accessibility-insights-action/shared';
 import { AdoIocTypes } from './ado-ioc-types';
-import * as process from 'process';
 import { AdoConsoleCommentCreator } from '../progress-reporter/console/ado-console-comment-creator';
 
 describe(setupIocContainer, () => {
@@ -25,8 +24,7 @@ describe(setupIocContainer, () => {
         },
     );
 
-    test.each(['TfsGit', ''])('verify progress reporter resolution %p', (key: string) => {
-        process.env.BUILD_REPOSITORY_PROVIDER = key;
+    test('verify progress reporter resolution', () => {
         verifySingletonDependencyResolution(testSubject, iocTypes.ProgressReporters);
     });
 
