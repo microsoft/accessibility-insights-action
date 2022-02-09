@@ -35,7 +35,6 @@ steps:
       displayName: Scan for accessibility issues
       inputs:
 
-
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
       displayName: Upload report artifact
       condition: succeededOrFailed()
