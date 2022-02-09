@@ -50,7 +50,6 @@ describe(ADOTaskConfig, () => {
         ${'scanTimeout'}               | ${'100000'}         | ${100000}                                               | ${() => taskConfig.getScanTimeout()}
         ${'localhostPort'}             | ${'8080'}           | ${8080}                                                 | ${() => taskConfig.getLocalhostPort()}
         ${'localhostPort'}             | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getLocalhostPort()}
-        ${'repoServiceConnectionName'} | ${'testName'}       | ${'testName'}                                           | ${() => taskConfig.getRepoServiceConnectionName()}
         ${'baselineFile'}              | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
         ${'failOnAccessibilityError'}  | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
         ${'singleWorker'}              | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
