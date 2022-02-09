@@ -60,10 +60,7 @@ describe(ConsoleLoggerClient, () => {
 
             testSubject.log('trace1', LogLevel.warn, traceProps);
 
-            consoleMock.verify(
-                (c) => c.log(`##[warn][properties - ${util.inspect({ ...baseProps, ...traceProps })}]trace1`),
-                Times.once(),
-            );
+            consoleMock.verify((c) => c.log(`##[warn][properties - ${util.inspect({ ...baseProps, ...traceProps })}]trace1`), Times.once());
         });
     });
 
