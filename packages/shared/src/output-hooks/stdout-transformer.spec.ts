@@ -18,8 +18,6 @@ describe(stdoutTransformer, () => {
 
     it.each`
         input                             | expectedOutput
-        ${'[Trace][info] === '}           | ${'##[debug] '}
-        ${'[Trace][info] === abc'}        | ${'##[debug] abc'}
         ${'\u001B[32mINFO\u001b[39m '}    | ${'##[debug] '}
         ${'\u001B[32mINFO\u001b[39m abc'} | ${'##[debug] abc'}
     `(`Debug tag added to modified input - input value '$input' returned as '$expectedOutput'`, ({ input, expectedOutput }) => {
