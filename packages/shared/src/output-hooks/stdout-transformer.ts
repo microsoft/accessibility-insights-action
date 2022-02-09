@@ -38,6 +38,14 @@ const regexTransformations: RegexTransformation[] = [
         method: useUnmodifiedString,
     },
     {
+        regex: new RegExp('^##\\[info\\]'),
+        method: removeFirstMatch,
+    },
+    {
+        regex: new RegExp('^##\\[warn\\]'),
+        method: replaceFirstMatchWithWarningPrefix,
+    },
+    {
         regex: new RegExp('^\\[Trace\\]\\[info\\] === '),
         method: replaceFirstMatchWithDebugPrefix,
     },
@@ -77,8 +85,16 @@ function useUnmodifiedString(input: string): string {
     return input;
 }
 
+function removeFirstMatch(input: string, regex: RegExp): string {
+    return `${input.replace(regex, '$`')}`;
+}
+
 function replaceFirstMatchWithDebugPrefix(input: string, regex: RegExp): string {
     return `${debugPrefix} ${input.replace(regex, '$`')}`;
+}
+
+function replaceFirstMatchWithWarningPrefix(input: string, regex: RegExp): string {
+    return `##[warning]${input.replace(regex, '$`')}`;
 }
 
 function prependDebugPrefix(input: string): string {
