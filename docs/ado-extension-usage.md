@@ -34,10 +34,7 @@ steps:
     - task: accessibility-insights.prod.task.accessibility-insights@1
       displayName: Scan for accessibility issues
       inputs:
-          repoServiceConnectionName: 'myRepoServiceConnection'
-          # Provide either siteDir or url
-          # siteDir: '$(System.DefaultWorkingDirectory)/path-to-built-website'
-          # url: 'your-website-url'
+
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
       displayName: Upload report artifact
