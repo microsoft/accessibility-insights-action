@@ -22,16 +22,12 @@ export class ConsoleCommentCreator extends ProgressReporter {
 
     public async completeRun(combinedReportResult: CombinedReportParameters): Promise<void> {
         const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
-        this.logMessage(reportMarkdown);
+        this.logger.logInfo(reportMarkdown);
         return Promise.resolve();
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
     public async failRun(message: string): Promise<void> {
         throw message;
-    }
-
-    private logMessage(message: string): void {
-        this.logger.logInfo(`${message}`);
     }
 }

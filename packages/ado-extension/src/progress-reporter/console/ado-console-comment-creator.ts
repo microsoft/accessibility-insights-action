@@ -39,7 +39,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
             AdoConsoleCommentCreator.CURRENT_COMMENT_TITLE,
             this.getBaselineInfo(baselineEvaluation),
         );
-        this.logMessage(reportMarkdown);
+        this.logger.logInfo(reportMarkdown);
 
         return Promise.resolve();
     }
@@ -57,9 +57,5 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         }
 
         return { baselineFileName, baselineEvaluation };
-    }
-
-    private logMessage(message: string): void {
-        this.logger.logInfo(`${message}`);
     }
 }
