@@ -66,8 +66,8 @@ export class Scanner {
 
             scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
-            this.logger.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`);
-            this.logger.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
+            this.logger.logVerbose(`Starting accessibility scanning of URL ${scanArguments.url}`);
+            this.logger.logVerbose(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
 
             const crawlerParameters = this.crawlerParametersBuilder.build(scanArguments);
 

@@ -23,7 +23,8 @@ export class Logger {
                 await client.setup(baseProperties);
             }),
         );
-        this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
+        //this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
+        this.isDebugEnabled = true; // We always want this
         this.initialized = true;
     }
 
