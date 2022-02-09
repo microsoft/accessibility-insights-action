@@ -28,7 +28,9 @@
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
     "devDependencies": {},
     "dependencies": {
-        "accessibility-insights-report": "4.2.0",
+        "@types/react": "^16.8",
+        "@types/react-dom": "^16.8",
+        "accessibility-insights-report": "4.2.1",
         "accessibility-insights-scan": "0.10.3",
         "axe-core": "4.3.2",
         "express": "^4.17.2",

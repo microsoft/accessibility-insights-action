@@ -7,9 +7,9 @@ import { Octokit } from '@octokit/rest';
 import { Container } from 'inversify';
 import { setupIocContainer } from './setup-ioc-container';
 import { iocTypes } from '@accessibility-insights-action/shared';
-import { PullRequestCommentCreator } from '../pull-request/pull-request-comment-creator';
 import { CheckRunCreator } from '../check-run/check-run-creator';
 import { GitHubIocTypes } from './gh-ioc-types';
+import { ConsoleCommentCreator } from '../console/console-comment-creator';
 
 describe(setupIocContainer, () => {
     let testSubject: Container;
@@ -20,7 +20,7 @@ describe(setupIocContainer, () => {
 
     test.each([
         CheckRunCreator,
-        PullRequestCommentCreator,
+        ConsoleCommentCreator,
         iocTypes.TaskConfig,
         iocTypes.ProgressReporters,
         Octokit,
