@@ -9,7 +9,6 @@ import { serializeError as serializeErrorExt } from 'serialize-error';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
 export class Logger {
     protected initialized = false;
-    protected isDebugEnabled = false;
 
     constructor(protected readonly loggerClients: LoggerClient[], protected readonly currentProcess: typeof process) {}
 
@@ -23,8 +22,6 @@ export class Logger {
                 await client.setup(baseProperties);
             }),
         );
-        //this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
-        this.isDebugEnabled = true; // We always want this
         this.initialized = true;
     }
 
@@ -39,9 +36,7 @@ export class Logger {
     }
 
     public logVerbose(message: string, properties?: { [name: string]: string }): void {
-        if (this.isDebugEnabled) {
-            this.log(message, LogLevel.verbose, properties);
-        }
+        this.log(message, LogLevel.verbose, properties);
     }
 
     public logWarn(message: string, properties?: { [name: string]: string }): void {
