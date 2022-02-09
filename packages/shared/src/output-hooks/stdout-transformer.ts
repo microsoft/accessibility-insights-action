@@ -10,10 +10,6 @@ type RegexTransformation = {
 
 const regexTransformations: RegexTransformation[] = [
     {
-        regex: new RegExp('^\\[Exception\\]'),
-        method: useUnmodifiedString,
-    },
-    {
         regex: new RegExp('^##\\[error\\]'),
         method: useUnmodifiedString,
     },
