@@ -10,15 +10,7 @@ type RegexTransformation = {
 
 const regexTransformations: RegexTransformation[] = [
     {
-        regex: new RegExp('^\\[Exception\\]'),
-        method: useUnmodifiedString,
-    },
-    {
         regex: new RegExp('^##\\[error\\]'),
-        method: useUnmodifiedString,
-    },
-    {
-        regex: new RegExp('^##\\[debug\\]'),
         method: useUnmodifiedString,
     },
     {
@@ -38,7 +30,15 @@ const regexTransformations: RegexTransformation[] = [
         method: useUnmodifiedString,
     },
     {
-        regex: new RegExp('^\\[Trace\\]\\[info\\] === '),
+        regex: new RegExp('^##\\[info\\]'),
+        method: removeFirstMatch,
+    },
+    {
+        regex: new RegExp('^##\\[warn\\]'),
+        method: replaceFirstMatchWithWarningPrefix,
+    },
+    {
+        regex: new RegExp('^##\\[verbose\\]'),
         method: replaceFirstMatchWithDebugPrefix,
     },
     {
@@ -77,10 +77,18 @@ function useUnmodifiedString(input: string): string {
     return input;
 }
 
+function removeFirstMatch(input: string, regex: RegExp): string {
+    return `${input.replace(regex, '$`')}`;
+}
+
 function replaceFirstMatchWithDebugPrefix(input: string, regex: RegExp): string {
-    return `${debugPrefix} ${input.replace(regex, '$`')}`;
+    return `${debugPrefix}${input.replace(regex, '$`')}`;
+}
+
+function replaceFirstMatchWithWarningPrefix(input: string, regex: RegExp): string {
+    return `##[warning]${input.replace(regex, '$`')}`;
 }
 
 function prependDebugPrefix(input: string): string {
-    return `${debugPrefix} ${input}`;
+    return `${debugPrefix}${input}`;
 }

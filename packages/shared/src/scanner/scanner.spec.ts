@@ -176,9 +176,9 @@ describe(Scanner, () => {
                 .setup((m) => m.processScanArguments(It.isAny()))
                 .returns((_) => scanArguments)
                 .verifiable(Times.once());
-            loggerMock.setup((lm) => lm.logInfo(`Starting accessibility scanning of URL ${scanArguments.url}`)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logVerbose(`Starting accessibility scanning of URL ${scanArguments.url}`)).verifiable(Times.once());
             loggerMock
-                .setup((lm) => lm.logInfo(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`))
+                .setup((lm) => lm.logVerbose(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`))
                 .verifiable(Times.once());
 
             const crawlerParams: CrawlerRunOptions = {

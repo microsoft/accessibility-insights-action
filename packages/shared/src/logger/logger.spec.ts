@@ -187,21 +187,9 @@ describe(Logger, () => {
     });
 
     describe('logVerbose', () => {
-        it('--debug is case insensitive', async () => {
-            processStub.execArgv = ['--t', '--DEBUG'];
-            setupCallsForTelemetrySetup();
-            await testSubject.setup();
-
-            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('HealthCheck', LogLevel.verbose, undefined)).verifiable(Times.once()));
-
-            testSubject.logVerbose('HealthCheck');
-
-            verifyMocks();
-        });
-
-        describe('in debug mode', () => {
+        describe('in normal mode', () => {
             beforeEach(async () => {
-                processStub.execArgv = ['--t', '--debug'];
+                processStub.execArgv = ['--t'];
 
                 setupCallsForTelemetrySetup();
                 await testSubject.setup();
@@ -224,21 +212,6 @@ describe(Logger, () => {
                     m.setup((c) => c.log('HealthCheck', LogLevel.verbose, properties)).verifiable(Times.once()),
                 );
 
-                testSubject.logVerbose('HealthCheck', properties);
-
-                verifyMocks();
-            });
-        });
-
-        describe('in normal mode', () => {
-            it('when properties not passed', () => {
-                testSubject.logVerbose('HealthCheck');
-
-                verifyMocks();
-            });
-
-            it('when properties passed', () => {
-                const properties = { foo: 'bar' };
                 testSubject.logVerbose('HealthCheck', properties);
 
                 verifyMocks();
