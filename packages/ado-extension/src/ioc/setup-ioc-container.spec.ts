@@ -7,9 +7,8 @@ import * as NodeApi from 'azure-devops-node-api';
 import { Container } from 'inversify';
 import { setupIocContainer } from './setup-ioc-container';
 import { iocTypes } from '@accessibility-insights-action/shared';
-import { AdoPullRequestCommentCreator } from '../progress-reporter/pull-request/ado-pull-request-comment-creator';
 import { AdoIocTypes } from './ado-ioc-types';
-import * as process from 'process';
+import { AdoConsoleCommentCreator } from '../progress-reporter/console/ado-console-comment-creator';
 
 describe(setupIocContainer, () => {
     let testSubject: Container;
@@ -18,15 +17,14 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([iocTypes.TaskConfig, AdoPullRequestCommentCreator, iocTypes.ArtifactsInfoProvider])(
+    test.each([iocTypes.TaskConfig, AdoConsoleCommentCreator, iocTypes.ArtifactsInfoProvider])(
         'verify singleton resolution %p',
         (key: any) => {
             verifySingletonDependencyResolution(testSubject, key);
         },
     );
 
-    test.each(['TfsGit', 'GitHub', ''])('verify progress reporter resolution %p', (key: string) => {
-        process.env.BUILD_REPOSITORY_PROVIDER = key;
+    test('verify progress reporter resolution', () => {
         verifySingletonDependencyResolution(testSubject, iocTypes.ProgressReporters);
     });
 
