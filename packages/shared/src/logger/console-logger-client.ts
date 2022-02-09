@@ -21,11 +21,11 @@ export class ConsoleLoggerClient implements LoggerClient {
     }
 
     public log(message: string, logLevel: LogLevel, properties?: { [name: string]: string }): void {
-        this.logInConsole(`[Trace][${LogLevel[logLevel]}]${this.getPrintablePropertiesString(properties)}`, message);
+        this.logInConsole(`##[${LogLevel[logLevel]}]${this.getPrintablePropertiesString(properties)}`, message);
     }
 
     public trackException(error: Error): void {
-        this.logInConsole(`[Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
+        this.logInConsole(`##[error][Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
     }
 
     public setCustomProperties(properties: LoggerProperties): void {
@@ -46,6 +46,6 @@ export class ConsoleLoggerClient implements LoggerClient {
     }
 
     private logInConsole(tag: string, content: string): void {
-        this.consoleObject.log(`${tag} === ${content}`);
+        this.consoleObject.log(`${tag}${content}`);
     }
 }
