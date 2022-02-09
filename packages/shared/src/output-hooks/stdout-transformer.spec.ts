@@ -28,14 +28,13 @@ describe(stdoutTransformer, () => {
 
     it.each`
         input
-        ${'##[error] abc'}
-        ${'##vso[task.debug] abc'}
+        ${'##[error]abc'}
+        ${'##vso[task.debug]abc'}
         ${'Processing page abc'}
         ${'Discovered 2 links on page abc'}
         ${'Discovered 2345 links on page abc'}
         ${'Found 3 accessibility issues on page abc'}
         ${'Found 3456 accessibility issues on page abc'}
-        ${'##[error] abc'}
     `(`Debug tag not added - input value '$input' returned as '$input'`, ({ input }) => {
         const output = stdoutTransformer(input);
         expect(output).toBe(input);
