@@ -23,7 +23,7 @@ describe(AdoConsoleCommentCreator, () => {
 
     describe('constructor', () => {
         it('should initialize', () => {
-            const adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
+            buildAdoConsoleCommentCreatorWithMocks();
 
             verifyAllMocks();
         });

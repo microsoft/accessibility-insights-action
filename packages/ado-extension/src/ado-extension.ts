@@ -11,7 +11,7 @@ import { hookStdout } from '@accessibility-insights-action/shared';
 import { Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
 
-export function runScan() {
+export function runScan(): void {
     (async () => {
         hookStderr();
         hookStdout();
