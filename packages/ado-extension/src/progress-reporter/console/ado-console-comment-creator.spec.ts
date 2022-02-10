@@ -23,7 +23,7 @@ describe(AdoConsoleCommentCreator, () => {
 
     describe('constructor', () => {
         it('should initialize', () => {
-            adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
+            const adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
 
             verifyAllMocks();
         });
@@ -64,16 +64,31 @@ describe(AdoConsoleCommentCreator, () => {
 
     describe('failRun', () => {
         it('does nothing interesting', async () => {
-            const message = 'message';
-            adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
+            const adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
 
-            await adoConsoleCommentCreator.failRun(message);
+            await adoConsoleCommentCreator.failRun();
 
             verifyAllMocks();
         });
     });
 
-    const buildAdoConsoleCommentCreatorWithMocks = () =>
+    describe('didScanSucceed', () => {
+        it('returns true by default', async () => {
+            const adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
+
+            await expect(adoConsoleCommentCreator.didScanSucceed()).resolves.toBe(true);
+        });
+
+        it('returns true after failRun() is called', async () => {
+            const adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
+
+            await adoConsoleCommentCreator.failRun();
+
+            await expect(adoConsoleCommentCreator.didScanSucceed()).resolves.toBe(true);
+        });
+    });
+
+    const buildAdoConsoleCommentCreatorWithMocks = (): AdoConsoleCommentCreator =>
         new AdoConsoleCommentCreator(adoTaskConfigMock.object, reportMarkdownConvertorMock.object, loggerMock.object);
 
     const verifyAllMocks = () => {

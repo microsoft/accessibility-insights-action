@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as util from 'util';
 import {
     AICombinedReportDataConverter,
     AICrawler,
@@ -98,7 +97,7 @@ describe(Scanner, () => {
     describe('scan', () => {
         it('performs expected steps in happy path with remote url', async () => {
             setupMocksForSuccessfulScan();
-            setupWaitForPromisetoReturnOriginalPromise();
+            setupWaitForPromiseToReturnOriginalPromise();
 
             await scanner.scan();
 
@@ -109,7 +108,7 @@ describe(Scanner, () => {
             scanArguments.url = '';
             localFileServerMock.setup((m) => m.start()).returns((_) => Promise.resolve('localhost'));
             setupMocksForSuccessfulScan();
-            setupWaitForPromisetoReturnOriginalPromise();
+            setupWaitForPromiseToReturnOriginalPromise();
 
             await scanner.scan();
 
@@ -119,7 +118,7 @@ describe(Scanner, () => {
 
         it('passes BaselineEvaluation to ProgressReporter', async () => {
             setupMocksForSuccessfulScan({} as BaselineEvaluation);
-            setupWaitForPromisetoReturnOriginalPromise();
+            setupWaitForPromiseToReturnOriginalPromise();
 
             await scanner.scan();
 
@@ -141,7 +140,7 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
-        it('should trackException on error', async () => {
+        it('should trackException and after an Error is thrown', async () => {
             const errorMessage = 'some err';
             const error = new Error(errorMessage);
 
@@ -152,10 +151,10 @@ describe(Scanner, () => {
                 .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page undefined`))
                 .verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL undefined completed`)).verifiable(Times.once());
-            progressReporterMock.setup((p) => p.failRun(util.inspect(error))).verifiable(Times.once());
+            progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
 
-            setupWaitForPromisetoReturnOriginalPromise();
+            setupWaitForPromiseToReturnOriginalPromise();
 
             await scanner.scan();
 
@@ -220,7 +219,7 @@ describe(Scanner, () => {
             localFileServerMock.setup((lfs) => lfs.stop()).verifiable();
         }
 
-        function setupWaitForPromisetoReturnOriginalPromise(): void {
+        function setupWaitForPromiseToReturnOriginalPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), scanTimeoutMsec, It.isAny()))
                 // eslint-disable-next-line @typescript-eslint/require-await

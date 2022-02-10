@@ -19,7 +19,10 @@ export abstract class ProgressReporter {
 
     public abstract start(): Promise<void>;
     public abstract completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void>;
-    public abstract failRun(message: string): Promise<void>;
+    public abstract failRun(): Promise<void>;
+    public didScanSucceed(): Promise<boolean> {
+        return Promise.resolve(true); // Will be overridden in classes that use this
+    }
 
     protected async invoke<T>(fn: () => Promise<T>): Promise<T> {
         return process.env.ACT !== 'true' ? fn() : Promise.resolve(undefined as T);

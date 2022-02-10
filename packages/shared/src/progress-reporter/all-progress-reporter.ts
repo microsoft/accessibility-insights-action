@@ -26,8 +26,20 @@ export class AllProgressReporter extends ProgressReporter {
         }
     }
 
-    public async failRun(message: string): Promise<void> {
-        await this.execute((r) => r.failRun(message));
+    public async failRun(): Promise<void> {
+        await this.execute((r) => r.failRun());
+    }
+
+    public async didScanSucceed(): Promise<boolean> {
+        let allReportersSucceeded = true;
+        
+        await this.execute(async (r) => {
+            if (! (await r.didScanSucceed())) {
+                allReportersSucceeded = false;
+            }
+        });
+
+        return Promise.resolve(allReportersSucceeded);
     }
 
     private async execute(callback: (reporter: ProgressReporter) => Promise<void>): Promise<void> {

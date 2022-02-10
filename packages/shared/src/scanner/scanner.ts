@@ -11,7 +11,6 @@ import {
     BaselineFileUpdater,
 } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
@@ -53,7 +52,7 @@ export class Scanner {
         });
     }
 
-    private async invokeScan(): Promise<void> {
+    private async invokeScan(): Promise<boolean> {
         let scanArguments: ScanArguments;
         let localServerUrl: string;
 
@@ -80,13 +79,16 @@ export class Scanner {
             await this.baselineFileUpdater.updateBaseline(scanArguments, combinedScanResult.baselineEvaluation);
 
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
+            return this.allProgressReporter.didScanSucceed();
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
-            await this.allProgressReporter.failRun(util.inspect(error));
+            await this.allProgressReporter.failRun();
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
         }
+
+        return Promise.resolve(false);
     }
 
     private getCombinedReportParameters(
