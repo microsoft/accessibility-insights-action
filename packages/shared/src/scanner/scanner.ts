@@ -42,6 +42,7 @@ export class Scanner {
         @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
     ) {}
 
+    // Return indicates the scan status. It returns true if no corrective user action is needed.
     public async scan(): Promise<boolean> {
         const scanTimeoutMsec = this.taskConfig.getScanTimeout();
         // eslint-disable-next-line @typescript-eslint/require-await
