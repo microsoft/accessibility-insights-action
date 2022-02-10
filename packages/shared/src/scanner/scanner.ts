@@ -34,7 +34,6 @@ export class Scanner {
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(AxeInfo) private readonly axeInfo: AxeInfo,
         @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
-        @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
         @inject(CrawlArgumentHandler) private readonly crawlArgumentHandler: CrawlArgumentHandler,
         @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
@@ -43,12 +42,12 @@ export class Scanner {
         @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
     ) {}
 
-    public async scan(): Promise<void> {
+    public async scan(): Promise<boolean> {
         const scanTimeoutMsec = this.taskConfig.getScanTimeout();
         // eslint-disable-next-line @typescript-eslint/require-await
-        await this.promiseUtils.waitFor(this.invokeScan(), scanTimeoutMsec, async () => {
+        return this.promiseUtils.waitFor<boolean, boolean>(this.invokeScan(), scanTimeoutMsec, async (): Promise<boolean> => {
             this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
-            this.currentProcess.exit(1);
+            return Promise.resolve(false);
         });
     }
 

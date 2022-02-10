@@ -3,6 +3,7 @@
 import 'reflect-metadata';
 import './module-name-mapper';
 
+import { ExitCode } from '@accessibility-insights-action/shared';
 import { Logger } from '@accessibility-insights-action/shared';
 import { hookStderr } from '@accessibility-insights-action/shared';
 import { hookStdout } from '@accessibility-insights-action/shared';
@@ -18,8 +19,10 @@ import { setupIocContainer } from './ioc/setup-ioc-container';
     await logger.setup();
 
     const scanner = container.get(Scanner);
-    await scanner.scan();
+    if (!await scanner.scan()) {
+        process.exit(ExitCode.ScanCompletedWithDetectedError);
+    }
 })().catch((error) => {
     console.log('Exception thrown in action: ', error);
-    process.exit(1);
+    process.exit(ExitCode.ScanFailedToComplete);
 });
