@@ -66,6 +66,7 @@ export class Scanner {
 
             scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
+            this.logger.logInfo(`##[group]Scanning URL ${scanArguments.url}`);
             this.logger.logVerbose(`Starting accessibility scanning of URL ${scanArguments.url}`);
             this.logger.logVerbose(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
 
@@ -79,6 +80,7 @@ export class Scanner {
             this.reportGenerator.generateReport(combinedReportParameters);
             await this.baselineFileUpdater.updateBaseline(scanArguments, combinedScanResult.baselineEvaluation);
 
+            this.logger.logInfo('##[endgroup]');
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
