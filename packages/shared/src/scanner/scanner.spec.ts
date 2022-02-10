@@ -164,9 +164,10 @@ describe(Scanner, () => {
                 .returns((_) => scanArguments.url)
                 .verifiable(Times.once());
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
-            progressReporterMock.setup((m) => m.didScanSucceed())
+            progressReporterMock
+                .setup((m) => m.didScanSucceed())
                 .returns(() => Promise.resolve(true))
-                .verifiable(Times.once())
+                .verifiable(Times.once());
             crawlArgumentHandlerMock
                 .setup((m) => m.processScanArguments(It.isAny()))
                 .returns((_) => scanArguments)

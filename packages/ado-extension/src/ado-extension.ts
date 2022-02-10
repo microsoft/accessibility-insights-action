@@ -21,7 +21,7 @@ export function runScan() {
         await logger.setup();
 
         const scanner = container.get(Scanner);
-        if (!await scanner.scan()) {
+        if (!(await scanner.scan())) {
             process.exit(ExitCode.ScanCompletedWithDetectedError);
         }
     })().catch((error) => {

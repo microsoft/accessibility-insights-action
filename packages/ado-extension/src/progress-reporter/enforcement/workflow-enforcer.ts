@@ -11,9 +11,7 @@ import { BaselineEvaluation } from 'accessibility-insights-scan';
 export class WorkflowEnforcer extends ProgressReporter {
     private scanSucceeded = true;
 
-    constructor(
-        @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
-        @inject(Logger) private readonly logger: Logger) {
+    constructor(@inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig, @inject(Logger) private readonly logger: Logger) {
         super();
     }
 
@@ -23,7 +21,7 @@ export class WorkflowEnforcer extends ProgressReporter {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
-        if (!await this.failIfAccessibilityErrorExists(combinedReportResult)) {
+        if (!(await this.failIfAccessibilityErrorExists(combinedReportResult))) {
             await this.failIfBaselineNeedsUpdating(baselineEvaluation);
         }
     }

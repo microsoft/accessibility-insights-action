@@ -32,9 +32,9 @@ export class AllProgressReporter extends ProgressReporter {
 
     public async didScanSucceed(): Promise<boolean> {
         let allReportersSucceeded = true;
-        
+
         await this.execute(async (r) => {
-            if (! (await r.didScanSucceed())) {
+            if (!(await r.didScanSucceed())) {
                 allReportersSucceeded = false;
             }
         });

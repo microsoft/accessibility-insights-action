@@ -4,5 +4,5 @@
 export const ExitCode = {
     Success: 0,
     ScanCompletedWithDetectedError: 1,
-    ScanFailedToComplete: 2
+    ScanFailedToComplete: 2,
 };

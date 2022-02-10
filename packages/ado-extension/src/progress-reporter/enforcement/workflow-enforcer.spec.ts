@@ -12,7 +12,7 @@ import { Logger } from '@accessibility-insights-action/shared';
 
 describe(WorkflowEnforcer, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
-    let loggerMock: IMock<Logger>
+    let loggerMock: IMock<Logger>;
     let workflowEnforcer: WorkflowEnforcer;
 
     beforeEach(() => {
@@ -127,8 +127,6 @@ describe(WorkflowEnforcer, () => {
     };
 
     const setupLoggerWithErrorMessage = (message: string) => {
-        loggerMock
-            .setup((o) => o.logError(message))
-            .verifiable(Times.once());
-    }
+        loggerMock.setup((o) => o.logError(message)).verifiable(Times.once());
+    };
 });
