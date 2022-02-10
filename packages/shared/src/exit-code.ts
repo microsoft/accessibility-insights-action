@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export const ExitCode = {
-    Success: 0,
-    ScanCompletedWithDetectedError: 1,
+    ScanCompletedNoUserActionIsNeeded: 0,
+    ScanCompletedUserActionIsNeeded: 1,
     ScanFailedToComplete: 2,
 };

@@ -19,9 +19,7 @@ import { setupIocContainer } from './ioc/setup-ioc-container';
     await logger.setup();
 
     const scanner = container.get(Scanner);
-    if (!(await scanner.scan())) {
-        process.exit(ExitCode.ScanCompletedWithDetectedError);
-    }
+    process.exit((await scanner.scan()) ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded);
 })().catch((error) => {
     console.log('Exception thrown in action: ', error);
     process.exit(ExitCode.ScanFailedToComplete);
