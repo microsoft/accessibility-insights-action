@@ -48,6 +48,14 @@ export class Logger {
         this.log(message, LogLevel.error, properties);
     }
 
+    public logStartGroup(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.startGroup, properties);
+    }
+
+    public logEndGroup(properties?: { [name: string]: string }): void {
+        this.log('', LogLevel.endGroup, properties);
+    }
+
     public trackException(error: Error): void {
         this.ensureInitialized();
         this.invokeLoggerClient((client) => client.trackException(error));

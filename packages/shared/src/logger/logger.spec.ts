@@ -220,6 +220,72 @@ describe(Logger, () => {
         });
     });
 
+    describe('logStartGroup', () => {
+        describe('in normal mode', () => {
+            beforeEach(async () => {
+                processStub.execArgv = ['--t'];
+
+                setupCallsForTelemetrySetup();
+                await testSubject.setup();
+            });
+
+            it('when properties not passed', () => {
+                invokeAllLoggerClientMocks((m) =>
+                    m.setup((c) => c.log('HealthCheck', LogLevel.startGroup, undefined)).verifiable(Times.once()),
+                );
+
+                testSubject.logStartGroup('HealthCheck');
+
+                verifyMocks();
+            });
+
+            it('when properties passed', () => {
+                const properties = { foo: 'bar' };
+
+                invokeAllLoggerClientMocks((m) =>
+                    m.setup((c) => c.log('HealthCheck', LogLevel.startGroup, properties)).verifiable(Times.once()),
+                );
+
+                testSubject.logStartGroup('HealthCheck', properties);
+
+                verifyMocks();
+            });
+        });
+    });
+
+    describe('logEndGroup', () => {
+        describe('in normal mode', () => {
+            beforeEach(async () => {
+                processStub.execArgv = ['--t'];
+
+                setupCallsForTelemetrySetup();
+                await testSubject.setup();
+            });
+
+            it('when properties not passed', () => {
+                invokeAllLoggerClientMocks((m) =>
+                    m.setup((c) => c.log('', LogLevel.endGroup, undefined)).verifiable(Times.once()),
+                );
+
+                testSubject.logEndGroup();
+
+                verifyMocks();
+            });
+
+            it('when properties passed', () => {
+                const properties = { foo: 'bar' };
+
+                invokeAllLoggerClientMocks((m) =>
+                    m.setup((c) => c.log('', LogLevel.endGroup, properties)).verifiable(Times.once()),
+                );
+
+                testSubject.logEndGroup(properties);
+
+                verifyMocks();
+            });
+        });
+    });
+
     describe('trackException', () => {
         it('throw if called before setup', () => {
             expect(() => {
