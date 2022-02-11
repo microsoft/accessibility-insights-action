@@ -3,6 +3,7 @@
 import 'reflect-metadata';
 import './module-name-mapper';
 
+import { ExitCode } from '@accessibility-insights-action/shared';
 import { hookStderr } from '@accessibility-insights-action/shared';
 import { Logger } from '@accessibility-insights-action/shared';
 import { Scanner } from '@accessibility-insights-action/shared';
@@ -18,8 +19,8 @@ import { hookStdout } from './output-hooks/hook-stdout';
     await logger.setup();
 
     const scanner = container.get(Scanner);
-    await scanner.scan();
+    process.exit((await scanner.scan()) ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded);
 })().catch((error) => {
-    console.log('Exception thrown in action: ', error);
-    process.exit(1);
+    console.log('::error::[Exception] Exception thrown in extension: ', error);
+    process.exit(ExitCode.ScanFailedToComplete);
 });

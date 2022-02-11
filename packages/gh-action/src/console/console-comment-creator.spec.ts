@@ -32,10 +32,14 @@ describe(ConsoleCommentCreator, () => {
         });
     });
 
-    describe('failRun', () => {
-        it('throws error', async () => {
-            const errorMessage = 'some error message';
-            await expect(testSubject.failRun(errorMessage)).rejects.toBe(errorMessage);
+    describe('didScanSucceed', () => {
+        it('returns true by default', async () => {
+            await expect(testSubject.didScanSucceed()).resolves.toBe(true);
+        });
+
+        it('returns false after failRun() is called', async () => {
+            await testSubject.failRun();
+            await expect(testSubject.didScanSucceed()).resolves.toBe(false);
         });
     });
 

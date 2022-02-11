@@ -21,7 +21,6 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
     container
         .bind(iocTypes.ProgressReporters)
         .toDynamicValue((context) => {
-            // Note: Keep the WorkflowEnforcer creator last in the array!
             return [context.container.get(AdoConsoleCommentCreator), context.container.get(WorkflowEnforcer)];
         })
         .inSingletonScope();
