@@ -33,3 +33,11 @@ updates:
   - dependency-name: marked-terminal
     versions:
     - ">= 5"
+    # office-ui-fabric-react is bound to v16 or @types/react
+  - dependency-name: @types/react
+    versions:
+    - ">= 17"
+    # office-ui-fabric-react is bound to v16 or @types/react
+  - dependency-name: @types/react-dom
+    versions:
+    - ">= 17"
