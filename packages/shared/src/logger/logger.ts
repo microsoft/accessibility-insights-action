@@ -3,7 +3,8 @@
 
 import { VError } from 'verror';
 import * as utils from 'util';
-import { LoggerClient, LogLevel } from './logger-client';
+import { LoggerClient } from './logger-client';
+import { LogLevel } from './log-level';
 import { serializeError as serializeErrorExt } from 'serialize-error';
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */

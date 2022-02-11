@@ -7,7 +7,8 @@ import { VError } from 'verror';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
 import { ConsoleLoggerClient } from './console-logger-client';
 import { Logger } from './logger';
-import { LoggerClient, LogLevel } from './logger-client';
+import { LoggerClient } from './logger-client';
+import { LogLevel } from './log-level';
 
 describe(Logger, () => {
     let loggerClient1Mock: IMock<LoggerClient>;

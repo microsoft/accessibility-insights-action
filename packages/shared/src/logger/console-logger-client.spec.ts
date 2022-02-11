@@ -6,7 +6,7 @@ import { IMock, Mock, Times } from 'typemoq';
 import * as util from 'util';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
 import { ConsoleLoggerClient } from './console-logger-client';
-import { LogLevel } from './logger-client';
+import { LogLevel } from './log-level';
 import { LoggerProperties } from './logger-properties';
 
 describe(ConsoleLoggerClient, () => {

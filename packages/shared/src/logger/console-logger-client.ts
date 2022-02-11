@@ -6,7 +6,8 @@ import { isEmpty } from 'lodash';
 import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
-import { LoggerClient, LogLevel } from './logger-client';
+import { LogLevel } from './log-level';
+import { LoggerClient } from './logger-client';
 import { LoggerProperties } from './logger-properties';
 
 @injectable()

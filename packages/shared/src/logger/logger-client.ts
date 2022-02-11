@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { LogLevel } from './log-level';
 import { LoggerProperties } from './logger-properties';
-
-export enum LogLevel {
-    info,
-    warn,
-    verbose,
-    error,
-}
 
 export interface LoggerClient {
     setup(baseProperties?: { [index: string]: string }): Promise<void>;
