@@ -263,9 +263,7 @@ describe(Logger, () => {
             });
 
             it('when properties not passed', () => {
-                invokeAllLoggerClientMocks((m) =>
-                    m.setup((c) => c.log('', LogLevel.endGroup, undefined)).verifiable(Times.once()),
-                );
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('', LogLevel.endGroup, undefined)).verifiable(Times.once()));
 
                 testSubject.logEndGroup();
 
@@ -275,9 +273,7 @@ describe(Logger, () => {
             it('when properties passed', () => {
                 const properties = { foo: 'bar' };
 
-                invokeAllLoggerClientMocks((m) =>
-                    m.setup((c) => c.log('', LogLevel.endGroup, properties)).verifiable(Times.once()),
-                );
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('', LogLevel.endGroup, properties)).verifiable(Times.once()));
 
                 testSubject.logEndGroup(properties);
 
