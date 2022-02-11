@@ -23,7 +23,10 @@ describe(AllProgressReporter, () => {
         async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
             throw failingReporterError;
         },
-        async failRun(message: string): Promise<void> {
+        async failRun(): Promise<void> {
+            throw failingReporterError;
+        },
+        async didScanSucceed(): Promise<boolean> {
             throw failingReporterError;
         },
     } as ProgressReporter;
@@ -123,42 +126,103 @@ describe(AllProgressReporter, () => {
 
     describe('failRun', () => {
         it('should invoke all reporters', async () => {
-            testSubject = new AllProgressReporter([progressReporterMock.object]);
-            const error = 'scan error';
+            testSubject = new AllProgressReporter([progressReporterMock.object, progressReporterMock.object]);
             executeOnReporter((reporter) => {
                 reporter
-                    .setup((p) => p.failRun(error))
+                    .setup((p) => p.failRun())
                     .returns(() => Promise.resolve())
-                    .verifiable(Times.once());
+                    .verifiable(Times.exactly(2));
             });
 
-            await testSubject.failRun(error);
+            await testSubject.failRun();
         });
 
         it('should invoke subsequent reporters even if the first one throws', async () => {
             testSubject = new AllProgressReporter([failingReporter, progressReporterMock.object]);
-            const error = 'scan error';
             executeOnReporter((reporter) => {
                 reporter
-                    .setup((p) => p.failRun(error))
+                    .setup((p) => p.failRun())
                     .returns(() => Promise.resolve())
                     .verifiable(Times.once());
             });
 
             // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
-            await expect(testSubject.failRun(error)).rejects.toThrowError(failingReporterError);
+            await expect(testSubject.failRun()).rejects.toThrowError(failingReporterError);
         });
 
         it('should rethrow an AggregateError if multiple reporters throw', async () => {
             testSubject = new AllProgressReporter([failingReporter, failingReporter]);
-            const error = 'scan error';
 
             // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
-            await expect(testSubject.failRun(error)).rejects.toThrowErrorMatchingInlineSnapshot(`
-                        "Multiple progress reporters encountered Errors
-                            error from failingReporter
-                            error from failingReporter"
-                    `);
+            await expect(testSubject.failRun()).rejects.toThrowErrorMatchingInlineSnapshot(`
+                    "Multiple progress reporters encountered Errors
+                        error from failingReporter
+                        error from failingReporter"
+                `);
+        });
+    });
+
+    describe('didScanSucceed', () => {
+        it('should invoke all reporters', async () => {
+            testSubject = new AllProgressReporter([progressReporterMock.object, progressReporterMock.object]);
+            executeOnReporter((reporter) => {
+                reporter
+                    .setup((p) => p.didScanSucceed())
+                    .returns(() => Promise.resolve(true))
+                    .verifiable(Times.exactly(2));
+            });
+
+            await testSubject.didScanSucceed();
+        });
+
+        it('should invoke subsequent reporters even if the first one throws', async () => {
+            testSubject = new AllProgressReporter([failingReporter, progressReporterMock.object]);
+            executeOnReporter((reporter) => {
+                reporter
+                    .setup((p) => p.didScanSucceed())
+                    .returns(() => Promise.resolve(true))
+                    .verifiable(Times.once());
+            });
+
+            // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
+            await expect(testSubject.didScanSucceed()).rejects.toThrowError(failingReporterError);
+        });
+
+        it('should rethrow an AggregateError if multiple reporters throw', async () => {
+            testSubject = new AllProgressReporter([failingReporter, failingReporter]);
+
+            // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
+            await expect(testSubject.didScanSucceed()).rejects.toThrowErrorMatchingInlineSnapshot(`
+                    "Multiple progress reporters encountered Errors
+                        error from failingReporter
+                        error from failingReporter"
+                `);
+        });
+
+        it('should return true if all reporters return true', async () => {
+            testSubject = new AllProgressReporter([progressReporterMock.object, progressReporterMock.object]);
+            executeOnReporter((reporter) => {
+                reporter
+                    .setup((p) => p.didScanSucceed())
+                    .returns(() => Promise.resolve(true))
+                    .verifiable(Times.exactly(2));
+            });
+
+            await expect(testSubject.didScanSucceed()).resolves.toBe(true);
+        });
+
+        it('should return false if any reporters return false', async () => {
+            const returnValues = [false, true];
+            let index = 0;
+            testSubject = new AllProgressReporter([progressReporterMock.object, progressReporterMock.object]);
+            executeOnReporter((reporter) => {
+                reporter
+                    .setup((p) => p.didScanSucceed())
+                    .returns(() => Promise.resolve(returnValues[index++]))
+                    .verifiable(Times.exactly(2));
+            });
+
+            await expect(testSubject.didScanSucceed()).resolves.toBe(false);
         });
     });
 

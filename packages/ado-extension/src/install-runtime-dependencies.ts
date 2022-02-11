@@ -3,7 +3,7 @@
 
 import { execSync } from 'child_process';
 
-export function installRuntimeDependencies() {
+export function installRuntimeDependencies(): void {
     console.log('##[group]Installing runtime dependencies');
     execSync('yarn install --prod --ignore-engines --frozen-lockfile', {
         stdio: 'inherit',

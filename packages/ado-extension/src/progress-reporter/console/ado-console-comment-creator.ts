@@ -39,8 +39,8 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public async failRun(message: string): Promise<void> {
-        // This gets handled in the WorkflowEnforcer
+    public async failRun(): Promise<void> {
+        // We don't do anything for failed runs
     }
 
     private getBaselineInfo(baselineEvaluation?: BaselineEvaluation): BaselineInfo {

@@ -7,6 +7,8 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 
 @injectable()
 export class ConsoleCommentCreator extends ProgressReporter {
+    private scanSucceeded = true;
+
     constructor(
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Logger) private readonly logger: Logger,
@@ -27,7 +29,11 @@ export class ConsoleCommentCreator extends ProgressReporter {
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    public async failRun(message: string): Promise<void> {
-        throw message;
+    public async failRun(): Promise<void> {
+        this.scanSucceeded = false;
+    }
+
+    public didScanSucceed(): Promise<boolean> {
+        return Promise.resolve(this.scanSucceeded);
     }
 }

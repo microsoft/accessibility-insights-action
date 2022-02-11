@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as util from 'util';
 import {
     AICombinedReportDataConverter,
     AICrawler,
@@ -35,8 +34,6 @@ describe(Scanner, () => {
     let promiseUtilsMock: IMock<PromiseUtils>;
     let axeInfoMock: IMock<AxeInfo>;
     let combinedReportConverterMock: IMock<AICombinedReportDataConverter>;
-    let processStub: typeof process;
-    let exitMock: IMock<(code: number) => void>;
     let loggerMock: IMock<Logger>;
     let crawlArgumentHandlerMock: IMock<CrawlArgumentHandler>;
     let taskConfigMock: IMock<TaskConfig>;
@@ -57,10 +54,6 @@ describe(Scanner, () => {
         promiseUtilsMock = Mock.ofType(PromiseUtils);
         axeInfoMock = Mock.ofType<AxeInfo>();
         combinedReportConverterMock = Mock.ofType<AICombinedReportDataConverter>();
-        exitMock = Mock.ofType<(_: number) => void>();
-        processStub = {
-            exit: exitMock.object,
-        } as typeof process;
         loggerMock = Mock.ofType(Logger);
         crawlArgumentHandlerMock = Mock.ofType<CrawlArgumentHandler>();
         taskConfigMock = Mock.ofType<TaskConfig>();
@@ -75,7 +68,6 @@ describe(Scanner, () => {
             promiseUtilsMock.object,
             axeInfoMock.object,
             combinedReportConverterMock.object,
-            processStub,
             loggerMock.object,
             crawlArgumentHandlerMock.object,
             taskConfigMock.object,
@@ -96,22 +88,23 @@ describe(Scanner, () => {
     });
 
     describe('scan', () => {
-        it('performs expected steps in happy path with remote url', async () => {
+        it('performs expected steps in happy path with remote url and returns true', async () => {
             setupMocksForSuccessfulScan();
-            setupWaitForPromisetoReturnOriginalPromise();
+            setupWaitForPromiseToReturnOriginalPromise();
 
-            await scanner.scan();
+            const result = await scanner.scan();
+            expect(result).toBe(true);
 
             verifyMocks();
         });
 
-        it('performs expected steps in happy path with local url (starts file server)', async () => {
+        it('performs expected steps in happy path with local url (starts file server) and returns true', async () => {
             scanArguments.url = '';
             localFileServerMock.setup((m) => m.start()).returns((_) => Promise.resolve('localhost'));
             setupMocksForSuccessfulScan();
-            setupWaitForPromisetoReturnOriginalPromise();
+            setupWaitForPromiseToReturnOriginalPromise();
 
-            await scanner.scan();
+            await expect(scanner.scan()).resolves.toBe(true);
 
             verifyMocks();
             localFileServerMock.verify((m) => m.start(), Times.once());
@@ -119,29 +112,28 @@ describe(Scanner, () => {
 
         it('passes BaselineEvaluation to ProgressReporter', async () => {
             setupMocksForSuccessfulScan({} as BaselineEvaluation);
-            setupWaitForPromisetoReturnOriginalPromise();
+            setupWaitForPromiseToReturnOriginalPromise();
 
-            await scanner.scan();
+            await expect(scanner.scan()).resolves.toBe(true);
 
             verifyMocks();
         });
 
-        it('reports error when timeout occurs', async () => {
+        it('reports error when timeout occurs and returns false', async () => {
             const errorMessage = `Scan timed out after ${scanTimeoutMsec / 1000} seconds`;
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
-            exitMock.setup((em) => em(1)).verifiable(Times.once());
             taskConfigMock
                 .setup((m) => m.getScanTimeout())
                 .returns((_) => scanTimeoutMsec)
                 .verifiable(Times.once());
             setupWaitForPromiseToReturnTimeoutPromise();
-            await scanner.scan();
+            await expect(scanner.scan()).resolves.toBe(false);
 
             verifyMocks();
         });
 
-        it('should trackException on error', async () => {
+        it('should trackException and return false after an Error is thrown', async () => {
             const errorMessage = 'some err';
             const error = new Error(errorMessage);
 
@@ -152,12 +144,12 @@ describe(Scanner, () => {
                 .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page undefined`))
                 .verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL undefined completed`)).verifiable(Times.once());
-            progressReporterMock.setup((p) => p.failRun(util.inspect(error))).verifiable(Times.once());
+            progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
 
-            setupWaitForPromisetoReturnOriginalPromise();
+            setupWaitForPromiseToReturnOriginalPromise();
 
-            await scanner.scan();
+            await expect(scanner.scan()).resolves.toBe(false);
 
             verifyMocks();
         });
@@ -172,6 +164,10 @@ describe(Scanner, () => {
                 .returns((_) => scanArguments.url)
                 .verifiable(Times.once());
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
+            progressReporterMock
+                .setup((m) => m.didScanSucceed())
+                .returns(() => Promise.resolve(true))
+                .verifiable(Times.once());
             crawlArgumentHandlerMock
                 .setup((m) => m.processScanArguments(It.isAny()))
                 .returns((_) => scanArguments)
@@ -220,7 +216,7 @@ describe(Scanner, () => {
             localFileServerMock.setup((lfs) => lfs.stop()).verifiable();
         }
 
-        function setupWaitForPromisetoReturnOriginalPromise(): void {
+        function setupWaitForPromiseToReturnOriginalPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), scanTimeoutMsec, It.isAny()))
                 // eslint-disable-next-line @typescript-eslint/require-await

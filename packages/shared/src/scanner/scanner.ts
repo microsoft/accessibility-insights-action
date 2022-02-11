@@ -11,7 +11,6 @@ import {
     BaselineFileUpdater,
 } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
-import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
@@ -25,6 +24,8 @@ import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { TaskConfig } from '../task-config';
 import { isEmpty } from 'lodash';
 
+export type ScanSucceededWithNoRequiredUserAction = boolean;
+
 @injectable()
 export class Scanner {
     constructor(
@@ -35,7 +36,6 @@ export class Scanner {
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(AxeInfo) private readonly axeInfo: AxeInfo,
         @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
-        @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(Logger) private readonly logger: Logger,
         @inject(CrawlArgumentHandler) private readonly crawlArgumentHandler: CrawlArgumentHandler,
         @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
@@ -44,16 +44,19 @@ export class Scanner {
         @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
     ) {}
 
-    public async scan(): Promise<void> {
+    public async scan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         const scanTimeoutMsec = this.taskConfig.getScanTimeout();
-        // eslint-disable-next-line @typescript-eslint/require-await
-        await this.promiseUtils.waitFor(this.invokeScan(), scanTimeoutMsec, async () => {
-            this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
-            this.currentProcess.exit(1);
-        });
+        return this.promiseUtils.waitFor<ScanSucceededWithNoRequiredUserAction, ScanSucceededWithNoRequiredUserAction>(
+            this.invokeScan(),
+            scanTimeoutMsec,
+            async (): Promise<ScanSucceededWithNoRequiredUserAction> => {
+                this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
+                return Promise.resolve(false);
+            },
+        );
     }
 
-    private async invokeScan(): Promise<void> {
+    private async invokeScan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         let scanArguments: ScanArguments;
         let localServerUrl: string;
 
@@ -80,13 +83,16 @@ export class Scanner {
             await this.baselineFileUpdater.updateBaseline(scanArguments, combinedScanResult.baselineEvaluation);
 
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
+            return this.allProgressReporter.didScanSucceed();
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
-            await this.allProgressReporter.failRun(util.inspect(error));
+            await this.allProgressReporter.failRun();
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
         }
+
+        return Promise.resolve(false);
     }
 
     private getCombinedReportParameters(

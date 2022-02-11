@@ -8,13 +8,16 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
 import { WorkflowEnforcer } from './workflow-enforcer';
+import { Logger } from '@accessibility-insights-action/shared';
 
 describe(WorkflowEnforcer, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
+    let loggerMock: IMock<Logger>;
     let workflowEnforcer: WorkflowEnforcer;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
+        loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
     });
 
     describe('constructor', () => {
@@ -26,7 +29,7 @@ describe(WorkflowEnforcer, () => {
     });
 
     describe('completeRun', () => {
-        it('throws correct error if accessibility error occurred', async () => {
+        it('logs correct error if accessibility error occurred', async () => {
             const reportStub = {
                 results: {
                     urlResults: {
@@ -37,17 +40,16 @@ describe(WorkflowEnforcer, () => {
             const baselineEvaluationStub = {} as BaselineEvaluation;
 
             setupFailOnAccessibilityError(true);
+            setupLoggerWithErrorMessage('An accessibility error was found and you specified the "failOnAccessibilityError" flag.');
 
-            workflowEnforcer = buildWorkflowEnforcerWithMocks();
+            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
-            await expect(workflowEnforcer.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
-                'Failed Accessibility Error',
-            );
+            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
 
             verifyAllMocks();
         });
 
-        it('throws correct error if baseline needs to be updated', async () => {
+        it('logs correct error if baseline needs to be updated', async () => {
             const reportStub = {} as CombinedReportParameters;
             const baselineEvaluationStub = {
                 suggestedBaselineUpdate: {} as BaselineFileContent,
@@ -55,12 +57,11 @@ describe(WorkflowEnforcer, () => {
 
             setupFailOnAccessibilityError(false);
             setupBaselineFileParameterExists();
+            setupLoggerWithErrorMessage('The baseline file does not match scan results.');
 
-            workflowEnforcer = buildWorkflowEnforcerWithMocks();
+            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
-            await expect(workflowEnforcer.completeRun(reportStub, baselineEvaluationStub)).rejects.toThrowError(
-                'Failed: The baseline file does not match scan results. If this is a PR, check the PR comments.',
-            );
+            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
 
             verifyAllMocks();
         });
@@ -72,7 +73,7 @@ describe(WorkflowEnforcer, () => {
             setupFailOnAccessibilityError(false);
             setupBaselineFileParameterExists();
 
-            workflowEnforcer = buildWorkflowEnforcerWithMocks();
+            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
             await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
 
@@ -92,16 +93,20 @@ describe(WorkflowEnforcer, () => {
         });
     });
 
-    describe('failRun', () => {
-        it('reject promise with matching error', async () => {
-            workflowEnforcer = buildWorkflowEnforcerWithMocks();
+    describe('didScanSucceed', () => {
+        it('returns true by default', async () => {
+            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
+            await expect(workflowEnforcer.didScanSucceed()).resolves.toBe(true);
+        });
 
-            await expect(workflowEnforcer.failRun('message')).rejects.toThrowError('message');
-            verifyAllMocks();
+        it('returns false after failRun() is called', async () => {
+            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
+            await workflowEnforcer.failRun();
+            await expect(workflowEnforcer.didScanSucceed()).resolves.toBe(false);
         });
     });
 
-    const buildWorkflowEnforcerWithMocks = () => new WorkflowEnforcer(adoTaskConfigMock.object);
+    const buildWorkflowEnforcerWithMocks = () => new WorkflowEnforcer(adoTaskConfigMock.object, loggerMock.object);
 
     const verifyAllMocks = () => {
         adoTaskConfigMock.verifyAll();
@@ -119,5 +124,9 @@ describe(WorkflowEnforcer, () => {
             .setup((o) => o.getBaselineFile())
             .returns(() => 'baseline-file')
             .verifiable(Times.atLeastOnce());
+    };
+
+    const setupLoggerWithErrorMessage = (message: string) => {
+        loggerMock.setup((o) => o.logError(message)).verifiable(Times.once());
     };
 });
