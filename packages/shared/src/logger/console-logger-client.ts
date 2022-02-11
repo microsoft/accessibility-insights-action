@@ -22,11 +22,11 @@ export class ConsoleLoggerClient implements LoggerClient {
     }
 
     public log(message: string, logLevel: LogLevel, properties?: { [name: string]: string }): void {
-        this.logInConsole(`##[${LogLevel[logLevel]}]${this.getPrintablePropertiesString(properties)}`, message);
+        this.logInConsole(`[${LogLevel[logLevel]}]${this.getPrintablePropertiesString(properties)}`, message);
     }
 
     public trackException(error: Error): void {
-        this.logInConsole(`##[error][Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
+        this.logInConsole(`[error][Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
     }
 
     public setCustomProperties(properties: LoggerProperties): void {
