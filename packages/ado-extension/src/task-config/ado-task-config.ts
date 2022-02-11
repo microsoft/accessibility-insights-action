@@ -95,10 +95,6 @@ export class ADOTaskConfig extends TaskConfig {
         return isEmpty(value) ? undefined : parseInt(value!, 10);
     }
 
-    public getRepoServiceConnectionName(): string | undefined {
-        return this.adoTaskObj.getInput('repoServiceConnectionName') ?? undefined;
-    }
-
     public getFailOnAccessibilityError(): boolean {
         return this.adoTaskObj.getBoolInput('failOnAccessibilityError');
     }
