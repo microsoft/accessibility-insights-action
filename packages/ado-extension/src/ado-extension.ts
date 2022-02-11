@@ -4,10 +4,10 @@
 import 'reflect-metadata';
 import './module-name-mapper';
 
-import { Logger } from '@accessibility-insights-action/shared';
 import { hookStderr } from '@accessibility-insights-action/shared';
-import { hookStdout } from '@accessibility-insights-action/shared';
+import { Logger } from '@accessibility-insights-action/shared';
 import { Scanner } from '@accessibility-insights-action/shared';
+import { hookStdout } from './output-hooks/hook-stdout';
 import { setupIocContainer } from './ioc/setup-ioc-container';
 
 export function runScan() {
