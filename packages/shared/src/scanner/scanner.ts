@@ -24,6 +24,8 @@ import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { TaskConfig } from '../task-config';
 import { isEmpty } from 'lodash';
 
+export type ScanSucceededWithNoRequiredUserAction = boolean;
+
 @injectable()
 export class Scanner {
     constructor(
@@ -42,17 +44,19 @@ export class Scanner {
         @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
     ) {}
 
-    // Return indicates the scan status. It returns true if no corrective user action is needed.
-    public async scan(): Promise<boolean> {
+    public async scan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         const scanTimeoutMsec = this.taskConfig.getScanTimeout();
-        // eslint-disable-next-line @typescript-eslint/require-await
-        return this.promiseUtils.waitFor<boolean, boolean>(this.invokeScan(), scanTimeoutMsec, async (): Promise<boolean> => {
-            this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
-            return Promise.resolve(false);
-        });
+        return this.promiseUtils.waitFor<ScanSucceededWithNoRequiredUserAction, ScanSucceededWithNoRequiredUserAction>(
+            this.invokeScan(),
+            scanTimeoutMsec,
+            async (): Promise<ScanSucceededWithNoRequiredUserAction> => {
+                this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
+                return Promise.resolve(false);
+            },
+        );
     }
 
-    private async invokeScan(): Promise<boolean> {
+    private async invokeScan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         let scanArguments: ScanArguments;
         let localServerUrl: string;
 
