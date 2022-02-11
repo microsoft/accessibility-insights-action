@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { regexTransformation } from './regex-transformation';
+
 const debugPrefix = '##[debug]';
 
 type RegexTransformation = {
@@ -9,10 +11,6 @@ type RegexTransformation = {
 };
 
 const regexTransformations: RegexTransformation[] = [
-    {
-        regex: new RegExp('^##\\[error\\]'),
-        method: useUnmodifiedString,
-    },
     {
         regex: new RegExp('^##vso\\[task.debug\\]'),
         method: useUnmodifiedString,
@@ -30,16 +28,32 @@ const regexTransformations: RegexTransformation[] = [
         method: useUnmodifiedString,
     },
     {
-        regex: new RegExp('^##\\[info\\]'),
+        regex: new RegExp('^\\[error\\]'),
+        method: replaceFirstMatchWithErrorPrefix,
+    },
+    {
+        regex: new RegExp('^\\[info\\]'),
         method: removeFirstMatch,
     },
     {
-        regex: new RegExp('^##\\[warn\\]'),
+        regex: new RegExp('^\\[warn\\]'),
         method: replaceFirstMatchWithWarningPrefix,
     },
     {
-        regex: new RegExp('^##\\[verbose\\]'),
+        regex: new RegExp('^\\[verbose\\]'),
         method: replaceFirstMatchWithDebugPrefix,
+    },
+    {
+        regex: new RegExp('^\\[debug\\]'),
+        method: replaceFirstMatchWithDebugPrefix,
+    },
+    {
+        regex: new RegExp('^\\[group\\]'),
+        method: replaceFirstMatchWithGroupPrefix,
+    },
+    {
+        regex: new RegExp('^\\[endgroup\\]'),
+        method: replaceFirstMatchWithEndgroupPrefix,
     },
     {
         // eslint-disable-next-line no-control-regex
@@ -50,7 +64,7 @@ const regexTransformations: RegexTransformation[] = [
 
 export const stdoutTransformer = (rawData: string): string => {
     for (const startSubstitution of regexTransformations) {
-        const newData = evaluateRegexTransformation(rawData, startSubstitution.regex, startSubstitution.method);
+        const newData = regexTransformation(rawData, startSubstitution.regex, startSubstitution.method);
 
         if (newData) {
             return newData;
@@ -59,19 +73,6 @@ export const stdoutTransformer = (rawData: string): string => {
 
     return prependDebugPrefix(rawData);
 };
-
-export function evaluateRegexTransformation(
-    input: string,
-    regex: RegExp,
-    modifier: (input: string, regex?: RegExp) => string,
-): string | null {
-    const matches = input.match(regex);
-    if (matches) {
-        return modifier(input, regex);
-    }
-
-    return null;
-}
 
 function useUnmodifiedString(input: string): string {
     return input;
@@ -87,6 +88,18 @@ function replaceFirstMatchWithDebugPrefix(input: string, regex: RegExp): string 
 
 function replaceFirstMatchWithWarningPrefix(input: string, regex: RegExp): string {
     return `##[warning]${input.replace(regex, '$`')}`;
+}
+
+function replaceFirstMatchWithErrorPrefix(input: string, regex: RegExp): string {
+    return `##[error]${input.replace(regex, '$`')}`;
+}
+
+function replaceFirstMatchWithGroupPrefix(input: string, regex: RegExp): string {
+    return `##[group]${input.replace(regex, '$`')}`;
+}
+
+function replaceFirstMatchWithEndgroupPrefix(input: string, regex: RegExp): string {
+    return `##[endgroup]${input.replace(regex, '$`')}`;
 }
 
 function prependDebugPrefix(input: string): string {

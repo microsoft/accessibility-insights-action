@@ -7,7 +7,6 @@ describe(stdoutTransformer, () => {
     it.each`
         input                         | expectedOutput
         ${'abc'}                      | ${'##[debug]abc'}
-        ${'[Trace][info] ==='}        | ${'##[debug][Trace][info] ==='}
         ${'\u001B[32mINFO\u001b[39m'} | ${'##[debug]\u001B[32mINFO\u001b[39m'}
         ${'Processing page'}          | ${'##[debug]Processing page'}
         ${'Discovered 12 links on'}   | ${'##[debug]Discovered 12 links on'}
@@ -20,7 +19,6 @@ describe(stdoutTransformer, () => {
         input                             | expectedOutput
         ${'\u001B[32mINFO\u001b[39m '}    | ${'##[debug]'}
         ${'\u001B[32mINFO\u001b[39m abc'} | ${'##[debug]abc'}
-        ${'##[verbose]abc'}               | ${'##[debug]abc'}
     `(`Debug tag added to modified input - input value '$input' returned as '$expectedOutput'`, ({ input, expectedOutput }) => {
         const output = stdoutTransformer(input);
         expect(output).toBe(expectedOutput);
@@ -28,7 +26,6 @@ describe(stdoutTransformer, () => {
 
     it.each`
         input
-        ${'##[error]abc'}
         ${'##vso[task.debug]abc'}
         ${'Processing page abc'}
         ${'Discovered 2 links on page abc'}
@@ -41,9 +38,13 @@ describe(stdoutTransformer, () => {
     });
 
     it.each`
-        input            | expectedOutput
-        ${'##[warn]abc'} | ${'##[warning]abc'}
-        ${'##[info]abc'} | ${'abc'}
+        input              | expectedOutput
+        ${'[group]abc'}    | ${'##[group]abc'}
+        ${'[endgroup]abc'} | ${'##[endgroup]abc'}
+        ${'[verbose]abc'}  | ${'##[debug]abc'}
+        ${'[debug]abc'}    | ${'##[debug]abc'}
+        ${'[warn]abc'}     | ${'##[warning]abc'}
+        ${'[info]abc'}     | ${'abc'}
     `(`LogLevel tags mapped input as '$input', returned as '$expectedOutput'`, ({ input, expectedOutput }) => {
         const output = stdoutTransformer(input);
         expect(output).toBe(expectedOutput);

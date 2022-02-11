@@ -4,7 +4,8 @@
 import { stdout } from 'process';
 import { hookStream } from './hook-stream';
 import { stdoutTransformer } from './stdout-transformer';
+import { StreamTransformer } from './stream-transformer';
 
-export const hookStdout = (): (() => void) => {
+export const hookStdout = (transformer: StreamTransformer = stdoutTransformer): (() => void) => {
     return hookStream(stdout, stdoutTransformer);
 };

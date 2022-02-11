@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { hookStream, StreamTransformer } from './hook-stream';
+import { hookStream } from './hook-stream';
 import { Writable } from 'stream';
+import { StreamTransformer } from './stream-transformer';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */

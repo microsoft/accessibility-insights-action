@@ -3,12 +3,8 @@
 import 'reflect-metadata';
 import './module-name-mapper';
 
-import { ExitCode } from '@accessibility-insights-action/shared';
-import { hookStderr } from '@accessibility-insights-action/shared';
-import { Logger } from '@accessibility-insights-action/shared';
-import { Scanner } from '@accessibility-insights-action/shared';
+import { ExitCode, hookStderr, hookStdout, Logger, Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
-import { hookStdout } from './output-hooks/hook-stdout';
 
 (async () => {
     hookStderr();
