@@ -15,13 +15,6 @@
     "instanceNameFormat": "Run accessibility testing",
     "inputs": [
         {
-            "name": "repoServiceConnectionName",
-            "type": "connectedService:externaltfs",
-            "label": "Azure Repos Connection",
-            "required": false,
-            "helpMarkDown": "This extension makes comments on pull requests. Provide a service connection with permissions to contribute to the target repo."
-        },
-        {
             "name": "outputDir",
             "type": "string",
             "label": "Output Directory",
