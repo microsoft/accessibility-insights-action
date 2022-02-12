@@ -6,11 +6,12 @@ import './module-name-mapper';
 
 import { ExitCode, hookStderr, hookStdout, Logger, Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
+import { adoStdoutTransformer } from './output-hooks/ado-stdout-transformer';
 
 export function runScan(): void {
     (async () => {
         hookStderr();
-        hookStdout();
+        hookStdout(adoStdoutTransformer);
 
         const container = setupIocContainer();
         const logger = container.get(Logger);

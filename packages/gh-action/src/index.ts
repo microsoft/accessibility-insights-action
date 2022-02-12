@@ -5,10 +5,11 @@ import './module-name-mapper';
 
 import { ExitCode, hookStderr, hookStdout, Logger, Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
+import { ghStdoutTransformer } from './output-hooks/gh-stdout-transformer';
 
 (async () => {
     hookStderr();
-    hookStdout();
+    hookStdout(ghStdoutTransformer);
 
     const container = setupIocContainer();
     const logger = container.get(Logger);
