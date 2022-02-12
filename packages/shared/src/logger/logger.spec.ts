@@ -228,9 +228,7 @@ describe(Logger, () => {
             });
 
             it('when properties not passed', () => {
-                invokeAllLoggerClientMocks((m) =>
-                    m.setup((c) => c.log('HealthCheck', LogLevel.startGroup, undefined)).verifiable(Times.once()),
-                );
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('HealthCheck', LogLevel.group, undefined)).verifiable(Times.once()));
 
                 testSubject.logStartGroup('HealthCheck');
 
@@ -241,7 +239,7 @@ describe(Logger, () => {
                 const properties = { foo: 'bar' };
 
                 invokeAllLoggerClientMocks((m) =>
-                    m.setup((c) => c.log('HealthCheck', LogLevel.startGroup, properties)).verifiable(Times.once()),
+                    m.setup((c) => c.log('HealthCheck', LogLevel.group, properties)).verifiable(Times.once()),
                 );
 
                 testSubject.logStartGroup('HealthCheck', properties);
@@ -261,7 +259,7 @@ describe(Logger, () => {
             });
 
             it('when properties not passed', () => {
-                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('', LogLevel.endGroup, undefined)).verifiable(Times.once()));
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('', LogLevel.endgroup, undefined)).verifiable(Times.once()));
 
                 testSubject.logEndGroup();
 
@@ -271,7 +269,7 @@ describe(Logger, () => {
             it('when properties passed', () => {
                 const properties = { foo: 'bar' };
 
-                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('', LogLevel.endGroup, properties)).verifiable(Times.once()));
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('', LogLevel.endgroup, properties)).verifiable(Times.once()));
 
                 testSubject.logEndGroup(properties);
 

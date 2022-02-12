@@ -49,11 +49,11 @@ export class Logger {
     }
 
     public logStartGroup(message: string, properties?: { [name: string]: string }): void {
-        this.log(message, LogLevel.startGroup, properties);
+        this.log(message, LogLevel.group, properties);
     }
 
     public logEndGroup(properties?: { [name: string]: string }): void {
-        this.log('', LogLevel.endGroup, properties);
+        this.log('', LogLevel.endgroup, properties);
     }
 
     public trackException(error: Error): void {
