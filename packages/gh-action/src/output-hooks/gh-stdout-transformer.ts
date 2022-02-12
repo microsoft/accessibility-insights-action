@@ -30,7 +30,7 @@ const regexTransformations: RegexTransformation[] = [
         method: removeFirstMatch,
     },
     {
-        regex: new RegExp('^\\[warn\\]'),
+        regex: new RegExp('^\\[warning\\]'),
         method: replaceFirstMatchWithWarningPrefix,
     },
     {
