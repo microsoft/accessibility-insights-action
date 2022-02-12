@@ -36,8 +36,8 @@ export class Logger {
         this.log(message, LogLevel.info, properties);
     }
 
-    public logVerbose(message: string, properties?: { [name: string]: string }): void {
-        this.log(message, LogLevel.verbose, properties);
+    public logDebug(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.debug, properties);
     }
 
     public logWarning(message: string, properties?: { [name: string]: string }): void {

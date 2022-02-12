@@ -18,7 +18,7 @@ export class ConsoleCommentCreator extends ProgressReporter {
 
     public start(): Promise<void> {
         // We don't do anything for pull request flow
-        this.logger.logVerbose('console comment creator started');
+        this.logger.logDebug('console comment creator started');
         return Promise.resolve();
     }
 

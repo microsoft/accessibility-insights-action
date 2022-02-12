@@ -187,7 +187,7 @@ describe(Logger, () => {
         });
     });
 
-    describe('logVerbose', () => {
+    describe('logDebug', () => {
         describe('in normal mode', () => {
             beforeEach(async () => {
                 processStub.execArgv = ['--t'];
@@ -197,11 +197,9 @@ describe(Logger, () => {
             });
 
             it('when properties not passed', () => {
-                invokeAllLoggerClientMocks((m) =>
-                    m.setup((c) => c.log('HealthCheck', LogLevel.verbose, undefined)).verifiable(Times.once()),
-                );
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('HealthCheck', LogLevel.debug, undefined)).verifiable(Times.once()));
 
-                testSubject.logVerbose('HealthCheck');
+                testSubject.logDebug('HealthCheck');
 
                 verifyMocks();
             });
@@ -210,10 +208,10 @@ describe(Logger, () => {
                 const properties = { foo: 'bar' };
 
                 invokeAllLoggerClientMocks((m) =>
-                    m.setup((c) => c.log('HealthCheck', LogLevel.verbose, properties)).verifiable(Times.once()),
+                    m.setup((c) => c.log('HealthCheck', LogLevel.debug, properties)).verifiable(Times.once()),
                 );
 
-                testSubject.logVerbose('HealthCheck', properties);
+                testSubject.logDebug('HealthCheck', properties);
 
                 verifyMocks();
             });

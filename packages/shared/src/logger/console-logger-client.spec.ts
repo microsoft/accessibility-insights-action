@@ -27,9 +27,9 @@ describe(ConsoleLoggerClient, () => {
         it('log data without properties', async () => {
             await testSubject.setup(null);
 
-            testSubject.log('trace1', LogLevel.verbose);
+            testSubject.log('trace1', LogLevel.debug);
 
-            consoleMock.verify((c) => c.log('[verbose]trace1'), Times.once());
+            consoleMock.verify((c) => c.log('[debug]trace1'), Times.once());
         });
 
         it('log data with base properties', async () => {

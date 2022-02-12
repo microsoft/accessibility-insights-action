@@ -40,7 +40,6 @@ describe(ghStdoutTransformer, () => {
         input              | expectedOutput
         ${'[group]abc'}    | ${'::group::abc'}
         ${'[endgroup]abc'} | ${'::endgroup::abc'}
-        ${'[verbose]abc'}  | ${'::debug::abc'}
         ${'[debug]abc'}    | ${'::debug::abc'}
         ${'[warning]abc'}  | ${'::warning::abc'}
         ${'[info]abc'}     | ${'abc'}
