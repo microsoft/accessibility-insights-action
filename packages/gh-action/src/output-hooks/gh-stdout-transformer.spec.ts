@@ -42,7 +42,7 @@ describe(ghStdoutTransformer, () => {
         ${'[endgroup]abc'} | ${'::endgroup::abc'}
         ${'[verbose]abc'}  | ${'::debug::abc'}
         ${'[debug]abc'}    | ${'::debug::abc'}
-        ${'[warn]abc'}     | ${'::warning::abc'}
+        ${'[warning]abc'}  | ${'::warning::abc'}
         ${'[info]abc'}     | ${'abc'}
     `(`LogLevel tags mapped input as '$input', returned as '$expectedOutput'`, ({ input, expectedOutput }) => {
         const output = ghStdoutTransformer(input);

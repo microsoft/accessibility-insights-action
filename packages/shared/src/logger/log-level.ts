@@ -3,7 +3,7 @@
 
 export enum LogLevel {
     info,
-    warn,
+    warning,
     verbose,
     error,
     startGroup,

@@ -40,8 +40,8 @@ export class Logger {
         this.log(message, LogLevel.verbose, properties);
     }
 
-    public logWarn(message: string, properties?: { [name: string]: string }): void {
-        this.log(message, LogLevel.warn, properties);
+    public logWarning(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.warning, properties);
     }
 
     public logError(message: string, properties?: { [name: string]: string }): void {

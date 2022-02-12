@@ -58,7 +58,7 @@ describe(Logger, () => {
     describe('log', () => {
         it('throw if called before setup', () => {
             expect(() => {
-                testSubject.log('trace1', LogLevel.warn);
+                testSubject.log('trace1', LogLevel.warning);
             }).toThrowError(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
@@ -121,10 +121,10 @@ describe(Logger, () => {
         });
     });
 
-    describe('logWarn', () => {
+    describe('logWarning', () => {
         it('throw if called before setup', () => {
             expect(() => {
-                testSubject.logWarn('warn1');
+                testSubject.logWarning('warn1');
             }).toThrowError(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
@@ -134,9 +134,9 @@ describe(Logger, () => {
             setupCallsForTelemetrySetup();
             await testSubject.setup();
 
-            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('warn1', LogLevel.warn, undefined)).verifiable(Times.once()));
+            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('warn1', LogLevel.warning, undefined)).verifiable(Times.once()));
 
-            testSubject.logWarn('warn1');
+            testSubject.logWarning('warn1');
 
             verifyMocks();
         });
@@ -146,9 +146,9 @@ describe(Logger, () => {
             setupCallsForTelemetrySetup();
             await testSubject.setup();
 
-            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('warn1', LogLevel.warn, properties)).verifiable(Times.once()));
+            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('warn1', LogLevel.warning, properties)).verifiable(Times.once()));
 
-            testSubject.logWarn('warn1', properties);
+            testSubject.logWarning('warn1', properties);
 
             verifyMocks();
         });
