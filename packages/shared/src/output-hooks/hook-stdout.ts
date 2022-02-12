@@ -3,9 +3,8 @@
 
 import { stdout } from 'process';
 import { hookStream } from './hook-stream';
-import { stdoutTransformer } from './stdout-transformer';
 import { StreamTransformer } from './stream-transformer';
 
-export const hookStdout = (transformer: StreamTransformer = stdoutTransformer): (() => void) => {
-    return hookStream(stdout, stdoutTransformer);
+export const hookStdout = (transformer: StreamTransformer): (() => void) => {
+    return hookStream(stdout, transformer);
 };

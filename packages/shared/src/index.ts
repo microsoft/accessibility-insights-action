@@ -15,6 +15,5 @@ export { BaselineInfo } from './baseline-info';
 export { ArtifactsInfoProvider } from './artifacts-info-provider';
 export { hookStdout } from './output-hooks/hook-stdout';
 export { hookStderr } from './output-hooks/hook-stderr';
-export { ExitCode } from './exit-code';
 export { StreamTransformer } from './output-hooks/stream-transformer';
-export { stdoutTransformer } from './output-hooks/stdout-transformer';
+export { ExitCode } from './exit-code';
