@@ -69,8 +69,9 @@ export class Scanner {
 
             scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
-            this.logger.logVerbose(`Starting accessibility scanning of URL ${scanArguments.url}`);
-            this.logger.logVerbose(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
+            this.logger.logStartGroup(`Scanning URL ${scanArguments.url}`);
+            this.logger.logDebug(`Starting accessibility scanning of URL ${scanArguments.url}`);
+            this.logger.logDebug(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
 
             const crawlerParameters = this.crawlerParametersBuilder.build(scanArguments);
 
@@ -81,6 +82,7 @@ export class Scanner {
             const combinedReportParameters = this.getCombinedReportParameters(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportParameters);
             await this.baselineFileUpdater.updateBaseline(scanArguments, combinedScanResult.baselineEvaluation);
+            this.logger.logEndGroup();
 
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
             return this.allProgressReporter.didScanSucceed();

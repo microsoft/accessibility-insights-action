@@ -6,7 +6,7 @@ import { IMock, Mock, Times } from 'typemoq';
 import * as util from 'util';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
 import { ConsoleLoggerClient } from './console-logger-client';
-import { LogLevel } from './logger-client';
+import { LogLevel } from './log-level';
 import { LoggerProperties } from './logger-properties';
 
 describe(ConsoleLoggerClient, () => {
@@ -27,18 +27,18 @@ describe(ConsoleLoggerClient, () => {
         it('log data without properties', async () => {
             await testSubject.setup(null);
 
-            testSubject.log('trace1', LogLevel.verbose);
+            testSubject.log('trace1', LogLevel.debug);
 
-            consoleMock.verify((c) => c.log('##[verbose]trace1'), Times.once());
+            consoleMock.verify((c) => c.log('[debug]trace1'), Times.once());
         });
 
         it('log data with base properties', async () => {
             const baseProps: BaseTelemetryProperties = { foo: 'bar', source: 'test-source' };
             await testSubject.setup(baseProps);
 
-            testSubject.log('trace1', LogLevel.warn);
+            testSubject.log('trace1', LogLevel.warning);
 
-            consoleMock.verify((c) => c.log(`##[warn][properties - ${util.inspect(baseProps)}]trace1`), Times.once());
+            consoleMock.verify((c) => c.log(`[warning][properties - ${util.inspect(baseProps)}]trace1`), Times.once());
         });
 
         it('log data with custom runtime properties', async () => {
@@ -48,9 +48,9 @@ describe(ConsoleLoggerClient, () => {
             await testSubject.setup(baseProps);
             testSubject.setCustomProperties(customProps);
 
-            testSubject.log('trace1', LogLevel.warn);
+            testSubject.log('trace1', LogLevel.warning);
 
-            consoleMock.verify((c) => c.log(`##[warn][properties - ${util.inspect(mergedProps)}]trace1`), Times.once());
+            consoleMock.verify((c) => c.log(`[warning][properties - ${util.inspect(mergedProps)}]trace1`), Times.once());
         });
 
         it('log data with event properties', async () => {
@@ -58,9 +58,12 @@ describe(ConsoleLoggerClient, () => {
             await testSubject.setup(baseProps);
             const traceProps = { eventProp1: 'prop value' };
 
-            testSubject.log('trace1', LogLevel.warn, traceProps);
+            testSubject.log('trace1', LogLevel.warning, traceProps);
 
-            consoleMock.verify((c) => c.log(`##[warn][properties - ${util.inspect({ ...baseProps, ...traceProps })}]trace1`), Times.once());
+            consoleMock.verify(
+                (c) => c.log(`[warning][properties - ${util.inspect({ ...baseProps, ...traceProps })}]trace1`),
+                Times.once(),
+            );
         });
     });
 
@@ -71,7 +74,7 @@ describe(ConsoleLoggerClient, () => {
 
             testSubject.trackException(error);
 
-            consoleMock.verify((c) => c.log(`##[error][Exception]${util.inspect(error, { depth: null })}`), Times.once());
+            consoleMock.verify((c) => c.log(`[error][Exception]${util.inspect(error, { depth: null })}`), Times.once());
         });
 
         it('log data with base properties', async () => {
@@ -82,7 +85,7 @@ describe(ConsoleLoggerClient, () => {
             testSubject.trackException(error);
 
             consoleMock.verify(
-                (c) => c.log(`##[error][Exception][properties - ${util.inspect(baseProps)}]${util.inspect(error, { depth: null })}`),
+                (c) => c.log(`[error][Exception][properties - ${util.inspect(baseProps)}]${util.inspect(error, { depth: null })}`),
                 Times.once(),
             );
         });
@@ -98,7 +101,7 @@ describe(ConsoleLoggerClient, () => {
             testSubject.trackException(error);
 
             consoleMock.verify(
-                (c) => c.log(`##[error][Exception][properties - ${util.inspect(mergedProps)}]${util.inspect(error, { depth: null })}`),
+                (c) => c.log(`[error][Exception][properties - ${util.inspect(mergedProps)}]${util.inspect(error, { depth: null })}`),
                 Times.once(),
             );
         });

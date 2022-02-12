@@ -6,7 +6,8 @@ import { isEmpty } from 'lodash';
 import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
-import { LoggerClient, LogLevel } from './logger-client';
+import { LogLevel } from './log-level';
+import { LoggerClient } from './logger-client';
 import { LoggerProperties } from './logger-properties';
 
 @injectable()
@@ -21,11 +22,11 @@ export class ConsoleLoggerClient implements LoggerClient {
     }
 
     public log(message: string, logLevel: LogLevel, properties?: { [name: string]: string }): void {
-        this.logInConsole(`##[${LogLevel[logLevel]}]${this.getPrintablePropertiesString(properties)}`, message);
+        this.logInConsole(`[${LogLevel[logLevel]}]${this.getPrintablePropertiesString(properties)}`, message);
     }
 
     public trackException(error: Error): void {
-        this.logInConsole(`##[error][Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
+        this.logInConsole(`[error][Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
     }
 
     public setCustomProperties(properties: LoggerProperties): void {

@@ -4,17 +4,14 @@
 import 'reflect-metadata';
 import './module-name-mapper';
 
-import { ExitCode } from '@accessibility-insights-action/shared';
-import { Logger } from '@accessibility-insights-action/shared';
-import { hookStderr } from '@accessibility-insights-action/shared';
-import { hookStdout } from '@accessibility-insights-action/shared';
-import { Scanner } from '@accessibility-insights-action/shared';
+import { ExitCode, hookStderr, hookStdout, Logger, Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
+import { adoStdoutTransformer } from './output-hooks/ado-stdout-transformer';
 
 export function runScan(): void {
     (async () => {
         hookStderr();
-        hookStdout();
+        hookStdout(adoStdoutTransformer);
 
         const container = setupIocContainer();
         const logger = container.get(Logger);

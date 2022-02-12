@@ -3,6 +3,7 @@
 
 import { hookStream } from './hook-stream';
 import { Writable } from 'stream';
+import { StreamTransformer } from './stream-transformer';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -68,7 +69,7 @@ describe(hookStream, () => {
         ${'return xyz'}  | ${'xyz'}
         ${'return null'} | ${null}
     `(`with hook enabled, input value '$input' writes as '$expectedOutput'`, ({ input, expectedOutput }) => {
-        hookStream(stream as unknown as NodeJS.WriteStream, testTransformer);
+        hookStream(stream as unknown as NodeJS.WriteStream, testTransformer as StreamTransformer);
 
         stream.write(input);
 
@@ -90,7 +91,7 @@ describe(hookStream, () => {
         ${'return xyz'}
         ${'return null'}
     `(`with hook enabled then disabled, input value '$input' writes unchanged'`, ({ input }) => {
-        const unhook = hookStream(stream as unknown as NodeJS.WriteStream, testTransformer);
+        const unhook = hookStream(stream as unknown as NodeJS.WriteStream, testTransformer as StreamTransformer);
         unhook();
 
         stream.write(input);

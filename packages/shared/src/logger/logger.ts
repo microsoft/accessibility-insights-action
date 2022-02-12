@@ -3,7 +3,8 @@
 
 import { VError } from 'verror';
 import * as utils from 'util';
-import { LoggerClient, LogLevel } from './logger-client';
+import { LoggerClient } from './logger-client';
+import { LogLevel } from './log-level';
 import { serializeError as serializeErrorExt } from 'serialize-error';
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
@@ -35,16 +36,24 @@ export class Logger {
         this.log(message, LogLevel.info, properties);
     }
 
-    public logVerbose(message: string, properties?: { [name: string]: string }): void {
-        this.log(message, LogLevel.verbose, properties);
+    public logDebug(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.debug, properties);
     }
 
-    public logWarn(message: string, properties?: { [name: string]: string }): void {
-        this.log(message, LogLevel.warn, properties);
+    public logWarning(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.warning, properties);
     }
 
     public logError(message: string, properties?: { [name: string]: string }): void {
         this.log(message, LogLevel.error, properties);
+    }
+
+    public logStartGroup(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.group, properties);
+    }
+
+    public logEndGroup(properties?: { [name: string]: string }): void {
+        this.log('', LogLevel.endgroup, properties);
     }
 
     public trackException(error: Error): void {

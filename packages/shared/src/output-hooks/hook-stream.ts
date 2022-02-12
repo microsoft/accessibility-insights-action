@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { StreamTransformer } from './stream-transformer';
+
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-export type StreamTransformer = (data: string) => string;
 
 // This method hooks a stream at its _write method, which is the lowest level that
 // is exposed via the interface. Calling the method returned from hookStream
 // removes the hook by restoring the previous _write method.
-export const hookStream = (stream: NodeJS.WriteStream, transformer: (rawData: string) => string): (() => void) => {
+export const hookStream = (stream: NodeJS.WriteStream, transformer: StreamTransformer): (() => void) => {
     const oldWrite = stream._write;
 
     const unhook = () => {
