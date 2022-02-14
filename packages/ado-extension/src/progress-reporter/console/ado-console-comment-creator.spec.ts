@@ -46,7 +46,7 @@ describe(AdoConsoleCommentCreator, () => {
             const baselineInfoStub = {};
             const reportMarkdownStub = '#ReportMarkdownStub';
 
-            const expectedLogOutput = AdoConsoleCommentCreator.CURRENT_COMMENT_TITLE + reportMarkdownStub;
+            const expectedLogOutput = reportMarkdownStub;
 
             adoTaskConfigMock
                 .setup((atcm) => atcm.getBaselineFile())
@@ -59,14 +59,14 @@ describe(AdoConsoleCommentCreator, () => {
                 .verifiable(Times.once());
 
             reportMarkdownConvertorMock
-                .setup((o) => o.convert(reportStub, AdoConsoleCommentCreator.CURRENT_COMMENT_TITLE, baselineInfoStub))
+                .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
                 .returns(() => expectedLogOutput)
-                .verifiable(Times.once());
+                .verifiable(Times.exactly(2));
 
             loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
             loggerMock
-                .setup((lm) => lm.logInfo('Report output directory does not exists. Creating directory reportOutDir'))
+                .setup((lm) => lm.logInfo('Report output directory does not exist. Creating directory reportOutDir'))
                 .verifiable(Times.once());
 
             fsMock

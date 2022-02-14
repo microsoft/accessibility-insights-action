@@ -13,9 +13,6 @@ import { BaselineInfo } from '@accessibility-insights-action/shared';
 
 @injectable()
 export class AdoConsoleCommentCreator extends ProgressReporter {
-    public static readonly CURRENT_COMMENT_TITLE = 'Results from Current Run';
-    public static readonly PREVIOUS_COMMENT_TITLE = 'Results from Previous Run';
-
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
@@ -31,13 +28,9 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
-        const reportMarkdown = this.reportMarkdownConvertor.convert(
-            combinedReportResult,
-            AdoConsoleCommentCreator.CURRENT_COMMENT_TITLE,
-            this.getBaselineInfo(baselineEvaluation),
-        );
-        this.outputResultsMarkdownToBuildSummary(reportMarkdown);
-        this.logResultsToConsole(reportMarkdown);
+        const baselineInfo = this.getBaselineInfo(baselineEvaluation);
+        this.outputResultsMarkdownToBuildSummary(combinedReportResult, baselineInfo);
+        this.logResultsToConsole(combinedReportResult, baselineInfo);
 
         return Promise.resolve();
     }
@@ -57,23 +50,27 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         return { baselineFileName, baselineEvaluation };
     }
 
-    private outputResultsMarkdownToBuildSummary(markdownContent: string): void {
+    private outputResultsMarkdownToBuildSummary(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
+        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+
         const outDirectory = this.taskConfig.getReportOutDir();
         const fileName = `${outDirectory}/results.md`;
 
         // eslint-disable-next-line security/detect-non-literal-fs-filename
         if (!this.fileSystemObj.existsSync(outDirectory)) {
-            this.logger.logInfo(`Report output directory does not exists. Creating directory ${outDirectory}`);
+            this.logger.logInfo(`Report output directory does not exist. Creating directory ${outDirectory}`);
             // eslint-disable-next-line security/detect-non-literal-fs-filename
             this.fileSystemObj.mkdirSync(outDirectory);
         }
 
         // eslint-disable-next-line security/detect-non-literal-fs-filename
-        this.fileSystemObj.writeFileSync(fileName, markdownContent);
+        this.fileSystemObj.writeFileSync(fileName, reportMarkdown);
         this.logger.logInfo(`##vso[task.uploadsummary]${fileName}`);
     }
 
-    private logResultsToConsole(markdownContent: string): void {
-        this.logger.logInfo(markdownContent);
+    private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
+        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+
+        this.logger.logInfo(reportMarkdown);
     }
 }
