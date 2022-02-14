@@ -6,6 +6,7 @@ import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { AdoConsoleCommentCreator } from './ado-console-comment-creator';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import * as fs from 'fs';
 
 import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 
@@ -14,11 +15,15 @@ describe(AdoConsoleCommentCreator, () => {
     let loggerMock: IMock<Logger>;
     let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
     let adoConsoleCommentCreator: AdoConsoleCommentCreator;
+    let fsMock: IMock<typeof fs>;
+    const reportOutDir = 'reportOutDir';
+    const fileName = `${reportOutDir}/results.md`;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
         loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
         reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>(undefined, MockBehavior.Strict);
+        fsMock = Mock.ofType<typeof fs>();
     });
 
     describe('constructor', () => {
@@ -48,12 +53,28 @@ describe(AdoConsoleCommentCreator, () => {
                 .returns(() => undefined)
                 .verifiable(Times.once());
 
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getReportOutDir())
+                .returns(() => reportOutDir)
+                .verifiable(Times.once());
+
             reportMarkdownConvertorMock
                 .setup((o) => o.convert(reportStub, AdoConsoleCommentCreator.CURRENT_COMMENT_TITLE, baselineInfoStub))
                 .returns(() => expectedLogOutput)
                 .verifiable(Times.once());
 
             loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
+            loggerMock
+                .setup((lm) => lm.logInfo('Report output directory does not exists. Creating directory reportOutDir'))
+                .verifiable(Times.once());
+
+            fsMock
+                .setup((fsm) => fsm.existsSync(reportOutDir))
+                .returns(() => false)
+                .verifiable();
+            fsMock.setup((fsm) => fsm.mkdirSync(reportOutDir)).verifiable();
+            fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();
 
             adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
             await adoConsoleCommentCreator.completeRun(reportStub);
@@ -94,12 +115,13 @@ describe(AdoConsoleCommentCreator, () => {
             reportMarkdownConvertorMock.object,
             loggerMock.object,
             adoTaskConfigMock.object,
-            {} as typeof import('fs'),
+            fsMock.object,
         );
 
     const verifyAllMocks = () => {
         adoTaskConfigMock.verifyAll();
         loggerMock.verifyAll();
         reportMarkdownConvertorMock.verifyAll();
+        fsMock.verifyAll();
     };
 });
