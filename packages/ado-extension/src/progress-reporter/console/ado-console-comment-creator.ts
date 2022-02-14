@@ -4,6 +4,7 @@
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
 import { Logger } from '@accessibility-insights-action/shared';
+import * as fs from 'fs';
 import { ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
@@ -19,6 +20,8 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Logger) private readonly logger: Logger,
+        @inject(ADOTaskConfig) private readonly taskConfig: ADOTaskConfig,
+        private readonly fileSystemObj: typeof fs = fs,
     ) {
         super();
     }
@@ -33,7 +36,8 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
             AdoConsoleCommentCreator.CURRENT_COMMENT_TITLE,
             this.getBaselineInfo(baselineEvaluation),
         );
-        this.logger.logInfo(reportMarkdown);
+        this.outputResultsMarkdownToBuildSummary(reportMarkdown);
+        this.logResultsToConsole(reportMarkdown);
 
         return Promise.resolve();
     }
@@ -51,5 +55,25 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         }
 
         return { baselineFileName, baselineEvaluation };
+    }
+
+    private outputResultsMarkdownToBuildSummary(markdownContent: string): void {
+        const outDirectory = this.taskConfig.getReportOutDir();
+        const fileName = `${outDirectory}/results.md`;
+
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        if (!this.fileSystemObj.existsSync(outDirectory)) {
+            this.logger.logInfo(`Report output directory does not exists. Creating directory ${outDirectory}`);
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            this.fileSystemObj.mkdirSync(outDirectory);
+        }
+
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        this.fileSystemObj.writeFileSync(fileName, markdownContent);
+        this.logger.logInfo(`##vso[task.uploadsummary]${fileName}`);
+    }
+
+    private logResultsToConsole(markdownContent: string): void {
+        this.logger.logInfo(markdownContent);
     }
 }

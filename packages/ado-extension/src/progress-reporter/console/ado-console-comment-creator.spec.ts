@@ -89,7 +89,13 @@ describe(AdoConsoleCommentCreator, () => {
     });
 
     const buildAdoConsoleCommentCreatorWithMocks = (): AdoConsoleCommentCreator =>
-        new AdoConsoleCommentCreator(adoTaskConfigMock.object, reportMarkdownConvertorMock.object, loggerMock.object);
+        new AdoConsoleCommentCreator(
+            adoTaskConfigMock.object,
+            reportMarkdownConvertorMock.object,
+            loggerMock.object,
+            adoTaskConfigMock.object,
+            {} as typeof import('fs'),
+        );
 
     const verifyAllMocks = () => {
         adoTaskConfigMock.verifyAll();
