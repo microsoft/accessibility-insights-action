@@ -24,6 +24,12 @@ describe(adoStdoutTransformer, () => {
         expect(output).toBe(expectedOutput);
     });
 
+    // Note: Output results for ##vso[task.uploadsummary] can't be added to the output text of the test because ADO attempts to evaluate it and fails the test suite.
+    test('Upload summary ADO command returns as expected', () => {
+        const output = adoStdoutTransformer('##vso[task.uploadsummary]');
+        expect(output).toBe('##vso[task.uploadsummary]');
+    });
+
     it.each`
         input
         ${'##vso[task.debug]abc'}

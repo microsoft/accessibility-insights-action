@@ -25,6 +25,7 @@ import { AxeInfo } from '../axe/axe-info';
 import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { TaskConfig } from '../task-config';
+import * as fs from 'fs';
 
 describe(Scanner, () => {
     let aiCrawlerMock: IMock<AICrawler>;
@@ -40,11 +41,13 @@ describe(Scanner, () => {
     let crawlerParametersBuilder: IMock<CrawlerParametersBuilder>;
     let baselineOptionsBuilderMock: IMock<BaselineOptionsBuilder>;
     let baselineFileUpdaterMock: IMock<BaselineFileUpdater>;
+    let fsMock: IMock<typeof fs>;
     let scanner: Scanner;
     let combinedScanResult: CombinedScanResult;
     let scanArguments: ScanArguments;
 
     const scanTimeoutMsec = 100000;
+    const reportOutDir = 'reportOutDir';
 
     beforeEach(() => {
         aiCrawlerMock = Mock.ofType<AICrawler>();
@@ -60,6 +63,7 @@ describe(Scanner, () => {
         crawlerParametersBuilder = Mock.ofType<CrawlerParametersBuilder>();
         baselineOptionsBuilderMock = Mock.ofType<BaselineOptionsBuilder>(null, MockBehavior.Strict);
         baselineFileUpdaterMock = Mock.ofType<BaselineFileUpdater>();
+        fsMock = Mock.ofType<typeof fs>();
         scanner = new Scanner(
             aiCrawlerMock.object,
             reportGeneratorMock.object,
@@ -74,6 +78,7 @@ describe(Scanner, () => {
             crawlerParametersBuilder.object,
             baselineOptionsBuilderMock.object,
             baselineFileUpdaterMock.object,
+            fsMock.object,
         );
         combinedScanResult = {
             scanMetadata: {
@@ -163,6 +168,10 @@ describe(Scanner, () => {
                 .setup((m) => m.getUrl())
                 .returns((_) => scanArguments.url)
                 .verifiable(Times.once());
+            taskConfigMock
+                .setup((m) => m.getReportOutDir())
+                .returns(() => reportOutDir)
+                .verifiable(Times.once());
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
             progressReporterMock
                 .setup((m) => m.didScanSucceed())
@@ -176,6 +185,15 @@ describe(Scanner, () => {
             loggerMock
                 .setup((lm) => lm.logDebug(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`))
                 .verifiable(Times.once());
+            loggerMock
+                .setup((lm) => lm.logInfo(`Report output directory does not exist. Creating directory ${reportOutDir}`))
+                .verifiable(Times.once());
+
+            fsMock
+                .setup((fsm) => fsm.existsSync(reportOutDir))
+                .returns(() => false)
+                .verifiable();
+            fsMock.setup((fsm) => fsm.mkdirSync(reportOutDir)).verifiable();
 
             const crawlerParams: CrawlerRunOptions = {
                 baseUrl: scanArguments.url,
@@ -249,5 +267,6 @@ describe(Scanner, () => {
         promiseUtilsMock.verifyAll();
         baselineOptionsBuilderMock.verifyAll();
         baselineFileUpdaterMock.verifyAll();
+        fsMock.verifyAll();
     }
 });

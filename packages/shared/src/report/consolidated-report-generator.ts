@@ -24,13 +24,6 @@ export class ConsolidatedReportGenerator {
         const outDirectory = this.taskConfig.getReportOutDir();
         const reportFileName = `${outDirectory}/index.html`;
 
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        if (!this.fileSystemObj.existsSync(outDirectory)) {
-            this.logger.logInfo(`Report output directory does not exists. Creating directory ${outDirectory}`);
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
-            this.fileSystemObj.mkdirSync(outDirectory);
-        }
-
         this.saveHtmlReport(reportFileName, htmlReportContent);
 
         return reportFileName;

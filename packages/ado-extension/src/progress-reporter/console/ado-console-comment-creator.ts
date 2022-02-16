@@ -4,6 +4,7 @@
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
 import { Logger } from '@accessibility-insights-action/shared';
+import * as fs from 'fs';
 import { ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
@@ -12,13 +13,12 @@ import { BaselineInfo } from '@accessibility-insights-action/shared';
 
 @injectable()
 export class AdoConsoleCommentCreator extends ProgressReporter {
-    public static readonly CURRENT_COMMENT_TITLE = 'Results from Current Run';
-    public static readonly PREVIOUS_COMMENT_TITLE = 'Results from Previous Run';
-
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(Logger) private readonly logger: Logger,
+        @inject(ADOTaskConfig) private readonly taskConfig: ADOTaskConfig,
+        private readonly fileSystemObj: typeof fs = fs,
     ) {
         super();
     }
@@ -28,12 +28,9 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
-        const reportMarkdown = this.reportMarkdownConvertor.convert(
-            combinedReportResult,
-            AdoConsoleCommentCreator.CURRENT_COMMENT_TITLE,
-            this.getBaselineInfo(baselineEvaluation),
-        );
-        this.logger.logInfo(reportMarkdown);
+        const baselineInfo = this.getBaselineInfo(baselineEvaluation);
+        this.outputResultsMarkdownToBuildSummary(combinedReportResult, baselineInfo);
+        this.logResultsToConsole(combinedReportResult, baselineInfo);
 
         return Promise.resolve();
     }
@@ -51,5 +48,22 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         }
 
         return { baselineFileName, baselineEvaluation };
+    }
+
+    private outputResultsMarkdownToBuildSummary(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
+        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+
+        const outDirectory = this.taskConfig.getReportOutDir();
+        const fileName = `${outDirectory}/results.md`;
+
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        this.fileSystemObj.writeFileSync(fileName, reportMarkdown);
+        this.logger.logInfo(`##vso[task.uploadsummary]${fileName}`);
+    }
+
+    private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
+        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+
+        this.logger.logInfo(reportMarkdown);
     }
 }

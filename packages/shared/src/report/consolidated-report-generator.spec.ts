@@ -42,11 +42,6 @@ describe(ConsolidatedReportGenerator, () => {
             .setup((o) => o.getReportOutDir())
             .returns(() => reportOutDir)
             .verifiable();
-        fsMock
-            .setup((o) => o.existsSync(reportOutDir))
-            .returns(() => false)
-            .verifiable();
-        fsMock.setup((o) => o.mkdirSync(reportOutDir)).verifiable();
         fsMock.setup((o) => o.writeFileSync(reportFileName, htmlReportString)).verifiable();
 
         consolidatedReportGenerator = new ConsolidatedReportGenerator(
