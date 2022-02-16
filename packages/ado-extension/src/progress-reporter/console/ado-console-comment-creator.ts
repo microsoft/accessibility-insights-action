@@ -57,13 +57,6 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         const fileName = `${outDirectory}/results.md`;
 
         // eslint-disable-next-line security/detect-non-literal-fs-filename
-        if (!this.fileSystemObj.existsSync(outDirectory)) {
-            this.logger.logInfo(`Report output directory does not exist. Creating directory ${outDirectory}`);
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
-            this.fileSystemObj.mkdirSync(outDirectory);
-        }
-
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
         this.fileSystemObj.writeFileSync(fileName, reportMarkdown);
         this.logger.logInfo(`##vso[task.uploadsummary]${fileName}`);
     }

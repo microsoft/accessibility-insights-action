@@ -23,6 +23,7 @@ import { ConsolidatedReportGenerator } from '../report/consolidated-report-gener
 import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { TaskConfig } from '../task-config';
 import { isEmpty } from 'lodash';
+import * as fs from 'fs';
 
 export type ScanSucceededWithNoRequiredUserAction = boolean;
 
@@ -42,6 +43,7 @@ export class Scanner {
         @inject(CrawlerParametersBuilder) private readonly crawlerParametersBuilder: CrawlerParametersBuilder,
         @inject(BaselineOptionsBuilder) private readonly baselineOptionsBuilder: BaselineOptionsBuilder,
         @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
+        private readonly fileSystemObj: typeof fs = fs,
     ) {}
 
     public async scan(): Promise<ScanSucceededWithNoRequiredUserAction> {
@@ -61,6 +63,8 @@ export class Scanner {
         let localServerUrl: string;
 
         try {
+            this.createReportOutputDirectory();
+
             await this.allProgressReporter.start();
 
             if (isEmpty(this.taskConfig.getUrl())) {
@@ -115,5 +119,15 @@ export class Scanner {
         };
 
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
+    }
+
+    private createReportOutputDirectory(): void {
+        const outDirectory = this.taskConfig.getReportOutDir();
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        if (!this.fileSystemObj.existsSync(outDirectory)) {
+            this.logger.logInfo(`Report output directory does not exist. Creating directory ${outDirectory}`);
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            this.fileSystemObj.mkdirSync(outDirectory);
+        }
     }
 }
