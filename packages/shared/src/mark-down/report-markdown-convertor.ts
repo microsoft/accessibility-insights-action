@@ -3,26 +3,28 @@
 
 import { inject, injectable } from 'inversify';
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import { BaselineInfo } from '../baseline-info';
-import { ResultOutputBuilder } from '../output/result-output-builder';
-import { MarkdownOutputFormatter } from './markdown-formatter';
+import { MarkdownOutputFormatter } from './markdown-output-formatter';
 import { OutputFormatter } from '../output/output-formatter';
+import { ResultOutputBuilder } from '../output/result-output-builder';
+import { BaselineInfo } from '../baseline-info';
+import { iocTypes } from '..';
 
 @injectable()
 export class ReportMarkdownConvertor {
-    private _resultOutputBuilder: ResultOutputBuilder;
+    private resultOutputBuilder: ResultOutputBuilder;
     constructor(
-        @inject('Factory<ResultOutputBuilder>') resultOutputBuilderFactory: (formatter: OutputFormatter) => ResultOutputBuilder,
+        @inject(iocTypes.ResultOutputBuilderFactory) resultOutputBuilderFactory: (formatter: OutputFormatter) => ResultOutputBuilder,
         @inject(MarkdownOutputFormatter) private readonly markdownOutputFormatter: MarkdownOutputFormatter,
     ) {
-        this._resultOutputBuilder = resultOutputBuilderFactory(this.markdownOutputFormatter);
+        this.resultOutputBuilder = resultOutputBuilderFactory(this.markdownOutputFormatter);
     }
 
     public convert(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
-        return this._resultOutputBuilder.buildContent(combinedReportResult, title, baselineInfo);
+        const addMargin = false;
+        return this.resultOutputBuilder.buildContent(combinedReportResult, title, baselineInfo, false);
     }
 
     public getErrorMarkdown(): string {
-        return this._resultOutputBuilder.buildErrorContent();
+        return this.resultOutputBuilder.buildErrorContent();
     }
 }

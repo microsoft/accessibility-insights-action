@@ -7,6 +7,7 @@ export { Scanner } from './scanner/scanner';
 export { iocTypes } from './ioc/ioc-types';
 export { ProgressReporter } from './progress-reporter/progress-reporter';
 export { ReportMarkdownConvertor } from './mark-down/report-markdown-convertor';
+export { ReportConsoleLogConvertor } from './console-log/report-console-log-convertor';
 export { checkRunDetailsTitle, checkRunName } from './content/strings';
 export { TaskConfig } from './task-config';
 export { BaselineInfo } from './baseline-info';

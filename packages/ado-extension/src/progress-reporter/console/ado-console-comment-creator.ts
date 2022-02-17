@@ -5,17 +5,18 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
 import { Logger } from '@accessibility-insights-action/shared';
 import * as fs from 'fs';
-import { ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { BaselineInfo } from '@accessibility-insights-action/shared';
+import { ReportConsoleLogConvertor, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 
 @injectable()
 export class AdoConsoleCommentCreator extends ProgressReporter {
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
+        @inject(ReportConsoleLogConvertor) private readonly reportConsoleLogConvertor: ReportConsoleLogConvertor,
         @inject(Logger) private readonly logger: Logger,
         @inject(ADOTaskConfig) private readonly taskConfig: ADOTaskConfig,
         private readonly fileSystemObj: typeof fs = fs,
@@ -62,8 +63,8 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     }
 
     private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
-        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+        const reportConsoleLogOutput = this.reportConsoleLogConvertor.convert(combinedReportResult, undefined, baselineInfo);
 
-        this.logger.logInfo(reportMarkdown);
+        this.logger.logInfo(reportConsoleLogOutput);
     }
 }

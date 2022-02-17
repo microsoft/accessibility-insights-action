@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { MarkdownOutputFormatter } from './markdown-formatter';
+import { MarkdownOutputFormatter } from './markdown-output-formatter';
 
 describe('MarkdownFormatter', () => {
     const testSubject = new MarkdownOutputFormatter();

@@ -14,6 +14,8 @@ import { iocTypes } from './ioc-types';
 import { setupCliContainer } from 'accessibility-insights-scan';
 import { ProgressReporter } from '../progress-reporter/progress-reporter';
 import { ArtifactsInfoProvider } from '../artifacts-info-provider';
+import { ResultOutputBuilder } from '../output/result-output-builder';
+import { OutputFormatter } from '../output/output-formatter';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     setupSharedIocContainer(container);
@@ -44,6 +46,13 @@ export function setupSharedIocContainer(container = new inversify.Container({ au
             return new Logger([consoleLoggerClient], context.container.get(iocTypes.Process));
         })
         .inSingletonScope();
+    container
+        .bind<inversify.interfaces.Factory<ResultOutputBuilder>>(iocTypes.ResultOutputBuilderFactory)
+        .toFactory((context) => (outputFormatter: OutputFormatter) => {
+            const resultOutputBuilder = context.container.get(ResultOutputBuilder);
+            resultOutputBuilder.setOutputFormatter(outputFormatter);
+            return resultOutputBuilder;
+        });
 
     return container;
 }

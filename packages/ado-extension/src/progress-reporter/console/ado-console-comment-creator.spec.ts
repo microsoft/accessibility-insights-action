@@ -8,11 +8,12 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as fs from 'fs';
 
-import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+import { Logger, ReportConsoleLogConvertor, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 
 describe(AdoConsoleCommentCreator, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let loggerMock: IMock<Logger>;
+    let reportConsoleLogConvertorMock: IMock<ReportConsoleLogConvertor>;
     let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
     let adoConsoleCommentCreator: AdoConsoleCommentCreator;
     let fsMock: IMock<typeof fs>;
@@ -22,7 +23,7 @@ describe(AdoConsoleCommentCreator, () => {
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
         loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
-        reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>(undefined, MockBehavior.Strict);
+        reportConsoleLogConvertorMock = Mock.ofType<ReportConsoleLogConvertor>(undefined, MockBehavior.Strict);
         fsMock = Mock.ofType<typeof fs>();
     });
 
@@ -58,7 +59,7 @@ describe(AdoConsoleCommentCreator, () => {
                 .returns(() => reportOutDir)
                 .verifiable(Times.once());
 
-            reportMarkdownConvertorMock
+            reportConsoleLogConvertorMock
                 .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
                 .returns(() => expectedLogOutput)
                 .verifiable(Times.exactly(2));
@@ -104,6 +105,7 @@ describe(AdoConsoleCommentCreator, () => {
         new AdoConsoleCommentCreator(
             adoTaskConfigMock.object,
             reportMarkdownConvertorMock.object,
+            reportConsoleLogConvertorMock.object,
             loggerMock.object,
             adoTaskConfigMock.object,
             fsMock.object,
@@ -112,7 +114,7 @@ describe(AdoConsoleCommentCreator, () => {
     const verifyAllMocks = () => {
         adoTaskConfigMock.verifyAll();
         loggerMock.verifyAll();
-        reportMarkdownConvertorMock.verifyAll();
+        reportConsoleLogConvertorMock.verifyAll();
         fsMock.verifyAll();
     };
 });

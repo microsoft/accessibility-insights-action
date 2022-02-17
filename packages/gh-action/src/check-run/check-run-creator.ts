@@ -11,7 +11,6 @@ import {
     ReportMarkdownConvertor,
     checkRunDetailsTitle,
     checkRunName,
-    disclaimerText,
 } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { GitHubIocTypes } from '../ioc/gh-ioc-types';
@@ -101,7 +100,7 @@ export class CheckRunCreator extends ProgressReporter {
                     conclusion: 'failure',
                     output: {
                         title: checkRunDetailsTitle,
-                        summary: disclaimerTextGenerator.generateDisclaimerText(),
+                        summary: this.disclaimerTextGenerator.generateDisclaimerText(),
                         annotations: [],
                         text: reportMarkdown,
                     },
@@ -116,7 +115,7 @@ export class CheckRunCreator extends ProgressReporter {
     private getScanOutput(text: string): UpdateCheckOutputParameter {
         return {
             title: checkRunDetailsTitle,
-            summary: disclaimerTextGenerator.generateDisclaimerText(),
+            summary: this.disclaimerTextGenerator.generateDisclaimerText(),
             text,
         };
     }

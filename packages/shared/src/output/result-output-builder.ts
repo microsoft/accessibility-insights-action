@@ -30,12 +30,18 @@ export class ResultOutputBuilder {
         return this.scanResultDetails(lines.join(''));
     }
 
-    public buildContent(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
+    public buildContent(
+        combinedReportResult: CombinedReportParameters,
+        title?: string,
+        baselineInfo?: BaselineInfo,
+        addMargin?: boolean,
+    ): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
 
         let lines = [
+            addMargin ? this.outputFormatter.sectionSeparator() : '',
             failedChecks === 0 ? this.headingWithMessage('All applicable checks passed') : this.headingWithMessage(),
             this.outputFormatter.sectionSeparator(),
             this.urlsListItem(
@@ -54,6 +60,7 @@ export class ResultOutputBuilder {
         // baselining is available
         if (baselineInfo !== undefined) {
             lines = [
+                addMargin ? this.outputFormatter.sectionSeparator() : '',
                 this.headingWithMessage(),
                 this.fixedFailureDetails(baselineInfo),
                 this.failureDetailsBaseline(combinedReportResult, baselineInfo),
@@ -83,7 +90,7 @@ export class ResultOutputBuilder {
             lines = [this.outputFormatter.heading(title, 3), this.outputFormatter.sectionSeparator()].concat(lines);
         }
 
-        return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult));
+        return this.scanResultDetails(lines.join(''), this.scanResultFooter(combinedReportResult, addMargin));
     }
 
     private headingWithMessage = (message?: string): string => {
@@ -368,12 +375,17 @@ export class ResultOutputBuilder {
         return lines.join('');
     }
 
-    private scanResultFooter(combinedReportResult: CombinedReportParameters): string {
+    private scanResultFooter(combinedReportResult: CombinedReportParameters, addMargin: boolean): string {
         const axeVersion = combinedReportResult.axeVersion;
         const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
         const axeLink = this.outputFormatter.link(axeCoreUrl, `axe-core ${axeVersion}`);
 
-        return `This scan used ${axeLink} with ${combinedReportResult.userAgent}.`;
+        const lines = [
+            `This scan used ${axeLink} with ${combinedReportResult.userAgent}.`,
+            addMargin ? this.outputFormatter.sectionSeparator() : '',
+        ];
+
+        return lines.join('');
     }
 
     private downloadArtifacts(): string {

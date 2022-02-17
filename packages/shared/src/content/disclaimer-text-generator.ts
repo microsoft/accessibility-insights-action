@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { inject, injectable } from 'inversify';
-import { MarkdownOutputFormatter } from '../mark-down/markdown-formatter';
+import { MarkdownOutputFormatter } from '../mark-down/markdown-output-formatter';
 import { toolName, webToolName } from './strings';
 
 @injectable()
