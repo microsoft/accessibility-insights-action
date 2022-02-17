@@ -2,19 +2,27 @@
 // Licensed under the MIT License.
 
 import { inject, injectable } from 'inversify';
-import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineInfo } from '../baseline-info';
+import { ResultOutputBuilder } from '../output/result-output-builder';
+import { MarkdownOutputFormatter } from './markdown-formatter';
+import { OutputFormatter } from '../output/output-formatter';
 
 @injectable()
 export class ReportMarkdownConvertor {
-    constructor(@inject(ResultMarkdownBuilder) private readonly checkResultMarkdownBuilder: ResultMarkdownBuilder) {}
+    private _resultOutputBuilder: ResultOutputBuilder;
+    constructor(
+        @inject('Factory<ResultOutputBuilder>') resultOutputBuilderFactory: (formatter: OutputFormatter) => ResultOutputBuilder,
+        @inject(MarkdownOutputFormatter) private readonly markdownOutputFormatter: MarkdownOutputFormatter,
+    ) {
+        this._resultOutputBuilder = resultOutputBuilderFactory(this.markdownOutputFormatter);
+    }
 
     public convert(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
-        return this.checkResultMarkdownBuilder.buildContent(combinedReportResult, title, baselineInfo);
+        return this._resultOutputBuilder.buildContent(combinedReportResult, title, baselineInfo);
     }
 
     public getErrorMarkdown(): string {
-        return this.checkResultMarkdownBuilder.buildErrorContent();
+        return this._resultOutputBuilder.buildErrorContent();
     }
 }

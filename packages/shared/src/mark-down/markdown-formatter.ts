@@ -1,40 +1,39 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { injectable } from 'inversify';
 import { brand, brandLogoImg, toolName } from '../content/strings';
-
-export const escaped = (markdown: string): string => {
-    return markdown.replace(/</g, '\\<');
-};
-
-export const snippet = (text: string): string => {
-    return `\`${text}\``;
-};
-
-export const link = (href: string, text: string): string => {
-    return `[${text}](${href})`;
-};
-
-export const image = (altText: string, src: string): string => {
-    return `![${altText}](${src})`;
-};
-
-export const listItem = (text: string): string => {
-    return `* ${text}`;
-};
-
-export const heading = (text: string, headingLevel: number): string => {
-    return `${'#'.repeat(headingLevel)} ${text}`;
-};
-
-export const bold = (text: string): string => {
-    return `**${text}**`;
-};
-
-export const productTitle = (): string => {
-    return `${image(`${brand}`, brandLogoImg)} ${toolName}`;
-};
-
-export const footerSeparator = (): string => `---`;
-
-export const sectionSeparator = (): string => '\n';
+import { OutputFormatter } from '../output/output-formatter';
+@injectable()
+export class MarkdownOutputFormatter implements OutputFormatter {
+    public escaped(text: string): string {
+        return text.replace(/</g, '\\<');
+    }
+    public snippet(text: string): string {
+        return `\`${text}\``;
+    }
+    public link(href: string, text: string): string {
+        return `[${text}](${href})`;
+    }
+    public image(altText: string, src: string): string {
+        return `![${altText}](${src})`;
+    }
+    public listItem(text: string): string {
+        return `* ${text}`;
+    }
+    public heading(text: string, headingLevel: number): string {
+        return `${'#'.repeat(headingLevel)} ${text}`;
+    }
+    public bold(text: string): string {
+        return `**${text}**`;
+    }
+    public productTitle(): string {
+        return `${this.image(`${brand}`, brandLogoImg)} ${toolName}`;
+    }
+    public footerSeparator(): string {
+        return `---`;
+    }
+    public sectionSeparator(): string {
+        return '\n';
+    }
+}

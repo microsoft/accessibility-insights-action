@@ -43,6 +43,7 @@ export class CheckRunCreator extends ProgressReporter {
         @inject(Octokit) private readonly octokit: Octokit,
         @inject(GitHubIocTypes.Github) private readonly githubObj: typeof github,
         @inject(Logger) private readonly logger: Logger,
+        @inject(DisclaimerTextGenerator) private readonly disclaimerTextGenerator: DisclaimerTextGenerator,
     ) {
         super();
     }
@@ -100,7 +101,7 @@ export class CheckRunCreator extends ProgressReporter {
                     conclusion: 'failure',
                     output: {
                         title: checkRunDetailsTitle,
-                        summary: disclaimerText,
+                        summary: disclaimerTextGenerator.generateDisclaimerText(),
                         annotations: [],
                         text: reportMarkdown,
                     },
@@ -115,7 +116,7 @@ export class CheckRunCreator extends ProgressReporter {
     private getScanOutput(text: string): UpdateCheckOutputParameter {
         return {
             title: checkRunDetailsTitle,
-            summary: disclaimerText,
+            summary: disclaimerTextGenerator.generateDisclaimerText(),
             text,
         };
     }
