@@ -4,7 +4,7 @@ import 'reflect-metadata';
 
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
-import { IMock, It, Mock, MockBehavior, Times } from 'typemoq';
+import { IMock, Mock, MockBehavior, Times } from 'typemoq';
 import {
     Logger,
     ReportMarkdownConvertor,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import { Mock, Times, IMock, MockBehavior, It } from 'typemoq';
+import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { AdoConsoleCommentCreator } from './ado-console-comment-creator';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
