@@ -16,7 +16,7 @@ export class ConsoleLogOutputFormatter implements OutputFormatter {
         return `${text}: ${href}`;
     }
     public image(altText: string, src: string): string {
-        return `![${altText}](${src})`;
+        return `Image: ${altText} (${src})`;
     }
     public listItem(text: string): string {
         return `* ${text}`;

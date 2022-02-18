@@ -12,9 +12,12 @@ import { iocTypes } from './ioc-types';
 import { setupSharedIocContainer, setupIocContainer } from './setup-ioc-container';
 import { TaskConfig } from '../task-config';
 import { ProgressReporter } from '../progress-reporter/progress-reporter';
+import { OutputFormatter, ResultOutputBuilder } from '..';
+import { IMock, Mock } from 'typemoq';
 
 describe(setupSharedIocContainer, () => {
     let testSubject: Container;
+    let outputFormatterMock: IMock<OutputFormatter>;
 
     beforeEach(() => {
         testSubject = setupIocContainer();
@@ -34,6 +37,15 @@ describe(setupSharedIocContainer, () => {
         { key: iocTypes.ProgressReporters, value: [ProgressReporter] },
     ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
         expect(testSubject.get(pair.key)).toEqual(pair.value);
+    });
+
+    test('verify factory resolution for ResultOutputBuilderFactory', () => {
+        outputFormatterMock = Mock.ofType<OutputFormatter>();
+        expect(testSubject.get(iocTypes.ResultOutputBuilderFactory)).toBeInstanceOf(Function);
+        const resultOutputFactory: (outputFormatter: OutputFormatter) => ResultOutputBuilder = testSubject.get(
+            iocTypes.ResultOutputBuilderFactory,
+        );
+        expect(resultOutputFactory(outputFormatterMock.object)).toBeInstanceOf(ResultOutputBuilder);
     });
 
     function verifySingletonDependencyResolution(container: Container, key: any): void {

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConsoleLogOutputFormatter bold 1`] = `"text"`;
+
+exports[`ConsoleLogOutputFormatter footerSeparator 1`] = `"----------------------------------------"`;
+
+exports[`ConsoleLogOutputFormatter heading 1`] = `"heading"`;
+
+exports[`ConsoleLogOutputFormatter image 1`] = `"Image: alt (src)"`;
+
+exports[`ConsoleLogOutputFormatter link 1`] = `"text: href"`;
+
+exports[`ConsoleLogOutputFormatter listItem 1`] = `"* li"`;
+
+exports[`ConsoleLogOutputFormatter productTitle 1`] = `"Accessibility Insights Action"`;
+
+exports[`ConsoleLogOutputFormatter sectionSeparator 1`] = `
+"
+"
+`;
+
+exports[`ConsoleLogOutputFormatter snippet 1`] = `"\`code\`"`;

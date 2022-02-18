@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DisclaimerTextGenerator generates disclaimer text 1`] = `
+"The Accessibility Insights Action runs a set of automated checks to help find some of the most common accessibility issues. The automated checks can detect accessibility problems such as missing or invalid properties, but most accessibility problems can only be discovered through manual testing.
+
+We recommend automated testing, to continuously protect against some common issues, and regular undefined using undefined, a free and open source tool that helps you assess your website or web app for undefined coverage."
+`;
