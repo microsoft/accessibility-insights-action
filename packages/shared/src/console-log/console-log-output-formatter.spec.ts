@@ -6,7 +6,7 @@ import { ConsoleLogOutputFormatter } from './console-log-output-formatter';
 describe('ConsoleLogOutputFormatter', () => {
     const testSubject = new ConsoleLogOutputFormatter();
     it('escaped', () => {
-        expect(testSubject.escaped('<img>')).toEqual('\\<img>');
+        expect(testSubject.escaped('<img>')).toEqual('<img>');
     });
 
     it('snippet', () => {
