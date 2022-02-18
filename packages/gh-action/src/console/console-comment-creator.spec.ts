@@ -1,28 +1,41 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import 'reflect-metadata';
-import { IMock, Mock } from 'typemoq';
-import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+import { IMock, Mock, MockBehavior } from 'typemoq';
+import {
+    ConsoleLogOutputFormatter,
+    Logger,
+    OutputFormatter,
+    ReportConsoleLogConvertor,
+    ResultOutputBuilder,
+} from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { ConsoleCommentCreator } from './console-comment-creator';
 
 describe(ConsoleCommentCreator, () => {
     let testSubject: ConsoleCommentCreator;
-    let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
+    let reportConsoleLogConvertorMock: IMock<ReportConsoleLogConvertor>;
     let loggerMock: IMock<Logger>;
+    let consoleLogOutputFormatterMock: IMock<ConsoleLogOutputFormatter>;
+    let resultOutputBuilderFactoryMock: IMock<(formatter: OutputFormatter) => ResultOutputBuilder>;
 
-    const markdownContent = 'test markdown content';
+    const consoleOutputContent = 'test console content';
     const combinedReportResult = { serviceName: 'combinedReportResult' } as CombinedReportParameters;
 
     beforeEach(() => {
-        reportMarkdownConvertorMock = Mock.ofType(ReportMarkdownConvertor);
+        resultOutputBuilderFactoryMock = Mock.ofType<(formatter: OutputFormatter) => ResultOutputBuilder>();
+        consoleLogOutputFormatterMock = Mock.ofType<ConsoleLogOutputFormatter>(undefined, MockBehavior.Strict);
+        reportConsoleLogConvertorMock = Mock.ofType2(ReportConsoleLogConvertor, [
+            resultOutputBuilderFactoryMock.object,
+            consoleLogOutputFormatterMock.object,
+        ]);
         loggerMock = Mock.ofType(Logger);
-        reportMarkdownConvertorMock.setup((a) => a.convert(combinedReportResult)).returns(() => markdownContent);
-        testSubject = new ConsoleCommentCreator(reportMarkdownConvertorMock.object, loggerMock.object);
+        reportConsoleLogConvertorMock.setup((a) => a.convert(combinedReportResult)).returns(() => consoleOutputContent);
+        testSubject = new ConsoleCommentCreator(reportConsoleLogConvertorMock.object, loggerMock.object);
     });
 
     afterEach(() => {
-        reportMarkdownConvertorMock.verifyAll();
+        reportConsoleLogConvertorMock.verifyAll();
         loggerMock.verifyAll();
     });
 
@@ -46,8 +59,8 @@ describe(ConsoleCommentCreator, () => {
     describe('completeRun', () => {
         it('logs the markdown content', async () => {
             loggerMock
-                .setup((a) => a.logInfo(markdownContent))
-                .returns(() => markdownContent)
+                .setup((a) => a.logInfo(consoleOutputContent))
+                .returns(() => consoleOutputContent)
                 .verifiable();
             await testSubject.completeRun(combinedReportResult);
         });

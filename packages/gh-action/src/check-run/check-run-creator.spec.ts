@@ -4,10 +4,18 @@ import 'reflect-metadata';
 
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
-import { IMock, Mock, Times } from 'typemoq';
-import { Logger, ReportMarkdownConvertor, checkRunDetailsTitle, disclaimerText } from '@accessibility-insights-action/shared';
+import { IMock, It, Mock, MockBehavior, Times } from 'typemoq';
+import {
+    Logger,
+    ReportMarkdownConvertor,
+    checkRunDetailsTitle,
+    OutputFormatter,
+    ResultOutputBuilder,
+} from '@accessibility-insights-action/shared';
 import { CheckRunCreator } from './check-run-creator';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { DisclaimerTextGenerator } from '@accessibility-insights-action/shared/src/content/disclaimer-text-generator';
+import { MarkdownOutputFormatter } from '@accessibility-insights-action/shared/dist/mark-down/markdown-output-formatter';
 
 type CreateCheckParams = RestEndpointMethodTypes['checks']['create']['parameters'];
 type CreateCheckResponse = RestEndpointMethodTypes['checks']['create']['response'];
@@ -21,12 +29,15 @@ describe(CheckRunCreator, () => {
     let octokitStub: Octokit;
     let createCheckMock: IMock<CreateCheck>;
     let updateCheckMock: IMock<UpdateCheck>;
+    let disclaimerTextGeneratorMock: IMock<DisclaimerTextGenerator>;
     let checkRunCreator: CheckRunCreator;
     let githubStub: typeof github;
     let checkStub: CreateCheckResponse['data'];
-    let convertorMock: IMock<ReportMarkdownConvertor>;
+    let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
     let loggerMock: IMock<Logger>;
     let sha: string;
+    let markdownOutputFormatterMock: IMock<MarkdownOutputFormatter>;
+    let resultOutputBuilderFactoryMock: IMock<(formatter: OutputFormatter) => ResultOutputBuilder>;
 
     const owner = 'owner';
     const repo = 'repo';
@@ -35,7 +46,13 @@ describe(CheckRunCreator, () => {
 
     beforeEach(() => {
         sha = 'sha';
-        convertorMock = Mock.ofType(ReportMarkdownConvertor);
+        resultOutputBuilderFactoryMock = Mock.ofType<(formatter: OutputFormatter) => ResultOutputBuilder>();
+        markdownOutputFormatterMock = Mock.ofType<OutputFormatter>(undefined, MockBehavior.Strict);
+
+        reportMarkdownConvertorMock = Mock.ofType2(ReportMarkdownConvertor, [
+            resultOutputBuilderFactoryMock.object,
+            markdownOutputFormatterMock.object,
+        ]);
         loggerMock = Mock.ofType(Logger);
         createCheckMock = Mock.ofInstance(() => {
             return null;
@@ -43,6 +60,7 @@ describe(CheckRunCreator, () => {
         updateCheckMock = Mock.ofInstance(() => {
             return null;
         });
+        disclaimerTextGeneratorMock = Mock.ofType<DisclaimerTextGenerator>();
 
         octokitStub = {
             checks: {
@@ -64,11 +82,17 @@ describe(CheckRunCreator, () => {
             id: 1234,
         } as CreateCheckResponse['data'];
 
-        checkRunCreator = new CheckRunCreator(convertorMock.object, octokitStub, githubStub, loggerMock.object);
+        checkRunCreator = new CheckRunCreator(
+            reportMarkdownConvertorMock.object,
+            octokitStub,
+            githubStub,
+            loggerMock.object,
+            disclaimerTextGeneratorMock.object,
+        );
     });
 
     afterEach(() => {
-        convertorMock.verifyAll();
+        reportMarkdownConvertorMock.verifyAll();
         createCheckMock.verifyAll();
         updateCheckMock.verifyAll();
     });
@@ -108,14 +132,14 @@ describe(CheckRunCreator, () => {
             conclusion: 'failure',
             output: {
                 title: checkRunDetailsTitle,
-                summary: disclaimerText,
+                summary: disclaimerTextGeneratorMock.object.getDisclaimerText(),
                 annotations: [],
                 text: stubErrorMarkdown,
             },
         };
 
         setupMocksForCreateCheck();
-        convertorMock
+        reportMarkdownConvertorMock
             .setup((cm) => cm.getErrorMarkdown())
             .returns(() => stubErrorMarkdown)
             .verifiable(Times.once());
@@ -133,10 +157,13 @@ describe(CheckRunCreator, () => {
                 },
             },
         } as CombinedReportParameters;
+
+        disclaimerTextGeneratorMock.setup((dtg) => dtg.getDisclaimerText()).returns(() => 'disclaimer');
         const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, combinedReportResult);
 
         setupMocksForCreateCheck();
-        convertorMock
+
+        reportMarkdownConvertorMock
             .setup((cm) => cm.convert(combinedReportResult))
             .returns(() => markdown)
             .verifiable(Times.once());
@@ -157,7 +184,7 @@ describe(CheckRunCreator, () => {
 
         const expectedUpdateParam: UpdateCheckParams = getExpectedUpdateParam(markdown, combinedReportResult);
         setupMocksForCreateCheck();
-        convertorMock
+        reportMarkdownConvertorMock
             .setup((cm) => cm.convert(combinedReportResult))
             .returns(() => markdown)
             .verifiable(Times.once());
@@ -177,7 +204,7 @@ describe(CheckRunCreator, () => {
             conclusion: combinedReportResult.results.urlResults.failedUrls > 0 ? 'failure' : 'success',
             output: {
                 title: checkRunDetailsTitle,
-                summary: disclaimerText,
+                summary: disclaimerTextGeneratorMock.object.getDisclaimerText(),
                 text: markdown,
             },
         };

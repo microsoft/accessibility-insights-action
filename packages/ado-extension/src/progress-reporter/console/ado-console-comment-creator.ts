@@ -18,7 +18,6 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(ReportConsoleLogConvertor) private readonly reportConsoleLogConvertor: ReportConsoleLogConvertor,
         @inject(Logger) private readonly logger: Logger,
-        @inject(ADOTaskConfig) private readonly taskConfig: ADOTaskConfig,
         private readonly fileSystemObj: typeof fs = fs,
     ) {
         super();
@@ -54,7 +53,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     private outputResultsMarkdownToBuildSummary(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
         const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
 
-        const outDirectory = this.taskConfig.getReportOutDir();
+        const outDirectory = this.adoTaskConfig.getReportOutDir();
         const fileName = `${outDirectory}/results.md`;
 
         // eslint-disable-next-line security/detect-non-literal-fs-filename

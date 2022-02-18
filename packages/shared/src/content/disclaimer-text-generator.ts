@@ -19,7 +19,7 @@ export class DisclaimerTextGenerator {
         'WCAG 2.1 AA',
     );
 
-    public generateDisclaimerText(): string {
+    public getDisclaimerText(): string {
         return `The ${toolName} runs a set of automated checks to help find some of the most common accessibility issues. The automated checks can detect accessibility problems such as missing or invalid properties, but most accessibility problems can only be discovered through manual testing.\n\nWe recommend automated testing, to continuously protect against some common issues, and regular ${this.assessmentLink} using ${this.webToolLink}, a free and open source tool that helps you assess your website or web app for ${this.wcag21AALink} coverage.`;
     }
 }

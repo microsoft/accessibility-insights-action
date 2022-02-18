@@ -14,6 +14,7 @@ import {
 } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { GitHubIocTypes } from '../ioc/gh-ioc-types';
+import { DisclaimerTextGenerator } from '@accessibility-insights-action/shared/src/content/disclaimer-text-generator';
 
 // Pulling these types from RestEndpointMethodTypes would be better, but we can't do so until
 // https://github.com/octokit/rest.js/issues/2000 is resolved. The better versions would be:
@@ -100,7 +101,7 @@ export class CheckRunCreator extends ProgressReporter {
                     conclusion: 'failure',
                     output: {
                         title: checkRunDetailsTitle,
-                        summary: this.disclaimerTextGenerator.generateDisclaimerText(),
+                        summary: this.disclaimerTextGenerator.getDisclaimerText(),
                         annotations: [],
                         text: reportMarkdown,
                     },
@@ -115,7 +116,7 @@ export class CheckRunCreator extends ProgressReporter {
     private getScanOutput(text: string): UpdateCheckOutputParameter {
         return {
             title: checkRunDetailsTitle,
-            summary: this.disclaimerTextGenerator.generateDisclaimerText(),
+            summary: this.disclaimerTextGenerator.getDisclaimerText(),
             text,
         };
     }

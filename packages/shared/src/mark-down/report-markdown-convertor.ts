@@ -21,7 +21,7 @@ export class ReportMarkdownConvertor {
 
     public convert(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
         const addMargin = false;
-        return this.resultOutputBuilder.buildContent(combinedReportResult, title, baselineInfo, false);
+        return this.resultOutputBuilder.buildContent(combinedReportResult, title, baselineInfo, addMargin);
     }
 
     public getErrorMarkdown(): string {

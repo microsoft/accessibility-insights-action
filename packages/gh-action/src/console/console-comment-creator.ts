@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { inject, injectable } from 'inversify';
-import { Logger, ProgressReporter, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+import { Logger, ProgressReporter, ReportConsoleLogConvertor } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 @injectable()
@@ -10,7 +10,7 @@ export class ConsoleCommentCreator extends ProgressReporter {
     private scanSucceeded = true;
 
     constructor(
-        @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
+        @inject(ReportConsoleLogConvertor) private readonly reportConsoleLogConvertor: ReportConsoleLogConvertor,
         @inject(Logger) private readonly logger: Logger,
     ) {
         super();
@@ -23,8 +23,8 @@ export class ConsoleCommentCreator extends ProgressReporter {
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters): Promise<void> {
-        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult);
-        this.logger.logInfo(reportMarkdown);
+        const consoleOutput = this.reportConsoleLogConvertor.convert(combinedReportResult);
+        this.logger.logInfo(consoleOutput);
         return Promise.resolve();
     }
 
