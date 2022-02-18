@@ -86,6 +86,7 @@ describe(AdoConsoleCommentCreator, () => {
 
             loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
             fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();
 
             adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();

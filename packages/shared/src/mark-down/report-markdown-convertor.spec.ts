@@ -1,68 +1,76 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// import 'reflect-metadata';
+import 'reflect-metadata';
 
-// import { IMock, Mock } from 'typemoq';
-// import { ReportMarkdownConvertor } from './report-markdown-convertor';
-// import { ResultMarkdownBuilder } from './result-markdown-builder';
-// import { CombinedReportParameters } from 'accessibility-insights-report';
-// import { BaselineEvaluation } from 'accessibility-insights-scan';
+import { IMock, Mock } from 'typemoq';
+import { ReportMarkdownConvertor } from './report-markdown-convertor';
+import { CombinedReportParameters } from 'accessibility-insights-report';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
+import { OutputFormatter } from '../output/output-formatter';
+import { ResultOutputBuilder } from '../output/result-output-builder';
+import { MarkdownOutputFormatter } from './markdown-output-formatter';
 
-// describe(ReportMarkdownConvertor, () => {
-//     let resultMarkdownBuilderMock: IMock<ResultMarkdownBuilder>;
-//     let reportMarkdownConvertor: ReportMarkdownConvertor;
-//     let combinedReportResult: CombinedReportParameters;
+describe(ReportMarkdownConvertor, () => {
+    let reportMarkdownConvertor: ReportMarkdownConvertor;
+    let combinedReportResult: CombinedReportParameters;
+    let resultOutputBuilderFactoryMock: IMock<(formatter: OutputFormatter) => ResultOutputBuilder>;
+    let markdownOutputFormatterMock: IMock<MarkdownOutputFormatter>;
+    let resultOutputBuilderMock: IMock<ResultOutputBuilder>;
 
-//     beforeEach(() => {
-//         resultMarkdownBuilderMock = Mock.ofType(ResultMarkdownBuilder);
-//         combinedReportResult = {
-//             results: {
-//                 urlResults: {
-//                     failedUrls: 3,
-//                     passedUrls: 5,
-//                 },
-//             },
-//         } as CombinedReportParameters;
+    beforeEach(() => {
+        resultOutputBuilderFactoryMock = Mock.ofType<(formatter: OutputFormatter) => ResultOutputBuilder>();
+        markdownOutputFormatterMock = Mock.ofType<OutputFormatter>();
+        resultOutputBuilderMock = Mock.ofType<ResultOutputBuilder>();
+        combinedReportResult = {
+            results: {
+                urlResults: {
+                    failedUrls: 3,
+                    passedUrls: 5,
+                },
+            },
+        } as CombinedReportParameters;
 
-//         reportMarkdownConvertor = new ReportMarkdownConvertor(resultMarkdownBuilderMock.object);
-//     });
+        resultOutputBuilderFactoryMock.setup((o) => o(markdownOutputFormatterMock.object)).returns(() => resultOutputBuilderMock.object);
 
-//     afterEach(() => {
-//         resultMarkdownBuilderMock.verifyAll();
-//     });
+        reportMarkdownConvertor = new ReportMarkdownConvertor(resultOutputBuilderFactoryMock.object, markdownOutputFormatterMock.object);
+    });
 
-//     it('should create instance', () => {
-//         expect(reportMarkdownConvertor).not.toBeNull();
-//     });
+    afterEach(() => {
+        resultOutputBuilderMock.verifyAll();
+    });
 
-//     describe('convert', () => {
-//         it('report', () => {
-//             resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined)).verifiable();
+    it('should create instance', () => {
+        expect(reportMarkdownConvertor).not.toBeNull();
+    });
 
-//             reportMarkdownConvertor.convert(combinedReportResult);
-//         });
+    describe('convert', () => {
+        it('report', () => {
+            resultOutputBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined, false)).verifiable();
 
-//         it('report with title', () => {
-//             const title = 'some title';
-//             resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined)).verifiable();
+            reportMarkdownConvertor.convert(combinedReportResult);
+        });
 
-//             reportMarkdownConvertor.convert(combinedReportResult, title);
-//         });
+        it('report with title', () => {
+            const title = 'some title';
+            resultOutputBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined, false)).verifiable();
 
-//         it('report with baseline', () => {
-//             const baselineInfo = {
-//                 baselineFileName: 'some filename',
-//                 baselineEvaluationStub: {} as BaselineEvaluation,
-//             };
-//             resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, baselineInfo)).verifiable();
+            reportMarkdownConvertor.convert(combinedReportResult, title);
+        });
 
-//             reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
-//         });
-//     });
+        it('report with baseline', () => {
+            const baselineInfo = {
+                baselineFileName: 'some filename',
+                baselineEvaluationStub: {} as BaselineEvaluation,
+            };
+            resultOutputBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, baselineInfo, false)).verifiable();
 
-//     it('get error markdown', () => {
-//         resultMarkdownBuilderMock.setup((o) => o.buildErrorContent()).verifiable();
+            reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+        });
+    });
 
-//         reportMarkdownConvertor.getErrorMarkdown();
-//     });
-// });
+    it('get error markdown', () => {
+        resultOutputBuilderMock.setup((o) => o.buildErrorContent()).verifiable();
+
+        reportMarkdownConvertor.getErrorMarkdown();
+    });
+});

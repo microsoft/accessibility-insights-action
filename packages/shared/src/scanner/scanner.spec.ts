@@ -27,6 +27,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { TaskConfig } from '../task-config';
 import * as fs from 'fs';
 
+/* eslint-disable security/detect-non-literal-fs-filename */
 describe(Scanner, () => {
     let aiCrawlerMock: IMock<AICrawler>;
     let reportGeneratorMock: IMock<ConsolidatedReportGenerator>;

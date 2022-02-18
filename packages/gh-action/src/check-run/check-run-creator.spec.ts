@@ -47,7 +47,7 @@ describe(CheckRunCreator, () => {
     beforeEach(() => {
         sha = 'sha';
         resultOutputBuilderFactoryMock = Mock.ofType<(formatter: OutputFormatter) => ResultOutputBuilder>();
-        markdownOutputFormatterMock = Mock.ofType<OutputFormatter>(undefined, MockBehavior.Strict);
+        markdownOutputFormatterMock = Mock.ofType<MarkdownOutputFormatter>(undefined, MockBehavior.Strict);
 
         reportMarkdownConvertorMock = Mock.ofType2(ReportMarkdownConvertor, [
             resultOutputBuilderFactoryMock.object,

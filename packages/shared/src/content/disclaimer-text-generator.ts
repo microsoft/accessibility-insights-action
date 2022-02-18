@@ -13,6 +13,7 @@ export class DisclaimerTextGenerator {
         'https://accessibilityinsights.io/docs/en/web/getstarted/assessment',
         'Assessments',
     );
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     private webToolLink = this.markdownOutputFormatter.link('https://accessibilityinsights.io/docs/en/web/overview', webToolName);
     private wcag21AALink = this.markdownOutputFormatter.link(
         'https://www.w3.org/WAI/WCAG21/quickref/?currentsidebar=%23col_customize&levels=aaa',

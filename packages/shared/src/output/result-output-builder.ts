@@ -10,6 +10,7 @@ import { brand } from '../content/strings';
 import { iocTypes } from '../ioc/ioc-types';
 import { OutputFormatter } from './output-formatter';
 
+/* eslint-disable security/detect-non-literal-fs-filename */
 @injectable()
 export class ResultOutputBuilder {
     private outputFormatter: OutputFormatter;

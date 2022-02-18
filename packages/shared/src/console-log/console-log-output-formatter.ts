@@ -21,6 +21,7 @@ export class ConsoleLogOutputFormatter implements OutputFormatter {
     public listItem(text: string): string {
         return `* ${text}`;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public heading(text: string, headingLevel: number): string {
         return text;
     }
