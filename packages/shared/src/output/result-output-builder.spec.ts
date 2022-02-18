@@ -344,25 +344,6 @@ describe(ResultOutputBuilder, () => {
         } as CombinedReportParameters;
     };
 
-    // function setupOutputFormatterMock(): void {
-    //     outputFormatterMock.setup((o) => o.escaped(It.isAnyString())).returns((s: string) => `escaped-${s}`);
-    //     outputFormatterMock.setup((o) => o.snippet(It.isAnyString())).returns((s: string) => `snippet-${s}`);
-    //     outputFormatterMock
-    //         .setup((o) => o.link(It.isAnyString(), It.isAnyString()))
-    //         .returns((url: string, text: string) => `link-${url}-${text}`);
-    //     outputFormatterMock
-    //         .setup((o) => o.image(It.isAnyString(), It.isAnyString()))
-    //         .returns((alt: string, src: string) => `image-${alt}-${src}`);
-    //     outputFormatterMock.setup((o) => o.listItem(It.isAnyString())).returns((s: string) => `listItem-${s}`);
-    //     outputFormatterMock
-    //         .setup((o) => o.heading(It.isAnyString(), It.isAnyNumber()))
-    //         .returns((s: string, n: number) => `heading-${s}-${n.toString()}`);
-    //     outputFormatterMock.setup((o) => o.bold(It.isAnyString())).returns((s: string) => `bold-${s}`);
-    //     outputFormatterMock.setup((o) => o.productTitle()).returns(() => 'productTitle');
-    //     outputFormatterMock.setup((o) => o.footerSeparator()).returns(() => 'footerSeparator');
-    //     outputFormatterMock.setup((o) => o.sectionSeparator()).returns(() => 'sectionSeparator');
-    // }
-
     function createMarkdownFormatterResultsOutputBuilder(): ResultOutputBuilder {
         const artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
         artifactsInfoProviderMock.setup((aip) => aip.getArtifactsUrl()).returns(() => 'artifacts-url');
