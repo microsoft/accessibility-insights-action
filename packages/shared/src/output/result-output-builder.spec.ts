@@ -347,16 +347,14 @@ describe(ResultOutputBuilder, () => {
     function createMarkdownFormatterResultsOutputBuilder(): ResultOutputBuilder {
         const artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
         artifactsInfoProviderMock.setup((aip) => aip.getArtifactsUrl()).returns(() => 'artifacts-url');
-        markdownFormatterResultOutputBuilder = new ResultOutputBuilder(artifactsInfoProviderMock.object);
-        markdownFormatterResultOutputBuilder.setOutputFormatter(new MarkdownOutputFormatter());
+        markdownFormatterResultOutputBuilder = new ResultOutputBuilder(artifactsInfoProviderMock.object, new MarkdownOutputFormatter());
         return markdownFormatterResultOutputBuilder;
     }
 
     function createConsoleFormatterResultsOutputBuilder(): ResultOutputBuilder {
         const artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
         artifactsInfoProviderMock.setup((aip) => aip.getArtifactsUrl()).returns(() => 'artifacts-url');
-        consoleFormatterResultOutputBuilder = new ResultOutputBuilder(artifactsInfoProviderMock.object);
-        consoleFormatterResultOutputBuilder.setOutputFormatter(new ConsoleLogOutputFormatter());
+        consoleFormatterResultOutputBuilder = new ResultOutputBuilder(artifactsInfoProviderMock.object, new ConsoleLogOutputFormatter());
         return consoleFormatterResultOutputBuilder;
     }
 });

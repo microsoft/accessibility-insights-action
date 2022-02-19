@@ -46,13 +46,15 @@ export function setupSharedIocContainer(container = new inversify.Container({ au
             return new Logger([consoleLoggerClient], context.container.get(iocTypes.Process));
         })
         .inSingletonScope();
+
     container
-        .bind<inversify.interfaces.Factory<ResultOutputBuilder>>(iocTypes.ResultOutputBuilderFactory)
-        .toFactory((context) => (outputFormatter: OutputFormatter) => {
-            const resultOutputBuilder = context.container.get(ResultOutputBuilder);
-            resultOutputBuilder.setOutputFormatter(outputFormatter);
-            return resultOutputBuilder;
-        });
+        .bind(iocTypes.ResultOutputBuilderFactory)
+        .toDynamicValue((context) => {
+            return (outputFormatter: OutputFormatter) => {
+                return new ResultOutputBuilder(context.container.get(iocTypes.ArtifactsInfoProvider), outputFormatter);
+            };
+        })
+        .inSingletonScope();
 
     return container;
 }

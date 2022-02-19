@@ -13,12 +13,10 @@ import { OutputFormatter } from './output-formatter';
 /* eslint-disable security/detect-non-literal-fs-filename */
 @injectable()
 export class ResultOutputBuilder {
-    private outputFormatter: OutputFormatter;
-    constructor(@inject(iocTypes.ArtifactsInfoProvider) private readonly artifactsInfoProvider: ArtifactsInfoProvider) {}
-
-    public setOutputFormatter(outputFormatter: OutputFormatter): void {
-        this.outputFormatter = outputFormatter;
-    }
+    constructor(
+        @inject(iocTypes.ArtifactsInfoProvider) private readonly artifactsInfoProvider: ArtifactsInfoProvider,
+        private readonly outputFormatter: OutputFormatter,
+    ) {}
 
     public buildErrorContent(): string {
         const lines = [
