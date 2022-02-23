@@ -9493,7 +9493,7 @@ shell-quote@^1.6.1:
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.2.tgz#67a7d02c76c9da24f99d20808fcaded0e0e04be2"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
 
-shelljs@^0.5.1, shelljs@^0.8.5:
+shelljs@^0.8.5:
   version "0.8.5"
   resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.5.tgz#de055408d8361bed66c669d2f000538ced8ee20c"
   integrity sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==
@@ -10133,10 +10133,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-tfx-cli@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/tfx-cli/-/tfx-cli-0.10.0.tgz#9892d38d445fcb814996637daf66a3a15fb09a75"
-  integrity sha512-8Uwtw+VMoFjEKkq2e71afvATdNPanLeYwzozibdfVKbAH93PR4hA8L7B1GAd2HCk4k0Jr1SUE9NclxQ38oN1aQ==
+tfx-cli@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/tfx-cli/-/tfx-cli-0.11.0.tgz#9e8d736b8fab1f4697e013b7f285a77e91a9064a"
+  integrity sha512-2dFEjwsKz7HZDhnCXlIzUCTnYyFGd7YYCoG5m1SEcemcg4BFt5DW1gge+qUc7cWZpAXdLhN6XJR42vPncJqn3A==
   dependencies:
     app-root-path "1.0.0"
     archiver "2.0.3"
@@ -10150,17 +10150,17 @@ tfx-cli@^0.10.0:
     jszip "^3.7.1"
     lodash "^4.17.21"
     minimist "^1.2.5"
-    mkdirp "^0.5.1"
+    mkdirp "^1.0.4"
     onecolor "^2.5.0"
     os-homedir "^1.0.1"
     prompt "^1.2.0"
     read "^1.0.6"
-    shelljs "^0.5.1"
+    shelljs "^0.8.5"
     tmp "0.0.26"
     tracer "0.7.4"
     util.promisify "^1.0.0"
     uuid "^3.0.1"
-    validator "^3.43.0"
+    validator "^13.7.0"
     winreg "0.0.12"
     xml2js "^0.4.16"
 
@@ -10640,10 +10640,10 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
-validator@^3.43.0:
-  version "3.43.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-3.43.0.tgz#96464b992d4196833d97a194bf40b19ff54bae05"
-  integrity sha1-lkZLmS1BloM9l6GUv0Cxn/VLrgU=
+validator@^13.7.0:
+  version "13.7.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
+  integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"
