@@ -28,12 +28,12 @@
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
     "devDependencies": {
         "@types/mocha": "9.1.0",
-        "mocha": "9.2.0",
+        "mocha": "9.2.1",
         "tfx-cli": "^0.10.0"
     },
     "dependencies": {
         "reflect-metadata": "^0.1.13",
-        "azure-pipelines-task-lib": "^3.1.10",
+        "azure-pipelines-task-lib": "^3.2.0",
         "@accessibility-insights-action/shared": "^1.0.0"
     }
 }
