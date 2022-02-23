@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "reflect-metadata": "^0.1.13",
-        "azure-pipelines-task-lib": "^3.1.10",
+        "azure-pipelines-task-lib": "^3.2.0",
         "@accessibility-insights-action/shared": "^1.0.0"
     }
 }
