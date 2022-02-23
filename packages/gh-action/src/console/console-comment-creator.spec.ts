@@ -2,27 +2,27 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 import { IMock, Mock } from 'typemoq';
-import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+import { Logger, ReportConsoleLogConvertor } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { ConsoleCommentCreator } from './console-comment-creator';
 
 describe(ConsoleCommentCreator, () => {
     let testSubject: ConsoleCommentCreator;
-    let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
+    let reportConsoleLogConvertorMock: IMock<ReportConsoleLogConvertor>;
     let loggerMock: IMock<Logger>;
 
     const markdownContent = 'test markdown content';
     const combinedReportResult = { serviceName: 'combinedReportResult' } as CombinedReportParameters;
 
     beforeEach(() => {
-        reportMarkdownConvertorMock = Mock.ofType(ReportMarkdownConvertor);
+        reportConsoleLogConvertorMock = Mock.ofType(ReportConsoleLogConvertor);
         loggerMock = Mock.ofType(Logger);
-        reportMarkdownConvertorMock.setup((a) => a.convert(combinedReportResult)).returns(() => markdownContent);
-        testSubject = new ConsoleCommentCreator(reportMarkdownConvertorMock.object, loggerMock.object);
+        reportConsoleLogConvertorMock.setup((a) => a.convert(combinedReportResult)).returns(() => markdownContent);
+        testSubject = new ConsoleCommentCreator(reportConsoleLogConvertorMock.object, loggerMock.object);
     });
 
     afterEach(() => {
-        reportMarkdownConvertorMock.verifyAll();
+        reportConsoleLogConvertorMock.verifyAll();
         loggerMock.verifyAll();
     });
 
@@ -44,7 +44,7 @@ describe(ConsoleCommentCreator, () => {
     });
 
     describe('completeRun', () => {
-        it('logs the markdown content', async () => {
+        it('logs the console content', async () => {
             loggerMock
                 .setup((a) => a.logInfo(markdownContent))
                 .returns(() => markdownContent)

@@ -2,5 +2,9 @@
     {
         "name": "url",
         "value": "https://markreay.github.io/AU/before.html"
+    },
+    {
+        "name": "failOnAccessibilityError",
+        "value": false
     }
 ]

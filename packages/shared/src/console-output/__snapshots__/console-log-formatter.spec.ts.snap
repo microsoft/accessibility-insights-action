@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConsoleLogFormatter footerSeparator 1`] = `"-------------------"`;
+
+exports[`ConsoleLogFormatter link 1`] = `"text (href)"`;
+
+exports[`ConsoleLogFormatter listItem 1`] = `"* li"`;
+
+exports[`ConsoleLogFormatter productTitle 1`] = `"Accessibility Insights"`;
+
+exports[`ConsoleLogFormatter sectionSeparator 1`] = `
+"
+"
+`;

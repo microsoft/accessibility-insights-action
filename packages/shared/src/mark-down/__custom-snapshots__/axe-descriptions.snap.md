@@ -1,4 +1,4 @@
-### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action
+### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 * **URLs**: 1 URL(s) failed, 1 URL(s) passed, and 1 were not scannable
 * **Rules**: 96 check(s) failed, 1 check(s) passed, and 2 were not applicable
 * Download the **Accessibility Insights artifact** to view the detailed results of these checks

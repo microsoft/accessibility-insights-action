@@ -8,12 +8,13 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as fs from 'fs';
 
-import { Logger, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+import { Logger, ReportConsoleLogConvertor, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 
 describe(AdoConsoleCommentCreator, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let loggerMock: IMock<Logger>;
     let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
+    let reportConsoleLogConvertorMock: IMock<ReportConsoleLogConvertor>;
     let adoConsoleCommentCreator: AdoConsoleCommentCreator;
     let fsMock: IMock<typeof fs>;
     const reportOutDir = 'reportOutDir';
@@ -23,6 +24,7 @@ describe(AdoConsoleCommentCreator, () => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
         loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
         reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>(undefined, MockBehavior.Strict);
+        reportConsoleLogConvertorMock = Mock.ofType<ReportConsoleLogConvertor>(undefined, MockBehavior.Strict);
         fsMock = Mock.ofType<typeof fs>();
     });
 
@@ -61,7 +63,12 @@ describe(AdoConsoleCommentCreator, () => {
             reportMarkdownConvertorMock
                 .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
                 .returns(() => expectedLogOutput)
-                .verifiable(Times.exactly(2));
+                .verifiable(Times.once());
+
+            reportConsoleLogConvertorMock
+                .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
+                .returns(() => expectedLogOutput)
+                .verifiable(Times.once());
 
             loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
@@ -104,6 +111,7 @@ describe(AdoConsoleCommentCreator, () => {
         new AdoConsoleCommentCreator(
             adoTaskConfigMock.object,
             reportMarkdownConvertorMock.object,
+            reportConsoleLogConvertorMock.object,
             loggerMock.object,
             adoTaskConfigMock.object,
             fsMock.object,
@@ -113,6 +121,7 @@ describe(AdoConsoleCommentCreator, () => {
         adoTaskConfigMock.verifyAll();
         loggerMock.verifyAll();
         reportMarkdownConvertorMock.verifyAll();
+        reportConsoleLogConvertorMock.verifyAll();
         fsMock.verifyAll();
     };
 });
