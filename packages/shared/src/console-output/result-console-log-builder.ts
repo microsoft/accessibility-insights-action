@@ -49,6 +49,7 @@ export class ResultConsoleLogBuilder {
         // baselining is available
         if (baselineInfo !== undefined) {
             lines = [
+                sectionSeparator(),
                 this.headingWithMessage(),
                 this.fixedFailureDetails(baselineInfo),
                 this.failureDetailsBaseline(combinedReportResult, baselineInfo),
@@ -322,7 +323,9 @@ export class ResultConsoleLogBuilder {
         const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
         const axeLink = link(axeCoreUrl, `axe-core ${axeVersion}`);
 
-        return `This scan used ${axeLink} with ${combinedReportResult.userAgent}.`;
+        const lines = [`This scan used ${axeLink} with ${combinedReportResult.userAgent}.`, sectionSeparator()];
+
+        return lines.join('');
     }
 
     private downloadArtifacts(): string {

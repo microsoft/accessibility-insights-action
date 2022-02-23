@@ -10,7 +10,8 @@ Failed instances
 * 1 × rule id 2:  rule description 2
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder builds content with no failures 1`] = `
@@ -19,7 +20,8 @@ exports[`ResultConsoleLogBuilder builds content with no failures 1`] = `
 * Rules: 1 check(s) passed, and 2 were not applicable
 * Download the Accessibility Insights artifact to view the detailed results of these checks
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder builds content with title 1`] = `
@@ -29,7 +31,8 @@ Accessibility Insights: All applicable checks passed
 * Rules: 1 check(s) passed, and 2 were not applicable
 * Download the Accessibility Insights artifact to view the detailed results of these checks
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder builds error content 1`] = `
@@ -41,7 +44,8 @@ You can review the log to troubleshoot the issue. Fix it and re-run the pipeline
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures) 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 No new failures
 No failures were detected by automatic scanning except those which exist in the baseline.
@@ -59,11 +63,13 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 4 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when some baseline failures have been fixed and some new ones have been introduced 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 3 failure instances from baseline no longer exist:
 * (2) rule id
 * (1) rule id 2
@@ -82,11 +88,13 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 4 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when some baseline failures have been fixed and some still occur 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 3 failure instances from baseline no longer exist:
 * (2) rule id
 * (1) rule id 2
@@ -104,11 +112,13 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 4 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when there are baseline failures and new failures 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 4 failure instances not in baseline
 * (3) rule id:  rule description
@@ -125,11 +135,13 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 4 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when there are baseline failures and no additional failures 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 No new failures
 No failures were detected by automatic scanning except those which exist in the baseline.
@@ -147,11 +159,13 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when there are new failures and no baseline detected 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 6 failure instances
 * (5) rule id:  rule description
@@ -168,11 +182,13 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 4 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when there are new failures and no baseline failures 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 6 failure instances
 * (5) rule id:  rule description
@@ -189,11 +205,13 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 4 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when there are no baseline failures and no new failures 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 No failures detected
 No failures were detected by automatic scanning.
@@ -210,11 +228,13 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when there are no new failures and baseline failures are undefined 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 No failures detected
 No failures were detected by automatic scanning.
@@ -232,11 +252,13 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when there are no new failures and no baseline detected 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 No failures detected
 No failures were detected by automatic scanning.
@@ -254,11 +276,13 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
 
 exports[`ResultConsoleLogBuilder with baseline builds content when there is no baseline configured 1`] = `
-"Accessibility Insights
+"
+Accessibility Insights
 
 6 failure instances
 * (5) rule id:  rule description
@@ -275,5 +299,6 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 4 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
 `;
