@@ -3,7 +3,7 @@
 
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
-import { Logger } from '@accessibility-insights-action/shared';
+import { Logger, ReportConsoleLogConvertor } from '@accessibility-insights-action/shared';
 import * as fs from 'fs';
 import { ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { ProgressReporter } from '@accessibility-insights-action/shared';
@@ -16,6 +16,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
+        @inject(ReportConsoleLogConvertor) private readonly reportConsoleLogConvertor: ReportConsoleLogConvertor,
         @inject(Logger) private readonly logger: Logger,
         @inject(ADOTaskConfig) private readonly taskConfig: ADOTaskConfig,
         private readonly fileSystemObj: typeof fs = fs,
@@ -62,7 +63,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     }
 
     private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
-        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+        const reportMarkdown = this.reportConsoleLogConvertor.convert(combinedReportResult, undefined, baselineInfo);
 
         this.logger.logInfo(reportMarkdown);
     }
