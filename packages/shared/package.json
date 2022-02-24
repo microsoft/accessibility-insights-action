@@ -35,7 +35,7 @@
         "axe-core": "4.3.2",
         "express": "^4.17.3",
         "filenamify-url": "^3.0.0",
-        "get-port": "^5.1.1",
+        "get-port": "^6.1.2",
         "inversify": "6.0.1",
         "lodash": "^4.17.21",
         "marked": "^4.0.12",
