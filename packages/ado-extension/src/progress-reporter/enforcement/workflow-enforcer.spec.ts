@@ -57,7 +57,9 @@ describe(WorkflowEnforcer, () => {
 
             setupFailOnAccessibilityError(false);
             setupBaselineFileParameterExists();
-            setupLoggerWithErrorMessage('The baseline file does not match scan results.');
+            setupLoggerWithErrorMessage(
+                `##vso[task.logissue type=error;sourcepath=baseline-file] The baseline file does not match scan results.`,
+            );
 
             const workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
