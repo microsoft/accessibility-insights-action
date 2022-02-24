@@ -35,7 +35,7 @@ steps:
       displayName: Scan for accessibility issues
       inputs:
           # Provide either siteDir or url
-          # siteDir: '$(System.DefaultWorkingDirectory)/path-to-built-website'
+          # siteDir: '$(System.DefaultWorkingDirectory)/path-to-built-website/'
           # url: 'your-website-url'
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
@@ -65,13 +65,13 @@ Provide the location of your built HTML files using `siteDir` and (optionally) `
 - task: accessibility-insights.prod.task.accessibility-insights@1
   displayName: Scan for accessibility issues
   inputs:
-      siteDir: '$(System.DefaultWorkingDirectory)/website/root'
-      scanUrlRelativePath: '/' # use '//' if Windows agent
+      siteDir: '$(System.DefaultWorkingDirectory)/website/root/'
+      scanUrlRelativePath: '/'
 ```
 
 The file server will host files inside `siteDir`. The action begins crawling from `http://localhost:port/scanUrlRelativePath/`.
 
-Generally `/` on Ubuntu and `//` on Windows are good defaults for `scanUrlRelativePath`. If you prefer to start crawling from a child directory, note that:
+If you prefer to start crawling from a child directory, note that:
 
 -   the local file server can only host descendants of `siteDir`
 -   By default, the crawler only visits links prefixed with `http://localhost:port/scanUrlRelativePath/`. If you want to crawl links outside `scanUrlRelativePath`, provide something like `discoveryPatterns: 'http://localhost:port/[.*]'`
@@ -101,7 +101,7 @@ Examples:
 - task: accessibility-insights.prod.task.accessibility-insights@1
   displayName: Scan for accessibility issues (with siteDir)
   inputs:
-      siteDir: '$(System.DefaultWorkingDirectory)/website/root'
+      siteDir: '$(System.DefaultWorkingDirectory)/website/root/'
       localhostPort: '12345'
       inputUrls: 'http://localhost:12345/unlinked-page.html'
 ```
@@ -162,5 +162,4 @@ You can choose to block pull requests if the extension finds accessibility issue
 -   If the action didn't trigger as you expected, check the `trigger` or `pr` sections of your yml file. Make sure any listed branch names are correct for your repository.
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
 -   If you can't find an artifact, note that your workflow must include a `publish` step to add the report folder to your check results. See the [Basic template](#basic-template) above and [Azure DevOps documentation on publishing artifacts](https://docs.microsoft.com/en-us/azure/devops/pipelines/artifacts/pipeline-artifacts?view=azure-devops&tabs=yaml#publish-artifacts).
--   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `scanUrlRelativePath`.
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scanTimeout`.
