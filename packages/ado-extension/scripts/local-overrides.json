@@ -1,7 +1,11 @@
 [
     {
-        "name": "url",
-        "value": "https://markreay.github.io/AU/before.html"
+        "name": "siteDir",
+        "value": "../../dev/website-root/"
+    },
+    {
+        "name": "scanUrlRelativePath",
+        "value": "/"
     },
     {
         "name": "failOnAccessibilityError",
