@@ -37,7 +37,6 @@ describe(adoStdoutTransformer, () => {
     it.each`
         input
         ${'##vso[task.debug]abc'}
-        ${'##vso[task.logissue]abc'}
         ${'Processing page abc'}
         ${'Discovered 2 links on page abc'}
         ${'Discovered 2345 links on page abc'}
