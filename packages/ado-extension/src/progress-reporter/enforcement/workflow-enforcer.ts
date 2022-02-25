@@ -48,7 +48,7 @@ export class WorkflowEnforcer extends ProgressReporter {
         if (baselineEvaluation && this.adoTaskConfig.getBaselineFile() && baselineEvaluation.suggestedBaselineUpdate) {
             this.logger.logInfo(
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                `##vso[task.logissue type=error] The baseline file found at ${this.adoTaskConfig.getBaselineFile()} does not match scan results.`,
+                `##vso[task.logissue type=error;sourcepath=${this.adoTaskConfig.getBaselineFile()}] The baseline file does not match scan results.`,
             );
             await this.failRun();
             return true;

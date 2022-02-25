@@ -59,7 +59,7 @@ describe(WorkflowEnforcer, () => {
             setupBaselineFileParameterExists();
             loggerMock
                 .setup((o) =>
-                    o.logInfo(`##vso[task.logissue type=error] The baseline file found at baseline-file does not match scan results.`),
+                    o.logInfo(`##vso[task.logissue type=error;sourcepath=baseline-file] The baseline file does not match scan results.`),
                 )
                 .verifiable(Times.once());
 
