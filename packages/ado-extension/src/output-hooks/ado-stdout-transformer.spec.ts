@@ -24,10 +24,14 @@ describe(adoStdoutTransformer, () => {
         expect(output).toBe(expectedOutput);
     });
 
-    // Note: Output results for ##vso[task.uploadsummary] can't be added to the output text of the test because ADO attempts to evaluate it and fails the test suite.
-    test('Upload summary ADO command returns as expected', () => {
-        const output = adoStdoutTransformer('##vso[task.uploadsummary]');
-        expect(output).toBe('##vso[task.uploadsummary]');
+    // Note: these are special logging commands in ADO that can't be added to the output text of the test because ADO attempts to evaluate them and fails or throws warnings.
+    it.each`
+        input                          | expectedOutput
+        ${'##vso[task.uploadsummary]'} | ${'##vso[task.uploadsummary]'}
+        ${'##vso[task.logissue]abc'}   | ${'##vso[task.logissue]abc'}
+    `(`ADO Special logging command: '$input' returned as '$expectedOutput'`, ({ input, expectedOutput }) => {
+        const output = adoStdoutTransformer(input);
+        expect(output).toBe(expectedOutput);
     });
 
     it.each`
