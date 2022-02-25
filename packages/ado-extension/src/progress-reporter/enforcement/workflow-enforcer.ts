@@ -46,7 +46,10 @@ export class WorkflowEnforcer extends ProgressReporter {
 
     private async failIfBaselineNeedsUpdating(baselineEvaluation?: BaselineEvaluation): Promise<boolean> {
         if (baselineEvaluation && this.adoTaskConfig.getBaselineFile() && baselineEvaluation.suggestedBaselineUpdate) {
-            this.logger.logError('The baseline file does not match scan results.');
+            this.logger.logInfo(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `##vso[task.logissue type=error;sourcepath=${this.adoTaskConfig.getBaselineFile()}] The baseline file does not match scan results.`,
+            );
             await this.failRun();
             return true;
         }
