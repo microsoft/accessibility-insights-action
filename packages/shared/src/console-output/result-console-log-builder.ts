@@ -28,7 +28,7 @@ export class ResultConsoleLogBuilder {
     public buildContent(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
-        const failedChecks = combinedReportResult.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
+        const failedChecks = combinedReportResult.results.resultsByRule.failed.length;
 
         let lines = [
             failedChecks === 0 ? this.headingWithMessage('All applicable checks passed') : this.headingWithMessage(),
