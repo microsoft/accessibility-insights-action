@@ -3,7 +3,7 @@
 exports[`ResultConsoleLogBuilder builds content with failures 1`] = `
 "Accessibility Insights
 * URLs: 5 URL(s) failed, 1 URL(s) passed, and 7 were not scannable
-* Rules: 4 check(s) failed, 1 check(s) passed, and 2 were not applicable
+* Rules: 2 check(s) failed, 1 check(s) passed, and 2 were not applicable
 * Download the Accessibility Insights artifact to view the detailed results of these checks
 Failed instances
 * 3 × rule id:  rule description
@@ -60,7 +60,7 @@ See all failures and scan details by downloading the report from run artifacts (
 -------------------
 Scan summary
 URLs: 5 with failures, 1 passed, 7 not scannable
-Rules: 4 with failures, 1 passed, 2 not applicable
+Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
 This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
@@ -85,7 +85,7 @@ See all failures and scan details by downloading the report from run artifacts (
 -------------------
 Scan summary
 URLs: 5 with failures, 1 passed, 7 not scannable
-Rules: 4 with failures, 1 passed, 2 not applicable
+Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
 This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
@@ -109,7 +109,7 @@ See all failures and scan details by downloading the report from run artifacts (
 -------------------
 Scan summary
 URLs: 5 with failures, 1 passed, 7 not scannable
-Rules: 4 with failures, 1 passed, 2 not applicable
+Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
 This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
@@ -132,7 +132,7 @@ See all failures and scan details by downloading the report from run artifacts (
 -------------------
 Scan summary
 URLs: 5 with failures, 1 passed, 7 not scannable
-Rules: 4 with failures, 1 passed, 2 not applicable
+Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
 This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
@@ -179,7 +179,7 @@ See all failures and scan details by downloading the report from run artifacts (
 -------------------
 Scan summary
 URLs: 5 with failures, 1 passed, 7 not scannable
-Rules: 4 with failures, 1 passed, 2 not applicable
+Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
 This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
@@ -202,7 +202,7 @@ See all failures and scan details by downloading the report from run artifacts (
 -------------------
 Scan summary
 URLs: 5 with failures, 1 passed, 7 not scannable
-Rules: 4 with failures, 1 passed, 2 not applicable
+Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
 This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
@@ -296,7 +296,7 @@ See all failures and scan details by downloading the report from run artifacts (
 -------------------
 Scan summary
 URLs: 5 with failures, 1 passed, 7 not scannable
-Rules: 4 with failures, 1 passed, 2 not applicable
+Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
 This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
