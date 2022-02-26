@@ -26,10 +26,10 @@ describe(adoStdoutTransformer, () => {
 
     // Note: these are special logging commands in ADO that can't be added to the output text of the test because ADO attempts to evaluate them and fails or throws warnings.
     it.each`
-        input                          | expectedOutput
-        ${'##vso[task.uploadsummary]'} | ${'##vso[task.uploadsummary]'}
-        ${'##vso[task.logissue]abc'}   | ${'##vso[task.logissue]abc'}
-    `(`ADO Special logging command: '$input' returned as '$expectedOutput'`, ({ input, expectedOutput }) => {
+        input                          | expectedOutput                 | safeTextIdentifier
+        ${'##vso[task.uploadsummary]'} | ${'##vso[task.uploadsummary]'} | ${'task.uploadsummary'}
+        ${'##vso[task.logissue]abc'}   | ${'##vso[task.logissue]abc'}   | ${'task.logissue'}
+    `(`ADO Special logging command '$safeTextIdentifier' returns as expected`, ({ input, expectedOutput }) => {
         const output = adoStdoutTransformer(input);
         expect(output).toBe(expectedOutput);
     });
