@@ -34,10 +34,10 @@ updates:
     versions:
     - ">= 5"
     # office-ui-fabric-react is bound to v16 of @types/react
-  - dependency-name: @types/react
+  - dependency-name: "@types/react"
     versions:
     - ">= 17"
     # office-ui-fabric-react is bound to v16 of @types/react
-  - dependency-name: @types/react-dom
+  - dependency-name: "@types/react-dom"
     versions:
     - ">= 17"
