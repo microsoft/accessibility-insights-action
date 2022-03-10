@@ -29,6 +29,7 @@ describe(adoStdoutTransformer, () => {
         input                          | expectedOutput                 | safeTextIdentifier
         ${'##vso[task.uploadsummary]'} | ${'##vso[task.uploadsummary]'} | ${'task.uploadsummary'}
         ${'##vso[task.logissue]abc'}   | ${'##vso[task.logissue]abc'}   | ${'task.logissue'}
+        ${'##vso[artifact.upload]abc'} | ${'##vso[artifact.upload]abc'} | ${'artifact.upload'}
     `(`ADO Special logging command '$safeTextIdentifier' returns as expected`, ({ input, expectedOutput }) => {
         const output = adoStdoutTransformer(input);
         expect(output).toBe(expectedOutput);

@@ -121,6 +121,10 @@ export class ADOTaskConfig extends TaskConfig {
         return this.processObj.env.SYSTEM_TEAMPROJECT ?? undefined;
     }
 
+    public getVariable(definedVariableName: string): string | undefined {
+        return this.adoTaskObj.getVariable(definedVariableName);
+    }
+
     private getAbsolutePath(path: string | undefined): string | undefined {
         if (isEmpty(path)) {
             return undefined;

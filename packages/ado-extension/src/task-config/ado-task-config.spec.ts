@@ -164,4 +164,17 @@ describe(ADOTaskConfig, () => {
 
         expect(actualCommitHash).toEqual(commitHash);
     });
+
+    it('should call get variable from task library', () => {
+        const variableName = 'variableName';
+        const variableValue = 'variableValue';
+        adoTaskMock
+            .setup((o) => o.getVariable(variableName))
+            .returns(() => variableValue)
+            .verifiable(Times.once());
+
+        const actualVariableValue = taskConfig.getVariable(variableName);
+
+        expect(actualVariableValue).toEqual(variableValue);
+    });
 });

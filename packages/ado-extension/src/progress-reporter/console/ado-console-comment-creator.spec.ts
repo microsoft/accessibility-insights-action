@@ -19,6 +19,7 @@ describe(AdoConsoleCommentCreator, () => {
     let fsMock: IMock<typeof fs>;
     const reportOutDir = 'reportOutDir';
     const fileName = `${reportOutDir}/results.md`;
+    const defaultWorkingDirectory = 'working/directory/';
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
@@ -60,6 +61,11 @@ describe(AdoConsoleCommentCreator, () => {
                 .returns(() => reportOutDir)
                 .verifiable(Times.once());
 
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getVariable('System.DefaultWorkingDirectory'))
+                .returns(() => defaultWorkingDirectory)
+                .verifiable(Times.once());
+
             reportMarkdownConvertorMock
                 .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
                 .returns(() => expectedLogOutput)
@@ -72,6 +78,13 @@ describe(AdoConsoleCommentCreator, () => {
 
             loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
+            loggerMock
+                .setup((lm) =>
+                    lm.logInfo(
+                        `##vso[artifact.upload artifactname=accessibility-reports]${defaultWorkingDirectory}/_accessibility-reports`,
+                    ),
+                )
+                .verifiable(Times.once());
             fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();
 
             adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
