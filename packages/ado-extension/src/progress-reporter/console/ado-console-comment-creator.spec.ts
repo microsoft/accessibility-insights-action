@@ -59,7 +59,7 @@ describe(AdoConsoleCommentCreator, () => {
             adoTaskConfigMock
                 .setup((atcm) => atcm.getReportOutDir())
                 .returns(() => reportOutDir)
-                .verifiable(Times.once());
+                .verifiable(Times.exactly(2));
 
             adoTaskConfigMock
                 .setup((atcm) => atcm.getVariable('System.DefaultWorkingDirectory'))
@@ -80,9 +80,7 @@ describe(AdoConsoleCommentCreator, () => {
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
             loggerMock
                 .setup((lm) =>
-                    lm.logInfo(
-                        `##vso[artifact.upload artifactname=accessibility-reports]${defaultWorkingDirectory}/_accessibility-reports`,
-                    ),
+                    lm.logInfo(`##vso[artifact.upload artifactname=accessibility-reports]${defaultWorkingDirectory}/${reportOutDir}`),
                 )
                 .verifiable(Times.once());
             fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();
