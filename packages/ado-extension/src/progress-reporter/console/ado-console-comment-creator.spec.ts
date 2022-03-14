@@ -20,6 +20,7 @@ describe(AdoConsoleCommentCreator, () => {
     const reportOutDir = 'reportOutDir';
     const fileName = `${reportOutDir}/results.md`;
     const defaultWorkingDirectory = 'working/directory/';
+    const artifactName = 'accessibility-reports';
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
@@ -66,6 +67,77 @@ describe(AdoConsoleCommentCreator, () => {
                 .returns(() => defaultWorkingDirectory)
                 .verifiable(Times.once());
 
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getVariable('System.JobAttempt'))
+                .returns(() => '1')
+                .verifiable(Times.once());
+
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getArtifactName())
+                .returns(() => artifactName)
+                .verifiable(Times.once());
+
+            reportMarkdownConvertorMock
+                .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
+                .returns(() => expectedLogOutput)
+                .verifiable(Times.once());
+
+            reportConsoleLogConvertorMock
+                .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
+                .returns(() => expectedLogOutput)
+                .verifiable(Times.once());
+
+            loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
+            loggerMock
+                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${defaultWorkingDirectory}/${reportOutDir}`))
+                .verifiable(Times.once());
+            fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();
+
+            adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
+            await adoConsoleCommentCreator.completeRun(reportStub);
+
+            verifyAllMocks();
+        });
+
+        it('Successfully adds suffix to output name if job attmept > 1', async () => {
+            const reportStub: CombinedReportParameters = {
+                results: {
+                    urlResults: {
+                        failedUrls: 1,
+                    },
+                },
+            } as CombinedReportParameters;
+            const baselineInfoStub = {};
+            const reportMarkdownStub = '#ReportMarkdownStub';
+
+            const expectedLogOutput = reportMarkdownStub;
+
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getBaselineFile())
+                .returns(() => undefined)
+                .verifiable(Times.once());
+
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getReportOutDir())
+                .returns(() => reportOutDir)
+                .verifiable(Times.exactly(2));
+
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getVariable('System.DefaultWorkingDirectory'))
+                .returns(() => defaultWorkingDirectory)
+                .verifiable(Times.once());
+
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getVariable('System.JobAttempt'))
+                .returns(() => '2')
+                .verifiable(Times.once());
+
+            adoTaskConfigMock
+                .setup((atcm) => atcm.getArtifactName())
+                .returns(() => artifactName)
+                .verifiable(Times.once());
+
             reportMarkdownConvertorMock
                 .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
                 .returns(() => expectedLogOutput)
@@ -80,7 +152,7 @@ describe(AdoConsoleCommentCreator, () => {
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
             loggerMock
                 .setup((lm) =>
-                    lm.logInfo(`##vso[artifact.upload artifactname=accessibility-reports]${defaultWorkingDirectory}/${reportOutDir}`),
+                    lm.logInfo(`##vso[artifact.upload artifactname=${artifactName}-2]${defaultWorkingDirectory}/${reportOutDir}`),
                 )
                 .verifiable(Times.once());
             fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();

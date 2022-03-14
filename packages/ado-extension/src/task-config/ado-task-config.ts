@@ -121,6 +121,11 @@ export class ADOTaskConfig extends TaskConfig {
         return this.processObj.env.SYSTEM_TEAMPROJECT ?? undefined;
     }
 
+    public getArtifactName(): string {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return this.adoTaskObj.getInput('artifactName')!;
+    }
+
     public getVariable(definedVariableName: string): string | undefined {
         return this.adoTaskObj.getVariable(definedVariableName);
     }

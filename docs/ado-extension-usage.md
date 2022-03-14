@@ -145,6 +145,10 @@ You can choose to block pull requests if the extension finds accessibility issue
 1. Ensure the extension is [triggered on each pull request](https://docs.microsoft.com/en-us/azure/devops/pipelines/customize-pipeline?view=azure-devops#customize-ci-triggers).
 2. Ensure that you have set the `failOnAccessibilityError` input variable to `true`.
 
+## Running multiple times in a single pipeline
+
+If you want to run the extension multiple times in a single pipeline, you will need to ensure that a unique `artifactName` input is specified in your YAML file for each task. Artifact names must be unique across all tasks in a pipeline.
+
 ## Troubleshooting
 
 -   If the action didn't trigger as you expected, check the `trigger` or `pr` sections of your yml file. Make sure any listed branch names are correct for your repository.

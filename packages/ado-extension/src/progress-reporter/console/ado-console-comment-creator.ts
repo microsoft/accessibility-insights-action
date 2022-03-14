@@ -66,7 +66,20 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     private uploadReportArtifacts(): void {
         const workingDirectory = this.taskConfig.getVariable('System.DefaultWorkingDirectory') ?? '';
         const outputDirectory = this.taskConfig.getReportOutDir();
-        this.logger.logInfo(`##vso[artifact.upload artifactname=accessibility-reports]${workingDirectory}/${outputDirectory}`);
+        const jobAttemptBuildVariable = this.taskConfig.getVariable('System.JobAttempt');
+        const artifactName = this.taskConfig.getArtifactName();
+
+        let artifactNameSuffix = '';
+        let jobAttemptNumber = 1;
+
+        if (jobAttemptBuildVariable !== undefined) {
+            jobAttemptNumber = parseInt(jobAttemptBuildVariable);
+            artifactNameSuffix = jobAttemptNumber > 1 ? `-${jobAttemptBuildVariable}` : '';
+        }
+
+        this.logger.logInfo(
+            `##vso[artifact.upload artifactname=${artifactName + artifactNameSuffix}]${workingDirectory}/${outputDirectory}`,
+        );
     }
 
     private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
