@@ -149,13 +149,10 @@ Here is an example of a YAML file that is configured to take advantage of a base
 
 -   If the workflow was triggered by a pull request, the action should leave a comment on the Azure DevOps pull request with results. The extension does not leave comments on repos in GitHub.
 
-## Blocking pull requests
+## Unblocking pull requests
 
-You can choose to block pull requests if the extension finds accessibility issues.
-
-1. Ensure the extension is [triggered on each pull request](https://docs.microsoft.com/en-us/azure/devops/pipelines/customize-pipeline?view=azure-devops#customize-ci-triggers).
-2. Ensure that you have set the `failOnAccessibilityError` input variable to `true`.
-3. Ensure that the `Upload report artifact` step runs even in failure cases using [**succeededOrFailed()**](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml)
+You can choose to unblock pull requests even if the extension finds accessibility issues.
+To make it possible ensure that you have set the `failOnAccessibilityError` input variable to `false`.
 
 ## Troubleshooting
 
