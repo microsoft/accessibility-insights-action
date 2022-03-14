@@ -64,7 +64,6 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     }
 
     private uploadReportArtifacts(): void {
-        const workingDirectory = this.taskConfig.getVariable('System.DefaultWorkingDirectory') ?? '';
         const outputDirectory = this.taskConfig.getReportOutDir();
         const jobAttemptBuildVariable = this.taskConfig.getVariable('System.JobAttempt');
         const artifactName = this.taskConfig.getArtifactName();
@@ -77,9 +76,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
             artifactNameSuffix = jobAttemptNumber > 1 ? `-${jobAttemptBuildVariable}` : '';
         }
 
-        this.logger.logInfo(
-            `##vso[artifact.upload artifactname=${artifactName + artifactNameSuffix}]${workingDirectory}/${outputDirectory}`,
-        );
+        this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName + artifactNameSuffix}]${outputDirectory}`);
     }
 
     private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {

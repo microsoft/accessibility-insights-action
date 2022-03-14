@@ -19,7 +19,6 @@ describe(AdoConsoleCommentCreator, () => {
     let fsMock: IMock<typeof fs>;
     const reportOutDir = 'reportOutDir';
     const fileName = `${reportOutDir}/results.md`;
-    const defaultWorkingDirectory = 'working/directory/';
     const artifactName = 'accessibility-reports';
 
     beforeEach(() => {
@@ -63,11 +62,6 @@ describe(AdoConsoleCommentCreator, () => {
                 .verifiable(Times.exactly(2));
 
             adoTaskConfigMock
-                .setup((atcm) => atcm.getVariable('System.DefaultWorkingDirectory'))
-                .returns(() => defaultWorkingDirectory)
-                .verifiable(Times.once());
-
-            adoTaskConfigMock
                 .setup((atcm) => atcm.getVariable('System.JobAttempt'))
                 .returns(() => '1')
                 .verifiable(Times.once());
@@ -90,7 +84,7 @@ describe(AdoConsoleCommentCreator, () => {
             loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
             loggerMock
-                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${defaultWorkingDirectory}/${reportOutDir}`))
+                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${reportOutDir}`))
                 .verifiable(Times.once());
             fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();
 
@@ -124,11 +118,6 @@ describe(AdoConsoleCommentCreator, () => {
                 .verifiable(Times.exactly(2));
 
             adoTaskConfigMock
-                .setup((atcm) => atcm.getVariable('System.DefaultWorkingDirectory'))
-                .returns(() => defaultWorkingDirectory)
-                .verifiable(Times.once());
-
-            adoTaskConfigMock
                 .setup((atcm) => atcm.getVariable('System.JobAttempt'))
                 .returns(() => '2')
                 .verifiable(Times.once());
@@ -151,9 +140,7 @@ describe(AdoConsoleCommentCreator, () => {
             loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
             loggerMock
-                .setup((lm) =>
-                    lm.logInfo(`##vso[artifact.upload artifactname=${artifactName}-2]${defaultWorkingDirectory}/${reportOutDir}`),
-                )
+                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${artifactName}-2]${reportOutDir}`))
                 .verifiable(Times.once());
             fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();
 
