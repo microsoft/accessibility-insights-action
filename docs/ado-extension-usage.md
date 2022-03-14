@@ -147,7 +147,7 @@ You can choose to block pull requests if the extension finds accessibility issue
 
 ## Running multiple times in a single pipeline
 
-If you want to run the extension multiple times in a single pipeline, you will need to ensure that a unique `artifactName` input is specified in your YAML file for each task. Artifact names must be unique across all tasks in a pipeline.
+If you want to run the extension multiple times in a single pipeline, you will need to ensure that unique `artifactName` and `outputDir` inputs are specified in your YAML file for each task. Artifact names and the output directory must be unique across all tasks in a pipeline.
 
 ## Troubleshooting
 
