@@ -149,10 +149,9 @@ Here is an example of a YAML file that is configured to take advantage of a base
 
 -   If the workflow was triggered by a pull request, the action should leave a comment on the Azure DevOps pull request with results. The extension does not leave comments on repos in GitHub.
 
-## Unblocking pull requests
+## Blocking pull requests
 
-You can choose to unblock pull requests even if the extension finds accessibility issues.
-To make it possible ensure that you have set the `failOnAccessibilityError` input variable to `false`.
+By default, pull requests are blocked if accessibility errors are found. You can choose to override this behavior by setting the `failOnAccessibilityError` input variable to `false`.
 
 ## Troubleshooting
 
