@@ -28,7 +28,7 @@
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
     "devDependencies": {
         "@types/mocha": "9.1.0",
-        "mocha": "9.2.1",
+        "mocha": "9.2.2",
         "tfx-cli": "^0.11.0"
     },
     "dependencies": {
