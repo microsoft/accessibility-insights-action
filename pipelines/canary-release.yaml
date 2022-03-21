@@ -7,12 +7,12 @@ parameters:
       type: string
       default: 'ado-extension-canary'
     - name: versionOverride
-      displayName: version to deploy (only for test extensions)
+      displayName: Override extension version (if not specified, defaults to upgrading patch version)
       type: string
-      default: 'ignore-if-canary'
+      default: ''
 
 variables:
-    - ${{ if and(ne(parameters.variableGroupName, 'ado-extension-canary'), ne(parameters.versionOverride, 'ignore-if-canary')) }}:
+    - ${{ if length(parameters.versionOverride) gt 0 }}:
           - name: extensionVersionOverride
             value: ${{ parameters.versionOverride }}
 
