@@ -5,6 +5,17 @@ Licensed under the MIT License.
 
 # How to use the Azure DevOps extension
 
+## Prerequisites
+
+### Tools
+
+-   [Yarn](https://yarnpkg.com/getting-started/install) >= 1.22.10
+    -   The Accessibility Insights for Azure DevOps extension uses Yarn to install dependencies. If your build agent does not come with Yarn pre-installed, you must add a step to install it yourself.
+    ```yml
+    - script: npm install yarn@1.22.10 -g
+      displayName: install yarn as a global dependency
+    ```
+
 ## Adding the extension
 
 Install [Accessibility Insights for Azure DevOps - Production](https://marketplace.visualstudio.com/items?itemName=accessibility-insights.prod).
