@@ -54,6 +54,7 @@ describe(ADOTaskConfig, () => {
         ${'failOnAccessibilityError'} | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
         ${'singleWorker'}             | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
         ${'artifactName'}             | ${'artifact-name'}  | ${'artifact-name'}                                      | ${() => taskConfig.getArtifactName()}
+        ${'uploadResultAsArtifact'}   | ${true}             | ${true}                                                 | ${() => taskConfig.getUploadResultAsArtifact()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {

@@ -126,6 +126,10 @@ export class ADOTaskConfig extends TaskConfig {
         return this.adoTaskObj.getInput('artifactName')!;
     }
 
+    public getUploadResultAsArtifact(): boolean {
+        return this.adoTaskObj.getBoolInput('uploadResultAsArtifact');
+    }
+
     public getVariable(definedVariableName: string): string | undefined {
         return this.adoTaskObj.getVariable(definedVariableName);
     }

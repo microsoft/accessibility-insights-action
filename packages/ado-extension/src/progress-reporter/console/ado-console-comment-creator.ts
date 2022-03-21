@@ -64,19 +64,22 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     }
 
     private uploadReportArtifacts(): void {
-        const outputDirectory = this.taskConfig.getReportOutDir();
-        const jobAttemptBuildVariable = this.taskConfig.getVariable('System.JobAttempt');
-        const artifactName = this.taskConfig.getArtifactName();
+        const uploadResultAsArtifactEnabled: boolean = this.taskConfig.getUploadResultAsArtifact();
+        if (uploadResultAsArtifactEnabled) {
+            const outputDirectory = this.taskConfig.getReportOutDir();
+            const jobAttemptBuildVariable = this.taskConfig.getVariable('System.JobAttempt');
+            const artifactName = this.taskConfig.getArtifactName();
 
-        let artifactNameSuffix = '';
-        let jobAttemptNumber = 1;
+            let artifactNameSuffix = '';
+            let jobAttemptNumber = 1;
 
-        if (jobAttemptBuildVariable !== undefined) {
-            jobAttemptNumber = parseInt(jobAttemptBuildVariable);
-            artifactNameSuffix = jobAttemptNumber > 1 ? `-${jobAttemptBuildVariable}` : '';
+            if (jobAttemptBuildVariable !== undefined) {
+                jobAttemptNumber = parseInt(jobAttemptBuildVariable);
+                artifactNameSuffix = jobAttemptNumber > 1 ? `-${jobAttemptBuildVariable}` : '';
+            }
+
+            this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName + artifactNameSuffix}]${outputDirectory}`);
         }
-
-        this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName + artifactNameSuffix}]${outputDirectory}`);
     }
 
     private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
