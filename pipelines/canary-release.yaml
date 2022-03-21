@@ -12,7 +12,7 @@ parameters:
       default: ''
 
 variables:
-    - ${{ if length(parameters.versionOverride) gt 0 }}:
+    - ${{ if gt(length(parameters.versionOverride), 0) }}:
           - name: extensionVersionOverride
             value: ${{ parameters.versionOverride }}
 
