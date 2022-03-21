@@ -12,7 +12,7 @@ parameters:
       default: 'ignore-if-canary'
 
 variables:
-    - ${{ if ne(parameters.variableGroupName, 'ado-extension-canary') }}:
+    - ${{ if and(ne(parameters.variableGroupName, 'ado-extension-canary'), ne(parameters.versionOverride, 'ignore-if-canary')) }}:
           - name: extensionVersionOverride
             value: ${{ parameters.versionOverride }}
 
