@@ -13,6 +13,7 @@
         "Patch": 0
     },
     "instanceNameFormat": "Run accessibility testing",
+    "groups": [{ "displayName": "Advanced Options", "isExpanded": false, "name": "advancedOptions" }],
     "inputs": [
         {
             "name": "outputDir",
@@ -20,7 +21,8 @@
             "label": "Output Directory",
             "required": true,
             "defaultValue": "_accessibility-reports",
-            "helpMarkDown": "Folder containing the scan report."
+            "helpMarkDown": "Folder containing the scan report.",
+            "groupName": "advancedOptions"
         },
         {
             "name": "siteDir",
@@ -43,7 +45,8 @@
             "type": "string",
             "label": "Chrome Path",
             "required": false,
-            "helpMarkDown": "Path to Chrome executable."
+            "helpMarkDown": "Path to Chrome executable.",
+            "groupName": "advancedOptions"
         },
         {
             "name": "url",
