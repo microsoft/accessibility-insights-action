@@ -28,11 +28,6 @@ updates:
   - dependency-name: puppeteer-core
     versions:
     - "> 5.3.1"
-    # marked-terminal v5 depends on chalk v5 which uses the node: protocol;
-    # this protocol is not supported in node 10, the ADO execution environment
-  - dependency-name: marked-terminal
-    versions:
-    - ">= 5"
     # office-ui-fabric-react is bound to v16 of @types/react
   - dependency-name: "@types/react"
     versions:
@@ -41,3 +36,16 @@ updates:
   - dependency-name: "@types/react-dom"
     versions:
     - ">= 17"
+    # Each of the below dependencies has dropped support for node v10 in their
+    # latest versions, but we need to maintain node v10 support because that's
+    # the latest we're allowed to depend on as a custom ADO task.
+    #
+    # marked-terminal v5 depends on chalk v5 which uses the node: protocol;
+    # this protocol is not supported in node 10, the ADO execution environment
+  - dependency-name: marked-terminal
+    versions:
+    - ">= 5"
+    # get-port v6+ is pure ESM and requires node >= 12.20
+  - dependency-name: get-port
+    versions:
+    - ">= 6"
