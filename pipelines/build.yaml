@@ -108,6 +108,12 @@ jobs:
                 versionSpec: '12.x'
             displayName: use node 12.x
 
+          - script: dir /s /b \*.exe
+            displayName: List exe files
+
+          - script: dir /s /b \*.dll
+            displayName: List dll files
+
           - script: yarn install --frozen-lockfile
             displayName: Install dependencies
 
