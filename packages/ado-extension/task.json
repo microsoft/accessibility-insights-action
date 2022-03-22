@@ -27,8 +27,7 @@
             "name": "siteDir",
             "type": "string",
             "label": "Site Directory",
-            "required": true,
-            "defaultValue": ".",
+            "required": false,
             "helpMarkDown": "Folder containing website content.",
             "groupName": "weHostYourSite"
         },
