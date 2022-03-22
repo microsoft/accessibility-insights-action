@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { VError } from 'verror';
+import { ErrorWithCause } from 'pony-cause';
 import * as utils from 'util';
 import { LoggerClient } from './logger-client';
 import { LogLevel } from './log-level';
@@ -62,9 +62,9 @@ export class Logger {
     }
 
     public trackExceptionAny(underlyingErrorData: any | Error, message: string): void {
-        const parsedErrorObject =
+        const underlyingError =
             underlyingErrorData instanceof Error ? underlyingErrorData : new Error(this.serializeError(underlyingErrorData));
-        this.trackException(new VError(parsedErrorObject, message));
+        this.trackException(new ErrorWithCause(message, { cause: underlyingError }));
     }
 
     public serializeError(error: any): string {

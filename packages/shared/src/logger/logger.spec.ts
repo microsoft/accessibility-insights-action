@@ -3,7 +3,7 @@
 import 'reflect-metadata';
 
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
-import { VError } from 'verror';
+import { ErrorWithCause } from 'pony-cause';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
 import { ConsoleLoggerClient } from './console-logger-client';
 import { Logger } from './logger';
@@ -317,7 +317,7 @@ describe(Logger, () => {
             await testSubject.setup();
 
             invokeAllLoggerClientMocks((m) =>
-                m.setup((c) => c.trackException(new VError(underlyingError, errorMessage))).verifiable(Times.once()),
+                m.setup((c) => c.trackException(new ErrorWithCause(errorMessage, { cause: underlyingError }))).verifiable(Times.once()),
             );
 
             testSubject.trackExceptionAny(underlyingError, errorMessage);
@@ -334,7 +334,11 @@ describe(Logger, () => {
 
             invokeAllLoggerClientMocks((m) =>
                 m
-                    .setup((c) => c.trackException(new VError(new Error(testSubject.serializeError(underlyingError)), errorMessage)))
+                    .setup((c) =>
+                        c.trackException(
+                            new ErrorWithCause(errorMessage, { cause: new Error(testSubject.serializeError(underlyingError)) }),
+                        ),
+                    )
                     .verifiable(Times.once()),
             );
 
