@@ -13,7 +13,7 @@
         "Patch": 0
     },
     "instanceNameFormat": "Run accessibility testing",
-    "groups": [{"displayName": "We host your site", "isExpanded": false, "name": "weHostYourSite"}],
+    "groups": [{ "displayName": "We host your site", "isExpanded": false, "name": "weHostYourSite" }],
     "inputs": [
         {
             "name": "outputDir",

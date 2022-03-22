@@ -36,8 +36,8 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     private async failIfMutuallyExclusiveParametersWereConfigured(): Promise<boolean> {
-        if(this.adoTaskConfig.getUrl() && this.adoTaskConfig.getSiteDir()){
-            this.logger.logError("A configuration error has occurred, Url and SiteDire inputs cannot be set at the same time");
+        if (this.adoTaskConfig.getUrl() && this.adoTaskConfig.getSiteDir()) {
+            this.logger.logError('A configuration error has occurred, Url and SiteDire inputs cannot be set at the same time');
             await this.failRun();
             return true;
         }
