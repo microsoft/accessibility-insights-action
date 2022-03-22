@@ -133,10 +133,15 @@ Here is an example of a YAML file that is configured to take advantage of a base
       baselineFile: '$(Build.SourcesDirectory)/baselines/my-web-site.baseline'
 ```
 
-## Viewing results
+## Report Artifacts
 
--   Summary results along with a link to report artifacts are output in both the task log and in the Extensions tab of the pipeline run. To view the task log, click into the job and then click on the accessibilityinsights task.
--   An HTML report containing detailed results is saved as a pipeline artifact. To view it, navigate to Artifacts from the build. Under `accessibility-reports`, you'll find the downloadable report labeled `index.html`.
+By default, an HTML report containing detailed results is automatically uploaded as a pipeline artifact named `accessibility-reports`. You can opt out of this automatic artifact upload by setting the `uploadResultAsArtifact` parameter to `false`. You can also specify a custom artifact name by setting the `artifactName` parameter in your YAML file. If not opted out, a link to the artifacts will also appear in both the task log and in the Extensions tab of the pipeline run.
+
+To view the report, navigate to Artifacts from the build. Under `accessibility-reports`, or the artifact name manually specified, you'll find the downloadable report labeled `index.html`.
+
+## Summary results
+
+-   Summary results are output in both the task log and in the Extensions tab of the pipeline run. To view the task log, click into the job and then click on the `accessibilityinsights` task.
 
 ## Blocking pull requests
 

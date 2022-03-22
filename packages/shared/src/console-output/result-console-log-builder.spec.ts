@@ -278,6 +278,33 @@ describe(ResultConsoleLogBuilder, () => {
         });
     });
 
+    describe('uploadResultAsArtifact is false', () => {
+        const baselineFileName = 'baseline file';
+
+        beforeEach(() => {
+            artifactsInfoProviderMock
+                .setup((aip) => aip.getArtifactsUrl())
+                .returns(() => undefined)
+                .verifiable(Times.atLeastOnce());
+        });
+
+        it('skips artifact link line when artifactsUrl returns undefined', () => {
+            const baselineEvaluation = {
+                totalBaselineViolations: 0,
+            } as BaselineEvaluation;
+            const baselineInfo: BaselineInfo = {
+                baselineFileName,
+                baselineEvaluation,
+            };
+            setCombinedReportResultWithNoFailures();
+
+            const actualContent = resultConsoleLogBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+
+            expect(actualContent).toMatchSnapshot();
+            verifyAllMocks();
+        });
+    });
+
     const setCombinedReportResultWithFailures = (): void => {
         const ruleInfo1 = { ruleId: 'rule id', description: 'rule description' };
         combinedReportResult = {
