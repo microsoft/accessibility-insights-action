@@ -280,15 +280,12 @@ describe(ResultConsoleLogBuilder, () => {
 
     describe('uploadResultAsArtifact is false', () => {
         const baselineFileName = 'baseline file';
-
-        beforeEach(() => {
+        it('skips artifact link line when artifactsUrl returns undefined', () => {
             artifactsInfoProviderMock
                 .setup((aip) => aip.getArtifactsUrl())
                 .returns(() => undefined)
                 .verifiable(Times.atLeastOnce());
-        });
 
-        it('skips artifact link line when artifactsUrl returns undefined', () => {
             const baselineEvaluation = {
                 totalBaselineViolations: 0,
             } as BaselineEvaluation;
