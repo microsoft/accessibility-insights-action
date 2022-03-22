@@ -16,7 +16,7 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     public async start(): Promise<void> {
-        // We don't do anything for workflow enforcement
+        await this.failIfMutuallyExclusiveParametersWereConfigured();
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -33,6 +33,15 @@ export class WorkflowEnforcer extends ProgressReporter {
 
     public didScanSucceed(): Promise<boolean> {
         return Promise.resolve(this.scanSucceeded);
+    }
+
+    private async failIfMutuallyExclusiveParametersWereConfigured(): Promise<boolean> {
+        if(this.adoTaskConfig.getUrl() && this.adoTaskConfig.getSiteDir()){
+            this.logger.logError("A configuration error has occurred, Url and SiteDire inputs cannot be set at the same time");
+            await this.failRun();
+            return true;
+        }
+        return false;
     }
 
     private async failIfAccessibilityErrorExists(combinedReportResult: CombinedReportParameters): Promise<boolean> {

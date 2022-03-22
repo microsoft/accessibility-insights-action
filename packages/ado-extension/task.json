@@ -13,6 +13,7 @@
         "Patch": 0
     },
     "instanceNameFormat": "Run accessibility testing",
+    "groups": [{"displayName": "We host your site", "isExpanded": false, "name": "weHostYourSite"}],
     "inputs": [
         {
             "name": "outputDir",
@@ -28,7 +29,8 @@
             "label": "Site Directory",
             "required": true,
             "defaultValue": ".",
-            "helpMarkDown": "Folder containing website content."
+            "helpMarkDown": "Folder containing website content.",
+            "groupName": "weHostYourSite"
         },
         {
             "name": "scanUrlRelativePath",
@@ -36,7 +38,8 @@
             "label": "Scan URL Relative Path",
             "required": true,
             "defaultValue": "/",
-            "helpMarkDown": "Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows."
+            "helpMarkDown": "Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows.",
+            "groupName": "weHostYourSite"
         },
         {
             "name": "chromePath",
@@ -86,7 +89,8 @@
             "type": "int",
             "label": "Localhost Port",
             "required": false,
-            "helpMarkDown": "The preferred local website TCP port to use when scanning local website content."
+            "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
+            "groupName": "weHostYourSite"
         },
         {
             "name": "scanTimeout",
