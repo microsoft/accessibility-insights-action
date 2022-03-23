@@ -82,6 +82,6 @@ describe(AdoExtensionMetadataProvider, () => {
     it('throws an error if ado-extension-metadata.json is malformatted', () => {
         mockFs.readFileSync = () => '{ "extensionName": "Oops it had some stray "quotes"" }';
 
-        expect(() => testSubject.readMetadata()).toThrowErrorMatchingInlineSnapshot();
+        expect(() => testSubject.readMetadata()).toThrowError(/Unexpected token/);
     });
 });
