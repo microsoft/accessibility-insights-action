@@ -10,7 +10,6 @@ import { AdoIocTypes } from './ado-ioc-types';
 import { ADOArtifactsInfoProvider } from '../ado-artifacts-info-provider';
 import { WorkflowEnforcer } from '../progress-reporter/enforcement/workflow-enforcer';
 import { AdoConsoleCommentCreator } from '../progress-reporter/console/ado-console-comment-creator';
-import { readAdoExtensionMetadata } from '../ado-extension-metadata';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
@@ -26,10 +25,6 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
         })
         .inSingletonScope();
     container.bind(iocTypes.ArtifactsInfoProvider).to(ADOArtifactsInfoProvider).inSingletonScope();
-    container
-        .bind(AdoIocTypes.AdoExtensionMetadata)
-        .toDynamicValue(() => readAdoExtensionMetadata())
-        .inSingletonScope();
 
     return container;
 }

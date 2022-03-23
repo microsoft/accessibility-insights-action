@@ -4,6 +4,7 @@
 import 'reflect-metadata';
 import * as path from 'path';
 import * as fs from 'fs';
+import { injectable } from 'inversify';
 
 // Extension metadata is written by /pipelines/package-vsix-file.yaml
 // Any changes to this type should also be reflected there!
@@ -18,23 +19,28 @@ export type AdoExtensionMetadata = {
     appInsightsConnectionString: string | null;
 };
 
-export function readAdoExtensionMetadata(fsObj: typeof fs = fs): AdoExtensionMetadata {
-    const metadataFilePath = path.join(__dirname, 'ado-extension-metadata.json');
+@injectable()
+export class AdoExtensionMetadataProvider {
+    constructor(private readonly fileSystemObj: typeof fs = fs) {}
 
-    // This is a literal filename, the linter just can't see through the path.join
-    //
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    const rawMetadata = fsObj.readFileSync(metadataFilePath, { encoding: 'utf8' });
+    readMetadata(): AdoExtensionMetadata {
+        const metadataFilePath = path.join(__dirname, 'ado-extension-metadata.json');
 
-    // We allow the unsafe assignment and "as" usage because we trust that
-    // package-vsix-file.yaml produces a valid metadata file
-    //
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const parsedMetadata = JSON.parse(rawMetadata) as AdoExtensionMetadata;
+        // This is a literal filename, the linter just can't see through the path.join
+        //
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        const rawMetadata = this.fileSystemObj.readFileSync(metadataFilePath, { encoding: 'utf8' });
 
-    if (parsedMetadata.appInsightsConnectionString === '') {
-        parsedMetadata.appInsightsConnectionString = null;
+        // We allow the unsafe assignment and "as" usage because we trust that
+        // package-vsix-file.yaml produces a valid metadata file
+        //
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const parsedMetadata = JSON.parse(rawMetadata) as AdoExtensionMetadata;
+
+        if (parsedMetadata.appInsightsConnectionString === '') {
+            parsedMetadata.appInsightsConnectionString = null;
+        }
+
+        return parsedMetadata;
     }
-
-    return parsedMetadata;
 }

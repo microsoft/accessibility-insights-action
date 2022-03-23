@@ -4,5 +4,4 @@
 export const AdoIocTypes = {
     AdoTask: 'AdoTask',
     NodeApi: 'NodeApi',
-    AdoExtensionMetadata: 'AdoExtensionMetadata',
 };

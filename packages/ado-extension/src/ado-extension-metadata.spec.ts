@@ -5,12 +5,11 @@ import 'reflect-metadata';
 
 import type * as fs from 'fs';
 import * as path from 'path';
-import { readAdoExtensionMetadata } from './ado-extension-metadata';
+import { AdoExtensionMetadataProvider } from './ado-extension-metadata';
 
 /* eslint-disable security/detect-non-literal-fs-filename */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
-describe(readAdoExtensionMetadata, () => {
+describe(AdoExtensionMetadataProvider, () => {
     const metadataFileContentsWithTelemetry = `{
         "publisherId": "accessibility-insights", 
         "extensionId": "extension-id", 
@@ -18,7 +17,7 @@ describe(readAdoExtensionMetadata, () => {
         "extensionVersion": "1.2.03", 
         "environment": "test", 
         "appInsightsConnectionString": "EXAMPLE HERE" 
-      }`;
+    }`;
 
     const metadataFileContentsWithoutTelemetry = `{
         "publisherId": "accessibility-insights", 
@@ -27,24 +26,28 @@ describe(readAdoExtensionMetadata, () => {
         "extensionVersion": "1.2.03", 
         "environment": "test", 
         "appInsightsConnectionString": "" 
-      }`;
+    }`;
+
+    let mockFs: { readFileSync?: () => string };
+    let testSubject: AdoExtensionMetadataProvider;
+
+    beforeEach(() => {
+        mockFs = {};
+        testSubject = new AdoExtensionMetadataProvider(mockFs as unknown as typeof fs);
+    });
 
     it('reads from the expected file', () => {
-        const mockFs = {
-            readFileSync: jest.fn((_path, _options) => metadataFileContentsWithTelemetry),
-        } as unknown as typeof fs;
+        mockFs.readFileSync = jest.fn(() => metadataFileContentsWithTelemetry);
 
-        readAdoExtensionMetadata(mockFs);
+        testSubject.readMetadata();
+
         expect(mockFs.readFileSync).toHaveBeenCalledWith(path.join(__dirname, 'ado-extension-metadata.json'), { encoding: 'utf8' });
     });
 
     it('successfully parses a metadata file with telemetry info', () => {
-        const mockFs = {
-            readFileSync: () => metadataFileContentsWithTelemetry,
-        } as unknown as typeof fs;
+        mockFs.readFileSync = () => metadataFileContentsWithTelemetry;
 
-        const output = readAdoExtensionMetadata(mockFs);
-        expect(output).toStrictEqual({
+        expect(testSubject.readMetadata()).toStrictEqual({
             publisherId: 'accessibility-insights',
             extensionId: 'extension-id',
             extensionName: 'Extension Name',
@@ -55,12 +58,9 @@ describe(readAdoExtensionMetadata, () => {
     });
 
     it('successfully parses a metadata file without telemetry info', () => {
-        const mockFs = {
-            readFileSync: () => metadataFileContentsWithoutTelemetry,
-        } as unknown as typeof fs;
+        mockFs.readFileSync = () => metadataFileContentsWithoutTelemetry;
 
-        const output = readAdoExtensionMetadata(mockFs);
-        expect(output).toStrictEqual({
+        expect(testSubject.readMetadata()).toStrictEqual({
             publisherId: 'accessibility-insights',
             extensionId: 'extension-id',
             extensionName: 'Extension Name',
@@ -72,20 +72,16 @@ describe(readAdoExtensionMetadata, () => {
 
     it('throws an error if ado-extension-metadata.json does not exist', () => {
         const readFileError = new Error('readFileSync error');
-        const mockFs = {
-            readFileSync: () => {
-                throw readFileError;
-            },
-        } as unknown as typeof fs;
+        mockFs.readFileSync = () => {
+            throw readFileError;
+        };
 
-        expect(() => readAdoExtensionMetadata(mockFs)).toThrowError(readFileError);
+        expect(() => testSubject.readMetadata()).toThrowError(readFileError);
     });
 
     it('throws an error if ado-extension-metadata.json is malformatted', () => {
-        const mockFs = {
-            readFileSync: () => '{ "extensionName": "Oops it had some stray "quotes"" }',
-        } as unknown as typeof fs;
+        mockFs.readFileSync = () => '{ "extensionName": "Oops it had some stray "quotes"" }';
 
-        expect(() => readAdoExtensionMetadata(mockFs)).toThrowErrorMatchingInlineSnapshot();
+        expect(() => testSubject.readMetadata()).toThrowErrorMatchingInlineSnapshot();
     });
 });
