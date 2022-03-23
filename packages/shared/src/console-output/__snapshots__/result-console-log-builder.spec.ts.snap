@@ -43,6 +43,25 @@ You can review the log to troubleshoot the issue. Fix it and re-run the pipeline
 "
 `;
 
+exports[`ResultConsoleLogBuilder uploadResultAsArtifact is false skips artifact link line when artifactsUrl returns undefined 1`] = `
+"
+Accessibility Insights
+
+No failures detected
+No failures were detected by automatic scanning.
+
+Next step: Manually assess keyboard accessibility with Accessibility Insights Tab Stops (https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+-------------------
+Scan summary
+URLs: 0 with failures, 1 passed, 7 not scannable
+Rules: 0 with failures, 1 passed, 2 not applicable
+
+-------------------
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+"
+`;
+
 exports[`ResultConsoleLogBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures) 1`] = `
 "
 Accessibility Insights
