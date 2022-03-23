@@ -58,19 +58,19 @@
             "visibleRule": "hostingMode = staticSite"
         },
         {
+            "name": "url",
+            "type": "string",
+            "label": "Website URL",
+            "required": true,
+            "helpMarkDown": "The hosted URL to scan/crawl for accessibility issues.",
+            "visibleRule": "hostingMode = dynamicSite"
+        },
+        {
             "name": "chromePath",
             "type": "string",
             "label": "Chrome Path",
             "required": false,
             "helpMarkDown": "Path to Chrome executable."
-        },
-        {
-            "name": "url",
-            "type": "string",
-            "label": "Website URL",
-            "required": false,
-            "helpMarkDown": "The hosted URL to scan/crawl for accessibility issues.",
-            "visibleRule": "hostingMode = dynamicSite"
         },
         {
             "name": "maxUrls",
