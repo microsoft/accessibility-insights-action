@@ -13,7 +13,6 @@
         "Patch": 0
     },
     "instanceNameFormat": "Run accessibility testing",
-    "groups": [{ "displayName": "We host your site", "isExpanded": false, "name": "weHostYourSite" }],
     "inputs": [
         {
             "name": "outputDir",
@@ -24,12 +23,22 @@
             "helpMarkDown": "Folder containing the scan report."
         },
         {
+            "name": "hostingMode",
+            "type": "pickList",
+            "label": "Hosting Mode",
+            "required": true,
+            "options": {
+                "staticSite": "We host your site",
+                "dynamicSite": "You host your own site"
+            }
+        },
+        {
             "name": "siteDir",
             "type": "string",
             "label": "Site Directory",
             "required": false,
             "helpMarkDown": "Folder containing website content.",
-            "groupName": "weHostYourSite"
+            "visibleRule": "hostingMode = staticSite"
         },
         {
             "name": "scanUrlRelativePath",
@@ -38,7 +47,7 @@
             "required": true,
             "defaultValue": "/",
             "helpMarkDown": "Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows.",
-            "groupName": "weHostYourSite"
+            "visibleRule": "hostingMode = staticSite"
         },
         {
             "name": "chromePath",
@@ -52,7 +61,8 @@
             "type": "string",
             "label": "Website URL",
             "required": false,
-            "helpMarkDown": "The hosted URL to scan/crawl for accessibility issues."
+            "helpMarkDown": "The hosted URL to scan/crawl for accessibility issues.",
+            "visibleRule": "hostingMode = dynamicSite"
         },
         {
             "name": "maxUrls",
@@ -89,7 +99,7 @@
             "label": "Localhost Port",
             "required": false,
             "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
-            "groupName": "weHostYourSite"
+            "visibleRule": "hostingMode = staticSite"
         },
         {
             "name": "scanTimeout",
@@ -121,6 +131,14 @@
             "required": true,
             "defaultValue": true,
             "helpMarkDown": "To get deterministic scanning results, either specify the singleWorker parameter or ensure that the value specified for the maxUrls parameter is larger than the total number of urls in the web site being scanned."
+        },
+        {
+            "name": "hostingMode",
+            "type": "pickList",
+            "label": "Hosting option",
+            "required": true,
+            "options": {"value": "staticSite", "name": "Static site"}
+
         }
     ],
     "execution": {
