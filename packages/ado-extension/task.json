@@ -137,8 +137,7 @@
             "type": "pickList",
             "label": "Hosting option",
             "required": true,
-            "options": {"value": "staticSite", "name": "Static site"}
-
+            "options": { "value": "staticSite", "name": "Static site" }
         }
     ],
     "execution": {
