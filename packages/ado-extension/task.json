@@ -36,7 +36,7 @@
             "name": "siteDir",
             "type": "string",
             "label": "Site Directory",
-            "required": false,
+            "required": true,
             "helpMarkDown": "Folder containing website content.",
             "visibleRule": "hostingMode = staticSite"
         },
@@ -44,9 +44,17 @@
             "name": "scanUrlRelativePath",
             "type": "string",
             "label": "Scan URL Relative Path",
-            "required": true,
+            "required": false,
             "defaultValue": "/",
             "helpMarkDown": "Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows.",
+            "visibleRule": "hostingMode = staticSite"
+        },
+        {
+            "name": "localhostPort",
+            "type": "int",
+            "label": "Localhost Port",
+            "required": false,
+            "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
@@ -94,14 +102,6 @@
             "helpMarkDown": "List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space."
         },
         {
-            "name": "localhostPort",
-            "type": "int",
-            "label": "Localhost Port",
-            "required": false,
-            "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
-            "visibleRule": "hostingMode = staticSite"
-        },
-        {
             "name": "scanTimeout",
             "type": "int",
             "label": "Scan Timeout",
@@ -131,13 +131,6 @@
             "required": true,
             "defaultValue": true,
             "helpMarkDown": "To get deterministic scanning results, either specify the singleWorker parameter or ensure that the value specified for the maxUrls parameter is larger than the total number of urls in the web site being scanned."
-        },
-        {
-            "name": "hostingMode",
-            "type": "pickList",
-            "label": "Hosting option",
-            "required": true,
-            "options": { "value": "staticSite", "name": "Static site" }
         }
     ],
     "execution": {
