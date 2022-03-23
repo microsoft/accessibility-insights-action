@@ -133,7 +133,8 @@
             "label": "Artifact Name",
             "required": false,
             "defaultValue": "accessibility-reports",
-            "helpMarkDown": "Name of the report artifact to be uploaded to the build."
+            "helpMarkDown": "Name of the report artifact to be uploaded to the build. Ignored if uploadResultAsArtifact is false.",
+            "visibleRule": "uploadResultAsArtifact = true"
         }
     ],
     "execution": {
