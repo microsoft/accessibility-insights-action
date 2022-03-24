@@ -23,11 +23,11 @@ export class GHTaskConfig extends TaskConfig {
         return this.getAbsolutePath(this.actionCoreObj.getInput('output-dir'));
     }
 
-    public getSiteDir(): string {
+    public getStaticSiteDir(): string {
         return this.actionCoreObj.getInput('site-dir');
     }
 
-    public getScanUrlRelativePath(): string {
+    public getStaticSiteRelativePath(): string {
         return this.actionCoreObj.getInput('scan-url-relative-path');
     }
 
@@ -74,7 +74,7 @@ export class GHTaskConfig extends TaskConfig {
         return parseInt(this.actionCoreObj.getInput('scan-timeout'));
     }
 
-    public getLocalhostPort(): number {
+    public getStaticSitePort(): number {
         const value = this.actionCoreObj.getInput('localhost-port');
 
         return isEmpty(value) ? undefined : parseInt(value, 10);
