@@ -41,7 +41,7 @@
             "visibleRule": "hostingMode = staticSite"
         },
         {
-            "name": "scanUrlRelativePath",
+            "name": "staticSiteUrlRelativePath",
             "type": "string",
             "label": "Scan URL Relative Path",
             "required": false,

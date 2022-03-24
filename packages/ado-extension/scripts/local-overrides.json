@@ -4,7 +4,7 @@
         "value": "../../dev/website-root/"
     },
     {
-        "name": "scanUrlRelativePath",
+        "name": "staticSiteUrlRelativePath",
         "value": "/"
     },
     {

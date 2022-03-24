@@ -29,9 +29,9 @@ export class ADOTaskConfig extends TaskConfig {
         return this.adoTaskObj.getInput('staticSiteDir')!;
     }
 
-    public getScanUrlRelativePath(): string {
+    public getStaticSiteUrlRelativePath(): string {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.adoTaskObj.getInput('scanUrlRelativePath')!;
+        return this.adoTaskObj.getInput('staticSiteUrlRelativePath')!;
     }
 
     public getToken(): string | undefined {

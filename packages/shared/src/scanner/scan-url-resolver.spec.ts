@@ -10,8 +10,8 @@ describe(ScanUrlResolver, () => {
     const taskConfigMock = Mock.ofType<TaskConfig>(null, MockBehavior.Strict);
     const scanUrlResolver = new ScanUrlResolver(taskConfigMock.object, (a, b) => `${a}---${b}`);
 
-    it('provides resolved URL from baseUrl and task config scanUrlRelativePath', () => {
-        taskConfigMock.setup((m) => m.getScanUrlRelativePath()).returns((_) => 'relative-path');
+    it('provides resolved URL from baseUrl and task config staticSiteUrlRelativePath', () => {
+        taskConfigMock.setup((m) => m.getStaticSiteUrlRelativePath()).returns((_) => 'relative-path');
         const args = scanUrlResolver.resolveLocallyHostedUrls('base-url');
         expect(args).toStrictEqual({
             url: 'base-url---relative-path',

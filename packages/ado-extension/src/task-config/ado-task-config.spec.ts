@@ -30,29 +30,29 @@ describe(ADOTaskConfig, () => {
     }
 
     it.each`
-        inputOption                   | inputValue          | expectedValue                                           | getInputFunc
-        ${'repoToken'}                | ${'token'}          | ${'token'}                                              | ${() => taskConfig.getToken()}
-        ${'repoToken'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getToken()}
-        ${'scanUrlRelativePath'}      | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chromePath'}               | ${'./chromePath'}   | ${getPlatformAgnosticPath(__dirname + '/chromePath')}   | ${() => taskConfig.getChromePath()}
-        ${'chromePath'}               | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getChromePath()}
-        ${'inputFile'}                | ${'./inputFile'}    | ${getPlatformAgnosticPath(__dirname + '/inputFile')}    | ${() => taskConfig.getInputFile()}
-        ${'inputFile'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getInputFile()}
-        ${'outputDir'}                | ${'./outputDir'}    | ${getPlatformAgnosticPath(__dirname + '/outputDir')}    | ${() => taskConfig.getReportOutDir()}
-        ${'staticSiteDir'}            | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getStaticSiteDir()}
-        ${'url'}                      | ${'url'}            | ${'url'}                                                | ${() => taskConfig.getUrl()}
-        ${'url'}                      | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getUrl()}
-        ${'discoveryPatterns'}        | ${'abc'}            | ${'abc'}                                                | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'discoveryPatterns'}        | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'inputUrls'}                | ${'abc'}            | ${'abc'}                                                | ${() => taskConfig.getInputUrls()}
-        ${'inputUrls'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getInputUrls()}
-        ${'maxUrls'}                  | ${'20'}             | ${20}                                                   | ${() => taskConfig.getMaxUrls()}
-        ${'scanTimeout'}              | ${'100000'}         | ${100000}                                               | ${() => taskConfig.getScanTimeout()}
-        ${'staticSitePort'}           | ${'8080'}           | ${8080}                                                 | ${() => taskConfig.getStaticSitePort()}
-        ${'staticSitePort'}           | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getStaticSitePort()}
-        ${'baselineFile'}             | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
-        ${'failOnAccessibilityError'} | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
-        ${'singleWorker'}             | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
+        inputOption                    | inputValue          | expectedValue                                           | getInputFunc
+        ${'repoToken'}                 | ${'token'}          | ${'token'}                                              | ${() => taskConfig.getToken()}
+        ${'repoToken'}                 | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getToken()}
+        ${'staticSiteUrlRelativePath'} | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getStaticSiteUrlRelativePath()}
+        ${'chromePath'}                | ${'./chromePath'}   | ${getPlatformAgnosticPath(__dirname + '/chromePath')}   | ${() => taskConfig.getChromePath()}
+        ${'chromePath'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getChromePath()}
+        ${'inputFile'}                 | ${'./inputFile'}    | ${getPlatformAgnosticPath(__dirname + '/inputFile')}    | ${() => taskConfig.getInputFile()}
+        ${'inputFile'}                 | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getInputFile()}
+        ${'outputDir'}                 | ${'./outputDir'}    | ${getPlatformAgnosticPath(__dirname + '/outputDir')}    | ${() => taskConfig.getReportOutDir()}
+        ${'staticSiteDir'}             | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getStaticSiteDir()}
+        ${'url'}                       | ${'url'}            | ${'url'}                                                | ${() => taskConfig.getUrl()}
+        ${'url'}                       | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getUrl()}
+        ${'discoveryPatterns'}         | ${'abc'}            | ${'abc'}                                                | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'discoveryPatterns'}         | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'inputUrls'}                 | ${'abc'}            | ${'abc'}                                                | ${() => taskConfig.getInputUrls()}
+        ${'inputUrls'}                 | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getInputUrls()}
+        ${'maxUrls'}                   | ${'20'}             | ${20}                                                   | ${() => taskConfig.getMaxUrls()}
+        ${'scanTimeout'}               | ${'100000'}         | ${100000}                                               | ${() => taskConfig.getScanTimeout()}
+        ${'staticSitePort'}            | ${'8080'}           | ${8080}                                                 | ${() => taskConfig.getStaticSitePort()}
+        ${'staticSitePort'}            | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getStaticSitePort()}
+        ${'baselineFile'}              | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
+        ${'failOnAccessibilityError'}  | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
+        ${'singleWorker'}              | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {

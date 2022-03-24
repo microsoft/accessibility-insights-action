@@ -10,7 +10,7 @@ export abstract class TaskConfig {
     constructor(@inject(iocTypes.Process) protected readonly processObj: typeof process) {}
     abstract getReportOutDir(): string;
     abstract getStaticSiteDir(): string;
-    abstract getScanUrlRelativePath(): string;
+    abstract getStaticSiteUrlRelativePath(): string;
     abstract getSingleWorker(): boolean;
     abstract getBaselineFile(): string | undefined;
     abstract getToken(): string | undefined;
