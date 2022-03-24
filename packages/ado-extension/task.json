@@ -33,7 +33,7 @@
             }
         },
         {
-            "name": "siteDir",
+            "name": "staticSiteDir",
             "type": "string",
             "label": "Site Directory",
             "required": true,

@@ -122,7 +122,7 @@ describe(LocalFileServer, () => {
 
     function setupMocksForLocalFileServerStart(): void {
         taskConfigMock
-            .setup((tm) => tm.getSiteDir())
+            .setup((tm) => tm.getStaticSiteDir())
             .returns(() => scanUrl)
             .verifiable();
 

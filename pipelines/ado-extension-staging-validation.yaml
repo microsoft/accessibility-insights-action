@@ -38,9 +38,9 @@ steps:
       displayName: 'Start /dev/website-root test server at http://localhost:5858'
 
     - task: accessibility-insights.staging.task.accessibility-insights@1
-      displayName: '[should succeed] case 1: siteDir, no baseline'
+      displayName: '[should succeed] case 1: staticSiteDir, no baseline'
       inputs:
-          siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+          staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           # intentionally omits outputDir; should go to default _accessibility-reports
       condition: succeededOrFailed()
 
@@ -105,7 +105,7 @@ steps:
     - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should fail] case 6: new baseline file'
       inputs:
-          siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+          staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           outputDir: '_accessibility-reports-case-6'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
       condition: succeededOrFailed()

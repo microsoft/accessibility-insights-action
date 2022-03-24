@@ -1,6 +1,6 @@
 [
     {
-        "name": "siteDir",
+        "name": "staticSiteDir",
         "value": "../../dev/website-root/"
     },
     {
