@@ -50,7 +50,7 @@
             "visibleRule": "hostingMode = staticSite"
         },
         {
-            "name": "localhostPort",
+            "name": "staticSitePort",
             "type": "int",
             "label": "Localhost Port",
             "required": false,

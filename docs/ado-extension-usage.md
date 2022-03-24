@@ -85,7 +85,7 @@ For instance, you can:
 -   use `maxUrls: 1` to turn off crawling
 -   include a list of additional URLs to scan (the crawler won't find pages that are unlinked from the base page)
 
-For `discoveryPatterns`, `inputFile`, and `inputUrls`, note that these options expect resolved URLs. If you provide static HTML files via `staticSiteDir`, you should also provide `localhostPort` so that you can anticipate the base URL of the file server (`http://localhost:localhostPort/`).
+For `discoveryPatterns`, `inputFile`, and `inputUrls`, note that these options expect resolved URLs. If you provide static HTML files via `staticSiteDir`, you should also provide `staticSitePort` so that you can anticipate the base URL of the file server (`http://localhost:staticSitePort/`).
 
 Examples:
 
@@ -102,7 +102,7 @@ Examples:
   displayName: Scan for accessibility issues (with staticSiteDir)
   inputs:
       staticSiteDir: '$(System.DefaultWorkingDirectory)/website/root/'
-      localhostPort: '12345'
+      staticSitePort: '12345'
       inputUrls: 'http://localhost:12345/unlinked-page.html'
 ```
 

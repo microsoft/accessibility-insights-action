@@ -21,6 +21,6 @@ export abstract class TaskConfig {
     abstract getInputFile(): string | undefined;
     abstract getInputUrls(): string | undefined;
     abstract getScanTimeout(): number;
-    abstract getLocalhostPort(): number | undefined;
+    abstract getStaticSitePort(): number | undefined;
     abstract getRunId(): number | undefined;
 }

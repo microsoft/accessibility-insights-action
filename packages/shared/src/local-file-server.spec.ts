@@ -77,19 +77,19 @@ describe(LocalFileServer, () => {
         });
 
         it('start with fixed TCP port', async () => {
-            const localhostPort = 50000;
+            const staticSitePort = 50000;
             taskConfigMock
-                .setup((o) => o.getLocalhostPort())
-                .returns(() => localhostPort)
+                .setup((o) => o.getStaticSitePort())
+                .returns(() => staticSitePort)
                 .verifiable();
             getPortMock.reset();
             getPortMock
-                .setup(async (o) => o({ port: localhostPort }))
-                .returns(() => Promise.resolve(localhostPort))
+                .setup(async (o) => o({ port: staticSitePort }))
+                .returns(() => Promise.resolve(staticSitePort))
                 .verifiable();
 
             const host = await localFileServer.start();
-            expect(host).toBe(`http://localhost:${localhostPort}`);
+            expect(host).toBe(`http://localhost:${staticSitePort}`);
             verifyMocks();
         });
 

@@ -81,8 +81,8 @@ export class ADOTaskConfig extends TaskConfig {
         return parseInt(this.adoTaskObj.getInput('scanTimeout')!);
     }
 
-    public getLocalhostPort(): number | undefined {
-        const value = this.adoTaskObj.getInput('localhostPort');
+    public getStaticSitePort(): number | undefined {
+        const value = this.adoTaskObj.getInput('staticSitePort');
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return isEmpty(value) ? undefined : parseInt(value!, 10);

@@ -55,9 +55,9 @@ export class LocalFileServer {
     }
 
     private async getTcpPort(): Promise<number> {
-        const localhostPort = this.taskConfig.getLocalhostPort();
-        if (localhostPort) {
-            return this.getPortFunc({ port: localhostPort });
+        const staticSitePort = this.taskConfig.getStaticSitePort();
+        if (staticSitePort) {
+            return this.getPortFunc({ port: staticSitePort });
         } else {
             return this.getPortFunc();
         }
