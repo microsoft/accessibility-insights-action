@@ -3,7 +3,7 @@
 
 parameters:
     - name: variableGroupName
-      displayName: Deployment Variable Group
+      displayName: Deployment variable group. Should contain variables named extensionId, extensionName, publisherId, and (optionally) appInsightsConnectionString.
       type: string
       default: 'ado-extension-canary'
     - name: versionOverride

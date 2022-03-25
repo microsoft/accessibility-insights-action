@@ -20,6 +20,7 @@ steps:
           echo extensionVersionOverride: $(extensionVersionOverride)
           echo environment: ${{ parameters.environment }}
           echo shouldSign: ${{ parameters.shouldSign }}
+          echo appInsightsConnectionString: $(AppInsightsConnectionString)
 
     - task: TfxInstaller@3
       inputs:
@@ -44,6 +45,25 @@ steps:
           versionAction: 'Patch'
           outputVariable: 'Task.Extension.Version'
           extensionVersionOverride: 'extensionVersionOverride'
+
+    # Keep this in sync with /packages/ado-extension/src/ado-extension-metadata.ts
+    #
+    # Note that AppInsightsConnectionString is optional; it is expected that it will be empty
+    # in some environments (eg, all non-Microsoft-internal production releases)
+    #
+    # To learn about this specific bash syntax, search for the term "here document"
+    - bash: |
+          cat <<EndOfAdoExtensionMetadata > $(System.DefaultWorkingDirectory)/ado-extension-drop/pkg/ado-extension-metadata.json
+          {
+            "publisherId": "$(PublisherId)",
+            "extensionId": "$(ExtensionID)",
+            "extensionName": "$(ExtensionName)",
+            "extensionVersion": "$(Task.Extension.Version)",
+            "environment": "${{ parameters.environment }}",
+            "appInsightsConnectionString": "$(AppInsightsConnectionString)"
+          }
+          EndOfAdoExtensionMetadata
+      displayName: Embed extension metadata in ado-extension-metadata.json
 
     - task: PackageAzureDevOpsExtension@3
       inputs:
