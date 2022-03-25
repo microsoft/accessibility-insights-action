@@ -50,15 +50,19 @@ steps:
     #
     # Note that AppInsightsConnectionString is optional; it is expected that it will be empty
     # in some environments (eg, all non-Microsoft-internal production releases)
+    #
+    # To learn about this specific bash syntax, search for the term "here document"
     - bash: |
-          echo { \
-            "publisherId": "$(PublisherId)", \
-            "extensionId": "$(ExtensionID)", \
-            "extensionName": "$(ExtensionName)", \
-            "extensionVersion": "$(Task.Extension.Version)", \
-            "environment": "${{ parameters.environment }}", \
-            "appInsightsConnectionString": "$(AppInsightsConnectionString)" \
-          } > $(System.DefaultWorkingDirectory)/ado-extension-drop/pkg/ado-extension-metadata.json
+          cat <<EndOfAdoExtensionMetadata > $(System.DefaultWorkingDirectory)/ado-extension-drop/pkg/ado-extension-metadata.json
+          {
+            "publisherId": "$(PublisherId)",
+            "extensionId": "$(ExtensionID)",
+            "extensionName": "$(ExtensionName)",
+            "extensionVersion": "$(Task.Extension.Version)",
+            "environment": "${{ parameters.environment }}",
+            "appInsightsConnectionString": "$(AppInsightsConnectionString)"
+          }
+          EndOfAdoExtensionMetadata
       displayName: Embed extension metadata in ado-extension-metadata.json
 
     - task: PackageAzureDevOpsExtension@3
