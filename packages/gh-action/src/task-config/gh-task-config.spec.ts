@@ -32,7 +32,7 @@ describe(GHTaskConfig, () => {
     it.each`
         inputOption                 | inputValue           | expectedValue                                            | getInputFunc
         ${'repo-token'}             | ${'token'}           | ${'token'}                                               | ${() => taskConfig.getToken()}
-        ${'scan-url-relative-path'} | ${'path'}            | ${'path'}                                                | ${() => taskConfig.getStaticSiteRelativePath()}
+        ${'scan-url-relative-path'} | ${'path'}            | ${'path'}                                                | ${() => taskConfig.getStaticSiteUrlRelativePath()}
         ${'chrome-path'}            | ${'./chrome-path'}   | ${getPlatformAgnosticPath(__dirname + '/chrome-path')}   | ${() => taskConfig.getChromePath()}
         ${'input-file'}             | ${'./input-file'}    | ${getPlatformAgnosticPath(__dirname + '/input-file')}    | ${() => taskConfig.getInputFile()}
         ${'output-dir'}             | ${'./output-dir'}    | ${getPlatformAgnosticPath(__dirname + '/output-dir')}    | ${() => taskConfig.getReportOutDir()}

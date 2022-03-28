@@ -33,7 +33,7 @@ describe(ADOTaskConfig, () => {
         inputOption                    | inputValue          | expectedValue                                           | getInputFunc
         ${'repoToken'}                 | ${'token'}          | ${'token'}                                              | ${() => taskConfig.getToken()}
         ${'repoToken'}                 | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getToken()}
-        ${'staticSiteUrlRelativePath'} | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getStaticSiteRelativePath()}
+        ${'staticSiteUrlRelativePath'} | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getStaticSiteUrlRelativePath()}
         ${'chromePath'}                | ${'./chromePath'}   | ${getPlatformAgnosticPath(__dirname + '/chromePath')}   | ${() => taskConfig.getChromePath()}
         ${'chromePath'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getChromePath()}
         ${'inputFile'}                 | ${'./inputFile'}    | ${getPlatformAgnosticPath(__dirname + '/inputFile')}    | ${() => taskConfig.getInputFile()}

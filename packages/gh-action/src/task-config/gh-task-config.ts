@@ -27,7 +27,7 @@ export class GHTaskConfig extends TaskConfig {
         return this.actionCoreObj.getInput('site-dir');
     }
 
-    public getStaticSiteRelativePath(): string {
+    public getStaticSiteUrlRelativePath(): string {
         return this.actionCoreObj.getInput('scan-url-relative-path');
     }
 
