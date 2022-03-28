@@ -16,7 +16,7 @@ export class ScanUrlResolver {
 
     public resolveLocallyHostedUrls(baseUrl: string): Partial<ScanArguments> {
         return {
-            url: this.resolveUrl(baseUrl, this.taskConfig.getStaticSiteUrlRelativePath()),
+            url: this.resolveUrl(baseUrl, this.taskConfig.getStaticSiteRelativePath()),
         };
     }
 }
