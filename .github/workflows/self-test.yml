@@ -12,10 +12,7 @@ on:
 jobs:
   self-test-dev:
     name: Self-test GitHub Action
-    strategy:
-      matrix:
-        os: ["ubuntu-latest", "windows-latest"]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     permissions:
       checks: write
       pull-requests: write
