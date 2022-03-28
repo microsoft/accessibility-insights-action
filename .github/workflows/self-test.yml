@@ -14,7 +14,7 @@ jobs:
     name: Self-test GitHub Action
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: ["ubuntu-latest", "windows-latest"]
     runs-on: ${{ matrix.os }}
     permissions:
       checks: write
