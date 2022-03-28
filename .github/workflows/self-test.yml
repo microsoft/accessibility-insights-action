@@ -1,0 +1,47 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+name: Self-test GitHub Action
+
+on:
+  push:
+    branches:
+      - main
+    # This doesn't run on PRs because of #629
+
+jobs:
+  self-test-dev:
+    name: Self-test GitHub Action
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      checks: write
+      pull-requests: write
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+      
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+    
+    - name: Build
+      run: yarn cbuild
+
+    - name: Scan test site
+      uses: ./packages/gh-action/
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        site-dir: ${{ github.workspace }}/dev/website-root
+
+    - name: Upload report artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: accessibility-reports
+        path: ${{ github.workspace }}/_accessibility-reports
