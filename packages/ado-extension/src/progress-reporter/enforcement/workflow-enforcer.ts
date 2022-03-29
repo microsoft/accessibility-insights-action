@@ -36,7 +36,7 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     private async failIfMutuallyExclusiveParametersWereConfigured(): Promise<boolean> {
-        if (typeof this.adoTaskConfig.getUrl() !== 'undefined' || typeof this.adoTaskConfig.getStaticSiteDir() !== 'undefined') {
+        if (typeof this.adoTaskConfig.getUrl() !== 'undefined' && typeof this.adoTaskConfig.getStaticSiteDir() !== 'undefined') {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             this.logger.logError(
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
