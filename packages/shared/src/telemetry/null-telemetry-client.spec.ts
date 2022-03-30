@@ -8,15 +8,15 @@ describe(NullTelemetryClient, () => {
         it('succeeds silently', () => {
             const testSubject = new NullTelemetryClient();
 
-            expect(() => testSubject.trackEvent({ name: 'irrelevant '})).not.toThrow();
-        })
-    })
+            expect(() => testSubject.trackEvent({ name: 'irrelevant ' })).not.toThrow();
+        });
+    });
 
     describe('flush', () => {
         it('succeeds silently', () => {
             const testSubject = new NullTelemetryClient();
 
             expect(() => testSubject.flush()).not.toThrow();
-        })
-    })
-})
+        });
+    });
+});

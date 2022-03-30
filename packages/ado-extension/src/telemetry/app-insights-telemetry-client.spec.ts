@@ -3,7 +3,7 @@
 import 'reflect-metadata';
 
 import type * as appInsights from '@microsoft/applicationinsights-web';
-import { AppInsightsTelemetryClient } from "./app-insights-telemetry-client";
+import { AppInsightsTelemetryClient } from './app-insights-telemetry-client';
 import { TelemetryEvent } from '@accessibility-insights-action/shared';
 
 class MockApplicationInsights {
@@ -33,7 +33,7 @@ describe(AppInsightsTelemetryClient, () => {
             expect(MockApplicationInsights.lastConstructedInstance?.snippet).toStrictEqual({
                 config: {
                     connectionString: 'test connection string',
-    
+
                     disableExceptionTracking: true,
                     disableFetchTracking: true,
                     disableAjaxTracking: true,
@@ -48,7 +48,7 @@ describe(AppInsightsTelemetryClient, () => {
         it("delegates to the underlying client's trackEvent", () => {
             const testSubject = new AppInsightsTelemetryClient(mockAppInsights, 'test connection string');
 
-            const testEvent: TelemetryEvent = { name: 'test event', properties: { 'prop 1': 'value 1' }};
+            const testEvent: TelemetryEvent = { name: 'test event', properties: { 'prop 1': 'value 1' } };
             testSubject.trackEvent(testEvent);
 
             expect(MockApplicationInsights.lastConstructedInstance?.trackEvent).toHaveBeenCalledWith(testEvent);
