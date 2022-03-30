@@ -19,12 +19,6 @@ export class AppInsightsTelemetryClient implements TelemetryClient {
                 disableCookiesUsage: true,
             },
         });
-
-        /* TODO:
-        this.underlyingClient.commonProperties = {
-            BUILD_ID: this.processObj.env['BUILD_ID'],
-        };
-        */
     }
 
     public trackEvent(event: TelemetryEvent): void {
