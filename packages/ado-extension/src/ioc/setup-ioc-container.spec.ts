@@ -29,14 +29,14 @@ describe(setupIocContainer, () => {
     test('verify progress reporter resolution', () => {
         verifySingletonDependencyResolution(testSubject, iocTypes.ProgressReporters);
     });
-    
+
     test('verify singleton TelemetryClient resolution using TelemetryClientFactory', () => {
         testSubject.bind(TelemetryClientFactory).to(StubTelemetryClientFactory);
 
         expect(testSubject.get(iocTypes.TelemetryClient)).toBeInstanceOf(StubTelemetryClient);
 
         verifySingletonDependencyResolution(testSubject, iocTypes.TelemetryClient);
-    })
+    });
 
     test.each([
         { key: AdoIocTypes.AdoTask, value: AdoTask },
@@ -54,5 +54,7 @@ describe(setupIocContainer, () => {
 
 class StubTelemetryClient extends NullTelemetryClient {}
 class StubTelemetryClientFactory extends TelemetryClientFactory {
-    public createTelemetryClient(): TelemetryClient { return new StubTelemetryClient(); }
+    public createTelemetryClient(): TelemetryClient {
+        return new StubTelemetryClient();
+    }
 }

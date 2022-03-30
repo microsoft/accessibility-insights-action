@@ -167,8 +167,8 @@ describe(Scanner, () => {
             setupMocksForSuccessfulScan();
             setupWaitForPromiseToReturnOriginalPromise();
 
-            telemetryClientMock.setup(m => m.trackEvent({ name: 'ScanStart' }));
-            telemetryClientMock.setup(m => m.flush());
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
+            telemetryClientMock.setup((m) => m.flush());
 
             await scanner.scan();
 
