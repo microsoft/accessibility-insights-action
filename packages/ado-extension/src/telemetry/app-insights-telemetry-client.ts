@@ -5,10 +5,10 @@ import type * as appInsights from '@microsoft/applicationinsights-web';
 import { TelemetryClient, TelemetryEvent } from '@accessibility-insights-action/shared';
 
 export class AppInsightsTelemetryClient implements TelemetryClient {
-    private underlyingClient: appInsights.ApplicationInsights;
+    private underlyingClient: appInsights.IApplicationInsights;
 
     public constructor(appInsightsObj: typeof appInsights, connectionString: string) {
-        this.underlyingClient = new appInsightsObj.ApplicationInsights({
+        const appInsightsInitializer = new appInsightsObj.ApplicationInsights({
             config: {
                 connectionString,
 
@@ -19,6 +19,8 @@ export class AppInsightsTelemetryClient implements TelemetryClient {
                 disableCookiesUsage: true,
             },
         });
+
+        this.underlyingClient = appInsightsInitializer.loadAppInsights();
     }
 
     public trackEvent(event: TelemetryEvent): void {

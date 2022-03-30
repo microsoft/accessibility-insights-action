@@ -8,7 +8,11 @@ import { AdoExtensionMetadata, AdoExtensionMetadataProvider } from '../ado-exten
 import { AppInsightsTelemetryClient } from './app-insights-telemetry-client';
 import { TelemetryClientFactory } from './telemetry-client-factory';
 
-class StubApplicationInsights {}
+class StubApplicationInsights {
+    loadAppInsights(): appInsights.IApplicationInsights {
+        return {} as appInsights.IApplicationInsights;
+    }
+}
 
 describe(TelemetryClientFactory, () => {
     let testSubject: TelemetryClientFactory;

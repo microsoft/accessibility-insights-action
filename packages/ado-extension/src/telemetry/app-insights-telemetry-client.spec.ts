@@ -5,24 +5,30 @@ import 'reflect-metadata';
 import type * as appInsights from '@microsoft/applicationinsights-web';
 import { AppInsightsTelemetryClient } from './app-insights-telemetry-client';
 import { TelemetryEvent } from '@accessibility-insights-action/shared';
-import { TelemetryEventName } from '@accessibility-insights-action/shared/dist/telemetry/telemetry-event';
+import { IMock, Mock } from 'typemoq';
 
-class MockApplicationInsights {
-    public static lastConstructedInstance?: MockApplicationInsights;
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+class MockApplicationInsightsInitializer {
+    public static lastConstructedInitializer?: MockApplicationInsightsInitializer;
+    public static lastLoadedMock?: IMock<appInsights.IApplicationInsights>;
 
     constructor(public readonly snippet: appInsights.Snippet) {
-        MockApplicationInsights.lastConstructedInstance = this;
+        MockApplicationInsightsInitializer.lastConstructedInitializer = this;
     }
 
-    public trackEvent = jest.fn();
-    public flush = jest.fn();
+    public loadAppInsights(): appInsights.IApplicationInsights {
+        const mockAppInsights = Mock.ofType<appInsights.IApplicationInsights>();
+        MockApplicationInsightsInitializer.lastLoadedMock = mockAppInsights;
+        return mockAppInsights.object;
+    }
 }
 
 describe(AppInsightsTelemetryClient, () => {
     let mockAppInsights: typeof appInsights;
     beforeEach(() => {
         mockAppInsights = {
-            ApplicationInsights: MockApplicationInsights as unknown as typeof appInsights.ApplicationInsights,
+            ApplicationInsights: MockApplicationInsightsInitializer as unknown as typeof appInsights.ApplicationInsights,
         } as typeof appInsights;
     });
 
@@ -30,8 +36,8 @@ describe(AppInsightsTelemetryClient, () => {
         it('initializes an underlying client with the expected parameters', () => {
             new AppInsightsTelemetryClient(mockAppInsights, 'test connection string');
 
-            expect(MockApplicationInsights.lastConstructedInstance).not.toBeUndefined();
-            expect(MockApplicationInsights.lastConstructedInstance?.snippet).toStrictEqual({
+            expect(MockApplicationInsightsInitializer.lastConstructedInitializer).not.toBeUndefined();
+            expect(MockApplicationInsightsInitializer.lastConstructedInitializer?.snippet).toStrictEqual({
                 config: {
                     connectionString: 'test connection string',
 
@@ -50,9 +56,12 @@ describe(AppInsightsTelemetryClient, () => {
             const testSubject = new AppInsightsTelemetryClient(mockAppInsights, 'test connection string');
 
             const testEvent: TelemetryEvent = { name: 'ScanStart', properties: { 'prop 1': 'value 1' } };
+
+            MockApplicationInsightsInitializer.lastLoadedMock!.setup((m) => m.trackEvent(testEvent)).verifiable();
+
             testSubject.trackEvent(testEvent);
 
-            expect(MockApplicationInsights.lastConstructedInstance?.trackEvent).toHaveBeenCalledWith(testEvent);
+            MockApplicationInsightsInitializer.lastLoadedMock!.verifyAll();
         });
     });
 
@@ -60,9 +69,11 @@ describe(AppInsightsTelemetryClient, () => {
         it("delegates to the underlying client's flush (in sync mode)", () => {
             const testSubject = new AppInsightsTelemetryClient(mockAppInsights, 'test connection string');
 
+            MockApplicationInsightsInitializer.lastLoadedMock!.setup((m) => m.flush(/* async: */ false)).verifiable();
+
             testSubject.flush();
 
-            expect(MockApplicationInsights.lastConstructedInstance?.flush).toHaveBeenCalledWith(/* async: */ false);
+            MockApplicationInsightsInitializer.lastLoadedMock!.verifyAll();
         });
     });
 });
