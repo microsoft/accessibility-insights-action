@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+export type TelemetryEventName = 'ScanStart';
+
 export type TelemetryEvent = {
-    name: string;
+    name: TelemetryEventName;
     properties?: { [key: string]: string };
 };
