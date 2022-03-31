@@ -15,10 +15,10 @@ describe(NullTelemetryClient, () => {
     });
 
     describe('flush', () => {
-        it('succeeds silently', () => {
+        it('succeeds silently', async () => {
             const testSubject = new NullTelemetryClient();
 
-            expect(() => testSubject.flush()).not.toThrow();
+            await expect(testSubject.flush()).resolves.not.toThrow();
         });
     });
 });

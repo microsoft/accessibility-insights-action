@@ -12,7 +12,7 @@ export class NullTelemetryClient implements TelemetryClient {
         // no-op
     }
 
-    public flush(): void {
+    public async flush(): Promise<void> {
         // no-op
     }
 }

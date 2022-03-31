@@ -5,5 +5,5 @@ import { TelemetryEvent } from './telemetry-event';
 
 export interface TelemetryClient {
     trackEvent(event: TelemetryEvent): void;
-    flush(): void;
+    flush(): Promise<void>;
 }

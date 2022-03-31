@@ -4,7 +4,7 @@ import 'reflect-metadata';
 
 import * as AdoTask from 'azure-pipelines-task-lib/task';
 import * as NodeApi from 'azure-devops-node-api';
-import * as AppInsights from '@microsoft/applicationinsights-web-basic';
+import * as AppInsights from 'applicationinsights';
 import { Container } from 'inversify';
 import { setupIocContainer } from './setup-ioc-container';
 import { iocTypes, NullTelemetryClient, TelemetryClient } from '@accessibility-insights-action/shared';

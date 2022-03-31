@@ -100,7 +100,7 @@ export class Scanner {
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
-            this.telemetryClient.flush();
+            await this.telemetryClient.flush();
         }
 
         return Promise.resolve(false);

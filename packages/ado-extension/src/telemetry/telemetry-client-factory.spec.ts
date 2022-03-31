@@ -2,18 +2,13 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import * as appInsights from '@microsoft/applicationinsights-web-basic';
+import type * as appInsights from 'applicationinsights';
+import type * as process from 'process';
 import { Logger, NullTelemetryClient } from '@accessibility-insights-action/shared';
 import { AdoExtensionMetadata, AdoExtensionMetadataProvider } from '../ado-extension-metadata';
 import { AppInsightsTelemetryClient } from './app-insights-telemetry-client';
 import { TelemetryClientFactory } from './telemetry-client-factory';
 import { IMock, Mock } from 'typemoq';
-
-class StubApplicationInsights {
-    public initialize(): void {
-        /* no-op */
-    }
-}
 
 describe(TelemetryClientFactory, () => {
     let testSubject: TelemetryClientFactory;
@@ -21,17 +16,20 @@ describe(TelemetryClientFactory, () => {
     let mockMetadataProvider: AdoExtensionMetadataProvider;
     let mockAppInsights: typeof appInsights;
     let mockLogger: IMock<Logger>;
+    let mockProcess: IMock<typeof process>;
 
     beforeEach(() => {
         mockAppInsights = {
-            ApplicationInsights: StubApplicationInsights,
+            TelemetryClient: StubTelemetryClient,
         } as unknown as typeof appInsights;
         mockMetadata = {} as AdoExtensionMetadata;
         mockMetadataProvider = {
             readMetadata: () => mockMetadata,
         } as AdoExtensionMetadataProvider;
         mockLogger = Mock.ofType<Logger>();
-        testSubject = new TelemetryClientFactory(mockAppInsights, mockMetadataProvider, mockLogger.object);
+        mockProcess = Mock.ofType<typeof process>();
+
+        testSubject = new TelemetryClientFactory(mockAppInsights, mockMetadataProvider, mockLogger.object, mockProcess.object);
     });
 
     it('returns a NullTelemetryClient if metadata contains no connection string', () => {
@@ -51,3 +49,5 @@ describe(TelemetryClientFactory, () => {
         expect(telemetryClient).toBeInstanceOf(AppInsightsTelemetryClient);
     });
 });
+
+class StubTelemetryClient { }
