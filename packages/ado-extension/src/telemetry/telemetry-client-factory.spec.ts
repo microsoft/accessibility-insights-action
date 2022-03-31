@@ -3,10 +3,11 @@
 import 'reflect-metadata';
 
 import * as appInsights from '@microsoft/applicationinsights-web';
-import { NullTelemetryClient } from '@accessibility-insights-action/shared';
+import { Logger, NullTelemetryClient } from '@accessibility-insights-action/shared';
 import { AdoExtensionMetadata, AdoExtensionMetadataProvider } from '../ado-extension-metadata';
 import { AppInsightsTelemetryClient } from './app-insights-telemetry-client';
 import { TelemetryClientFactory } from './telemetry-client-factory';
+import { IMock, Mock } from 'typemoq';
 
 class StubApplicationInsights {
     loadAppInsights(): appInsights.IApplicationInsights {
@@ -19,6 +20,7 @@ describe(TelemetryClientFactory, () => {
     let mockMetadata: AdoExtensionMetadata;
     let mockMetadataProvider: AdoExtensionMetadataProvider;
     let mockAppInsights: typeof appInsights;
+    let mockLogger: IMock<Logger>;
 
     beforeEach(() => {
         mockAppInsights = {
@@ -28,7 +30,8 @@ describe(TelemetryClientFactory, () => {
         mockMetadataProvider = {
             readMetadata: () => mockMetadata,
         } as AdoExtensionMetadataProvider;
-        testSubject = new TelemetryClientFactory(mockAppInsights, mockMetadataProvider);
+        mockLogger = Mock.ofType<Logger>();
+        testSubject = new TelemetryClientFactory(mockAppInsights, mockMetadataProvider, mockLogger.object);
     });
 
     it('returns a NullTelemetryClient if metadata contains no connection string', () => {

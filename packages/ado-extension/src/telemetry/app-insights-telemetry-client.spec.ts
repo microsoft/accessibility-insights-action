@@ -4,7 +4,7 @@ import 'reflect-metadata';
 
 import type * as appInsights from '@microsoft/applicationinsights-web';
 import { AppInsightsTelemetryClient } from './app-insights-telemetry-client';
-import { TelemetryEvent } from '@accessibility-insights-action/shared';
+import { Logger, TelemetryEvent } from '@accessibility-insights-action/shared';
 import { IMock, Mock } from 'typemoq';
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -26,15 +26,18 @@ class MockApplicationInsightsInitializer {
 
 describe(AppInsightsTelemetryClient, () => {
     let mockAppInsights: typeof appInsights;
+    let mockLogger: IMock<Logger>;
+
     beforeEach(() => {
         mockAppInsights = {
             ApplicationInsights: MockApplicationInsightsInitializer as unknown as typeof appInsights.ApplicationInsights,
         } as typeof appInsights;
+        mockLogger = Mock.ofType<Logger>();
     });
 
     describe('constructor', () => {
         it('initializes an underlying client with the expected parameters', () => {
-            new AppInsightsTelemetryClient(mockAppInsights, 'test connection string');
+            new AppInsightsTelemetryClient(mockAppInsights, 'test connection string', mockLogger.object);
 
             expect(MockApplicationInsightsInitializer.lastConstructedInitializer).not.toBeUndefined();
             expect(MockApplicationInsightsInitializer.lastConstructedInitializer?.snippet).toStrictEqual({
@@ -53,7 +56,7 @@ describe(AppInsightsTelemetryClient, () => {
 
     describe('trackEvent', () => {
         it("delegates to the underlying client's trackEvent", () => {
-            const testSubject = new AppInsightsTelemetryClient(mockAppInsights, 'test connection string');
+            const testSubject = new AppInsightsTelemetryClient(mockAppInsights, 'test connection string', mockLogger.object);
 
             const testEvent: TelemetryEvent = { name: 'ScanStart', properties: { 'prop 1': 'value 1' } };
 
@@ -67,7 +70,7 @@ describe(AppInsightsTelemetryClient, () => {
 
     describe('flush', () => {
         it("delegates to the underlying client's flush (in sync mode)", () => {
-            const testSubject = new AppInsightsTelemetryClient(mockAppInsights, 'test connection string');
+            const testSubject = new AppInsightsTelemetryClient(mockAppInsights, 'test connection string', mockLogger.object);
 
             MockApplicationInsightsInitializer.lastLoadedMock!.setup((m) => m.flush(/* async: */ false)).verifiable();
 

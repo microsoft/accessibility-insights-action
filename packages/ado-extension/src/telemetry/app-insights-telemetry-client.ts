@@ -3,11 +3,12 @@
 
 import type * as appInsights from '@microsoft/applicationinsights-web';
 import { TelemetryClient, TelemetryEvent } from '@accessibility-insights-action/shared';
+import { Logger } from '@accessibility-insights-action/shared';
 
 export class AppInsightsTelemetryClient implements TelemetryClient {
     private underlyingClient: appInsights.IApplicationInsights;
 
-    public constructor(appInsightsObj: typeof appInsights, connectionString: string) {
+    public constructor(appInsightsObj: typeof appInsights, connectionString: string, private readonly logger: Logger) {
         const appInsightsInitializer = new appInsightsObj.ApplicationInsights({
             config: {
                 connectionString,
@@ -24,10 +25,12 @@ export class AppInsightsTelemetryClient implements TelemetryClient {
     }
 
     public trackEvent(event: TelemetryEvent): void {
+        this.logger.logDebug(`AppInsightsTelemetryClient.trackEvent: ${JSON.stringify(event)}`);
         this.underlyingClient.trackEvent(event);
     }
 
     public flush(): void {
+        this.logger.logDebug(`AppInsightsTelemetryClient.flush`);
         this.underlyingClient.flush(/* async: */ false);
     }
 }
