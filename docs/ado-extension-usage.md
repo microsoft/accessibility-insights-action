@@ -28,7 +28,7 @@ Reference this extension in your Azure pipelines with the snippets on this page.
 
 ### Basic template
 
-Save this workflow file in your Azure DevOps repo as `azure-pipelines.yml` or in your GitHub repo as `/pipelines/accessibility-validation.yml`. This template saves results to `outputDir` (default: `_accessibility-reports`) and uploads an artifact to the build in Azure DevOps.
+Save this workflow file in your Azure DevOps repo as `azure-pipelines.yml` or in your GitHub repo as `/pipelines/accessibility-validation.yml`.
 
 When you push this file to your repository, you should see the task running in the build.
 

@@ -15,7 +15,7 @@ Accessibility Insights for Azure DevOps is an extension that enables you to inte
 
 -   Get a combined and deduplicated report of all issues found in the scan
 
--   Add a comment to your PR with the results summary on repos hosted on Azure DevOps
+-   Get a summary of results both in the task log and the Extensions tab of the Azure Pipelines UI
 
 -   (Optional) block PRs if there are accessibility issues found
 
