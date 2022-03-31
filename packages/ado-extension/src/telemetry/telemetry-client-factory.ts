@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import type * as appInsights from '@microsoft/applicationinsights-web';
+import type * as appInsights from '@microsoft/applicationinsights-web-basic';
 import { Logger, NullTelemetryClient, TelemetryClient } from '@accessibility-insights-action/shared';
 import { AdoExtensionMetadataProvider } from '../ado-extension-metadata';
 import { AppInsightsTelemetryClient } from './app-insights-telemetry-client';
@@ -23,7 +23,7 @@ export class TelemetryClientFactory {
         if (maybeConnectionString == null) {
             return new NullTelemetryClient();
         } else {
-            return new AppInsightsTelemetryClient(this.appInsightsObj, maybeConnectionString, this.logger);
+            return new AppInsightsTelemetryClient(this.appInsightsObj, maybeConnectionString, this.logger, () => new Date());
         }
     }
 }

@@ -18,7 +18,15 @@ export function runScan(): void {
         await logger.setup();
 
         const scanner = container.get(Scanner);
-        process.exit((await scanner.scan()) ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded);
+        const completedWithNoUserActionNeeded = await scanner.scan();
+
+        logger.logDebug(`Waiting 5s for telemetry to flush...`);
+        const delay = (delayMs: number) => new Promise((resolve) => setTimeout(resolve, delayMs));
+        await delay(5000); // for telemetry flush
+
+        process.exit(
+            completedWithNoUserActionNeeded ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded,
+        );
     })().catch((error) => {
         console.log('##[error][Exception] Exception thrown in extension: ', error);
         process.exit(ExitCode.ScanFailedToComplete);

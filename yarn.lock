@@ -1543,16 +1543,6 @@
   resolved "https://registry.yarnpkg.com/@medv/finder/-/finder-2.1.0.tgz#5c53cdaac3b87057b9e5579ca1282b2397624016"
   integrity sha512-Egrg5XO4kLol24b1Kv50HDfi5hW0yQ6aWSsO0Hea1eJ4rogKElIN0M86FdVnGF4XIGYyA7QWx0MgbOzVPA0qkA==
 
-"@microsoft/applicationinsights-analytics-js@2.7.4":
-  version "2.7.4"
-  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-analytics-js/-/applicationinsights-analytics-js-2.7.4.tgz#7366584151773562ce91322a6c61b25cb63c5701"
-  integrity sha512-jX5qbqAQRbWcSRLSyPe8uITWGz+aVLYnyHuX5MLjIMJ/JXtWkfOY8n8YTGQaZ0VH0oHmMioHtBqvw/IchUSZ4Q==
-  dependencies:
-    "@microsoft/applicationinsights-common" "2.7.4"
-    "@microsoft/applicationinsights-core-js" "2.7.4"
-    "@microsoft/applicationinsights-shims" "2.0.1"
-    "@microsoft/dynamicproto-js" "^1.1.4"
-
 "@microsoft/applicationinsights-channel-js@2.7.4":
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-channel-js/-/applicationinsights-channel-js-2.7.4.tgz#3174eb0eed3438fb57d970dc5b6f3cccefdb0349"
@@ -1580,42 +1570,19 @@
     "@microsoft/applicationinsights-shims" "2.0.1"
     "@microsoft/dynamicproto-js" "^1.1.4"
 
-"@microsoft/applicationinsights-dependencies-js@2.7.4":
-  version "2.7.4"
-  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-dependencies-js/-/applicationinsights-dependencies-js-2.7.4.tgz#2abe645c73e3238fd4e2e2e931fd07eb8ee4efb8"
-  integrity sha512-rwJWZ4a3k943fwejgT8Lr3sfXZRrLcho7V9Q+EIZdzxZkDzVJxj33CF6Kb8TIISgxgG9yqr3rDBsG/GLhgQ2iA==
-  dependencies:
-    "@microsoft/applicationinsights-common" "2.7.4"
-    "@microsoft/applicationinsights-core-js" "2.7.4"
-    "@microsoft/applicationinsights-shims" "2.0.1"
-    "@microsoft/dynamicproto-js" "^1.1.4"
-
-"@microsoft/applicationinsights-properties-js@2.7.4":
-  version "2.7.4"
-  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-properties-js/-/applicationinsights-properties-js-2.7.4.tgz#56ae0a6fda1e0a1a2269b0bf4e5f0baf4d725d37"
-  integrity sha512-kqYpQxMuK+EGoD2Q1rY+7NiEUsIRO3gepxBVn+ptUDtOsQGgAra/v/x5FqiKWcdVWyyESl/9e1FKoiMe9MKdlA==
-  dependencies:
-    "@microsoft/applicationinsights-common" "2.7.4"
-    "@microsoft/applicationinsights-core-js" "2.7.4"
-    "@microsoft/applicationinsights-shims" "2.0.1"
-    "@microsoft/dynamicproto-js" "^1.1.4"
-
 "@microsoft/applicationinsights-shims@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-shims/-/applicationinsights-shims-2.0.1.tgz#5d72fb7aaf4056c4fda54f9d7c93ccf8ca9bcbfd"
   integrity sha512-G0MXf6R6HndRbDy9BbEj0zrLeuhwt2nsXk2zKtF0TnYo39KgYqhYC2ayIzKPTm2KAE+xzD7rgyLdZnrcRvt9WQ==
 
-"@microsoft/applicationinsights-web@^2.7.4":
+"@microsoft/applicationinsights-web-basic@^2.7.4":
   version "2.7.4"
-  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-web/-/applicationinsights-web-2.7.4.tgz#711186d39c35e2f9f799611477686e7090087644"
-  integrity sha512-9IncUpF80vndiyOHLhYkSJZwdFXkELOhIdtr+EiVWzVSsbpJvU5jVn0IzOXGMnuhY3e61nTyJxCVovLCXnrKtQ==
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-web-basic/-/applicationinsights-web-basic-2.7.4.tgz#796555211005f5d0012ab2ec776547e6b9f21617"
+  integrity sha512-jTQ7fSI3vhnVIl/R+AwHvv8i/NFY3ooEwKfIIrP8wqno3W7q/rceHHpY+rez+z0uoibRmYajUtC55SA66JnW0w==
   dependencies:
-    "@microsoft/applicationinsights-analytics-js" "2.7.4"
     "@microsoft/applicationinsights-channel-js" "2.7.4"
     "@microsoft/applicationinsights-common" "2.7.4"
     "@microsoft/applicationinsights-core-js" "2.7.4"
-    "@microsoft/applicationinsights-dependencies-js" "2.7.4"
-    "@microsoft/applicationinsights-properties-js" "2.7.4"
     "@microsoft/applicationinsights-shims" "2.0.1"
     "@microsoft/dynamicproto-js" "^1.1.4"
 
@@ -4240,9 +4207,9 @@ css-select@~1.2.0:
     nth-check "~1.0.1"
 
 css-what@2.1, css-what@>=5.0.1, css-what@^5.0.0:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/css-what/-/css-what-6.0.1.tgz#3be33be55b9f302f710ba3a9c3abc1e2a63fc7eb"
-  integrity sha512-z93ZGFLNc6yaoXAmVhqoSIb+BduplteCt1fepvwhBUQK6MNE4g6fgjpuZKJKp0esUe+vXWlIkwZZjNWoOKw0ZA==
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/css-what/-/css-what-6.1.0.tgz#fb5effcf76f1ddea2c81bdfaa4de44e79bac70f4"
+  integrity sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==
 
 cssom@^0.4.4:
   version "0.4.4"
