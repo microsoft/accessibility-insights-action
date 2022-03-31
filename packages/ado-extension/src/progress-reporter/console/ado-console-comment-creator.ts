@@ -31,6 +31,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
         const baselineInfo = this.getBaselineInfo(baselineEvaluation);
         this.outputResultsMarkdownToBuildSummary(combinedReportResult, baselineInfo);
+        this.uploadReportArtifacts();
         this.logResultsToConsole(combinedReportResult, baselineInfo);
 
         return Promise.resolve();
@@ -60,6 +61,25 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         // eslint-disable-next-line security/detect-non-literal-fs-filename
         this.fileSystemObj.writeFileSync(fileName, reportMarkdown);
         this.logger.logInfo(`##vso[task.uploadsummary]${fileName}`);
+    }
+
+    private uploadReportArtifacts(): void {
+        const uploadResultAsArtifactEnabled: boolean = this.taskConfig.getUploadResultAsArtifact();
+        if (uploadResultAsArtifactEnabled) {
+            const outputDirectory = this.taskConfig.getReportOutDir();
+            const jobAttemptBuildVariable = this.taskConfig.getVariable('System.JobAttempt');
+            const artifactName = this.taskConfig.getArtifactName();
+
+            let artifactNameSuffix = '';
+            let jobAttemptNumber = 1;
+
+            if (jobAttemptBuildVariable !== undefined) {
+                jobAttemptNumber = parseInt(jobAttemptBuildVariable);
+                artifactNameSuffix = jobAttemptNumber > 1 ? `-${jobAttemptBuildVariable}` : '';
+            }
+
+            this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName + artifactNameSuffix}]${outputDirectory}`);
+        }
     }
 
     private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {

@@ -14,14 +14,6 @@ const regexTransformations: RegexTransformation[] = [
         method: useUnmodifiedString,
     },
     {
-        regex: new RegExp('^##vso\\[task.uploadsummary\\]'),
-        method: useUnmodifiedString,
-    },
-    {
-        regex: new RegExp('^##vso\\[task.logissue\\]'),
-        method: useUnmodifiedString,
-    },
-    {
         regex: new RegExp('^Processing page .*'),
         method: useUnmodifiedString,
     },

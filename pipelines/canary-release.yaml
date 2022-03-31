@@ -3,16 +3,16 @@
 
 parameters:
     - name: variableGroupName
-      displayName: Deployment Variable Group
+      displayName: Deployment variable group. Should contain variables named extensionId, extensionName, publisherId, and (optionally) appInsightsConnectionString.
       type: string
       default: 'ado-extension-canary'
     - name: versionOverride
-      displayName: Override extension version (if not specified, defaults to upgrading patch version)
+      displayName: Override extension version (for non-patch version upgrades, specify version number)
       type: string
-      default: ''
+      default: 'ignore-for-patch-version-upgrade'
 
 variables:
-    - ${{ if gt(length(parameters.versionOverride), 0) }}:
+    - ${{ if ne(parameters.versionOverride, 'ignore-for-patch-version-upgrade') }}:
           - name: extensionVersionOverride
             value: ${{ parameters.versionOverride }}
 
