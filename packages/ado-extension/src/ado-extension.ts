@@ -20,10 +20,6 @@ export function runScan(): void {
         const scanner = container.get(Scanner);
         const completedWithNoUserActionNeeded = await scanner.scan();
 
-        logger.logDebug(`Waiting 5s for telemetry to flush...`);
-        const delay = (delayMs: number) => new Promise((resolve) => setTimeout(resolve, delayMs));
-        await delay(5000); // for telemetry flush
-
         process.exit(
             completedWithNoUserActionNeeded ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded,
         );
