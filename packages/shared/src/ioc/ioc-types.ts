@@ -11,4 +11,5 @@ export const iocTypes = {
     TaskConfig: 'TaskConfig',
     ProgressReporters: 'ProgressReporters',
     ArtifactsInfoProvider: 'ArtifactsInfoProvider',
+    TelemetryClient: 'TelemetryClient',
 };

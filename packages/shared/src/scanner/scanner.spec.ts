@@ -26,6 +26,7 @@ import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { TaskConfig } from '../task-config';
 import * as fs from 'fs';
+import { TelemetryClient } from '../telemetry/telemetry-client';
 
 describe(Scanner, () => {
     let aiCrawlerMock: IMock<AICrawler>;
@@ -41,6 +42,7 @@ describe(Scanner, () => {
     let crawlerParametersBuilder: IMock<CrawlerParametersBuilder>;
     let baselineOptionsBuilderMock: IMock<BaselineOptionsBuilder>;
     let baselineFileUpdaterMock: IMock<BaselineFileUpdater>;
+    let telemetryClientMock: IMock<TelemetryClient>;
     let fsMock: IMock<typeof fs>;
     let scanner: Scanner;
     let combinedScanResult: CombinedScanResult;
@@ -63,6 +65,7 @@ describe(Scanner, () => {
         crawlerParametersBuilder = Mock.ofType<CrawlerParametersBuilder>();
         baselineOptionsBuilderMock = Mock.ofType<BaselineOptionsBuilder>(null, MockBehavior.Strict);
         baselineFileUpdaterMock = Mock.ofType<BaselineFileUpdater>();
+        telemetryClientMock = Mock.ofType<TelemetryClient>();
         fsMock = Mock.ofType<typeof fs>();
         scanner = new Scanner(
             aiCrawlerMock.object,
@@ -78,6 +81,7 @@ describe(Scanner, () => {
             crawlerParametersBuilder.object,
             baselineOptionsBuilderMock.object,
             baselineFileUpdaterMock.object,
+            telemetryClientMock.object,
             fsMock.object,
         );
         combinedScanResult = {
@@ -155,6 +159,18 @@ describe(Scanner, () => {
             setupWaitForPromiseToReturnOriginalPromise();
 
             await expect(scanner.scan()).resolves.toBe(false);
+
+            verifyMocks();
+        });
+
+        it('emits the expected pattern of telemetry', async () => {
+            setupMocksForSuccessfulScan();
+            setupWaitForPromiseToReturnOriginalPromise();
+
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
+            telemetryClientMock.setup((m) => m.flush());
+
+            await scanner.scan();
 
             verifyMocks();
         });
@@ -267,6 +283,7 @@ describe(Scanner, () => {
         promiseUtilsMock.verifyAll();
         baselineOptionsBuilderMock.verifyAll();
         baselineFileUpdaterMock.verifyAll();
+        telemetryClientMock.verifyAll();
         fsMock.verifyAll();
     }
 });
