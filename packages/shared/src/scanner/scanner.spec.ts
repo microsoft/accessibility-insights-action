@@ -163,7 +163,7 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
-        it('emits a StartScan telemetry event and flush telemetry when complete', async () => {
+        it('emits the expected pattern of telemetry', async () => {
             setupMocksForSuccessfulScan();
             setupWaitForPromiseToReturnOriginalPromise();
 
