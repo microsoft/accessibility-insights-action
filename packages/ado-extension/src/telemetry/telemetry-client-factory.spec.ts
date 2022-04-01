@@ -50,4 +50,4 @@ describe(TelemetryClientFactory, () => {
     });
 });
 
-class StubTelemetryClient { }
+class StubTelemetryClient {}

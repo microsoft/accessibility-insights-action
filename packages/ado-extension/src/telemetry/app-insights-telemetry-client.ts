@@ -48,14 +48,14 @@ export class AppInsightsTelemetryClient implements TelemetryClient {
 
     public trackEvent(event: TelemetryEvent): void {
         this.logger.logDebug(`[Telemetry] tracking a '${event.name}' event`);
-        this.underlyingClient.trackEvent(event)
+        this.underlyingClient.trackEvent(event);
     }
 
     public async flush(): Promise<void> {
         this.logger.logDebug(`[Telemetry] flushing telemetry`);
-        await new Promise<void>(resolve => {
+        await new Promise<void>((resolve) => {
             this.underlyingClient.flush({
-                callback: () => resolve()
+                callback: () => resolve(),
             });
         });
     }

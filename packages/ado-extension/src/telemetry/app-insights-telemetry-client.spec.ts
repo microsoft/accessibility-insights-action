@@ -59,11 +59,11 @@ describe(AppInsightsTelemetryClient, () => {
         });
 
         it.each`
-            commonPropName | metadataPropName
+            commonPropName            | metadataPropName
             ${'extensionPublisherId'} | ${'publisherId'}
-            ${'extensionId'} | ${'extensionId'}
-            ${'extensionName'} | ${'extensionName'}
-            ${'extensionVersion'} | ${'extensionVersion'}
+            ${'extensionId'}          | ${'extensionId'}
+            ${'extensionName'}        | ${'extensionName'}
+            ${'extensionVersion'}     | ${'extensionVersion'}
             ${'extensionEnvironment'} | ${'environment'}
         `('reflects metadata property $metadataPropName as common property $commonPropName', ({ commonPropName, metadataPropName }) => {
             new AppInsightsTelemetryClient(mockAppInsights, stubConnectionString, mockLogger.object, stubMetadata, stubProcessEnv);
@@ -80,11 +80,11 @@ describe(AppInsightsTelemetryClient, () => {
         });
 
         it.each`
-            commonPropName | envVar
-            ${'adoTeamProjectId'} | ${'SYSTEM_TEAMPROJECTID'}
+            commonPropName               | envVar
+            ${'adoTeamProjectId'}        | ${'SYSTEM_TEAMPROJECTID'}
             ${'adoPipelineDefinitionId'} | ${'SYSTEM_DEFINITIONID'}
-            ${'adoPullRequestId'} | ${'SYSTEM_PULLREQUEST_PULLREQUESTID'}
-            ${'adoJobId'} | ${'SYSTEM_JOBID'}
+            ${'adoPullRequestId'}        | ${'SYSTEM_PULLREQUEST_PULLREQUESTID'}
+            ${'adoJobId'}                | ${'SYSTEM_JOBID'}
         `('reflects environment variable $envVar as common property $commonPropName', ({ commonPropName, envVar }) => {
             stubProcessEnv[envVar] = 'ENV VAR VALUE';
 
@@ -113,7 +113,13 @@ describe(AppInsightsTelemetryClient, () => {
 
     describe('trackEvent', () => {
         it("delegates to the underlying client's trackEvent with the expected envelope format", () => {
-            const testSubject = new AppInsightsTelemetryClient(mockAppInsights, stubConnectionString, mockLogger.object, stubMetadata, stubProcessEnv);
+            const testSubject = new AppInsightsTelemetryClient(
+                mockAppInsights,
+                stubConnectionString,
+                mockLogger.object,
+                stubMetadata,
+                stubProcessEnv,
+            );
             const testEvent: TelemetryEvent = { name: 'ScanStart', properties: { 'prop 1': 'value 1' } };
 
             testSubject.trackEvent(testEvent);
@@ -124,7 +130,13 @@ describe(AppInsightsTelemetryClient, () => {
 
     describe('flush', () => {
         it("delegates to the underlying client's flush", () => {
-            const testSubject = new AppInsightsTelemetryClient(mockAppInsights, stubConnectionString, mockLogger.object, stubMetadata, stubProcessEnv);
+            const testSubject = new AppInsightsTelemetryClient(
+                mockAppInsights,
+                stubConnectionString,
+                mockLogger.object,
+                stubMetadata,
+                stubProcessEnv,
+            );
 
             testSubject.flush();
 
