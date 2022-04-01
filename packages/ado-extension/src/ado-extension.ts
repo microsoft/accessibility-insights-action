@@ -18,11 +18,7 @@ export function runScan(): void {
         await logger.setup();
 
         const scanner = container.get(Scanner);
-        const completedWithNoUserActionNeeded = await scanner.scan();
-
-        process.exit(
-            completedWithNoUserActionNeeded ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded,
-        );
+        process.exit((await scanner.scan()) ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded);
     })().catch((error) => {
         console.log('##[error][Exception] Exception thrown in extension: ', error);
         process.exit(ExitCode.ScanFailedToComplete);
