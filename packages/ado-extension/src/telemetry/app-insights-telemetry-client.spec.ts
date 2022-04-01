@@ -51,7 +51,7 @@ describe(AppInsightsTelemetryClient, () => {
         it('scrubs identifiable values App Insights populates by default', () => {
             new AppInsightsTelemetryClient(mockAppInsights, stubConnectionString, mockLogger.object, stubMetadata, stubProcessEnv);
             const underlying = MockUnderlyingClient.lastConstructedInstance!;
-            const contextKeys = appInsights.defaultClient.context.keys;
+            const contextKeys = underlying.context.keys;
 
             expect(underlying.context.tags[contextKeys.cloudRole]).toBe('');
             expect(underlying.context.tags[contextKeys.cloudRoleInstance]).toBe('');
@@ -129,7 +129,7 @@ describe(AppInsightsTelemetryClient, () => {
     });
 
     describe('flush', () => {
-        it("delegates to the underlying client's flush", () => {
+        it("delegates to the underlying client's flush", async () => {
             const testSubject = new AppInsightsTelemetryClient(
                 mockAppInsights,
                 stubConnectionString,
@@ -138,9 +138,16 @@ describe(AppInsightsTelemetryClient, () => {
                 stubProcessEnv,
             );
 
-            testSubject.flush();
+            const underlying = MockUnderlyingClient.lastConstructedInstance!;
 
-            expect(MockUnderlyingClient.lastConstructedInstance!.flush).toHaveBeenCalledTimes(1);
+            underlying.flush = jest.fn(({ callback }) => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+                callback();
+            });
+
+            await testSubject.flush();
+
+            expect(underlying.flush).toHaveBeenCalledTimes(1);
         });
     });
 });
@@ -149,11 +156,20 @@ class MockUnderlyingClient {
     public static lastConstructedInstance?: MockUnderlyingClient;
 
     public commonProperties?: { [key: string]: string };
-    public context: { tags: { [key: string]: string } };
+    public context: {
+        keys: appInsights.Contracts.ContextTagKeys;
+        tags: { [key: string]: string };
+    };
 
     constructor(public readonly config: string) {
         MockUnderlyingClient.lastConstructedInstance = this;
-        this.context = appInsights.defaultClient.context;
+        this.context = {
+            keys: new appInsights.Contracts.ContextTagKeys(),
+            tags: {},
+        };
+        for (const key in this.context.keys) {
+            this.context.tags[key] = `default value for tag ${key}`;
+        }
     }
 
     public trackEvent = jest.fn();

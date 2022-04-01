@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import type * as appInsights from 'applicationinsights';
+import * as appInsights from 'applicationinsights';
 import type * as process from 'process';
 import { Logger, NullTelemetryClient } from '@accessibility-insights-action/shared';
 import { AdoExtensionMetadata, AdoExtensionMetadataProvider } from '../ado-extension-metadata';
@@ -50,4 +50,12 @@ describe(TelemetryClientFactory, () => {
     });
 });
 
-class StubTelemetryClient {}
+class StubTelemetryClient {
+    public context: unknown;
+    constructor() {
+        this.context = {
+            keys: new appInsights.Contracts.ContextTagKeys(),
+            tags: {},
+        };
+    }
+}
