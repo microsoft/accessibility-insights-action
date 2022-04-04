@@ -29,7 +29,7 @@
             "required": true,
             "options": {
                 "staticSite": "We host your site",
-                "dynamicSite": "You host your own site"
+                "dynamicSite": "Host your own site"
             }
         },
         {

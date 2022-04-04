@@ -55,6 +55,12 @@ export class ADOTaskConfig extends TaskConfig {
         return isEmpty(value) ? undefined : value;
     }
 
+    public getHostingMode(): string | undefined {
+        const value = this.adoTaskObj.getInput('hostingMode');
+
+        return isEmpty(value) ? undefined : value;
+    }
+
     public getMaxUrls(): number {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return parseInt(this.adoTaskObj.getInput('maxUrls')!);

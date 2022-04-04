@@ -16,7 +16,11 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     public async start(): Promise<void> {
-        await this.failIfMutuallyExclusiveParametersWereConfigured();
+        //await this.failIfStaticSiteDirAndUrlAreSetAtTheSameTime();
+        await this.failIfUrlIsConfiguredInStaticSiteMode();
+        await this.failIfStaticSiteDirIsConfiguredInDynamicMode();
+        await this.failIfStaticSitePortIsConfiguredInDynamicMode();
+        await this.failIfStaticSiteUrlRelativePathIsConfiguredInDynamicMode();
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -35,12 +39,63 @@ export class WorkflowEnforcer extends ProgressReporter {
         return Promise.resolve(this.scanSucceeded);
     }
 
-    private async failIfMutuallyExclusiveParametersWereConfigured(): Promise<boolean> {
-        if (typeof this.adoTaskConfig.getUrl() !== 'undefined' && typeof this.adoTaskConfig.getStaticSiteDir() !== 'undefined') {
+    private async failIfStaticSiteDirAndUrlAreSetAtTheSameTime(): Promise<boolean> {
+        if (this.adoTaskConfig.getUrl() !== undefined && this.adoTaskConfig.getStaticSiteDir() !== undefined) {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             this.logger.logError(
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                `A configuration error has occurred, Url and staticSiteDir inputs cannot be set at the same time staticSiteDir:${this.adoTaskConfig.getStaticSiteDir()} url:${this.adoTaskConfig.getUrl()} `,
+                `A configuration error has occurred, Url and staticSiteDir inputs cannot be set at the same time`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfUrlIsConfiguredInStaticSiteMode(): Promise<boolean> {
+        if (this.adoTaskConfig.getHostingMode() === 'staticSite' && typeof this.adoTaskConfig.getUrl() !== 'undefined') {
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred url cannot be set in staticSite mode`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfStaticSiteDirIsConfiguredInDynamicMode(): Promise<boolean> {
+        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && typeof this.adoTaskConfig.getStaticSiteDir() !== 'undefined') {
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred staticSiteDir cannot be set in dynamicSite mode`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfStaticSitePortIsConfiguredInDynamicMode(): Promise<boolean> {
+        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && typeof this.adoTaskConfig.getStaticSitePort() !== 'undefined') {
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred staticSitePort cannot be set in dynamicSite mode`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfStaticSiteUrlRelativePathIsConfiguredInDynamicMode(): Promise<boolean> {
+        if (
+            this.adoTaskConfig.getHostingMode() === 'dynamicSite' &&
+            typeof this.adoTaskConfig.getStaticSiteUrlRelativePath() !== 'undefined'
+        ) {
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred staticSiteUrlRelativePath cannot be set in dynamicSite mode`,
             );
             await this.failRun();
             return true;
