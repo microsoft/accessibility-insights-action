@@ -5,6 +5,17 @@ Licensed under the MIT License.
 
 # How to use the Azure DevOps extension
 
+## Prerequisites
+
+### Tools
+
+-   [Yarn](https://yarnpkg.com/getting-started/install) >= 1.22.10
+    -   The Accessibility Insights for Azure DevOps extension uses Yarn to install dependencies. If your build agent does not come with Yarn pre-installed, you must add a step to install it yourself.
+    ```yml
+    - script: npm install yarn@1.22.10 -g
+      displayName: install yarn as a global dependency
+    ```
+
 ## Adding the extension
 
 Install [Accessibility Insights for Azure DevOps - Production](https://marketplace.visualstudio.com/items?itemName=accessibility-insights.prod).
@@ -37,11 +48,6 @@ steps:
           # Provide either staticSiteDir or url
           # staticSiteDir: '$(System.DefaultWorkingDirectory)/path-to-built-website/'
           # url: 'your-website-url'
-
-    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
-      displayName: Upload report artifact
-      condition: succeededOrFailed()
-      artifact: 'accessibility-reports'
 ```
 
 ### Scan a URL
@@ -136,18 +142,17 @@ Here is an example of a YAML file that is configured to take advantage of a base
   inputs:
       url: 'http://localhost:12345/'
       baselineFile: '$(Build.SourcesDirectory)/baselines/my-web-site.baseline'
-
-- publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports'
-  displayName: Upload report artifacts
-  condition: succeededOrFailed()
-  artifact: 'accessibility-reports'
 ```
 
-## Viewing results
+## Report Artifacts
 
--   An HTML report containing detailed results is saved to disk. To view it, you need to have added the step to upload artifacts to your yml file (see [Basic template](#basic-template)). Navigate to Artifacts from the build. Under `accessibility-reports`, you'll find the downloadable report labeled `index.html`.
+By default, an HTML report containing detailed results is automatically uploaded as a pipeline artifact named `accessibility-reports`. You can opt out of this automatic artifact upload by setting the `uploadResultAsArtifact` parameter to `false`. You can also specify a custom artifact name by setting the `artifactName` parameter in your YAML file. If not opted out, a link to the artifacts will also appear in both the task log and in the Extensions tab of the pipeline run.
 
--   If the workflow was triggered by a pull request, the action should leave a comment on the Azure DevOps pull request with results. The extension does not leave comments on repos in GitHub.
+To view the report, navigate to Artifacts from the build. Under `accessibility-reports`, or the artifact name manually specified, you'll find the downloadable report labeled `index.html`.
+
+## Summary results
+
+-   Summary results are output in both the task log and in the Extensions tab of the pipeline run. To view the task log, click into the job and then click on the `accessibilityinsights` task.
 
 ## Blocking pull requests
 
@@ -155,11 +160,13 @@ You can choose to block pull requests if the extension finds accessibility issue
 
 1. Ensure the extension is [triggered on each pull request](https://docs.microsoft.com/en-us/azure/devops/pipelines/customize-pipeline?view=azure-devops#customize-ci-triggers).
 2. Ensure that you have set the `failOnAccessibilityError` input variable to `true`.
-3. Ensure that the `Upload report artifact` step runs even in failure cases using [**succeededOrFailed()**](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml)
+
+## Running multiple times in a single pipeline
+
+If you want to run the extension multiple times in a single pipeline, you will need to ensure that unique `artifactName` and `outputDir` inputs are specified in your YAML file for each task. Artifact names and the output directory must be unique across all tasks in a pipeline.
 
 ## Troubleshooting
 
 -   If the action didn't trigger as you expected, check the `trigger` or `pr` sections of your yml file. Make sure any listed branch names are correct for your repository.
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
--   If you can't find an artifact, note that your workflow must include a `publish` step to add the report folder to your check results. See the [Basic template](#basic-template) above and [Azure DevOps documentation on publishing artifacts](https://docs.microsoft.com/en-us/azure/devops/pipelines/artifacts/pipeline-artifacts?view=azure-devops&tabs=yaml#publish-artifacts).
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scanTimeout` in milliseconds.

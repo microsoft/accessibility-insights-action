@@ -127,6 +127,19 @@ export class ADOTaskConfig extends TaskConfig {
         return this.processObj.env.SYSTEM_TEAMPROJECT ?? undefined;
     }
 
+    public getArtifactName(): string {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return this.adoTaskObj.getInput('artifactName')!;
+    }
+
+    public getUploadResultAsArtifact(): boolean {
+        return this.adoTaskObj.getBoolInput('uploadResultAsArtifact');
+    }
+
+    public getVariable(definedVariableName: string): string | undefined {
+        return this.adoTaskObj.getVariable(definedVariableName);
+    }
+
     private getAbsolutePath(path: string | undefined): string | undefined {
         if (isEmpty(path)) {
             return undefined;

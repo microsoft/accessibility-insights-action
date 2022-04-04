@@ -3,6 +3,7 @@
 
 import { inject, injectable } from 'inversify';
 import { isEmpty } from 'lodash';
+import { stackWithCauses } from 'pony-cause';
 import * as util from 'util';
 import { iocTypes } from '../ioc/ioc-types';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
@@ -26,7 +27,7 @@ export class ConsoleLoggerClient implements LoggerClient {
     }
 
     public trackException(error: Error): void {
-        this.logInConsole(`[error][Exception]${this.getPrintablePropertiesString()}`, this.getPrintableString(error));
+        this.logInConsole(`[error][Exception]${this.getPrintablePropertiesString()}`, stackWithCauses(error));
     }
 
     public setCustomProperties(properties: LoggerProperties): void {
