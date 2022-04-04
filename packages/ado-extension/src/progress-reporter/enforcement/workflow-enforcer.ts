@@ -16,7 +16,7 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     public async start(): Promise<void> {
-        //await this.failIfStaticSiteDirAndUrlAreSetAtTheSameTime();
+        await this.failIfStaticSiteDirAndUrlAreSetAtTheSameTime();
         await this.failIfUrlIsConfiguredInStaticSiteMode();
         await this.failIfStaticSiteDirIsConfiguredInDynamicMode();
         await this.failIfStaticSitePortIsConfiguredInDynamicMode();
@@ -89,10 +89,7 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     private async failIfStaticSiteUrlRelativePathIsConfiguredInDynamicMode(): Promise<boolean> {
-        if (
-            this.adoTaskConfig.getHostingMode() === 'dynamicSite' &&
-            typeof this.adoTaskConfig.getStaticSiteUrlRelativePath() !== 'undefined'
-        ) {
+        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && this.adoTaskConfig.getStaticSiteUrlRelativePath() !== '/') {
             this.logger.logError(
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                 `A configuration error has occurred staticSiteUrlRelativePath cannot be set in dynamicSite mode`,

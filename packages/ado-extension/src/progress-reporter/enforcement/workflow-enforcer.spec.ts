@@ -32,13 +32,13 @@ describe(WorkflowEnforcer, () => {
     describe('start', () => {
         it.each`
             input                          | hostingMode      | staticSiteDir      | staticSitePort | staticSiteUrlRelativePath      | url
-            ${'url'}                       | ${'staticSite'}  | ${undefined}       | ${undefined}   | ${undefined}                   | ${'url'}
-            ${'staticSiteDir'}             | ${'dynamicSite'} | ${'staticSiteDir'} | ${undefined}   | ${undefined}                   | ${undefined}
-            ${'staticSitePort'}            | ${'dynamicSite'} | ${undefined}       | ${100}         | ${undefined}                   | ${undefined}
+            ${'url'}                       | ${'staticSite'}  | ${undefined}       | ${undefined}   | ${'/'}                         | ${'url'}
+            ${'staticSiteDir'}             | ${'dynamicSite'} | ${'staticSiteDir'} | ${undefined}   | ${'/'}                         | ${undefined}
+            ${'staticSitePort'}            | ${'dynamicSite'} | ${undefined}       | ${100}         | ${'/'}                         | ${undefined}
             ${'staticSiteUrlRelativePath'} | ${'dynamicSite'} | ${undefined}       | ${undefined}   | ${'staticSiteUrlRelativePath'} | ${undefined}
         `(
             `returns correct error if '$input' is configured in '$hostingMode' mode`,
-            async ({ input, hostingMode, staticSiteDir, staticSitePort, staticSiteUrl: staticSiteUrlRelativePath, url }) => {
+            async ({ input, hostingMode, staticSiteDir, staticSitePort, staticSiteUrlRelativePath, url }) => {
                 adoTaskConfigMock
                     .setup((o) => o.getUrl())
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -59,77 +59,36 @@ describe(WorkflowEnforcer, () => {
                     .setup((o) => o.getStaticSiteUrlRelativePath())
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                     .returns(() => staticSiteUrlRelativePath);
-                adoTaskConfigMock
-                    .setup((o) => o.getFailOnAccessibilityError())
-                    .returns(() => true);
+                adoTaskConfigMock.setup((o) => o.getFailOnAccessibilityError()).returns(() => true);
                 loggerMock
-                .setup((o) =>
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                    o.logError(`A configuration error has occurred ${input} cannot be set in ${hostingMode} mode`),
-                )
-                .verifiable(Times.once());
+                    .setup((o) =>
+                        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                        o.logError(`A configuration error has occurred ${input} cannot be set in ${hostingMode} mode`),
+                    )
+                    .verifiable(Times.once());
 
                 const workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
                 await workflowEnforcer.start();
 
-                adoTaskConfigMock.verifyAll();
-            }
+                loggerMock.verifyAll();
+            },
         );
 
-        /*it('logs correct error if url is configured in static mode', async () => {
-            setUpGetHostingMode('staticSite');
-            setUpGetUrl();
-            setupLoggerWithErrorMessage(`A configuration error has occurred, Url cannot be set when we host your site mode was selected`);
-
-            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
-
-            await workflowEnforcer.start();
-
-            verifyAllMocks();
-        });
-
-        it('logs correct error if staticSiteDir is configured in dynamic mode', async () => {
-            setUpGetHostingMode('dynamicSite');
+        it('return correct error if staticSiteDir and Url are set at the same time', async () => {
             setUpGetStaticSiteDir();
-            setupLoggerWithErrorMessage(
-                `A configuration error has occurred, StaticSiteDir cannot be set when "you host your site" mode was selected`,
-            );
-
-            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
-
-            await workflowEnforcer.start();
-
-            verifyAllMocks();
-        });
-
-        it('logs correct error if staticSitePort is configured in dynamic mode', async () => {
-            setUpGetHostingMode('dynamicSite');
+            setUpGetUrl();
+            setupLoggerWithErrorMessage(`A configuration error has occurred, Url and staticSiteDir inputs cannot be set at the same time`);
+            setUpGetHostingMode();
             setUpGetStaticSitePort();
-            setupLoggerWithErrorMessage(
-                `A configuration error has occurred, StaticSitePort cannot be set when "you host your site" mode was selected`,
-            );
-
-            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
-
-            await workflowEnforcer.start();
-
-            verifyAllMocks();
-        });
-
-        it('logs correct error if staticSiteUrlRelativePath is configured in dynamic mode', async () => {
-            setUpGetHostingMode('dynamicSite');
             setUpGetStaticSiteUrlRelativePath();
-            setupLoggerWithErrorMessage(
-                `A configuration error has occurred, StaticSiteUrlRelativePath cannot be set when "you host your site" mode was selected`,
-            );
 
             const workflowEnforcer = buildWorkflowEnforcerWithMocks();
 
             await workflowEnforcer.start();
 
-            verifyAllMocks();
-        });*/
+            loggerMock.verifyAll();
+        });
     });
 
     describe('completeRun', () => {
@@ -227,7 +186,7 @@ describe(WorkflowEnforcer, () => {
             .verifiable(Times.atLeastOnce());
     };
 
-    /*const setUpGetUrl = () => {
+    const setUpGetUrl = () => {
         adoTaskConfigMock
             .setup((o) => o.getUrl())
             .returns(() => 'url')
@@ -241,7 +200,7 @@ describe(WorkflowEnforcer, () => {
             .verifiable(Times.atLeastOnce());
     };
 
-    const setUpGetHostingMode = (mode: string) => {
+    const setUpGetHostingMode = (mode?: string) => {
         adoTaskConfigMock
             .setup((o) => o.getHostingMode())
             .returns(() => mode)
@@ -260,7 +219,7 @@ describe(WorkflowEnforcer, () => {
             .setup((o) => o.getStaticSiteUrlRelativePath())
             .returns(() => 'url-relative-path')
             .verifiable(Times.atLeastOnce());
-    };*/
+    };
 
     const setupBaselineFileParameterExists = () => {
         adoTaskConfigMock
