@@ -9,7 +9,6 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
 import { WorkflowEnforcer } from './workflow-enforcer';
 import { Logger } from '@accessibility-insights-action/shared';
-import { times } from 'lodash';
 
 describe(WorkflowEnforcer, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
