@@ -54,11 +54,7 @@ export class ResultMarkdownBuilder {
                 this.failureDetailsBaseline(combinedReportResult, baselineInfo),
                 sectionSeparator(),
                 this.baselineDetails(baselineInfo),
-                sectionSeparator(),
-                sectionSeparator(),
                 this.downloadArtifactsWithLink(combinedReportResult, baselineInfo.baselineEvaluation),
-                sectionSeparator(),
-                sectionSeparator(),
                 footerSeparator(),
                 sectionSeparator(),
                 heading('Scan summary', 4),
@@ -333,12 +329,25 @@ export class ResultMarkdownBuilder {
     }
 
     private downloadArtifactsWithLink(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): string {
-        const artifactsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'run artifacts');
+        const artifactsUrl = this.artifactsInfoProvider.getArtifactsUrl();
+        let lines: string[] = [];
+        if (artifactsUrl === undefined) {
+            return lines.join('');
+        }
+
+        const artifactsLink = link(artifactsUrl, 'run artifacts');
         let details = 'all failures and scan details';
         if (!this.baselineHasFailures(baselineEvaluation) && !this.hasFailures(combinedReportResult, baselineEvaluation)) {
             details = 'scan details';
         }
-        return `See ${details} by downloading the report from ${artifactsLink}`;
+        lines = [
+            sectionSeparator(),
+            sectionSeparator(),
+            `See ${details} by downloading the report from ${artifactsLink}`,
+            sectionSeparator(),
+            sectionSeparator(),
+        ];
+        return lines.join('');
     }
 
     private baselineHasFailures = (baselineEvaluation: BaselineEvaluation): boolean => {

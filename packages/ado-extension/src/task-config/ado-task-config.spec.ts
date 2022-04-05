@@ -53,6 +53,8 @@ describe(ADOTaskConfig, () => {
         ${'baselineFile'}             | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
         ${'failOnAccessibilityError'} | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
         ${'singleWorker'}             | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
+        ${'artifactName'}             | ${'artifact-name'}  | ${'artifact-name'}                                      | ${() => taskConfig.getArtifactName()}
+        ${'uploadResultAsArtifact'}   | ${true}             | ${true}                                                 | ${() => taskConfig.getUploadResultAsArtifact()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
@@ -163,5 +165,18 @@ describe(ADOTaskConfig, () => {
         const actualCommitHash = taskConfig.getCommitHash();
 
         expect(actualCommitHash).toEqual(commitHash);
+    });
+
+    it('should call get variable from task library', () => {
+        const variableName = 'variableName';
+        const variableValue = 'variableValue';
+        adoTaskMock
+            .setup((o) => o.getVariable(variableName))
+            .returns(() => variableValue)
+            .verifiable(Times.once());
+
+        const actualVariableValue = taskConfig.getVariable(variableName);
+
+        expect(actualVariableValue).toEqual(variableValue);
     });
 });

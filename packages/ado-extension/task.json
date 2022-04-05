@@ -13,6 +13,7 @@
         "Patch": 0
     },
     "instanceNameFormat": "Run accessibility testing",
+    "groups": [{ "displayName": "Advanced Options", "isExpanded": false, "name": "advancedOptions" }],
     "inputs": [
         {
             "name": "outputDir",
@@ -20,7 +21,8 @@
             "label": "Output Directory",
             "required": true,
             "defaultValue": "_accessibility-reports",
-            "helpMarkDown": "Folder containing the scan report."
+            "helpMarkDown": "Folder containing the scan report.",
+            "groupName": "advancedOptions"
         },
         {
             "name": "siteDir",
@@ -43,7 +45,8 @@
             "type": "string",
             "label": "Chrome Path",
             "required": false,
-            "helpMarkDown": "Path to Chrome executable."
+            "helpMarkDown": "Path to Chrome executable.",
+            "groupName": "advancedOptions"
         },
         {
             "name": "url",
@@ -118,6 +121,23 @@
             "required": true,
             "defaultValue": true,
             "helpMarkDown": "To get deterministic scanning results, either specify the singleWorker parameter or ensure that the value specified for the maxUrls parameter is larger than the total number of urls in the web site being scanned."
+        },
+        {
+            "name": "uploadResultAsArtifact",
+            "type": "boolean",
+            "label": "Upload result as artifact",
+            "defaultValue": true,
+            "required": true,
+            "helpMarkDown": "Automatically upload the result as an artifact to the build. Set to false if you need to upload the artifact manually in a separate task or publish step."
+        },
+        {
+            "name": "artifactName",
+            "type": "string",
+            "label": "Artifact Name",
+            "required": false,
+            "defaultValue": "accessibility-reports",
+            "helpMarkDown": "Name of the report artifact to be uploaded to the build. Ignored if uploadResultAsArtifact is false.",
+            "visibleRule": "uploadResultAsArtifact = true"
         }
     ],
     "execution": {

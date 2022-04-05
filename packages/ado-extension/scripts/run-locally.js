@@ -24,6 +24,7 @@ without quotes, like singleWorker above.
 */
 
 const mockRunner = require('azure-pipelines-task-lib/mock-run');
+const fs = require('fs');
 const path = require('path');
 const { exit } = require('process');
 
@@ -58,6 +59,11 @@ for (const name of Object.keys(inputs)) {
     console.log(`run-locally.js is setting up input ${name} to value ${inputs[name]}`);
     tmr.setInput(name, inputs[name]);
 }
+
+const srcAdoExtensionMetadata = path.join(__dirname, 'local-ado-extension-metadata.json');
+const destAdoExtensionMetadata = path.join(__dirname, '..', 'dist', 'pkg', 'ado-extension-metadata.json');
+console.log(`run-locally.js is copying ${srcAdoExtensionMetadata} to ${destAdoExtensionMetadata}`);
+fs.copyFileSync(srcAdoExtensionMetadata, destAdoExtensionMetadata);
 
 console.log('beginning task execution below');
 console.log();

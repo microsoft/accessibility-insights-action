@@ -12,6 +12,7 @@ import { iocTypes } from './ioc-types';
 import { setupSharedIocContainer, setupIocContainer } from './setup-ioc-container';
 import { TaskConfig } from '../task-config';
 import { ProgressReporter } from '../progress-reporter/progress-reporter';
+import { NullTelemetryClient } from '../telemetry/null-telemetry-client';
 
 describe(setupSharedIocContainer, () => {
     let testSubject: Container;
@@ -23,6 +24,7 @@ describe(setupSharedIocContainer, () => {
     test.each([Scanner, Logger])('verify singleton resolution %p', (key: any) => {
         verifySingletonDependencyResolution(testSubject, key);
     });
+
     test.each([
         { key: iocTypes.Console, value: console },
         { key: iocTypes.Process, value: process },
@@ -34,6 +36,10 @@ describe(setupSharedIocContainer, () => {
         { key: iocTypes.ProgressReporters, value: [ProgressReporter] },
     ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
         expect(testSubject.get(pair.key)).toEqual(pair.value);
+    });
+
+    test('TelemetryClient should resolve as a NullTelemetryClient', () => {
+        expect(testSubject.get(iocTypes.TelemetryClient)).toBeInstanceOf(NullTelemetryClient);
     });
 
     function verifySingletonDependencyResolution(container: Container, key: any): void {
