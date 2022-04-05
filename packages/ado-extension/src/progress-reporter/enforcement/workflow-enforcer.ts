@@ -53,7 +53,7 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     private async failIfUrlIsConfiguredInStaticSiteMode(): Promise<boolean> {
-        if (this.adoTaskConfig.getHostingMode() === 'staticSite' && typeof this.adoTaskConfig.getUrl() !== 'undefined') {
+        if (this.adoTaskConfig.getHostingMode() === 'staticSite' && this.adoTaskConfig.getUrl() !== undefined) {
             this.logger.logError(
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                 `A configuration error has occurred url cannot be set in staticSite mode`,
@@ -65,7 +65,7 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     private async failIfStaticSiteDirIsConfiguredInDynamicMode(): Promise<boolean> {
-        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && typeof this.adoTaskConfig.getStaticSiteDir() !== 'undefined') {
+        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && this.adoTaskConfig.getStaticSiteDir() !== undefined) {
             this.logger.logError(
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                 `A configuration error has occurred staticSiteDir cannot be set in dynamicSite mode`,
@@ -77,7 +77,7 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     private async failIfStaticSitePortIsConfiguredInDynamicMode(): Promise<boolean> {
-        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && typeof this.adoTaskConfig.getStaticSitePort() !== 'undefined') {
+        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && this.adoTaskConfig.getStaticSitePort() !== undefined) {
             this.logger.logError(
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                 `A configuration error has occurred staticSitePort cannot be set in dynamicSite mode`,
