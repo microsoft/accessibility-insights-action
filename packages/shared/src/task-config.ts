@@ -8,8 +8,8 @@ import { iocTypes } from './ioc/ioc-types';
 export abstract class TaskConfig {
     constructor(@inject(iocTypes.Process) protected readonly processObj: typeof process) {}
     abstract getReportOutDir(): string;
-    abstract getSiteDir(): string;
-    abstract getScanUrlRelativePath(): string;
+    abstract getStaticSiteDir(): string;
+    abstract getStaticSiteUrlRelativePath(): string;
     abstract getSingleWorker(): boolean;
     abstract getBaselineFile(): string | undefined;
     abstract getToken(): string | undefined;
@@ -20,6 +20,6 @@ export abstract class TaskConfig {
     abstract getInputFile(): string | undefined;
     abstract getInputUrls(): string | undefined;
     abstract getScanTimeout(): number;
-    abstract getLocalhostPort(): number | undefined;
+    abstract getStaticSitePort(): number | undefined;
     abstract getRunId(): number | undefined;
 }

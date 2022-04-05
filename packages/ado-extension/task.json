@@ -25,35 +25,54 @@
             "groupName": "advancedOptions"
         },
         {
-            "name": "siteDir",
+            "name": "hostingMode",
+            "type": "pickList",
+            "label": "Hosting Mode",
+            "required": true,
+            "options": {
+                "staticSite": "We host your site",
+                "dynamicSite": "Host your own site"
+            }
+        },
+        {
+            "name": "staticSiteDir",
             "type": "string",
             "label": "Site Directory",
             "required": true,
-            "defaultValue": ".",
-            "helpMarkDown": "Folder containing website content."
+            "helpMarkDown": "Folder containing website content.",
+            "visibleRule": "hostingMode = staticSite"
         },
         {
-            "name": "scanUrlRelativePath",
+            "name": "staticSiteUrlRelativePath",
             "type": "string",
             "label": "Scan URL Relative Path",
-            "required": true,
+            "required": false,
             "defaultValue": "/",
-            "helpMarkDown": "Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows."
+            "helpMarkDown": "Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows.",
+            "visibleRule": "hostingMode = staticSite"
+        },
+        {
+            "name": "staticSitePort",
+            "type": "int",
+            "label": "Localhost Port",
+            "required": false,
+            "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
+            "visibleRule": "hostingMode = staticSite"
+        },
+        {
+            "name": "url",
+            "type": "string",
+            "label": "Website URL",
+            "required": true,
+            "helpMarkDown": "The hosted URL to scan/crawl for accessibility issues.",
+            "visibleRule": "hostingMode = dynamicSite"
         },
         {
             "name": "chromePath",
             "type": "string",
             "label": "Chrome Path",
             "required": false,
-            "helpMarkDown": "Path to Chrome executable.",
-            "groupName": "advancedOptions"
-        },
-        {
-            "name": "url",
-            "type": "string",
-            "label": "Website URL",
-            "required": false,
-            "helpMarkDown": "The hosted URL to scan/crawl for accessibility issues."
+            "helpMarkDown": "Path to Chrome executable."
         },
         {
             "name": "maxUrls",
@@ -83,13 +102,6 @@
             "label": "Input URLs",
             "required": false,
             "helpMarkDown": "List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space."
-        },
-        {
-            "name": "localhostPort",
-            "type": "int",
-            "label": "Localhost Port",
-            "required": false,
-            "helpMarkDown": "The preferred local website TCP port to use when scanning local website content."
         },
         {
             "name": "scanTimeout",

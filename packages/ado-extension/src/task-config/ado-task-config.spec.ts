@@ -30,31 +30,34 @@ describe(ADOTaskConfig, () => {
     }
 
     it.each`
-        inputOption                   | inputValue          | expectedValue                                           | getInputFunc
-        ${'repoToken'}                | ${'token'}          | ${'token'}                                              | ${() => taskConfig.getToken()}
-        ${'repoToken'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getToken()}
-        ${'scanUrlRelativePath'}      | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chromePath'}               | ${'./chromePath'}   | ${getPlatformAgnosticPath(__dirname + '/chromePath')}   | ${() => taskConfig.getChromePath()}
-        ${'chromePath'}               | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getChromePath()}
-        ${'inputFile'}                | ${'./inputFile'}    | ${getPlatformAgnosticPath(__dirname + '/inputFile')}    | ${() => taskConfig.getInputFile()}
-        ${'inputFile'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getInputFile()}
-        ${'outputDir'}                | ${'./outputDir'}    | ${getPlatformAgnosticPath(__dirname + '/outputDir')}    | ${() => taskConfig.getReportOutDir()}
-        ${'siteDir'}                  | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getSiteDir()}
-        ${'url'}                      | ${'url'}            | ${'url'}                                                | ${() => taskConfig.getUrl()}
-        ${'url'}                      | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getUrl()}
-        ${'discoveryPatterns'}        | ${'abc'}            | ${'abc'}                                                | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'discoveryPatterns'}        | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'inputUrls'}                | ${'abc'}            | ${'abc'}                                                | ${() => taskConfig.getInputUrls()}
-        ${'inputUrls'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getInputUrls()}
-        ${'maxUrls'}                  | ${'20'}             | ${20}                                                   | ${() => taskConfig.getMaxUrls()}
-        ${'scanTimeout'}              | ${'100000'}         | ${100000}                                               | ${() => taskConfig.getScanTimeout()}
-        ${'localhostPort'}            | ${'8080'}           | ${8080}                                                 | ${() => taskConfig.getLocalhostPort()}
-        ${'localhostPort'}            | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getLocalhostPort()}
-        ${'baselineFile'}             | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
-        ${'failOnAccessibilityError'} | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
-        ${'singleWorker'}             | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
-        ${'artifactName'}             | ${'artifact-name'}  | ${'artifact-name'}                                      | ${() => taskConfig.getArtifactName()}
-        ${'uploadResultAsArtifact'}   | ${true}             | ${true}                                                 | ${() => taskConfig.getUploadResultAsArtifact()}
+        inputOption                    | inputValue          | expectedValue                                           | getInputFunc
+        ${'repoToken'}                 | ${'token'}          | ${'token'}                                              | ${() => taskConfig.getToken()}
+        ${'repoToken'}                 | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getToken()}
+        ${'staticSiteUrlRelativePath'} | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getStaticSiteUrlRelativePath()}
+        ${'chromePath'}                | ${'./chromePath'}   | ${getPlatformAgnosticPath(__dirname + '/chromePath')}   | ${() => taskConfig.getChromePath()}
+        ${'chromePath'}                | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getChromePath()}
+        ${'inputFile'}                 | ${'./inputFile'}    | ${getPlatformAgnosticPath(__dirname + '/inputFile')}    | ${() => taskConfig.getInputFile()}
+        ${'inputFile'}                 | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getInputFile()}
+        ${'outputDir'}                 | ${'./outputDir'}    | ${getPlatformAgnosticPath(__dirname + '/outputDir')}    | ${() => taskConfig.getReportOutDir()}
+        ${'staticSiteDir'}             | ${'path'}           | ${'path'}                                               | ${() => taskConfig.getStaticSiteDir()}
+        ${'url'}                       | ${'url'}            | ${'url'}                                                | ${() => taskConfig.getUrl()}
+        ${'url'}                       | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getUrl()}
+        ${'hostingMode'}               | ${'staticSite'}     | ${'staticSite'}                                         | ${() => taskConfig.getHostingMode()}
+        ${'hostingMode'}               | ${'dynamicSite'}    | ${'dynamicSite'}                                        | ${() => taskConfig.getHostingMode()}
+        ${'hostingMode'}               | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getHostingMode()}
+        ${'discoveryPatterns'}         | ${'abc'}            | ${'abc'}                                                | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'discoveryPatterns'}         | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'inputUrls'}                 | ${'abc'}            | ${'abc'}                                                | ${() => taskConfig.getInputUrls()}
+        ${'inputUrls'}                 | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getInputUrls()}
+        ${'maxUrls'}                   | ${'20'}             | ${20}                                                   | ${() => taskConfig.getMaxUrls()}
+        ${'scanTimeout'}               | ${'100000'}         | ${100000}                                               | ${() => taskConfig.getScanTimeout()}
+        ${'staticSitePort'}            | ${'8080'}           | ${8080}                                                 | ${() => taskConfig.getStaticSitePort()}
+        ${'staticSitePort'}            | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getStaticSitePort()}
+        ${'baselineFile'}              | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
+        ${'failOnAccessibilityError'}  | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
+        ${'singleWorker'}              | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
+        ${'artifactName'}              | ${'artifact-name'}  | ${'artifact-name'}                                      | ${() => taskConfig.getArtifactName()}
+        ${'uploadResultAsArtifact'}    | ${true}             | ${true}                                                 | ${() => taskConfig.getUploadResultAsArtifact()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {

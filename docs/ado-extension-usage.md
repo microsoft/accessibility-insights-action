@@ -45,8 +45,8 @@ steps:
     - task: accessibility-insights.prod.task.accessibility-insights@1
       displayName: Scan for accessibility issues
       inputs:
-          # Provide either siteDir or url
-          # siteDir: '$(System.DefaultWorkingDirectory)/path-to-built-website/'
+          # Provide either staticSiteDir or url
+          # staticSiteDir: '$(System.DefaultWorkingDirectory)/path-to-built-website/'
           # url: 'your-website-url'
 ```
 
@@ -61,26 +61,26 @@ Provide the website URL. The URL should already be hosted - something like `http
       url: 'http://localhost:12345/'
 ```
 
-The `url` parameter takes priority over `siteDir`. If `url` is provided, static file options like `siteDir` and `scanUrlRelativePath` are ignored.
+The `url` parameter takes priority over `staticSiteDir`. If `url` is provided, static file options like `staticSiteDir` and `staticSiteUrlRelativePath` are ignored.
 
 ### Scan local HTML files
 
-Provide the location of your built HTML files using `siteDir` and (optionally) `scanUrlRelativePath`. The action will serve the site for you using `express`.
+Provide the location of your built HTML files using `staticSiteDir` and (optionally) `staticSiteUrlRelativePath`. The action will serve the site for you using `express`.
 
 ```yml
 - task: accessibility-insights.prod.task.accessibility-insights@1
   displayName: Scan for accessibility issues
   inputs:
-      siteDir: '$(System.DefaultWorkingDirectory)/website/root/'
-      scanUrlRelativePath: '/'
+      staticSiteDir: '$(System.DefaultWorkingDirectory)/website/root/'
+      staticSiteUrlRelativePath: '/'
 ```
 
-The file server will host files inside `siteDir`. The action begins crawling from `http://localhost:port/scanUrlRelativePath/`.
+The file server will host files inside `staticSiteDir`. The action begins crawling from `http://localhost:port/staticSiteUrlRelativePath/`.
 
 If you prefer to start crawling from a child directory, note that:
 
--   the local file server can only host descendants of `siteDir`
--   By default, the crawler only visits links prefixed with `http://localhost:port/scanUrlRelativePath/`. If you want to crawl links outside `scanUrlRelativePath`, provide something like `discoveryPatterns: 'http://localhost:port/[.*]'`
+-   the local file server can only host descendants of `staticSiteDir`
+-   By default, the crawler only visits links prefixed with `http://localhost:port/staticSiteUrlRelativePath/`. If you want to crawl links outside `staticSiteUrlRelativePath`, provide something like `discoveryPatterns: 'http://localhost:port/[.*]'`
 
 ### Modify crawling options
 
@@ -91,7 +91,7 @@ For instance, you can:
 -   use `maxUrls: 1` to turn off crawling
 -   include a list of additional URLs to scan (the crawler won't find pages that are unlinked from the base page)
 
-For `discoveryPatterns`, `inputFile`, and `inputUrls`, note that these options expect resolved URLs. If you provide static HTML files via `siteDir`, you should also provide `localhostPort` so that you can anticipate the base URL of the file server (`http://localhost:localhostPort/`).
+For `discoveryPatterns`, `inputFile`, and `inputUrls`, note that these options expect resolved URLs. If you provide static HTML files via `staticSiteDir`, you should also provide `staticSitePort` so that you can anticipate the base URL of the file server (`http://localhost:staticSitePort/`).
 
 Examples:
 
@@ -105,10 +105,10 @@ Examples:
 
 ```yml
 - task: accessibility-insights.prod.task.accessibility-insights@1
-  displayName: Scan for accessibility issues (with siteDir)
+  displayName: Scan for accessibility issues (with staticSiteDir)
   inputs:
-      siteDir: '$(System.DefaultWorkingDirectory)/website/root/'
-      localhostPort: '12345'
+      staticSiteDir: '$(System.DefaultWorkingDirectory)/website/root/'
+      staticSitePort: '12345'
       inputUrls: 'http://localhost:12345/unlinked-page.html'
 ```
 

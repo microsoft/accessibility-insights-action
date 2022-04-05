@@ -16,7 +16,11 @@ export class WorkflowEnforcer extends ProgressReporter {
     }
 
     public async start(): Promise<void> {
-        // We don't do anything for workflow enforcement
+        await this.failIfStaticSiteDirAndUrlAreSetAtTheSameTime();
+        await this.failIfUrlIsConfiguredInStaticSiteMode();
+        await this.failIfStaticSiteDirIsConfiguredInDynamicMode();
+        await this.failIfStaticSitePortIsConfiguredInDynamicMode();
+        await this.failIfStaticSiteUrlRelativePathIsConfiguredInDynamicMode();
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -33,6 +37,67 @@ export class WorkflowEnforcer extends ProgressReporter {
 
     public didScanSucceed(): Promise<boolean> {
         return Promise.resolve(this.scanSucceeded);
+    }
+
+    private async failIfStaticSiteDirAndUrlAreSetAtTheSameTime(): Promise<boolean> {
+        if (this.adoTaskConfig.getUrl() !== undefined && this.adoTaskConfig.getStaticSiteDir() !== undefined) {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred, Url and staticSiteDir inputs cannot be set at the same time`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfUrlIsConfiguredInStaticSiteMode(): Promise<boolean> {
+        if (this.adoTaskConfig.getHostingMode() === 'staticSite' && this.adoTaskConfig.getUrl() !== undefined) {
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred url cannot be set in staticSite mode`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfStaticSiteDirIsConfiguredInDynamicMode(): Promise<boolean> {
+        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && this.adoTaskConfig.getStaticSiteDir() !== undefined) {
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred staticSiteDir cannot be set in dynamicSite mode`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfStaticSitePortIsConfiguredInDynamicMode(): Promise<boolean> {
+        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && this.adoTaskConfig.getStaticSitePort() !== undefined) {
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred staticSitePort cannot be set in dynamicSite mode`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfStaticSiteUrlRelativePathIsConfiguredInDynamicMode(): Promise<boolean> {
+        if (this.adoTaskConfig.getHostingMode() === 'dynamicSite' && this.adoTaskConfig.getStaticSiteUrlRelativePath() !== '/') {
+            this.logger.logError(
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `A configuration error has occurred staticSiteUrlRelativePath cannot be set in dynamicSite mode`,
+            );
+            await this.failRun();
+            return true;
+        }
+        return false;
     }
 
     private async failIfAccessibilityErrorExists(combinedReportResult: CombinedReportParameters): Promise<boolean> {

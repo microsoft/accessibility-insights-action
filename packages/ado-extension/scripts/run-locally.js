@@ -19,7 +19,7 @@ pairs inside local-overrides.json. For instance:
 ]
 
 Valid names include any input name in task.json, e.g.
-outputDir, siteDir, etc. Boolean values can be provided
+outputDir, staticSiteDir, etc. Boolean values can be provided
 without quotes, like singleWorker above.
 */
 
