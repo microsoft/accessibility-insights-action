@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import { Mock, IMock, MockBehavior, It, Times } from 'typemoq';
+import { Mock, IMock, MockBehavior, Times } from 'typemoq';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters, HowToFixData, AxeRuleData, FailuresGroup } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';

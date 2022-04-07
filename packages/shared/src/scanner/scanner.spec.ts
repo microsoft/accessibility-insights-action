@@ -206,9 +206,11 @@ describe(Scanner, () => {
                 .verifiable(Times.once());
 
             fsMock
+                // eslint-disable-next-line security/detect-non-literal-fs-filename
                 .setup((fsm) => fsm.existsSync(reportOutDir))
                 .returns(() => false)
                 .verifiable();
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
             fsMock.setup((fsm) => fsm.mkdirSync(reportOutDir)).verifiable();
 
             const crawlerParams: CrawlerRunOptions = {
