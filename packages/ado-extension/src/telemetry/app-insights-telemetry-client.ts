@@ -48,13 +48,10 @@ export class AppInsightsTelemetryClient implements TelemetryClient {
 
     public trackEvent(event: TelemetryEvent): void {
         this.logger.logDebug(`[Telemetry] tracking a '${event.name}' event`);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        this.logger.logInfo(JSON.stringify(event.properties));
         this.underlyingClient.trackEvent(event);
     }
 
     public async flush(): Promise<void> {
-        this.logger.logInfo(`[Telemetry] flushing telemetry`);
         await new Promise<void>((resolve) => {
             this.underlyingClient.flush({
                 callback: () => resolve(),

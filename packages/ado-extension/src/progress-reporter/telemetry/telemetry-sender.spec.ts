@@ -5,78 +5,59 @@ import 'reflect-metadata';
 import { Mock, IMock, MockBehavior, It, Times } from 'typemoq';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters, HowToFixData, AxeRuleData, FailuresGroup } from 'accessibility-insights-report';
-import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { TelemetrySender } from './telemetry-sender';
-import { TelemetryClient } from '@accessibility-insights-action/shared';
+import { TelemetryClient, TelemetryEvent } from '@accessibility-insights-action/shared';
 
 describe(TelemetrySender, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let telemetryClientMock: IMock<TelemetryClient>;
     let telemetrySender: TelemetrySender;
+    const teamProjectIdentifier = 'test-team-project';
+    const runId = 7;
+    const baselineFailuresFixed = 3;
+    const baselineNewFailures = 1;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
         telemetryClientMock = Mock.ofType<TelemetryClient>(undefined, MockBehavior.Strict);
 
-        adoTaskConfigMock.setup((x) => x.getTeamProject()).returns(() => 'test-team-project');
-        adoTaskConfigMock.setup((x) => x.getRunId()).returns(() => 7);
-
-        telemetryClientMock.setup((x) => x.trackEvent(It.isAny())).verifiable(Times.once());
+        adoTaskConfigMock
+            .setup((x) => x.getTeamProject())
+            .returns(() => teamProjectIdentifier)
+            .verifiable(Times.once());
+        adoTaskConfigMock
+            .setup((x) => x.getRunId())
+            .returns(() => runId)
+            .verifiable(Times.once());
     });
 
     describe('constructor', () => {
         it('initializes', () => {
             telemetrySender = buildTelemetrySenderWithMocks();
-
-            verifyAllMocks();
         });
     });
 
     describe('completeRun', () => {
-        it('logs correct error if accessibility error occurred', async () => {
-            const reportStub = {
-                results: {
-                    resultsByRule: {
-                        failed: [makeFailuresGroup('failed-rule-1'), makeFailuresGroup('failed-rule-2')],
-                    },
-                },
-            } as unknown as CombinedReportParameters;
-            const baselineEvaluationStub = {} as BaselineEvaluation;
-
-            const telemetrySender = buildTelemetrySenderWithMocks();
-
-            await telemetrySender.completeRun(reportStub, baselineEvaluationStub);
-
-            verifyAllMocks();
-        });
-
-        it('logs correct error if baseline needs to be updated', async () => {
-            const reportStub = {} as CombinedReportParameters;
+        it('succeeds with baseline enabled', async () => {
+            const reportStub = createCombinedReportParamsStub();
             const baselineEvaluationStub = {
-                suggestedBaselineUpdate: {} as BaselineFileContent,
+                totalNewViolations: baselineNewFailures,
+                totalFixedViolations: baselineFailuresFixed,
             } as BaselineEvaluation;
-
             const telemetrySender = buildTelemetrySenderWithMocks();
+            setupTelemetryClientWithEvent(true);
 
             await telemetrySender.completeRun(reportStub, baselineEvaluationStub);
 
             verifyAllMocks();
         });
 
-        it('succeeds in happy path (baseline enabled)', async () => {
-            const reportStub = {} as CombinedReportParameters;
-            const baselineEvaluationStub = {} as BaselineEvaluation;
-
-            const telemetrySender = buildTelemetrySenderWithMocks();
-
-            await telemetrySender.completeRun(reportStub, baselineEvaluationStub);
-
-            verifyAllMocks();
-        });
-
-        it('succeeds in happy path (baselineEvaluation not provided)', async () => {
-            const reportStub = {} as CombinedReportParameters;
+        it('succeeds without baselineEvaluation provided', async () => {
+            const reportStub = createCombinedReportParamsStub();
             telemetrySender = buildTelemetrySenderWithMocks();
+            setupTelemetryClientWithEvent(false);
+
             await telemetrySender.completeRun(reportStub);
 
             verifyAllMocks();
@@ -124,6 +105,45 @@ describe(TelemetrySender, () => {
                 ruleUrl: `https://example.com/rules/${ruleId}`,
                 tags: ['common-tag', `${ruleId}-specific-tag`],
             };
+        }
+
+        function createCombinedReportParamsStub(): CombinedReportParameters {
+            const combinedReportParamsStub = {
+                results: {
+                    resultsByRule: {
+                        failed: [makeFailuresGroup('failed-rule-1'), makeFailuresGroup('failed-rule-2')],
+                    },
+                },
+            } as unknown as CombinedReportParameters;
+
+            return combinedReportParamsStub;
+        }
+
+        function setupTelemetryClientWithEvent(generateWithBaselineEnabled: boolean): void {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const eventProperties: { [key: string]: any } = {};
+            eventProperties.teamProject = teamProjectIdentifier;
+            eventProperties.runId = runId;
+
+            eventProperties.rulesFailedListWithCounts = [
+                { ruleId: 'failed-rule-1', failureCount: 4 },
+                { ruleId: 'failed-rule-2', failureCount: 4 },
+            ];
+
+            eventProperties.baselineIsEnabled = generateWithBaselineEnabled;
+            if (generateWithBaselineEnabled) {
+                eventProperties.baselineFailuresFixed = baselineFailuresFixed;
+                eventProperties.baselineNewFailures = baselineNewFailures;
+            }
+
+            telemetryClientMock
+                .setup((x) =>
+                    x.trackEvent({
+                        name: 'ScanCompleted',
+                        properties: eventProperties,
+                    } as TelemetryEvent),
+                )
+                .verifiable(Times.once());
         }
     });
 

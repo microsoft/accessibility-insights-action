@@ -27,7 +27,7 @@ export class TelemetrySender extends ProgressReporter {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const eventProperties: { [key: string]: any } = {};
         eventProperties.teamProject = this.adoTaskConfig.getTeamProject() ?? '';
-        eventProperties.runId = this.adoTaskConfig.getRunId()?.toString() ?? '';
+        eventProperties.runId = this.adoTaskConfig.getRunId() ?? '';
 
         eventProperties.rulesFailedListWithCounts = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
             const failureCount = failuresGroup.failed.reduce((a, b) => a + (b.urls ? b.urls.length : 0), 0);
@@ -44,7 +44,7 @@ export class TelemetrySender extends ProgressReporter {
         }
 
         this.telemetryClient.trackEvent({
-            name: 'ScanStart',
+            name: 'ScanCompleted',
             properties: eventProperties,
         } as TelemetryEvent);
     }
