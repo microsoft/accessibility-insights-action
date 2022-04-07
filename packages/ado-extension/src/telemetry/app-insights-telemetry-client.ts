@@ -52,7 +52,6 @@ export class AppInsightsTelemetryClient implements TelemetryClient {
     }
 
     public async flush(): Promise<void> {
-        this.logger.logDebug(`[Telemetry] flushing telemetry`);
         await new Promise<void>((resolve) => {
             this.underlyingClient.flush({
                 callback: () => resolve(),

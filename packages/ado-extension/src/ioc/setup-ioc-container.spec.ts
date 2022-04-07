@@ -27,6 +27,7 @@ describe(setupIocContainer, () => {
     );
 
     test('verify progress reporter resolution', () => {
+        testSubject.bind(TelemetryClientFactory).to(StubTelemetryClientFactory);
         verifySingletonDependencyResolution(testSubject, iocTypes.ProgressReporters);
     });
 
