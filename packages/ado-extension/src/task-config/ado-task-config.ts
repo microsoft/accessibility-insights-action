@@ -130,6 +130,9 @@ export class ADOTaskConfig extends TaskConfig {
         return this.adoTaskObj.getBoolInput('uploadResultAsArtifact');
     }
 
+    // This allows us to pull in predefined Azure Pipelines variables listed here:
+    // https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+    // Note, these variables are not case-sensitive.
     public getVariable(definedVariableName: string): string | undefined {
         return this.adoTaskObj.getVariable(definedVariableName);
     }
