@@ -9,8 +9,6 @@ import { BaselineEvaluation } from 'accessibility-insights-scan';
 
 @injectable()
 export class TelemetrySender extends ProgressReporter {
-    private scanSucceeded = true;
-
     constructor(
         @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
@@ -26,11 +24,12 @@ export class TelemetrySender extends ProgressReporter {
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const eventProperties: { [key: string]: any } = {};
-        eventProperties.teamProject = this.adoTaskConfig.getTeamProject() ?? '';
-        eventProperties.runId = this.adoTaskConfig.getRunId() ?? '';
 
         eventProperties.rulesFailedListWithCounts = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
-            const failureCount = failuresGroup.failed.reduce((a, b) => a + (b.urls ? b.urls.length : 0), 0);
+            const failureCount = failuresGroup.failed.reduce(
+                (total, currentFailedRule) => total + (currentFailedRule.urls ? currentFailedRule.urls.length : 0),
+                0,
+            );
             const ruleId = failuresGroup.failed[0].rule.ruleId;
             return { ruleId, failureCount };
         });
@@ -51,9 +50,5 @@ export class TelemetrySender extends ProgressReporter {
 
     public async failRun(): Promise<void> {
         // We don't send anything for failed runs
-    }
-
-    public didScanSucceed(): Promise<boolean> {
-        return Promise.resolve(this.scanSucceeded);
     }
 }

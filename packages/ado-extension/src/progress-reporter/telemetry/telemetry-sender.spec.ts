@@ -13,23 +13,12 @@ describe(TelemetrySender, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let telemetryClientMock: IMock<TelemetryClient>;
     let telemetrySender: TelemetrySender;
-    const teamProjectIdentifier = 'test-team-project';
-    const runId = 7;
     const baselineFailuresFixed = 3;
     const baselineNewFailures = 1;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
         telemetryClientMock = Mock.ofType<TelemetryClient>(undefined, MockBehavior.Strict);
-
-        adoTaskConfigMock
-            .setup((x) => x.getTeamProject())
-            .returns(() => teamProjectIdentifier)
-            .verifiable(Times.once());
-        adoTaskConfigMock
-            .setup((x) => x.getRunId())
-            .returns(() => runId)
-            .verifiable(Times.once());
     });
 
     describe('constructor', () => {
@@ -122,8 +111,6 @@ describe(TelemetrySender, () => {
         function setupTelemetryClientWithEvent(generateWithBaselineEnabled: boolean): void {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const eventProperties: { [key: string]: any } = {};
-            eventProperties.teamProject = teamProjectIdentifier;
-            eventProperties.runId = runId;
 
             eventProperties.rulesFailedListWithCounts = [
                 { ruleId: 'failed-rule-1', failureCount: 4 },
