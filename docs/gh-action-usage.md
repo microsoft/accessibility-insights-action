@@ -126,7 +126,7 @@ Examples:
 ## Viewing results
 
 -   In the GitHub [Actions tab](https://docs.github.com/en/actions/quickstart#viewing-your-workflow-results), select the workflow run you're interested in. The summary page contains an artifact. If you download and extract the contents of that folder, you'll find an `index.html` report with detailed results.
--   If the workflow was triggered by a pull request, the action should leave a comment on the pull request with results.
+-   Get a summary of results in the job's task log.
 
 ## Blocking pull requests
 
