@@ -15,6 +15,9 @@ Licensed under the MIT License.
     - script: npm install yarn@1.22.10 -g
       displayName: install yarn as a global dependency
     ```
+-   You must have either a static HTML file to point the Accessibility Insights task to, or be able to serve your website at a localhost URL in an Azure DevOps pipeline.
+    -   If your site's build/bundling process produces an HTML file that you can open directly, you can point the extension directly at the built HTML file using the `staticSiteDir` input.
+    -   If your site needs to be run using a specific server (eg, an Express server with specific routes configured), you should include any relevant steps to set up a localhost instance of your app prior to running the Accessibility Insights task. You can then point the Accessibility Insights task to the localhost URL that is serving your site using the `url` input.
 
 ## Adding the extension
 
@@ -22,9 +25,11 @@ Install [Accessibility Insights for Azure DevOps - Production](https://marketpla
 
 -   See [Install extensions from Azure DevOps documentation](https://docs.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops&tabs=browser) for steps on how to install an extension to your organization.
 
-Reference this extension in your Azure pipelines with the snippets on this page.
+Reference this extension in your Azure pipelines by adding the relevant YAML file using the snippets on this document as guidance.
 
 -   See [task.json](https://github.com/microsoft/accessibility-insights-action/blob/main/packages/ado-extension/task.json) for option descriptions.
+
+Note: we also support adding the task via the classic pipeline interface in Azure DevOps.
 
 ### Basic template
 
