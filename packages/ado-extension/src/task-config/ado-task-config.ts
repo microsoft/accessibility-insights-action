@@ -24,14 +24,14 @@ export class ADOTaskConfig extends TaskConfig {
         return this.getAbsolutePath(this.adoTaskObj.getInput('outputDir'))!;
     }
 
-    public getSiteDir(): string {
+    public getStaticSiteDir(): string {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.adoTaskObj.getInput('siteDir')!;
+        return this.adoTaskObj.getInput('staticSiteDir')!;
     }
 
-    public getScanUrlRelativePath(): string {
+    public getStaticSiteUrlRelativePath(): string {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.adoTaskObj.getInput('scanUrlRelativePath')!;
+        return this.adoTaskObj.getInput('staticSiteUrlRelativePath')!;
     }
 
     public getToken(): string | undefined {
@@ -51,6 +51,12 @@ export class ADOTaskConfig extends TaskConfig {
 
     public getUrl(): string | undefined {
         const value = this.adoTaskObj.getInput('url');
+
+        return isEmpty(value) ? undefined : value;
+    }
+
+    public getHostingMode(): string | undefined {
+        const value = this.adoTaskObj.getInput('hostingMode');
 
         return isEmpty(value) ? undefined : value;
     }
@@ -81,8 +87,8 @@ export class ADOTaskConfig extends TaskConfig {
         return parseInt(this.adoTaskObj.getInput('scanTimeout')!);
     }
 
-    public getLocalhostPort(): number | undefined {
-        const value = this.adoTaskObj.getInput('localhostPort');
+    public getStaticSitePort(): number | undefined {
+        const value = this.adoTaskObj.getInput('staticSitePort');
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return isEmpty(value) ? undefined : parseInt(value!, 10);
@@ -130,6 +136,9 @@ export class ADOTaskConfig extends TaskConfig {
         return this.adoTaskObj.getBoolInput('uploadResultAsArtifact');
     }
 
+    // This allows us to pull in predefined Azure Pipelines variables listed here:
+    // https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+    // Note, these variables are not case-sensitive.
     public getVariable(definedVariableName: string): string | undefined {
         return this.adoTaskObj.getVariable(definedVariableName);
     }

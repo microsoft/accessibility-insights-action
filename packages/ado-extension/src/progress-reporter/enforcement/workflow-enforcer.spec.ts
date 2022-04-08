@@ -28,6 +28,68 @@ describe(WorkflowEnforcer, () => {
         });
     });
 
+    describe('start', () => {
+        it.each`
+            input                          | hostingMode      | staticSiteDir      | staticSitePort | staticSiteUrlRelativePath      | url
+            ${'url'}                       | ${'staticSite'}  | ${undefined}       | ${undefined}   | ${'/'}                         | ${'url'}
+            ${'staticSiteDir'}             | ${'dynamicSite'} | ${'staticSiteDir'} | ${undefined}   | ${'/'}                         | ${undefined}
+            ${'staticSitePort'}            | ${'dynamicSite'} | ${undefined}       | ${100}         | ${'/'}                         | ${undefined}
+            ${'staticSiteUrlRelativePath'} | ${'dynamicSite'} | ${undefined}       | ${undefined}   | ${'staticSiteUrlRelativePath'} | ${undefined}
+        `(
+            `returns correct error if '$input' is configured in '$hostingMode' mode`,
+            async ({ input, hostingMode, staticSiteDir, staticSitePort, staticSiteUrlRelativePath, url }) => {
+                adoTaskConfigMock
+                    .setup((o) => o.getUrl())
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    .returns(() => url);
+                adoTaskConfigMock
+                    .setup((o) => o.getHostingMode())
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    .returns(() => hostingMode);
+                adoTaskConfigMock
+                    .setup((o) => o.getStaticSiteDir())
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    .returns(() => staticSiteDir);
+                adoTaskConfigMock
+                    .setup((o) => o.getStaticSitePort())
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    .returns(() => staticSitePort);
+                adoTaskConfigMock
+                    .setup((o) => o.getStaticSiteUrlRelativePath())
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    .returns(() => staticSiteUrlRelativePath);
+                adoTaskConfigMock.setup((o) => o.getFailOnAccessibilityError()).returns(() => true);
+                loggerMock
+                    .setup((o) =>
+                        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                        o.logError(`A configuration error has occurred ${input} cannot be set in ${hostingMode} mode`),
+                    )
+                    .verifiable(Times.once());
+
+                const workflowEnforcer = buildWorkflowEnforcerWithMocks();
+
+                await workflowEnforcer.start();
+
+                loggerMock.verifyAll();
+            },
+        );
+
+        it('return correct error if staticSiteDir and Url are set at the same time', async () => {
+            setUpGetStaticSiteDir();
+            setUpGetUrl();
+            setupLoggerWithErrorMessage(`A configuration error has occurred, Url and staticSiteDir inputs cannot be set at the same time`);
+            setUpGetHostingMode();
+            setUpGetStaticSitePort();
+            setUpGetStaticSiteUrlRelativePath();
+
+            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
+
+            await workflowEnforcer.start();
+
+            loggerMock.verifyAll();
+        });
+    });
+
     describe('completeRun', () => {
         it('logs correct error if accessibility error occurred', async () => {
             const reportStub = {
@@ -120,6 +182,41 @@ describe(WorkflowEnforcer, () => {
         adoTaskConfigMock
             .setup((o) => o.getFailOnAccessibilityError())
             .returns(() => fail)
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setUpGetUrl = () => {
+        adoTaskConfigMock
+            .setup((o) => o.getUrl())
+            .returns(() => 'url')
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setUpGetStaticSiteDir = () => {
+        adoTaskConfigMock
+            .setup((o) => o.getStaticSiteDir())
+            .returns(() => 'static-site-dir')
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setUpGetHostingMode = (mode?: string) => {
+        adoTaskConfigMock
+            .setup((o) => o.getHostingMode())
+            .returns(() => mode)
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setUpGetStaticSitePort = () => {
+        adoTaskConfigMock
+            .setup((o) => o.getStaticSitePort())
+            .returns(() => 1)
+            .verifiable(Times.atLeastOnce());
+    };
+
+    const setUpGetStaticSiteUrlRelativePath = () => {
+        adoTaskConfigMock
+            .setup((o) => o.getStaticSiteUrlRelativePath())
+            .returns(() => 'url-relative-path')
             .verifiable(Times.atLeastOnce());
     };
 

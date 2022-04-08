@@ -22,6 +22,7 @@ import { AxeInfo } from '../axe/axe-info';
 import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
 import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { TaskConfig } from '../task-config';
+import { TelemetryClient } from '../telemetry/telemetry-client';
 import { isEmpty } from 'lodash';
 import * as fs from 'fs';
 
@@ -43,6 +44,7 @@ export class Scanner {
         @inject(CrawlerParametersBuilder) private readonly crawlerParametersBuilder: CrawlerParametersBuilder,
         @inject(BaselineOptionsBuilder) private readonly baselineOptionsBuilder: BaselineOptionsBuilder,
         @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
+        @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
         private readonly fileSystemObj: typeof fs = fs,
     ) {}
 
@@ -73,6 +75,8 @@ export class Scanner {
 
             scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
+            this.telemetryClient.trackEvent({ name: 'ScanStart' });
+
             this.logger.logStartGroup(`Scanning URL ${scanArguments.url}`);
             this.logger.logDebug(`Starting accessibility scanning of URL ${scanArguments.url}`);
             this.logger.logDebug(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
@@ -96,6 +100,7 @@ export class Scanner {
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
+            await this.telemetryClient.flush();
         }
 
         return Promise.resolve(false);
