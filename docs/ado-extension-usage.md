@@ -181,7 +181,9 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
 
 ### Migrating a YAML Pipeline definition
 
-1. The `repoServiceConnectionName` input has been removed. If you previously created a Service Connection specifically for this task, you should delete it under your Azure DevOps Project's "Service Connections" settings.
+1. The Accessibility Insights task no longer requires extra Azure DevOps permissions to work
+    - If you previously specified a `repoServiceConnectionName` input, you should remove it. If this Service Connection was created solely for use with this pipeline, you should delete it in your Azure DevOps Project's "Service Connections" settings.
+    - If you did not previously specify `repoServiceConnectionName`, it likely means that the default Azure DevOps Build Service account for your Azure DevOps project has been granted the `repo:write` permission for this repository. You should audit for this and remove that permission if it is not required by other tasks.
 2. The task inputs related to specifying a "static" site to scan (`siteDir`, `localhostPort`, and `scanUrlRelativePath`) have changed to make it more clear that they are related (and mutually exclusive with `url`).
     - If you previously specified a `siteDir`, you should:
         - Rename your existing `siteDir` input to `staticSiteDir`
@@ -199,7 +201,9 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
 
 ### Migrating a "Classic" Pipeline definition
 
-1. The "Azure Repos Connection" option has been removed. If you previously created a Service Connection specifically for this task, you should delete it under your Azure DevOps Project's "Service Connections" settings.
+1. The Accessibility Insights task no longer requires extra Azure DevOps permissions to work
+    - There is no longer an option for "Azure Repos Connection". If you previously specified a Service Connection using this option, and that Service Connection was created solely for use with this pipeline, you should delete it in your Azure DevOps Project's "Service Connections" settings.
+    - If you did not previously specify an "Azure Repos Connection", it likely means that the default Azure DevOps Build Service account for your Azure DevOps project has been granted the `repo:write` permission for this repository. You should audit for this and remove that permission if it is not required by other tasks.
 2. The options related to specifying which site to scan have moved underneath a new "Hosting Mode" option to make it more clear which ones can be used together.
     - If you previously specified a "Site Directory", select the `staticSite` "Hosting Mode"
         - The "Site Directory", "Localhost Port" and "Scan URL Relative Path" task inputs now appear only when `staticSite` is selected
