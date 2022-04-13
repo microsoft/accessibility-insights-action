@@ -87,7 +87,7 @@ From within Linux install applications below.
 _Note_: To run action on Windows use WSL 2.
 
 1. Build action using `yarn cbuild` or `yarn build` command
-2. Run action using `yarn act`
+2. Run action using `yarn act`.
 
 _Note_: When run act first time choose **large** image option.
 
