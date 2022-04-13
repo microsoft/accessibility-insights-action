@@ -181,35 +181,38 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
 
 ### Migrating a YAML Pipeline definition
 
-1. The task inputs related to specifying a "static" site to scan (`siteDir`, `port`, and `urlRelativePath`) have changed to make it more clear that they are related (and mutually exclusive with `url`).
+1. The `repoServiceConnectionName` input has been removed. If you previously created a Service Connection specfically for this task, you should delete it under your Azure DevOps Project's "Service Connections" settings.
+2. The task inputs related to specifying a "static" site to scan (`siteDir`, `port`, and `urlRelativePath`) have changed to make it more clear that they are related (and mutually exclusive with `url`).
     - If you previously specified a `siteDir`, you should:
         - Rename your existing `siteDir` input to `staticSiteDir`
         - Rename your existing `port` input to `staticSitePort` (if specified)
         - Rename your existing `urlRelativePath` input to `staticSiteUrlRelativePath` (if specified)
     - If you previously specified _both_ `url` and `siteDir`, you had a misconfiguration - these inputs were mutually exclusive, and the `url` input was being silently ignored. Remove the `url` input and follow the instructions above for `siteDir`.
     - If you previously specified just `url` and not `siteDir`, you should leave the original `url` input as-is
-2. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
+3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate `publish` step to upload the `_accessibility-reports` folder, you can delete that `publish` step
     - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, specify `uploadResultsAsArtifact: false` to skip the new automatic artifact uploading
     - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
-3. By default, the task now fails if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
+4. By default, the task now fails if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
     - If you previously specified `failOnAccessibilityError: true`, you can remove it (this is now the default behavior)
     - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can add `failOnAccessibilityError: false` (but consider [using a Baseline File](#using-a-baseline-file) instead!)
 
 ### Migrating a "Classic" Pipeline definition
 
-1. The options related to specifying which site to scan have moved underneath a new "Hosting Mode" option to make it more clear which ones can be used together.
+1. The "Azure Repos Connection" option has been removed. If you previously created a Service Connection specfically for this task, you should delete it under your Azure DevOps Project's "Service Connections" settings.
+2. The options related to specifying which site to scan have moved underneath a new "Hosting Mode" option to make it more clear which ones can be used together.
     - If you previously specified a "Site Directory", select the `staticSite` "Hosting Mode"
         - The "Site Directory", "Localhost Port" and "Scan URL Relative Path" task inputs now appear only when `staticSite` is selected
     - If you previously specified a "Website URL", select the `dynamicSite` "Hosting Mode"
         - The "Website URL" option now appears only when `dynamicSite` is selected
     - If you previously specified _both_ as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" options was being silently ignored. Select `staticSite` mode and ignore your old "Website URL" input
-2. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
+3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate "Publish" step to upload the `_accessibility-reports` folder, you can delete that "Publish" step
     - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Results as Artifact" option to skip the new automatic artifact uploading
     - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
-3. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
+4. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
     - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can still uncheck this option (but consider [using a Baseline File](#using-a-baseline-file) instead!)
+5. The "Output Directory" and "Chrome Path" options have moved under a new "Advanced Options" group
 
 ## Troubleshooting
 
