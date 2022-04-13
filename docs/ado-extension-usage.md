@@ -5,6 +5,11 @@ Licensed under the MIT License.
 
 # How to use the Azure DevOps extension
 
+These instructions are for version 2 of the extension.
+
+-   To migrate from version 1, see [Migrating from version 1 to version 2](#migrating-from-version-1-to-version-2)
+-   For version 1 docs, see [the version of this document as of the v1.1.1 release](https://github.com/microsoft/accessibility-insights-action/blob/v1.1.1-sources-ado/docs/ado-extension-usage.md)
+
 ## Prerequisites
 
 ### Tools
@@ -169,6 +174,42 @@ You can choose to block pull requests if the extension finds accessibility issue
 ## Running multiple times in a single pipeline
 
 If you want to run the extension multiple times in a single pipeline, you will need to ensure that unique `artifactName` and `outputDir` inputs are specified in your YAML file for each task. Artifact names and the output directory must be unique across all tasks in a pipeline.
+
+## Migrating from version 1 to version 2
+
+Version 2.x of the extension contains several breaking changes from version 1.x:
+
+### Migrating a YAML Pipeline definition
+
+1. The task inputs related to specifying a "static" site to scan (`siteDir`, `port`, and `urlRelativePath`) have changed to make it more clear that they are related (and mutually exclusive with `url`).
+    - If you previously specified a `siteDir`, you should:
+        - Rename your existing `siteDir` input to `staticSiteDir`
+        - Rename your existing `port` input to `staticSitePort` (if specified)
+        - Rename your existing `urlRelativePath` input to `staticSiteUrlRelativePath` (if specified)
+    - If you previously specified *both* `url` and `siteDir`, you had a misconfiguration - these inputs were mutually exclusive, and the `url` input was being silently ignored. Remove the `url` input and follow the instructions above for `siteDir`.
+    - If you previously specified just `url` and not `siteDir`, you should leave the original `url` input as-is
+2. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
+    - If you previously used a separate `publish` step to upload the `_accessibility-reports` folder, you can delete that `publish` step
+    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, specify `uploadResultsAsArtifact: false` to skip the new automatic artifact uploading
+    - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
+3. By default, the task now fails if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
+    - If you previously specified `failOnAccessibilityError: true`, you can remove it (this is now the default behavior)
+    - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can add `failOnAccessibilityError: false` (but consider [using a Baseline File](#using-a-baseline-file) instead!)
+
+### Migrating a "Classic" Pipeline definition
+
+1. The options related to specifying which site to scan have moved underneath a new "Hosting Mode" option to make it more clear which ones can be used together.
+    - If you previously specified a "Site Directory", select the `staticSite` "Hosting Mode"
+        - The "Site Directory", "Localhost Port" and "Scan URL Relative Path" task inputs now appear only when `staticSite` is selected
+    - If you previously specified a "Website URL", select the `dynamicSite` "Hosting Mode"
+        - The "Website URL" option now appears only when `dynamicSite` is selected
+    - If you previously specified *both* as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" options was being silently ignored. Select `staticSite` mode and ignore your old "Website URL" input
+2. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
+    - If you previously used a separate "Publish" step to upload the `_accessibility-reports` folder, you can delete that "Publish" step
+    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Results as Artifact" option to skip the new automatic artifact uploading
+    - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
+3. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
+    - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can still uncheck this option (but consider [using a Baseline File](#using-a-baseline-file) instead!)
 
 ## Troubleshooting
 
