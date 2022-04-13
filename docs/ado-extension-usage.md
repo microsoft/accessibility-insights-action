@@ -181,7 +181,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
 
 ### Migrating a YAML Pipeline definition
 
-1. The `repoServiceConnectionName` input has been removed. If you previously created a Service Connection specfically for this task, you should delete it under your Azure DevOps Project's "Service Connections" settings.
+1. The `repoServiceConnectionName` input has been removed. If you previously created a Service Connection specifically for this task, you should delete it under your Azure DevOps Project's "Service Connections" settings.
 2. The task inputs related to specifying a "static" site to scan (`siteDir`, `port`, and `urlRelativePath`) have changed to make it more clear that they are related (and mutually exclusive with `url`).
     - If you previously specified a `siteDir`, you should:
         - Rename your existing `siteDir` input to `staticSiteDir`
