@@ -186,7 +186,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x:
         - Rename your existing `siteDir` input to `staticSiteDir`
         - Rename your existing `port` input to `staticSitePort` (if specified)
         - Rename your existing `urlRelativePath` input to `staticSiteUrlRelativePath` (if specified)
-    - If you previously specified *both* `url` and `siteDir`, you had a misconfiguration - these inputs were mutually exclusive, and the `url` input was being silently ignored. Remove the `url` input and follow the instructions above for `siteDir`.
+    - If you previously specified _both_ `url` and `siteDir`, you had a misconfiguration - these inputs were mutually exclusive, and the `url` input was being silently ignored. Remove the `url` input and follow the instructions above for `siteDir`.
     - If you previously specified just `url` and not `siteDir`, you should leave the original `url` input as-is
 2. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate `publish` step to upload the `_accessibility-reports` folder, you can delete that `publish` step
@@ -203,7 +203,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x:
         - The "Site Directory", "Localhost Port" and "Scan URL Relative Path" task inputs now appear only when `staticSite` is selected
     - If you previously specified a "Website URL", select the `dynamicSite` "Hosting Mode"
         - The "Website URL" option now appears only when `dynamicSite` is selected
-    - If you previously specified *both* as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" options was being silently ignored. Select `staticSite` mode and ignore your old "Website URL" input
+    - If you previously specified _both_ as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" options was being silently ignored. Select `staticSite` mode and ignore your old "Website URL" input
 2. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate "Publish" step to upload the `_accessibility-reports` folder, you can delete that "Publish" step
     - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Results as Artifact" option to skip the new automatic artifact uploading
