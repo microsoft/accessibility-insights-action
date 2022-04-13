@@ -199,7 +199,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
 
 ### Migrating a "Classic" Pipeline definition
 
-1. The "Azure Repos Connection" option has been removed. If you previously created a Service Connection specfically for this task, you should delete it under your Azure DevOps Project's "Service Connections" settings.
+1. The "Azure Repos Connection" option has been removed. If you previously created a Service Connection specifically for this task, you should delete it under your Azure DevOps Project's "Service Connections" settings.
 2. The options related to specifying which site to scan have moved underneath a new "Hosting Mode" option to make it more clear which ones can be used together.
     - If you previously specified a "Site Directory", select the `staticSite` "Hosting Mode"
         - The "Site Directory", "Localhost Port" and "Scan URL Relative Path" task inputs now appear only when `staticSite` is selected
