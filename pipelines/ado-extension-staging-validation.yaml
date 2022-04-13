@@ -37,7 +37,7 @@ steps:
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
       displayName: 'Start /dev/website-root test server at http://localhost:5858'
 
-    - task: accessibility-insights.staging.task.accessibility-insights@2
+    - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should succeed] case 1: staticSiteDir, no baseline'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
@@ -49,7 +49,7 @@ steps:
       artifact: 'accessibility-reports-case-1'
       condition: succeededOrFailed()
 
-    - task: accessibility-insights.staging.task.accessibility-insights@2
+    - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should succeed] case 2: url, no baseline'
       inputs:
           url: 'http://localhost:5858'
@@ -61,7 +61,7 @@ steps:
       artifact: 'accessibility-reports-case-2'
       condition: succeededOrFailed()
 
-    - task: accessibility-insights.staging.task.accessibility-insights@2
+    - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should succeed] case 3: up-to-date baseline'
       inputs:
           url: 'http://localhost:5858'
@@ -74,7 +74,7 @@ steps:
       artifact: 'accessibility-reports-case-3'
       condition: succeededOrFailed()
 
-    - task: accessibility-insights.staging.task.accessibility-insights@2
+    - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should fail] case 4: baseline missing failures'
       inputs:
           url: 'http://localhost:5858'
@@ -88,7 +88,7 @@ steps:
       artifact: 'accessibility-reports-case-4'
       condition: succeededOrFailed()
 
-    - task: accessibility-insights.staging.task.accessibility-insights@2
+    - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should fail] case 5: baseline with resolved failures'
       inputs:
           url: 'http://localhost:5858'
@@ -102,7 +102,7 @@ steps:
       artifact: 'accessibility-reports-case-5'
       condition: succeededOrFailed()
 
-    - task: accessibility-insights.staging.task.accessibility-insights@2
+    - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should fail] case 6: new baseline file'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
@@ -116,7 +116,7 @@ steps:
       artifact: 'accessibility-reports-case-6'
       condition: succeededOrFailed()
 
-    - task: accessibility-insights.staging.task.accessibility-insights@2
+    - task: accessibility-insights.staging.task.accessibility-insights@1
       displayName: '[should fail] case 7: failOnAccessibilityError'
       inputs:
           url: 'http://localhost:5858'
