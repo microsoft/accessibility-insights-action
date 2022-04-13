@@ -177,7 +177,7 @@ If you want to run the extension multiple times in a single pipeline, you will n
 
 ## Migrating from version 1 to version 2
 
-Version 2.x of the extension contains several breaking changes from version 1.x:
+Version 2.x of the extension contains several breaking changes from version 1.x. To migrate, you will need to make a few adjustments based on whether your pipeline is defined using a YAML file or the "Classic" Pipelines web interface:
 
 ### Migrating a YAML Pipeline definition
 
