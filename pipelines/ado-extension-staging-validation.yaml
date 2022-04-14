@@ -98,7 +98,7 @@ steps:
       displayName: '[should fail] case 8: url, custom artifact upload step'
       inputs:
           url: 'http://localhost:5858'
-          uploadReportAsArtifact: false
+          uploadResultAsArtifact: false
           outputDir: '_accessibility-reports-case-8'
       condition: succeededOrFailed()
 
