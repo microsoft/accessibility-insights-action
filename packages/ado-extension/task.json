@@ -13,7 +13,13 @@
         "Patch": 0
     },
     "instanceNameFormat": "Run accessibility testing",
-    "groups": [{ "displayName": "Advanced Options", "isExpanded": false, "name": "advancedOptions" }],
+    "groups": [
+        {
+            "displayName": "Advanced Options",
+            "isExpanded": false,
+            "name": "advancedOptions"
+        }
+    ],
     "inputs": [
         {
             "name": "outputDir",
@@ -72,7 +78,8 @@
             "type": "string",
             "label": "Chrome Path",
             "required": false,
-            "helpMarkDown": "Path to Chrome executable."
+            "helpMarkDown": "Path to Chrome executable.",
+            "groupName": "advancedOptions"
         },
         {
             "name": "maxUrls",
