@@ -19,7 +19,7 @@ describe(AdoConsoleCommentCreator, () => {
     let fsMock: IMock<typeof fs>;
     const reportOutDir = 'reportOutDir';
     const fileName = `${reportOutDir}/results.md`;
-    const artifactName = 'accessibility-reports';
+    const outputArtifactName = 'accessibility-reports';
     const reportStub: CombinedReportParameters = {
         results: {
             urlResults: {
@@ -56,13 +56,13 @@ describe(AdoConsoleCommentCreator, () => {
                 .verifiable(Times.once());
 
             adoTaskConfigMock
-                .setup((atcm) => atcm.getUploadResultAsArtifact())
+                .setup((atcm) => atcm.getUploadOutputArtifact())
                 .returns(() => true)
                 .verifiable(Times.once());
 
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
             loggerMock
-                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${reportOutDir}`))
+                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${outputArtifactName}]${reportOutDir}`))
                 .verifiable(Times.once());
 
             adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
@@ -78,13 +78,13 @@ describe(AdoConsoleCommentCreator, () => {
                 .verifiable(Times.once());
 
             adoTaskConfigMock
-                .setup((atcm) => atcm.getUploadResultAsArtifact())
+                .setup((atcm) => atcm.getUploadOutputArtifact())
                 .returns(() => true)
                 .verifiable(Times.once());
 
             loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
             loggerMock
-                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${artifactName}-2]${reportOutDir}`))
+                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${outputArtifactName}-2]${reportOutDir}`))
                 .verifiable(Times.once());
 
             adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
@@ -93,11 +93,11 @@ describe(AdoConsoleCommentCreator, () => {
             verifyAllMocks();
         });
 
-        it('skips upload artifact step if uploadResultAsArtifact is false', async () => {
+        it('skips upload artifact step if uploadOutputArtifact is false', async () => {
             adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
 
             adoTaskConfigMock
-                .setup((atcm) => atcm.getUploadResultAsArtifact())
+                .setup((atcm) => atcm.getUploadOutputArtifact())
                 .returns(() => false)
                 .verifiable(Times.once());
 
@@ -145,8 +145,8 @@ describe(AdoConsoleCommentCreator, () => {
                 .verifiable(Times.exactly(2));
 
             adoTaskConfigMock
-                .setup((atcm) => atcm.getArtifactName())
-                .returns(() => artifactName)
+                .setup((atcm) => atcm.getOutputArtifactName())
+                .returns(() => outputArtifactName)
                 .verifiable(Times.once());
 
             reportMarkdownConvertorMock

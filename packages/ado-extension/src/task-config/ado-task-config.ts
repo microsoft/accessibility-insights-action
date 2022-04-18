@@ -127,13 +127,13 @@ export class ADOTaskConfig extends TaskConfig {
         return this.processObj.env.SYSTEM_TEAMPROJECT ?? undefined;
     }
 
-    public getArtifactName(): string {
+    public getOutputArtifactName(): string {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.adoTaskObj.getInput('artifactName')!;
+        return this.adoTaskObj.getInput('outputArtifactName')!;
     }
 
-    public getUploadResultAsArtifact(): boolean {
-        return this.adoTaskObj.getBoolInput('uploadResultAsArtifact');
+    public getUploadOutputArtifact(): boolean {
+        return this.adoTaskObj.getBoolInput('uploadOutputArtifact');
     }
 
     // This allows us to pull in predefined Azure Pipelines variables listed here:
