@@ -173,7 +173,7 @@ You can choose to block pull requests if the extension finds accessibility issue
 
 ## Running multiple times in a single pipeline
 
-If you want to run the extension multiple times in a single pipeline, you will need to ensure that each task uses a unique `outputArtifactName` and (if specified) `outputDir` input. Artifact names and output directories must be unique across all tasks in a pipeline.
+If you want to run the extension multiple times in a single pipeline, you will need to ensure that each task uses a unique `outputArtifactName` and `outputDir` input. Artifact names and output directories must be unique across all tasks in a pipeline.
 
 ## Migrating from version 1 to version 2
 

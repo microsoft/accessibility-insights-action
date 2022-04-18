@@ -133,8 +133,9 @@
             "name": "outputDir",
             "type": "string",
             "label": "Output Directory",
-            "required": false,
-            "helpMarkDown": "Directory to write scan output to. Its contents will be uploaded as a pipeline artifact unless uploadOutputArtifact is set to false. Defaults to a generated temporary directory.",
+            "required": true,
+            "defaultValue": "_accessibility-reports",
+            "helpMarkDown": "Directory to write scan output to. Its contents will be uploaded as a pipeline artifact unless uploadOutputArtifact is set to false.",
             "groupName": "outputOptions"
         },
         {
