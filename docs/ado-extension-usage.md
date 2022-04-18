@@ -156,7 +156,7 @@ Here is an example of a YAML file that is configured to take advantage of a base
 
 ## Report Artifacts
 
-By default, an HTML report containing detailed results is automatically uploaded as a pipeline artifact named `accessibility-reports`. You can opt out of this automatic artifact upload by setting the `uploadResultAsArtifact` parameter to `false`. You can also specify a custom artifact name by setting the `artifactName` parameter in your YAML file. If not opted out, a link to the artifacts will also appear in both the task log and in the Extensions tab of the pipeline run.
+By default, an HTML report containing detailed results is automatically uploaded as a pipeline artifact named `accessibility-reports`. You can opt out of this automatic artifact upload by setting the `uploadOutputArtifact` parameter to `false`. You can also specify a custom artifact name by setting the `outputArtifactName` parameter in your YAML file. If not opted out, a link to the artifacts will also appear in both the task log and in the Extensions tab of the pipeline run.
 
 To view the report, navigate to Artifacts from the build. Under `accessibility-reports`, or the artifact name manually specified, you'll find the downloadable report labeled `index.html`.
 
@@ -173,7 +173,7 @@ You can choose to block pull requests if the extension finds accessibility issue
 
 ## Running multiple times in a single pipeline
 
-If you want to run the extension multiple times in a single pipeline, you will need to ensure that unique `artifactName` and `outputDir` inputs are specified in your YAML file for each task. Artifact names and the output directory must be unique across all tasks in a pipeline.
+If you want to run multiple Accessibility Insights steps in a single pipeline, you will need to ensure that each step uses a unique `outputArtifactName` and `outputDir`. Artifact names and output directories must be unique across all steps in a pipeline.
 
 ## Migrating from version 1 to version 2
 
@@ -193,7 +193,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
     - If you previously specified just `url` and not `siteDir`, you should leave the original `url` input as-is
 3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate `publish` step to upload the `_accessibility-reports` folder, you can delete that `publish` step
-    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, specify `uploadResultsAsArtifact: false` to skip the new automatic artifact uploading
+    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, specify `uploadOutputArtifact: false` to skip the new automatic artifact uploading
     - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
 4. By default, the task now fails if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
     - If you previously specified `failOnAccessibilityError: true`, you can remove it (this is now the default behavior)

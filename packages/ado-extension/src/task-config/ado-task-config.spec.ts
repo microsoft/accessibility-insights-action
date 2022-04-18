@@ -56,8 +56,8 @@ describe(ADOTaskConfig, () => {
         ${'baselineFile'}              | ${'./baselineFile'} | ${getPlatformAgnosticPath(__dirname + '/baselineFile')} | ${() => taskConfig.getBaselineFile()}
         ${'failOnAccessibilityError'}  | ${true}             | ${true}                                                 | ${() => taskConfig.getFailOnAccessibilityError()}
         ${'singleWorker'}              | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
-        ${'artifactName'}              | ${'artifact-name'}  | ${'artifact-name'}                                      | ${() => taskConfig.getArtifactName()}
-        ${'uploadResultAsArtifact'}    | ${true}             | ${true}                                                 | ${() => taskConfig.getUploadResultAsArtifact()}
+        ${'outputArtifactName'}        | ${'artifact-name'}  | ${'artifact-name'}                                      | ${() => taskConfig.getOutputArtifactName()}
+        ${'uploadOutputArtifact'}      | ${true}             | ${true}                                                 | ${() => taskConfig.getUploadOutputArtifact()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
