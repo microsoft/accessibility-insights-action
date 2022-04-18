@@ -21,3 +21,4 @@ export { ExitCode } from './exit-code';
 export { TelemetryClient } from './telemetry/telemetry-client';
 export { TelemetryEvent } from './telemetry/telemetry-event';
 export { NullTelemetryClient } from './telemetry/null-telemetry-client';
+export { TempDirCreator } from './utils/temp-dir-creator';

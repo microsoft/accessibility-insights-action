@@ -173,7 +173,7 @@ You can choose to block pull requests if the extension finds accessibility issue
 
 ## Running multiple times in a single pipeline
 
-If you want to run multiple Accessibility Insights steps in a single pipeline, you will need to ensure that each step uses a unique `outputArtifactName` and `outputDir`. Artifact names and output directories must be unique across all steps in a pipeline.
+If you want to run multiple Accessibility Insights steps in a single pipeline, you will need to ensure that each step uses a unique `outputArtifactName` and (if specified) `outputDir`. Artifact names and output directories must be unique across all steps in a pipeline.
 
 ## Migrating from version 1 to version 2
 
@@ -212,7 +212,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
     - If you previously specified _both_ as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" option was being silently ignored. Select `staticSite` mode and ignore your old "Website URL" input
 3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate "Publish" step to upload the `_accessibility-reports` folder, you can delete that "Publish" step
-    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Results as Artifact" option to skip the new automatic artifact uploading
+    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Output Artifact" option to skip the new automatic artifact uploading
     - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
 4. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
     - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can still uncheck this option (but consider [using a Baseline File](#using-a-baseline-file) instead!)
