@@ -2,37 +2,65 @@ import { TaskConfig } from './task-config';
 import { inject, injectable } from 'inversify';
 import { iocTypes } from './ioc/ioc-types';
 import { Logger } from './logger/logger';
-import { sectionSeparator } from './console-output/console-log-formatter';
+import { sectionSeparator, link } from './console-output/console-log-formatter';
 
 @injectable()
 export class InputValidator {
     private scannerSide : string;
-    private configurationSucceded = true;
+    private configurationSucceeded = true;
     constructor(@inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger, scannerSide : string) {
         this.scannerSide = scannerSide;
     }
     
     public async validate(): Promise<boolean> {
-        const hostingMode = this.taskConfig.getHostingMode();
-        /*if(hostingMode !== undefined){
-            
-        }
-        else{
-
-        }*/
-        return Promise.resolve(this.configurationSucceded);
+        await this.failIfSiteDirAndUrlAreNotConfigured();
+        await this.failIfSiteDirAndUrlAreConfigured();
+        return Promise.resolve(this.configurationSucceeded);
     }
+
+    private async failIfSiteDirAndUrlAreNotConfigured(): Promise<boolean> {
+        const url = this.taskConfig.getUrl();
+        const siteDir = this.taskConfig.getStaticSiteDir();
+        if(url === undefined && siteDir === undefined){
+            const siteDirName = this.getSiteDirName();
+            const errorCase = `A configuration error has occurred url or ${siteDirName} must be set`;
+            const errorMessage = this.writeConfigurationError(errorCase);
+            this.logger.logError(errorMessage);
+            await this.failConfiguration();
+            return true;
+        }
+        return false;
+    }
+
+    private async failIfSiteDirAndUrlAreConfigured(): Promise<boolean> {
+        const url = this.taskConfig.getUrl();
+        const siteDir = this.taskConfig.getStaticSiteDir();
+        if(url !== undefined && siteDir !== undefined){
+            const siteDirName = this.getSiteDirName();
+            const errorCase = `A configuration error has ocurred only one of the following inputs can be set at a time: url or ${siteDirName}`;
+            const errorMessage = this.writeConfigurationError(errorCase);
+            this.logger.logError(errorMessage);
+            await this.failConfiguration();
+            return true;
+        }
+        return false;
+    }
+
+    
 
     private getInfoLink(): string {
+        let docsLink : string;
         if(this.scannerSide === 'ado-extension'){
-            return "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            docsLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            return link(docsLink, 'ADO Extension usage');
         }
         else{
-            return "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            docsLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            return link(docsLink, 'GH Action Extension usage');
         }
     }
 
-    private getsiteDirName(): string {
+    private getSiteDirName(): string {
         if(this.scannerSide === 'ado-extension'){
             return 'staticSiteDir';
         }
@@ -60,49 +88,23 @@ export class InputValidator {
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    public async failRun(): Promise<void> {
-        this.configurationSucceded = false;
+    public async failConfiguration(): Promise<void> {
+        this.configurationSucceeded = false;
     }
 
     public async validateDynamicInputs(): Promise<boolean> {
-        await this.failRun();
+        await this.failConfiguration();
         return false;
     }
 
     public async validateStaticInputs(): Promise<boolean> {
-        await this.failRun();
+        await this.failConfiguration();
         return false;
     }
 
     private writeConfigurationError(errorCase : string): string {
-        //let errorMessage = errorCase.concat(sectionSeparator());
-        return '';
+        const configurationInfo = this.getInfoLink();
+        const errorMessage = [errorCase, configurationInfo];
+        return errorMessage.join(sectionSeparator());
     }
-
-    private async failIfSiteDirAndUrlAreNotConfigured(): Promise<boolean> {
-        const url = this.taskConfig.getUrl();
-        const siteDir = this.taskConfig.getStaticSiteDir();
-        if(url === undefined && siteDir === undefined){
-            const siteDirName = this.getsiteDirName();
-            const link = this.getInfoLink();
-            //let error = `A configuration error has occurred url or ${siteDirName} must be set`;
-            
-        }
-        await this.failRun();
-        return false;
-    }
-
-    public async validateNoHostingModeInputs(): Promise<boolean> {
-        const url = this.taskConfig.getUrl();
-        const staticSiteDir = this.taskConfig.getStaticSiteDir();
-        if(url === undefined && staticSiteDir === undefined){
-            await this.failRun();
-            return false;
-        }
-        else if(url !== undefined && staticSiteDir !== undefined){
-            await this.failRun();
-            return false;
-        }
-    }
-
 }
