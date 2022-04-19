@@ -26,8 +26,7 @@ export class ADOTaskConfig extends TaskConfig {
         if (this.memoizedReportOutDir == null) {
             const customOutputDir = this.getAbsolutePath(this.adoTaskObj.getInput('outputDir'));
 
-            this.memoizedReportOutDir =
-                customOutputDir != null ? customOutputDir : this.tempDirCreator.createTempDirSync(this.getVariable('Agent.TempDirectory'));
+            this.memoizedReportOutDir = customOutputDir ?? this.tempDirCreator.createTempDirSync(this.getVariable('Agent.TempDirectory'));
         }
 
         return this.memoizedReportOutDir;
