@@ -20,7 +20,7 @@ export class ADOTaskConfig extends TaskConfig {
         super(processObj);
     }
 
-    // memoizing this is important to avoid generating multiple temp directories in the defualt case
+    // memoizing this is important to avoid generating multiple temp directories in the default case
     private memoizedReportOutDir: string | null = null;
     public getReportOutDir(): string {
         if (this.memoizedReportOutDir == null) {
