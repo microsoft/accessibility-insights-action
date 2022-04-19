@@ -46,7 +46,25 @@ export class InputValidator {
         return false;
     }
 
-    
+    private async failIfSiteDirIsNotConfiguredInStaticMode(): Promise<boolean> {
+        await this.failConfiguration();
+        return true;
+    }
+
+    private async failIfDynamicInputsAreConfiguredInStaticMode(): Promise<boolean> {
+        await this.failConfiguration();
+        return true;
+    }
+
+    private async failIUrlIsNotConfiguredInDynamicMode(): Promise<boolean> {
+        await this.failConfiguration();
+        return true;
+    }
+
+    private async failIfStaticInputsAreConfiguredInDynamicMode(): Promise<boolean> {
+        await this.failConfiguration();
+        return true;
+    }
 
     private getInfoLink(): string {
         let docsLink : string;
