@@ -95,6 +95,12 @@ export class GHTaskConfig extends TaskConfig {
         return isEmpty(value) ? undefined : value;
     }
 
+    public getHostingMode(): string | undefined {
+        const value = this.actionCoreObj.getInput('hosting-mode');
+
+        return isEmpty(value) ? undefined : value;
+    }
+
     private getAbsolutePath(path: string): string {
         if (isEmpty(path)) {
             return undefined;

@@ -22,4 +22,5 @@ export abstract class TaskConfig {
     abstract getScanTimeout(): number;
     abstract getStaticSitePort(): number | undefined;
     abstract getRunId(): number | undefined;
+    abstract getHostingMode(): string | undefined;
 }
