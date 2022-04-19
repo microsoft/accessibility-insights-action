@@ -175,7 +175,9 @@ You can choose to block pull requests if the extension finds accessibility issue
 
 ## Running multiple times in a single pipeline
 
-If you want to run multiple Accessibility Insights steps in a single pipeline, you will need to ensure that each step uses a unique `outputArtifactName`. Any custom `outputDir` settings must also be unique among all steps in a pipeline.
+If you want to run multiple Accessibility Insights steps in a single pipeline, you will need to ensure that each step uses a unique `outputArtifactName`.
+
+Each step also needs a unique output directory on the build agent. The task will generate unique output directories for you by default, but if you override `outputDir`, you will need to ensure that it is also unique among all steps.
 
 ## Migrating from version 1 to version 2
 
