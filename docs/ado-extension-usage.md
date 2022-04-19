@@ -197,7 +197,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
     - If you previously specified just `url` and not `siteDir`, you should leave the original `url` input as-is
 3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate `publish` step to upload the `_accessibility-reports` folder, you can delete that `publish` step
-    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, specify `uploadOutputArtifact: false` to skip the new automatic artifact uploading and specify an `outputDir` to control where the output artifact contents get written to on the build agent
+    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, specify `uploadOutputArtifact: false` to skip the new automatic artifact uploading. You can specify `outputDir` to control where the output artifact contents get written to on the build agent
     - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
 4. By default, the task now fails if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
     - If you previously specified `failOnAccessibilityError: true`, you can remove it (this is now the default behavior)
@@ -216,7 +216,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
     - If you previously specified _both_ as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" option was being silently ignored. Select `staticSite` mode and ignore your old "Website URL" input
 3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate "Publish" step to upload the `_accessibility-reports` folder, you can delete that "Publish" step
-    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Output Artifact" option to skip the new automatic artifact uploading and specify an "Output Directory" to control where the output artifact contents get written to on the build agent
+    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Output Artifact" option to skip the new automatic artifact uploading. You can specify an "Output Directory" to control where the output artifact contents get written to on the build agent
     - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
 4. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
     - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can still uncheck this option (but consider [using a Baseline File](#using-a-baseline-file) instead!)
