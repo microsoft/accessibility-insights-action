@@ -49,21 +49,21 @@ steps:
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           failOnAccessibilityError: false
-          artifactName: accessibility-reports-case-2
+          outputArtifactName: accessibility-reports-case-2
       condition: succeededOrFailed()
 
     - task: accessibility-insights.staging.task.accessibility-insights@2
       displayName: '[should fail] case 3: url, no baseline'
       inputs:
           url: 'http://localhost:5858'
-          artifactName: 'accessibility-reports-case-3'
+          outputArtifactName: 'accessibility-reports-case-3'
       condition: succeededOrFailed()
 
     - task: accessibility-insights.staging.task.accessibility-insights@2
       displayName: '[should succeed] case 4: up-to-date baseline'
       inputs:
           url: 'http://localhost:5858'
-          artifactName: 'accessibility-reports-case-4'
+          outputArtifactName: 'accessibility-reports-case-4'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
       condition: succeededOrFailed()
 
@@ -71,7 +71,7 @@ steps:
       displayName: '[should fail] case 5: baseline missing failures'
       inputs:
           url: 'http://localhost:5858'
-          artifactName: 'accessibility-reports-case-5'
+          outputArtifactName: 'accessibility-reports-case-5'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/missing-failures-5858.baseline'
       condition: succeededOrFailed()
       continueOnError: true
@@ -80,7 +80,7 @@ steps:
       displayName: '[should fail] case 6: baseline with resolved failures'
       inputs:
           url: 'http://localhost:5858'
-          artifactName: 'accessibility-reports-case-6'
+          outputArtifactName: 'accessibility-reports-case-6'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/with-resolved-failures-5858.baseline'
       condition: succeededOrFailed()
       continueOnError: true
@@ -89,7 +89,7 @@ steps:
       displayName: '[should fail] case 7: new baseline file'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-          artifactName: 'accessibility-reports-case-7'
+          outputArtifactName: 'accessibility-reports-case-7'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
       condition: succeededOrFailed()
       continueOnError: true
@@ -98,7 +98,7 @@ steps:
       displayName: '[should fail] case 8: url, custom artifact upload step'
       inputs:
           url: 'http://localhost:5858'
-          uploadResultAsArtifact: false
+          uploadOutputArtifact: false
           outputDir: '_accessibility-reports-case-8'
       condition: succeededOrFailed()
 
@@ -110,7 +110,7 @@ steps:
     - task: accessibility-insights.staging.task.accessibility-insights@2
       displayName: '[should fail] case 9: invalid inputs (no site specified)'
       inputs:
-          artifactName: 'accessibility-reports-case-9'
+          outputArtifactName: 'accessibility-reports-case-9'
       condition: succeededOrFailed()
 
     - task: accessibility-insights.staging.task.accessibility-insights@2
@@ -118,7 +118,7 @@ steps:
       inputs:
           url: 'http://localhost:5858'
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-          artifactName: 'accessibility-reports-case-10'
+          outputArtifactName: 'accessibility-reports-case-10'
       condition: succeededOrFailed()
 
     - task: accessibility-insights.staging.task.accessibility-insights@2
