@@ -5,12 +5,14 @@ import 'reflect-metadata';
 import * as adoTask from 'azure-pipelines-task-lib/task';
 import normalizePath from 'normalize-path';
 import path from 'path';
-import { Mock, Times, IMock } from 'typemoq';
+import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { ADOTaskConfig } from './ado-task-config';
+import { TempDirCreator } from '@accessibility-insights-action/shared';
 
 describe(ADOTaskConfig, () => {
     let processStub: NodeJS.Process;
     let adoTaskMock: IMock<typeof adoTask>;
+    let tempDirCreatorMock: IMock<TempDirCreator>;
     let taskConfig: ADOTaskConfig;
 
     beforeEach(() => {
@@ -18,11 +20,13 @@ describe(ADOTaskConfig, () => {
             env: {},
         } as NodeJS.Process;
         adoTaskMock = Mock.ofType<typeof adoTask>();
-        taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
+        tempDirCreatorMock = Mock.ofType<TempDirCreator>(undefined, MockBehavior.Strict);
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
     });
 
     afterEach(() => {
         adoTaskMock.verifyAll();
+        tempDirCreatorMock.verifyAll();
     });
 
     function getPlatformAgnosticPath(inputPath: string): string {
@@ -89,11 +93,53 @@ describe(ADOTaskConfig, () => {
             .setup((o) => o.getInput('chromePath'))
             .returns(() => '')
             .verifiable(Times.once());
-        taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
 
         const absolutePath = taskConfig.getChromePath();
 
         expect(absolutePath).toBe(chromePath);
+    });
+
+    it.each([undefined, ''])('should use TempDirCreator when outputDir input is %p', (input) => {
+        const tempDirCreatorOutput = 'some path';
+        const agentTempDirectory = '/agent/temp/directory';
+        tempDirCreatorMock
+            .setup((m) => m.createTempDirSync(agentTempDirectory))
+            .returns(() => tempDirCreatorOutput)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getInput('outputDir'))
+            .returns(() => input)
+            .verifiable(Times.once());
+        adoTaskMock
+            .setup((o) => o.getVariable('Agent.TempDirectory'))
+            .returns(() => agentTempDirectory)
+            .verifiable(Times.once());
+
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
+
+        const reportOutDir = taskConfig.getReportOutDir();
+
+        expect(reportOutDir).toBe(tempDirCreatorOutput);
+    });
+
+    it('should reuse the same temp dir for multiple getReportOutDir calls', () => {
+        const tempDirCreatorOutput = 'some path';
+        const agentTempDirectory = '/agent/temp/directory';
+        tempDirCreatorMock
+            .setup((m) => m.createTempDirSync(agentTempDirectory))
+            .returns(() => tempDirCreatorOutput)
+            // This Times.once() is the important part of the test
+            .verifiable(Times.once());
+        adoTaskMock.setup((o) => o.getInput('outputDir')).returns(() => '');
+        adoTaskMock.setup((o) => o.getVariable('Agent.TempDirectory')).returns(() => agentTempDirectory);
+
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
+
+        const firstReportOutDir = taskConfig.getReportOutDir();
+        const secondReportOutDir = taskConfig.getReportOutDir();
+
+        expect(firstReportOutDir).toBe(secondReportOutDir);
     });
 
     it('should use workspace to build absolute file path', () => {
@@ -107,7 +153,7 @@ describe(ADOTaskConfig, () => {
             .setup((o) => o.getInput('inputFile'))
             .returns(() => './file.txt')
             .verifiable(Times.once());
-        taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
 
         const absolutePath = taskConfig.getInputFile();
 
@@ -121,7 +167,7 @@ describe(ADOTaskConfig, () => {
                 BUILD_BUILDID: `${runId}`,
             },
         } as unknown as NodeJS.Process;
-        taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
 
         const actualRunId = taskConfig.getRunId();
 
@@ -135,7 +181,7 @@ describe(ADOTaskConfig, () => {
                 SYSTEM_COLLECTIONURI: `${collectionUri}`,
             },
         } as unknown as NodeJS.Process;
-        taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
 
         const actualCollectionUri = taskConfig.getCollectionUri();
 
@@ -149,7 +195,7 @@ describe(ADOTaskConfig, () => {
                 SYSTEM_TEAMPROJECT: `${teamProject}`,
             },
         } as unknown as NodeJS.Process;
-        taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
 
         const actualTeamProject = taskConfig.getTeamProject();
 
@@ -163,7 +209,7 @@ describe(ADOTaskConfig, () => {
                 BUILD_SOURCEVERSION: `${commitHash}`,
             },
         } as unknown as NodeJS.Process;
-        taskConfig = new ADOTaskConfig(processStub, adoTaskMock.object);
+        taskConfig = new ADOTaskConfig(processStub, tempDirCreatorMock.object, adoTaskMock.object);
 
         const actualCommitHash = taskConfig.getCommitHash();
 

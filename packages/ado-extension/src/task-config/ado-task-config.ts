@@ -5,7 +5,7 @@ import * as adoTask from 'azure-pipelines-task-lib/task';
 import { inject, injectable } from 'inversify';
 import { isEmpty } from 'lodash';
 import * as process from 'process';
-import { iocTypes, TaskConfig } from '@accessibility-insights-action/shared';
+import { iocTypes, TaskConfig, TempDirCreator } from '@accessibility-insights-action/shared';
 import normalizePath from 'normalize-path';
 import { resolve } from 'path';
 
@@ -13,15 +13,23 @@ import { resolve } from 'path';
 export class ADOTaskConfig extends TaskConfig {
     constructor(
         @inject(iocTypes.Process) protected readonly processObj: typeof process,
+        @inject(TempDirCreator) private readonly tempDirCreator: TempDirCreator,
         private readonly adoTaskObj = adoTask,
         private readonly resolvePath: typeof resolve = resolve,
     ) {
         super(processObj);
     }
 
+    // memoizing this is important to avoid generating multiple temp directories in the default case
+    private memoizedReportOutDir: string | null = null;
     public getReportOutDir(): string {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.getAbsolutePath(this.adoTaskObj.getInput('outputDir'))!;
+        if (this.memoizedReportOutDir == null) {
+            const customOutputDir = this.getAbsolutePath(this.adoTaskObj.getInput('outputDir'));
+
+            this.memoizedReportOutDir = customOutputDir ?? this.tempDirCreator.createTempDirSync(this.getVariable('Agent.TempDirectory'));
+        }
+
+        return this.memoizedReportOutDir;
     }
 
     public getStaticSiteDir(): string {
