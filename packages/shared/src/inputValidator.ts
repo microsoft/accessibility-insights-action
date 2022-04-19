@@ -6,12 +6,16 @@ import { sectionSeparator, link } from './console-output/console-log-formatter';
 
 @injectable()
 export class InputValidator {
-    private scannerSide : string;
+    private scannerSide: string;
     private configurationSucceeded = true;
-    constructor(@inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger, scannerSide : string) {
+    constructor(
+        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(Logger) private readonly logger: Logger,
+        scannerSide: string,
+    ) {
         this.scannerSide = scannerSide;
     }
-    
+
     public async validate(): Promise<boolean> {
         await this.failIfSiteDirAndUrlAreNotConfigured();
         await this.failIfSiteDirAndUrlAreConfigured();
@@ -25,7 +29,7 @@ export class InputValidator {
     private async failIfSiteDirAndUrlAreNotConfigured(): Promise<boolean> {
         const url = this.taskConfig.getUrl();
         const siteDir = this.taskConfig.getStaticSiteDir();
-        if(url === undefined && siteDir === undefined){
+        if (url === undefined && siteDir === undefined) {
             const siteDirName = this.getSiteDirName();
             const errorCase = `A configuration error has occurred url or ${siteDirName} must be set`;
             const errorMessage = this.writeConfigurationError(errorCase);
@@ -39,7 +43,7 @@ export class InputValidator {
     private async failIfSiteDirAndUrlAreConfigured(): Promise<boolean> {
         const url = this.taskConfig.getUrl();
         const siteDir = this.taskConfig.getStaticSiteDir();
-        if(url !== undefined && siteDir !== undefined){
+        if (url !== undefined && siteDir !== undefined) {
             const siteDirName = this.getSiteDirName();
             const errorCase = `A configuration error has ocurred only one of the following inputs can be set at a time: url or ${siteDirName}`;
             const errorMessage = this.writeConfigurationError(errorCase);
@@ -53,7 +57,7 @@ export class InputValidator {
     private async failIfSiteDirIsNotConfiguredInStaticMode(): Promise<boolean> {
         const siteDir = this.taskConfig.getStaticSiteDir();
         const hostingMode = this.taskConfig.getHostingMode();
-        if(hostingMode === 'staticSite' && siteDir === undefined){
+        if (hostingMode === 'staticSite' && siteDir === undefined) {
             const siteDirName = this.getSiteDirName();
             let errorCase = `A configuration error has ocurred ${siteDirName} must be set when static mode is selected`;
             const errorExtraInfo = `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`;
@@ -69,9 +73,9 @@ export class InputValidator {
 
     private async failIfDynamicInputsAreConfiguredInStaticMode(): Promise<boolean> {
         const hostingMode = this.taskConfig.getHostingMode();
-        if(hostingMode === 'staticSite'){
+        if (hostingMode === 'staticSite') {
             const url = this.taskConfig.getUrl();
-            if(url !== undefined){
+            if (url !== undefined) {
                 let errorCase = `A configuration error has ocurred url must not be set when static mode is selected`;
                 const errorExtraInfo = `To fix this error make sure url has not been set in the input section of your YAML file`;
                 errorCase = errorCase.concat(errorCase, sectionSeparator());
@@ -84,11 +88,11 @@ export class InputValidator {
         }
         return false;
     }
-s
+    s;
     private async failIUrlIsNotConfiguredInDynamicMode(): Promise<boolean> {
         const url = this.taskConfig.getUrl();
         const hostingMode = this.taskConfig.getHostingMode();
-        if(hostingMode === 'dynamicSite' && url === undefined){
+        if (hostingMode === 'dynamicSite' && url === undefined) {
             let errorCase = `A configuration error has ocurred url must be set when dynamic mode is selected`;
             const errorExtraInfo = `To fix this error make sure to add url to the input section in the corresponding YAML file`;
             errorCase = errorCase.concat(errorCase, sectionSeparator());
@@ -103,22 +107,22 @@ s
 
     private async failIfStaticInputsAreConfiguredInDynamicMode(): Promise<boolean> {
         const hostingMode = this.taskConfig.getHostingMode();
-        if(hostingMode === 'dynamicSite'){
+        if (hostingMode === 'dynamicSite') {
             const siteDir = this.taskConfig.getStaticSiteDir();
             const urlRelativePath = this.taskConfig.getStaticSiteUrlRelativePath();
             const sitePort = this.taskConfig.getStaticSitePort();
-            if(siteDir !== undefined || urlRelativePath !== undefined || sitePort !== undefined){
-                const failedInputs = [""];
-                if(siteDir !== undefined){
+            if (siteDir !== undefined || urlRelativePath !== undefined || sitePort !== undefined) {
+                const failedInputs = [''];
+                if (siteDir !== undefined) {
                     failedInputs.push(this.getSiteDirName());
                 }
-                if(urlRelativePath !== undefined){
+                if (urlRelativePath !== undefined) {
                     failedInputs.push(this.getUrlRelativePathName());
                 }
-                if(sitePort !== undefined){
+                if (sitePort !== undefined) {
                     failedInputs.push(this.getSitePortName());
                 }
-                const failedInputNames = failedInputs.join(", ");
+                const failedInputNames = failedInputs.join(', ');
                 let errorCase = `A configuration error has ocurred ${failedInputNames} must not be set when dynamic mode is selected`;
                 const errorExtraInfo = `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`;
                 errorCase = errorCase.concat(errorCase, errorExtraInfo);
@@ -133,41 +137,37 @@ s
     }
 
     private getInfoLink(): string {
-        let docsLink : string;
-        if(this.scannerSide === 'ado-extension'){
-            docsLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+        let docsLink: string;
+        if (this.scannerSide === 'ado-extension') {
+            docsLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
             return link(docsLink, 'ADO Extension usage');
-        }
-        else{
-            docsLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+        } else {
+            docsLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
             return link(docsLink, 'GH Action Extension usage');
         }
     }
 
     private getSiteDirName(): string {
-        if(this.scannerSide === 'ado-extension'){
+        if (this.scannerSide === 'ado-extension') {
             return 'staticSiteDir';
-        }
-        else {
+        } else {
             return 'site-dir';
         }
     }
 
     private getUrlRelativePathName(): string {
-        if(this.scannerSide === 'ado-extension'){
+        if (this.scannerSide === 'ado-extension') {
             return 'staticSiteUrlRelativePath';
-        }
-        else {
-            return "scan-url-relative-path";
+        } else {
+            return 'scan-url-relative-path';
         }
     }
 
-    private getSitePortName(): string{
-        if(this.scannerSide === 'ado-extension'){
+    private getSitePortName(): string {
+        if (this.scannerSide === 'ado-extension') {
             return 'staticSitePort';
-        }
-        else {
-            return "staticSitePort";
+        } else {
+            return 'staticSitePort';
         }
     }
 
@@ -186,7 +186,7 @@ s
         return false;
     }
 
-    private writeConfigurationError(errorCase : string): string {
+    private writeConfigurationError(errorCase: string): string {
         const configurationInfo = this.getInfoLink();
         const errorMessage = [errorCase, configurationInfo];
         return errorMessage.join(sectionSeparator());
