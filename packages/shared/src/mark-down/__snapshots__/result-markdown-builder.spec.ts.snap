@@ -40,7 +40,7 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 "
 `;
 
-exports[`ResultMarkdownBuilder uploadResultAsArtifact is false skips artifact link line when artifactsUrl returns undefined 1`] = `
+exports[`ResultMarkdownBuilder uploadOutputArtifact is false skips artifact link line when artifactsUrl returns undefined 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **:white_check_mark: No failures detected**

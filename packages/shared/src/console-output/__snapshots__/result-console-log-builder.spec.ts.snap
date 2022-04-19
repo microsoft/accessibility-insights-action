@@ -43,7 +43,7 @@ You can review the log to troubleshoot the issue. Fix it and re-run the pipeline
 "
 `;
 
-exports[`ResultConsoleLogBuilder uploadResultAsArtifact is false skips artifact link line when artifactsUrl returns undefined 1`] = `
+exports[`ResultConsoleLogBuilder uploadOutputArtifact is false skips artifact link line when artifactsUrl returns undefined 1`] = `
 "
 Accessibility Insights
 

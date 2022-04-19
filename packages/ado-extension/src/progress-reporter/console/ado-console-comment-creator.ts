@@ -31,7 +31,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
         const baselineInfo = this.getBaselineInfo(baselineEvaluation);
         this.outputResultsMarkdownToBuildSummary(combinedReportResult, baselineInfo);
-        this.uploadReportArtifacts();
+        this.uploadOutputArtifact();
         this.logResultsToConsole(combinedReportResult, baselineInfo);
 
         return Promise.resolve();
@@ -63,12 +63,12 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         this.logger.logInfo(`##vso[task.uploadsummary]${fileName}`);
     }
 
-    private uploadReportArtifacts(): void {
-        const uploadResultAsArtifactEnabled: boolean = this.taskConfig.getUploadResultAsArtifact();
-        if (uploadResultAsArtifactEnabled) {
+    private uploadOutputArtifact(): void {
+        const uploadOutputArtifactEnabled: boolean = this.taskConfig.getUploadOutputArtifact();
+        if (uploadOutputArtifactEnabled) {
             const outputDirectory = this.taskConfig.getReportOutDir();
             const jobAttemptBuildVariable = this.taskConfig.getVariable('System.JobAttempt');
-            const artifactName = this.taskConfig.getArtifactName();
+            const artifactName = this.taskConfig.getOutputArtifactName();
 
             let artifactNameSuffix = '';
             let jobAttemptNumber = 1;

@@ -278,7 +278,7 @@ describe(ResultMarkdownBuilder, () => {
         });
     });
 
-    describe('uploadResultAsArtifact is false', () => {
+    describe('uploadOutputArtifact is false', () => {
         const baselineFileName = 'baseline file';
         it('skips artifact link line when artifactsUrl returns undefined', () => {
             artifactsInfoProviderMock
