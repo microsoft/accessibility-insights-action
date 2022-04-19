@@ -43,6 +43,7 @@ steps:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           # intentionally omits artifactName; should go to default accessibility-reports
       condition: succeededOrFailed()
+      continueOnError: true
 
     - task: accessibility-insights.staging.task.accessibility-insights@2
       displayName: '[should succeed] case 2: staticSiteDir, no baseline, failOnAccessibilityError:false'
@@ -58,6 +59,7 @@ steps:
           url: 'http://localhost:5858'
           outputArtifactName: 'accessibility-reports-case-3'
       condition: succeededOrFailed()
+      continueOnError: true
 
     - task: accessibility-insights.staging.task.accessibility-insights@2
       displayName: '[should succeed] case 4: up-to-date baseline'
@@ -101,6 +103,7 @@ steps:
           uploadOutputArtifact: false
           outputDir: '_accessibility-reports-case-8'
       condition: succeededOrFailed()
+      continueOnError: true
 
     - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-8'
       displayName: 'custom report artifact upload for case 8'
@@ -112,6 +115,7 @@ steps:
       inputs:
           outputArtifactName: 'accessibility-reports-case-9'
       condition: succeededOrFailed()
+      continueOnError: true
 
     - task: accessibility-insights.staging.task.accessibility-insights@2
       displayName: '[should fail] case 10: invalid inputs (both url and staticSiteDir specified)'
@@ -120,6 +124,7 @@ steps:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           outputArtifactName: 'accessibility-reports-case-10'
       condition: succeededOrFailed()
+      continueOnError: true
 
     - task: accessibility-insights.staging.task.accessibility-insights@2
       displayName: '[should fail] case 11: v1 inputs specified'
@@ -128,3 +133,4 @@ steps:
           # siteDir instead of staticSiteDir
           siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
       condition: succeededOrFailed()
+      continueOnError: true
