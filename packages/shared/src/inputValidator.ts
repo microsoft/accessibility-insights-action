@@ -15,6 +15,10 @@ export class InputValidator {
     public async validate(): Promise<boolean> {
         await this.failIfSiteDirAndUrlAreNotConfigured();
         await this.failIfSiteDirAndUrlAreConfigured();
+        await this.failIfSiteDirIsNotConfiguredInStaticMode();
+        await this.failIfStaticInputsAreConfiguredInDynamicMode();
+        await this.failIUrlIsNotConfiguredInDynamicMode();
+        await this.failIfDynamicInputsAreConfiguredInStaticMode();
         return Promise.resolve(this.configurationSucceeded);
     }
 
@@ -47,21 +51,83 @@ export class InputValidator {
     }
 
     private async failIfSiteDirIsNotConfiguredInStaticMode(): Promise<boolean> {
-        await this.failConfiguration();
-        return true;
+        const siteDir = this.taskConfig.getStaticSiteDir();
+        const hostingMode = this.taskConfig.getHostingMode();
+        if(hostingMode === 'staticSite' && siteDir === undefined){
+            const siteDirName = this.getSiteDirName();
+            let errorCase = `A configuration error has ocurred ${siteDirName} must be set when static mode is selected`;
+            const errorExtraInfo = `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`;
+            errorCase = errorCase.concat(errorCase, sectionSeparator());
+            errorCase = errorCase.concat(errorCase, errorExtraInfo);
+            const errorMessage = this.writeConfigurationError(errorCase);
+            this.logger.logError(errorMessage);
+            await this.failConfiguration();
+            return true;
+        }
+        return false;
     }
 
     private async failIfDynamicInputsAreConfiguredInStaticMode(): Promise<boolean> {
-        await this.failConfiguration();
-        return true;
+        const hostingMode = this.taskConfig.getHostingMode();
+        if(hostingMode === 'staticSite'){
+            const url = this.taskConfig.getUrl();
+            if(url !== undefined){
+                let errorCase = `A configuration error has ocurred url must not be set when static mode is selected`;
+                const errorExtraInfo = `To fix this error make sure url has not been set in the input section of your YAML file`;
+                errorCase = errorCase.concat(errorCase, sectionSeparator());
+                errorCase = errorCase.concat(errorCase, errorExtraInfo);
+                const errorMessage = this.writeConfigurationError(errorCase);
+                this.logger.logError(errorMessage);
+                await this.failConfiguration();
+                return true;
+            }
+        }
+        return false;
     }
-
+s
     private async failIUrlIsNotConfiguredInDynamicMode(): Promise<boolean> {
-        await this.failConfiguration();
-        return true;
+        const url = this.taskConfig.getUrl();
+        const hostingMode = this.taskConfig.getHostingMode();
+        if(hostingMode === 'dynamicSite' && url === undefined){
+            let errorCase = `A configuration error has ocurred url must be set when dynamic mode is selected`;
+            const errorExtraInfo = `To fix this error make sure to add url to the input section in the corresponding YAML file`;
+            errorCase = errorCase.concat(errorCase, sectionSeparator());
+            errorCase = errorCase.concat(errorCase, errorExtraInfo);
+            const errorMessage = this.writeConfigurationError(errorCase);
+            this.logger.logError(errorMessage);
+            await this.failConfiguration();
+            return true;
+        }
+        return false;
     }
 
     private async failIfStaticInputsAreConfiguredInDynamicMode(): Promise<boolean> {
+        const hostingMode = this.taskConfig.getHostingMode();
+        if(hostingMode === 'dynamicSite'){
+            const siteDir = this.taskConfig.getStaticSiteDir();
+            const urlRelativePath = this.taskConfig.getStaticSiteUrlRelativePath();
+            const sitePort = this.taskConfig.getStaticSitePort();
+            if(siteDir !== undefined || urlRelativePath !== undefined || sitePort !== undefined){
+                const failedInputs = [""];
+                if(siteDir !== undefined){
+                    failedInputs.push(this.getSiteDirName());
+                }
+                if(urlRelativePath !== undefined){
+                    failedInputs.push(this.getUrlRelativePathName());
+                }
+                if(sitePort !== undefined){
+                    failedInputs.push(this.getSitePortName());
+                }
+                const failedInputNames = failedInputs.join(", ");
+                let errorCase = `A configuration error has ocurred ${failedInputNames} must not be set when dynamic mode is selected`;
+                const errorExtraInfo = `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`;
+                errorCase = errorCase.concat(errorCase, errorExtraInfo);
+                const errorMessage = this.writeConfigurationError(errorCase);
+                this.logger.logError(errorMessage);
+                await this.failConfiguration();
+                return true;
+            }
+        }
         await this.failConfiguration();
         return true;
     }
