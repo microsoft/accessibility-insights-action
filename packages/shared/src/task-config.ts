@@ -4,6 +4,7 @@
 import { inject, injectable } from 'inversify';
 import { iocTypes } from './ioc/ioc-types';
 
+export type TaskInputKey = 'HostingMode' | 'StaticSiteDir' ;
 @injectable()
 export abstract class TaskConfig {
     constructor(@inject(iocTypes.Process) protected readonly processObj: typeof process) {}
@@ -23,5 +24,5 @@ export abstract class TaskConfig {
     abstract getStaticSitePort(): number | undefined;
     abstract getRunId(): number | undefined;
     abstract getHostingMode(): string | undefined;
-    abstract getInputName(): string;
+    abstract getInputName(key : TaskInputKey): string;
 }
