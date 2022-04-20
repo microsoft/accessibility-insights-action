@@ -47,5 +47,7 @@ export function setupSharedIocContainer(container = new inversify.Container({ au
         })
         .inSingletonScope();
 
+
+
     return container;
 }

@@ -1,6 +1,5 @@
 import { TaskConfig } from './task-config';
-import { inject, injectable } from 'inversify';
-import { iocTypes } from './ioc/ioc-types';
+import { injectable } from 'inversify';
 import { Logger } from '@accessibility-insights-action/shared';
 import { sectionSeparator, link } from './console-output/console-log-formatter';
 
@@ -9,8 +8,8 @@ export class InputValidator {
     private scannerSide: string;
     private configurationSucceeded = true;
     constructor(
-        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
-        @inject(Logger) private readonly logger: Logger,
+        private readonly taskConfig: TaskConfig,
+        private readonly logger: Logger,
         scannerSide: string,
     ) {
         this.scannerSide = scannerSide;

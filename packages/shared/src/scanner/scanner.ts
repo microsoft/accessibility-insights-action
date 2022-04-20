@@ -23,7 +23,7 @@ import { ConsolidatedReportGenerator } from '../report/consolidated-report-gener
 import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { TaskConfig } from '../task-config';
 import { TelemetryClient } from '../telemetry/telemetry-client';
-import { InputValidator } from '../inputValidator';
+import { InputValidator } from '../input-validator';
 import { isEmpty } from 'lodash';
 import * as fs from 'fs';
 
