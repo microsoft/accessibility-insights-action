@@ -23,6 +23,7 @@ import { ConsolidatedReportGenerator } from '../report/consolidated-report-gener
 import { CrawlArgumentHandler } from './crawl-argument-handler';
 import { TaskConfig } from '../task-config';
 import { TelemetryClient } from '../telemetry/telemetry-client';
+import { InputValidator } from '../inputValidator';
 import { isEmpty } from 'lodash';
 import * as fs from 'fs';
 
@@ -45,10 +46,14 @@ export class Scanner {
         @inject(BaselineOptionsBuilder) private readonly baselineOptionsBuilder: BaselineOptionsBuilder,
         @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
         @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
+        @inject(InputValidator) private readonly inputValidator: InputValidator,
         private readonly fileSystemObj: typeof fs = fs,
     ) {}
 
     public async scan(): Promise<ScanSucceededWithNoRequiredUserAction> {
+        if(!(await this.inputValidator.validate())){
+            return Promise.resolve(false);
+        }
         const scanTimeoutMsec = this.taskConfig.getScanTimeout();
         return this.promiseUtils.waitFor<ScanSucceededWithNoRequiredUserAction, ScanSucceededWithNoRequiredUserAction>(
             this.invokeScan(),
