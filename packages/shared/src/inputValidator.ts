@@ -1,7 +1,7 @@
 import { TaskConfig } from './task-config';
 import { inject, injectable } from 'inversify';
 import { iocTypes } from './ioc/ioc-types';
-import { Logger } from './logger/logger';
+import { Logger } from '@accessibility-insights-action/shared';
 import { sectionSeparator, link } from './console-output/console-log-formatter';
 
 @injectable()
@@ -16,12 +16,16 @@ export class InputValidator {
         this.scannerSide = scannerSide;
     }
     public async validate(): Promise<boolean> {
-        await this.failIfSiteDirAndUrlAreNotConfigured();
-        await this.failIfSiteDirAndUrlAreConfigured();
-        await this.failIfSiteDirIsNotConfiguredInStaticMode();
-        await this.failIfStaticInputsAreConfiguredInDynamicMode();
-        await this.failIUrlIsNotConfiguredInDynamicMode();
-        await this.failIfDynamicInputsAreConfiguredInStaticMode();
+        const hostingMode = this.taskConfig.getHostingMode();
+        if (hostingMode === undefined) {
+            await this.failIfSiteDirAndUrlAreNotConfigured();
+            await this.failIfSiteDirAndUrlAreConfigured();
+        } else {
+            await this.failIfSiteDirIsNotConfiguredInStaticMode();
+            await this.failIfStaticInputsAreConfiguredInDynamicMode();
+            await this.failIUrlIsNotConfiguredInDynamicMode();
+            await this.failIfDynamicInputsAreConfiguredInStaticMode();
+        }
         return Promise.resolve(this.configurationSucceeded);
     }
 
@@ -60,8 +64,7 @@ export class InputValidator {
             const siteDirName = this.getSiteDirName();
             let errorCase = `A configuration error has ocurred ${siteDirName} must be set when static mode is selected`;
             const errorExtraInfo = `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`;
-            errorCase = errorCase.concat(errorCase, sectionSeparator());
-            errorCase = errorCase.concat(errorCase, errorExtraInfo);
+            errorCase = errorCase.concat(sectionSeparator(), errorExtraInfo);
             const errorMessage = this.writeConfigurationError(errorCase);
             this.logger.logError(errorMessage);
             await this.failConfiguration();
@@ -77,8 +80,7 @@ export class InputValidator {
             if (url !== undefined) {
                 let errorCase = `A configuration error has ocurred url must not be set when static mode is selected`;
                 const errorExtraInfo = `To fix this error make sure url has not been set in the input section of your YAML file`;
-                errorCase = errorCase.concat(errorCase, sectionSeparator());
-                errorCase = errorCase.concat(errorCase, errorExtraInfo);
+                errorCase = errorCase.concat(sectionSeparator(), errorExtraInfo);
                 const errorMessage = this.writeConfigurationError(errorCase);
                 this.logger.logError(errorMessage);
                 await this.failConfiguration();
@@ -93,8 +95,7 @@ export class InputValidator {
         if (hostingMode === 'dynamicSite' && url === undefined) {
             let errorCase = `A configuration error has ocurred url must be set when dynamic mode is selected`;
             const errorExtraInfo = `To fix this error make sure to add url to the input section in the corresponding YAML file`;
-            errorCase = errorCase.concat(errorCase, sectionSeparator());
-            errorCase = errorCase.concat(errorCase, errorExtraInfo);
+            errorCase = errorCase.concat(sectionSeparator(), errorExtraInfo);
             const errorMessage = this.writeConfigurationError(errorCase);
             this.logger.logError(errorMessage);
             await this.failConfiguration();
@@ -110,7 +111,7 @@ export class InputValidator {
             const urlRelativePath = this.taskConfig.getStaticSiteUrlRelativePath();
             const sitePort = this.taskConfig.getStaticSitePort();
             if (siteDir !== undefined || urlRelativePath !== undefined || sitePort !== undefined) {
-                const failedInputs = [''];
+                const failedInputs = [];
                 if (siteDir !== undefined) {
                     failedInputs.push(this.getSiteDirName());
                 }
@@ -137,7 +138,7 @@ export class InputValidator {
     private getInfoLink(): string {
         let docsLink: string;
         if (this.scannerSide === 'ado-extension') {
-            docsLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
+            docsLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             return link(docsLink, 'ADO Extension usage');
         } else {
             docsLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -172,16 +173,6 @@ export class InputValidator {
     // eslint-disable-next-line @typescript-eslint/require-await
     public async failConfiguration(): Promise<void> {
         this.configurationSucceeded = false;
-    }
-
-    public async validateDynamicInputs(): Promise<boolean> {
-        await this.failConfiguration();
-        return false;
-    }
-
-    public async validateStaticInputs(): Promise<boolean> {
-        await this.failConfiguration();
-        return false;
     }
 
     private writeConfigurationError(errorCase: string): string {
