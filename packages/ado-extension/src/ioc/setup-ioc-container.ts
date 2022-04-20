@@ -5,7 +5,7 @@ import * as AdoTask from 'azure-pipelines-task-lib/task';
 import * as inversify from 'inversify';
 import * as NodeApi from 'azure-devops-node-api';
 import * as AppInsights from 'applicationinsights';
-import { iocTypes, Logger, setupSharedIocContainer, TaskConfig } from '@accessibility-insights-action/shared';
+import { iocTypes, Logger, setupSharedIocContainer } from '@accessibility-insights-action/shared';
 import { ADOTaskConfig } from '../task-config/ado-task-config';
 import { AdoIocTypes } from './ado-ioc-types';
 import { ADOArtifactsInfoProvider } from '../ado-artifacts-info-provider';
@@ -13,7 +13,7 @@ import { WorkflowEnforcer } from '../progress-reporter/enforcement/workflow-enfo
 import { AdoConsoleCommentCreator } from '../progress-reporter/console/ado-console-comment-creator';
 import { TelemetryClientFactory } from '../telemetry/telemetry-client-factory';
 import { TelemetrySender } from '../progress-reporter/telemetry/telemetry-sender';
-import { InputValidator } from '../../../shared/src/inputValidator';
+import { InputValidator } from '@accessibility-insights-action/shared/src/input-validator';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);

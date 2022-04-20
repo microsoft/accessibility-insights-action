@@ -23,4 +23,5 @@ export abstract class TaskConfig {
     abstract getStaticSitePort(): number | undefined;
     abstract getRunId(): number | undefined;
     abstract getHostingMode(): string | undefined;
+    abstract getInputName(): string;
 }

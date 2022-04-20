@@ -3,7 +3,6 @@ import { injectable } from 'inversify';
 import { Logger } from '@accessibility-insights-action/shared';
 import { sectionSeparator, link } from './console-output/console-log-formatter';
 
-@injectable()
 export class InputValidator {
     private scannerSide: string;
     private configurationSucceeded = true;

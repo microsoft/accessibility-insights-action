@@ -10,7 +10,7 @@ import { GitHubIocTypes } from './gh-ioc-types';
 import { CheckRunCreator } from '../check-run/check-run-creator';
 import { GitHubArtifactsInfoProvider } from '../gh-artifacts-info-provider';
 import { ConsoleCommentCreator } from '../console/console-comment-creator';
-import { InputValidator } from '../../../shared/src/inputValidator';
+import { InputValidator } from '@accessibility-insights-action/shared/src/input-validator';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);

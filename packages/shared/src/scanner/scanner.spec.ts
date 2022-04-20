@@ -27,7 +27,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { TaskConfig } from '../task-config';
 import * as fs from 'fs';
 import { TelemetryClient } from '../telemetry/telemetry-client';
-import { InputValidator } from '../inputValidator';
+import { InputValidator } from '../input-validator';
 
 describe(Scanner, () => {
     let aiCrawlerMock: IMock<AICrawler>;

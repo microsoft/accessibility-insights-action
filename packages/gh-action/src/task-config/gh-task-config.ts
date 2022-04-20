@@ -8,7 +8,6 @@ import * as process from 'process';
 import { iocTypes, TaskConfig } from '@accessibility-insights-action/shared';
 import normalizePath from 'normalize-path';
 import { resolve } from 'path';
-7;
 @injectable()
 export class GHTaskConfig extends TaskConfig {
     constructor(

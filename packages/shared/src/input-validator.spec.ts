@@ -4,7 +4,7 @@ import 'reflect-metadata';
 
 import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { TaskConfig } from './task-config';
-import { InputValidator } from './inputValidator';
+import { InputValidator } from './input-validator';
 import { Logger } from '@accessibility-insights-action/shared';
 
 describe(InputValidator, () => {
