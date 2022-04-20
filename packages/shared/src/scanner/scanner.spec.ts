@@ -27,6 +27,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { TaskConfig } from '../task-config';
 import * as fs from 'fs';
 import { TelemetryClient } from '../telemetry/telemetry-client';
+import { InputValidator } from '../inputValidator';
 
 describe(Scanner, () => {
     let aiCrawlerMock: IMock<AICrawler>;
@@ -47,6 +48,7 @@ describe(Scanner, () => {
     let scanner: Scanner;
     let combinedScanResult: CombinedScanResult;
     let scanArguments: ScanArguments;
+    let inputValidatorMock: IMock<InputValidator>;
 
     const scanTimeoutMsec = 100000;
     const reportOutDir = 'reportOutDir';
@@ -66,6 +68,7 @@ describe(Scanner, () => {
         baselineOptionsBuilderMock = Mock.ofType<BaselineOptionsBuilder>(null, MockBehavior.Strict);
         baselineFileUpdaterMock = Mock.ofType<BaselineFileUpdater>();
         telemetryClientMock = Mock.ofType<TelemetryClient>();
+        inputValidatorMock = Mock.ofType<InputValidator>();
         fsMock = Mock.ofType<typeof fs>();
         scanner = new Scanner(
             aiCrawlerMock.object,
@@ -82,6 +85,7 @@ describe(Scanner, () => {
             baselineOptionsBuilderMock.object,
             baselineFileUpdaterMock.object,
             telemetryClientMock.object,
+            inputValidatorMock.object,
             fsMock.object,
         );
         combinedScanResult = {
@@ -100,6 +104,7 @@ describe(Scanner, () => {
         it('performs expected steps in happy path with remote url and returns true', async () => {
             setupMocksForSuccessfulScan();
             setupWaitForPromiseToReturnOriginalPromise();
+            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
 
             const result = await scanner.scan();
             expect(result).toBe(true);
@@ -112,6 +117,7 @@ describe(Scanner, () => {
             localFileServerMock.setup((m) => m.start()).returns((_) => Promise.resolve('localhost'));
             setupMocksForSuccessfulScan();
             setupWaitForPromiseToReturnOriginalPromise();
+            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
 
             await expect(scanner.scan()).resolves.toBe(true);
 
@@ -122,6 +128,7 @@ describe(Scanner, () => {
         it('passes BaselineEvaluation to ProgressReporter', async () => {
             setupMocksForSuccessfulScan({} as BaselineEvaluation);
             setupWaitForPromiseToReturnOriginalPromise();
+            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
 
             await expect(scanner.scan()).resolves.toBe(true);
 
@@ -137,6 +144,7 @@ describe(Scanner, () => {
                 .returns((_) => scanTimeoutMsec)
                 .verifiable(Times.once());
             setupWaitForPromiseToReturnTimeoutPromise();
+            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
             await expect(scanner.scan()).resolves.toBe(false);
 
             verifyMocks();
@@ -156,6 +164,8 @@ describe(Scanner, () => {
             progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
 
+            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
+
             setupWaitForPromiseToReturnOriginalPromise();
 
             await expect(scanner.scan()).resolves.toBe(false);
@@ -166,6 +176,8 @@ describe(Scanner, () => {
         it('emits the expected pattern of telemetry', async () => {
             setupMocksForSuccessfulScan();
             setupWaitForPromiseToReturnOriginalPromise();
+
+            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
 
             telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
             telemetryClientMock.setup((m) => m.flush());
