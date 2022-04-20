@@ -48,7 +48,7 @@ describe(GHTaskConfig, () => {
         ${'single-worker'}          | ${''}                | ${true}                                                  | ${() => taskConfig.getSingleWorker()}
         ${'single-worker'}          | ${'false'}           | ${false}                                                 | ${() => taskConfig.getSingleWorker()}
         ${'hosting-mode'}           | ${'staticSite'}      | ${'staticSite'}                                          | ${() => taskConfig.getHostingMode()}
-        ${'hosting-mode'}           | ${'dynamicSite'}     | ${'dynamicSite'}
+        ${'hosting-mode'}           | ${'dynamicSite'}     | ${'dynamicSite'}                                         | ${() => taskConfig.getHostingMode()}
         ${'hosting-mode'}           | ${undefined}         | ${undefined}                                             | ${() => taskConfig.getHostingMode()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,

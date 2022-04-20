@@ -15,7 +15,6 @@ export class InputValidator {
     ) {
         this.scannerSide = scannerSide;
     }
-
     public async validate(): Promise<boolean> {
         await this.failIfSiteDirAndUrlAreNotConfigured();
         await this.failIfSiteDirAndUrlAreConfigured();
@@ -88,7 +87,6 @@ export class InputValidator {
         }
         return false;
     }
-    s;
     private async failIUrlIsNotConfiguredInDynamicMode(): Promise<boolean> {
         const url = this.taskConfig.getUrl();
         const hostingMode = this.taskConfig.getHostingMode();
