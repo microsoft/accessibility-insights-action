@@ -1,5 +1,9 @@
 [
     {
+        "name": "url",
+        "value": "https://www.washington.edu/accesscomputing/AU/before.html"
+    },
+    {
         "name": "staticSiteDir",
         "value": "../../dev/website-root/"
     },
@@ -9,6 +13,6 @@
     },
     {
         "name": "failOnAccessibilityError",
-        "value": false
+        "value": true
     }
 ]
