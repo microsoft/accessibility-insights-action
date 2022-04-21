@@ -13,7 +13,6 @@ import { WorkflowEnforcer } from '../progress-reporter/enforcement/workflow-enfo
 import { AdoConsoleCommentCreator } from '../progress-reporter/console/ado-console-comment-creator';
 import { TelemetryClientFactory } from '../telemetry/telemetry-client-factory';
 import { TelemetrySender } from '../progress-reporter/telemetry/telemetry-sender';
-import { InputValidator } from '@accessibility-insights-action/shared/src/input-validator';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
@@ -35,12 +34,6 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
         })
         .inSingletonScope();
     container.bind(iocTypes.ArtifactsInfoProvider).to(ADOArtifactsInfoProvider).inSingletonScope();
-    container
-        .bind(InputValidator)
-        .toDynamicValue((context) => {
-            return new InputValidator(context.container.get(iocTypes.TaskConfig), context.container.get(Logger), 'ado-extension');
-        })
-        .inSingletonScope();
     container
         .rebind(iocTypes.TelemetryClient)
         .toDynamicValue((context) => {

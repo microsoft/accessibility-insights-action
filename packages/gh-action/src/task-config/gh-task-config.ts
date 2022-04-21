@@ -5,7 +5,7 @@ import * as actionCore from '@actions/core';
 import { inject, injectable } from 'inversify';
 import { isEmpty } from 'lodash';
 import * as process from 'process';
-import { iocTypes, TaskConfig } from '@accessibility-insights-action/shared';
+import { iocTypes, TaskConfig, TaskInputKey } from '@accessibility-insights-action/shared';
 import normalizePath from 'normalize-path';
 import { resolve } from 'path';
 @injectable()
@@ -108,5 +108,16 @@ export class GHTaskConfig extends TaskConfig {
         const dirname = this.processObj.env.GITHUB_WORKSPACE ?? __dirname;
 
         return normalizePath(this.resolvePath(dirname, normalizePath(path)));
+    }
+
+    public getInputName(key: TaskInputKey): string {
+        const keyToName = {
+            HostingMode: 'hosting-mode',
+            StaticSiteDir: 'site-dir',
+            StaticSiteUrlRelativePath: 'scan-url-relative-path',
+            Url: 'url',
+            StaticSitePort: 'localhost-port',
+        };
+        return keyToName[key];
     }
 }

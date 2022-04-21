@@ -4,13 +4,12 @@
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import * as inversify from 'inversify';
-import { iocTypes, Logger, setupSharedIocContainer } from '@accessibility-insights-action/shared';
+import { iocTypes, setupSharedIocContainer } from '@accessibility-insights-action/shared';
 import { GHTaskConfig } from '../task-config/gh-task-config';
 import { GitHubIocTypes } from './gh-ioc-types';
 import { CheckRunCreator } from '../check-run/check-run-creator';
 import { GitHubArtifactsInfoProvider } from '../gh-artifacts-info-provider';
 import { ConsoleCommentCreator } from '../console/console-comment-creator';
-import { InputValidator } from '@accessibility-insights-action/shared/src/input-validator';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
@@ -28,12 +27,6 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
         })
         .inSingletonScope();
 
-        container
-        .bind(InputValidator)
-        .toDynamicValue((context) => {
-            return new InputValidator(context.container.get(iocTypes.TaskConfig), context.container.get(Logger), 'gh-action');
-        })
-        .inSingletonScope();
     container
         .bind(Octokit)
         .toDynamicValue((context) => {

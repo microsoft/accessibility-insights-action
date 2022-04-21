@@ -5,7 +5,7 @@ import * as adoTask from 'azure-pipelines-task-lib/task';
 import { inject, injectable } from 'inversify';
 import { isEmpty } from 'lodash';
 import * as process from 'process';
-import { iocTypes, TaskConfig } from '@accessibility-insights-action/shared';
+import { iocTypes, TaskConfig, TaskInputKey } from '@accessibility-insights-action/shared';
 import normalizePath from 'normalize-path';
 import { resolve } from 'path';
 
@@ -152,5 +152,16 @@ export class ADOTaskConfig extends TaskConfig {
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return normalizePath(this.resolvePath(dirname, normalizePath(path!)));
+    }
+
+    public getInputName(key: TaskInputKey): string {
+        const keyToName = {
+            HostingMode: 'hostingMode',
+            StaticSiteDir: 'staticSiteDir',
+            StaticSiteUrlRelativePath: 'staticSiteUrlRelativePath',
+            Url: 'url',
+            StaticSitePort: 'staticSitePort',
+        };
+        return keyToName[key];
     }
 }
