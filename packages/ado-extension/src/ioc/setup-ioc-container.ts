@@ -5,7 +5,7 @@ import * as AdoTask from 'azure-pipelines-task-lib/task';
 import * as inversify from 'inversify';
 import * as NodeApi from 'azure-devops-node-api';
 import * as AppInsights from 'applicationinsights';
-import { iocTypes, Logger, setupSharedIocContainer } from '@accessibility-insights-action/shared';
+import { iocTypes, setupSharedIocContainer } from '@accessibility-insights-action/shared';
 import { ADOTaskConfig } from '../task-config/ado-task-config';
 import { AdoIocTypes } from './ado-ioc-types';
 import { ADOArtifactsInfoProvider } from '../ado-artifacts-info-provider';

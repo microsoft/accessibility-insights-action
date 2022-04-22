@@ -9,21 +9,21 @@ import { sectionSeparator, link } from './console-output/console-log-formatter';
 export class InputValidator {
     private configurationSucceeded = true;
     constructor(@inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger) {}
-    public async validate(): Promise<boolean> {
+    public validate(): boolean {
         const hostingMode = this.taskConfig.getHostingMode();
         if (hostingMode === undefined) {
-            await this.failIfSiteDirAndUrlAreNotConfigured();
-            await this.failIfSiteDirAndUrlAreConfigured();
+            this.failIfSiteDirAndUrlAreNotConfigured();
+            this.failIfSiteDirAndUrlAreConfigured();
         } else {
-            await this.failIfSiteDirIsNotConfiguredInStaticMode();
-            await this.failIfStaticInputsAreConfiguredInDynamicMode();
-            await this.failIUrlIsNotConfiguredInDynamicMode();
-            await this.failIfDynamicInputsAreConfiguredInStaticMode();
+            this.failIfSiteDirIsNotConfiguredInStaticMode();
+            this.failIfStaticInputsAreConfiguredInDynamicMode();
+            this.failIUrlIsNotConfiguredInDynamicMode();
+            this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
-        return Promise.resolve(this.configurationSucceeded);
+        return this.configurationSucceeded;
     }
 
-    private async failIfSiteDirAndUrlAreNotConfigured(): Promise<boolean> {
+    private failIfSiteDirAndUrlAreNotConfigured(): boolean {
         const url = this.taskConfig.getUrl();
         const siteDir = this.taskConfig.getStaticSiteDir();
         if (url === undefined && siteDir === undefined) {
@@ -31,13 +31,13 @@ export class InputValidator {
             const errorCase = `A configuration error has occurred url or ${siteDirName} must be set`;
             const errorMessage = this.writeConfigurationError(errorCase);
             this.logger.logError(errorMessage);
-            await this.failConfiguration();
+            this.failConfiguration();
             return true;
         }
         return false;
     }
 
-    private async failIfSiteDirAndUrlAreConfigured(): Promise<boolean> {
+    private failIfSiteDirAndUrlAreConfigured(): boolean {
         const url = this.taskConfig.getUrl();
         const siteDir = this.taskConfig.getStaticSiteDir();
         if (url !== undefined && siteDir !== undefined) {
@@ -45,13 +45,13 @@ export class InputValidator {
             const errorCase = `A configuration error has ocurred only one of the following inputs can be set at a time: url or ${siteDirName}`;
             const errorMessage = this.writeConfigurationError(errorCase);
             this.logger.logError(errorMessage);
-            await this.failConfiguration();
+            this.failConfiguration();
             return true;
         }
         return false;
     }
 
-    private async failIfSiteDirIsNotConfiguredInStaticMode(): Promise<boolean> {
+    private failIfSiteDirIsNotConfiguredInStaticMode(): boolean {
         const siteDir = this.taskConfig.getStaticSiteDir();
         const hostingMode = this.taskConfig.getHostingMode();
         if (hostingMode === 'staticSite' && siteDir === undefined) {
@@ -60,13 +60,13 @@ export class InputValidator {
             const errorInfo = `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`;
             const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
             this.logger.logError(errorMessage);
-            await this.failConfiguration();
+            this.failConfiguration();
             return true;
         }
         return false;
     }
 
-    private async failIfDynamicInputsAreConfiguredInStaticMode(): Promise<boolean> {
+    private failIfDynamicInputsAreConfiguredInStaticMode(): boolean {
         const hostingMode = this.taskConfig.getHostingMode();
         if (hostingMode === 'staticSite') {
             const url = this.taskConfig.getUrl();
@@ -75,13 +75,13 @@ export class InputValidator {
                 const errorInfo = `To fix this error make sure url has not been set in the input section of your YAML file`;
                 const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
                 this.logger.logError(errorMessage);
-                await this.failConfiguration();
+                this.failConfiguration();
                 return true;
             }
         }
         return false;
     }
-    private async failIUrlIsNotConfiguredInDynamicMode(): Promise<boolean> {
+    private failIUrlIsNotConfiguredInDynamicMode(): boolean {
         const url = this.taskConfig.getUrl();
         const hostingMode = this.taskConfig.getHostingMode();
         if (hostingMode === 'dynamicSite' && url === undefined) {
@@ -89,13 +89,13 @@ export class InputValidator {
             const errorInfo = `To fix this error make sure to add url to the input section in the corresponding YAML file`;
             const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
             this.logger.logError(errorMessage);
-            await this.failConfiguration();
+            this.failConfiguration();
             return true;
         }
         return false;
     }
 
-    private async failIfStaticInputsAreConfiguredInDynamicMode(): Promise<boolean> {
+    private failIfStaticInputsAreConfiguredInDynamicMode(): boolean {
         const hostingMode = this.taskConfig.getHostingMode();
         if (hostingMode === 'dynamicSite') {
             const siteDir = this.taskConfig.getStaticSiteDir();
@@ -117,16 +117,15 @@ export class InputValidator {
                 const errorInfo = `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`;
                 const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
                 this.logger.logError(errorMessage);
-                await this.failConfiguration();
+                this.failConfiguration();
                 return true;
             }
         }
-        await this.failConfiguration();
+        this.failConfiguration();
         return true;
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    public async failConfiguration(): Promise<void> {
+    public failConfiguration(): void {
         this.configurationSucceeded = false;
     }
 

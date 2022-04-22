@@ -104,7 +104,7 @@ describe(Scanner, () => {
         it('performs expected steps in happy path with remote url and returns true', async () => {
             setupMocksForSuccessfulScan();
             setupWaitForPromiseToReturnOriginalPromise();
-            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             const result = await scanner.scan();
             expect(result).toBe(true);
@@ -117,7 +117,7 @@ describe(Scanner, () => {
             localFileServerMock.setup((m) => m.start()).returns((_) => Promise.resolve('localhost'));
             setupMocksForSuccessfulScan();
             setupWaitForPromiseToReturnOriginalPromise();
-            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             await expect(scanner.scan()).resolves.toBe(true);
 
@@ -128,7 +128,7 @@ describe(Scanner, () => {
         it('passes BaselineEvaluation to ProgressReporter', async () => {
             setupMocksForSuccessfulScan({} as BaselineEvaluation);
             setupWaitForPromiseToReturnOriginalPromise();
-            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             await expect(scanner.scan()).resolves.toBe(true);
 
@@ -144,7 +144,7 @@ describe(Scanner, () => {
                 .returns((_) => scanTimeoutMsec)
                 .verifiable(Times.once());
             setupWaitForPromiseToReturnTimeoutPromise();
-            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
             await expect(scanner.scan()).resolves.toBe(false);
 
             verifyMocks();
@@ -164,7 +164,7 @@ describe(Scanner, () => {
             progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
 
-            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             setupWaitForPromiseToReturnOriginalPromise();
 
@@ -177,7 +177,7 @@ describe(Scanner, () => {
             setupMocksForSuccessfulScan();
             setupWaitForPromiseToReturnOriginalPromise();
 
-            inputValidatorMock.setup((m) => m.validate()).returns(() => Promise.resolve(true));
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
             telemetryClientMock.setup((m) => m.flush());

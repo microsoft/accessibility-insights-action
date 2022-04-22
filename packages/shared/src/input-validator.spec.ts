@@ -30,7 +30,7 @@ describe(InputValidator, () => {
     });
 
     describe('validate gh-action', () => {
-        it('input configuration fail if siteDir and url are set at the same time', async () => {
+        it('input configuration fail if siteDir and url are set at the same time', () => {
             setUpHostingMode(undefined);
             setupGetStaticSiteDir('site-dir');
             setupGetStaticSiteUrlRelativePath(undefined);
@@ -42,10 +42,10 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
 
-        it('input configuration fail if siteDir and url are not set', async () => {
+        it('input configuration fail if siteDir and url are not set', () => {
             setUpHostingMode(undefined);
             setupGetStaticSiteDir(undefined);
             setupGetStaticSiteUrlRelativePath(undefined);
@@ -57,10 +57,10 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
 
-        it('input configuration fail if siteDir is not set in staticSite mode', async () => {
+        it('input configuration fail if siteDir is not set in staticSite mode', () => {
             setUpHostingMode('staticSite');
             setupGetStaticSiteDir(undefined);
             setupGetStaticSiteUrlRelativePath(undefined);
@@ -72,10 +72,10 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
 
-        it('input configuration fail if url is set in staticSite mode', async () => {
+        it('input configuration fail if url is set in staticSite mode', () => {
             setUpHostingMode('staticSite');
             setupGetStaticSiteDir('site-dir');
             setupGetStaticSiteUrlRelativePath(undefined);
@@ -86,10 +86,10 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
 
-        it('input configuration fail if static inputs are set in dynamicSite mode', async () => {
+        it('input configuration fail if static inputs are set in dynamicSite mode', () => {
             setUpHostingMode('dynamicSite');
             setupGetStaticSiteDir('site-dir');
             setupGetStaticSiteUrlRelativePath('ure-relative-path');
@@ -103,12 +103,12 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
     });
 
     describe('validate ado-extension', () => {
-        it('input configuration fail if siteDir and url are set at the same time', async () => {
+        it('input configuration fail if siteDir and url are set at the same time', () => {
             setUpHostingMode(undefined);
             setupGetStaticSiteDir('site-dir');
             setupGetStaticSiteUrlRelativePath(undefined);
@@ -120,10 +120,10 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
 
-        it('input configuration fail if siteDir and url are not set', async () => {
+        it('input configuration fail if siteDir and url are not set', () => {
             setUpHostingMode(undefined);
             setupGetStaticSiteDir(undefined);
             setupGetStaticSiteUrlRelativePath(undefined);
@@ -135,10 +135,10 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
 
-        it('input configuration fail if siteDir is not set in staticSite mode', async () => {
+        it('input configuration fail if siteDir is not set in staticSite mode', () => {
             setUpHostingMode('staticSite');
             setupGetStaticSiteDir(undefined);
             setupGetStaticSiteUrlRelativePath(undefined);
@@ -150,10 +150,10 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
 
-        it('input configuration fail if url is set in staticSite mode', async () => {
+        it('input configuration fail if url is set in staticSite mode', () => {
             setUpHostingMode('staticSite');
             setupGetStaticSiteDir('site-dir');
             setupGetStaticSiteUrlRelativePath(undefined);
@@ -164,10 +164,10 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
 
-        it('input configuration fail if static inputs are set in dynamicSite mode', async () => {
+        it('input configuration fail if static inputs are set in dynamicSite mode', () => {
             setUpHostingMode('dynamicSite');
             setupGetStaticSiteDir('site-dir');
             setupGetStaticSiteUrlRelativePath('ure-relative-path');
@@ -181,7 +181,7 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
 
             inputValidator = buildInputValidatorWithMocks();
-            await expect(inputValidator.validate()).resolves.toBe(false);
+            expect(inputValidator.validate()).toBe(false);
         });
     });
 
