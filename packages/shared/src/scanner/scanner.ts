@@ -52,7 +52,7 @@ export class Scanner {
 
     public async scan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         if (!(await this.inputValidator.validate())) {
-            return Promise.resolve(false);
+            return false;
         }
         const scanTimeoutMsec = this.taskConfig.getScanTimeout();
         return this.promiseUtils.waitFor<ScanSucceededWithNoRequiredUserAction, ScanSucceededWithNoRequiredUserAction>(
