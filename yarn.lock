@@ -2207,10 +2207,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
-"@types/mocha@9.1.0":
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-9.1.0.tgz#baf17ab2cca3fcce2d322ebc30454bff487efad5"
-  integrity sha512-QCWHkbMv4Y5U9oW10Uxbr45qMMSzl4OzijsozynUAgx3kEHUdXB00udx2dWDQ7f2TU2a2uuiFaRZjCe3unPpeg==
+"@types/mocha@9.1.1":
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-9.1.1.tgz#e7c4f1001eefa4b8afbd1eee27a237fee3bf29c4"
+  integrity sha512-Z61JK7DKDtdKTWwLeElSEBcWGRLY8g95ic5FoQqI9CMx0ns/Ghep3B4DfcEimiKMvtamNVULVNKEsiwV3aQmXw==
 
 "@types/node-fetch@^2.5.0":
   version "2.5.12"
@@ -2226,9 +2226,9 @@
   integrity sha512-7EIraBEyRHEe7CH+Fm1XvgqU6uwZN8Q7jppJGcqjROMT29qhAuuOxYB1uEY5UMYQKEmA5D+5tBnhdaPXSsLONA==
 
 "@types/node@>=10.0.0":
-  version "17.0.24"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.24.tgz#20ba1bf69c1b4ab405c7a01e950c4f446b05029f"
-  integrity sha512-aveCYRQbgTH9Pssp1voEP7HiuWlD2jW2BO56w+bVrJn04i61yh6mRfoKO6hEYQD9vF+W8Chkwc6j1M36uPkx4g==
+  version "17.0.25"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.25.tgz#527051f3c2f77aa52e5dc74e45a3da5fb2301448"
+  integrity sha512-wANk6fBrUwdpY4isjWrKTufkrXdu1D2YHCot2fD/DfWxF5sMrVSA+KN7ydckvaTCh0HiqX9IVl0L5/ZoXg5M7w==
 
 "@types/node@^10.0.3":
   version "10.17.60"
@@ -2663,15 +2663,15 @@ accepts@~1.3.4, accepts@~1.3.8:
     negotiator "0.6.3"
 
 accessibility-insights-report@4.2.0, accessibility-insights-report@4.2.2, accessibility-insights-report@>=4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.2.2.tgz#3585a0ce1d692e3349102cc74ad9bc418625b7d2"
-  integrity sha512-DYGR3g3wuJgrl3BO0Y8PS0jUYMC79LHjc3i/pfmIpe9S/CPypfA8F87bZjfqYXRDEgtyxB1Y5b6XzQ3iIxxqww==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.3.0.tgz#5eb7035ff457e8bc42317f3fcc85a4ec6d5992b9"
+  integrity sha512-ySbea25+JZspB9foA3Vxs/BVHbmnXT8VXtoBXqoEx7s5B29reys1pyGzuB2JZTIlEOz6oUH8b/vKUuAb2fFMCg==
   dependencies:
     "@fluentui/react" "^8.49.6"
-    axe-core "4.3.2"
+    axe-core "4.4.1"
     classnames "^2.3.1"
     lodash "^4.17.21"
-    luxon "^2.3.1"
+    luxon "^2.3.2"
     react "^16.14.0"
     react-dom "^16.14.0"
     react-helmet "^6.1.0"
@@ -3123,6 +3123,11 @@ axe-core@4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.2.tgz#fcf8777b82c62cfc69c7e9f32c0d2226287680e7"
   integrity sha512-5LMaDRWm8ZFPAEdzTYmgjjEdj1YnQcpfrVajO/sn/LhbpGp0Y0H64c2hLZI1gRMxfA+w1S71Uc/nHaOXgcCvGg==
+
+axe-core@4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.1.tgz#7dbdc25989298f9ad006645cd396782443757413"
+  integrity sha512-gd1kmb21kwNuWr6BQz8fv6GNECPBnUasepcoLbekws23NVBLODdsClRZ+bQ8+9Uomf3Sm3+Vwn0oYG9NvwnJCw==
 
 axe-core@^4.2.3:
   version "4.3.3"
@@ -7323,10 +7328,10 @@ lru-cache@^7.5.1:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.8.1.tgz#68ee3f4807a57d2ba185b7fd90827d5c21ce82bb"
   integrity sha512-E1v547OCgJvbvevfjgK9sNKIVXO96NnsTsFPBlg4ZxjhsJSODoH9lk8Bm0OxvHNm6Vm5Yqkl/1fErDxhYL8Skg==
 
-luxon@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-2.3.1.tgz#f276b1b53fd9a740a60e666a541a7f6dbed4155a"
-  integrity sha512-I8vnjOmhXsMSlNMZlMkSOvgrxKJl0uOsEzdGgGNZuZPaS9KlefpE9KV95QFftlJSC+1UyCC9/I69R02cz/zcCA==
+luxon@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-2.3.2.tgz#5f2f3002b8c39b60a7b7ad24b2a85d90dc5db49c"
+  integrity sha512-MlAQQVMFhGk4WUA6gpfsy0QycnKP0+NlCBJRVRNPxxSIbjrCbQ65nrpJD3FVyJNZLuJ0uoqL57ye6BmDYgHaSw==
 
 make-dir@^2.1.0:
   version "2.1.0"
