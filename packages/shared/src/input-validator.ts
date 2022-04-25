@@ -7,20 +7,20 @@ import { TaskConfig } from './task-config';
 import { sectionSeparator, link } from './console-output/console-log-formatter';
 @injectable()
 export class InputValidator {
-    private configurationSucceeded = true;
     constructor(@inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger) {}
     public validate(): boolean {
+        let isValid = true;
         const hostingMode = this.taskConfig.getHostingMode();
         if (hostingMode === undefined) {
-            this.failIfSiteDirAndUrlAreNotConfigured();
-            this.failIfSiteDirAndUrlAreConfigured();
+            isValid &&= this.failIfSiteDirAndUrlAreNotConfigured();
+            isValid &&= this.failIfSiteDirAndUrlAreConfigured();
         } else {
-            this.failIfSiteDirIsNotConfiguredInStaticMode();
-            this.failIfStaticInputsAreConfiguredInDynamicMode();
-            this.failIUrlIsNotConfiguredInDynamicMode();
-            this.failIfDynamicInputsAreConfiguredInStaticMode();
+            isValid &&= this.failIfSiteDirIsNotConfiguredInStaticMode();
+            isValid &&= this.failIfStaticInputsAreConfiguredInDynamicMode();
+            isValid &&= this.failIUrlIsNotConfiguredInDynamicMode();
+            isValid &&= this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
-        return this.configurationSucceeded;
+        return isValid;
     }
 
     private failIfSiteDirAndUrlAreNotConfigured(): boolean {
@@ -31,7 +31,6 @@ export class InputValidator {
             const errorCase = `A configuration error has occurred url or ${siteDirName} must be set`;
             const errorMessage = this.writeConfigurationError(errorCase);
             this.logger.logError(errorMessage);
-            this.failConfiguration();
             return true;
         }
         return false;
@@ -45,7 +44,6 @@ export class InputValidator {
             const errorCase = `A configuration error has ocurred only one of the following inputs can be set at a time: url or ${siteDirName}`;
             const errorMessage = this.writeConfigurationError(errorCase);
             this.logger.logError(errorMessage);
-            this.failConfiguration();
             return true;
         }
         return false;
@@ -60,7 +58,6 @@ export class InputValidator {
             const errorInfo = `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`;
             const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
             this.logger.logError(errorMessage);
-            this.failConfiguration();
             return true;
         }
         return false;
@@ -75,7 +72,6 @@ export class InputValidator {
                 const errorInfo = `To fix this error make sure url has not been set in the input section of your YAML file`;
                 const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
                 this.logger.logError(errorMessage);
-                this.failConfiguration();
                 return true;
             }
         }
@@ -89,7 +85,6 @@ export class InputValidator {
             const errorInfo = `To fix this error make sure to add url to the input section in the corresponding YAML file`;
             const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
             this.logger.logError(errorMessage);
-            this.failConfiguration();
             return true;
         }
         return false;
@@ -117,16 +112,10 @@ export class InputValidator {
                 const errorInfo = `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`;
                 const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
                 this.logger.logError(errorMessage);
-                this.failConfiguration();
                 return true;
             }
         }
-        this.failConfiguration();
-        return true;
-    }
-
-    public failConfiguration(): void {
-        this.configurationSucceeded = false;
+        return false;
     }
 
     private writeConfigurationError(errorCase: string, errorInfo?: string): string {
