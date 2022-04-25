@@ -18,11 +18,6 @@ describe(InputValidator, () => {
     });
 
     describe('constructor', () => {
-        it('initializes in ado scanner', () => {
-            inputValidator = buildInputValidatorWithMocks();
-            verifyAllMocks();
-        });
-
         it('initializes in gh scanner', () => {
             inputValidator = buildInputValidatorWithMocks();
             verifyAllMocks();
