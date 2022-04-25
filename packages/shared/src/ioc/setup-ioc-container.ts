@@ -30,8 +30,8 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
 export function setupSharedIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     setupCliContainer(container);
 
-    container.bind(Scanner).toSelf();
-    container.bind(InputValidator).toSelf().inSingletonScope();
+    container.bind(Scanner).toSelf().inSingletonScope();
+    container.bind(InputValidator).toSelf();
     container.bind(iocTypes.Console).toConstantValue(console);
     container.bind(iocTypes.Process).toConstantValue(process);
     container.bind(iocTypes.GetPort).toConstantValue(getPort);
