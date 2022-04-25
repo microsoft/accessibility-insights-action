@@ -20,7 +20,7 @@ export class InputValidator {
             isValid &&= this.failIUrlIsNotConfiguredInDynamicMode();
             isValid &&= this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
-        if(!isValid){
+        if (!isValid) {
             const usagelink = link(this.taskConfig.getUsageDocsUrl(), 'usage documentation');
             this.logger.logInfo(usagelink);
         }
@@ -123,10 +123,7 @@ export class InputValidator {
     }
 
     private writeConfigurationError(errorCase: string, errorInfo?: string): string {
-        const description = [
-            errorCase,
-            errorInfo
-        ];
+        const description = [errorCase, errorInfo];
         return description.join(sectionSeparator());
     }
 }

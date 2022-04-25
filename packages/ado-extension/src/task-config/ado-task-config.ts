@@ -174,7 +174,7 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getUsageDocsUrl(): string {
-        const url = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md";
+        const url = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
         return url;
     }
 }
