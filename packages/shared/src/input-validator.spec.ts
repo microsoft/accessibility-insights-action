@@ -6,6 +6,7 @@ import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { TaskConfig, TaskInputKey } from './task-config';
 import { InputValidator } from './input-validator';
 import { Logger } from './logger/logger';
+import { link } from './console-output/console-log-formatter';
 
 describe(InputValidator, () => {
     let taskConfigMock: IMock<TaskConfig>;
@@ -38,8 +39,12 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('site-dir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or site-dir\n\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or site-dir\n`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -53,8 +58,12 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('site-dir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has occurred url or site-dir must be set\n\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has occurred url or site-dir must be set\n`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -68,8 +77,12 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('site-dir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has ocurred site-dir must be set when static mode is selected\nTo fix this error make sure to add site-dir to the input section in the corresponding YAML file\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has ocurred site-dir must be set when static mode is selected\nTo fix this error make sure to add site-dir to the input section in the corresponding YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -82,8 +95,12 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
 
-            const errorMessage = `A configuration error has ocurred url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has ocurred url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -99,8 +116,12 @@ describe(InputValidator, () => {
             setupInputName('scan-url-relative-path', 'StaticSiteUrlRelativePath');
             setupInputName('localhost-port', 'StaticSitePort');
 
-            const errorMessage = `A configuration error has ocurred site-dir, scan-url-relative-path, localhost-port must not be set when dynamic mode is selected\nTo fix this error make sure site-dir, scan-url-relative-path, localhost-port has not been set in the input section of your YAML file\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has ocurred site-dir, scan-url-relative-path, localhost-port must not be set when dynamic mode is selected\nTo fix this error make sure site-dir, scan-url-relative-path, localhost-port has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -116,8 +137,12 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('staticSiteDir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or staticSiteDir\n\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or staticSiteDir`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -131,8 +156,12 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has occurred url or staticSiteDir must be set\n\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has occurred url or staticSiteDir must be set\n`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -146,8 +175,12 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has ocurred staticSiteDir must be set when static mode is selected\nTo fix this error make sure to add staticSiteDir to the input section in the corresponding YAML file\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has ocurred staticSiteDir must be set when static mode is selected\nTo fix this error make sure to add staticSiteDir to the input section in the corresponding YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -160,8 +193,12 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
 
-            const errorMessage = `A configuration error has ocurred url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has ocurred url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -177,8 +214,12 @@ describe(InputValidator, () => {
             setupInputName('staticSiteUrlRelativePath', 'StaticSiteUrlRelativePath');
             setupInputName('staticSitePort', 'StaticSitePort');
 
-            const errorMessage = `A configuration error has ocurred staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when dynamic mode is selected\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file\nFor more information visit:\nGH Action documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md)\nADO Extension documentation (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md)`;
+            const errorMessage = `A configuration error has ocurred staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when dynamic mode is selected\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
+
+            const usageLink = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md";
+            setupGetUsageDocsUrl(usageLink);
+            setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
@@ -190,6 +231,13 @@ describe(InputValidator, () => {
     const verifyAllMocks = () => {
         taskConfigMock.verifyAll();
     };
+
+    const setupGetUsageDocsUrl = (url: string) => {
+        taskConfigMock
+            .setup((o) => o.getUsageDocsUrl())
+            .returns(() => url)
+            .verifiable(Times.atLeastOnce());
+    }
 
     const setupInputName = (name: string, taskInputKey: TaskInputKey) => {
         taskConfigMock
@@ -235,5 +283,9 @@ describe(InputValidator, () => {
 
     const setupLoggerWithErrorMessage = (message: string) => {
         loggerMock.setup((o) => o.logError(message)).verifiable(Times.once());
+    };
+
+    const setupLoggerWithInfoMessage = (message: string) => {
+        loggerMock.setup((o) => o.logInfo(message)).verifiable(Times.once());
     };
 });

@@ -120,4 +120,9 @@ export class GHTaskConfig extends TaskConfig {
         };
         return keyToName[key];
     }
+
+    public getUsageDocsUrl(): string {
+        const url = "https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md";
+        return url;
+    }
 }

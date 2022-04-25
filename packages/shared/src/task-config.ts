@@ -25,4 +25,5 @@ export abstract class TaskConfig {
     abstract getRunId(): number | undefined;
     abstract getHostingMode(): string | undefined;
     abstract getInputName(key: TaskInputKey): string;
+    abstract getUsageDocsUrl(): string;
 }

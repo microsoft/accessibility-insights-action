@@ -20,6 +20,10 @@ export class InputValidator {
             isValid &&= this.failIUrlIsNotConfiguredInDynamicMode();
             isValid &&= this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
+        if(!isValid){
+            const usagelink = link(this.taskConfig.getUsageDocsUrl(), 'usage documentation');
+            this.logger.logInfo(usagelink);
+        }
         return isValid;
     }
 
@@ -121,13 +125,7 @@ export class InputValidator {
     private writeConfigurationError(errorCase: string, errorInfo?: string): string {
         const description = [
             errorCase,
-            errorInfo,
-            'For more information visit:',
-            link('https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md', 'GH Action documentation'),
-            link(
-                'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md',
-                'ADO Extension documentation',
-            ),
+            errorInfo
         ];
         return description.join(sectionSeparator());
     }
