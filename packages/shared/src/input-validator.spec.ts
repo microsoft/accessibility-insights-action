@@ -38,7 +38,7 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('site-dir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or site-dir\n`;
+            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or site-dir`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -57,7 +57,7 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('site-dir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has occurred url or site-dir must be set\n`;
+            const errorMessage = `A configuration error has occurred url or site-dir must be set`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -178,7 +178,7 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('staticSiteDir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or staticSiteDir\n`;
+            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or staticSiteDir`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -197,7 +197,7 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has occurred url or staticSiteDir must be set\n`;
+            const errorMessage = `A configuration error has occurred url or staticSiteDir must be set`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';

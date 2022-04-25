@@ -32,10 +32,8 @@ export class InputValidator {
         const siteDir = this.taskConfig.getStaticSiteDir();
         if (url === undefined && siteDir === undefined) {
             const siteDirName = this.taskConfig.getInputName('StaticSiteDir');
-            const errorCase = `A configuration error has occurred url or ${siteDirName} must be set`;
-            const errorMessage = this.writeConfigurationError(errorCase);
-            this.logger.logError(errorMessage);
-            return false;
+            const errorLines = [`A configuration error has occurred url or ${siteDirName} must be set`];
+            return this.writeConfigurationError(errorLines);
         }
         return true;
     }
@@ -45,10 +43,11 @@ export class InputValidator {
         const siteDir = this.taskConfig.getStaticSiteDir();
         if (url !== undefined && siteDir !== undefined) {
             const siteDirName = this.taskConfig.getInputName('StaticSiteDir');
-            const errorCase = `A configuration error has ocurred only one of the following inputs can be set at a time: url or ${siteDirName}`;
-            const errorMessage = this.writeConfigurationError(errorCase);
-            this.logger.logError(errorMessage);
-            return false;
+
+            const errorLines = [
+                `A configuration error has ocurred only one of the following inputs can be set at a time: url or ${siteDirName}`,
+            ];
+            return this.writeConfigurationError(errorLines);
         }
         return true;
     }
@@ -58,11 +57,12 @@ export class InputValidator {
         const hostingMode = this.taskConfig.getHostingMode();
         if (hostingMode === 'staticSite' && siteDir === undefined) {
             const siteDirName = this.taskConfig.getInputName('StaticSiteDir');
-            const errorCase = `A configuration error has ocurred ${siteDirName} must be set when static mode is selected`;
-            const errorInfo = `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`;
-            const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
-            this.logger.logError(errorMessage);
-            return false;
+
+            const errorLines = [
+                `A configuration error has ocurred ${siteDirName} must be set when static mode is selected`,
+                `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`,
+            ];
+            return this.writeConfigurationError(errorLines);
         }
         return true;
     }
@@ -72,11 +72,11 @@ export class InputValidator {
         if (hostingMode === 'staticSite') {
             const url = this.taskConfig.getUrl();
             if (url !== undefined) {
-                const errorCase = `A configuration error has ocurred url must not be set when static mode is selected`;
-                const errorInfo = `To fix this error make sure url has not been set in the input section of your YAML file`;
-                const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
-                this.logger.logError(errorMessage);
-                return false;
+                const errorLines = [
+                    `A configuration error has ocurred url must not be set when static mode is selected`,
+                    `To fix this error make sure url has not been set in the input section of your YAML file`,
+                ];
+                return this.writeConfigurationError(errorLines);
             }
         }
         return true;
@@ -85,11 +85,11 @@ export class InputValidator {
         const url = this.taskConfig.getUrl();
         const hostingMode = this.taskConfig.getHostingMode();
         if (hostingMode === 'dynamicSite' && url === undefined) {
-            const errorCase = `A configuration error has ocurred url must be set when dynamic mode is selected`;
-            const errorInfo = `To fix this error make sure to add url to the input section in the corresponding YAML file`;
-            const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
-            this.logger.logError(errorMessage);
-            return false;
+            const errorLines = [
+                `A configuration error has ocurred url must be set when dynamic mode is selected`,
+                `To fix this error make sure to add url to the input section in the corresponding YAML file`,
+            ];
+            return this.writeConfigurationError(errorLines);
         }
         return true;
     }
@@ -112,18 +112,19 @@ export class InputValidator {
                     failedInputs.push(this.taskConfig.getInputName('StaticSitePort'));
                 }
                 const failedInputNames = failedInputs.join(', ');
-                const errorCase = `A configuration error has ocurred ${failedInputNames} must not be set when dynamic mode is selected`;
-                const errorInfo = `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`;
-                const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
-                this.logger.logError(errorMessage);
-                return false;
+
+                const errorLines = [
+                    `A configuration error has ocurred ${failedInputNames} must not be set when dynamic mode is selected`,
+                    `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`,
+                ];
+                return this.writeConfigurationError(errorLines);
             }
         }
         return true;
     }
 
-    private writeConfigurationError(errorCase: string, errorInfo?: string): string {
-        const description = [errorCase, errorInfo];
-        return description.join(sectionSeparator());
+    private writeConfigurationError(errorLines: string[]): boolean {
+        this.logger.logError(errorLines.join(sectionSeparator()));
+        return false;
     }
 }
