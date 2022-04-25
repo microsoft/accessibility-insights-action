@@ -39,7 +39,7 @@ describe(InputValidator, () => {
             setupInputName('site-dir', 'StaticSiteDir');
             setupInputName('url', 'Url');
 
-            const errorMessage = `A configuration error has occurred only one of the following inputs can be set at a time: url or site-dir`;
+            const errorMessage = `A configuration error has occurred, only one of the following inputs can be set at a time: url or site-dir`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -59,7 +59,7 @@ describe(InputValidator, () => {
             setupInputName('site-dir', 'StaticSiteDir');
             setupInputName('url', 'Url');
 
-            const errorMessage = `A configuration error has occurred url or site-dir must be set`;
+            const errorMessage = `A configuration error has occurred, url or site-dir must be set`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -78,7 +78,7 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('site-dir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has occurred site-dir must be set when static mode is selected`;
+            const errorMessage = `A configuration error has occurred, site-dir must be set when static mode is selected`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -97,7 +97,7 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('url', 'Url');
 
-            const errorMessage = `A configuration error has occurred url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -118,7 +118,7 @@ describe(InputValidator, () => {
             setupInputName('scan-url-relative-path', 'StaticSiteUrlRelativePath');
             setupInputName('localhost-port', 'StaticSitePort');
 
-            const errorMessage = `A configuration error has occurred site-dir, scan-url-relative-path, localhost-port must not be set when dynamic mode is selected\nTo fix this error make sure site-dir, scan-url-relative-path, localhost-port has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, site-dir, scan-url-relative-path, localhost-port must not be set when dynamic mode is selected\nTo fix this error make sure site-dir, scan-url-relative-path, localhost-port has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -182,7 +182,7 @@ describe(InputValidator, () => {
             setupInputName('staticSiteDir', 'StaticSiteDir');
             setupInputName('url', 'Url');
 
-            const errorMessage = `A configuration error has occurred only one of the following inputs can be set at a time: url or staticSiteDir`;
+            const errorMessage = `A configuration error has occurred, only one of the following inputs can be set at a time: url or staticSiteDir`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -202,7 +202,7 @@ describe(InputValidator, () => {
             setupInputName('staticSiteDir', 'StaticSiteDir');
             setupInputName('url', 'Url');
 
-            const errorMessage = `A configuration error has occurred url or staticSiteDir must be set`;
+            const errorMessage = `A configuration error has occurred, url or staticSiteDir must be set`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -221,7 +221,7 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has occurred staticSiteDir must be set when static mode is selected`;
+            const errorMessage = `A configuration error has occurred, staticSiteDir must be set when static mode is selected`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -240,7 +240,7 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('url', 'Url');
 
-            const errorMessage = `A configuration error has occurred url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -261,7 +261,7 @@ describe(InputValidator, () => {
             setupInputName('staticSiteUrlRelativePath', 'StaticSiteUrlRelativePath');
             setupInputName('staticSitePort', 'StaticSitePort');
 
-            const errorMessage = `A configuration error has occurred staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when dynamic mode is selected\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when dynamic mode is selected\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
