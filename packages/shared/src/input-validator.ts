@@ -60,10 +60,7 @@ export class InputValidator {
         if (hostingMode === 'staticSite' && siteDir === undefined) {
             const siteDirName = this.taskConfig.getInputName('StaticSiteDir');
 
-            const errorLines = [
-                `A configuration error has occurred ${siteDirName} must be set when static mode is selected`,
-                `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`,
-            ];
+            const errorLines = [`A configuration error has occurred ${siteDirName} must be set when static mode is selected`];
             return this.writeConfigurationError(errorLines);
         }
         return true;

@@ -78,7 +78,7 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('site-dir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has occurred site-dir must be set when static mode is selected\nTo fix this error make sure to add site-dir to the input section in the corresponding YAML file`;
+            const errorMessage = `A configuration error has occurred site-dir must be set when static mode is selected`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -221,7 +221,7 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has occurred staticSiteDir must be set when static mode is selected\nTo fix this error make sure to add staticSiteDir to the input section in the corresponding YAML file`;
+            const errorMessage = `A configuration error has occurred staticSiteDir must be set when static mode is selected`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
