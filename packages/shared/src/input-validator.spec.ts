@@ -125,6 +125,48 @@ describe(InputValidator, () => {
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
         });
+
+        it('input configuration succeeded if correct static configuration', () => {
+            setUpHostingMode('staticSite');
+            setupGetStaticSiteDir('site-dir');
+            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSitePort(undefined);
+            setupGetUrl(undefined);
+
+            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
+            setupGetUsageDocsUrl(usageLink);
+
+            inputValidator = buildInputValidatorWithMocks();
+            expect(inputValidator.validate()).toBe(true);
+        });
+
+        it('input configuration succeeded if correct dynamic configuration', () => {
+            setUpHostingMode('dynamicSite');
+            setupGetStaticSiteDir(undefined);
+            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSitePort(undefined);
+            setupGetUrl('url');
+
+            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
+            setupGetUsageDocsUrl(usageLink);
+
+            inputValidator = buildInputValidatorWithMocks();
+            expect(inputValidator.validate()).toBe(true);
+        });
+
+        it('input configuration succeeded if correct configuration with no hosting mode', () => {
+            setUpHostingMode(undefined);
+            setupGetStaticSiteDir(undefined);
+            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSitePort(undefined);
+            setupGetUrl('url');
+
+            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
+            setupGetUsageDocsUrl(usageLink);
+
+            inputValidator = buildInputValidatorWithMocks();
+            expect(inputValidator.validate()).toBe(true);
+        });
     });
 
     describe('validate ado-extension', () => {
@@ -136,7 +178,7 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('staticSiteDir', 'StaticSiteDir');
 
-            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or staticSiteDir`;
+            const errorMessage = `A configuration error has ocurred only one of the following inputs can be set at a time: url or staticSiteDir\n`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -222,6 +264,48 @@ describe(InputValidator, () => {
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(false);
+        });
+
+        it('input configuration succeeded if correct static configuration', () => {
+            setUpHostingMode('staticSite');
+            setupGetStaticSiteDir('site-dir');
+            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSitePort(undefined);
+            setupGetUrl(undefined);
+
+            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            setupGetUsageDocsUrl(usageLink);
+
+            inputValidator = buildInputValidatorWithMocks();
+            expect(inputValidator.validate()).toBe(true);
+        });
+
+        it('input configuration succeeded if correct dynamic configuration', () => {
+            setUpHostingMode('dynamicSite');
+            setupGetStaticSiteDir(undefined);
+            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSitePort(undefined);
+            setupGetUrl('url');
+
+            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            setupGetUsageDocsUrl(usageLink);
+
+            inputValidator = buildInputValidatorWithMocks();
+            expect(inputValidator.validate()).toBe(true);
+        });
+
+        it('input configuration succeeded if correct configuration with no hosting mode', () => {
+            setUpHostingMode(undefined);
+            setupGetStaticSiteDir(undefined);
+            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSitePort(undefined);
+            setupGetUrl('url');
+
+            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            setupGetUsageDocsUrl(usageLink);
+
+            inputValidator = buildInputValidatorWithMocks();
+            expect(inputValidator.validate()).toBe(true);
         });
     });
 

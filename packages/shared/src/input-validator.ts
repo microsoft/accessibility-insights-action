@@ -21,8 +21,8 @@ export class InputValidator {
             isValid &&= this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
         if (!isValid) {
-            const usagelink = link(this.taskConfig.getUsageDocsUrl(), 'usage documentation');
-            this.logger.logInfo(usagelink);
+            const usageLink = link(this.taskConfig.getUsageDocsUrl(), 'usage documentation');
+            this.logger.logInfo(usageLink);
         }
         return isValid;
     }
@@ -35,9 +35,9 @@ export class InputValidator {
             const errorCase = `A configuration error has occurred url or ${siteDirName} must be set`;
             const errorMessage = this.writeConfigurationError(errorCase);
             this.logger.logError(errorMessage);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private failIfSiteDirAndUrlAreConfigured(): boolean {
@@ -48,9 +48,9 @@ export class InputValidator {
             const errorCase = `A configuration error has ocurred only one of the following inputs can be set at a time: url or ${siteDirName}`;
             const errorMessage = this.writeConfigurationError(errorCase);
             this.logger.logError(errorMessage);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private failIfSiteDirIsNotConfiguredInStaticMode(): boolean {
@@ -62,9 +62,9 @@ export class InputValidator {
             const errorInfo = `To fix this error make sure to add ${siteDirName} to the input section in the corresponding YAML file`;
             const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
             this.logger.logError(errorMessage);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private failIfDynamicInputsAreConfiguredInStaticMode(): boolean {
@@ -76,10 +76,10 @@ export class InputValidator {
                 const errorInfo = `To fix this error make sure url has not been set in the input section of your YAML file`;
                 const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
                 this.logger.logError(errorMessage);
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
     private failIUrlIsNotConfiguredInDynamicMode(): boolean {
         const url = this.taskConfig.getUrl();
@@ -89,9 +89,9 @@ export class InputValidator {
             const errorInfo = `To fix this error make sure to add url to the input section in the corresponding YAML file`;
             const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
             this.logger.logError(errorMessage);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private failIfStaticInputsAreConfiguredInDynamicMode(): boolean {
@@ -116,10 +116,10 @@ export class InputValidator {
                 const errorInfo = `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`;
                 const errorMessage = this.writeConfigurationError(errorCase, errorInfo);
                 this.logger.logError(errorMessage);
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private writeConfigurationError(errorCase: string, errorInfo?: string): string {
