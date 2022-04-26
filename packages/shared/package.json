@@ -33,7 +33,7 @@
         "accessibility-insights-report": "4.2.2",
         "accessibility-insights-scan": "0.10.4",
         "axe-core": "4.3.2",
-        "express": "^4.17.3",
+        "express": "^4.18.0",
         "filenamify-url": "^3.0.0",
         "get-port": "^5.1.1",
         "inversify": "6.0.1",
