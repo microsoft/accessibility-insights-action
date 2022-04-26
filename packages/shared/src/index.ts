@@ -3,6 +3,7 @@
 
 export { setupSharedIocContainer } from './ioc/setup-ioc-container';
 export { Logger } from './logger/logger';
+export { RecordingTestLogger } from './logger/recording-test-logger';
 export { Scanner } from './scanner/scanner';
 export { iocTypes } from './ioc/ioc-types';
 export { ProgressReporter } from './progress-reporter/progress-reporter';
