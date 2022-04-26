@@ -210,7 +210,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
     - If you did not previously specify an "Azure Repos Connection", it likely means that the default Azure DevOps Build Service account for your Azure DevOps project has been granted the `repo:write` permission for this repository. You should audit for this and remove that permission if it is not required by other tasks.
 2. The options related to specifying which site to scan have moved underneath a new "Hosting Mode" option to make it more clear which ones can be used together.
     - If you previously specified a "Site Directory", select the "Static Site" Hosting Mode
-        - The "Static Site Directory", "Static Site Localhost Port" and "Static Site URL Relative Path" task inputs now appear only when "Static Site" is selected
+        - The "Static Site Directory", "Static Site Port" and "Static Site URL Relative Path" task inputs now appear only when "Static Site" is selected
     - If you previously specified a "Website URL", select the "Dynamic Site" "Hosting Mode"
         - The "Dynamic Site URL" option now appears only when "Dynamic Site" is selected
     - If you previously specified _both_ as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" option was being silently ignored. Select "Static Site" Hosting Mode and ignore your old "Website URL" input

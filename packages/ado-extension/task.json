@@ -57,7 +57,7 @@
         {
             "name": "staticSitePort",
             "type": "int",
-            "label": "Static Site Localhost Port",
+            "label": "Static Site Port",
             "required": false,
             "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
             "visibleRule": "hostingMode = staticSite"
