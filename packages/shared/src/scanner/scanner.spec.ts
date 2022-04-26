@@ -103,11 +103,9 @@ describe(Scanner, () => {
     describe('scan', () => {
         it('scanner is not initialized if input validation fails', async () => {
             inputValidatorMock.setup((m) => m.validate()).returns(() => false);
-
+            const result = await scanner.scan();
             aiCrawlerMock.verify((m) => m.crawl(It.isAny(), It.isAny()), Times.never());
             localFileServerMock.verify((m) => m.start(), Times.never());
-
-            const result = await scanner.scan();
             expect(result).toBe(false);
         });
         it('performs expected steps in happy path with remote url and returns true', async () => {
