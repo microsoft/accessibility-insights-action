@@ -15,7 +15,6 @@ import { setupCliContainer } from 'accessibility-insights-scan';
 import { ProgressReporter } from '../progress-reporter/progress-reporter';
 import { ArtifactsInfoProvider } from '../artifacts-info-provider';
 import { NullTelemetryClient } from '../telemetry/null-telemetry-client';
-import { InputValidator } from '../input-validator';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     setupSharedIocContainer(container);
@@ -31,7 +30,6 @@ export function setupSharedIocContainer(container = new inversify.Container({ au
     setupCliContainer(container);
 
     container.bind(Scanner).toSelf().inSingletonScope();
-    container.bind(InputValidator).toSelf();
     container.bind(iocTypes.Console).toConstantValue(console);
     container.bind(iocTypes.Process).toConstantValue(process);
     container.bind(iocTypes.GetPort).toConstantValue(getPort);

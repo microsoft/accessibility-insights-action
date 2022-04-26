@@ -72,8 +72,9 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl(undefined);
             setupInputName('site-dir', 'StaticSiteDir');
+            setupInputName('hostingMode', 'HostingMode');
 
-            const errorMessage = `A configuration error has occurred, site-dir must be set when static mode is selected`;
+            const errorMessage = `A configuration error has occurred, site-dir must be set when hostingMode is set to static`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -91,8 +92,9 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
             setupInputName('url', 'Url');
+            setupInputName('hostingMode', 'HostingMode');
 
-            const errorMessage = `A configuration error has occurred, url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, url must not be set when hostingMode is set to static\nTo fix this error make sure url has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -112,8 +114,9 @@ describe(InputValidator, () => {
             setupInputName('site-dir', 'StaticSiteDir');
             setupInputName('scan-url-relative-path', 'StaticSiteUrlRelativePath');
             setupInputName('localhost-port', 'StaticSitePort');
+            setupInputName('hostingMode', 'HostingMode');
 
-            const errorMessage = `A configuration error has occurred, site-dir, scan-url-relative-path, localhost-port must not be set when dynamic mode is selected\nTo fix this error make sure site-dir, scan-url-relative-path, localhost-port has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, site-dir, scan-url-relative-path, localhost-port must not be set when hostingMode is set to dynamic\nTo fix this error make sure site-dir, scan-url-relative-path, localhost-port has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
@@ -144,6 +147,7 @@ describe(InputValidator, () => {
             setupGetStaticSiteUrlRelativePath(undefined);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
+            setupInputName('hostingMode', 'HostingMode');
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -215,8 +219,9 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
+            setupInputName('hosting-mode', 'HostingMode');
 
-            const errorMessage = `A configuration error has occurred, staticSiteDir must be set when static mode is selected`;
+            const errorMessage = `A configuration error has occurred, staticSiteDir must be set when hosting-mode is set to static`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -234,8 +239,9 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
             setupInputName('url', 'Url');
+            setupInputName('hosting-mode', 'HostingMode');
 
-            const errorMessage = `A configuration error has occurred, url must not be set when static mode is selected\nTo fix this error make sure url has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, url must not be set when hosting-mode is set to static\nTo fix this error make sure url has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -255,8 +261,9 @@ describe(InputValidator, () => {
             setupInputName('staticSiteDir', 'StaticSiteDir');
             setupInputName('staticSiteUrlRelativePath', 'StaticSiteUrlRelativePath');
             setupInputName('staticSitePort', 'StaticSitePort');
+            setupInputName('hosting-mode', 'HostingMode');
 
-            const errorMessage = `A configuration error has occurred, staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when dynamic mode is selected\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when hosting-mode is set to dynamic\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -287,6 +294,7 @@ describe(InputValidator, () => {
             setupGetStaticSiteUrlRelativePath(undefined);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
+            setupInputName('hosting-mode', 'HostingMode');
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
