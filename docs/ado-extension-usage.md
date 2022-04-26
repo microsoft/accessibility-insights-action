@@ -209,18 +209,18 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
     - There is no longer an option for "Azure Repos Connection". If you previously specified a Service Connection using this option, and that Service Connection was created solely for use with this pipeline, you should delete it in your Azure DevOps Project's "Service Connections" settings.
     - If you did not previously specify an "Azure Repos Connection", it likely means that the default Azure DevOps Build Service account for your Azure DevOps project has been granted the `repo:write` permission for this repository. You should audit for this and remove that permission if it is not required by other tasks.
 2. The options related to specifying which site to scan have moved underneath a new "Hosting Mode" option to make it more clear which ones can be used together.
-    - If you previously specified a "Site Directory", select the `staticSite` "Hosting Mode"
-        - The "Site Directory", "Localhost Port" and "Scan URL Relative Path" task inputs now appear only when `staticSite` is selected
-    - If you previously specified a "Website URL", select the `dynamicSite` "Hosting Mode"
-        - The "Website URL" option now appears only when `dynamicSite` is selected
-    - If you previously specified _both_ as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" option was being silently ignored. Select `staticSite` mode and ignore your old "Website URL" input
+    - If you previously specified a "Site Directory", select the "Static Site" Hosting Mode
+        - The "Static Site Directory", "Static Site Port" and "Static Site URL Relative Path" task inputs now appear only when "Static Site" is selected
+    - If you previously specified a "Website URL", select the "Dynamic Site" "Hosting Mode"
+        - The "Dynamic Site URL" option now appears only when "Dynamic Site" is selected
+    - If you previously specified _both_ as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" option was being silently ignored. Select "Static Site" Hosting Mode and ignore your old "Website URL" input
 3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate "Publish" step to upload the `_accessibility-reports` folder, you can delete that "Publish" step
     - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Output Artifact" option to skip the new automatic artifact uploading. You can specify an "Output Directory" to control where the output artifact contents get written to on the build agent
     - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
 4. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
     - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can still uncheck this option (but consider [using a Baseline File](#using-a-baseline-file) instead!)
-5. The "Output Directory" and "Chrome Path" options have moved under a new "Advanced Options" group
+5. The "Chrome Path" option has moved under a new "Advanced Options" group
 
 ## Troubleshooting
 
