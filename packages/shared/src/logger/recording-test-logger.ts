@@ -10,12 +10,15 @@ import * as process from 'process';
 // when a test does expect(recordingLogger.recordedLogs()).toMatchSnapshot()
 // Particularly, "Simple" logs (messages with no properties) will show up in
 // snapshots as simple strings.
-export type LogRecord = string | {
-    message: string,
-    properties?: { [name: string]: string }
-} | {
-    exception: Error,
-};
+export type LogRecord =
+    | string
+    | {
+          message: string;
+          properties?: { [name: string]: string };
+      }
+    | {
+          exception: Error;
+      };
 
 export class RecordingTestLogger extends Logger {
     private client: RecordingLoggerClient;
@@ -34,14 +37,18 @@ export class RecordingTestLogger extends Logger {
 class RecordingLoggerClient implements LoggerClient {
     public logRecords: LogRecord[] = [];
 
-    log(message: string, logLevel: LogLevel, properties?: {
-        [name: string]: string;
-    }): void {
+    log(
+        message: string,
+        logLevel: LogLevel,
+        properties?: {
+            [name: string]: string;
+        },
+    ): void {
         const messageWithLevel = `[${LogLevel[logLevel]}] ${message}`;
         if (properties) {
             this.logRecords.push({
                 message: messageWithLevel,
-                properties
+                properties,
             });
         } else {
             this.logRecords.push(messageWithLevel);
@@ -49,12 +56,12 @@ class RecordingLoggerClient implements LoggerClient {
     }
     trackException(error: Error): void {
         this.logRecords.push({
-            exception: error
+            exception: error,
         });
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
-    async setup(baseProperties?: { [index: string]: string; }): Promise<void> {
+    async setup(baseProperties?: { [index: string]: string }): Promise<void> {
         throw new Error('Not supported');
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -112,14 +112,10 @@ describe(WorkflowEnforcer, () => {
     });
 
     const setupFailOnAccessibilityErrorInput = (fail: boolean) => {
-        adoTaskConfigMock
-            .setup((o) => o.getFailOnAccessibilityError())
-            .returns(() => fail);
+        adoTaskConfigMock.setup((o) => o.getFailOnAccessibilityError()).returns(() => fail);
     };
 
     const setupBaselineFileInput = (baselineFile: undefined | string) => {
-        adoTaskConfigMock
-            .setup((o) => o.getBaselineFile())
-            .returns(() => baselineFile);
+        adoTaskConfigMock.setup((o) => o.getBaselineFile()).returns(() => baselineFile);
     };
 });

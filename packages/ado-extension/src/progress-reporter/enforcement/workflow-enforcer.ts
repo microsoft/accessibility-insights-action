@@ -43,11 +43,13 @@ export class WorkflowEnforcer extends ProgressReporter {
     private async failIfAccessibilityErrorExists(combinedReportResult: CombinedReportParameters): Promise<void> {
         if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
             this.logger.logError('Accessibility error(s) were found');
-            this.logger.logInfo([
-                'To prevent accessibility errors from failing your build, you can:',
-                listItem('Use a baseline file to avoid failing for known issues, or'),
-                listItem('Set the failOnAccessibilityError task input to false to avoid failing for all issues')
-            ].join(sectionSeparator()));
+            this.logger.logInfo(
+                [
+                    'To prevent accessibility errors from failing your build, you can:',
+                    listItem('Use a baseline file to avoid failing for known issues, or'),
+                    listItem('Set the failOnAccessibilityError task input to false to avoid failing for all issues'),
+                ].join(sectionSeparator()),
+            );
 
             await this.failRun();
         }
