@@ -32,14 +32,15 @@
             "label": "Hosting Mode",
             "required": true,
             "options": {
-                "staticSite": "We host your site",
-                "dynamicSite": "Host your own site"
-            }
+                "staticSite": "Static Site (this task runs a localhost webserver for your site)",
+                "dynamicSite": "Dynamic Site (you host your site separately)"
+            },
+            "helpMarkDown": "Your site must be served (hosted) before it can be scanned. In _Static Site_ mode, this task will run a localhost webserver serving your site directory and scan that. In _Dynamic Site_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment)."
         },
         {
             "name": "staticSiteDir",
             "type": "string",
-            "label": "Site Directory",
+            "label": "Static Site Directory",
             "required": true,
             "helpMarkDown": "Folder containing website content.",
             "visibleRule": "hostingMode = staticSite"
@@ -47,7 +48,7 @@
         {
             "name": "staticSiteUrlRelativePath",
             "type": "string",
-            "label": "Scan URL Relative Path",
+            "label": "Static Site URL Relative Path",
             "required": false,
             "defaultValue": "/",
             "helpMarkDown": "Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows.",
@@ -56,7 +57,7 @@
         {
             "name": "staticSitePort",
             "type": "int",
-            "label": "Localhost Port",
+            "label": "Static Site Localhost Port",
             "required": false,
             "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
             "visibleRule": "hostingMode = staticSite"
@@ -64,7 +65,7 @@
         {
             "name": "url",
             "type": "string",
-            "label": "Website URL",
+            "label": "Dynamic Site URL",
             "required": true,
             "helpMarkDown": "The hosted URL to scan/crawl for accessibility issues.",
             "visibleRule": "hostingMode = dynamicSite"
@@ -101,7 +102,7 @@
         {
             "name": "scanTimeout",
             "type": "int",
-            "label": "Scan Timeout",
+            "label": "Scan Timeout (milliseconds)",
             "defaultValue": "90000",
             "required": false,
             "helpMarkDown": "The maximum timeout in milliseconds for the scan (excluding dependency setup)."
