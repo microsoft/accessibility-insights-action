@@ -11,7 +11,7 @@ export { ReportConsoleLogConvertor } from './console-output/report-console-log-c
 export { productTitle } from './mark-down/markdown-formatter';
 export { disclaimerText } from './content/mark-down-strings';
 export { checkRunDetailsTitle, checkRunName } from './content/strings';
-export { TaskConfig } from './task-config';
+export { TaskConfig, TaskInputKey } from './task-config';
 export { BaselineInfo } from './baseline-info';
 export { ArtifactsInfoProvider } from './artifacts-info-provider';
 export { hookStdout } from './output-hooks/hook-stdout';
@@ -21,4 +21,5 @@ export { ExitCode } from './exit-code';
 export { TelemetryClient } from './telemetry/telemetry-client';
 export { TelemetryEvent } from './telemetry/telemetry-event';
 export { NullTelemetryClient } from './telemetry/null-telemetry-client';
+export { InputValidator } from './input-validator';
 export { TempDirCreator } from './utils/temp-dir-creator';

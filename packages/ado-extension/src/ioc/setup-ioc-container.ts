@@ -34,7 +34,6 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
         })
         .inSingletonScope();
     container.bind(iocTypes.ArtifactsInfoProvider).to(ADOArtifactsInfoProvider).inSingletonScope();
-
     container
         .rebind(iocTypes.TelemetryClient)
         .toDynamicValue((context) => {
