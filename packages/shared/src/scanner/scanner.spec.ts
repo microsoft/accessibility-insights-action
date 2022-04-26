@@ -104,6 +104,9 @@ describe(Scanner, () => {
         it('scanner is not initialized if input validation fails', async () => {
             inputValidatorMock.setup((m) => m.validate()).returns(() => false);
 
+            aiCrawlerMock.verify((m) => m.crawl(It.isAny(), It.isAny()), Times.never());
+            localFileServerMock.verify((m) => m.start(), Times.never());
+
             const result = await scanner.scan();
             expect(result).toBe(false);
         });
