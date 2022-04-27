@@ -7,19 +7,23 @@ import { AdoConsoleCommentCreator } from './ado-console-comment-creator';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as fs from 'fs';
+import * as path from 'path';
 
-import { Logger, ReportConsoleLogConvertor, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+import { RecordingTestLogger, ReportConsoleLogConvertor, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
+
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 describe(AdoConsoleCommentCreator, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
-    let loggerMock: IMock<Logger>;
+    let logger: RecordingTestLogger;
     let reportMarkdownConvertorMock: IMock<ReportMarkdownConvertor>;
     let reportConsoleLogConvertorMock: IMock<ReportConsoleLogConvertor>;
-    let adoConsoleCommentCreator: AdoConsoleCommentCreator;
+    let testSubject: AdoConsoleCommentCreator;
     let fsMock: IMock<typeof fs>;
-    const reportOutDir = 'reportOutDir';
-    const fileName = `${reportOutDir}/results.md`;
-    const outputArtifactName = 'accessibility-reports';
+    let pathStub: typeof path;
+
+    const defaultReportOutDir = 'reportOutDir';
     const reportStub: CombinedReportParameters = {
         results: {
             urlResults: {
@@ -29,156 +33,156 @@ describe(AdoConsoleCommentCreator, () => {
     } as CombinedReportParameters;
     const baselineInfoStub = {};
     const reportMarkdownStub = '#ReportMarkdownStub';
-
-    const expectedLogOutput = reportMarkdownStub;
+    const reportConsoleLogStub = 'Report Console Log Stub';
 
     beforeEach(() => {
-        adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
-        loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
+        adoTaskConfigMock = Mock.ofType<ADOTaskConfig>();
+        logger = new RecordingTestLogger();
         reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>(undefined, MockBehavior.Strict);
         reportConsoleLogConvertorMock = Mock.ofType<ReportConsoleLogConvertor>(undefined, MockBehavior.Strict);
         fsMock = Mock.ofType<typeof fs>();
-    });
+        pathStub = { join: (...paths) => paths.join('/') } as typeof path;
 
-    describe('constructor', () => {
-        it('should initialize', () => {
-            buildAdoConsoleCommentCreatorWithMocks(false);
+        reportMarkdownConvertorMock
+            .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
+            .returns(() => reportMarkdownStub)
+            .verifiable(Times.atMostOnce());
 
-            verifyAllMocks();
-        });
+        reportConsoleLogConvertorMock
+            .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
+            .returns(() => reportConsoleLogStub)
+            .verifiable(Times.atMostOnce());
+
+        testSubject = new AdoConsoleCommentCreator(
+            adoTaskConfigMock.object,
+            reportMarkdownConvertorMock.object,
+            reportConsoleLogConvertorMock.object,
+            logger,
+            fsMock.object,
+            pathStub,
+        );
     });
 
     describe('completeRun', () => {
-        it('should output results to the console', async () => {
-            adoTaskConfigMock
-                .setup((atcm) => atcm.getVariable('System.JobAttempt'))
-                .returns(() => '1')
-                .verifiable(Times.once());
+        it.each`
+            uploadOutputArtifact | outputArtifactName         | jobAttempt | expectedSummaryFilePath
+            ${false}             | ${'accessibility-reports'} | ${1}       | ${'reportOutDir/Accessibility Insights scan summary.md'}
+            ${false}             | ${'custom-artifact'}       | ${1}       | ${'reportOutDir/Accessibility Insights scan summary.md'}
+            ${false}             | ${'accessibility-reports'} | ${2}       | ${'reportOutDir/Accessibility Insights scan summary.md'}
+            ${true}              | ${'accessibility-reports'} | ${1}       | ${'reportOutDir/Accessibility Insights scan summary.md'}
+            ${true}              | ${'custom-artifact'}       | ${1}       | ${'reportOutDir/Accessibility Insights scan summary (custom-artifact).md'}
+            ${true}              | ${'accessibility-reports'} | ${2}       | ${'reportOutDir/Accessibility Insights scan summary (accessibility-reports-2).md'}
+        `(
+            'should create and upload a job summary with the expected filename for inputs uploadOutputArtifact=$uploadOutputArtifact, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt',
+            async ({ uploadOutputArtifact, outputArtifactName, jobAttempt, expectedSummaryFilePath }) => {
+                setupTaskConfig({
+                    uploadOutputArtifact,
+                    outputArtifactName,
+                    jobAttempt,
+                });
 
-            adoTaskConfigMock
-                .setup((atcm) => atcm.getUploadOutputArtifact())
-                .returns(() => true)
-                .verifiable(Times.once());
+                // eslint-disable-next-line security/detect-non-literal-fs-filename
+                fsMock.setup((fsm) => fsm.writeFileSync(expectedSummaryFilePath, reportMarkdownStub)).verifiable(Times.once());
 
-            loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
-            loggerMock
-                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${outputArtifactName}]${reportOutDir}`))
-                .verifiable(Times.once());
+                await testSubject.completeRun(reportStub);
 
-            adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
-            await adoConsoleCommentCreator.completeRun(reportStub);
+                expect(logger.recordedLogs()).toContain(`[info] ##vso[task.uploadsummary]${expectedSummaryFilePath}`);
+                verifyAllMocks();
+            },
+        );
 
-            verifyAllMocks();
-        });
+        it.each`
+            outputArtifactName         | jobAttempt | expectedArtifactName
+            ${'accessibility-reports'} | ${1}       | ${'accessibility-reports'}
+            ${'custom-artifact'}       | ${1}       | ${'custom-artifact'}
+            ${'accessibility-reports'} | ${2}       | ${'accessibility-reports-2'}
+            ${'custom-artifact'}       | ${2}       | ${'custom-artifact-2'}
+        `(
+            'should upload an artifact with the expected name for inputs uploadOutputArtifact=true, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt',
+            async ({ outputArtifactName, jobAttempt, expectedArtifactName }) => {
+                setupTaskConfig({
+                    uploadOutputArtifact: true,
+                    outputArtifactName,
+                    jobAttempt,
+                });
 
-        it('Successfully adds suffix to output name if job attmept > 1', async () => {
-            adoTaskConfigMock
-                .setup((atcm) => atcm.getVariable('System.JobAttempt'))
-                .returns(() => '2')
-                .verifiable(Times.once());
+                await testSubject.completeRun(reportStub);
 
-            adoTaskConfigMock
-                .setup((atcm) => atcm.getUploadOutputArtifact())
-                .returns(() => true)
-                .verifiable(Times.once());
+                expect(logger.recordedLogs()).toContain(
+                    `[info] ##vso[artifact.upload artifactname=${expectedArtifactName}]${defaultReportOutDir}`,
+                );
+                verifyAllMocks();
+            },
+        );
 
-            loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
-            loggerMock
-                .setup((lm) => lm.logInfo(`##vso[artifact.upload artifactname=${outputArtifactName}-2]${reportOutDir}`))
-                .verifiable(Times.once());
+        it.each`
+            outputArtifactName         | jobAttempt
+            ${'accessibility-reports'} | ${1}
+            ${'custom-artifact'}       | ${1}
+            ${'accessibility-reports'} | ${2}
+            ${'custom-artifact'}       | ${2}
+        `(
+            'should not upload an artifact inputs uploadOutputArtifact=false, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt',
+            async ({ outputArtifactName, jobAttempt }) => {
+                setupTaskConfig({
+                    uploadOutputArtifact: false,
+                    outputArtifactName,
+                    jobAttempt,
+                });
 
-            adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
-            await adoConsoleCommentCreator.completeRun(reportStub);
+                await testSubject.completeRun(reportStub);
 
-            verifyAllMocks();
-        });
-
-        it('skips upload artifact step if uploadOutputArtifact is false', async () => {
-            adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
-
-            adoTaskConfigMock
-                .setup((atcm) => atcm.getUploadOutputArtifact())
-                .returns(() => false)
-                .verifiable(Times.once());
-
-            loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.never());
-            await adoConsoleCommentCreator.completeRun(reportStub);
-        });
+                expect(logger.recordedLogs()).not.toContain(/##vso\[artifact.upload/);
+                verifyAllMocks();
+            },
+        );
     });
 
     describe('failRun', () => {
         it('does nothing interesting', async () => {
-            const adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks(false);
+            await testSubject.failRun();
 
-            await adoConsoleCommentCreator.failRun();
-
+            expect(logger.recordedLogs()).toStrictEqual([]);
             verifyAllMocks();
         });
     });
 
     describe('didScanSucceed', () => {
         it('returns true by default', async () => {
-            const adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks();
+            await expect(testSubject.didScanSucceed()).resolves.toBe(true);
 
-            await expect(adoConsoleCommentCreator.didScanSucceed()).resolves.toBe(true);
+            verifyAllMocks();
         });
 
         it('returns true after failRun() is called', async () => {
-            const adoConsoleCommentCreator = buildAdoConsoleCommentCreatorWithMocks(false);
+            await testSubject.failRun();
 
-            await adoConsoleCommentCreator.failRun();
+            await expect(testSubject.didScanSucceed()).resolves.toBe(true);
 
-            await expect(adoConsoleCommentCreator.didScanSucceed()).resolves.toBe(true);
+            verifyAllMocks();
         });
     });
 
-    const buildAdoConsoleCommentCreatorWithMocks = (setupSharedMocks = true): AdoConsoleCommentCreator => {
-        if (setupSharedMocks) {
-            adoTaskConfigMock
-                .setup((atcm) => atcm.getBaselineFile())
-                .returns(() => undefined)
-                .verifiable(Times.once());
+    function setupTaskConfig(config: {
+        uploadOutputArtifact: boolean;
+        outputArtifactName: string;
+        jobAttempt: number;
+        baselineFile?: string;
+        reportOutDir?: string;
+    }): void {
+        adoTaskConfigMock.setup((atcm) => atcm.getUploadOutputArtifact()).returns(() => config.uploadOutputArtifact);
 
-            adoTaskConfigMock
-                .setup((atcm) => atcm.getReportOutDir())
-                .returns(() => reportOutDir)
-                .verifiable(Times.exactly(2));
+        adoTaskConfigMock.setup((atcm) => atcm.getVariable('System.JobAttempt')).returns(() => `${config.jobAttempt}`);
 
-            adoTaskConfigMock
-                .setup((atcm) => atcm.getOutputArtifactName())
-                .returns(() => outputArtifactName)
-                .verifiable(Times.once());
+        adoTaskConfigMock.setup((atcm) => atcm.getOutputArtifactName()).returns(() => config.outputArtifactName);
 
-            reportMarkdownConvertorMock
-                .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
-                .returns(() => expectedLogOutput)
-                .verifiable(Times.once());
+        adoTaskConfigMock.setup((atcm) => atcm.getBaselineFile()).returns(() => config.baselineFile);
 
-            reportConsoleLogConvertorMock
-                .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
-                .returns(() => expectedLogOutput)
-                .verifiable(Times.once());
-
-            loggerMock.setup((lm) => lm.logInfo(expectedLogOutput)).verifiable(Times.once());
-            loggerMock.setup((lm) => lm.logInfo(`##vso[task.uploadsummary]${fileName}`)).verifiable(Times.once());
-
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
-            fsMock.setup((fsm) => fsm.writeFileSync(fileName, expectedLogOutput)).verifiable();
-        }
-
-        return new AdoConsoleCommentCreator(
-            adoTaskConfigMock.object,
-            reportMarkdownConvertorMock.object,
-            reportConsoleLogConvertorMock.object,
-            loggerMock.object,
-            adoTaskConfigMock.object,
-            fsMock.object,
-        );
-    };
+        adoTaskConfigMock.setup((atcm) => atcm.getReportOutDir()).returns(() => config.reportOutDir ?? defaultReportOutDir);
+    }
 
     const verifyAllMocks = () => {
         adoTaskConfigMock.verifyAll();
-        loggerMock.verifyAll();
         reportMarkdownConvertorMock.verifyAll();
         reportConsoleLogConvertorMock.verifyAll();
         fsMock.verifyAll();
