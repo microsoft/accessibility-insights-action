@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 // run from root folder, this scripts prepares the dist folder
 
+const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const packageJson = require(process.cwd() + '/package.json');
 const sharedPackageJson = require(path.resolve(process.cwd(), '../shared/package.json'));
+const rootPackageJson = require(path.resolve(process.cwd(), '../../package.json'));
 const getWebpackConfig = require(process.cwd() + '/webpack.config');
 
 // We allow overrides of extension/task identifiers so we can deploy
@@ -50,10 +52,11 @@ const newPackageJson = {
     scripts: undefined,
     dependencies: imagePackageDependencies,
     devDependencies: undefined,
+    resolutions: rootPackageJson.resolutions,
 };
 
 fs.writeFileSync('dist/pkg/package.json', JSON.stringify(newPackageJson, undefined, 4));
-console.log('copied package.json to dist/pkg/package.json');
+console.log('wrote package.json to dist/pkg/package.json');
 
 console.log(JSON.stringify(extensionJson, null, 4));
 fs.writeFileSync('dist/ado-extension.json', JSON.stringify(extensionJson));
@@ -63,11 +66,22 @@ console.log(JSON.stringify(taskJson, null, 4));
 fs.writeFileSync('dist/pkg/task.json', JSON.stringify(taskJson));
 console.log('copied task.json to dist/pkg/task.json with any overrides');
 
-fs.copyFileSync('../../yarn.lock', 'dist/pkg/yarn.lock');
-console.log('copied yarn.lock to dist/pkg/yarn.lock');
-
 fs.copyFileSync('../../docs/ado-extension-overview.md', 'dist/overview.md');
 console.log('copied ado-extension-overview.md to dist/overview.md');
 
 fs.copyFileSync('../../icons/brand-blue-48px.png', 'dist/pkg/extension-icon.png');
 console.log('copied brand-blue-48px.png to dist/pkg/extension-icon.png');
+
+fs.copyFileSync('../../yarn.lock', 'dist/pkg/yarn.lock');
+console.log('copied yarn.lock to dist/pkg/yarn.lock');
+
+console.log('updating yarn.lock based on prepared package.json');
+execFileSync('yarn', ['install', '--prod', '--ignore-engines', '--ignore-scripts'], {
+    stdio: 'inherit',
+    cwd: path.join(__dirname, 'dist', 'pkg'),
+});
+
+console.log('removing node_modules left behind by yarn.lock update');
+(fs.rmSync || fs.rmdirSync)('dist/pkg/node_modules', { recursive: true });
+
+console.log('prepare-package-dir complete');
