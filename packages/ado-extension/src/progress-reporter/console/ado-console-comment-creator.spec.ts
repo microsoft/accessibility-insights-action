@@ -34,7 +34,6 @@ describe(AdoConsoleCommentCreator, () => {
     const baselineInfoStub = {};
     const reportMarkdownStub = '#ReportMarkdownStub';
     const reportConsoleLogStub = 'Report Console Log Stub';
-    
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>();
@@ -66,66 +65,77 @@ describe(AdoConsoleCommentCreator, () => {
 
     describe('completeRun', () => {
         it.each`
-            uploadOutputArtifact | outputArtifactName           | jobAttempt | expectedSummaryFilePath
-            ${ false }           | ${ 'accessibility-reports' } | ${1}       | ${ 'reportOutDir/Accessibility Insights scan summary.md' }
-            ${ false }           | ${ 'custom-artifact' }       | ${1}       | ${ 'reportOutDir/Accessibility Insights scan summary.md' }
-            ${ false }           | ${ 'accessibility-reports' } | ${2}       | ${ 'reportOutDir/Accessibility Insights scan summary.md' }
-            ${ true }            | ${ 'accessibility-reports' } | ${1}       | ${ 'reportOutDir/Accessibility Insights scan summary.md' }
-            ${ true }            | ${ 'custom-artifact' }       | ${1}       | ${ 'reportOutDir/Accessibility Insights scan summary (custom-artifact).md' }
-            ${ true }            | ${ 'accessibility-reports' } | ${2}       | ${ 'reportOutDir/Accessibility Insights scan summary (accessibility-reports-2).md' }
-        `('should create and upload a job summary with the expected filename for inputs uploadOutputArtifact=$uploadOutputArtifact, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt', async ({
-            uploadOutputArtifact, outputArtifactName, jobAttempt, expectedSummaryFilePath
-        }) => {
-            setupTaskConfig({
-                uploadOutputArtifact, outputArtifactName, jobAttempt
-            });
+            uploadOutputArtifact | outputArtifactName         | jobAttempt | expectedSummaryFilePath
+            ${false}             | ${'accessibility-reports'} | ${1}       | ${'reportOutDir/Accessibility Insights scan summary.md'}
+            ${false}             | ${'custom-artifact'}       | ${1}       | ${'reportOutDir/Accessibility Insights scan summary.md'}
+            ${false}             | ${'accessibility-reports'} | ${2}       | ${'reportOutDir/Accessibility Insights scan summary.md'}
+            ${true}              | ${'accessibility-reports'} | ${1}       | ${'reportOutDir/Accessibility Insights scan summary.md'}
+            ${true}              | ${'custom-artifact'}       | ${1}       | ${'reportOutDir/Accessibility Insights scan summary (custom-artifact).md'}
+            ${true}              | ${'accessibility-reports'} | ${2}       | ${'reportOutDir/Accessibility Insights scan summary (accessibility-reports-2).md'}
+        `(
+            'should create and upload a job summary with the expected filename for inputs uploadOutputArtifact=$uploadOutputArtifact, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt',
+            async ({ uploadOutputArtifact, outputArtifactName, jobAttempt, expectedSummaryFilePath }) => {
+                setupTaskConfig({
+                    uploadOutputArtifact,
+                    outputArtifactName,
+                    jobAttempt,
+                });
 
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
-            fsMock.setup((fsm) => fsm.writeFileSync(expectedSummaryFilePath, reportMarkdownStub)).verifiable(Times.once());
+                // eslint-disable-next-line security/detect-non-literal-fs-filename
+                fsMock.setup((fsm) => fsm.writeFileSync(expectedSummaryFilePath, reportMarkdownStub)).verifiable(Times.once());
 
-            await testSubject.completeRun(reportStub);
+                await testSubject.completeRun(reportStub);
 
-            expect(logger.recordedLogs()).toContain(`[info] ##vso[task.uploadsummary]${expectedSummaryFilePath}`);
-            verifyAllMocks();
-        });
-
-        it.each`
-            outputArtifactName           | jobAttempt | expectedArtifactName
-            ${ 'accessibility-reports' } | ${1}       | ${ 'accessibility-reports' }
-            ${ 'custom-artifact' }       | ${1}       | ${ 'custom-artifact' }
-            ${ 'accessibility-reports' } | ${2}       | ${ 'accessibility-reports-2' }
-            ${ 'custom-artifact' }       | ${2}       | ${ 'custom-artifact-2' }
-        `('should upload an artifact with the expected name for inputs uploadOutputArtifact=true, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt', async ({
-            outputArtifactName, jobAttempt, expectedArtifactName
-        }) => {
-            setupTaskConfig({
-                uploadOutputArtifact: true, outputArtifactName, jobAttempt
-            });
-
-            await testSubject.completeRun(reportStub);
-
-            expect(logger.recordedLogs()).toContain(`[info] ##vso[artifact.upload artifactname=${expectedArtifactName}]${defaultReportOutDir}`);
-            verifyAllMocks();
-        });
+                expect(logger.recordedLogs()).toContain(`[info] ##vso[task.uploadsummary]${expectedSummaryFilePath}`);
+                verifyAllMocks();
+            },
+        );
 
         it.each`
-            outputArtifactName           | jobAttempt
-            ${ 'accessibility-reports' } | ${1}
-            ${ 'custom-artifact' }       | ${1}
-            ${ 'accessibility-reports' } | ${2}
-            ${ 'custom-artifact' }       | ${2}
-        `('should not upload an artifact inputs uploadOutputArtifact=false, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt', async ({
-            outputArtifactName, jobAttempt
-        }) => {
-            setupTaskConfig({
-                uploadOutputArtifact: false, outputArtifactName, jobAttempt
-            });
+            outputArtifactName         | jobAttempt | expectedArtifactName
+            ${'accessibility-reports'} | ${1}       | ${'accessibility-reports'}
+            ${'custom-artifact'}       | ${1}       | ${'custom-artifact'}
+            ${'accessibility-reports'} | ${2}       | ${'accessibility-reports-2'}
+            ${'custom-artifact'}       | ${2}       | ${'custom-artifact-2'}
+        `(
+            'should upload an artifact with the expected name for inputs uploadOutputArtifact=true, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt',
+            async ({ outputArtifactName, jobAttempt, expectedArtifactName }) => {
+                setupTaskConfig({
+                    uploadOutputArtifact: true,
+                    outputArtifactName,
+                    jobAttempt,
+                });
 
-            await testSubject.completeRun(reportStub);
+                await testSubject.completeRun(reportStub);
 
-            expect(logger.recordedLogs()).not.toContain( /##vso\[artifact.upload/ );
-            verifyAllMocks();
-        });
+                expect(logger.recordedLogs()).toContain(
+                    `[info] ##vso[artifact.upload artifactname=${expectedArtifactName}]${defaultReportOutDir}`,
+                );
+                verifyAllMocks();
+            },
+        );
+
+        it.each`
+            outputArtifactName         | jobAttempt
+            ${'accessibility-reports'} | ${1}
+            ${'custom-artifact'}       | ${1}
+            ${'accessibility-reports'} | ${2}
+            ${'custom-artifact'}       | ${2}
+        `(
+            'should not upload an artifact inputs uploadOutputArtifact=false, outputArtifactName=$outputArtifactName, jobAttempt=$jobAttempt',
+            async ({ outputArtifactName, jobAttempt }) => {
+                setupTaskConfig({
+                    uploadOutputArtifact: false,
+                    outputArtifactName,
+                    jobAttempt,
+                });
+
+                await testSubject.completeRun(reportStub);
+
+                expect(logger.recordedLogs()).not.toContain(/##vso\[artifact.upload/);
+                verifyAllMocks();
+            },
+        );
     });
 
     describe('failRun', () => {
@@ -154,31 +164,21 @@ describe(AdoConsoleCommentCreator, () => {
     });
 
     function setupTaskConfig(config: {
-        uploadOutputArtifact: boolean,
-        outputArtifactName: string,
-        jobAttempt: number,
-        baselineFile?: string,
-        reportOutDir?: string,
+        uploadOutputArtifact: boolean;
+        outputArtifactName: string;
+        jobAttempt: number;
+        baselineFile?: string;
+        reportOutDir?: string;
     }): void {
-        adoTaskConfigMock
-            .setup((atcm) => atcm.getUploadOutputArtifact())
-            .returns(() => config.uploadOutputArtifact);
+        adoTaskConfigMock.setup((atcm) => atcm.getUploadOutputArtifact()).returns(() => config.uploadOutputArtifact);
 
-        adoTaskConfigMock
-            .setup((atcm) => atcm.getVariable('System.JobAttempt'))
-            .returns(() => `${config.jobAttempt}`);
+        adoTaskConfigMock.setup((atcm) => atcm.getVariable('System.JobAttempt')).returns(() => `${config.jobAttempt}`);
 
-        adoTaskConfigMock
-            .setup((atcm) => atcm.getOutputArtifactName())
-            .returns(() => config.outputArtifactName);
+        adoTaskConfigMock.setup((atcm) => atcm.getOutputArtifactName()).returns(() => config.outputArtifactName);
 
-        adoTaskConfigMock
-            .setup((atcm) => atcm.getBaselineFile())
-            .returns(() => config.baselineFile);
+        adoTaskConfigMock.setup((atcm) => atcm.getBaselineFile()).returns(() => config.baselineFile);
 
-        adoTaskConfigMock
-            .setup((atcm) => atcm.getReportOutDir())
-            .returns(() => config.reportOutDir ?? defaultReportOutDir);
+        adoTaskConfigMock.setup((atcm) => atcm.getReportOutDir()).returns(() => config.reportOutDir ?? defaultReportOutDir);
     }
 
     const verifyAllMocks = () => {
