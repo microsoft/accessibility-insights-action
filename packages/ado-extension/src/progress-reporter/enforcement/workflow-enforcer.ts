@@ -6,7 +6,6 @@ import { inject, injectable } from 'inversify';
 import { Logger, ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
-import { listItem, sectionSeparator } from '@accessibility-insights-action/shared/dist/mark-down/markdown-formatter';
 
 @injectable()
 export class WorkflowEnforcer extends ProgressReporter {
@@ -46,9 +45,9 @@ export class WorkflowEnforcer extends ProgressReporter {
             this.logger.logInfo(
                 [
                     'To prevent accessibility errors from failing your build, you can:',
-                    listItem('Use a baseline file to avoid failing for known issues, or'),
-                    listItem('Set the failOnAccessibilityError task input to false to avoid failing for all issues'),
-                ].join(sectionSeparator()),
+                    '* Use a baseline file to avoid failing for known issues, or',
+                    '* Set the failOnAccessibilityError task input to false to avoid failing for all issues',
+                ].join("\n"),
             );
 
             await this.failRun();
