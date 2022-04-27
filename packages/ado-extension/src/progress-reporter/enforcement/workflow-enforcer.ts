@@ -21,8 +21,12 @@ export class WorkflowEnforcer extends ProgressReporter {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
-        if (!(await this.failIfAccessibilityErrorExists(combinedReportResult))) {
-            await this.failIfBaselineNeedsUpdating(baselineEvaluation);
+        const baselineFileInput = this.adoTaskConfig.getBaselineFile();
+
+        if (baselineFileInput != null) {
+            await this.failIfBaselineNeedsUpdating(baselineFileInput, baselineEvaluation);
+        } else {
+            await this.failIfAccessibilityErrorExists(combinedReportResult);
         }
     }
 
@@ -35,24 +39,27 @@ export class WorkflowEnforcer extends ProgressReporter {
         return Promise.resolve(this.scanSucceeded);
     }
 
-    private async failIfAccessibilityErrorExists(combinedReportResult: CombinedReportParameters): Promise<boolean> {
+    private async failIfAccessibilityErrorExists(combinedReportResult: CombinedReportParameters): Promise<void> {
         if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
-            this.logger.logError('An accessibility error was found and you specified the "failOnAccessibilityError" flag.');
+            this.logger.logError('Accessibility error(s) were found');
+            this.logger.logInfo(
+                [
+                    'To prevent accessibility errors from failing your build, you can:',
+                    '* Use a baseline file to avoid failing for known issues, or',
+                    '* Set the failOnAccessibilityError task input to false to avoid failing for all issues',
+                ].join('\n'),
+            );
+
             await this.failRun();
-            return true;
         }
-        return false;
     }
 
-    private async failIfBaselineNeedsUpdating(baselineEvaluation?: BaselineEvaluation): Promise<boolean> {
-        if (baselineEvaluation && this.adoTaskConfig.getBaselineFile() && baselineEvaluation.suggestedBaselineUpdate) {
+    private async failIfBaselineNeedsUpdating(baselineFileInput: string, baselineEvaluation?: BaselineEvaluation): Promise<void> {
+        if (baselineEvaluation?.suggestedBaselineUpdate) {
             this.logger.logInfo(
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                `##vso[task.logissue type=error;sourcepath=${this.adoTaskConfig.getBaselineFile()}] The baseline file does not match scan results.`,
+                `##vso[task.logissue type=error;sourcepath=${baselineFileInput}] The baseline file does not match scan results.`,
             );
             await this.failRun();
-            return true;
         }
-        return false;
     }
 }

@@ -2,135 +2,120 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import { Mock, Times, IMock, MockBehavior } from 'typemoq';
+import { Mock, IMock, MockBehavior } from 'typemoq';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
 import { WorkflowEnforcer } from './workflow-enforcer';
-import { Logger } from '@accessibility-insights-action/shared';
+import { RecordingTestLogger } from '@accessibility-insights-action/shared';
 
 describe(WorkflowEnforcer, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
-    let loggerMock: IMock<Logger>;
-    let workflowEnforcer: WorkflowEnforcer;
+    let logger: RecordingTestLogger;
+    let testSubject: WorkflowEnforcer;
+
+    const reportWithErrors = {
+        results: {
+            urlResults: {
+                failedUrls: 1,
+            },
+        },
+    } as unknown as CombinedReportParameters;
+    const reportWithoutErrors = {
+        results: {
+            urlResults: {
+                failedUrls: 0,
+            },
+        },
+    } as unknown as CombinedReportParameters;
+    const emptyBaselineEvaluation = {} as BaselineEvaluation;
+    const baselineEvaluationWithSuggestedUpdate = {
+        suggestedBaselineUpdate: {} as BaselineFileContent,
+    } as BaselineEvaluation;
+    const baselineEvaluationWithoutSuggestedUpdate = {
+        suggestedBaselineUpdate: null,
+    } as BaselineEvaluation;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
-        loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
-    });
-
-    describe('constructor', () => {
-        it('initializes', () => {
-            workflowEnforcer = buildWorkflowEnforcerWithMocks();
-
-            verifyAllMocks();
-        });
+        logger = new RecordingTestLogger();
+        testSubject = new WorkflowEnforcer(adoTaskConfigMock.object, logger);
     });
 
     describe('completeRun', () => {
-        it('logs correct error if accessibility error occurred', async () => {
-            const reportStub = {
-                results: {
-                    urlResults: {
-                        failedUrls: 1,
-                    },
+        describe('without baseline', () => {
+            beforeEach(() => {
+                setupBaselineFileInput(undefined);
+            });
+
+            it('fails with pinned error log if accessibility error occurs and failOnAccessibilityError=true', async () => {
+                setupFailOnAccessibilityErrorInput(true);
+
+                await testSubject.completeRun(reportWithErrors, emptyBaselineEvaluation);
+
+                expect(logger.recordedLogs()).toMatchSnapshot();
+                await expect(testSubject.didScanSucceed()).resolves.toBe(false);
+            });
+
+            it.each`
+                accessibilityErrorExists | failOnAccessibilityError
+                ${true}                  | ${false}
+                ${false}                 | ${false}
+                ${false}                 | ${true}
+            `(
+                'succeeds silently when accessibilityErrorExists=$accessibilityErrorExists and failOnAccessibilityError=$failOnAccessibilityError',
+                async ({ accessibilityErrorExists, failOnAccessibilityError }) => {
+                    setupFailOnAccessibilityErrorInput(failOnAccessibilityError);
+
+                    const report = accessibilityErrorExists ? reportWithErrors : reportWithoutErrors;
+                    await testSubject.completeRun(report, emptyBaselineEvaluation);
+
+                    expect(logger.recordedLogs()).toStrictEqual([]);
+                    await expect(testSubject.didScanSucceed()).resolves.toBe(true);
                 },
-            } as unknown as CombinedReportParameters;
-            const baselineEvaluationStub = {} as BaselineEvaluation;
-
-            setupFailOnAccessibilityError(true);
-            setupLoggerWithErrorMessage('An accessibility error was found and you specified the "failOnAccessibilityError" flag.');
-
-            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
-
-            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
-
-            verifyAllMocks();
+            );
         });
 
-        it('logs correct error if baseline needs to be updated', async () => {
-            const reportStub = {} as CombinedReportParameters;
-            const baselineEvaluationStub = {
-                suggestedBaselineUpdate: {} as BaselineFileContent,
-            } as BaselineEvaluation;
+        // All baseline behavior should be independent of failOnAccessibilityError
+        describe.each([true, false])('with baseline and failOnAccessibilityError=%p', (failOnAccessibilityError) => {
+            beforeEach(() => {
+                setupBaselineFileInput('/some/file');
+                setupFailOnAccessibilityErrorInput(failOnAccessibilityError);
+            });
 
-            setupFailOnAccessibilityError(false);
-            setupBaselineFileParameterExists();
-            loggerMock
-                .setup((o) =>
-                    o.logInfo(`##vso[task.logissue type=error;sourcepath=baseline-file] The baseline file does not match scan results.`),
-                )
-                .verifiable(Times.once());
+            it('fails with pinned error log if baseline needs to be updated', async () => {
+                await testSubject.completeRun(reportWithErrors, baselineEvaluationWithSuggestedUpdate);
 
-            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
+                expect(logger.recordedLogs()).toMatchSnapshot();
+                await expect(testSubject.didScanSucceed()).resolves.toBe(false);
+            });
 
-            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
+            it('succeeds silently if baseline does not need update', async () => {
+                await testSubject.completeRun(reportWithErrors, baselineEvaluationWithoutSuggestedUpdate);
 
-            verifyAllMocks();
-        });
-
-        it('succeeds in happy path (baseline enabled)', async () => {
-            const reportStub = {} as CombinedReportParameters;
-            const baselineEvaluationStub = {} as BaselineEvaluation;
-
-            setupFailOnAccessibilityError(false);
-            setupBaselineFileParameterExists();
-
-            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
-
-            await workflowEnforcer.completeRun(reportStub, baselineEvaluationStub);
-
-            verifyAllMocks();
-        });
-
-        it('succeeds in happy path (baselineEvaluation not provided)', async () => {
-            const reportStub = {} as CombinedReportParameters;
-
-            setupFailOnAccessibilityError(false);
-
-            workflowEnforcer = buildWorkflowEnforcerWithMocks();
-
-            await workflowEnforcer.completeRun(reportStub);
-
-            verifyAllMocks();
+                expect(logger.recordedLogs()).toStrictEqual([]);
+                await expect(testSubject.didScanSucceed()).resolves.toBe(true);
+            });
         });
     });
 
     describe('didScanSucceed', () => {
         it('returns true by default', async () => {
-            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
-            await expect(workflowEnforcer.didScanSucceed()).resolves.toBe(true);
+            await expect(testSubject.didScanSucceed()).resolves.toBe(true);
         });
 
         it('returns false after failRun() is called', async () => {
-            const workflowEnforcer = buildWorkflowEnforcerWithMocks();
-            await workflowEnforcer.failRun();
-            await expect(workflowEnforcer.didScanSucceed()).resolves.toBe(false);
+            await testSubject.failRun();
+            await expect(testSubject.didScanSucceed()).resolves.toBe(false);
         });
     });
 
-    const buildWorkflowEnforcerWithMocks = () => new WorkflowEnforcer(adoTaskConfigMock.object, loggerMock.object);
-
-    const verifyAllMocks = () => {
-        adoTaskConfigMock.verifyAll();
+    const setupFailOnAccessibilityErrorInput = (fail: boolean) => {
+        adoTaskConfigMock.setup((o) => o.getFailOnAccessibilityError()).returns(() => fail);
     };
 
-    const setupFailOnAccessibilityError = (fail: boolean) => {
-        adoTaskConfigMock
-            .setup((o) => o.getFailOnAccessibilityError())
-            .returns(() => fail)
-            .verifiable(Times.atLeastOnce());
-    };
-
-    const setupBaselineFileParameterExists = () => {
-        adoTaskConfigMock
-            .setup((o) => o.getBaselineFile())
-            .returns(() => 'baseline-file')
-            .verifiable(Times.atLeastOnce());
-    };
-
-    const setupLoggerWithErrorMessage = (message: string) => {
-        loggerMock.setup((o) => o.logError(message)).verifiable(Times.once());
+    const setupBaselineFileInput = (baselineFile: undefined | string) => {
+        adoTaskConfigMock.setup((o) => o.getBaselineFile()).returns(() => baselineFile);
     };
 });
