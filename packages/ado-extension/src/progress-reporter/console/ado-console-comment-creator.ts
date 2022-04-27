@@ -5,6 +5,7 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
 import { Logger, ReportConsoleLogConvertor } from '@accessibility-insights-action/shared';
 import * as fs from 'fs';
+import * as path from 'path';
 import { ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 import { ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
@@ -14,12 +15,12 @@ import { BaselineInfo } from '@accessibility-insights-action/shared';
 @injectable()
 export class AdoConsoleCommentCreator extends ProgressReporter {
     constructor(
-        @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
+        @inject(ADOTaskConfig) private readonly taskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(ReportConsoleLogConvertor) private readonly reportConsoleLogConvertor: ReportConsoleLogConvertor,
         @inject(Logger) private readonly logger: Logger,
-        @inject(ADOTaskConfig) private readonly taskConfig: ADOTaskConfig,
         private readonly fileSystemObj: typeof fs = fs,
+        private readonly pathObj: typeof path = path,
     ) {
         super();
     }
@@ -30,8 +31,9 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
 
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
         const baselineInfo = this.getBaselineInfo(baselineEvaluation);
-        this.outputResultsMarkdownToBuildSummary(combinedReportResult, baselineInfo);
-        this.uploadOutputArtifact();
+        const artifactName = this.getArtifactName();
+        this.outputResultsMarkdownToBuildSummary(artifactName, combinedReportResult, baselineInfo);
+        this.uploadOutputArtifact(artifactName);
         this.logResultsToConsole(combinedReportResult, baselineInfo);
 
         return Promise.resolve();
@@ -43,7 +45,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     }
 
     private getBaselineInfo(baselineEvaluation?: BaselineEvaluation): BaselineInfo {
-        const baselineFileName = this.adoTaskConfig.getBaselineFile();
+        const baselineFileName = this.taskConfig.getBaselineFile();
 
         if (!baselineFileName) {
             return {} as BaselineInfo;
@@ -52,33 +54,51 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         return { baselineFileName, baselineEvaluation };
     }
 
-    private outputResultsMarkdownToBuildSummary(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
+    private outputResultsMarkdownToBuildSummary(artifactName: string | null, combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
         const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
-
         const outDirectory = this.taskConfig.getReportOutDir();
-        const fileName = `${outDirectory}/results.md`;
+
+        const summaryFilePath = this.pathObj.join(outDirectory, this.summaryMarkdownFileName(artifactName));
 
         // eslint-disable-next-line security/detect-non-literal-fs-filename
-        this.fileSystemObj.writeFileSync(fileName, reportMarkdown);
-        this.logger.logInfo(`##vso[task.uploadsummary]${fileName}`);
+        this.fileSystemObj.writeFileSync(summaryFilePath, reportMarkdown);
+        this.logger.logInfo(`##vso[task.uploadsummary]${summaryFilePath}`);
     }
 
-    private uploadOutputArtifact(): void {
+    // The file name we use is user-facing; ADO uses it as the section header for the summary
+    // as it appears in the Extensions tab of a Pipeline's results.
+    private summaryMarkdownFileName(artifactName: string | null): string {
+        const isArtifactNameCustom = artifactName !== 'accessibility-reports';
+        const shouldIncludeArtifactNameSuffix = artifactName != null && isArtifactNameCustom;
+
+        const artifactNameSuffix = shouldIncludeArtifactNameSuffix ? ` (${artifactName})` : '';
+
+        return `Accessibility Insights scan summary${artifactNameSuffix}.md`;
+    }
+
+    private getArtifactName(): string | null {
         const uploadOutputArtifactEnabled: boolean = this.taskConfig.getUploadOutputArtifact();
-        if (uploadOutputArtifactEnabled) {
-            const outputDirectory = this.taskConfig.getReportOutDir();
-            const jobAttemptBuildVariable = this.taskConfig.getVariable('System.JobAttempt');
-            const artifactName = this.taskConfig.getOutputArtifactName();
+        if (!uploadOutputArtifactEnabled) {
+            return null;
+        }
 
-            let artifactNameSuffix = '';
-            let jobAttemptNumber = 1;
+        const jobAttemptBuildVariable = this.taskConfig.getVariable('System.JobAttempt');
+        const artifactNameInput = this.taskConfig.getOutputArtifactName();
 
-            if (jobAttemptBuildVariable !== undefined) {
-                jobAttemptNumber = parseInt(jobAttemptBuildVariable);
-                artifactNameSuffix = jobAttemptNumber > 1 ? `-${jobAttemptBuildVariable}` : '';
+        if (jobAttemptBuildVariable !== undefined) {
+            const jobAttemptNumber = parseInt(jobAttemptBuildVariable);
+            if (jobAttemptNumber > 1) {
+                return `${artifactNameInput}-${jobAttemptBuildVariable}`;
             }
+        }
 
-            this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName + artifactNameSuffix}]${outputDirectory}`);
+        return artifactNameInput;
+    }
+
+    private uploadOutputArtifact(artifactName: string | null): void {
+        if (artifactName != null) {
+            const outputDirectory = this.taskConfig.getReportOutDir();
+            this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${outputDirectory}`);
         }
     }
 
