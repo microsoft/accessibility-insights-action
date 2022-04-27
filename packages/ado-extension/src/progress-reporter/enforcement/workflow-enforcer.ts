@@ -47,7 +47,7 @@ export class WorkflowEnforcer extends ProgressReporter {
                     'To prevent accessibility errors from failing your build, you can:',
                     '* Use a baseline file to avoid failing for known issues, or',
                     '* Set the failOnAccessibilityError task input to false to avoid failing for all issues',
-                ].join("\n"),
+                ].join('\n'),
             );
 
             await this.failRun();
