@@ -65,6 +65,8 @@ const destAdoExtensionMetadata = path.join(__dirname, '..', 'dist', 'pkg', 'ado-
 console.log(`run-locally.js is copying ${srcAdoExtensionMetadata} to ${destAdoExtensionMetadata}`);
 fs.copyFileSync(srcAdoExtensionMetadata, destAdoExtensionMetadata);
 
+process.env['AGENT_TEMPDIRECTORY'] = process.env['TEMP'];
+
 console.log('beginning task execution below');
 console.log();
 
