@@ -12,11 +12,7 @@ const rootDirectory = path.resolve(path.join(__dirname, '..', '..'));
 // This is for forward compat; the latter was deprecated in favor of the former in Node 14
 const rmdirSync = fs.rmSync || fs.rmdirSync;
 
-function buildRuntimePackageMetadata({
-    packageJson,
-    webpackConfig,
-    outputDirectory,
-}) {
+function buildRuntimePackageMetadata({ packageJson, webpackConfig, outputDirectory }) {
     console.log('building runtime package metadata in ${outputDirectory}');
 
     const packageDependencies = packageJson.dependencies;
@@ -71,4 +67,3 @@ function buildRuntimePackageMetadata({
 }
 
 module.exports = { buildRuntimePackageMetadata };
-
