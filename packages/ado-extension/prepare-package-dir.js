@@ -2,13 +2,16 @@
 // Licensed under the MIT License.
 // run from root folder, this scripts prepares the dist folder
 
-const { execFileSync } = require('child_process');
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const packageJson = require(process.cwd() + '/package.json');
 const sharedPackageJson = require(path.resolve(process.cwd(), '../shared/package.json'));
 const rootPackageJson = require(path.resolve(process.cwd(), '../../package.json'));
 const getWebpackConfig = require(process.cwd() + '/webpack.config');
+
+// This is for forward compat; the latter was deprecated in favor of the former in Node 14
+const rmdirSync = fs.rmSync || fs.rmdirSync;
 
 // We allow overrides of extension/task identifiers so we can deploy
 // different versions of the extension with the same YAML
@@ -76,12 +79,17 @@ fs.copyFileSync('../../yarn.lock', 'dist/pkg/yarn.lock');
 console.log('copied yarn.lock to dist/pkg/yarn.lock');
 
 console.log('updating yarn.lock based on prepared package.json');
-execFileSync('yarn', ['install', '--prod', '--ignore-engines', '--ignore-scripts'], {
+// This intentionally uses execSync rather than the normally-preferred execFileSync
+// because it relies on shell behavior to pick whether to invoke yarn, yarn.exe,
+// yarn.bat, or yarn.cmd (any of these are possible depending on OS + how Yarn is
+// installed). This doesn't create a shell injection concern because the command
+// is a fixed string.
+execSync('yarn install --prod --ignore-engines --ignore-scripts', {
     stdio: 'inherit',
     cwd: path.join(__dirname, 'dist', 'pkg'),
 });
 
 console.log('removing node_modules left behind by yarn.lock update');
-(fs.rmSync || fs.rmdirSync)('dist/pkg/node_modules', { recursive: true });
+rmdirSync('dist/pkg/node_modules', { recursive: true });
 
 console.log('prepare-package-dir complete');
