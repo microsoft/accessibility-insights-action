@@ -5,8 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const sharedPackageJson = require('./package.json');
 const rootPackageJson = require('../../package.json');
-//const rootPackageJson = require(path.resolve(process.cwd(), '../../package.json'));
-
 const rootDirectory = path.resolve(path.join(__dirname, '..', '..'));
 
 // This is for forward compat; the latter was deprecated in favor of the former in Node 14
