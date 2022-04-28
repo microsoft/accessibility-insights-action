@@ -68,7 +68,7 @@
         "webpack-cli": "^4.9.2"
     },
     "resolutions": {
-        "accessibility-insights-report": ">=4.2.2",
+        "accessibility-insights-report": "4.3.0",
         "apify-shared": ">=0.5.0",
         "axios": ">=0.21.1",
         "serialize-javascript": ">=3.1.0",
@@ -82,6 +82,6 @@
         "nth-check": ">=2.0.1",
         "tar": ">=6.1.9",
         "**/tfx-cli/shelljs": "^0.8.5",
-        "underscore": ">=1.12.1"
+        "underscore": "1.12.1"
     }
 }
