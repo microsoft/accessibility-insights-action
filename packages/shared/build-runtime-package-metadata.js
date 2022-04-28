@@ -10,6 +10,11 @@ const rootDirectory = path.resolve(path.join(__dirname, '..', '..'));
 // This is for forward compat; the latter was deprecated in favor of the former in Node 14
 const rmdirSync = fs.rmSync || fs.rmdirSync;
 
+// Produces a package.json and yarn.lock in outputDirectory suitable for runtime installation
+// of the packages listed in the "externals" property of webpackConfig. The produced package
+// metadata files will use the versions from the provided package's packageJson content, falling
+// back to versions from this shared package, and will respect yarn resolutions present in the
+// root package.json.
 function buildRuntimePackageMetadata({ packageJson, webpackConfig, outputDirectory }) {
     console.log('building runtime package metadata in ${outputDirectory}');
 
