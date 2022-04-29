@@ -9,8 +9,8 @@ export type TaskInputKey = 'HostingMode' | 'StaticSiteDir' | 'StaticSiteUrlRelat
 export abstract class TaskConfig {
     constructor(@inject(iocTypes.Process) protected readonly processObj: typeof process) {}
     abstract getReportOutDir(): string;
-    abstract getStaticSiteDir(): string;
-    abstract getStaticSiteUrlRelativePath(): string;
+    abstract getStaticSiteDir(): string | undefined;
+    abstract getStaticSiteUrlRelativePath(): string | undefined;
     abstract getSingleWorker(): boolean;
     abstract getBaselineFile(): string | undefined;
     abstract getToken(): string | undefined;

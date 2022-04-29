@@ -33,23 +33,31 @@ describe(GHTaskConfig, () => {
         inputOption                 | inputValue           | expectedValue                                            | getInputFunc
         ${'repo-token'}             | ${'token'}           | ${'token'}                                               | ${() => taskConfig.getToken()}
         ${'scan-url-relative-path'} | ${'path'}            | ${'path'}                                                | ${() => taskConfig.getStaticSiteUrlRelativePath()}
+        ${'scan-url-relative-path'} | ${''}                | ${undefined}                                             | ${() => taskConfig.getStaticSiteUrlRelativePath()}
         ${'chrome-path'}            | ${'./chrome-path'}   | ${getPlatformAgnosticPath(__dirname + '/chrome-path')}   | ${() => taskConfig.getChromePath()}
         ${'input-file'}             | ${'./input-file'}    | ${getPlatformAgnosticPath(__dirname + '/input-file')}    | ${() => taskConfig.getInputFile()}
+        ${'input-file'}             | ${''}                | ${undefined}                                             | ${() => taskConfig.getInputFile()}
         ${'output-dir'}             | ${'./output-dir'}    | ${getPlatformAgnosticPath(__dirname + '/output-dir')}    | ${() => taskConfig.getReportOutDir()}
-        ${'site-dir'}               | ${'path'}            | ${'path'}                                                | ${() => taskConfig.getStaticSiteDir()}
+        ${'site-dir'}               | ${'./site-dir'}      | ${getPlatformAgnosticPath(__dirname + '/site-dir')}      | ${() => taskConfig.getStaticSiteDir()}
+        ${'site-dir'}               | ${''}                | ${undefined}                                             | ${() => taskConfig.getStaticSiteDir()}
         ${'url'}                    | ${'url'}             | ${'url'}                                                 | ${() => taskConfig.getUrl()}
+        ${'url'}                    | ${''}                | ${undefined}                                             | ${() => taskConfig.getUrl()}
         ${'discovery-patterns'}     | ${'abc'}             | ${'abc'}                                                 | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'discovery-patterns'}     | ${''}                | ${undefined}                                             | ${() => taskConfig.getDiscoveryPatterns()}
         ${'input-urls'}             | ${'abc'}             | ${'abc'}                                                 | ${() => taskConfig.getInputUrls()}
+        ${'input-urls'}             | ${''}                | ${undefined}                                             | ${() => taskConfig.getInputUrls()}
         ${'max-urls'}               | ${'20'}              | ${20}                                                    | ${() => taskConfig.getMaxUrls()}
         ${'scan-timeout'}           | ${'100000'}          | ${100000}                                                | ${() => taskConfig.getScanTimeout()}
         ${'localhost-port'}         | ${'8080'}            | ${8080}                                                  | ${() => taskConfig.getStaticSitePort()}
+        ${'localhost-port'}         | ${''}                | ${undefined}                                             | ${() => taskConfig.getStaticSitePort()}
         ${'baseline-file'}          | ${'./baseline-file'} | ${getPlatformAgnosticPath(__dirname + '/baseline-file')} | ${() => taskConfig.getBaselineFile()}
+        ${'baseline-file'}          | ${''}                | ${undefined}                                             | ${() => taskConfig.getBaselineFile()}
         ${'single-worker'}          | ${'true'}            | ${true}                                                  | ${() => taskConfig.getSingleWorker()}
         ${'single-worker'}          | ${''}                | ${true}                                                  | ${() => taskConfig.getSingleWorker()}
         ${'single-worker'}          | ${'false'}           | ${false}                                                 | ${() => taskConfig.getSingleWorker()}
         ${'hosting-mode'}           | ${'staticSite'}      | ${'staticSite'}                                          | ${() => taskConfig.getHostingMode()}
         ${'hosting-mode'}           | ${'dynamicSite'}     | ${'dynamicSite'}                                         | ${() => taskConfig.getHostingMode()}
-        ${'hosting-mode'}           | ${undefined}         | ${undefined}                                             | ${() => taskConfig.getHostingMode()}
+        ${'hosting-mode'}           | ${''}                | ${undefined}                                             | ${() => taskConfig.getHostingMode()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {

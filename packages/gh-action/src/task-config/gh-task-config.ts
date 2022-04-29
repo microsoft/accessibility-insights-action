@@ -19,64 +19,55 @@ export class GHTaskConfig extends TaskConfig {
     }
 
     public getReportOutDir(): string {
-        return this.getAbsolutePath(this.actionCoreObj.getInput('output-dir'));
+        // Relying on action.yml to make this required
+        return this.getOptionalPathInput('output-dir');
     }
 
-    public getStaticSiteDir(): string {
-        return this.actionCoreObj.getInput('site-dir');
+    public getStaticSiteDir(): string | undefined {
+        return this.getOptionalPathInput('site-dir');
     }
 
-    public getStaticSiteUrlRelativePath(): string {
-        return this.actionCoreObj.getInput('scan-url-relative-path');
+    public getStaticSiteUrlRelativePath(): string | undefined {
+        return this.getOptionalStringInput('scan-url-relative-path');
     }
 
     public getToken(): string {
-        return this.actionCoreObj.getInput('repo-token');
+        // Relying on action.yml to make this required
+        return this.getOptionalStringInput('repo-token');
     }
 
-    public getChromePath(): string {
-        let chromePath;
-        chromePath = this.getAbsolutePath(this.actionCoreObj.getInput('chrome-path'));
-
-        if (isEmpty(chromePath)) {
-            chromePath = this.processObj.env.CHROME_BIN;
-        }
-
-        return chromePath;
+    public getChromePath(): string | undefined {
+        return this.getOptionalPathInput('chrome-path') ?? this.processObj.env.CHROME_BIN;
     }
 
-    public getUrl(): string {
-        return this.actionCoreObj.getInput('url');
+    public getUrl(): string | undefined {
+        return this.getOptionalStringInput('url');
     }
 
     public getMaxUrls(): number {
-        return parseInt(this.actionCoreObj.getInput('max-urls'));
+        // Relying on action.yml to provide a default if necessary
+        return this.getOptionalIntInput('max-urls');
     }
 
-    public getDiscoveryPatterns(): string {
-        const value = this.actionCoreObj.getInput('discovery-patterns');
-
-        return isEmpty(value) ? undefined : value;
+    public getDiscoveryPatterns(): string | undefined {
+        return this.getOptionalStringInput('discovery-patterns');
     }
 
-    public getInputFile(): string {
-        return this.getAbsolutePath(this.actionCoreObj.getInput('input-file'));
+    public getInputFile(): string | undefined {
+        return this.getOptionalPathInput('input-file');
     }
 
-    public getInputUrls(): string {
-        const value = this.actionCoreObj.getInput('input-urls');
-
-        return isEmpty(value) ? undefined : value;
+    public getInputUrls(): string | undefined {
+        return this.getOptionalStringInput('input-urls');
     }
 
     public getScanTimeout(): number {
-        return parseInt(this.actionCoreObj.getInput('scan-timeout'));
+        // Relying on action.yml to provide a default if necessary
+        return this.getOptionalIntInput('scan-timeout');
     }
 
-    public getStaticSitePort(): number {
-        const value = this.actionCoreObj.getInput('localhost-port');
-
-        return isEmpty(value) ? undefined : parseInt(value, 10);
+    public getStaticSitePort(): number | undefined {
+        return this.getOptionalIntInput('localhost-port');
     }
 
     public getRunId(): number {
@@ -89,25 +80,11 @@ export class GHTaskConfig extends TaskConfig {
     }
 
     public getBaselineFile(): string | undefined {
-        const value = this.getAbsolutePath(this.actionCoreObj.getInput('baseline-file'));
-
-        return isEmpty(value) ? undefined : value;
+        return this.getOptionalPathInput('baseline-file');
     }
 
     public getHostingMode(): string | undefined {
-        const value = this.actionCoreObj.getInput('hosting-mode');
-
-        return isEmpty(value) ? undefined : value;
-    }
-
-    private getAbsolutePath(path: string): string {
-        if (isEmpty(path)) {
-            return undefined;
-        }
-
-        const dirname = this.processObj.env.GITHUB_WORKSPACE ?? __dirname;
-
-        return normalizePath(this.resolvePath(dirname, normalizePath(path)));
+        return this.getOptionalStringInput('hosting-mode');
     }
 
     public getInputName(key: TaskInputKey): string {
@@ -124,5 +101,30 @@ export class GHTaskConfig extends TaskConfig {
     public getUsageDocsUrl(): string {
         const url = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
         return url;
+    }
+
+    private getAbsolutePath(path: string | undefined): string | undefined {
+        if (isEmpty(path)) {
+            return undefined;
+        }
+
+        const dirname = this.processObj.env.GITHUB_WORKSPACE ?? __dirname;
+
+        return normalizePath(this.resolvePath(dirname, normalizePath(path)));
+    }
+
+    private getOptionalPathInput(inputName: string): string | undefined {
+        const rawValue = this.actionCoreObj.getInput(inputName);
+        return this.getAbsolutePath(rawValue);
+    }
+
+    private getOptionalStringInput(inputName: string): string | undefined {
+        const rawValue = this.actionCoreObj.getInput(inputName);
+        return isEmpty(rawValue) ? undefined : rawValue;
+    }
+
+    private getOptionalIntInput(inputName: string): number | undefined {
+        const rawValue = this.actionCoreObj.getInput(inputName);
+        return isEmpty(rawValue) ? undefined : parseInt(rawValue, 10);
     }
 }
