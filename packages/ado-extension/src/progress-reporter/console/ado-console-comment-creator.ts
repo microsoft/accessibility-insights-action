@@ -3,7 +3,7 @@
 
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
-import { Logger, ReportConsoleLogConvertor } from '@accessibility-insights-action/shared';
+import { iocTypes, Logger, ReportConsoleLogConvertor } from '@accessibility-insights-action/shared';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
@@ -15,7 +15,7 @@ import { BaselineInfo } from '@accessibility-insights-action/shared';
 @injectable()
 export class AdoConsoleCommentCreator extends ProgressReporter {
     constructor(
-        @inject(ADOTaskConfig) private readonly taskConfig: ADOTaskConfig,
+        @inject(iocTypes.TaskConfig) private readonly taskConfig: ADOTaskConfig,
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(ReportConsoleLogConvertor) private readonly reportConsoleLogConvertor: ReportConsoleLogConvertor,
         @inject(Logger) private readonly logger: Logger,

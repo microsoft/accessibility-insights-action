@@ -10,7 +10,7 @@ import { BaselineEvaluation } from 'accessibility-insights-scan';
 @injectable()
 export class TelemetrySender extends ProgressReporter {
     constructor(
-        @inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
+        @inject(iocTypes.TaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
         @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
     ) {
         super();
