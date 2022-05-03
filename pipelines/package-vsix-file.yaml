@@ -14,13 +14,13 @@ parameters:
 
 steps:
     - bash: |
-          echo publisher ID: $(PublisherID)
-          echo extension ID: $(ExtensionID)
-          echo extension name: $(ExtensionName)
-          echo extensionVersionOverride: $(extensionVersionOverride)
-          echo environment: ${{ parameters.environment }}
-          echo shouldSign: ${{ parameters.shouldSign }}
-          echo appInsightsConnectionString: $(AppInsightsConnectionString)
+          echo publisher ID: "$(PublisherID)"
+          echo extension ID: "$(ExtensionID)"
+          echo extension name: "$(ExtensionName)"
+          echo extensionVersionOverride: "$(extensionVersionOverride)"
+          echo environment: "${{ parameters.environment }}"
+          echo shouldSign: "${{ parameters.shouldSign }}"
+          echo appInsightsConnectionString: "$(AppInsightsConnectionString)"
 
     - task: TfxInstaller@3
       inputs:
