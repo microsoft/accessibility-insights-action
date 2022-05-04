@@ -11,7 +11,10 @@ import { BaselineEvaluation } from 'accessibility-insights-scan';
 export class WorkflowEnforcer extends ProgressReporter {
     private scanSucceeded = true;
 
-    constructor(@inject(iocTypes.TaskConfig) private readonly adoTaskConfig: ADOTaskConfig, @inject(Logger) private readonly logger: Logger) {
+    constructor(
+        @inject(iocTypes.TaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
+        @inject(Logger) private readonly logger: Logger,
+    ) {
         super();
     }
 
