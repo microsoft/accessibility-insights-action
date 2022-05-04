@@ -3,7 +3,7 @@
 
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { inject, injectable } from 'inversify';
-import { Logger, ProgressReporter } from '@accessibility-insights-action/shared';
+import { iocTypes, Logger, ProgressReporter } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 
@@ -11,7 +11,10 @@ import { BaselineEvaluation } from 'accessibility-insights-scan';
 export class WorkflowEnforcer extends ProgressReporter {
     private scanSucceeded = true;
 
-    constructor(@inject(ADOTaskConfig) private readonly adoTaskConfig: ADOTaskConfig, @inject(Logger) private readonly logger: Logger) {
+    constructor(
+        @inject(iocTypes.TaskConfig) private readonly adoTaskConfig: ADOTaskConfig,
+        @inject(Logger) private readonly logger: Logger,
+    ) {
         super();
     }
 
