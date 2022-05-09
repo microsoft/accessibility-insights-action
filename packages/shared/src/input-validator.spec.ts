@@ -11,6 +11,7 @@ describe(InputValidator, () => {
     let taskConfigMock: IMock<TaskConfig>;
     let loggerMock: IMock<Logger>;
     let inputValidator: InputValidator;
+    const defaultStaticSiteUrlRelativePath = '/';
 
     beforeEach(() => {
         taskConfigMock = Mock.ofType<TaskConfig>(undefined, MockBehavior.Strict);
@@ -28,7 +29,7 @@ describe(InputValidator, () => {
         it('input configuration fail if siteDir and url are set at the same time', () => {
             setUpHostingMode(undefined);
             setupGetStaticSiteDir('site-dir');
-            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
             setupInputName('staticSiteDir', 'StaticSiteDir');
@@ -48,7 +49,7 @@ describe(InputValidator, () => {
         it('input configuration fail if siteDir and url are not set', () => {
             setUpHostingMode(undefined);
             setupGetStaticSiteDir(undefined);
-            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
@@ -68,7 +69,7 @@ describe(InputValidator, () => {
         it('input configuration fail if siteDir is not set in staticSite mode', () => {
             setUpHostingMode('staticSite');
             setupGetStaticSiteDir(undefined);
-            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
@@ -88,7 +89,7 @@ describe(InputValidator, () => {
         it('input configuration fail if url is set in staticSite mode', () => {
             setUpHostingMode('staticSite');
             setupGetStaticSiteDir('site-dir');
-            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
             setupInputName('url', 'Url');
@@ -108,7 +109,7 @@ describe(InputValidator, () => {
         it('input configuration fail if static inputs are set in dynamicSite mode', () => {
             setUpHostingMode('dynamicSite');
             setupGetStaticSiteDir('site-dir');
-            setupGetStaticSiteUrlRelativePath('ure-relative-path');
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(100);
             setupGetUrl('url');
             setupInputName('staticSiteDir', 'StaticSiteDir');
@@ -116,7 +117,7 @@ describe(InputValidator, () => {
             setupInputName('staticSitePort', 'StaticSitePort');
             setupInputName('hosting-mode', 'HostingMode');
 
-            const errorMessage = `A configuration error has occurred, staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when hosting-mode is set to dynamic\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, staticSiteDir, staticSitePort must not be set when hosting-mode is set to dynamic\nTo fix this error make sure staticSiteDir, staticSitePort has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
@@ -127,10 +128,23 @@ describe(InputValidator, () => {
             expect(inputValidator.validate()).toBe(false);
         });
 
+        test('input configuration succeeds if staticSiteUrlRelativePath equal to defaultValue in dynamicSite mode', () => {
+            setUpHostingMode('dynamicSite');
+            setupInputName(defaultStaticSiteUrlRelativePath, 'StaticSiteUrlRelativePath');
+            setupInputName('hosting-mode', 'HostingMode');
+            setupGetStaticSiteDir(undefined);
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
+            setupGetStaticSitePort(undefined);
+            setupGetUrl('url');
+
+            inputValidator = buildInputValidatorWithMocks();
+            expect(inputValidator.validate()).toBe(true);
+        });
+
         it('input configuration succeeded if correct static configuration', () => {
             setUpHostingMode('staticSite');
             setupGetStaticSiteDir('site-dir');
-            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl(undefined);
 
@@ -144,7 +158,7 @@ describe(InputValidator, () => {
         it('input configuration succeeded if correct dynamic configuration', () => {
             setUpHostingMode('dynamicSite');
             setupGetStaticSiteDir(undefined);
-            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
             setupInputName('hosting-mode', 'HostingMode');
@@ -159,7 +173,7 @@ describe(InputValidator, () => {
         it('input configuration succeeded if correct configuration with no hosting mode', () => {
             setUpHostingMode(undefined);
             setupGetStaticSiteDir(undefined);
-            setupGetStaticSiteUrlRelativePath(undefined);
+            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
 

@@ -103,14 +103,19 @@ export class InputValidator {
         if (hostingMode === 'dynamicSite') {
             const siteDir = this.taskConfig.getStaticSiteDir();
             const urlRelativePath = this.taskConfig.getStaticSiteUrlRelativePath();
+            const urlRelativePathDefault = '/';
             const sitePort = this.taskConfig.getStaticSitePort();
             const hostingModeName = this.taskConfig.getInputName('HostingMode');
-            if (siteDir !== undefined || urlRelativePath !== undefined || sitePort !== undefined) {
+            if (
+                siteDir !== undefined ||
+                (urlRelativePath !== undefined && urlRelativePath !== urlRelativePathDefault) ||
+                sitePort !== undefined
+            ) {
                 const failedInputs = [];
                 if (siteDir !== undefined) {
                     failedInputs.push(this.taskConfig.getInputName('StaticSiteDir'));
                 }
-                if (urlRelativePath !== undefined) {
+                if (urlRelativePath !== undefined && urlRelativePath !== urlRelativePathDefault) {
                     failedInputs.push(this.taskConfig.getInputName('StaticSiteUrlRelativePath'));
                 }
                 if (sitePort !== undefined) {
