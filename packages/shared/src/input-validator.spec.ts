@@ -109,7 +109,7 @@ describe(InputValidator, () => {
         it('input configuration fail if static inputs are set in dynamicSite mode', () => {
             setUpHostingMode('dynamicSite');
             setupGetStaticSiteDir('site-dir');
-            setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
+            setupGetStaticSiteUrlRelativePath('non-default-static-site-url-relative-path');
             setupGetStaticSitePort(100);
             setupGetUrl('url');
             setupInputName('staticSiteDir', 'StaticSiteDir');
@@ -117,7 +117,7 @@ describe(InputValidator, () => {
             setupInputName('staticSitePort', 'StaticSitePort');
             setupInputName('hosting-mode', 'HostingMode');
 
-            const errorMessage = `A configuration error has occurred, staticSiteDir, staticSitePort must not be set when hosting-mode is set to dynamic\nTo fix this error make sure staticSiteDir, staticSitePort has not been set in the input section of your YAML file`;
+            const errorMessage = `A configuration error has occurred, staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when hosting-mode is set to dynamic\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
