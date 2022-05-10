@@ -25,7 +25,6 @@ without quotes, like singleWorker above.
 
 const mockRunner = require('azure-pipelines-task-lib/mock-run');
 const fs = require('fs');
-const { functions } = require('lodash');
 const path = require('path');
 const { exit } = require('process');
 
