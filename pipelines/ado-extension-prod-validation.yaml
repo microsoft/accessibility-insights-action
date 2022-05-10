@@ -1,15 +1,6 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-# This pipeline covers the staging scenarios for the ADO extension as triggered for
-# a PR/CI build of a GitHub repo. Note that release validation *also* requires covering
-# PR/CI scenarios as triggered from an ADO repo; see the release validation OneNote
-# template for details.
-
-# A CI build will be automatically kicked off when the "publish to production" stage
-# of prod-release is run. A PR build which triggers this pipeline can be run be
-# creating a PR which touches any file under the "/dev" folder.
-
 trigger: none
 
 pr:
