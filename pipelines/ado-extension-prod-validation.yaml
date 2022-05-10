@@ -22,6 +22,6 @@ resources:
                   - package_publish_prod
 
 extends:
-    template: ado-extension-validation-template.yml
+    template: ado-extension-validation-template.yaml
     parameters:
         taskUnderTest: accessibility-insights.prod.task.accessibility-insights@2

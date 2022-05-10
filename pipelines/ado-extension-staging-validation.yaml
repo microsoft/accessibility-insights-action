@@ -22,6 +22,6 @@ resources:
                   - package_publish_staging
 
 extends:
-    template: ado-extension-validation-template.yml
+    template: ado-extension-validation-template.yaml
     parameters:
         taskUnderTest: accessibility-insights.staging.task.accessibility-insights@2
