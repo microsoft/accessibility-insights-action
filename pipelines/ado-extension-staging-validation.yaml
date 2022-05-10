@@ -21,6 +21,9 @@ resources:
               stages:
                   - package_publish_staging
 
+pool:
+    vmImage: ubuntu-latest
+
 extends:
     template: ado-extension-validation-template.yaml
     parameters:

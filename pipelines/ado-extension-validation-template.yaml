@@ -12,9 +12,6 @@ parameters:
     - name: taskUnderTest
       type: string
 
-pool:
-    vmImage: ubuntu-latest
-
 steps:
     # reused by all "url" cases
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
