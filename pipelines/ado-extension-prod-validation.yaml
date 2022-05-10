@@ -6,7 +6,7 @@
 # PR/CI scenarios as triggered from an ADO repo; see the release validation OneNote
 # template for details.
 
-# A CI build will be automatically kicked off when the "publish to staging" stage
+# A CI build will be automatically kicked off when the "publish to production" stage
 # of prod-release is run. A PR build which triggers this pipeline can be run be
 # creating a PR which touches any file under the "/dev" folder.
 
@@ -19,7 +19,7 @@ pr:
     paths:
         include:
             - dev
-            - pipelines/ado-extension-staging-validation.yaml
+            - pipelines/ado-extension-prod-validation.yaml
             - pipelines/ado-extension-validation-template.yaml
 
 resources:
@@ -28,9 +28,9 @@ resources:
           source: accessibility-insights-ado-extension-release-production
           trigger:
               stages:
-                  - package_publish_staging
+                  - package_publish_prod
 
 extends:
     template: ado-extension-validation-template.yml
     parameters:
-        taskUnderTest: accessibility-insights.staging.task.accessibility-insights@2
+        taskUnderTest: accessibility-insights.prod.task.accessibility-insights@2
