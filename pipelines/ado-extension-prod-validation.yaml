@@ -10,7 +10,7 @@ pr:
     paths:
         include:
             - dev
-            - pipelines/ado-extension-staging-validation.yaml
+            - pipelines/ado-extension-prod-validation.yaml
             - pipelines/ado-extension-validation-template.yaml
 
 resources:
@@ -19,7 +19,7 @@ resources:
           source: accessibility-insights-ado-extension-release-production
           trigger:
               stages:
-                  - package_publish_staging
+                  - package_publish_prod
 
 pool:
     vmImage: ubuntu-latest
@@ -27,4 +27,4 @@ pool:
 extends:
     template: ado-extension-validation-template.yaml
     parameters:
-        taskUnderTest: accessibility-insights.staging.task.accessibility-insights@2
+        taskUnderTest: accessibility-insights.prod.task.accessibility-insights@2
