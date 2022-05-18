@@ -3171,10 +3171,10 @@ azure-devops-node-api@^10.2.2:
     tunnel "0.0.6"
     typed-rest-client "^1.8.4"
 
-azure-pipelines-task-lib@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-3.2.0.tgz#40a1127e0e83251ef06f0568e881fe7076f677e5"
-  integrity sha512-7mO6/B1HwGISpP8z0UiNw/O9mu34lQpAm7jlU/jTNdwfL4RCsHJkUFD86zN+8wVFVgwBNskBaZtem4fmCxdklQ==
+azure-pipelines-task-lib@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-3.2.1.tgz#cdaffdaee0c29786cd7c7a197d11623095568b88"
+  integrity sha512-CzsAZR/CupMOs0kuocjX/OpkiMwGKDEaVpriDvJROmxHAIHEU4DQ8y40u5eUP2G0j8fqrlWQFjjBNi16WKazwA==
   dependencies:
     minimatch "3.0.4"
     mockery "^1.7.0"
