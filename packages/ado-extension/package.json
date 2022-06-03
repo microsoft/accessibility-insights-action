@@ -29,7 +29,7 @@
     "devDependencies": {
         "@types/mocha": "9.1.1",
         "mocha": "9.2.2",
-        "tfx-cli": "^0.11.0"
+        "tfx-cli": "^0.12.0"
     },
     "dependencies": {
         "@accessibility-insights-action/shared": "^1.0.0",
