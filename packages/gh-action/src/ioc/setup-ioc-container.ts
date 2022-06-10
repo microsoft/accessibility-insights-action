@@ -10,20 +10,23 @@ import { GitHubIocTypes } from './gh-ioc-types';
 import { CheckRunCreator } from '../check-run/check-run-creator';
 import { GitHubArtifactsInfoProvider } from '../gh-artifacts-info-provider';
 import { ConsoleCommentCreator } from '../console/console-comment-creator';
+import { JobSummaryCreator } from '../job-summary/job-summary-creator';
 
 export function setupIocContainer(container = new inversify.Container({ autoBindInjectable: true })): inversify.Container {
     container = setupSharedIocContainer(container);
     container.bind(GitHubIocTypes.Github).toConstantValue(github);
     container.bind(iocTypes.TaskConfig).to(GHTaskConfig).inSingletonScope();
     container.bind(CheckRunCreator).toSelf().inSingletonScope();
+    container.bind(JobSummaryCreator).toSelf().inSingletonScope();
     container.bind(ConsoleCommentCreator).toSelf().inSingletonScope();
     container
         .bind(iocTypes.ProgressReporters)
         .toDynamicValue((context) => {
             const consoleCommentCreator = context.container.get(ConsoleCommentCreator);
             const checkRunCreator = context.container.get(CheckRunCreator);
+            const jobSummaryCreator = context.container.get(JobSummaryCreator);
 
-            return [checkRunCreator, consoleCommentCreator];
+            return [checkRunCreator, consoleCommentCreator, jobSummaryCreator];
         })
         .inSingletonScope();
 
