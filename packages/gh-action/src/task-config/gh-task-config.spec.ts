@@ -12,17 +12,20 @@ describe(GHTaskConfig, () => {
     let processStub: any;
     let actionCoreMock: IMock<typeof actionCore>;
     let taskConfig: GHTaskConfig;
+    let markdownSummaryMock: IMock<typeof actionCore.summary>;
 
     beforeEach(() => {
         processStub = {
             env: {},
         } as any;
         actionCoreMock = Mock.ofType<typeof actionCore>();
+        markdownSummaryMock = Mock.ofType<typeof actionCore.summary>();
         taskConfig = new GHTaskConfig(processStub, actionCoreMock.object);
     });
 
     afterEach(() => {
         actionCoreMock.verifyAll();
+        markdownSummaryMock.verifyAll();
     });
 
     function getPlatformAgnosticPath(inputPath: string): string {
@@ -125,5 +128,19 @@ describe(GHTaskConfig, () => {
         const actualRunId = taskConfig.getRunId();
 
         expect(actualRunId).toBe(runId);
+    });
+
+    it('should write job summary', async () => {
+        const markdownStub = 'markdownStub';
+
+        markdownSummaryMock
+            .setup((o) => o.addRaw(markdownStub))
+            .returns(() => markdownSummaryMock.object)
+            .verifiable();
+        markdownSummaryMock.setup((o) => o.write()).verifiable();
+
+        actionCoreMock.setup((o) => o.summary).returns(() => markdownSummaryMock.object);
+
+        await taskConfig.writeJobSummary(markdownStub);
     });
 });

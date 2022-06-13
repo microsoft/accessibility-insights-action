@@ -98,6 +98,10 @@ export class GHTaskConfig extends TaskConfig {
         return keyToName[key];
     }
 
+    public async writeJobSummary(jobSummaryMarkdown: string): Promise<void> {
+        await this.actionCoreObj.summary.addRaw(jobSummaryMarkdown).write();
+    }
+
     public getUsageDocsUrl(): string {
         const url = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/gh-action-usage.md';
         return url;
