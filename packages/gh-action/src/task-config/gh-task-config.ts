@@ -99,7 +99,7 @@ export class GHTaskConfig extends TaskConfig {
     }
 
     public async writeJobSummary(jobSummaryMarkdown: string): Promise<void> {
-        await this.actionCoreObj.markdownSummary.addRaw(jobSummaryMarkdown).write();
+        await this.actionCoreObj.summary.addRaw(jobSummaryMarkdown).write();
     }
 
     public getUsageDocsUrl(): string {

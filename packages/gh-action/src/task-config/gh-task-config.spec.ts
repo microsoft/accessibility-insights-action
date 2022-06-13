@@ -12,14 +12,14 @@ describe(GHTaskConfig, () => {
     let processStub: any;
     let actionCoreMock: IMock<typeof actionCore>;
     let taskConfig: GHTaskConfig;
-    let markdownSummaryMock: IMock<typeof actionCore.markdownSummary>;
+    let markdownSummaryMock: IMock<typeof actionCore.summary>;
 
     beforeEach(() => {
         processStub = {
             env: {},
         } as any;
         actionCoreMock = Mock.ofType<typeof actionCore>();
-        markdownSummaryMock = Mock.ofType<typeof actionCore.markdownSummary>();
+        markdownSummaryMock = Mock.ofType<typeof actionCore.summary>();
         taskConfig = new GHTaskConfig(processStub, actionCoreMock.object);
     });
 
@@ -139,7 +139,7 @@ describe(GHTaskConfig, () => {
             .verifiable();
         markdownSummaryMock.setup((o) => o.write()).verifiable();
 
-        actionCoreMock.setup((o) => o.markdownSummary).returns(() => markdownSummaryMock.object);
+        actionCoreMock.setup((o) => o.summary).returns(() => markdownSummaryMock.object);
 
         await taskConfig.writeJobSummary(markdownStub);
     });
