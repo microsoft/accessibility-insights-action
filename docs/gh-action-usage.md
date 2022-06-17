@@ -49,8 +49,8 @@ jobs:
               uses: microsoft/accessibility-insights-action@v2
               with:
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
-                  # Provide either site-dir or url
-                  # site-dir: ${{ github.workspace }}/path-to-built-website
+                  # Provide either static-site-dir or url
+                  # static-site-dir: ${{ github.workspace }}/path-to-built-website
                   # url: your-website-url
 
             - name: Upload report artifact
@@ -71,27 +71,27 @@ Provide the website URL. The URL should already be hosted - something like `http
       url: http://localhost:12345/
 ```
 
-The `url` parameter takes priority over `site-dir`. If `url` is provided, static file options like `site-dir` and `scan-url-relative-path` are ignored.
+The `url` parameter takes priority over `site-dir`. If `url` is provided, static file options like `site-dir` and `static-site-url-relative-path` are ignored.
 
 ### Scan local HTML files
 
-Provide the location of your built HTML files using `site-dir` and (optionally) `scan-url-relative-path`. The action will serve the site for you using `express`.
+Provide the location of your built HTML files using `site-dir` and (optionally) `static-site-url-relative-path`. The action will serve the site for you using `express`.
 
 ```yml
 - name: Scan for accessibility issues
   uses: microsoft/accessibility-insights-action@v2
   with:
       repo-token: ${{ secrets.GITHUB_TOKEN }}
-      site-dir: ${{ github.workspace }}/website/root
-      scan-url-relative-path: / # use // if windows agent
+      static-site-dir: ${{ github.workspace }}/website/root
+      static-site-url-relative-path: / # use // if windows agent
 ```
 
-The file server will host files inside `site-dir`. The action begins crawling from `http://localhost:port/scan-url-relative-path/`.
+The file server will host files inside `site-dir`. The action begins crawling from `http://localhost:port/static-site-url-relative-path/`.
 
-Generally `/` on Ubuntu and `//` on Windows are good defaults for `scan-url-relative-path`. If you prefer to start crawling from a child directory, note that:
+Generally `/` on Ubuntu and `//` on Windows are good defaults for `static-site-url-relative-path`. If you prefer to start crawling from a child directory, note that:
 
 -   the local file server can only host descendants of `site-dir`
--   By default, the crawler only visits links prefixed with `http://localhost:port/scan-url-relative-path/`. If you want to crawl links outside `scan-url-relative-path`, provide something like `discovery-patterns: http://localhost:port/[.*]`
+-   By default, the crawler only visits links prefixed with `http://localhost:port/static-site-url-relative-path/`. If you want to crawl links outside `static-site-url-relative-path`, provide something like `discovery-patterns: http://localhost:port/[.*]`
 
 ### Modify crawling options
 
@@ -102,7 +102,7 @@ For instance, you can:
 -   use `max-urls: 1` to turn off crawling
 -   include a list of additional URLs to scan (the crawler won't find pages that are unlinked from the base page)
 
-For `discovery-patterns`, `input-file`, and `input-urls`, note that these options expect resolved URLs. If you provide static HTML files via `site-dir`, you should also provide `localhost-port` so that you can anticipate the base URL of the file server (`http://localhost:localhost-port/`).
+For `discovery-patterns`, `input-file`, and `input-urls`, note that these options expect resolved URLs. If you provide static HTML files via `static-site-dir`, you should also provide `static-site-port` so that you can anticipate the base URL of the file server (`http://localhost:static-site-port/`).
 
 Examples:
 
@@ -115,11 +115,11 @@ Examples:
 ```
 
 ```yml
-- name: Scan for accessibility issues (with site-dir)
+- name: Scan for accessibility issues (with static-site-dir)
   uses: microsoft/accessibility-insights-action@v2
   with:
-      site-dir: ${{ github.workspace }}/website/root
-      localhost-port: 12345
+      static-site-dir: ${{ github.workspace }}/website/root
+      static-site-port: 12345
       input-urls: http://localhost:12345/unlinked-page.html
 ```
 
@@ -140,5 +140,5 @@ You can choose to block pull requests if the action finds accessibility issues.
 -   If the action didn't trigger as you expected, go to the ["on" section](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#on) of your yml file. Make sure any listed branch names are correct for your repository.
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
 -   If you can't find an artifact, note that your workflow must include an `actions/upload-artifact` step to add the report folder to your check results. See the "Basic template" above.
--   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `scan-url-relative-path`.
+-   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `static-site-url-relative-path`.
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scan-timeout`

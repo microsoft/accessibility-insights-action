@@ -24,11 +24,11 @@ export class GHTaskConfig extends TaskConfig {
     }
 
     public getStaticSiteDir(): string | undefined {
-        return this.getOptionalPathInput('site-dir');
+        return this.getOptionalPathInput('static-site-dir');
     }
 
     public getStaticSiteUrlRelativePath(): string | undefined {
-        return this.getOptionalStringInput('scan-url-relative-path');
+        return this.getOptionalStringInput('static-site-url-relative-path');
     }
 
     public getToken(): string {
@@ -67,7 +67,7 @@ export class GHTaskConfig extends TaskConfig {
     }
 
     public getStaticSitePort(): number | undefined {
-        return this.getOptionalIntInput('localhost-port');
+        return this.getOptionalIntInput('static-site-port');
     }
 
     public getRunId(): number {
@@ -90,10 +90,10 @@ export class GHTaskConfig extends TaskConfig {
     public getInputName(key: TaskInputKey): string {
         const keyToName = {
             HostingMode: 'hosting-mode',
-            StaticSiteDir: 'site-dir',
-            StaticSiteUrlRelativePath: 'scan-url-relative-path',
+            StaticSiteDir: 'static-site-dir',
+            StaticSiteUrlRelativePath: 'static-site-url-relative-path',
             Url: 'url',
-            StaticSitePort: 'localhost-port',
+            StaticSitePort: 'static-site-port',
         };
         return keyToName[key];
     }

@@ -34,7 +34,7 @@ jobs:
       uses: ./packages/gh-action/
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        site-dir: ${{ github.workspace }}/dev/website-root
+        static-site-dir: ${{ github.workspace }}/dev/website-root
 
     - name: Upload report artifact
       uses: actions/upload-artifact@v1.0.0

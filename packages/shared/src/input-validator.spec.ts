@@ -28,7 +28,7 @@ describe(InputValidator, () => {
     describe('validate', () => {
         it('input configuration fail if siteDir and url are set at the same time', () => {
             setUpHostingMode(undefined);
-            setupGetStaticSiteDir('site-dir');
+            setupGetStaticSiteDir('static-site-dir');
             setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
@@ -88,7 +88,7 @@ describe(InputValidator, () => {
 
         it('input configuration fail if url is set in staticSite mode', () => {
             setUpHostingMode('staticSite');
-            setupGetStaticSiteDir('site-dir');
+            setupGetStaticSiteDir('static-site-dir');
             setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
@@ -108,7 +108,7 @@ describe(InputValidator, () => {
 
         it('input configuration fail if static inputs are set in dynamicSite mode', () => {
             setUpHostingMode('dynamicSite');
-            setupGetStaticSiteDir('site-dir');
+            setupGetStaticSiteDir('static-site-dir');
             setupGetStaticSiteUrlRelativePath('non-default-static-site-url-relative-path');
             setupGetStaticSitePort(100);
             setupGetUrl('url');
@@ -143,7 +143,7 @@ describe(InputValidator, () => {
 
         it('input configuration succeeded if correct static configuration', () => {
             setUpHostingMode('staticSite');
-            setupGetStaticSiteDir('site-dir');
+            setupGetStaticSiteDir('static-site-dir');
             setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl(undefined);

@@ -8,11 +8,11 @@ inputs:
         description: 'Folder containing the scan report.'
         default: '_accessibility-reports'
         required: true
-    site-dir:
+    static-site-dir:
         description: 'Folder containing website content.'
         default: ${{ github.workspace }}
         required: true
-    scan-url-relative-path:
+    static-site-url-relative-path:
         description: 'Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows'
         required: true
         default: '/'
@@ -38,7 +38,7 @@ inputs:
     input-urls:
         description: 'List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space.'
         required: false
-    localhost-port:
+    static-site-port:
         description: 'The preferred local website TCP port to use when scanning local website content.'
         required: false
     scan-timeout:
@@ -77,8 +77,8 @@ runs:
           shell: bash
           env:
               INPUT_OUTPUT-DIR: ${{ inputs.output-dir }}
-              INPUT_SITE-DIR: ${{ inputs.site-dir }}
-              INPUT_SCAN-URL-RELATIVE-PATH: ${{ inputs.scan-url-relative-path }}
+              INPUT_STATIC-SITE-DIR: ${{ inputs.static-site-dir }}
+              INPUT_STATIC-SITE-URL-RELATIVE-PATH: ${{ inputs.static-site-url-relative-path }}
               INPUT_CHROME-PATH: ${{ inputs.chrome-path }}
               INPUT_REPO-TOKEN: ${{ inputs.repo-token }}
               INPUT_URL: ${{ inputs.url }}
@@ -86,5 +86,5 @@ runs:
               INPUT_DISCOVERY-PATTERNS: ${{ inputs.discovery-patterns }}
               INPUT_INPUT-FILE: ${{ inputs.input-file }}
               INPUT_INPUT-URLS: ${{ inputs.input-urls }}
-              INPUT_LOCALHOST-PORT: ${{ inputs.localhost-port }}
+              INPUT_STATIC-SITE-PORT: ${{ inputs.static-site-port }}
               INPUT_SCAN-TIMEOUT: ${{ inputs.scan-timeout }}
