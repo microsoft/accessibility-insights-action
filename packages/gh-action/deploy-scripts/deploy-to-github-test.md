@@ -1,3 +1,8 @@
+<!--
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT License.
+-->
+
 # Deploying to GitHub
 
 Sometimes you might want to test your local GitHub action changes in the remote runner.
