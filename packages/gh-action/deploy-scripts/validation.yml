@@ -1,0 +1,17 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+on: [push]
+
+jobs:
+    action_run:
+        runs-on: ubuntu-latest
+        name: Run test deployment of action
+        steps:
+            - uses: actions/checkout@v3
+            - name: Scan local website for accessibility issues
+              uses: ./
+              with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  static-site-dir: ${{ github.workspace }}/dev/website-root
+                  static-site-port: 53800
