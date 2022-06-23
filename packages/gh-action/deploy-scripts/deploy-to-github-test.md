@@ -11,7 +11,8 @@ You can do so by running the following commands in PowerShell (tested on a Windo
 
 Prerequisites:
 
--   install the [GitHub CLI](https://cli.github.com/) once & ensure you're logged into the right account
+- install the [GitHub CLI](https://cli.github.com/) once & ensure you're logged into the right account
+- git version >= 2.28.0 required for "-b" option in "git init"
 
 ## How the script works
 
