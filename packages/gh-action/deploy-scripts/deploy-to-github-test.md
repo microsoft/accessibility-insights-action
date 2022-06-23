@@ -7,7 +7,7 @@ Licensed under the MIT License.
 
 Sometimes you might want to test your local GitHub action changes in the remote runner.
 
-You can do so by running the following commands in your terminal (e.g. PowerShell).
+You can do so by running the following commands in PowerShell (tested on a Windows machine with PS 5.1). Other environments might require small tweaks to the commands below.
 
 Prerequisites:
 
