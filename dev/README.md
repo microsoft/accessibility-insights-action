@@ -29,7 +29,7 @@ To make a change, you can follow these steps:
 
 # Deploy GitHub Action to your own test repo
 
-You can follow the instructions [here](../packages/gh-action/deploy-scripts/deploy-to-github-test.md).
+You can follow the [instructions to deploy to GitHub](../packages/gh-action/deploy-scripts/deploy-to-github-test.md).
 
 # Run GitHub Actions locally
 
