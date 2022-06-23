@@ -8,7 +8,7 @@
         "build": "webpack --config ./webpack.config.js && node prepare-package-dir.js",
         "watch:build": "webpack --config ./webpack.config.js --watch",
         "cbuild": "npm-run-all --serial clean build",
-        "clean": "rimraf dist test-results accessibility-insights-action/dist",
+        "clean": "rimraf dist dist-test-deployment test-results accessibility-insights-action/dist",
         "lint:check": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\"",
         "lint:fix": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\" --quiet --fix",
         "test": "jest",
