@@ -15,7 +15,7 @@ Prerequisites:
 
 ## How the script works
 
-This script populates a new folder called `dist-test-deployment` that contains a built version of the action. It then pushes this folder to a new **public GitHub repository** inside your account. The repo includes a GitHub workflow file that self-tests the action, so upon repo creation you can immediately see the action running.
+This script populates a new folder called `dist-test-deployment` that contains a built version of the action. It then pushes this folder to a new **private GitHub repository** inside your account. The repo includes a GitHub workflow file that self-tests the action, so upon repo creation you can immediately see the action running.
 
 ## When you're ready to deploy
 
@@ -36,7 +36,7 @@ git -C dist-test-deployment init -b main
 git -C dist-test-deployment add .
 git -C dist-test-deployment commit -m "adding all files"
 
-gh repo create accessibility-insights-action-test-deployment --source=dist-test-deployment --public --push
+gh repo create accessibility-insights-action-test-deployment --source=dist-test-deployment --private --push
 ```
 
 ## To update the remote repo
