@@ -22,7 +22,7 @@ jobs:
     - name: Setup node
       uses: actions/setup-node@v1
       with:
-        node-version: 12.x
+        node-version: 16.x
       
     - name: Install dependencies
       run: yarn install --frozen-lockfile
@@ -37,6 +37,7 @@ jobs:
         static-site-dir: ${{ github.workspace }}/dev/website-root
 
     - name: Upload report artifact
+      if: success() || failure()
       uses: actions/upload-artifact@v1.0.0
       with:
         name: accessibility-reports

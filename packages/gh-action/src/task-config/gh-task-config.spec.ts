@@ -61,6 +61,9 @@ describe(GHTaskConfig, () => {
         ${'hosting-mode'}                  | ${'staticSite'}        | ${'staticSite'}                                            | ${() => taskConfig.getHostingMode()}
         ${'hosting-mode'}                  | ${'dynamicSite'}       | ${'dynamicSite'}                                           | ${() => taskConfig.getHostingMode()}
         ${'hosting-mode'}                  | ${''}                  | ${undefined}                                               | ${() => taskConfig.getHostingMode()}
+        ${'fail-on-accessibility-error'}   | ${'true'}              | ${true}                                                    | ${() => taskConfig.getFailOnAccessibilityError()}
+        ${'fail-on-accessibility-error'}   | ${''}                  | ${true}                                                    | ${() => taskConfig.getFailOnAccessibilityError()}
+        ${'fail-on-accessibility-error'}   | ${'false'}             | ${false}                                                   | ${() => taskConfig.getFailOnAccessibilityError()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
