@@ -107,6 +107,11 @@ export class GHTaskConfig extends TaskConfig {
         return url;
     }
 
+    public getFailOnAccessibilityError(): boolean {
+        const value = this.actionCoreObj.getInput('fail-on-accessibility-error');
+        return isEmpty(value) || value.toLowerCase().trim() !== 'false' ? true : false;
+    }
+
     private getAbsolutePath(path: string | undefined): string | undefined {
         if (isEmpty(path)) {
             return undefined;

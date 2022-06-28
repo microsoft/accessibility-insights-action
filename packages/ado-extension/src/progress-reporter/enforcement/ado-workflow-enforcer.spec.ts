@@ -7,13 +7,13 @@ import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 
 import { BaselineEvaluation, BaselineFileContent } from 'accessibility-insights-scan';
-import { WorkflowEnforcer } from './workflow-enforcer';
+import { AdoWorkflowEnforcer } from './ado-workflow-enforcer';
 import { RecordingTestLogger } from '@accessibility-insights-action/shared';
 
-describe(WorkflowEnforcer, () => {
+describe(AdoWorkflowEnforcer, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let logger: RecordingTestLogger;
-    let testSubject: WorkflowEnforcer;
+    let testSubject: AdoWorkflowEnforcer;
 
     const reportWithErrors = {
         results: {
@@ -40,7 +40,7 @@ describe(WorkflowEnforcer, () => {
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
         logger = new RecordingTestLogger();
-        testSubject = new WorkflowEnforcer(adoTaskConfigMock.object, logger);
+        testSubject = new AdoWorkflowEnforcer(adoTaskConfigMock.object, logger);
     });
 
     describe('completeRun', () => {

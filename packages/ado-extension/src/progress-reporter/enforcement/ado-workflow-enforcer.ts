@@ -8,7 +8,7 @@ import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 
 @injectable()
-export class WorkflowEnforcer extends ProgressReporter {
+export class AdoWorkflowEnforcer extends ProgressReporter {
     private scanSucceeded = true;
 
     constructor(

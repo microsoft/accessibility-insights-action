@@ -9,7 +9,7 @@ import { iocTypes, setupSharedIocContainer } from '@accessibility-insights-actio
 import { ADOTaskConfig } from '../task-config/ado-task-config';
 import { AdoIocTypes } from './ado-ioc-types';
 import { ADOArtifactsInfoProvider } from '../ado-artifacts-info-provider';
-import { WorkflowEnforcer } from '../progress-reporter/enforcement/workflow-enforcer';
+import { AdoWorkflowEnforcer } from '../progress-reporter/enforcement/ado-workflow-enforcer';
 import { AdoConsoleCommentCreator } from '../progress-reporter/console/ado-console-comment-creator';
 import { TelemetryClientFactory } from '../telemetry/telemetry-client-factory';
 import { TelemetrySender } from '../progress-reporter/telemetry/telemetry-sender';
@@ -21,7 +21,7 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
     container.bind(AdoIocTypes.AppInsights).toConstantValue(AppInsights);
     container.bind(iocTypes.TaskConfig).to(ADOTaskConfig).inSingletonScope();
     container.bind(AdoConsoleCommentCreator).toSelf().inSingletonScope();
-    container.bind(WorkflowEnforcer).toSelf().inSingletonScope();
+    container.bind(AdoWorkflowEnforcer).toSelf().inSingletonScope();
     container.bind(TelemetrySender).toSelf().inSingletonScope();
     container
         .bind(iocTypes.ProgressReporters)
@@ -29,7 +29,7 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
             return [
                 context.container.get(AdoConsoleCommentCreator),
                 context.container.get(TelemetrySender),
-                context.container.get(WorkflowEnforcer),
+                context.container.get(AdoWorkflowEnforcer),
             ];
         })
         .inSingletonScope();
