@@ -31,11 +31,6 @@ export class GHTaskConfig extends TaskConfig {
         return this.getOptionalStringInput('static-site-url-relative-path');
     }
 
-    public getToken(): string {
-        // Relying on action.yml to make this required
-        return this.getOptionalStringInput('repo-token');
-    }
-
     public getChromePath(): string | undefined {
         return this.getOptionalPathInput('chrome-path') ?? this.processObj.env.CHROME_BIN;
     }

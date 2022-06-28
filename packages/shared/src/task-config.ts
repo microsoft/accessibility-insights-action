@@ -13,7 +13,6 @@ export abstract class TaskConfig {
     abstract getStaticSiteUrlRelativePath(): string | undefined;
     abstract getSingleWorker(): boolean;
     abstract getBaselineFile(): string | undefined;
-    abstract getToken(): string | undefined;
     abstract getChromePath(): string | undefined;
     abstract getUrl(): string | undefined;
     abstract getMaxUrls(): number;

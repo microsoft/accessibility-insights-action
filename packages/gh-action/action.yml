@@ -19,9 +19,6 @@ inputs:
     chrome-path:
         description: 'Path to Chrome executable.'
         required: false
-    repo-token:
-        description: 'GitHub API access token.'
-        required: true
     url:
         description: 'The hosted URL to scan/crawl for accessibility issues.'
         required: false
@@ -84,7 +81,6 @@ runs:
               INPUT_STATIC-SITE-DIR: ${{ inputs.static-site-dir }}
               INPUT_STATIC-SITE-URL-RELATIVE-PATH: ${{ inputs.static-site-url-relative-path }}
               INPUT_CHROME-PATH: ${{ inputs.chrome-path }}
-              INPUT_REPO-TOKEN: ${{ inputs.repo-token }}
               INPUT_URL: ${{ inputs.url }}
               INPUT_MAX-URLS: ${{ inputs.max-urls }}
               INPUT_DISCOVERY-PATTERNS: ${{ inputs.discovery-patterns }}
