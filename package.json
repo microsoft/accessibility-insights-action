@@ -82,6 +82,7 @@
         "nth-check": ">=2.0.1",
         "tar": ">=6.1.9",
         "**/tfx-cli/shelljs": "^0.8.5",
-        "underscore": "1.12.1"
+        "underscore": "1.12.1",
+        "node-fetch": "2.6.7"
     }
 }
