@@ -3,7 +3,6 @@
 import 'reflect-metadata';
 
 import * as github from '@actions/github';
-import { Octokit } from '@octokit/rest';
 import { Container } from 'inversify';
 import { setupIocContainer } from './setup-ioc-container';
 import { iocTypes } from '@accessibility-insights-action/shared';
@@ -18,16 +17,12 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([
-        GHWorkflowEnforcer,
-        ConsoleCommentCreator,
-        iocTypes.TaskConfig,
-        iocTypes.ProgressReporters,
-        Octokit,
-        iocTypes.ArtifactsInfoProvider,
-    ])('verify singleton resolution %p', (key: any) => {
-        verifySingletonDependencyResolution(testSubject, key);
-    });
+    test.each([GHWorkflowEnforcer, ConsoleCommentCreator, iocTypes.TaskConfig, iocTypes.ProgressReporters, iocTypes.ArtifactsInfoProvider])(
+        'verify singleton resolution %p',
+        (key: any) => {
+            verifySingletonDependencyResolution(testSubject, key);
+        },
+    );
     test.each([{ key: GitHubIocTypes.Github, value: github }])(
         'verify constant value resolution %s',
         (pair: { key: string; value: any }) => {

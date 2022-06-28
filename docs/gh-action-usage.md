@@ -48,7 +48,6 @@ jobs:
             - name: Scan for accessibility issues
               uses: microsoft/accessibility-insights-action@v2
               with:
-                  repo-token: ${{ secrets.GITHUB_TOKEN }}
                   # Provide either static-site-dir or url
                   # static-site-dir: ${{ github.workspace }}/path-to-built-website
                   # url: your-website-url
@@ -81,7 +80,6 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
 - name: Scan for accessibility issues
   uses: microsoft/accessibility-insights-action@v2
   with:
-      repo-token: ${{ secrets.GITHUB_TOKEN }}
       static-site-dir: ${{ github.workspace }}/website/root
       static-site-url-relative-path: / # use // if windows agent
 ```

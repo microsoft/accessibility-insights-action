@@ -42,10 +42,6 @@ export class ADOTaskConfig extends TaskConfig {
         return this.adoTaskObj.getInput('staticSiteUrlRelativePath')!;
     }
 
-    public getToken(): string | undefined {
-        return this.adoTaskObj.getInput('repoToken') || undefined;
-    }
-
     public getChromePath(): string | undefined {
         let chromePath = this.adoTaskObj.getInput('chromePath') || undefined;
         chromePath = this.getAbsolutePath(chromePath);

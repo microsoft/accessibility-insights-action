@@ -33,7 +33,6 @@ jobs:
     - name: Scan test site
       uses: ./packages/gh-action/
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
         static-site-dir: ${{ github.workspace }}/dev/website-root
 
     - name: Upload report artifact

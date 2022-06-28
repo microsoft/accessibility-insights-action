@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as github from '@actions/github';
-import { Octokit } from '@octokit/rest';
 import * as inversify from 'inversify';
 import { iocTypes, setupSharedIocContainer } from '@accessibility-insights-action/shared';
 import { GHTaskConfig } from '../task-config/gh-task-config';
@@ -30,14 +29,6 @@ export function setupIocContainer(container = new inversify.Container({ autoBind
         })
         .inSingletonScope();
 
-    container
-        .bind(Octokit)
-        .toDynamicValue((context) => {
-            const taskConfig = context.container.get(GHTaskConfig);
-
-            return new Octokit({ auth: taskConfig.getToken() });
-        })
-        .inSingletonScope();
     container.bind(iocTypes.ArtifactsInfoProvider).to(GitHubArtifactsInfoProvider).inSingletonScope();
 
     return container;
