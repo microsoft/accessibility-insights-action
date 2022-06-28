@@ -31,7 +31,7 @@
         "@types/react": "^16.14",
         "@types/react-dom": "^16.9",
         "accessibility-insights-report": "4.2.2",
-        "accessibility-insights-scan": "0.10.4",
+        "accessibility-insights-scan": "1.1.0",
         "axe-core": "4.3.2",
         "express": "^4.18.1",
         "filenamify-url": "^3.0.0",
