@@ -48,4 +48,13 @@ describe(adoStdoutTransformer, () => {
         const output = adoStdoutTransformer(input);
         expect(output).toBe(expectedOutput);
     });
+
+    it('CLI option is removed from logs', () => {
+        const input =
+            'To update the baseline with these changes, either rerun with --updateBaseline or copy the updated baseline file to /path/to/test.baseline';
+
+        const output = adoStdoutTransformer(input);
+
+        expect(output).toBe('##[debug]To update the baseline with these changes, copy the updated baseline file to /path/to/test.baseline');
+    });
 });
