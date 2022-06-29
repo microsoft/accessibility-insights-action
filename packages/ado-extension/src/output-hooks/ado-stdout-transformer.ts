@@ -6,7 +6,6 @@ const debugPrefix = '##[debug]';
 type RegexTransformation = {
     regex: RegExp;
     method: (rawData: string, regex?: RegExp) => string;
-    prependDebugPrefix?: boolean;
 };
 
 const regexTransformations: RegexTransformation[] = [
@@ -59,19 +58,14 @@ const regexTransformations: RegexTransformation[] = [
         regex: new RegExp('^\u001B\\[32mINFO\u001b\\[39m '), // Includes escape characters used for color formatting)
         method: replaceFirstMatchWithDebugPrefix,
     },
-    {
-        regex: new RegExp('either rerun with --updateBaseline or '),
-        method: removeFirstMatch,
-        prependDebugPrefix: true,
-    },
 ];
 
 export const adoStdoutTransformer = (rawData: string): string | null => {
-    for (const transformation of regexTransformations) {
-        const newData = regexTransformation(rawData, transformation.regex, transformation.method);
+    for (const startSubstitution of regexTransformations) {
+        const newData = regexTransformation(rawData, startSubstitution.regex, startSubstitution.method);
 
         if (newData) {
-            return transformation.prependDebugPrefix ? prependDebugPrefix(newData) : newData;
+            return newData;
         }
     }
 
@@ -92,27 +86,27 @@ function useUnmodifiedString(input: string): string {
 }
 
 function removeFirstMatch(input: string, regex: RegExp): string {
-    return `${input.replace(regex, '')}`;
+    return `${input.replace(regex, '$`')}`;
 }
 
 function replaceFirstMatchWithDebugPrefix(input: string, regex: RegExp): string {
-    return `${debugPrefix}${input.replace(regex, '')}`;
+    return `${debugPrefix}${input.replace(regex, '$`')}`;
 }
 
 function replaceFirstMatchWithWarningPrefix(input: string, regex: RegExp): string {
-    return `##[warning]${input.replace(regex, '')}`;
+    return `##[warning]${input.replace(regex, '$`')}`;
 }
 
 function replaceFirstMatchWithErrorPrefix(input: string, regex: RegExp): string {
-    return `##[error]${input.replace(regex, '')}`;
+    return `##[error]${input.replace(regex, '$`')}`;
 }
 
 function replaceFirstMatchWithGroupPrefix(input: string, regex: RegExp): string {
-    return `##[group]${input.replace(regex, '')}`;
+    return `##[group]${input.replace(regex, '$`')}`;
 }
 
 function replaceFirstMatchWithEndgroupPrefix(input: string, regex: RegExp): string {
-    return `##[endgroup]${input.replace(regex, '')}`;
+    return `##[endgroup]${input.replace(regex, '$`')}`;
 }
 
 function prependDebugPrefix(input: string): string {
