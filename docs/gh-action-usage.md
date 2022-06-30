@@ -7,8 +7,8 @@ Licensed under the MIT License.
 
 To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
 
--   `microsoft/accessibility-insights-action@v2` is updated with each `v2.x.y` release to refer to the most recent API-compatible version.
--   `microsoft/accessibility-insights-action@v2.2.0` refers to the exact version `v2.2.0`; use this to pin to a specific version.
+-   `microsoft/accessibility-insights-action@v3` is updated with each `v3.x.y` release to refer to the most recent API-compatible version.
+-   `microsoft/accessibility-insights-action@v3.0.0` refers to the exact version `v3.0.0`; use this to pin to a specific version.
 
 Avoid referring to `@main` directly; it may contain undocumented breaking changes.
 
@@ -16,12 +16,12 @@ Avoid referring to `@main` directly; it may contain undocumented breaking change
 
 Reference this action in your GitHub workflow with the snippets on this page.
 
--   See [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/v2/action.yml) for option descriptions. Make sure you view the correct source file for your version (e.g. v2 in the URL)
+-   See [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/v3/action.yml) for option descriptions. Make sure you view the correct source file for your version (e.g. v3 in the URL)
 -   See [GitHub's documentation](https://docs.github.com/en/actions/learn-github-actions/introduction-to-github-actions#create-an-example-workflow) for a primer on GitHub actions.
 
 ### Basic template
 
-Save this workflow file in your GitHub repo as `.github/workflows/accessibility-validation.yml`. This template saves results to `output-dir` (default: `_accessibility-reports`) and uploads an artifact to the check run.
+Save this workflow file in your GitHub repo as `.github/workflows/accessibility-validation.yml`. This template saves results to `output-dir` (default: `_accessibility-reports`) and uploads an artifact to the job summary.
 
 When you push this file to your repository, you should see the action running on the [Actions tab](https://docs.github.com/en/actions/quickstart#viewing-your-workflow-results).
 
@@ -41,19 +41,26 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
 
             # Insert any jobs here required to build your website files
 
             - name: Scan for accessibility issues
-              uses: microsoft/accessibility-insights-action@v2
+              uses: microsoft/accessibility-insights-action@v3
               with:
                   # Provide either static-site-dir or url
                   # static-site-dir: ${{ github.workspace }}/path-to-built-website
                   # url: your-website-url
 
+                  # Provide any additional inputs here
+                  # fail-on-accessibility-error: false
+
             - name: Upload report artifact
-              uses: actions/upload-artifact@v2
+              if: success() || failure()
+              uses: actions/upload-artifact@v3
               with:
                   name: accessibility-reports
                   path: ${{ github.workspace }}/_accessibility-reports
@@ -65,7 +72,7 @@ Provide the website URL. The URL should already be hosted - something like `http
 
 ```yml
 - name: Scan for accessibility issues
-  uses: microsoft/accessibility-insights-action@v2
+  uses: microsoft/accessibility-insights-action@v3
   with:
       url: http://localhost:12345/
 ```
@@ -78,7 +85,7 @@ Provide the location of your built HTML files using `site-dir` and (optionally) 
 
 ```yml
 - name: Scan for accessibility issues
-  uses: microsoft/accessibility-insights-action@v2
+  uses: microsoft/accessibility-insights-action@v3
   with:
       static-site-dir: ${{ github.workspace }}/website/root
       static-site-url-relative-path: / # use // if windows agent
@@ -93,7 +100,7 @@ Generally `/` on Ubuntu and `//` on Windows are good defaults for `static-site-u
 
 ### Modify crawling options
 
-The action supports several crawling options defined in [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/v2/action.yml).
+The action supports several crawling options defined in [action.yml](https://github.com/microsoft/accessibility-insights-action/blob/v3/action.yml).
 
 For instance, you can:
 
@@ -106,7 +113,7 @@ Examples:
 
 ```yml
 - name: Scan for accessibility issues (with url)
-  uses: microsoft/accessibility-insights-action@v2
+  uses: microsoft/accessibility-insights-action@3
   with:
       url: http://localhost:12345/
       input-urls: http://localhost:12345/other-url http://localhost:12345/other-url2
@@ -114,7 +121,7 @@ Examples:
 
 ```yml
 - name: Scan for accessibility issues (with static-site-dir)
-  uses: microsoft/accessibility-insights-action@v2
+  uses: microsoft/accessibility-insights-action@v3
   with:
       static-site-dir: ${{ github.workspace }}/website/root
       static-site-port: 12345
@@ -124,7 +131,9 @@ Examples:
 ## Viewing results
 
 -   In the GitHub [Actions tab](https://docs.github.com/en/actions/quickstart#viewing-your-workflow-results), select the workflow run you're interested in. The summary page contains an artifact. If you download and extract the contents of that folder, you'll find an `index.html` report with detailed results.
--   Get a summary of results in the job's task log.
+-   There are two places in which you can view a summary of the accessibility issues found:
+    -   The summary page for the workflow run.
+    -   The job's task log.
 
 ## Blocking pull requests
 
