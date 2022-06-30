@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { stdoutPreprocessor } from '@accessibility-insights-action/shared';
+
 const debugPrefix = '##[debug]';
 
 type RegexTransformation = {
@@ -60,16 +62,17 @@ const regexTransformations: RegexTransformation[] = [
     },
 ];
 
-export const adoStdoutTransformer = (rawData: string): string | null => {
+export const adoStdoutTransformer = (rawData: string, preprocessor: (data: string) => string = stdoutPreprocessor): string | null => {
+    const data = preprocessor(rawData);
     for (const startSubstitution of regexTransformations) {
-        const newData = regexTransformation(rawData, startSubstitution.regex, startSubstitution.method);
+        const newData = regexTransformation(data, startSubstitution.regex, startSubstitution.method);
 
         if (newData) {
             return newData;
         }
     }
 
-    return prependDebugPrefix(rawData);
+    return prependDebugPrefix(data);
 };
 
 const regexTransformation = (input: string, regex: RegExp, modifier: (input: string, regex?: RegExp) => string): string | null => {

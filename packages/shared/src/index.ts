@@ -18,6 +18,7 @@ export { ArtifactsInfoProvider } from './artifacts-info-provider';
 export { hookStdout } from './output-hooks/hook-stdout';
 export { hookStderr } from './output-hooks/hook-stderr';
 export { StreamTransformer } from './output-hooks/stream-transformer';
+export { stdoutPreprocessor } from './output-hooks/stdout-preprocessor';
 export { ExitCode } from './exit-code';
 export { TelemetryClient } from './telemetry/telemetry-client';
 export { TelemetryEvent } from './telemetry/telemetry-event';
