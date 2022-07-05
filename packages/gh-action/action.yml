@@ -53,6 +53,9 @@ inputs:
         description: 'Fail the build if there are accessibility issues.'
         required: true
         default: true
+    hosting-mode:
+        description: 'Your site must be served (hosted) before it can be scanned. In _Static Site_ mode, this task will run a localhost web server serving your site directory and scan that. In _Dynamic Site_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment).'
+        required: false
 runs:
     using: 'composite'
     steps:
@@ -89,3 +92,4 @@ runs:
               INPUT_STATIC-SITE-PORT: ${{ inputs.static-site-port }}
               INPUT_SCAN-TIMEOUT: ${{ inputs.scan-timeout }}
               INPUT_FAIL-ON-ACCESSIBILITY-ERROR: ${{ inputs.fail-on-accessibility-error }}
+              INPUT_HOSTING-MODE: ${{ inputs.hosting-mode }}
