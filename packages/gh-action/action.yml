@@ -10,11 +10,10 @@ inputs:
         required: true
     static-site-dir:
         description: 'Folder containing website content.'
-        default: ${{ github.workspace }}
-        required: true
+        required: false
     static-site-url-relative-path:
         description: 'Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows'
-        required: true
+        required: false
         default: '/'
     chrome-path:
         description: 'Path to Chrome executable.'
