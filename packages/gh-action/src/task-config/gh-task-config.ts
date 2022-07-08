@@ -19,7 +19,7 @@ export class GHTaskConfig extends TaskConfig {
     }
 
     public getReportOutDir(): string {
-        // Relying on action.yml to make this required
+        // Relying on action.yml to provide a default if necessary
         return this.getOptionalPathInput('output-dir');
     }
 
@@ -117,6 +117,8 @@ export class GHTaskConfig extends TaskConfig {
         return normalizePath(this.resolvePath(dirname, normalizePath(path)));
     }
 
+    // We must assume that every input may be optional due to https://github.com/actions/runner/issues/1070,
+    // regardless of whether it was specified as required in action.yml
     private getOptionalPathInput(inputName: string): string | undefined {
         const rawValue = this.actionCoreObj.getInput(inputName);
         return this.getAbsolutePath(rawValue);

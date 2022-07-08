@@ -7,6 +7,7 @@ Licensed under the MIT License.
 
 To use this action in your workflow (which, again, we don't yet recommend at all for any production projects), we recommend referring to a version tag:
 
+-   To migrate from version 2, see [Migrating from version 2 to version 3](#migrating-from-version-2-to-version-3)
 -   `microsoft/accessibility-insights-action@v3` is updated with each `v3.x.y` release to refer to the most recent API-compatible version.
 -   `microsoft/accessibility-insights-action@v3.0.0` refers to the exact version `v3.0.0`; use this to pin to a specific version.
 
@@ -77,25 +78,25 @@ Provide the website URL. The URL should already be hosted - something like `http
       url: http://localhost:12345/
 ```
 
-The `url` parameter takes priority over `site-dir`. If `url` is provided, static file options like `site-dir` and `static-site-url-relative-path` are ignored.
+The `url` parameter takes priority over `static-site-dir`. If `url` is provided, static file options like `static-site-dir` and `static-site-url-relative-path` are ignored.
 
 ### Scan local HTML files
 
-Provide the location of your built HTML files using `site-dir` and (optionally) `static-site-url-relative-path`. The action will serve the site for you using `express`.
+Provide the location of your built HTML files using `static-site-dir` and (optionally) `static-site-url-relative-path`. The action will serve the site for you using `express`.
 
 ```yml
 - name: Scan for accessibility issues
   uses: microsoft/accessibility-insights-action@v3
   with:
       static-site-dir: ${{ github.workspace }}/website/root
-      static-site-url-relative-path: / # use // if windows agent
+      static-site-url-relative-path: /
 ```
 
-The file server will host files inside `site-dir`. The action begins crawling from `http://localhost:port/static-site-url-relative-path/`.
+The file server will host files inside `static-site-dir`. The action begins crawling from `http://localhost:port/static-site-url-relative-path/`.
 
-Generally `/` on Ubuntu and `//` on Windows are good defaults for `static-site-url-relative-path`. If you prefer to start crawling from a child directory, note that:
+If you prefer to start crawling from a child directory, note that:
 
--   the local file server can only host descendants of `site-dir`
+-   the local file server can only host descendants of `static-site-dir`
 -   By default, the crawler only visits links prefixed with `http://localhost:port/static-site-url-relative-path/`. If you want to crawl links outside `static-site-url-relative-path`, provide something like `discovery-patterns: http://localhost:port/[.*]`
 
 ### Modify crawling options
@@ -113,7 +114,7 @@ Examples:
 
 ```yml
 - name: Scan for accessibility issues (with url)
-  uses: microsoft/accessibility-insights-action@3
+  uses: microsoft/accessibility-insights-action@v3
   with:
       url: http://localhost:12345/
       input-urls: http://localhost:12345/other-url http://localhost:12345/other-url2
@@ -141,11 +142,30 @@ You can choose to block pull requests if the action finds accessibility issues.
 
 1. Ensure the action is [triggered on each pull request](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#configuring-workflow-events).
 2. [Create a branch protection rule](https://docs.github.com/en/github/administering-a-repository/managing-a-branch-protection-rule#creating-a-branch-protection-rule) that requires the accessibility check to pass for a pull request to be merged.
+3. Ensure that the `fail-on-accessibility-error` input variable is not set to `false`.
+
+## Migrating from version 2 to version 3
+
+Version 3.x of the action contains several breaking changes from version 2.x. To migrate, you will need to make a few adjustments:
+
+1. The Accessibility Insights action no longer requires extra GitHub permissions to work
+    - If you previously specified a `repo-token` input, you should remove it.
+2. The action inputs related to specifying a "static" site to scan (`site-dir`, `localhost-port`, and `scan-url-relative-path`) have changed to make it more clear that they are related (and mutually exclusive with `url`).
+    - If you previously specified a `site-dir`, you should:
+        - Rename your existing `site-dir` input to `static-site-dir`
+        - Rename your existing `localhost-port` input to `static-site-port` (if specified)
+        - Rename your existing `scan-url-relative-path` input to `static-site-url-relative-path` (if specified)
+    - If you previously specified _both_ `url` and `site-dir`, you had a misconfiguration - these inputs were mutually exclusive, and the `url` input was being silently ignored. Remove the `url` input and follow the instructions above for `site-dir`.
+    - If you previously specified just `url` and not `site-dir`, you should leave the original `url` input as-is
+    - There is now an optional "Hosting Mode" input to make it more clear which options can be used together.
+        - When `hosting-mode` is set to `staticSite`, `static-site-dir` must be set, and `url` must not be set.
+        - When `hosting-mode` is set to `dynamicSite`, `url` must be set, and `static-site-dir`, `static-site-port`, and `static-site-url-relative-path` must not be set.
+3. By default, the action now fails if it detects an accessibility failure
+    - If you would prefer to not have accessibility issues treated as a failure, you can add `fail-on-accessibility-error: false`
 
 ## Troubleshooting
 
 -   If the action didn't trigger as you expected, go to the ["on" section](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#on) of your yml file. Make sure any listed branch names are correct for your repository.
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
 -   If you can't find an artifact, note that your workflow must include an `actions/upload-artifact` step to add the report folder to your check results. See the "Basic template" above.
--   If you're running on a `windows-2019` agent we recommend `//` instead of `/` for `static-site-url-relative-path`.
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scan-timeout`
