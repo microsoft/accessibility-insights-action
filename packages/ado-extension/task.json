@@ -71,6 +71,20 @@
             "visibleRule": "hostingMode = dynamicSite"
         },
         {
+            "name": "userName",
+            "type": "string",
+            "label": "User name",
+            "required": false,
+            "helpMarkDown": "User credentials"
+        },
+        {
+            "name": "password",
+            "type": "string",
+            "label": "Password",
+            "required": false,
+            "helpMarkDown": "User credentials"
+        },
+        {
             "name": "maxUrls",
             "type": "int",
             "label": "Maximum number of URLs",
