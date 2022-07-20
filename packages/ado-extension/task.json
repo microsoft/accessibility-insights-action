@@ -85,6 +85,17 @@
             "helpMarkDown": "User credentials"
         },
         {
+            "name": "authType",
+            "type": "pickList",
+            "label": "Authentication type",
+            "required": false,
+            "defaultValue": "AAD",
+            "options": {
+                "AAD": "Azure Active Directory"
+            },
+            "helpMarkDown": "Authentication type"
+        },
+        {
             "name": "maxUrls",
             "type": "int",
             "label": "Maximum number of URLs",
