@@ -10,5 +10,9 @@
     {
         "name": "failOnAccessibilityError",
         "value": false
+    },
+    {
+        "name": "serviceAccountName",
+        "value": "name"
     }
 ]

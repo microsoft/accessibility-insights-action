@@ -71,14 +71,14 @@
             "visibleRule": "hostingMode = dynamicSite"
         },
         {
-            "name": "userName",
+            "name": "serviceAccountName",
             "type": "string",
             "label": "User name",
             "required": false,
             "helpMarkDown": "User credentials"
         },
         {
-            "name": "password",
+            "name": "serviceAccountPassword",
             "type": "string",
             "label": "Password",
             "required": false,

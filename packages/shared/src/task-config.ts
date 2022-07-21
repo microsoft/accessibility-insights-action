@@ -25,4 +25,7 @@ export abstract class TaskConfig {
     abstract getHostingMode(): string | undefined;
     abstract getInputName(key: TaskInputKey): string;
     abstract getUsageDocsUrl(): string;
+    abstract getServiceAccountName(): string | undefined;
+    abstract getServiceAccountPassword(): string | undefined;
+    abstract getAuthType(): string | undefined;
 }

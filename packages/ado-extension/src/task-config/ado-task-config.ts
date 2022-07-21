@@ -158,6 +158,18 @@ export class ADOTaskConfig extends TaskConfig {
         return normalizePath(this.resolvePath(dirname, normalizePath(path!)));
     }
 
+    public getServiceAccountName(): string | undefined {
+        return this.adoTaskObj.getInput('userName');
+    }
+
+    public getServiceAccountPassword(): string | undefined {
+        return this.adoTaskObj.getInput('password');
+    }
+
+    public getAuthType(): string | undefined {
+        return this.adoTaskObj.getInput('authType');
+    }
+
     public getInputName(key: TaskInputKey): string {
         const keyToName = {
             HostingMode: 'hostingMode',
