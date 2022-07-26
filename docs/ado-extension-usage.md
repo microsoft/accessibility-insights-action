@@ -98,8 +98,8 @@ The action supports several crawling options defined in [task.json](https://gith
 
 For instance, you can:
 
--   use `maxUrls: 1` to turn off crawling
--   include a list of additional URLs to scan (the crawler won't find pages that are unlinked from the base page)
+-   use `maxUrls: 1` to exclusively set the extension to only scan the first Url that has been inputted
+-   set `maxUrls` to the number of URLs in `inputUrls` to scan a fixed list of URLs for your site
 
 For `discoveryPatterns`, `inputFile`, and `inputUrls`, note that these options expect resolved URLs. If you provide static HTML files via `staticSiteDir`, you should also provide `staticSitePort` so that you can anticipate the base URL of the file server (`http://localhost:staticSitePort/`).
 
