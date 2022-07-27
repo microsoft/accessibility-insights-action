@@ -73,16 +73,16 @@
         {
             "name": "serviceAccountName",
             "type": "string",
-            "label": "User name",
+            "label": "Service account name",
             "required": false,
-            "helpMarkDown": "User credentials"
+            "helpMarkDown": "Email address for service account to be used in authentication."
         },
         {
             "name": "serviceAccountPassword",
             "type": "string",
-            "label": "Password",
+            "label": "Service account password",
             "required": false,
-            "helpMarkDown": "User credentials"
+            "helpMarkDown": "Password for service account to be used in authentication."
         },
         {
             "name": "authType",
@@ -92,7 +92,7 @@
             "options": {
                 "AAD": "Azure Active Directory"
             },
-            "helpMarkDown": "Authentication type"
+            "helpMarkDown": "Use with serviceAccountName and serviceAccountPassword to specify the authentication type."
         },
         {
             "name": "maxUrls",
