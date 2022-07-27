@@ -52,9 +52,9 @@ export class CrawlArgumentHandler {
             url: this.taskConfig.getUrl(),
             singleWorker: this.taskConfig.getSingleWorker(),
             baselineFile: this.taskConfig.getBaselineFile() || null,
-            serviceAccountName: this.taskConfig.getServiceAccountName() || null,
-            serviceAccountPassword: this.taskConfig.getServiceAccountPassword() || null,
-            authType: this.taskConfig.getAuthType() || null,
+            serviceAccountName: this.taskConfig.getServiceAccountName() || undefined,
+            serviceAccountPassword: this.taskConfig.getServiceAccountPassword() || undefined,
+            authType: this.taskConfig.getAuthType() || undefined,
         };
 
         return args;
