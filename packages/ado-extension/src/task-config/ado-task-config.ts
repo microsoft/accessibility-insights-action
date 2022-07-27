@@ -159,11 +159,11 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getServiceAccountName(): string | undefined {
-        return this.adoTaskObj.getInput('userName');
+        return this.adoTaskObj.getInput('serviceAccountName');
     }
 
     public getServiceAccountPassword(): string | undefined {
-        return this.adoTaskObj.getInput('password');
+        return this.adoTaskObj.getInput('serviceAccountPassword');
     }
 
     public getAuthType(): string | undefined {

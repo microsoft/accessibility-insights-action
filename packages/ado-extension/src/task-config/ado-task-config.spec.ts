@@ -60,6 +60,12 @@ describe(ADOTaskConfig, () => {
         ${'singleWorker'}              | ${true}             | ${true}                                                 | ${() => taskConfig.getSingleWorker()}
         ${'outputArtifactName'}        | ${'artifact-name'}  | ${'artifact-name'}                                      | ${() => taskConfig.getOutputArtifactName()}
         ${'uploadOutputArtifact'}      | ${true}             | ${true}                                                 | ${() => taskConfig.getUploadOutputArtifact()}
+        ${'serviceAccountName'}        | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getServiceAccountName()}
+        ${'serviceAccountName'}        | ${'name'}           | ${'name'}                                               | ${() => taskConfig.getServiceAccountName()}
+        ${'serviceAccountPassword'}    | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getServiceAccountPassword()}
+        ${'serviceAccountPassword'}    | ${'password'}       | ${'password'}                                           | ${() => taskConfig.getServiceAccountPassword()}
+        ${'authType'}                  | ${undefined}        | ${undefined}                                            | ${() => taskConfig.getAuthType()}
+        ${'authType'}                  | ${'AAD'}            | ${'AAD'}                                                | ${() => taskConfig.getAuthType()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {

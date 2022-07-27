@@ -135,11 +135,11 @@ export class GHTaskConfig extends TaskConfig {
     }
 
     public getServiceAccountName(): string | undefined {
-        return this.getOptionalStringInput('user-name');
+        return this.getOptionalStringInput('service-account-name');
     }
 
     public getServiceAccountPassword(): string | undefined {
-        return this.getOptionalStringInput('password');
+        return this.getOptionalStringInput('service-account-password');
     }
 
     public getAuthType(): string | undefined {

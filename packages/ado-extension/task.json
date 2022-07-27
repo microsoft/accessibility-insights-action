@@ -89,7 +89,6 @@
             "type": "pickList",
             "label": "Authentication type",
             "required": false,
-            "defaultValue": "AAD",
             "options": {
                 "AAD": "Azure Active Directory"
             },
