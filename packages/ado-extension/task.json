@@ -71,6 +71,30 @@
             "visibleRule": "hostingMode = dynamicSite"
         },
         {
+            "name": "serviceAccountName",
+            "type": "string",
+            "label": "Service account name",
+            "required": false,
+            "helpMarkDown": "Email address for service account to be used in authentication."
+        },
+        {
+            "name": "serviceAccountPassword",
+            "type": "string",
+            "label": "Service account password",
+            "required": false,
+            "helpMarkDown": "Password for service account to be used in authentication."
+        },
+        {
+            "name": "authType",
+            "type": "pickList",
+            "label": "Authentication type",
+            "required": false,
+            "options": {
+                "AAD": "Azure Active Directory"
+            },
+            "helpMarkDown": "Use with serviceAccountName and serviceAccountPassword to specify the authentication type."
+        },
+        {
             "name": "maxUrls",
             "type": "int",
             "label": "Maximum number of URLs",

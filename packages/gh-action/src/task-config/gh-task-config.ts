@@ -133,4 +133,16 @@ export class GHTaskConfig extends TaskConfig {
         const rawValue = this.actionCoreObj.getInput(inputName);
         return isEmpty(rawValue) ? undefined : parseInt(rawValue, 10);
     }
+
+    public getServiceAccountName(): string | undefined {
+        return this.getOptionalStringInput('service-account-name');
+    }
+
+    public getServiceAccountPassword(): string | undefined {
+        return this.getOptionalStringInput('service-account-password');
+    }
+
+    public getAuthType(): string | undefined {
+        return this.getOptionalStringInput('auth-type');
+    }
 }
