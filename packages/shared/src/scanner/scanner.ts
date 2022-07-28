@@ -82,7 +82,7 @@ export class Scanner {
 
             this.telemetryClient.trackEvent({ name: 'ScanStart' });
 
-            if (scanArguments.serviceAccountName != undefined) {
+            if (scanArguments.serviceAccountName !== undefined) {
                 this.telemetryClient.trackEvent({ name: 'AuthUsed' });
             }
 
