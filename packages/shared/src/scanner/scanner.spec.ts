@@ -194,6 +194,22 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
+        it('emits the expected pattern of telemetry when service account name is provided', async () => {
+            scanArguments.serviceAccountName = 'name';
+            setupMocksForSuccessfulScan();
+            setupWaitForPromiseToReturnOriginalPromise();
+
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
+
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'AuthUsed' }));
+            telemetryClientMock.setup((m) => m.flush());
+
+            await scanner.scan();
+
+            verifyMocks();
+        });
+
         function setupMocksForSuccessfulScan(baselineEvaluation?: BaselineEvaluation): void {
             taskConfigMock
                 .setup((m) => m.getScanTimeout())

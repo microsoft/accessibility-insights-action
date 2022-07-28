@@ -82,6 +82,10 @@ export class Scanner {
 
             this.telemetryClient.trackEvent({ name: 'ScanStart' });
 
+            if (scanArguments.serviceAccountName !== undefined) {
+                this.telemetryClient.trackEvent({ name: 'AuthUsed' });
+            }
+
             this.logger.logStartGroup(`Scanning URL ${scanArguments.url}`);
             this.logger.logDebug(`Starting accessibility scanning of URL ${scanArguments.url}`);
             this.logger.logDebug(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`);
