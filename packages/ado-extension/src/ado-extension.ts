@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import 'reflect-metadata';
-import './module-name-mapper';
 
 import { ExitCode, hookStderr, hookStdout, Logger, Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
