@@ -24,10 +24,6 @@ module.exports = {
     },
     moduleDirectories: ['node_modules'],
     moduleFileExtensions: ['ts', 'js', 'json'],
-    moduleNameMapper: {
-        'office-ui-fabric-react/lib/(.*)$': 'office-ui-fabric-react/lib-commonjs/$1',
-        '@uifabric/styling': '@uifabric/styling/lib-commonjs',
-    },
     reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/test-results/unit', outputName: 'junit.xml' }]],
     setupFilesAfterEnv: ['jest-extended'],
     transform: {
