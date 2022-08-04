@@ -109,7 +109,7 @@ describe(AdoConsoleCommentCreator, () => {
                 await testSubject.completeRun(reportStub);
 
                 expect(logger.recordedLogs()).toContain(
-                    `[info] ##vso[artifact.upload artifactname=${expectedArtifactName}]${defaultReportOutDir}`,
+                    `[info] ##vso[artifact.upload artifactname=${expectedArtifactName}]${defaultReportOutDir}/index.html`,
                 );
                 verifyAllMocks();
             },
