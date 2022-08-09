@@ -102,8 +102,12 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     private uploadOutputArtifact(artifactName: string | null): void {
         if (artifactName != null) {
             const outputDirectory = this.taskConfig.getReportOutDir();
-            const baselineFilePath = this.taskConfig.getBaselineFile();
+            const baselineInputFilePath = this.taskConfig.getBaselineFile();
+
             const reportFilePath = this.pathObj.join(outputDirectory, 'index.html');
+            const baselineFilePath = baselineInputFilePath
+                ? this.pathObj.join(outputDirectory, this.pathObj.basename(baselineInputFilePath))
+                : undefined;
 
             this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${reportFilePath}`);
 
