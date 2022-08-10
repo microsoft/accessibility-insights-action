@@ -112,7 +112,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
             this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${reportFilePath}`);
 
             // eslint-disable-next-line security/detect-non-literal-fs-filename
-            if (baselineFilePath !== undefined && fs.existsSync(baselineFilePath)) {
+            if (baselineFilePath !== undefined && this.fileSystemObj.existsSync(baselineFilePath)) {
                 this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${baselineFilePath}`);
             }
         }
