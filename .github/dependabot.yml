@@ -45,11 +45,3 @@ updates:
   - dependency-name: marked-terminal
     versions:
     - ">= 5"
-    # get-port v6+ is pure ESM and requires node >= 12.20
-  - dependency-name: get-port
-    versions:
-    - ">= 6"
-    # serialize-error v9+ is pure ESM and requires node >= 12.20
-  - dependency-name: serialize-error
-    versions:
-    - ">= 9"
