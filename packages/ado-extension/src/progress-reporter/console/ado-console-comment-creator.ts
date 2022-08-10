@@ -102,7 +102,19 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
     private uploadOutputArtifact(artifactName: string | null): void {
         if (artifactName != null) {
             const outputDirectory = this.taskConfig.getReportOutDir();
-            this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${outputDirectory}`);
+            const baselineInputFilePath = this.taskConfig.getBaselineFile();
+
+            const reportFilePath = this.pathObj.join(outputDirectory, 'index.html');
+            const baselineFilePath = baselineInputFilePath
+                ? this.pathObj.join(outputDirectory, this.pathObj.basename(baselineInputFilePath))
+                : undefined;
+
+            this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${reportFilePath}`);
+
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            if (baselineFilePath !== undefined && this.fileSystemObj.existsSync(baselineFilePath)) {
+                this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${baselineFilePath}`);
+            }
         }
     }
 

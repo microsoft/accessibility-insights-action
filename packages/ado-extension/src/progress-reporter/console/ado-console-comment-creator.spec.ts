@@ -6,6 +6,7 @@ import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { AdoConsoleCommentCreator } from './ado-console-comment-creator';
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -34,6 +35,7 @@ describe(AdoConsoleCommentCreator, () => {
     const baselineInfoStub = {};
     const reportMarkdownStub = '#ReportMarkdownStub';
     const reportConsoleLogStub = 'Report Console Log Stub';
+    const baselineFilenameStub = 'baselineFilenameStub.baseline';
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>();
@@ -41,7 +43,8 @@ describe(AdoConsoleCommentCreator, () => {
         reportMarkdownConvertorMock = Mock.ofType<ReportMarkdownConvertor>(undefined, MockBehavior.Strict);
         reportConsoleLogConvertorMock = Mock.ofType<ReportConsoleLogConvertor>(undefined, MockBehavior.Strict);
         fsMock = Mock.ofType<typeof fs>();
-        pathStub = { join: (...paths) => paths.join('/') } as typeof path;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        pathStub = { join: (...paths) => paths.join('/'), basename: (filepath) => baselineFilenameStub } as typeof path;
 
         reportMarkdownConvertorMock
             .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
@@ -109,7 +112,7 @@ describe(AdoConsoleCommentCreator, () => {
                 await testSubject.completeRun(reportStub);
 
                 expect(logger.recordedLogs()).toContain(
-                    `[info] ##vso[artifact.upload artifactname=${expectedArtifactName}]${defaultReportOutDir}`,
+                    `[info] ##vso[artifact.upload artifactname=${expectedArtifactName}]${defaultReportOutDir}/index.html`,
                 );
                 verifyAllMocks();
             },
@@ -133,6 +136,63 @@ describe(AdoConsoleCommentCreator, () => {
                 await testSubject.completeRun(reportStub);
 
                 expect(logger.recordedLogs()).not.toContain(/##vso\[artifact.upload/);
+                verifyAllMocks();
+            },
+        );
+
+        it.each`
+            baselineFileExists
+            ${true}
+            ${false}
+        `(
+            'should conditionally upload baseline artifact when filename set: baselineFileExists=$baselineFileExists',
+            async ({ baselineFileExists }) => {
+                setupTaskConfig({
+                    uploadOutputArtifact: true,
+                    outputArtifactName: 'accessibility-reports',
+                    jobAttempt: 1,
+                    baselineFile: baselineFilenameStub,
+                });
+
+                const baselineEvaluationStub = {
+                    suggestedBaselineUpdate: null,
+                    newViolationsByRule: {},
+                    fixedViolationsByRule: {},
+                    totalNewViolations: 1,
+                    totalFixedViolations: 1,
+                } as BaselineEvaluation;
+
+                const baselineInfoWithEvalStub = { baselineFileName: baselineFilenameStub, baselineEvaluation: baselineEvaluationStub };
+
+                reportMarkdownConvertorMock
+                    .setup((o) => o.convert(reportStub, undefined, baselineInfoWithEvalStub))
+                    .returns(() => reportMarkdownStub)
+                    .verifiable(Times.atMostOnce());
+
+                reportConsoleLogConvertorMock
+                    .setup((o) => o.convert(reportStub, undefined, baselineInfoWithEvalStub))
+                    .returns(() => reportConsoleLogStub)
+                    .verifiable(Times.atMostOnce());
+
+                const expectedBaselineOutputFilePath = `${defaultReportOutDir}/${baselineFilenameStub}`;
+
+                fsMock
+                    // eslint-disable-next-line security/detect-non-literal-fs-filename
+                    .setup((fsm) => fsm.existsSync(`${expectedBaselineOutputFilePath}`))
+                    .returns(() => baselineFileExists as boolean)
+                    .verifiable(Times.once());
+
+                await testSubject.completeRun(reportStub, baselineEvaluationStub);
+                if (baselineFileExists) {
+                    expect(logger.recordedLogs()).toContain(
+                        `[info] ##vso[artifact.upload artifactname=accessibility-reports]${expectedBaselineOutputFilePath}`,
+                    );
+                } else {
+                    expect(logger.recordedLogs()).not.toContain(
+                        `[info] ##vso[artifact.upload artifactname=accessibility-reports]${expectedBaselineOutputFilePath}`,
+                    );
+                }
+
                 verifyAllMocks();
             },
         );
