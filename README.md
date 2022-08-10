@@ -2,6 +2,7 @@
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License.
 -->
+<!---->
 
 # ![Product Logo](./icons/brand-blue-48px.png) Accessibility Insights Action
 
