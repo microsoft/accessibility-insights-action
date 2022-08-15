@@ -52,7 +52,7 @@ pool:
 steps:
     # Insert any jobs here required to build your website files
 
-    - task: accessibility-insights.prod.task.accessibility-insights@2
+    - task: accessibility-insights.prod.task.accessibility-insights@3
       displayName: Scan for accessibility issues
       inputs:
           # Provide either staticSiteDir or url
@@ -65,7 +65,7 @@ steps:
 Provide the website URL. The URL should already be hosted - something like `http://localhost:12345/` or `https://example.com`.
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@2
+- task: accessibility-insights.prod.task.accessibility-insights@3
   displayName: Scan for accessibility issues
   inputs:
       url: 'http://localhost:12345/'
@@ -78,7 +78,7 @@ The `url` parameter takes priority over `staticSiteDir`. If `url` is provided, s
 Provide the location of your built HTML files using `staticSiteDir` and (optionally) `staticSiteUrlRelativePath`. The action will serve the site for you using `express`.
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@2
+- task: accessibility-insights.prod.task.accessibility-insights@3
   displayName: Scan for accessibility issues
   inputs:
       staticSiteDir: '$(System.DefaultWorkingDirectory)/website/root/'
@@ -147,7 +147,7 @@ When the scanning tool fails, it creates a new baseline file--reflecting the cur
 Here is an example of a YAML file that is configured to take advantage of a baseline, assuming just one environment:
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@2
+- task: accessibility-insights.prod.task.accessibility-insights@3
   displayName: Scan for accessibility issues
   inputs:
       url: 'http://localhost:12345/'
