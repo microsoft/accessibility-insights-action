@@ -24,7 +24,7 @@ export class JobSummaryCreator extends ProgressReporter {
     }
 
     public async completeRun(combinedReportResult: CombinedReportParameters): Promise<void> {
-        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, true);
+        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, 'github');
         return await this.taskConfig.writeJobSummary(reportMarkdown);
     }
 
