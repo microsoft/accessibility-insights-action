@@ -43,10 +43,10 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 exports[`ResultMarkdownBuilder uploadOutputArtifact is false skips artifact link line when artifactsUrl returns undefined 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
-**:white_check_mark: No failures detected**
+**✓ No failures detected**
 No failures were detected by automatic scanning.
 
-**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+**→ Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 ---
 #### Scan summary
@@ -60,10 +60,10 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 exports[`ResultMarkdownBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures) 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
-**:white_check_mark: No new failures**
+**✓ No new failures**
 No failures were detected by automatic scanning except those which exist in the baseline.
 
-**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+**→ Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 **6 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
@@ -148,10 +148,10 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no additional failures 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
-**:white_check_mark: No new failures**
+**✓ No new failures**
 No failures were detected by automatic scanning except those which exist in the baseline.
 
-**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+**→ Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 **1 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
@@ -212,10 +212,10 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 exports[`ResultMarkdownBuilder with baseline builds content when there are no baseline failures and no new failures 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
-**:white_check_mark: No failures detected**
+**✓ No failures detected**
 No failures were detected by automatic scanning.
 
-**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+**→ Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 
 
@@ -233,10 +233,10 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and baseline failures are undefined 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
-**:white_check_mark: No failures detected**
+**✓ No failures detected**
 No failures were detected by automatic scanning.
 
-**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+**→ Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 **Baseline not configured**
 A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
@@ -255,10 +255,10 @@ This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/relea
 exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and no baseline detected 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
-**:white_check_mark: No failures detected**
+**✓ No failures detected**
 No failures were detected by automatic scanning.
 
-**:point_right: Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+**→ Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 **Baseline not detected**
 To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.

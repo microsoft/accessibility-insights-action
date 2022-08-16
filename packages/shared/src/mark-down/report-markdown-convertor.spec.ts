@@ -37,16 +37,16 @@ describe(ReportMarkdownConvertor, () => {
 
     describe('convert', () => {
         it('report', () => {
-            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined)).verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, false, undefined, undefined)).verifiable();
 
-            reportMarkdownConvertor.convert(combinedReportResult);
+            reportMarkdownConvertor.convert(combinedReportResult, false);
         });
 
         it('report with title', () => {
             const title = 'some title';
-            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined)).verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, false, title, undefined)).verifiable();
 
-            reportMarkdownConvertor.convert(combinedReportResult, title);
+            reportMarkdownConvertor.convert(combinedReportResult, false, title);
         });
 
         it('report with baseline', () => {
@@ -54,9 +54,9 @@ describe(ReportMarkdownConvertor, () => {
                 baselineFileName: 'some filename',
                 baselineEvaluationStub: {} as BaselineEvaluation,
             };
-            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, baselineInfo)).verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, false, undefined, baselineInfo)).verifiable();
 
-            reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+            reportMarkdownConvertor.convert(combinedReportResult, false, undefined, baselineInfo);
         });
     });
 

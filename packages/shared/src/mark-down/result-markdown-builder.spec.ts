@@ -28,7 +28,7 @@ describe(ResultMarkdownBuilder, () => {
     it('builds content with failures', () => {
         setCombinedReportResultWithFailures();
 
-        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false);
 
         expect(actualContent).toMatchSnapshot();
     });
@@ -36,7 +36,7 @@ describe(ResultMarkdownBuilder, () => {
     it('builds content with no failures', () => {
         setCombinedReportResultWithNoFailures();
 
-        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false);
 
         expect(actualContent).toMatchSnapshot();
     });
@@ -66,7 +66,7 @@ describe(ResultMarkdownBuilder, () => {
             },
         } as CombinedReportParameters;
 
-        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult);
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false);
 
         const snapshotFile = path.join(__dirname, '__custom-snapshots__', 'axe-descriptions.snap.md');
         expect(actualContent).toMatchFile(snapshotFile);
@@ -76,7 +76,7 @@ describe(ResultMarkdownBuilder, () => {
         const title = 'some title';
         setCombinedReportResultWithNoFailures();
 
-        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, title);
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, title);
 
         expect(actualContent).toMatchSnapshot();
     });
@@ -104,7 +104,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -121,7 +121,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -141,7 +141,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -161,7 +161,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -178,7 +178,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -194,7 +194,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -212,7 +212,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -226,7 +226,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -240,7 +240,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -255,7 +255,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -271,7 +271,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();
@@ -295,7 +295,7 @@ describe(ResultMarkdownBuilder, () => {
             };
             setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, undefined, baselineInfo);
+            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, false, undefined, baselineInfo);
 
             expect(actualContent).toMatchSnapshot();
             verifyAllMocks();

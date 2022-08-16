@@ -59,7 +59,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         combinedReportResult: CombinedReportParameters,
         baselineInfo?: BaselineInfo,
     ): void {
-        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
+        const reportMarkdown = this.reportMarkdownConvertor.convert(combinedReportResult, false, undefined, baselineInfo);
         const outDirectory = this.taskConfig.getReportOutDir();
 
         const summaryFilePath = this.pathObj.join(outDirectory, this.summaryMarkdownFileName(artifactName));
