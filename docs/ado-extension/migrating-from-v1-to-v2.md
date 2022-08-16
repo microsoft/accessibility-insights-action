@@ -1,3 +1,8 @@
+<!--
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT License.
+-->
+
 # Migrating from version 1 to version 2
 
 Version 2.x of the extension contains several breaking changes from version 1.x. To migrate, you will need to make a few adjustments based on whether your pipeline is defined using a YAML file or the "Classic" Pipelines web interface:
