@@ -37,7 +37,7 @@ describe(ReportMarkdownConvertor, () => {
     });
 
     describe('convert', () => {
-        it.each(['ADO', 'github'])(
+        it.each(executionEnvArray)(
             'should convert with baseline and title undefined and execution env %s',
             (executionEnv: ExecutionEnvironment) => {
                 resultMarkdownBuilderMock
@@ -48,7 +48,7 @@ describe(ReportMarkdownConvertor, () => {
             },
         );
 
-        it.each(['ADO', 'github'])(
+        it.each(executionEnvArray)(
             'should convert with baseline and title defined and execution env %s',
             (executionEnv: ExecutionEnvironment) => {
                 const title = 'some title';
@@ -58,7 +58,7 @@ describe(ReportMarkdownConvertor, () => {
             },
         );
 
-        it.each(['ADO', 'github'])('report with baseline, execution env %s', (executionEnv: ExecutionEnvironment) => {
+        it.each(executionEnvArray)('report with baseline, execution env %s', (executionEnv: ExecutionEnvironment) => {
             const baselineInfo = {
                 baselineFileName: 'some filename',
                 baselineEvaluationStub: {} as BaselineEvaluation,
