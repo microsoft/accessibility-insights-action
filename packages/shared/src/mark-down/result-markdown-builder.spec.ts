@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import { ResultMarkdownBuilder } from './result-markdown-builder';
+import { ExecutionEnvironment, ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import * as axe from 'axe-core';
 import * as path from 'path';
@@ -15,6 +15,7 @@ describe(ResultMarkdownBuilder, () => {
     let combinedReportResult: CombinedReportParameters;
     let checkResultMarkdownBuilder: ResultMarkdownBuilder;
     let artifactsInfoProviderMock: IMock<ArtifactsInfoProvider>;
+    const executionEnvArray = ['ADO', 'github'];
 
     beforeEach(() => {
         artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
@@ -25,23 +26,23 @@ describe(ResultMarkdownBuilder, () => {
         expect(checkResultMarkdownBuilder.buildErrorContent()).toMatchSnapshot();
     });
 
-    it('builds content with failures', () => {
+    it.each(executionEnvArray)('builds content with failures, executionEnv: %s', (executionEnv: ExecutionEnvironment) => {
         setCombinedReportResultWithFailures();
 
-        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO');
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv);
 
         expect(actualContent).toMatchSnapshot();
     });
 
-    it('builds content with no failures', () => {
+    it.each(executionEnvArray)('builds content with no failures, executionEnv: %s', (executionEnv: ExecutionEnvironment) => {
         setCombinedReportResultWithNoFailures();
 
-        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO');
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv);
 
         expect(actualContent).toMatchSnapshot();
     });
 
-    it('escapes content for all possible axe rules', () => {
+    it.each(executionEnvArray)('escapes content for all possible axe rules, executionEnv: %s', (executionEnv: ExecutionEnvironment) => {
         const failedRules = axe.getRules().map((r) => ({
             ruleId: r.ruleId,
             description: r.description,
@@ -66,17 +67,17 @@ describe(ResultMarkdownBuilder, () => {
             },
         } as CombinedReportParameters;
 
-        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO');
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv);
 
         const snapshotFile = path.join(__dirname, '__custom-snapshots__', 'axe-descriptions.snap.md');
         expect(actualContent).toMatchFile(snapshotFile);
     });
 
-    it('builds content with title', () => {
+    it.each(executionEnvArray)('builds content with title, executionEnv: %s', (executionEnv: ExecutionEnvironment) => {
         const title = 'some title';
         setCombinedReportResultWithNoFailures();
 
-        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', title);
+        const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, title);
 
         expect(actualContent).toMatchSnapshot();
     });
@@ -91,215 +92,251 @@ describe(ResultMarkdownBuilder, () => {
                 .verifiable(Times.atLeastOnce());
         });
 
-        it('builds content when there are baseline failures and new failures', () => {
-            const baselineEvaluation = {
-                suggestedBaselineUpdate: {},
-                totalBaselineViolations: 2,
-                totalNewViolations: 4,
-                newViolationsByRule: { 'rule id': 3, 'rule id 2': 1 } as CountsByRule,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithFailures();
+        it.each(executionEnvArray)(
+            'builds content when there are baseline failures and new failures, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation = {
+                    suggestedBaselineUpdate: {},
+                    totalBaselineViolations: 2,
+                    totalNewViolations: 4,
+                    newViolationsByRule: { 'rule id': 3, 'rule id 2': 1 } as CountsByRule,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when baseline failures and scanned failures are the same (no new failures)', () => {
-            const baselineEvaluation = {
-                totalBaselineViolations: 6,
-                totalNewViolations: 0,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithFailures();
+        it.each(executionEnvArray)(
+            'builds content when baseline failures and scanned failures are the same (no new failures, executionEnv: %s)',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation = {
+                    totalBaselineViolations: 6,
+                    totalNewViolations: 0,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when some baseline failures have been fixed and some still occur', () => {
-            const baselineEvaluation = {
-                suggestedBaselineUpdate: {},
-                totalBaselineViolations: 9,
-                totalNewViolations: 0,
-                fixedViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
-                totalFixedViolations: 3,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithFailures();
+        it.each(executionEnvArray)(
+            'builds content when some baseline failures have been fixed and some still occur, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation = {
+                    suggestedBaselineUpdate: {},
+                    totalBaselineViolations: 9,
+                    totalNewViolations: 0,
+                    fixedViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
+                    totalFixedViolations: 3,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when some baseline failures have been fixed and some new ones have been introduced', () => {
-            const baselineEvaluation = {
-                suggestedBaselineUpdate: {},
-                totalBaselineViolations: 9,
-                fixedViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
-                totalNewViolations: 1,
-                newViolationsByRule: { 'rule id': 1 } as CountsByRule,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithFailures();
+        it.each(executionEnvArray)(
+            'builds content when some baseline failures have been fixed and some new ones have been introduced, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation = {
+                    suggestedBaselineUpdate: {},
+                    totalBaselineViolations: 9,
+                    fixedViolationsByRule: { 'rule id': 2, 'rule id 2': 1 } as CountsByRule,
+                    totalNewViolations: 1,
+                    newViolationsByRule: { 'rule id': 1 } as CountsByRule,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when there are baseline failures and no additional failures', () => {
-            const baselineEvaluation = {
-                totalBaselineViolations: 1,
-                totalNewViolations: 0,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithNoFailures();
+        it.each(executionEnvArray)(
+            'builds content when there are baseline failures and no additional failures, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation = {
+                    totalBaselineViolations: 1,
+                    totalNewViolations: 0,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when there are no baseline failures and no new failures', () => {
-            const baselineEvaluation = {
-                totalBaselineViolations: 0,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithNoFailures();
+        it.each(executionEnvArray)(
+            'builds content when there are no baseline failures and no new failures, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation = {
+                    totalBaselineViolations: 0,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when there are new failures and no baseline failures', () => {
-            const baselineEvaluation = {
-                totalBaselineViolations: 0,
-                totalNewViolations: 6,
-                newViolationsByRule: { 'rule id': 5, 'rule id 2': 1 } as CountsByRule,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithFailures();
+        it.each(executionEnvArray)(
+            'builds content when there are new failures and no baseline failures, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation = {
+                    totalBaselineViolations: 0,
+                    totalNewViolations: 6,
+                    newViolationsByRule: { 'rule id': 5, 'rule id 2': 1 } as CountsByRule,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when there are no new failures and no baseline detected', () => {
-            const baselineEvaluation: BaselineEvaluation = undefined;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithNoFailures();
+        it.each(executionEnvArray)(
+            'builds content when there are no new failures and no baseline detected, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation: BaselineEvaluation = undefined;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when there are new failures and no baseline detected', () => {
-            const baselineEvaluation: BaselineEvaluation = undefined;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithFailures();
+        it.each(executionEnvArray)(
+            'builds content when there are new failures and no baseline detected, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation: BaselineEvaluation = undefined;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when there is no baseline configured', () => {
-            baselineFileName = undefined;
-            const baselineEvaluation: BaselineEvaluation = undefined;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithFailures();
+        it.each(executionEnvArray)(
+            'builds content when there is no baseline configured, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                baselineFileName = undefined;
+                const baselineEvaluation: BaselineEvaluation = undefined;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
 
-        it('builds content when there are no new failures and baseline failures are undefined', () => {
-            const baselineEvaluation = {
-                totalBaselineViolations: undefined,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithNoFailures();
+        it.each(executionEnvArray)(
+            'builds content when there are no new failures and baseline failures are undefined, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                const baselineEvaluation = {
+                    totalBaselineViolations: undefined,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
     });
 
     describe('uploadOutputArtifact is false', () => {
         const baselineFileName = 'baseline file';
-        it('skips artifact link line when artifactsUrl returns undefined', () => {
-            artifactsInfoProviderMock
-                .setup((aip) => aip.getArtifactsUrl())
-                .returns(() => undefined)
-                .verifiable(Times.atLeastOnce());
+        it.each(executionEnvArray)(
+            'skips artifact link line when artifactsUrl returns undefined, executionEnv: %s',
+            (executionEnv: ExecutionEnvironment) => {
+                artifactsInfoProviderMock
+                    .setup((aip) => aip.getArtifactsUrl())
+                    .returns(() => undefined)
+                    .verifiable(Times.atLeastOnce());
 
-            const baselineEvaluation = {
-                totalBaselineViolations: 0,
-            } as BaselineEvaluation;
-            const baselineInfo: BaselineInfo = {
-                baselineFileName,
-                baselineEvaluation,
-            };
-            setCombinedReportResultWithNoFailures();
+                const baselineEvaluation = {
+                    totalBaselineViolations: 0,
+                } as BaselineEvaluation;
+                const baselineInfo: BaselineInfo = {
+                    baselineFileName,
+                    baselineEvaluation,
+                };
+                setCombinedReportResultWithNoFailures();
 
-            const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, 'ADO', undefined, baselineInfo);
+                const actualContent = checkResultMarkdownBuilder.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo);
 
-            expect(actualContent).toMatchSnapshot();
-            verifyAllMocks();
-        });
+                expect(actualContent).toMatchSnapshot();
+                verifyAllMocks();
+            },
+        );
     });
 
     const setCombinedReportResultWithFailures = (): void => {
