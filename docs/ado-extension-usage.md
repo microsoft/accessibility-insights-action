@@ -7,7 +7,7 @@ Licensed under the MIT License.
 
 These instructions are for version 2 of the extension.
 
--   To migrate from version 1, see [Migrating from version 1 to version 2](#migrating-from-version-1-to-version-2)
+-   To migrate from version 1, see [Migrating from version 1 to version 2](ado-extension/migrating-from-v1-to-v2.md)
 -   For version 1 docs, see [the version of this document as of the v1.1.1 release](https://github.com/microsoft/accessibility-insights-action/blob/v1.1.1-sources-ado/docs/ado-extension-usage.md)
 
 ## Prerequisites
@@ -20,9 +20,12 @@ These instructions are for version 2 of the extension.
     - script: npm install yarn@1.22.10 -g
       displayName: install yarn as a global dependency
     ```
--   You must have either a static HTML file to point the Accessibility Insights task to, or be able to serve your website at a localhost URL in an Azure DevOps pipeline.
-    -   If your site's build/bundling process produces an HTML file that you can open directly, you can point the extension directly at the built HTML file using the `staticSiteDir` input.
-    -   If your site needs to be run using a specific server (eg, an Express server with specific routes configured), you should include any relevant steps to set up a localhost instance of your app prior to running the Accessibility Insights task. You can then point the Accessibility Insights task to the localhost URL that is serving your site using the `url` input.
+-   You must have at least one of the following scenarios in order to use the extension:
+    -   The ability to serve your website at a localhost URL in an Azure DevOps pipeline.
+        -   If your site needs to be run using a specific server (e.g., an Express server with specific routes configured), you should include any relevant steps to set up a localhost instance of your app prior to running the Accessibility Insights task. You can then point the Accessibility Insights task to the localhost URL that is serving your site using the `url` input.
+    -   A preproduction site available to point the task to such as a canary, staging, or dev site.
+    -   A static HTML file at the root of your site that can be pointed to.
+        -   If your site's build/bundling process produces an HTML file that you can open directly, you can point the extension directly at the built HTML file using the `staticSiteDir` input.
 
 ## Adding the extension
 
@@ -106,7 +109,7 @@ For `discoveryPatterns`, `inputFile`, and `inputUrls`, note that these options e
 Examples:
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@2
+- task: accessibility-insights.prod.task.accessibility-insights@3
   displayName: Scan for accessibility issues (with url)
   inputs:
       url: 'http://localhost:12345/'
@@ -114,7 +117,7 @@ Examples:
 ```
 
 ```yml
-- task: accessibility-insights.prod.task.accessibility-insights@2
+- task: accessibility-insights.prod.task.accessibility-insights@3
   displayName: Scan for accessibility issues (with staticSiteDir)
   inputs:
       staticSiteDir: '$(System.DefaultWorkingDirectory)/website/root/'
@@ -140,7 +143,7 @@ The baseline file is specified as a parameter to the scanning task, as shown in 
 
 ### Publishing baseline files
 
-When the scanning tool fails, it creates a new baseline file--reflecting the current accessibility scanner results--on the disk of the build machine. This file has the same filename as the input baseline file. You must configure your pipeline to publish the updated baseline file as an artifact so that the PR author can easily access the updated baseline file. The recommended practice is to publish the entire scanner's output folder on every iteration, _including iterations where the accessibility scanner task failed_. This will provide the combined accessibility scan results on _every_ build, as well as the modified baseline file when changes are required.
+When the `basleineFile` input is set and the scanning tool fails, it creates a new baseline file--reflecting the current accessibility scanner results--on the disk of the build machine. This file has the same filename as the `baselineFile` input specified. By default, this new baseline file is automatically uploaded as an artifact named `accessibility-reports`, allowing the PR author to easily access the updated baseline file.
 
 ### Example YAML
 
@@ -178,49 +181,6 @@ You can choose to block pull requests if the extension finds accessibility issue
 If you want to run multiple Accessibility Insights steps in a single pipeline, you will need to ensure that each step uses a unique `outputArtifactName`.
 
 Each step also needs a unique output directory on the build agent. The task will generate unique output directories for you by default, but if you override `outputDir`, you will need to ensure that it is also unique among all steps.
-
-## Migrating from version 1 to version 2
-
-Version 2.x of the extension contains several breaking changes from version 1.x. To migrate, you will need to make a few adjustments based on whether your pipeline is defined using a YAML file or the "Classic" Pipelines web interface:
-
-### Migrating a YAML Pipeline definition
-
-1. The Accessibility Insights task no longer requires extra Azure DevOps permissions to work
-    - If you previously specified a `repoServiceConnectionName` input, you should remove it. If this Service Connection was created solely for use with this pipeline, you should delete it in your Azure DevOps Project's "Service Connections" settings.
-    - If you did not previously specify `repoServiceConnectionName`, it likely means that the default Azure DevOps Build Service account for your Azure DevOps project has been granted the `repo:write` permission for this repository. You should audit for this and remove that permission if it is not required by other tasks.
-2. The task inputs related to specifying a "static" site to scan (`siteDir`, `localhostPort`, and `scanUrlRelativePath`) have changed to make it more clear that they are related (and mutually exclusive with `url`).
-    - If you previously specified a `siteDir`, you should:
-        - Rename your existing `siteDir` input to `staticSiteDir`
-        - Rename your existing `localhostPort` input to `staticSitePort` (if specified)
-        - Rename your existing `scanUrlRelativePath` input to `staticSiteUrlRelativePath` (if specified)
-    - If you previously specified _both_ `url` and `siteDir`, you had a misconfiguration - these inputs were mutually exclusive, and the `url` input was being silently ignored. Remove the `url` input and follow the instructions above for `siteDir`.
-    - If you previously specified just `url` and not `siteDir`, you should leave the original `url` input as-is
-3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
-    - If you previously used a separate `publish` step to upload the `_accessibility-reports` folder, you can delete that `publish` step
-    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, specify `uploadOutputArtifact: false` to skip the new automatic artifact uploading. You can specify `outputDir` to control where the output artifact contents get written to on the build agent
-    - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
-4. By default, the task now fails if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
-    - If you previously specified `failOnAccessibilityError: true`, you can remove it (this is now the default behavior)
-    - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can add `failOnAccessibilityError: false` (but consider [using a Baseline File](#using-a-baseline-file) instead!)
-
-### Migrating a "Classic" Pipeline definition
-
-1. The Accessibility Insights task no longer requires extra Azure DevOps permissions to work
-    - There is no longer an option for "Azure Repos Connection". If you previously specified a Service Connection using this option, and that Service Connection was created solely for use with this pipeline, you should delete it in your Azure DevOps Project's "Service Connections" settings.
-    - If you did not previously specify an "Azure Repos Connection", it likely means that the default Azure DevOps Build Service account for your Azure DevOps project has been granted the `repo:write` permission for this repository. You should audit for this and remove that permission if it is not required by other tasks.
-2. The options related to specifying which site to scan have moved underneath a new "Hosting Mode" option to make it more clear which ones can be used together.
-    - If you previously specified a "Site Directory", select the "Static Site" Hosting Mode
-        - The "Static Site Directory", "Static Site Port" and "Static Site URL Relative Path" task inputs now appear only when "Static Site" is selected
-    - If you previously specified a "Website URL", select the "Dynamic Site" "Hosting Mode"
-        - The "Dynamic Site URL" option now appears only when "Dynamic Site" is selected
-    - If you previously specified _both_ as "Site Directory" and a "Website URL", you had a misconfiguration - these options were mutually exclusive, and the "Website URL" option was being silently ignored. Select "Static Site" Hosting Mode and ignore your old "Website URL" input
-3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
-    - If you previously used a separate "Publish" step to upload the `_accessibility-reports` folder, you can delete that "Publish" step
-    - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Output Artifact" option to skip the new automatic artifact uploading. You can specify an "Output Directory" to control where the output artifact contents get written to on the build agent
-    - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
-4. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
-    - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can still uncheck this option (but consider [using a Baseline File](#using-a-baseline-file) instead!)
-5. The "Chrome Path" option has moved under a new "Advanced Options" group
 
 ## Troubleshooting
 
