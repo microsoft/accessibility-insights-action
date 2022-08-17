@@ -36,12 +36,3 @@ updates:
   - dependency-name: "@types/react-dom"
     versions:
     - ">= 17"
-    # Each of the below dependencies has dropped support for node v10 in their
-    # latest versions, but we need to maintain node v10 support because that's
-    # the latest we're allowed to depend on as a custom ADO task.
-    #
-    # marked-terminal v5 depends on chalk v5 which uses the node: protocol;
-    # this protocol is not supported in node 10, the ADO execution environment
-  - dependency-name: marked-terminal
-    versions:
-    - ">= 5"
