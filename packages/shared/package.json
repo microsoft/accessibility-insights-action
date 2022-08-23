@@ -38,7 +38,7 @@
         "get-port": "^6.1.2",
         "inversify": "6.0.1",
         "lodash": "^4.17.21",
-        "marked": "^4.0.18",
+        "marked": "^4.0.19",
         "marked-terminal": "^5.1.1",
         "normalize-path": "^3.0.0",
         "pony-cause": "^2.1.2",
