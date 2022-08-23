@@ -228,8 +228,8 @@ export class ResultMarkdownBuilder {
     };
 
     private getNoFailuresText = (baselineEvaluation: BaselineEvaluation, executionEnvironment: ExecutionEnvironment): string[] => {
-        const checkMark = executionEnvironment == 'github' ? ':white_check_mark:' : '✓';
-        const pointRight = executionEnvironment == 'github' ? ':point_right:' : '→';
+        const checkMark = executionEnvironment == 'github' ? ':white_check_mark:' : '✅';
+        const pointRight = executionEnvironment == 'github' ? ':point_right:' : '👉';
         let failureDetailsHeading = `${checkMark} No failures detected`;
         let failureDetailsDescription = `No failures were detected by automatic scanning.`;
         if (this.baselineHasFailures(baselineEvaluation)) {
