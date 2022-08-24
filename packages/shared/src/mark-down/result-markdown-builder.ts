@@ -10,6 +10,8 @@ import { brand } from '../content/strings';
 import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
 import { iocTypes } from '../ioc/ioc-types';
 
+export type ExecutionEnvironment = 'github' | 'ADO';
+
 @injectable()
 export class ResultMarkdownBuilder {
     constructor(@inject(iocTypes.ArtifactsInfoProvider) private readonly artifactsInfoProvider: ArtifactsInfoProvider) {}
@@ -25,7 +27,12 @@ export class ResultMarkdownBuilder {
         return this.scanResultDetails(lines.join(''));
     }
 
-    public buildContent(combinedReportResult: CombinedReportParameters, title?: string, baselineInfo?: BaselineInfo): string {
+    public buildContent(
+        combinedReportResult: CombinedReportParameters,
+        executionEnvironment: ExecutionEnvironment,
+        title?: string,
+        baselineInfo?: BaselineInfo,
+    ): string {
         const passedChecks = combinedReportResult.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportResult.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportResult.results.resultsByRule.failed.length;
@@ -51,7 +58,7 @@ export class ResultMarkdownBuilder {
             lines = [
                 this.headingWithMessage(),
                 this.fixedFailureDetails(baselineInfo),
-                this.failureDetailsBaseline(combinedReportResult, baselineInfo),
+                this.failureDetailsBaseline(combinedReportResult, baselineInfo, executionEnvironment),
                 sectionSeparator(),
                 this.baselineDetails(baselineInfo),
                 this.downloadArtifactsWithLink(combinedReportResult, baselineInfo.baselineEvaluation),
@@ -199,7 +206,11 @@ export class ResultMarkdownBuilder {
         return lines.join('');
     };
 
-    private failureDetailsBaseline = (combinedReportResult: CombinedReportParameters, baselineInfo: BaselineInfo): string => {
+    private failureDetailsBaseline = (
+        combinedReportResult: CombinedReportParameters,
+        baselineInfo: BaselineInfo,
+        executionEnvironment: ExecutionEnvironment,
+    ): string => {
         let lines = [];
         if (
             this.hasFailures(combinedReportResult, baselineInfo.baselineEvaluation) ||
@@ -210,15 +221,15 @@ export class ResultMarkdownBuilder {
             const failureInstancesHeading = this.getFailureInstancesHeading(failureInstances, baselineInfo.baselineEvaluation);
             lines = [sectionSeparator(), bold(failureInstancesHeading), sectionSeparator(), ...failedRulesList];
         } else {
-            lines = [sectionSeparator(), ...this.getNoFailuresText(baselineInfo.baselineEvaluation)];
+            lines = [sectionSeparator(), ...this.getNoFailuresText(baselineInfo.baselineEvaluation, executionEnvironment)];
         }
 
         return lines.join('');
     };
 
-    private getNoFailuresText = (baselineEvaluation: BaselineEvaluation): string[] => {
-        const checkMark = ':white_check_mark:';
-        const pointRight = ':point_right:';
+    private getNoFailuresText = (baselineEvaluation: BaselineEvaluation, executionEnvironment: ExecutionEnvironment): string[] => {
+        const checkMark = executionEnvironment == 'github' ? ':white_check_mark:' : '✅';
+        const pointRight = executionEnvironment == 'github' ? ':point_right:' : '👉';
         let failureDetailsHeading = `${checkMark} No failures detected`;
         let failureDetailsDescription = `No failures were detected by automatic scanning.`;
         if (this.baselineHasFailures(baselineEvaluation)) {
