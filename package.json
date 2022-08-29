@@ -53,7 +53,7 @@
         "jest": "^27.5.1",
         "jest-extended": "^3.0.2",
         "jest-file-snapshot": "^0.5.0",
-        "jest-junit": "^14.0.0",
+        "jest-junit": "^14.0.1",
         "lerna": "^5.4.3",
         "license-check-and-add": "^4.0.5",
         "mockdate": "^3.0.5",
