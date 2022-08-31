@@ -35,7 +35,7 @@
                 "staticSite": "Static Site (this task runs a localhost webserver for your site)",
                 "dynamicSite": "Dynamic Site (you host your site separately)"
             },
-            "helpMarkDown": "Your site must be served (hosted) before it can be scanned. In _Static Site_ mode, this task will run a localhost webserver serving your site directory and scan that. In _Dynamic Site_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment)."
+            "helpMarkDown": "Note: not required in YAML configuration, only on classic pipelines UI. Your site must be served (hosted) before it can be scanned. In _Static Site_ mode, this task will run a localhost webserver serving your site directory and scan that. In _Dynamic Site_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment)."
         },
         {
             "name": "staticSiteDir",
