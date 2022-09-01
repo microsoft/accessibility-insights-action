@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResultMarkdownBuilder builds content with failures 1`] = `
+exports[`ResultMarkdownBuilder builds content with failures, executionEnv: ADO 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 * **URLs**: 5 URL(s) failed, 1 URL(s) passed, and 7 were not scannable
 * **Rules**: 2 check(s) failed, 1 check(s) passed, and 2 were not applicable
@@ -13,7 +13,20 @@ exports[`ResultMarkdownBuilder builds content with failures 1`] = `
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder builds content with no failures 1`] = `
+exports[`ResultMarkdownBuilder builds content with failures, executionEnv: github 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+* **URLs**: 5 URL(s) failed, 1 URL(s) passed, and 7 were not scannable
+* **Rules**: 2 check(s) failed, 1 check(s) passed, and 2 were not applicable
+* Download the **Accessibility Insights artifact** to view the detailed results of these checks
+#### Failed instances
+* **3 × rule id**:  rule description
+* **1 × rule id 2**:  rule description 2
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder builds content with no failures, executionEnv: ADO 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: All applicable checks passed
 * **URLs**: 1 URL(s) passed, and 7 were not scannable
 * **Rules**: 1 check(s) passed, and 2 were not applicable
@@ -22,7 +35,26 @@ exports[`ResultMarkdownBuilder builds content with no failures 1`] = `
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder builds content with title 1`] = `
+exports[`ResultMarkdownBuilder builds content with no failures, executionEnv: github 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: All applicable checks passed
+* **URLs**: 1 URL(s) passed, and 7 were not scannable
+* **Rules**: 1 check(s) passed, and 2 were not applicable
+* Download the **Accessibility Insights artifact** to view the detailed results of these checks
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder builds content with title, executionEnv: ADO 1`] = `
+"### some title
+### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: All applicable checks passed
+* **URLs**: 1 URL(s) passed, and 7 were not scannable
+* **Rules**: 1 check(s) passed, and 2 were not applicable
+* Download the **Accessibility Insights artifact** to view the detailed results of these checks
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder builds content with title, executionEnv: github 1`] = `
 "### some title
 ### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights: All applicable checks passed
 * **URLs**: 1 URL(s) passed, and 7 were not scannable
@@ -40,7 +72,24 @@ You can review the log to troubleshoot the issue. Fix it and re-run the workflow
 "
 `;
 
-exports[`ResultMarkdownBuilder uploadOutputArtifact is false skips artifact link line when artifactsUrl returns undefined 1`] = `
+exports[`ResultMarkdownBuilder uploadOutputArtifact is false skips artifact link line when artifactsUrl returns undefined, executionEnv: ADO 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**✅ No failures detected**
+No failures were detected by automatic scanning.
+
+**👉 Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+---
+#### Scan summary
+**URLs**: 0 with failures, 1 passed, 7 not scannable
+**Rules**: 0 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder uploadOutputArtifact is false skips artifact link line when artifactsUrl returns undefined, executionEnv: github 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **:white_check_mark: No failures detected**
@@ -57,7 +106,29 @@ No failures were detected by automatic scanning.
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures) 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures, executionEnv: ADO) 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**✅ No new failures**
+No failures were detected by automatic scanning except those which exist in the baseline.
+
+**👉 Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+**6 failure instances in baseline**
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 2 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures, executionEnv: github) 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **:white_check_mark: No new failures**
@@ -79,7 +150,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some new ones have been introduced 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some new ones have been introduced, executionEnv: ADO 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 **3 failure instances from baseline no longer exist:**
 * (2) **rule id**
@@ -102,7 +173,30 @@ To see all failures and scan details, [download the accessibility report](artifa
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some still occur 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some new ones have been introduced, executionEnv: github 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+**3 failure instances from baseline no longer exist:**
+* (2) **rule id**
+* (1) **rule id 2**
+
+**1 failure instances not in baseline**
+* (1) **rule id**:  rule description
+
+**9 failure instances in baseline**
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 2 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some still occur, executionEnv: ADO 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 **3 failure instances from baseline no longer exist:**
 * (2) **rule id**
@@ -124,7 +218,29 @@ To see all failures and scan details, [download the accessibility report](artifa
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and new failures 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some still occur, executionEnv: github 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+**3 failure instances from baseline no longer exist:**
+* (2) **rule id**
+* (1) **rule id 2**
+
+**0 failure instances not in baseline**
+
+**9 failure instances in baseline**
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 2 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and new failures, executionEnv: ADO 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **4 failure instances not in baseline**
@@ -145,7 +261,50 @@ To see all failures and scan details, [download the accessibility report](artifa
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no additional failures 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and new failures, executionEnv: github 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**4 failure instances not in baseline**
+* (3) **rule id**:  rule description
+* (1) **rule id 2**:  rule description 2
+
+**2 failure instances in baseline**
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 2 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no additional failures, executionEnv: ADO 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**✅ No new failures**
+No failures were detected by automatic scanning except those which exist in the baseline.
+
+**👉 Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+**1 failure instances in baseline**
+(not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 0 with failures, 1 passed, 7 not scannable
+**Rules**: 0 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no additional failures, executionEnv: github 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **:white_check_mark: No new failures**
@@ -167,7 +326,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there are new failures and no baseline detected 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when there are new failures and no baseline detected, executionEnv: ADO 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **6 failure instances**
@@ -188,7 +347,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there are new failures and no baseline failures 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when there are new failures and no baseline detected, executionEnv: github 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **6 failure instances**
@@ -209,7 +368,70 @@ To see all failures and scan details, [download the accessibility report](artifa
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there are no baseline failures and no new failures 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when there are new failures and no baseline failures, executionEnv: ADO 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**6 failure instances**
+* (5) **rule id**:  rule description
+* (1) **rule id 2**:  rule description 2
+
+**Baseline not detected**
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 2 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are new failures and no baseline failures, executionEnv: github 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**6 failure instances**
+* (5) **rule id**:  rule description
+* (1) **rule id 2**:  rule description 2
+
+**Baseline not detected**
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 2 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are no baseline failures and no new failures, executionEnv: ADO 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**✅ No failures detected**
+No failures were detected by automatic scanning.
+
+**👉 Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+
+
+See scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 0 with failures, 1 passed, 7 not scannable
+**Rules**: 0 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are no baseline failures and no new failures, executionEnv: github 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **:white_check_mark: No failures detected**
@@ -230,7 +452,29 @@ To see scan details, [download the accessibility report](artifacts-url)
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and baseline failures are undefined 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and baseline failures are undefined, executionEnv: ADO 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**✅ No failures detected**
+No failures were detected by automatic scanning.
+
+**👉 Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+**Baseline not configured**
+A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+
+See scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 0 with failures, 1 passed, 7 not scannable
+**Rules**: 0 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and baseline failures are undefined, executionEnv: github 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **:white_check_mark: No failures detected**
@@ -252,7 +496,29 @@ To see scan details, [download the accessibility report](artifacts-url)
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and no baseline detected 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and no baseline detected, executionEnv: ADO 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**✅ No failures detected**
+No failures were detected by automatic scanning.
+
+**👉 Next step:** Manually assess keyboard accessibility with [Accessibility Insights Tab Stops](https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
+
+**Baseline not detected**
+To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+
+See scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 0 with failures, 1 passed, 7 not scannable
+**Rules**: 0 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and no baseline detected, executionEnv: github 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **:white_check_mark: No failures detected**
@@ -274,7 +540,28 @@ To see scan details, [download the accessibility report](artifacts-url)
 This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
 `;
 
-exports[`ResultMarkdownBuilder with baseline builds content when there is no baseline configured 1`] = `
+exports[`ResultMarkdownBuilder with baseline builds content when there is no baseline configured, executionEnv: ADO 1`] = `
+"### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
+
+**6 failure instances**
+* (5) **rule id**:  rule description
+* (1) **rule id 2**:  rule description 2
+
+**Baseline not configured**
+A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+
+See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+
+---
+#### Scan summary
+**URLs**: 5 with failures, 1 passed, 7 not scannable
+**Rules**: 2 with failures, 1 passed, 2 not applicable
+
+---
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent."
+`;
+
+exports[`ResultMarkdownBuilder with baseline builds content when there is no baseline configured, executionEnv: github 1`] = `
 "### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 
 **6 failure instances**

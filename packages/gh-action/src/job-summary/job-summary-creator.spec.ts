@@ -48,7 +48,7 @@ describe(JobSummaryCreator, () => {
     describe('completeRun', () => {
         it('converts to markdown and writes the job summary', async () => {
             reportMarkdownConvertorMock
-                .setup((a) => a.convert(combinedReportResult))
+                .setup((a) => a.convert(combinedReportResult, 'github'))
                 .returns(() => markdownContent)
                 .verifiable();
             taskConfigMock
