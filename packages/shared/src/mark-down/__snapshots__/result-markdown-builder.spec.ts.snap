@@ -68,7 +68,7 @@ No failures were detected by automatic scanning except those which exist in the 
 **6 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+To see all failures and scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -91,7 +91,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when some baseline f
 **9 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+To see all failures and scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -113,7 +113,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when some baseline f
 **9 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+To see all failures and scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -134,7 +134,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are basel
 **2 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+To see all failures and scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -156,7 +156,7 @@ No failures were detected by automatic scanning except those which exist in the 
 **1 failure instances in baseline**
 (not shown; see [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+To see all failures and scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -177,7 +177,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are new f
 **Baseline not detected**
 To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+To see all failures and scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -198,7 +198,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there are new f
 **Baseline not detected**
 To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+To see all failures and scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -219,7 +219,7 @@ No failures were detected by automatic scanning.
 
 
 
-See scan details by downloading the report from [run artifacts](artifacts-url)
+To see scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -241,7 +241,7 @@ No failures were detected by automatic scanning.
 **Baseline not configured**
 A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See scan details by downloading the report from [run artifacts](artifacts-url)
+To see scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -263,7 +263,7 @@ No failures were detected by automatic scanning.
 **Baseline not detected**
 To update the baseline with these changes, copy the updated baseline file to [scan arguments](artifacts-url). See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See scan details by downloading the report from [run artifacts](artifacts-url)
+To see scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary
@@ -284,7 +284,7 @@ exports[`ResultMarkdownBuilder with baseline builds content when there is no bas
 **Baseline not configured**
 A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See [baselining docs](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See all failures and scan details by downloading the report from [run artifacts](artifacts-url)
+To see all failures and scan details, [download the accessibility report](artifacts-url)
 
 ---
 #### Scan summary

@@ -74,7 +74,7 @@ Next step: Manually assess keyboard accessibility with Accessibility Insights Ta
 6 failure instances in baseline
 (not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
 
-See all failures and scan details by downloading the report from run artifacts (artifacts-url)
+To see all failures and scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -99,7 +99,7 @@ Accessibility Insights
 9 failure instances in baseline
 (not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
 
-See all failures and scan details by downloading the report from run artifacts (artifacts-url)
+To see all failures and scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -123,7 +123,7 @@ Accessibility Insights
 9 failure instances in baseline
 (not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
 
-See all failures and scan details by downloading the report from run artifacts (artifacts-url)
+To see all failures and scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -146,7 +146,7 @@ Accessibility Insights
 2 failure instances in baseline
 (not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
 
-See all failures and scan details by downloading the report from run artifacts (artifacts-url)
+To see all failures and scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -170,7 +170,7 @@ Next step: Manually assess keyboard accessibility with Accessibility Insights Ta
 1 failure instances in baseline
 (not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
 
-See all failures and scan details by downloading the report from run artifacts (artifacts-url)
+To see all failures and scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -193,7 +193,7 @@ Accessibility Insights
 Baseline not detected
 To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See all failures and scan details by downloading the report from run artifacts (artifacts-url)
+To see all failures and scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -216,7 +216,7 @@ Accessibility Insights
 Baseline not detected
 To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See all failures and scan details by downloading the report from run artifacts (artifacts-url)
+To see all failures and scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -239,7 +239,7 @@ Next step: Manually assess keyboard accessibility with Accessibility Insights Ta
 
 
 
-See scan details by downloading the report from run artifacts (artifacts-url)
+To see scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -263,7 +263,7 @@ Next step: Manually assess keyboard accessibility with Accessibility Insights Ta
 Baseline not configured
 A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See scan details by downloading the report from run artifacts (artifacts-url)
+To see scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -287,7 +287,7 @@ Next step: Manually assess keyboard accessibility with Accessibility Insights Ta
 Baseline not detected
 To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See scan details by downloading the report from run artifacts (artifacts-url)
+To see scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
@@ -310,7 +310,7 @@ Accessibility Insights
 Baseline not configured
 A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
 
-See all failures and scan details by downloading the report from run artifacts (artifacts-url)
+To see all failures and scan details, download the accessibility report (artifacts-url)
 
 -------------------
 Scan summary
