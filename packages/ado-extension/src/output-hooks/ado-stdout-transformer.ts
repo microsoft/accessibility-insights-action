@@ -101,7 +101,7 @@ function replaceFirstMatchWithWarningPrefix(input: string, regex: RegExp): strin
 }
 
 function replaceFirstMatchWithErrorPrefix(input: string, regex: RegExp): string {
-    return `##[error]${input.replace(regex, '$`')}`;
+    return `##vso[task.logissue type=error]${input.replace(regex, '$`')}`;
 }
 
 function replaceFirstMatchWithGroupPrefix(input: string, regex: RegExp): string {

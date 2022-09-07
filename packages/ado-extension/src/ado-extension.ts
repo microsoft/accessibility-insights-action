@@ -25,7 +25,7 @@ export function runScan(): void {
         } else {
             adoTask.setResult(
                 adoTask.TaskResult.Failed,
-                'Scan completed with errors. To see all failures and scan details, visit the Extensions tab to download the accessibility report.',
+                'To see all failures and scan details, visit the Extensions tab to download the accessibility report.',
             );
         }
     })().catch((error: Error) => {

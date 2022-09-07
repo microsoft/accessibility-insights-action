@@ -21,7 +21,7 @@ describe('runScan', () => {
     it.each`
         scanResult | expectedCode                    | expectedMessage
         ${true}    | ${adoTask.TaskResult.Succeeded} | ${'Scan completed successfully'}
-        ${false}   | ${adoTask.TaskResult.Failed}    | ${'Scan completed with errors. To see all failures and scan details, visit the Extensions tab to download the accessibility report.'}
+        ${false}   | ${adoTask.TaskResult.Failed}    | ${'To see all failures and scan details, visit the Extensions tab to download the accessibility report.'}
     `(`show '$expectedMessage' when scan returns '$scanResult'`, async ({ scanResult, expectedCode, expectedMessage }) => {
         scanResponse = Promise.resolve(scanResult);
         const setResultMock = jest.spyOn(adoTask, 'setResult');
