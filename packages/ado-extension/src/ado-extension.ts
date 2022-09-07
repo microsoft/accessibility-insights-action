@@ -23,10 +23,7 @@ export function runScan(): void {
         if (taskSucceeded) {
             adoTask.setResult(adoTask.TaskResult.Succeeded, 'Scan completed successfully');
         } else {
-            adoTask.setResult(
-                adoTask.TaskResult.Failed,
-                'To see all failures and scan details, visit the Extensions tab to download the accessibility report.',
-            );
+            adoTask.setResult(adoTask.TaskResult.Failed, logger.getAllErrors() || 'Scan failed');
         }
     })().catch((error: Error) => {
         adoTask.setResult(adoTask.TaskResult.Failed, `Exception thrown in extension: ${error.message}`);

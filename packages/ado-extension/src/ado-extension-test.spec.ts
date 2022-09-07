@@ -3,27 +3,23 @@
 
 import { runScan } from './ado-extension';
 import * as adoTask from 'azure-pipelines-task-lib/task';
+import { Logger, Scanner } from '@accessibility-insights-action/shared';
+import * as inversify from 'inversify';
 
 let scanResponse: Promise<any>;
 
-jest.mock('./ioc/setup-ioc-container', () => ({
-    setupIocContainer: jest.fn().mockImplementation(() => ({
-        get: jest.fn().mockImplementation(() => ({
-            setup: jest.fn().mockResolvedValue(undefined),
-            scan: jest.fn().mockImplementationOnce(() => scanResponse),
-        })),
-    })),
-}));
-
+jest.mock('./ioc/setup-ioc-container', mockContainer);
 jest.mock('azure-pipelines-task-lib/task');
 
 describe('runScan', () => {
+    const errorMessage = 'Scan timed out';
     it.each`
         scanResult | expectedCode                    | expectedMessage
         ${true}    | ${adoTask.TaskResult.Succeeded} | ${'Scan completed successfully'}
-        ${false}   | ${adoTask.TaskResult.Failed}    | ${'To see all failures and scan details, visit the Extensions tab to download the accessibility report.'}
+        ${false}   | ${adoTask.TaskResult.Failed}    | ${errorMessage}
     `(`show '$expectedMessage' when scan returns '$scanResult'`, async ({ scanResult, expectedCode, expectedMessage }) => {
         scanResponse = Promise.resolve(scanResult);
+        if (scanResult === false) jest.spyOn(Logger.prototype, 'getAllErrors').mockReturnValueOnce(errorMessage);
         const setResultMock = jest.spyOn(adoTask, 'setResult');
         runScan();
         await flushPromises();
@@ -43,4 +39,29 @@ describe('runScan', () => {
 // flushPromises waits for the async function to complete
 function flushPromises() {
     return new Promise((resolve) => setImmediate(resolve));
+}
+
+function mockContainer() {
+    return {
+        setupIocContainer: jest.fn().mockImplementation(() => {
+            return {
+                get: mockContainerGet,
+            };
+        }),
+    };
+}
+
+// Mock get(Scanner), but leave other values like get(Logger) intact
+function mockContainerGet(serviceIdentifier: inversify.interfaces.ServiceIdentifier<Scanner | Logger>): { scan: jest.Mock } | Logger {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const originalModule = jest.requireActual('./ioc/setup-ioc-container');
+
+    if (serviceIdentifier === Scanner) {
+        return {
+            scan: jest.fn().mockImplementationOnce(() => scanResponse),
+        };
+    } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+        return originalModule.setupIocContainer().get(serviceIdentifier);
+    }
 }
