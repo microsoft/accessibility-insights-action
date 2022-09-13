@@ -45,7 +45,7 @@ export class AdoWorkflowEnforcer extends ProgressReporter {
     private async failIfAccessibilityErrorExists(combinedReportResult: CombinedReportParameters): Promise<void> {
         if (this.adoTaskConfig.getFailOnAccessibilityError() && combinedReportResult.results.urlResults.failedUrls > 0) {
             this.logger.logError(
-                'Accessibility error(s) were found. To see all failures and scan details, visit the Extensions tab to download the accessibility report.',
+                'Accessibility error(s) were found. To see all failures and scan details, visit the Extensions tab and download the accessibility report.',
             );
             this.logger.logInfo(
                 [

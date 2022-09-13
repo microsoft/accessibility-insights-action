@@ -14,7 +14,7 @@ Array [
 
 exports[`AdoWorkflowEnforcer completeRun without baseline fails with pinned error log if accessibility error occurs and failOnAccessibilityError=true 1`] = `
 Array [
-  "[error] Accessibility error(s) were found. To see all failures and scan details, visit the Extensions tab to download the accessibility report.",
+  "[error] Accessibility error(s) were found. To see all failures and scan details, visit the Extensions tab and download the accessibility report.",
   "[info] To prevent accessibility errors from failing your build, you can:
 * Use a baseline file to avoid failing for known issues, or
 * Set the failOnAccessibilityError task input to false to avoid failing for all issues",
