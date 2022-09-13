@@ -20,9 +20,7 @@ export function runScan(): void {
         const scanner = container.get(Scanner);
         const taskSucceeded = await scanner.scan();
 
-        if (taskSucceeded) {
-            adoTask.setResult(adoTask.TaskResult.Succeeded, 'Scan completed successfully');
-        } else {
+        if (!taskSucceeded) {
             adoTask.setResult(adoTask.TaskResult.Failed, logger.getAllErrors() || 'Scan failed');
         }
     })().catch((error: Error) => {

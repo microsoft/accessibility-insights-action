@@ -13,17 +13,14 @@ jest.mock('azure-pipelines-task-lib/task');
 
 describe('runScan', () => {
     const errorMessage = 'Scan timed out';
-    it.each`
-        scanResult | expectedCode                    | expectedMessage
-        ${true}    | ${adoTask.TaskResult.Succeeded} | ${'Scan completed successfully'}
-        ${false}   | ${adoTask.TaskResult.Failed}    | ${errorMessage}
-    `(`show '$expectedMessage' when scan returns '$scanResult'`, async ({ scanResult, expectedCode, expectedMessage }) => {
-        scanResponse = Promise.resolve(scanResult);
-        if (scanResult === false) jest.spyOn(Logger.prototype, 'getAllErrors').mockReturnValueOnce(errorMessage);
+
+    it('call setResult when scanner returns false', async () => {
+        scanResponse = Promise.resolve(false);
+        jest.spyOn(Logger.prototype, 'getAllErrors').mockReturnValueOnce(errorMessage);
         const setResultMock = jest.spyOn(adoTask, 'setResult');
         runScan();
         await flushPromises();
-        expect(setResultMock).toBeCalledWith(expectedCode, expectedMessage);
+        expect(setResultMock).toBeCalledWith(adoTask.TaskResult.Failed, errorMessage);
     });
 
     it('show exception message when runScan experiences an error', async () => {
