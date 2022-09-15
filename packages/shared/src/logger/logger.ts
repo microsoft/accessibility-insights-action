@@ -10,6 +10,7 @@ import { serializeError as serializeErrorExt } from 'serialize-error';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
 export class Logger {
     protected initialized = false;
+    public errors: string[] = [];
 
     constructor(protected readonly loggerClients: LoggerClient[], protected readonly currentProcess: typeof process) {}
 
@@ -45,6 +46,7 @@ export class Logger {
     }
 
     public logError(message: string, properties?: { [name: string]: string }): void {
+        this.errors.push(message);
         this.log(message, LogLevel.error, properties);
     }
 
@@ -83,5 +85,9 @@ export class Logger {
         }
 
         throw new Error('The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.');
+    }
+
+    public getAllErrors(): string {
+        return this.errors.join('\n');
     }
 }

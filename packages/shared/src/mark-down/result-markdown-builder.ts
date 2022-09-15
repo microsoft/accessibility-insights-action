@@ -346,18 +346,12 @@ export class ResultMarkdownBuilder {
             return lines.join('');
         }
 
-        const artifactsLink = link(artifactsUrl, 'run artifacts');
+        const artifactsLink = link(artifactsUrl, 'download the accessibility report');
         let details = 'all failures and scan details';
         if (!this.baselineHasFailures(baselineEvaluation) && !this.hasFailures(combinedReportResult, baselineEvaluation)) {
             details = 'scan details';
         }
-        lines = [
-            sectionSeparator(),
-            sectionSeparator(),
-            `See ${details} by downloading the report from ${artifactsLink}`,
-            sectionSeparator(),
-            sectionSeparator(),
-        ];
+        lines = [sectionSeparator(), sectionSeparator(), `To see ${details}, ${artifactsLink}`, sectionSeparator(), sectionSeparator()];
         return lines.join('');
     }
 

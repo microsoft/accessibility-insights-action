@@ -3,9 +3,10 @@
 
 import 'reflect-metadata';
 
-import { ExitCode, hookStderr, hookStdout, Logger, Scanner } from '@accessibility-insights-action/shared';
+import { hookStderr, hookStdout, Logger, Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
 import { adoStdoutTransformer } from './output-hooks/ado-stdout-transformer';
+import * as adoTask from 'azure-pipelines-task-lib/task';
 
 export function runScan(): void {
     (async () => {
@@ -17,9 +18,12 @@ export function runScan(): void {
         await logger.setup();
 
         const scanner = container.get(Scanner);
-        process.exit((await scanner.scan()) ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded);
-    })().catch((error) => {
-        console.log('##[error][Exception] Exception thrown in extension: ', error);
-        process.exit(ExitCode.ScanFailedToComplete);
+        const taskSucceeded = await scanner.scan();
+
+        if (!taskSucceeded) {
+            adoTask.setResult(adoTask.TaskResult.Failed, logger.getAllErrors() || 'Scan failed');
+        }
+    })().catch((error: Error) => {
+        adoTask.setResult(adoTask.TaskResult.Failed, `Exception thrown in extension: ${error.message}`);
     });
 }

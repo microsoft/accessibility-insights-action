@@ -170,6 +170,7 @@ describe(Logger, () => {
             invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('error1', LogLevel.error, undefined)).verifiable(Times.once()));
 
             testSubject.logError('error1');
+            expect(testSubject.getAllErrors()).toEqual('error1');
 
             verifyMocks();
         });
@@ -182,6 +183,7 @@ describe(Logger, () => {
             invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('error1', LogLevel.error, properties)).verifiable(Times.once()));
 
             testSubject.logError('error1', properties);
+            expect(testSubject.getAllErrors()).toEqual('error1');
 
             verifyMocks();
         });
