@@ -49,11 +49,14 @@ export class AllProgressReporter extends ProgressReporter {
             try {
                 await callback(this.progressReporters[pos]);
             } catch (e) {
-                errors.push(e);
+                if (e instanceof Error) {
+                    errors.push(e);
+                } else {
+                    throw e;
+                }
             }
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         throwOnAnyErrors(errors, 'Multiple progress reporters encountered Errors');
     }
 }
