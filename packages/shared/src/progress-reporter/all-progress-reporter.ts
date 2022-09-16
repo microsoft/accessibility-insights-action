@@ -53,6 +53,7 @@ export class AllProgressReporter extends ProgressReporter {
             }
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         throwOnAnyErrors(errors, 'Multiple progress reporters encountered Errors');
     }
 }
