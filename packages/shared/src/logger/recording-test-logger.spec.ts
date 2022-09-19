@@ -20,20 +20,20 @@ describe(RecordingTestLogger, () => {
         testSubject.logEndGroup();
 
         expect(testSubject.recordedLogs()).toMatchInlineSnapshot(`
-            Array [
+            [
               "[info] message 1 (info)",
               "[debug] message 2 (debug)",
               "[info] message 3 (info)",
-              Object {
+              {
                 "message": "[info] message 4 (info w/props)",
-                "properties": Object {
+                "properties": {
                   "key": "val",
                 },
               },
-              Object {
+              {
                 "exception": [Error: message 5 (exception)],
               },
-              Object {
+              {
                 "exception": [ErrorWithCause: message 6 (exceptionAny)],
               },
               "[warning] message 7 (warning)",

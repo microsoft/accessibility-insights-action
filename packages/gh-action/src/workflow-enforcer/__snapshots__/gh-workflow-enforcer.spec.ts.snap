@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GHWorkflowEnforcer completeRun fails with pinned error log if accessibility error occurs and failOnAccessibilityError=true 1`] = `
-Array [
+[
   "[error] Accessibility error(s) were found",
   "[info] To prevent accessibility errors from failing your build, you can:
 * Set the fail-on-accessibility-error input to false to avoid failing for all issues",

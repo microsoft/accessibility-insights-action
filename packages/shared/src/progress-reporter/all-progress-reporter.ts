@@ -49,7 +49,11 @@ export class AllProgressReporter extends ProgressReporter {
             try {
                 await callback(this.progressReporters[pos]);
             } catch (e) {
-                errors.push(e);
+                if (e instanceof Error) {
+                    errors.push(e);
+                } else {
+                    throw e;
+                }
             }
         }
 

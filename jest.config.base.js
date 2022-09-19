@@ -17,16 +17,8 @@ module.exports = {
     coverageDirectory: '<rootDir>/test-results/unit/coverage',
     coverageReporters: ['json', 'lcov', 'text', 'cobertura'],
     displayName: 'unit tests',
-    globals: {
-        'ts-jest': {
-            tsconfig: '<rootDir>/tsconfig.json',
-        },
-    },
     moduleDirectories: ['node_modules'],
     moduleFileExtensions: ['ts', 'js', 'json'],
-    moduleNameMapper: {
-        '@fluentui/react': '@fluentui/react/lib-commonjs',
-    },
     reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/test-results/unit', outputName: 'junit.xml' }]],
     setupFilesAfterEnv: ['jest-extended'],
     transform: {
