@@ -812,7 +812,7 @@
     "@fluentui/set-version" "^8.2.2"
     tslib "^2.1.0"
 
-"@fluentui/react@^8.49.6", "@fluentui/react@^8.96.1":
+"@fluentui/react@^8.96.1":
   version "8.96.3"
   resolved "https://registry.yarnpkg.com/@fluentui/react/-/react-8.96.3.tgz#38992e13899bdfdd336a5c50d83af2b82b351dee"
   integrity sha512-JdtwQMgzJH2hbD2GDD2nMRYYcgp/JUsVNgZRh/W1PEaIYt0aMfg6SfnBo/3zgkAaZ2MYub+PABnsGaCOCla6bQ==
@@ -3053,21 +3053,6 @@ accepts@~1.3.8:
     mime-types "~2.1.34"
     negotiator "0.6.3"
 
-accessibility-insights-report@4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.3.0.tgz#5eb7035ff457e8bc42317f3fcc85a4ec6d5992b9"
-  integrity sha512-ySbea25+JZspB9foA3Vxs/BVHbmnXT8VXtoBXqoEx7s5B29reys1pyGzuB2JZTIlEOz6oUH8b/vKUuAb2fFMCg==
-  dependencies:
-    "@fluentui/react" "^8.49.6"
-    axe-core "4.4.1"
-    classnames "^2.3.1"
-    lodash "^4.17.21"
-    luxon "^2.3.2"
-    react "^16.14.0"
-    react-dom "^16.14.0"
-    react-helmet "^6.1.0"
-    uuid "^8.3.2"
-
 accessibility-insights-report@4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.4.0.tgz#4208092795e5e274141056937d3d4d25d30819c3"
@@ -3083,15 +3068,15 @@ accessibility-insights-report@4.4.0:
     react-helmet "^6.1.0"
     uuid "^9.0.0"
 
-accessibility-insights-scan@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-1.3.0.tgz#ba3a51dcadd42936e35d5e0b42a038bb49a9dcc9"
-  integrity sha512-xWA7VX70y4VVKket824YrcP52LqWkrf6VVt3m7bRiljWJrGf4xCMP+ngo/YOtN9az4acx0TM7ncWgyWwwU0Deg==
+accessibility-insights-scan@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-1.4.0.tgz#29bd904748e5813543bdc82b936766965ffefa8e"
+  integrity sha512-KKGBirznwd4S0iPip0PrdyRaKdIDx8hFL+DlWO1jyUFRl1Cz9ftGr6KsbcuQk9+keFi9YWC6PXGnlKfjwd2UQQ==
   dependencies:
     "@axe-core/puppeteer" "4.4.2"
     "@medv/finder" "^2.1.0"
     "@sindresorhus/fnv1a" "^2.0.1"
-    accessibility-insights-report "4.3.0"
+    accessibility-insights-report "4.4.0"
     ajv "^8.10.0"
     apify "^2.3.2"
     applicationinsights "^2.3.1"
@@ -3112,6 +3097,7 @@ accessibility-insights-scan@1.3.0:
     lodash "^4.17.21"
     moment "^2.29.4"
     normalize-path "^3.0.0"
+    normalize-url "6.1.0"
     puppeteer "^13.7.0"
     puppeteer-extra "^3.2.3"
     puppeteer-extra-plugin "^3.2.0"
@@ -4064,7 +4050,7 @@ cjs-module-lexer@^1.0.0:
   resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.1.tgz#2fd46d9906a126965aa541345c499aaa18e8cd73"
   integrity sha512-jVamGdJPDeuQilKhvVn1h3knuMOZzr8QDnpk+M9aMlCaMkTDd6fBWPhiDqFvFZ07pL0liqabAiuy8SY4jGHeaw==
 
-classnames@^2.3.1, classnames@^2.3.2:
+classnames@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
   integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
@@ -7684,11 +7670,6 @@ lru-cache@^7.5.1:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.10.2.tgz#aab494e0768ce94f199ef553ffe0a362f2a58bb9"
   integrity sha512-9zDbhgmXAUvUMPV81A705K3tVzcPiZL3Bf5/5JC/FjYJlLZ5AJCeqIRFHJqyBppiLosqF+uKB7p8/RDXylqBIw==
 
-luxon@^2.3.2:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-2.4.0.tgz#9435806545bb32d4234dab766ab8a3d54847a765"
-  integrity sha512-w+NAwWOUL5hO0SgwOHsMBAmZ15SoknmQXhSO0hIbJCAmPKSsGeK8MlmhYh2w6Iib38IxN2M+/ooXWLbeis7GuA==
-
 luxon@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.0.4.tgz#d179e4e9f05e092241e7044f64aaa54796b03929"
@@ -8301,15 +8282,15 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
+normalize-url@6.1.0, normalize-url@^6.0.1:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-6.1.0.tgz#40d0885b535deffe3f3147bec877d05fe4c5668a"
+  integrity sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==
+
 normalize-url@^4.5.1:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.1.tgz#0dd90cf1288ee1d1313b87081c9a5932ee48518a"
   integrity sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==
-
-normalize-url@^6.0.1:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-6.1.0.tgz#40d0885b535deffe3f3147bec877d05fe4c5668a"
-  integrity sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==
 
 normalize-url@^7.0.0:
   version "7.0.1"
