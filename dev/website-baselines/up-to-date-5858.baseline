@@ -4,18 +4,19 @@
   },
   results: [
     {
-      cssSelector: 'html',
-      htmlSnippet: '<html>',
-      rule: 'html-has-lang',
+      cssSelector: '#decorative',
+      htmlSnippet: '<img id="decorative" role="presentation" alt="Some alt text" src="./img1.png">',
+      rule: 'aria-allowed-role',
       urls: [
         'http://localhost:5858/',
       ],
     },
     {
       cssSelector: 'html',
-      htmlSnippet: '<html><head>\n        <title>Inner page</title>\n    </head>\n    <body>\n        <main>\n            <h1>Inner page with issues</h1>\n            <img id="non-decorative" src="./img1.png">\n            <a href="../">Back to home</a>\n        </main>\n    \n\n</body></html>',
+      htmlSnippet: '<html>',
       rule: 'html-has-lang',
       urls: [
+        'http://localhost:5858/',
         'http://localhost:5858/linked1/inner-page',
       ],
     },

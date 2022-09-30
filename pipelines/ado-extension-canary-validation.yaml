@@ -27,4 +27,4 @@ pool:
 extends:
     template: ado-extension-validation-template.yaml
     parameters:
-        taskUnderTest: accessibility-insights.canary.task.accessibility-insights@2
+        taskUnderTest: accessibility-insights.canary.task.accessibility-insights@3
