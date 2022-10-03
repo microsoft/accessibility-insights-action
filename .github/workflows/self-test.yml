@@ -6,7 +6,7 @@ name: Self-test GitHub Action
 on:
   push:
     branches:
-      - main
+      - staging-validation
     # This doesn't run on PRs because of #629
 
 jobs:
