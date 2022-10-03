@@ -24,8 +24,7 @@ jobs:
     - name: Scan test site
       uses: microsoft/accessibility-insights-action@v3.1.0-staging
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        site-dir: ${{ github.workspace }}/dev/website-root
+        static-site-dir: ${{ github.workspace }}/dev/website-root
 
     - name: Upload report artifact
       uses: actions/upload-artifact@v1.0.0
