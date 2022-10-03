@@ -22,7 +22,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Scan test site
-      uses: microsoft/accessibility-insights-action@v2.3.0-staging
+      uses: microsoft/accessibility-insights-action@v3.1.0-staging
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         site-dir: ${{ github.workspace }}/dev/website-root
