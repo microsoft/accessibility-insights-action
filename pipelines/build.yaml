@@ -7,7 +7,7 @@ trigger: # trigger only affects CI builds
             - main
 
 variables:
-    linuxImage: 'ubuntu-18.04'
+    linuxImage: 'ubuntu-latest'
     windowsImage: 'windows-2019'
 
 jobs:
@@ -18,8 +18,8 @@ jobs:
       steps:
           - task: NodeTool@0
             inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
+                versionSpec: '16.x'
+            displayName: use node 16.x
 
           - script: yarn install --frozen-lockfile
             displayName: Install dependencies
@@ -40,9 +40,6 @@ jobs:
             displayName: Run tests
             env:
                 NODE_OPTIONS: --max_old_space_size=4096
-
-          - script: yarn test:e2e
-            displayName: 'Run e2e tests'
 
           - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
             displayName: Publish code coverage to codecov
@@ -108,8 +105,8 @@ jobs:
       steps:
           - task: NodeTool@0
             inputs:
-                versionSpec: '12.x'
-            displayName: use node 12.x
+                versionSpec: '16.x'
+            displayName: use node 16.x
 
           - script: yarn install --frozen-lockfile
             displayName: Install dependencies
@@ -150,14 +147,14 @@ jobs:
 
           - bash: |
                 echo '<!--
-                      Copyright (c) Microsoft Corporation. All rights reserved.
-                      Licensed under the MIT License.
-                      -->
-                                  
-                      # About
-                                  
-                      This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
-                      ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
+                Copyright (c) Microsoft Corporation. All rights reserved.
+                Licensed under the MIT License.
+                -->
+                              
+                # About
+                              
+                This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
+                ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
 
             displayName: 'Generate Release README Info'
 

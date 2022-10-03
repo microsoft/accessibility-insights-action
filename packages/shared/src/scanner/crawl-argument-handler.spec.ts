@@ -27,6 +27,8 @@ describe(CrawlArgumentHandler, () => {
         maxUrls: 10,
         chromePath: 'chrome',
         url: 'url',
+        singleWorker: false,
+        baselineFile: null,
     };
 
     beforeEach(() => {
@@ -49,6 +51,9 @@ describe(CrawlArgumentHandler, () => {
             axeSourcePath: 'axe',
             discoveryPatterns: ['a', 'b', 'c'],
             inputUrls: ['d', 'e', 'f'],
+            serviceAccountName: undefined,
+            serviceAccountPassword: undefined,
+            authType: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -76,6 +81,9 @@ describe(CrawlArgumentHandler, () => {
             url: 'localhost',
             discoveryPatterns: undefined,
             inputUrls: undefined,
+            serviceAccountName: undefined,
+            serviceAccountPassword: undefined,
+            authType: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -101,6 +109,35 @@ describe(CrawlArgumentHandler, () => {
             axeSourcePath: 'axe',
             discoveryPatterns: undefined,
             inputUrls: undefined,
+            serviceAccountName: undefined,
+            serviceAccountPassword: undefined,
+            authType: undefined,
+        };
+
+        validateMock.setup((m) => m(expectedArgs));
+
+        const actualArgs = crawlArgumentHandler.processScanArguments();
+        expect(actualArgs).toStrictEqual(expectedArgs);
+    });
+
+    it('returns baseline file when specified', () => {
+        const baselineFile = 'test.baseline';
+
+        setupProcessScanArguments({
+            baselineFile,
+        });
+
+        const expectedArgs: ScanArguments = {
+            ...actionInputDefaultArgs,
+            crawl: true,
+            restart: true,
+            axeSourcePath: 'axe',
+            discoveryPatterns: undefined,
+            inputUrls: undefined,
+            baselineFile,
+            serviceAccountName: undefined,
+            serviceAccountPassword: undefined,
+            authType: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -124,5 +161,10 @@ describe(CrawlArgumentHandler, () => {
         taskConfigMock.setup((m) => m.getDiscoveryPatterns()).returns((_) => args.discoveryPatterns);
         taskConfigMock.setup((m) => m.getInputUrls()).returns((_) => args.inputUrls);
         taskConfigMock.setup((m) => m.getUrl()).returns((_) => args.url);
+        taskConfigMock.setup((m) => m.getSingleWorker()).returns((_) => args.singleWorker);
+        taskConfigMock.setup((m) => m.getBaselineFile()).returns((_) => args.baselineFile);
+        taskConfigMock.setup((m) => m.getServiceAccountName()).returns((_) => undefined);
+        taskConfigMock.setup((m) => m.getServiceAccountPassword()).returns((_) => undefined);
+        taskConfigMock.setup((m) => m.getAuthType()).returns((_) => undefined);
     }
 });

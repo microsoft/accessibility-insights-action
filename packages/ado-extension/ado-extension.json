@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "accessibility-insights",
     "name": "Accessibility Insights for Azure DevOps",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "publisher": "accessibility-insights",
     "targets": [
         {
@@ -19,6 +19,11 @@
             "path": "pkg"
         }
     ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    },
     "contributions": [
         {
             "id": "task",

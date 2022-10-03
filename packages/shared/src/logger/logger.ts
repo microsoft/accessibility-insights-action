@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { VError } from 'verror';
+import { ErrorWithCause } from 'pony-cause';
 import * as utils from 'util';
-import { LoggerClient, LogLevel } from './logger-client';
+import { LoggerClient } from './logger-client';
+import { LogLevel } from './log-level';
 import { serializeError as serializeErrorExt } from 'serialize-error';
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
 export class Logger {
     protected initialized = false;
-    protected isDebugEnabled = false;
+    public errors: string[] = [];
 
     constructor(protected readonly loggerClients: LoggerClient[], protected readonly currentProcess: typeof process) {}
 
@@ -23,7 +24,6 @@ export class Logger {
                 await client.setup(baseProperties);
             }),
         );
-        this.isDebugEnabled = /--debug|--inspect/i.test(this.currentProcess.execArgv.join(' '));
         this.initialized = true;
     }
 
@@ -37,18 +37,25 @@ export class Logger {
         this.log(message, LogLevel.info, properties);
     }
 
-    public logVerbose(message: string, properties?: { [name: string]: string }): void {
-        if (this.isDebugEnabled) {
-            this.log(message, LogLevel.verbose, properties);
-        }
+    public logDebug(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.debug, properties);
     }
 
-    public logWarn(message: string, properties?: { [name: string]: string }): void {
-        this.log(message, LogLevel.warn, properties);
+    public logWarning(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.warning, properties);
     }
 
     public logError(message: string, properties?: { [name: string]: string }): void {
+        this.errors.push(message);
         this.log(message, LogLevel.error, properties);
+    }
+
+    public logStartGroup(message: string, properties?: { [name: string]: string }): void {
+        this.log(message, LogLevel.group, properties);
+    }
+
+    public logEndGroup(properties?: { [name: string]: string }): void {
+        this.log('', LogLevel.endgroup, properties);
     }
 
     public trackException(error: Error): void {
@@ -57,9 +64,9 @@ export class Logger {
     }
 
     public trackExceptionAny(underlyingErrorData: any | Error, message: string): void {
-        const parsedErrorObject =
+        const underlyingError =
             underlyingErrorData instanceof Error ? underlyingErrorData : new Error(this.serializeError(underlyingErrorData));
-        this.trackException(new VError(parsedErrorObject, message));
+        this.trackException(new ErrorWithCause(message, { cause: underlyingError }));
     }
 
     public serializeError(error: any): string {
@@ -78,5 +85,9 @@ export class Logger {
         }
 
         throw new Error('The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.');
+    }
+
+    public getAllErrors(): string {
+        return this.errors.join('\n');
     }
 }

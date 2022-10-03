@@ -5,6 +5,12 @@ parameters:
     - name: environment
       displayName: deployment environment
       type: string
+    - name: shouldSign
+      displayName: whether to sign VSIX file
+      type: string
+    - name: visibility
+      displayName: marketplace visibility
+      type: string
 
 jobs:
     - job: package_job
@@ -12,6 +18,8 @@ jobs:
           - template: package-vsix-file.yaml
             parameters:
                 environment: ${{ parameters.environment }}
+                shouldSign: ${{ parameters.shouldSign }}
+                visibility: ${{parameters.visibility}}
     - deployment: publish_vsix_file
       displayName: deploy vsix file
       dependsOn: package_job
@@ -23,3 +31,4 @@ jobs:
                       - template: publish-vsix-file.yaml
                         parameters:
                             environment: ${{ parameters.environment }}
+                            visibility: ${{parameters.visibility}}

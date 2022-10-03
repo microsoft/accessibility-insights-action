@@ -1,9 +1,9 @@
 {
     "ignore": [
         ".git",
+        ".github",
         "./.dependabot",
         "**/yarn.lock",
-        "**/.github/pull_request_template.md",
         "**/CODEOWNERS",
         "package.json",
         "cred-scan-suppressions.json",
@@ -11,10 +11,11 @@
         "**/.gitattributes",
         "**/test-results",
         "**/dist",
+        "**/*.baseline",
         "**/*.snap",
         "**/*.snap.md",
         "**/*.taskkey",
-        "NOTICES.txt"
+        "**/.DS_Store"
     ],
     "license": "./copyright-header.txt",
     "licenseFormats": {

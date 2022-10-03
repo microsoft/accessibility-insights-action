@@ -12,7 +12,8 @@
         "declaration": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "allowJs": true
     },
     "awesomeTypescriptLoaderOptions": {
         "usePrecompiledFiles": true,

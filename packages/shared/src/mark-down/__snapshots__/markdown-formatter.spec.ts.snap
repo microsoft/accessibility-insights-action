@@ -12,7 +12,7 @@ exports[`MarkdownFormatter link 1`] = `"[text](href)"`;
 
 exports[`MarkdownFormatter listItem 1`] = `"* li"`;
 
-exports[`MarkdownFormatter productTitle 1`] = `"![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights Action"`;
+exports[`MarkdownFormatter productTitle 1`] = `"![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights"`;
 
 exports[`MarkdownFormatter sectionSeparator 1`] = `
 "

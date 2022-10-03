@@ -3,13 +3,12 @@
 import 'reflect-metadata';
 
 import * as github from '@actions/github';
-import { Octokit } from '@octokit/rest';
 import { Container } from 'inversify';
 import { setupIocContainer } from './setup-ioc-container';
 import { iocTypes } from '@accessibility-insights-action/shared';
-import { PullRequestCommentCreator } from '../pull-request/pull-request-comment-creator';
-import { CheckRunCreator } from '../check-run/check-run-creator';
 import { GitHubIocTypes } from './gh-ioc-types';
+import { ConsoleCommentCreator } from '../console/console-comment-creator';
+import { GHWorkflowEnforcer } from '../workflow-enforcer/gh-workflow-enforcer';
 
 describe(setupIocContainer, () => {
     let testSubject: Container;
@@ -18,7 +17,7 @@ describe(setupIocContainer, () => {
         testSubject = setupIocContainer();
     });
 
-    test.each([CheckRunCreator, PullRequestCommentCreator, iocTypes.TaskConfig, iocTypes.ProgressReporters, Octokit])(
+    test.each([GHWorkflowEnforcer, ConsoleCommentCreator, iocTypes.TaskConfig, iocTypes.ProgressReporters, iocTypes.ArtifactsInfoProvider])(
         'verify singleton resolution %p',
         (key: any) => {
             verifySingletonDependencyResolution(testSubject, key);

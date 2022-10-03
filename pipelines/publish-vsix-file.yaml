@@ -5,6 +5,9 @@ parameters:
     - name: environment
       displayName: deployment environment
       type: string
+    - name: visibility
+      displayName: marketplace visibility
+      type: string
 
 steps:
     - download: none
@@ -27,7 +30,7 @@ steps:
           extensionId: '$(ExtensionID)'
           extensionName: '$(ExtensionName)'
           updateTasksVersion: false
-          extensionVisibility: 'private'
+          extensionVisibility: '${{parameters.visibility}}'
           extensionPricing: 'free'
           shareWith: 'accessibility-insights-private'
     - bash: |

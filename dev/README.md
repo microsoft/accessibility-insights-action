@@ -27,6 +27,10 @@ To make a change, you can follow these steps:
 -   push your changes to GitHub
 -   create a pull request. If your branch is on the main repo, the PR build should run your implementation against the test files in `website-root`.
 
+# Deploy GitHub Action to your own test repo
+
+You can follow the [instructions to deploy to GitHub](../packages/gh-action/deploy-scripts/deploy-to-github-test.md).
+
 # Run GitHub Actions locally
 
 ## Prerequisites (Windows)

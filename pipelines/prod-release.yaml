@@ -32,6 +32,8 @@ stages:
           - template: release-template.yaml
             parameters:
                 environment: ado-extension-staging
+                shouldSign: true
+                visibility: preview
 
     - stage: create_release_tag
       variables:
@@ -71,3 +73,5 @@ stages:
           - template: release-template.yaml
             parameters:
                 environment: ado-extension-prod
+                shouldSign: true
+                visibility: preview

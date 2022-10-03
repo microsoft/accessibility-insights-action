@@ -3,6 +3,7 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "outDir": "./dist/pkg/"
+        "outDir": "./dist/pkg/",
+        "strictNullChecks": true
     }
 }

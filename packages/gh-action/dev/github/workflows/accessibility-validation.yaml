@@ -11,6 +11,5 @@ jobs:
             - name: Scan local website for accessibility issues
               uses: ./
               with:
-                  repo-token: ${{ secrets.GITHUB_TOKEN }}
-                  site-dir: ${{ github.workspace }}/dev/website-root
-                  localhost-port: 53800
+                  static-site-dir: ${{ github.workspace }}/dev/website-root
+                  static-site-port: 53800

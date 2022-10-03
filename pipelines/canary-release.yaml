@@ -3,16 +3,16 @@
 
 parameters:
     - name: variableGroupName
-      displayName: Deployment Variable Group
+      displayName: Deployment variable group. Should contain variables named extensionId, extensionName, publisherId, and (optionally) appInsightsConnectionString.
       type: string
       default: 'ado-extension-canary'
     - name: versionOverride
-      displayName: version to deploy (only for test extensions)
+      displayName: Override extension version (for non-patch version upgrades, specify version number)
       type: string
-      default: 'ignore-if-canary'
+      default: 'ignore-for-patch-version-upgrade'
 
 variables:
-    - ${{ if ne(parameters.variableGroupName, 'ado-extension-canary') }}:
+    - ${{ if ne(parameters.versionOverride, 'ignore-for-patch-version-upgrade') }}:
           - name: extensionVersionOverride
             value: ${{ parameters.versionOverride }}
 
@@ -29,7 +29,7 @@ resources:
               branches: [main]
 
 stages:
-    - stage: package_publish_staging
+    - stage: package_publish_canary
       variables:
           - group: ${{ parameters.variableGroupName }}
       jobs:
@@ -37,5 +37,9 @@ stages:
             parameters:
                 ${{ if eq(parameters.variableGroupName, 'ado-extension-canary') }}:
                     environment: ado-extension-canary
+                    shouldSign: false
+                    visibility: preview
                 ${{ if ne(parameters.variableGroupName, 'ado-extension-canary') }}:
                     environment: ado-extension-test
+                    shouldSign: false
+                    visibility: private

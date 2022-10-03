@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import 'reflect-metadata';
-import './module-name-mapper';
 
-import { Logger } from '@accessibility-insights-action/shared';
-import { Scanner } from '@accessibility-insights-action/shared';
+import { ExitCode, hookStderr, hookStdout, Logger, Scanner } from '@accessibility-insights-action/shared';
 import { setupIocContainer } from './ioc/setup-ioc-container';
+import { ghStdoutTransformer } from './output-hooks/gh-stdout-transformer';
 
 (async () => {
+    hookStderr();
+    hookStdout(ghStdoutTransformer);
+
     const container = setupIocContainer();
     const logger = container.get(Logger);
     await logger.setup();
 
     const scanner = container.get(Scanner);
-    await scanner.scan();
+    process.exit((await scanner.scan()) ? ExitCode.ScanCompletedNoUserActionIsNeeded : ExitCode.ScanCompletedUserActionIsNeeded);
 })().catch((error) => {
-    console.log('Exception thrown in action: ', error);
-    process.exit(1);
+    console.log('::error::[Exception] Exception thrown in extension: ', error);
+    process.exit(ExitCode.ScanFailedToComplete);
 });

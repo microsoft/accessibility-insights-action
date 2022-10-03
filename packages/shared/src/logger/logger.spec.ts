@@ -3,11 +3,12 @@
 import 'reflect-metadata';
 
 import { IMock, Mock, MockBehavior, Times } from 'typemoq';
-import { VError } from 'verror';
+import { ErrorWithCause } from 'pony-cause';
 import { BaseTelemetryProperties } from './base-telemetry-properties';
 import { ConsoleLoggerClient } from './console-logger-client';
 import { Logger } from './logger';
-import { LoggerClient, LogLevel } from './logger-client';
+import { LoggerClient } from './logger-client';
+import { LogLevel } from './log-level';
 
 describe(Logger, () => {
     let loggerClient1Mock: IMock<LoggerClient>;
@@ -57,7 +58,7 @@ describe(Logger, () => {
     describe('log', () => {
         it('throw if called before setup', () => {
             expect(() => {
-                testSubject.log('trace1', LogLevel.warn);
+                testSubject.log('trace1', LogLevel.warning);
             }).toThrowError(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
@@ -120,10 +121,10 @@ describe(Logger, () => {
         });
     });
 
-    describe('logWarn', () => {
+    describe('logWarning', () => {
         it('throw if called before setup', () => {
             expect(() => {
-                testSubject.logWarn('warn1');
+                testSubject.logWarning('warn1');
             }).toThrowError(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
@@ -133,9 +134,9 @@ describe(Logger, () => {
             setupCallsForTelemetrySetup();
             await testSubject.setup();
 
-            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('warn1', LogLevel.warn, undefined)).verifiable(Times.once()));
+            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('warn1', LogLevel.warning, undefined)).verifiable(Times.once()));
 
-            testSubject.logWarn('warn1');
+            testSubject.logWarning('warn1');
 
             verifyMocks();
         });
@@ -145,9 +146,9 @@ describe(Logger, () => {
             setupCallsForTelemetrySetup();
             await testSubject.setup();
 
-            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('warn1', LogLevel.warn, properties)).verifiable(Times.once()));
+            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('warn1', LogLevel.warning, properties)).verifiable(Times.once()));
 
-            testSubject.logWarn('warn1', properties);
+            testSubject.logWarning('warn1', properties);
 
             verifyMocks();
         });
@@ -169,6 +170,7 @@ describe(Logger, () => {
             invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('error1', LogLevel.error, undefined)).verifiable(Times.once()));
 
             testSubject.logError('error1');
+            expect(testSubject.getAllErrors()).toEqual('error1');
 
             verifyMocks();
         });
@@ -181,38 +183,25 @@ describe(Logger, () => {
             invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('error1', LogLevel.error, properties)).verifiable(Times.once()));
 
             testSubject.logError('error1', properties);
+            expect(testSubject.getAllErrors()).toEqual('error1');
 
             verifyMocks();
         });
     });
 
-    describe('logVerbose', () => {
-        it('--debug is case insensitive', async () => {
-            processStub.execArgv = ['--t', '--DEBUG'];
-            setupCallsForTelemetrySetup();
-            await testSubject.setup();
-
-            invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('HealthCheck', LogLevel.verbose, undefined)).verifiable(Times.once()));
-
-            testSubject.logVerbose('HealthCheck');
-
-            verifyMocks();
-        });
-
-        describe('in debug mode', () => {
+    describe('logDebug', () => {
+        describe('in normal mode', () => {
             beforeEach(async () => {
-                processStub.execArgv = ['--t', '--debug'];
+                processStub.execArgv = ['--t'];
 
                 setupCallsForTelemetrySetup();
                 await testSubject.setup();
             });
 
             it('when properties not passed', () => {
-                invokeAllLoggerClientMocks((m) =>
-                    m.setup((c) => c.log('HealthCheck', LogLevel.verbose, undefined)).verifiable(Times.once()),
-                );
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('HealthCheck', LogLevel.debug, undefined)).verifiable(Times.once()));
 
-                testSubject.logVerbose('HealthCheck');
+                testSubject.logDebug('HealthCheck');
 
                 verifyMocks();
             });
@@ -221,25 +210,70 @@ describe(Logger, () => {
                 const properties = { foo: 'bar' };
 
                 invokeAllLoggerClientMocks((m) =>
-                    m.setup((c) => c.log('HealthCheck', LogLevel.verbose, properties)).verifiable(Times.once()),
+                    m.setup((c) => c.log('HealthCheck', LogLevel.debug, properties)).verifiable(Times.once()),
                 );
 
-                testSubject.logVerbose('HealthCheck', properties);
+                testSubject.logDebug('HealthCheck', properties);
 
                 verifyMocks();
             });
         });
+    });
 
+    describe('logStartGroup', () => {
         describe('in normal mode', () => {
+            beforeEach(async () => {
+                processStub.execArgv = ['--t'];
+
+                setupCallsForTelemetrySetup();
+                await testSubject.setup();
+            });
+
             it('when properties not passed', () => {
-                testSubject.logVerbose('HealthCheck');
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('HealthCheck', LogLevel.group, undefined)).verifiable(Times.once()));
+
+                testSubject.logStartGroup('HealthCheck');
 
                 verifyMocks();
             });
 
             it('when properties passed', () => {
                 const properties = { foo: 'bar' };
-                testSubject.logVerbose('HealthCheck', properties);
+
+                invokeAllLoggerClientMocks((m) =>
+                    m.setup((c) => c.log('HealthCheck', LogLevel.group, properties)).verifiable(Times.once()),
+                );
+
+                testSubject.logStartGroup('HealthCheck', properties);
+
+                verifyMocks();
+            });
+        });
+    });
+
+    describe('logEndGroup', () => {
+        describe('in normal mode', () => {
+            beforeEach(async () => {
+                processStub.execArgv = ['--t'];
+
+                setupCallsForTelemetrySetup();
+                await testSubject.setup();
+            });
+
+            it('when properties not passed', () => {
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('', LogLevel.endgroup, undefined)).verifiable(Times.once()));
+
+                testSubject.logEndGroup();
+
+                verifyMocks();
+            });
+
+            it('when properties passed', () => {
+                const properties = { foo: 'bar' };
+
+                invokeAllLoggerClientMocks((m) => m.setup((c) => c.log('', LogLevel.endgroup, properties)).verifiable(Times.once()));
+
+                testSubject.logEndGroup(properties);
 
                 verifyMocks();
             });
@@ -285,7 +319,7 @@ describe(Logger, () => {
             await testSubject.setup();
 
             invokeAllLoggerClientMocks((m) =>
-                m.setup((c) => c.trackException(new VError(underlyingError, errorMessage))).verifiable(Times.once()),
+                m.setup((c) => c.trackException(new ErrorWithCause(errorMessage, { cause: underlyingError }))).verifiable(Times.once()),
             );
 
             testSubject.trackExceptionAny(underlyingError, errorMessage);
@@ -302,7 +336,11 @@ describe(Logger, () => {
 
             invokeAllLoggerClientMocks((m) =>
                 m
-                    .setup((c) => c.trackException(new VError(new Error(testSubject.serializeError(underlyingError)), errorMessage)))
+                    .setup((c) =>
+                        c.trackException(
+                            new ErrorWithCause(errorMessage, { cause: new Error(testSubject.serializeError(underlyingError)) }),
+                        ),
+                    )
                     .verifiable(Times.once()),
             );
 

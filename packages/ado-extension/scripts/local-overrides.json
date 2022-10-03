@@ -1,0 +1,14 @@
+[
+    {
+        "name": "staticSiteDir",
+        "value": "../../dev/website-root/"
+    },
+    {
+        "name": "staticSiteUrlRelativePath",
+        "value": "/"
+    },
+    {
+        "name": "failOnAccessibilityError",
+        "value": false
+    }
+]

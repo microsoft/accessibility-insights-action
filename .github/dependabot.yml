@@ -28,3 +28,11 @@ updates:
   - dependency-name: puppeteer-core
     versions:
     - "> 5.3.1"
+    # office-ui-fabric-react is bound to v16 of @types/react
+  - dependency-name: "@types/react"
+    versions:
+    - ">= 17"
+    # office-ui-fabric-react is bound to v16 of @types/react
+  - dependency-name: "@types/react-dom"
+    versions:
+    - ">= 17"

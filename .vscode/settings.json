@@ -10,7 +10,6 @@
     },
     "shellformat.effectLanguages": ["shellscript"],
     "files.exclude": {
-        "**/node_modules/": true,
         "**/.git": true,
         "**/out": true,
         "**/test-results": true

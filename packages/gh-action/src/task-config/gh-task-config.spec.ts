@@ -12,17 +12,20 @@ describe(GHTaskConfig, () => {
     let processStub: any;
     let actionCoreMock: IMock<typeof actionCore>;
     let taskConfig: GHTaskConfig;
+    let markdownSummaryMock: IMock<typeof actionCore.summary>;
 
     beforeEach(() => {
         processStub = {
             env: {},
         } as any;
         actionCoreMock = Mock.ofType<typeof actionCore>();
+        markdownSummaryMock = Mock.ofType<typeof actionCore.summary>();
         taskConfig = new GHTaskConfig(processStub, actionCoreMock.object);
     });
 
     afterEach(() => {
         actionCoreMock.verifyAll();
+        markdownSummaryMock.verifyAll();
     });
 
     function getPlatformAgnosticPath(inputPath: string): string {
@@ -30,26 +33,50 @@ describe(GHTaskConfig, () => {
     }
 
     it.each`
-        inputOption                 | inputValue         | expectedValue                                          | getInputFunc
-        ${'repo-token'}             | ${'token'}         | ${'token'}                                             | ${() => taskConfig.getToken()}
-        ${'scan-url-relative-path'} | ${'path'}          | ${'path'}                                              | ${() => taskConfig.getScanUrlRelativePath()}
-        ${'chrome-path'}            | ${'./chrome-path'} | ${getPlatformAgnosticPath(__dirname + '/chrome-path')} | ${() => taskConfig.getChromePath()}
-        ${'input-file'}             | ${'./input-file'}  | ${getPlatformAgnosticPath(__dirname + '/input-file')}  | ${() => taskConfig.getInputFile()}
-        ${'output-dir'}             | ${'./output-dir'}  | ${getPlatformAgnosticPath(__dirname + '/output-dir')}  | ${() => taskConfig.getReportOutDir()}
-        ${'site-dir'}               | ${'path'}          | ${'path'}                                              | ${() => taskConfig.getSiteDir()}
-        ${'url'}                    | ${'url'}           | ${'url'}                                               | ${() => taskConfig.getUrl()}
-        ${'discovery-patterns'}     | ${'abc'}           | ${'abc'}                                               | ${() => taskConfig.getDiscoveryPatterns()}
-        ${'input-urls'}             | ${'abc'}           | ${'abc'}                                               | ${() => taskConfig.getInputUrls()}
-        ${'max-urls'}               | ${'20'}            | ${20}                                                  | ${() => taskConfig.getMaxUrls()}
-        ${'scan-timeout'}           | ${'100000'}        | ${100000}                                              | ${() => taskConfig.getScanTimeout()}
-        ${'localhost-port'}         | ${'8080'}          | ${8080}                                                | ${() => taskConfig.getLocalhostPort()}
+        inputOption                        | inputValue             | expectedValue                                              | getInputFunc
+        ${'static-site-url-relative-path'} | ${'path'}              | ${'path'}                                                  | ${() => taskConfig.getStaticSiteUrlRelativePath()}
+        ${'static-site-url-relative-path'} | ${''}                  | ${undefined}                                               | ${() => taskConfig.getStaticSiteUrlRelativePath()}
+        ${'chrome-path'}                   | ${'./chrome-path'}     | ${getPlatformAgnosticPath(__dirname + '/chrome-path')}     | ${() => taskConfig.getChromePath()}
+        ${'input-file'}                    | ${'./input-file'}      | ${getPlatformAgnosticPath(__dirname + '/input-file')}      | ${() => taskConfig.getInputFile()}
+        ${'input-file'}                    | ${''}                  | ${undefined}                                               | ${() => taskConfig.getInputFile()}
+        ${'output-dir'}                    | ${'./output-dir'}      | ${getPlatformAgnosticPath(__dirname + '/output-dir')}      | ${() => taskConfig.getReportOutDir()}
+        ${'static-site-dir'}               | ${'./static-site-dir'} | ${getPlatformAgnosticPath(__dirname + '/static-site-dir')} | ${() => taskConfig.getStaticSiteDir()}
+        ${'static-site-dir'}               | ${''}                  | ${undefined}                                               | ${() => taskConfig.getStaticSiteDir()}
+        ${'url'}                           | ${'url'}               | ${'url'}                                                   | ${() => taskConfig.getUrl()}
+        ${'url'}                           | ${''}                  | ${undefined}                                               | ${() => taskConfig.getUrl()}
+        ${'discovery-patterns'}            | ${'abc'}               | ${'abc'}                                                   | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'discovery-patterns'}            | ${''}                  | ${undefined}                                               | ${() => taskConfig.getDiscoveryPatterns()}
+        ${'input-urls'}                    | ${'abc'}               | ${'abc'}                                                   | ${() => taskConfig.getInputUrls()}
+        ${'input-urls'}                    | ${''}                  | ${undefined}                                               | ${() => taskConfig.getInputUrls()}
+        ${'max-urls'}                      | ${'20'}                | ${20}                                                      | ${() => taskConfig.getMaxUrls()}
+        ${'scan-timeout'}                  | ${'100000'}            | ${100000}                                                  | ${() => taskConfig.getScanTimeout()}
+        ${'static-site-port'}              | ${'8080'}              | ${8080}                                                    | ${() => taskConfig.getStaticSitePort()}
+        ${'static-site-port'}              | ${''}                  | ${undefined}                                               | ${() => taskConfig.getStaticSitePort()}
+        ${'baseline-file'}                 | ${'./baseline-file'}   | ${getPlatformAgnosticPath(__dirname + '/baseline-file')}   | ${() => taskConfig.getBaselineFile()}
+        ${'baseline-file'}                 | ${''}                  | ${undefined}                                               | ${() => taskConfig.getBaselineFile()}
+        ${'single-worker'}                 | ${'true'}              | ${true}                                                    | ${() => taskConfig.getSingleWorker()}
+        ${'single-worker'}                 | ${''}                  | ${true}                                                    | ${() => taskConfig.getSingleWorker()}
+        ${'single-worker'}                 | ${'false'}             | ${false}                                                   | ${() => taskConfig.getSingleWorker()}
+        ${'hosting-mode'}                  | ${'staticSite'}        | ${'staticSite'}                                            | ${() => taskConfig.getHostingMode()}
+        ${'hosting-mode'}                  | ${'dynamicSite'}       | ${'dynamicSite'}                                           | ${() => taskConfig.getHostingMode()}
+        ${'hosting-mode'}                  | ${''}                  | ${undefined}                                               | ${() => taskConfig.getHostingMode()}
+        ${'fail-on-accessibility-error'}   | ${'true'}              | ${true}                                                    | ${() => taskConfig.getFailOnAccessibilityError()}
+        ${'fail-on-accessibility-error'}   | ${''}                  | ${true}                                                    | ${() => taskConfig.getFailOnAccessibilityError()}
+        ${'fail-on-accessibility-error'}   | ${'false'}             | ${false}                                                   | ${() => taskConfig.getFailOnAccessibilityError()}
     `(
         `input value '$inputValue' returned as '$expectedValue' for '$inputOption' parameter`,
         ({ inputOption, getInputFunc, inputValue, expectedValue }) => {
-            actionCoreMock
-                .setup((am) => am.getInput(inputOption))
-                .returns(() => inputValue)
-                .verifiable(Times.once());
+            if (typeof inputValue == 'boolean') {
+                actionCoreMock
+                    .setup((am) => am.getBooleanInput(inputOption))
+                    .returns(() => inputValue)
+                    .verifiable(Times.once());
+            } else {
+                actionCoreMock
+                    .setup((am) => am.getInput(inputOption))
+                    .returns(() => inputValue)
+                    .verifiable(Times.once());
+            }
             const retrievedOption = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },
@@ -103,5 +130,19 @@ describe(GHTaskConfig, () => {
         const actualRunId = taskConfig.getRunId();
 
         expect(actualRunId).toBe(runId);
+    });
+
+    it('should write job summary', async () => {
+        const markdownStub = 'markdownStub';
+
+        markdownSummaryMock
+            .setup((o) => o.addRaw(markdownStub))
+            .returns(() => markdownSummaryMock.object)
+            .verifiable();
+        markdownSummaryMock.setup((o) => o.write()).verifiable();
+
+        actionCoreMock.setup((o) => o.summary).returns(() => markdownSummaryMock.object);
+
+        await taskConfig.writeJobSummary(markdownStub);
     });
 });

@@ -3,8 +3,9 @@
 
 import { injectable } from 'inversify';
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import marked from 'marked';
+import { marked } from 'marked';
 import TerminalRenderer from 'marked-terminal';
+import { BaselineEvaluation } from 'accessibility-insights-scan';
 
 @injectable()
 export abstract class ProgressReporter {
@@ -17,8 +18,11 @@ export abstract class ProgressReporter {
     }
 
     public abstract start(): Promise<void>;
-    public abstract completeRun(combinedReportResult: CombinedReportParameters): Promise<void>;
-    public abstract failRun(message: string): Promise<void>;
+    public abstract completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void>;
+    public abstract failRun(): Promise<void>;
+    public didScanSucceed(): Promise<boolean> {
+        return Promise.resolve(true); // Will be overridden in classes that use this
+    }
 
     protected async invoke<T>(fn: () => Promise<T>): Promise<T> {
         return process.env.ACT !== 'true' ? fn() : Promise.resolve(undefined as T);

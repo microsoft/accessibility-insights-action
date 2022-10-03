@@ -3,6 +3,7 @@
 
 node_modules/
 dist/
+dist-test-deployment/
 drop/
 test-results/
 out/

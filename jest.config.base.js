@@ -17,22 +17,14 @@ module.exports = {
     coverageDirectory: '<rootDir>/test-results/unit/coverage',
     coverageReporters: ['json', 'lcov', 'text', 'cobertura'],
     displayName: 'unit tests',
-    globals: {
-        'ts-jest': {
-            tsconfig: '<rootDir>/tsconfig.json',
-        },
-    },
     moduleDirectories: ['node_modules'],
     moduleFileExtensions: ['ts', 'js', 'json'],
-    moduleNameMapper: {
-        'office-ui-fabric-react/lib/(.*)$': 'office-ui-fabric-react/lib-commonjs/$1',
-        '@uifabric/styling': '@uifabric/styling/lib-commonjs',
-    },
     reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/test-results/unit', outputName: 'junit.xml' }]],
     setupFilesAfterEnv: ['jest-extended'],
     transform: {
-        '^.+\\.(ts|tsx)$': 'ts-jest',
+        '^.+\\.(jsx?|tsx?)$': 'ts-jest',
     },
+    transformIgnorePatterns: ['/node_modules/(?!(serialize-error|get-port))'], // Transform pure ESM with ts-jest
     testMatch: ['**/*.spec.[tj]s'],
     testPathIgnorePatterns: ['/dist/', '/out/'],
     verbose: true,

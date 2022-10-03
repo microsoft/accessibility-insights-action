@@ -18,4 +18,4 @@
 - [ ] Added relevant unit test for your changes. (`yarn test`)
 - [ ] Verified code coverage for the changes made. Check coverage report at: `<rootDir>/test-results/unit/coverage`
 - [ ] Ran precheckin (`yarn precheckin`)
-- [ ] (after PR created) The `Accessibility Checks (pull_request)` check should fail. All other checks should pass.
+- [ ] Described how this PR impacts both the ADO extension and the GitHub action
