@@ -94,6 +94,14 @@ export class Scanner {
 
             const scanStarted = new Date();
             const combinedScanResult = await this.crawler.crawl(crawlerParameters, this.baselineOptionsBuilder.build(scanArguments));
+
+            if (combinedScanResult.errors.length > 0) {
+                this.logger.logInfo(`Scan failed with ${combinedScanResult.errors.length} error(s)`);
+                combinedScanResult.errors.forEach((error) => {
+                    this.logAndTrackScanningException(error.error, error.url);
+                });
+                return Promise.resolve(false);
+            }
             const scanEnded = new Date();
 
             const combinedReportParameters = this.getCombinedReportParameters(combinedScanResult, scanStarted, scanEnded);
@@ -104,7 +112,7 @@ export class Scanner {
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
             return this.allProgressReporter.didScanSucceed();
         } catch (error) {
-            this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanArguments?.url}`);
+            this.logAndTrackScanningException(JSON.stringify(error), scanArguments?.url);
             await this.allProgressReporter.failRun();
         } finally {
             this.fileServer.stop();
@@ -143,5 +151,9 @@ export class Scanner {
             // eslint-disable-next-line security/detect-non-literal-fs-filename
             this.fileSystemObj.mkdirSync(outDirectory);
         }
+    }
+
+    private logAndTrackScanningException(error: string, url: string): void {
+        this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
     }
 }
