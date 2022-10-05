@@ -33,7 +33,7 @@
     "devDependencies": {},
     "dependencies": {
         "@accessibility-insights-action/shared": "^1.0.0",
-        "@actions/core": "^1.9.1",
+        "@actions/core": "^1.10.0",
         "@actions/github": "^5.1.0",
         "inversify": "6.0.1",
         "reflect-metadata": "^0.1.13"
