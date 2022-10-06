@@ -182,6 +182,19 @@ If you want to run multiple Accessibility Insights steps in a single pipeline, y
 
 Each step also needs a unique output directory on the build agent. The task will generate unique output directories for you by default, but if you override `outputDir`, you will need to ensure that it is also unique among all steps.
 
+### Example Pipelines
+
+Here are some example pipelines with various configuration scenarios:
+
+| Description                                                 | Link                                                                                                                                                                                                                                                          | Expected Outcome |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| Basic URL with no accessibility issues found                | [![Build Status](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_apis/build/status/54?branchName=main)](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_build/latest?definitionId=54&branchName=main) | Pass             |
+| Basic URL with accessibility issues found                   | [![Build Status](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_apis/build/status/55?branchName=main)](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_build/latest?definitionId=55&branchName=main) | Fail             |
+| Static site being served by the Accessibility Insights task | [![Build Status](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_apis/build/status/53?branchName=main)](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_build/latest?definitionId=53&branchName=main) | Fail             |
+| Localhost site being served in pipeline                     | [![Build Status](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_apis/build/status/52?branchName=main)](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_build/latest?definitionId=52&branchName=main) | Fail             |
+| Using a baseline file                                       | [![Build Status](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_apis/build/status/51?branchName=main)](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_build/latest?definitionId=51&branchName=main) | Pass             |
+| Using inputUrls input to specify list of URLs               | [![Build Status](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_apis/build/status/50?branchName=main)](https://dev.azure.com/accessibility-insights/accessibility-insights-action/_build/latest?definitionId=50&branchName=main) | Fail             |
+
 ## Troubleshooting
 
 -   If the action didn't trigger as you expected, check the `trigger` or `pr` sections of your yml file. Make sure any listed branch names are correct for your repository.
