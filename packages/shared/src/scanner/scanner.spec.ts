@@ -228,7 +228,7 @@ describe(Scanner, () => {
             setupWaitForPromiseToReturnOriginalPromise();
 
             // Check that logger is called the expected amount of times and that exceptions are tracked
-            loggerMock.setup((lm) => lm.logInfo(`Scan failed with ${combinedScanResult.errors.length} error(s)`)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logError(`Scan failed with ${combinedScanResult.errors.length} error(s)`)).verifiable(Times.once());
 
             loggerMock
                 .setup((lm) => lm.trackExceptionAny(It.isAny(), It.isAnyString()))

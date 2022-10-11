@@ -96,7 +96,7 @@ export class Scanner {
             const combinedScanResult = await this.crawler.crawl(crawlerParameters, this.baselineOptionsBuilder.build(scanArguments));
 
             if (!isEmpty(combinedScanResult.errors)) {
-                this.logger.logInfo(`Scan failed with ${combinedScanResult.errors.length} error(s)`);
+                this.logger.logError(`Scan failed with ${combinedScanResult.errors.length} error(s)`);
                 combinedScanResult.errors.forEach((error) => {
                     this.logAndTrackScanningException(error.error, error.url);
                 });
@@ -154,7 +154,7 @@ export class Scanner {
         }
     }
 
-    private logAndTrackScanningException(error, url: string): void {
+    private logAndTrackScanningException(error: unknown, url: string): void {
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
     }
 }
