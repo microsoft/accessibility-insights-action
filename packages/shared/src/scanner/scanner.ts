@@ -154,7 +154,7 @@ export class Scanner {
         }
     }
 
-    private logAndTrackScanningException(error: string, url: string): void {
+    private logAndTrackScanningException(error, url: string): void {
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
     }
 }
