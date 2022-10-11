@@ -95,11 +95,12 @@ export class Scanner {
             const scanStarted = new Date();
             const combinedScanResult = await this.crawler.crawl(crawlerParameters, this.baselineOptionsBuilder.build(scanArguments));
 
-            if (combinedScanResult.errors.length > 0) {
+            if (!isEmpty(combinedScanResult.errors)) {
                 this.logger.logInfo(`Scan failed with ${combinedScanResult.errors.length} error(s)`);
                 combinedScanResult.errors.forEach((error) => {
                     this.logAndTrackScanningException(error.error, error.url);
                 });
+                await this.allProgressReporter.failRun();
                 return Promise.resolve(false);
             }
             const scanEnded = new Date();
@@ -112,7 +113,7 @@ export class Scanner {
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
             return this.allProgressReporter.didScanSucceed();
         } catch (error) {
-            this.logAndTrackScanningException(JSON.stringify(error), scanArguments?.url);
+            this.logAndTrackScanningException(error, scanArguments?.url);
             await this.allProgressReporter.failRun();
         } finally {
             this.fileServer.stop();

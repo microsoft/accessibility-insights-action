@@ -165,7 +165,7 @@ describe(Scanner, () => {
             progressReporterMock.setup((m) => m.start()).throws(error);
 
             loggerMock
-                .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page undefined`))
+                .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page: undefined`))
                 .verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL undefined completed`)).verifiable(Times.once());
             progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
@@ -174,6 +174,65 @@ describe(Scanner, () => {
             inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             setupWaitForPromiseToReturnOriginalPromise();
+
+            await expect(scanner.scan()).resolves.toBe(false);
+
+            verifyMocks();
+        });
+
+        it('should trackException for multiple errors and return false when combinedScanResult returns array of errors', async () => {
+            //Setup for run that fails with combinedScanResult errors
+            const crawlerParams: CrawlerRunOptions = {
+                baseUrl: scanArguments.url,
+            };
+
+            const baselineOptions: BaselineOptions = {} as BaselineOptions;
+            combinedScanResult.errors = [
+                { url: 'url1', error: 'error1' },
+                { url: 'url2', error: 'error2' },
+            ];
+
+            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
+            taskConfigMock
+                .setup((m) => m.getUrl())
+                .returns((_) => scanArguments.url)
+                .verifiable(Times.once());
+            crawlArgumentHandlerMock
+                .setup((m) => m.processScanArguments(It.isAny()))
+                .returns((_) => scanArguments)
+                .verifiable(Times.once());
+            taskConfigMock
+                .setup((m) => m.getReportOutDir())
+                .returns(() => reportOutDir)
+                .verifiable(Times.once());
+            aiCrawlerMock
+                .setup((m) => m.crawl(crawlerParams, baselineOptions))
+                .returns(async () => {
+                    return Promise.resolve(combinedScanResult);
+                })
+                .verifiable(Times.once());
+            crawlerParametersBuilder
+                .setup((m) => m.build(scanArguments))
+                .returns((_) => crawlerParams)
+                .verifiable(Times.once());
+            baselineOptionsBuilderMock
+                .setup((m) => m.build(scanArguments))
+                .returns(() => baselineOptions)
+                .verifiable(Times.once());
+
+            progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
+            localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
+
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
+
+            setupWaitForPromiseToReturnOriginalPromise();
+
+            // Check that logger is called the expected amount of times and that exceptions are tracked
+            loggerMock.setup((lm) => lm.logInfo(`Scan failed with ${combinedScanResult.errors.length} error(s)`)).verifiable(Times.once());
+
+            loggerMock
+                .setup((lm) => lm.trackExceptionAny(It.isAny(), It.isAnyString()))
+                .verifiable(Times.exactly(combinedScanResult.errors.length));
 
             await expect(scanner.scan()).resolves.toBe(false);
 
