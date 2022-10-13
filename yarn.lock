@@ -3101,10 +3101,10 @@ accessibility-insights-report@4.4.0:
     react-helmet "^6.1.0"
     uuid "^9.0.0"
 
-accessibility-insights-scan@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-1.4.0.tgz#29bd904748e5813543bdc82b936766965ffefa8e"
-  integrity sha512-KKGBirznwd4S0iPip0PrdyRaKdIDx8hFL+DlWO1jyUFRl1Cz9ftGr6KsbcuQk9+keFi9YWC6PXGnlKfjwd2UQQ==
+accessibility-insights-scan@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-1.4.1.tgz#b0bcc023428631875ee0965a689eb8f1b2c70207"
+  integrity sha512-3Er4JOjR1B+O9HblT2CL/s90GhTJb3Ah94n3Mrhf1FyNAt4kmJu24QJJXhfIUKW4JGO2Lm03DvXZpSdrNPKPCA==
   dependencies:
     "@axe-core/puppeteer" "4.4.2"
     "@medv/finder" "^2.1.0"
