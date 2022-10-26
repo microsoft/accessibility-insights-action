@@ -91,7 +91,7 @@
             "required": false,
             "defaultValue": "",
             "options": {
-                "": "",
+                "": "None",
                 "AAD": "Azure Active Directory"
             },
             "helpMarkDown": "Use with serviceAccountName and serviceAccountPassword to specify the authentication type."
