@@ -98,6 +98,10 @@ jobs:
             inputs:
                 CredScan: true
 
+    - job: 'CodeQL'
+      variables:
+          Codeql.Enabled: true
+
     - job: 'PublishBuildDrops'
       pool:
           vmImage: $(linuxImage)
