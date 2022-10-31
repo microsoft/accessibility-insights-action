@@ -169,4 +169,4 @@ Version 3.x of the action contains several breaking changes from version 2.x. To
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
 -   If you can't find an artifact, note that your workflow must include an `actions/upload-artifact` step to add the report folder to your check results. See the "Basic template" above.
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scan-timeout` in milliseconds.
--   The default viewport that the action uses is `800x600`.
+-   The default viewport that the action uses has a width of 800px and a height of 600px.
