@@ -116,7 +116,7 @@ describe(TelemetrySender, () => {
 
             eventProperties.rulesFailedListWithCounts = [
                 { ruleId: 'failed-rule-1', failureCount: 4 },
-                { ruleId: 'failed-rule-2', failureCount: 4 }, 
+                { ruleId: 'failed-rule-2', failureCount: 4 },
             ];
 
             eventProperties.baselineIsEnabled = generateWithBaselineEnabled;
