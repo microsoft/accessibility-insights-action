@@ -40,7 +40,7 @@ export class TelemetrySender extends ProgressReporter {
             eventProperties.baselineIsEnabled = true;
             eventProperties.baselineFailuresFixed = baselineEvaluation.totalFixedViolations;
             eventProperties.baselineNewFailures = baselineEvaluation.totalNewViolations;
-            eventProperties.baselineTotalNewViolations = baselineEvaluation.totalNewViolations;
+            eventProperties.baselineTotalNewViolations = baselineEvaluation.totalBaselineViolations;
         }
 
         this.telemetryClient.trackEvent({
