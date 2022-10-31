@@ -123,7 +123,7 @@ describe(TelemetrySender, () => {
             if (generateWithBaselineEnabled) {
                 eventProperties.baselineFailuresFixed = baselineFailuresFixed;
                 eventProperties.baselineNewFailures = baselineNewFailures;
-                eventProperties.baselineTotalNewViolations = baselineViolations;
+                eventProperties.baselineFailuresCount = baselineViolations;
             }
 
             telemetryClientMock
