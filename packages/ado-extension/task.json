@@ -15,12 +15,12 @@
     "instanceNameFormat": "Run accessibility testing",
     "groups": [
         {
-            "displayName": "Output options",
+            "displayName": "Output Options",
             "isExpanded": true,
             "name": "outputOptions"
         },
         {
-            "displayName": "Advanced options",
+            "displayName": "Advanced Options",
             "isExpanded": false,
             "name": "advancedOptions"
         }
