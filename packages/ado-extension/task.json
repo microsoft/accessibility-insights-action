@@ -32,17 +32,17 @@
             "label": "Hosting mode",
             "required": true,
             "options": {
-                "staticSite": "Local directory (also known as a static site)",
-                "dynamicSite": "URL (a production, staging, or canary domain, or the site is served by a previous pipeline task with a localhost server)"
+                "staticSite": "Static site (built HTML files in a local directory)",
+                "dynamicSite": "URL (localhost, staging URL or production URL)"
             },
             "helpMarkDown": "Note: not required in YAML configuration, only on classic pipelines UI. Your site must be served (hosted) before it can be scanned. In _Local directory_ mode, this task will run a localhost webserver serving your site directory and scan that. In _URL_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment)."
         },
         {
             "name": "staticSiteDir",
             "type": "string",
-            "label": "Static site: Directory",
+            "label": "Static site: directory",
             "required": true,
-            "helpMarkDown": "Folder containing website content.",
+            "helpMarkDown": "Directory containing the website content to be scanned.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
@@ -51,13 +51,13 @@
             "label": "Static site: URL relative path",
             "required": false,
             "defaultValue": "/",
-            "helpMarkDown": "Relative path to directory used to construct base scan url. For example, use `/site` on Ubuntu and `//site` on Windows.",
+            "helpMarkDown": "Relative path to directory used to construct base scan url. For example, use `/` on Ubuntu and `//` on Windows.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
             "name": "staticSitePort",
             "type": "int",
-            "label": "Static site: Port",
+            "label": "Static site: port",
             "required": false,
             "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
             "visibleRule": "hostingMode = staticSite"
@@ -65,7 +65,7 @@
         {
             "name": "url",
             "type": "string",
-            "label": "Hosted site: Site URL",
+            "label": "URL",
             "required": true,
             "helpMarkDown": "The URL to scan and crawl for accessibility issues.",
             "visibleRule": "hostingMode = dynamicSite"
@@ -85,9 +85,9 @@
         {
             "name": "serviceAccountName",
             "type": "string",
-            "label": "Authentication: service account name",
+            "label": "Authentication: service account email address",
             "required": false,
-            "helpMarkDown": "Email address for service account to be used in authentication.",
+            "helpMarkDown": "Use [Azure Key Vault task](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#use-key-vault-to-store-and-access-service-account-credentials) to set the email address for service account to be used in authentication.",
             "visibleRule": "authType = AAD"
         },
         {
@@ -95,7 +95,7 @@
             "type": "string",
             "label": "Authentication: service account password",
             "required": false,
-            "helpMarkDown": "Password for service account to be used in authentication.",
+            "helpMarkDown": "Use [Azure Key Vault task](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#use-key-vault-to-store-and-access-service-account-credentials) to set the password for service account to be used in authentication.",
             "visibleRule": "authType = AAD"
         },
         {
