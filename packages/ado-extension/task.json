@@ -4,7 +4,7 @@
     "name": "accessibility-insights",
     "friendlyName": "Accessibility Insights Azure DevOps Task",
     "description": "Scan for accessibility issues in an Azure DevOps pipeline",
-    "helpMarkDown": "Learn more about [how to use Accessibility Insights Azure DevOps Task](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md) and for authenticated sites [how to setup authentication](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops).",
+    "helpMarkDown": "Learn [how to add Accessibility Insights Azure DevOps Task](https://aka.ms/ado-extension-usage) to your pipeline. For authenticated sites, learn [how to setup authentication](https://aka.ms/AI-action-auth).",
     "category": "Test",
     "author": "Accessibility Insights",
     "version": {
@@ -80,14 +80,14 @@
                 "": "None",
                 "AAD": "Azure Active Directory"
             },
-            "helpMarkDown": "Use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type."
+            "helpMarkDown": "Use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to setup authentication](https://aka.ms/AI-action-auth)."
         },
         {
             "name": "serviceAccountName",
             "type": "string",
             "label": "Authentication: service account email address",
             "required": false,
-            "helpMarkDown": "Use [Azure Key Vault task](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#use-key-vault-to-store-and-access-service-account-credentials) to set the email address for service account to be used in authentication.",
+            "helpMarkDown": "Use Azure Key Vault task to set the email address for service account to be used in authentication. Learn [how to setup authentication](https://aka.ms/AI-action-auth).",
             "visibleRule": "authType = AAD"
         },
         {
@@ -95,7 +95,7 @@
             "type": "string",
             "label": "Authentication: service account password",
             "required": false,
-            "helpMarkDown": "Use [Azure Key Vault task](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#use-key-vault-to-store-and-access-service-account-credentials) to set the password for service account to be used in authentication.",
+            "helpMarkDown": "Use Azure Key Vault task to set the password for service account to be used in authentication. Learn [how to setup authentication](https://aka.ms/AI-action-auth).",
             "visibleRule": "authType = AAD"
         },
         {
