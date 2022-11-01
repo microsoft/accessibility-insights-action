@@ -3,8 +3,8 @@
     "id": "9fbe8277-f1b8-4d71-9045-5e6d815b46d8",
     "name": "accessibility-insights",
     "friendlyName": "Accessibility Insights Azure DevOps Task",
-    "description": "Scan accessibility issues in an Azure DevOps pipeline",
-    "helpMarkDown": "",
+    "description": "Scan for accessibility issues in an Azure DevOps pipeline",
+    "helpMarkDown": "Learn more about [how to use Accessibility Insights Azure DevOps Task](https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md) and for authenticated sites [how to setup authentication](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops).",
     "category": "Test",
     "author": "Accessibility Insights",
     "version": {
@@ -15,12 +15,12 @@
     "instanceNameFormat": "Run accessibility testing",
     "groups": [
         {
-            "displayName": "Output Options",
+            "displayName": "Output options",
             "isExpanded": true,
             "name": "outputOptions"
         },
         {
-            "displayName": "Advanced Options",
+            "displayName": "Advanced options",
             "isExpanded": false,
             "name": "advancedOptions"
         }
@@ -29,18 +29,18 @@
         {
             "name": "hostingMode",
             "type": "pickList",
-            "label": "Hosting Mode",
+            "label": "Hosting mode",
             "required": true,
             "options": {
-                "staticSite": "Static Site (this task runs a localhost webserver for your site)",
-                "dynamicSite": "Dynamic Site (you host your site separately)"
+                "staticSite": "Local directory (also known as a static site)",
+                "dynamicSite": "URL (a production, staging, or canary domain, or the site is served by a previous pipeline task with a localhost server)"
             },
-            "helpMarkDown": "Note: not required in YAML configuration, only on classic pipelines UI. Your site must be served (hosted) before it can be scanned. In _Static Site_ mode, this task will run a localhost webserver serving your site directory and scan that. In _Dynamic Site_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment)."
+            "helpMarkDown": "Note: not required in YAML configuration, only on classic pipelines UI. Your site must be served (hosted) before it can be scanned. In _Local directory_ mode, this task will run a localhost webserver serving your site directory and scan that. In _URL_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment)."
         },
         {
             "name": "staticSiteDir",
             "type": "string",
-            "label": "Static Site Directory",
+            "label": "Static site: Directory",
             "required": true,
             "helpMarkDown": "Folder containing website content.",
             "visibleRule": "hostingMode = staticSite"
@@ -48,16 +48,16 @@
         {
             "name": "staticSiteUrlRelativePath",
             "type": "string",
-            "label": "Static Site URL Relative Path",
+            "label": "Static site: URL relative path",
             "required": false,
             "defaultValue": "/",
-            "helpMarkDown": "Relative path to directory used to construct base scan url. e.g. / on Ubuntu and // on Windows.",
+            "helpMarkDown": "Relative path to directory used to construct base scan url. For example, use `/site` on Ubuntu and `//site` on Windows.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
             "name": "staticSitePort",
             "type": "int",
-            "label": "Static Site Port",
+            "label": "Static site: Port",
             "required": false,
             "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
             "visibleRule": "hostingMode = staticSite"
@@ -65,24 +65,10 @@
         {
             "name": "url",
             "type": "string",
-            "label": "Dynamic Site URL",
+            "label": "Hosted site: Site URL",
             "required": true,
-            "helpMarkDown": "The hosted URL to scan/crawl for accessibility issues.",
+            "helpMarkDown": "The URL to scan and crawl for accessibility issues.",
             "visibleRule": "hostingMode = dynamicSite"
-        },
-        {
-            "name": "serviceAccountName",
-            "type": "string",
-            "label": "Service account name",
-            "required": false,
-            "helpMarkDown": "Email address for service account to be used in authentication."
-        },
-        {
-            "name": "serviceAccountPassword",
-            "type": "string",
-            "label": "Service account password",
-            "required": false,
-            "helpMarkDown": "Password for service account to be used in authentication."
         },
         {
             "name": "authType",
@@ -94,7 +80,23 @@
                 "": "None",
                 "AAD": "Azure Active Directory"
             },
-            "helpMarkDown": "Use with serviceAccountName and serviceAccountPassword to specify the authentication type."
+            "helpMarkDown": "Use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type."
+        },
+        {
+            "name": "serviceAccountName",
+            "type": "string",
+            "label": "Authentication: service account name",
+            "required": false,
+            "helpMarkDown": "Email address for service account to be used in authentication.",
+            "visibleRule": "authType = AAD"
+        },
+        {
+            "name": "serviceAccountPassword",
+            "type": "string",
+            "label": "Authentication: service account password",
+            "required": false,
+            "helpMarkDown": "Password for service account to be used in authentication.",
+            "visibleRule": "authType = AAD"
         },
         {
             "name": "maxUrls",
@@ -107,14 +109,14 @@
         {
             "name": "discoveryPatterns",
             "type": "string",
-            "label": "Discovery Patterns",
+            "label": "Discovery patterns",
             "required": false,
             "helpMarkDown": "List of RegEx patterns to crawl in addition to the provided URL, separated by space."
         },
         {
             "name": "inputFile",
-            "type": "string",
-            "label": "Input File",
+            "type": "multiLine",
+            "label": "Input file",
             "required": false,
             "helpMarkDown": "File path that contains list of URLs (each separated by a new line) to scan in addition to URLs discovered from crawling the provided URL."
         },
@@ -128,7 +130,7 @@
         {
             "name": "scanTimeout",
             "type": "int",
-            "label": "Scan Timeout (milliseconds)",
+            "label": "Scan timeout (milliseconds)",
             "defaultValue": "90000",
             "required": false,
             "helpMarkDown": "The maximum timeout in milliseconds for the scan (excluding dependency setup)."
@@ -136,7 +138,7 @@
         {
             "name": "failOnAccessibilityError",
             "type": "boolean",
-            "label": "Fail on Accessibility Error",
+            "label": "Fail on accessibility error",
             "defaultValue": true,
             "required": false,
             "helpMarkDown": "Fail the task if there are accessibility issues."
@@ -144,9 +146,9 @@
         {
             "name": "baselineFile",
             "type": "string",
-            "label": "Baseline File Path",
+            "label": "Baseline file path",
             "required": false,
-            "helpMarkDown": "The old baseline file path, a new baseline will be generated with the same name, if null baseline option will be disabled."
+            "helpMarkDown": "The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled."
         },
         {
             "name": "singleWorker",
@@ -159,34 +161,34 @@
         {
             "name": "uploadOutputArtifact",
             "type": "boolean",
-            "label": "Upload Output Artifact",
+            "label": "Upload output artifact",
             "defaultValue": true,
             "required": true,
-            "helpMarkDown": "Automatically upload the result as an artifact to the build. Set to false if you need to upload the artifact manually in a separate task or publish step.",
+            "helpMarkDown": "Automatically upload the result as an artifact to the build. Set to `false` if you need to upload the artifact manually in a separate task or publish step.",
             "groupName": "outputOptions"
         },
         {
             "name": "outputArtifactName",
             "type": "string",
-            "label": "Output Artifact Name",
+            "label": "Output artifact name",
             "required": false,
             "defaultValue": "accessibility-reports",
-            "helpMarkDown": "Name of the report artifact to be uploaded to the build. Ignored if uploadOutputArtifact is false.",
+            "helpMarkDown": "Name of the report artifact to be uploaded to the build. Ignored if `uploadOutputArtifact` is `false`.",
             "visibleRule": "uploadOutputArtifact = true",
             "groupName": "outputOptions"
         },
         {
             "name": "outputDir",
             "type": "string",
-            "label": "Output Directory",
+            "label": "Output directory",
             "required": false,
-            "helpMarkDown": "Directory to write scan output to. Its contents will be uploaded as a pipeline artifact unless uploadOutputArtifact is set to false. If unspecified, output will be written to a generated temporary directory.",
+            "helpMarkDown": "Directory to write the scan output to. Its contents will be uploaded as a pipeline artifact unless `uploadOutputArtifact` is set to `false`. If unspecified, output will be written to a generated temporary directory.",
             "groupName": "outputOptions"
         },
         {
             "name": "chromePath",
             "type": "string",
-            "label": "Chrome Path",
+            "label": "Chrome path",
             "required": false,
             "helpMarkDown": "Path to Chrome executable. By default, the task downloads a version of Chrome that is tested to work with this task.",
             "groupName": "advancedOptions"
