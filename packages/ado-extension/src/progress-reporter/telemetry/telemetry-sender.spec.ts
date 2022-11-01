@@ -15,6 +15,7 @@ describe(TelemetrySender, () => {
     let telemetrySender: TelemetrySender;
     const baselineFailuresFixed = 3;
     const baselineNewFailures = 1;
+    const baselineViolations = 2;
 
     beforeEach(() => {
         adoTaskConfigMock = Mock.ofType<ADOTaskConfig>(undefined, MockBehavior.Strict);
@@ -33,6 +34,7 @@ describe(TelemetrySender, () => {
             const baselineEvaluationStub = {
                 totalNewViolations: baselineNewFailures,
                 totalFixedViolations: baselineFailuresFixed,
+                totalBaselineViolations: baselineViolations,
             } as BaselineEvaluation;
             const telemetrySender = buildTelemetrySenderWithMocks();
             setupTelemetryClientWithEvent(true);
@@ -121,6 +123,7 @@ describe(TelemetrySender, () => {
             if (generateWithBaselineEnabled) {
                 eventProperties.baselineFailuresFixed = baselineFailuresFixed;
                 eventProperties.baselineNewFailures = baselineNewFailures;
+                eventProperties.baselineFailuresCount = baselineViolations;
             }
 
             telemetryClientMock
