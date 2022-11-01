@@ -40,7 +40,7 @@
         {
             "name": "staticSiteDir",
             "type": "string",
-            "label": "Static site: directory",
+            "label": "Hosting mode: site directory",
             "required": true,
             "helpMarkDown": "Directory containing the website content to be scanned.",
             "visibleRule": "hostingMode = staticSite"
@@ -48,7 +48,7 @@
         {
             "name": "staticSiteUrlRelativePath",
             "type": "string",
-            "label": "Static site: URL relative path",
+            "label": "Hosting mode: URL relative path",
             "required": false,
             "defaultValue": "/",
             "helpMarkDown": "Relative path to directory used to construct base scan url. For example, use `/` on Ubuntu and `//` on Windows.",
@@ -57,7 +57,7 @@
         {
             "name": "staticSitePort",
             "type": "int",
-            "label": "Static site: port",
+            "label": "Hosting mode: port",
             "required": false,
             "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
             "visibleRule": "hostingMode = staticSite"
@@ -65,7 +65,7 @@
         {
             "name": "url",
             "type": "string",
-            "label": "URL",
+            "label": "Hosting mode: URL",
             "required": true,
             "helpMarkDown": "The URL to scan and crawl for accessibility issues.",
             "visibleRule": "hostingMode = dynamicSite"
