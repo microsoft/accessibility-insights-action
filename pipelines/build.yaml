@@ -44,7 +44,7 @@ jobs:
           - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
             displayName: Publish code coverage to codecov
 
-          - script: yarn test:e2e
+          - script: yarn test:e2e --verbose
             displayName: 'Run e2e tests'
 
     - job: 'SDT'
