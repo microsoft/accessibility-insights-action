@@ -115,7 +115,7 @@
         },
         {
             "name": "inputFile",
-            "type": "multiLine",
+            "type": "string",
             "label": "Input file",
             "required": false,
             "helpMarkDown": "File path that contains list of URLs (each separated by a new line) to scan in addition to URLs discovered from crawling the provided URL."
