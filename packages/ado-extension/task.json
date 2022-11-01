@@ -80,7 +80,7 @@
                 "": "None",
                 "AAD": "Azure Active Directory"
             },
-            "helpMarkDown": "Use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to setup authentication](https://aka.ms/AI-action-auth)."
+            "helpMarkDown": "For sites that require authentication to scan, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to setup authentication](https://aka.ms/AI-action-auth)."
         },
         {
             "name": "serviceAccountName",
