@@ -32,10 +32,10 @@
             "label": "Hosting mode",
             "required": true,
             "options": {
-                "staticSite": "Static site (built HTML files in a local directory)",
+                "staticSite": "Static site (HTML files in a local directory)",
                 "dynamicSite": "URL (localhost, staging URL or production URL)"
             },
-            "helpMarkDown": "Note: not required in YAML configuration, only on classic pipelines UI. Your site must be served (hosted) before it can be scanned. In _Local directory_ mode, this task will run a localhost webserver serving your site directory and scan that. In _URL_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment)."
+            "helpMarkDown": "Note: not required in YAML configuration, only on classic pipelines UI. Your site must be served (hosted) before it can be scanned. In _Local directory_ mode, this task will run a localhost webserver serving your site directory and scan that. In _URL_ mode, you must host your site yourself separately and specify a URL to scan. This can be either a localhost server you run in an earlier pipeline step, or a remote URL (for example, a staging environment).\n\nWhen switching between hosting modes in the classic pipeline, remove values for the previous hosting mode to prevent caching."
         },
         {
             "name": "staticSiteDir",
