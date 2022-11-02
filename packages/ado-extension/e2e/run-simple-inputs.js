@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Prepare the task:
-// Make sure the task can access ado-extension-metadata.json 
+// Make sure the task can access ado-extension-metadata.json
 const srcAdoExtensionMetadata = path.join(__dirname, '..', 'scripts', 'local-ado-extension-metadata.json');
 const destAdoExtensionMetadata = path.join(__dirname, '..', 'dist', 'pkg', 'ado-extension-metadata.json');
 console.log(`e2e test is copying ${srcAdoExtensionMetadata} to ${destAdoExtensionMetadata}`);

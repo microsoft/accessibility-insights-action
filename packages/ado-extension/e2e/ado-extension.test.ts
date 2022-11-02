@@ -6,7 +6,7 @@ import * as ttm from 'azure-pipelines-task-lib/mock-test';
 
 describe('Sample task tests', () => {
     it('should succeed with simple inputs', (done) => {
-        const compiledSourcePath = path.join(__dirname, 'run.js');
+        const compiledSourcePath = path.join(__dirname, 'run-simple-inputs.js');
         const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath);
 
         testSubject.run();
