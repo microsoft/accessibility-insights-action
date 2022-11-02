@@ -58,7 +58,7 @@
             "type": "int",
             "label": "Hosting mode: port",
             "required": false,
-            "helpMarkDown": "The preferred local website TCP port to use when scanning local website content.",
+            "helpMarkDown": "The preferred local website TCP port to use when serving local website content. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using baselining, set the port to make sure future scans will match the baseline file.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
