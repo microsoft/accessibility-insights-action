@@ -48,10 +48,9 @@
         {
             "name": "staticSiteUrlRelativePath",
             "type": "string",
-            "label": "Hosting mode: URL relative path",
+            "label": "Hosting mode: base URL",
             "required": false,
-            "defaultValue": "/",
-            "helpMarkDown": "Relative path to directory used to construct base scan url. For example, use `/` on Ubuntu and `//` on Windows.",
+            "helpMarkDown": "Set the base URL when the site lives at a subpath of the domain, such as `/blog`. If unspecified, the site will be scanned at the root.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
