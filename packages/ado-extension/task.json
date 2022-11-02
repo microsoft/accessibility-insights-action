@@ -42,7 +42,7 @@
             "type": "string",
             "label": "Hosting mode: site directory",
             "required": true,
-            "helpMarkDown": "Directory containing the website content to be scanned.",
+            "helpMarkDown": "Directory containing the HTML files to be scanned.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
@@ -80,14 +80,14 @@
                 "": "None",
                 "AAD": "Azure Active Directory"
             },
-            "helpMarkDown": "For sites that require authentication to scan, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to setup authentication](https://aka.ms/AI-action-auth)."
+            "helpMarkDown": "For sites with authenticated pages, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to set up authentication](https://aka.ms/AI-action-auth)."
         },
         {
             "name": "serviceAccountName",
             "type": "string",
             "label": "Authentication: service account email address",
             "required": false,
-            "helpMarkDown": "Email address for the service account to be used in authentication. Use the Key Vault task to securely set the email address. Learn [how to setup authentication with Key Vault](https://aka.ms/AI-action-auth).",
+            "helpMarkDown": "Email address for the service account to be used in authentication. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).",
             "visibleRule": "authType = AAD"
         },
         {
@@ -95,7 +95,7 @@
             "type": "string",
             "label": "Authentication: service account password",
             "required": false,
-            "helpMarkDown": "Password for the service account to be used in authentication. Use the Key Vault task to securely set the password. Learn [how to setup authentication with Key Vault](https://aka.ms/AI-action-auth).",
+            "helpMarkDown": "Password for the service account to be used in authentication. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).",
             "visibleRule": "authType = AAD"
         },
         {
