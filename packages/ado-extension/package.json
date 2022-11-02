@@ -14,7 +14,7 @@
         "start": "node scripts/run-locally.js",
         "test": "jest",
         "watch:test": "jest --watch",
-        "test:e2e": "tsc && mocha dist/pkg/*.test.js"
+        "test:e2e": "jest --testMatch **/*.test.ts"
     },
     "repository": {
         "type": "git",
@@ -27,8 +27,6 @@
     },
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
     "devDependencies": {
-        "@types/mocha": "10.0.0",
-        "mocha": "10.1.0",
         "tfx-cli": "^0.12.0"
     },
     "dependencies": {
