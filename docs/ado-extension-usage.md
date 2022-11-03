@@ -200,4 +200,4 @@ Here are some example pipelines with various configuration scenarios:
 -   If the action didn't trigger as you expected, check the `trigger` or `pr` sections of your yml file. Make sure any listed branch names are correct for your repository.
 -   If the action fails to complete, you can check the build logs for execution errors. Using the template above, these logs will be in the `Scan for accessibility issues` step.
 -   If the scan takes longer than 90 seconds, you can override the default timeout by providing a value for `scanTimeout` in milliseconds.
--   The default viewport that the action uses has a width of 800px and a height of 600px.
+-   The default viewport that the action uses has a width of 1920px and a height of 1080px.
