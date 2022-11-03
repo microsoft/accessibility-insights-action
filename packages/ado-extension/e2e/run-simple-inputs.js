@@ -26,4 +26,4 @@ tmr.setInput('url', 'https://www.washington.edu/accesscomputing/AU/before.html')
 tmr.setInput('maxUrls', 1);
 tmr.setInput('scanTimeout', 50000);
 
-tmr.run(true);
+tmr.run(true); // Requires true bypass ApplicationInsights `retrieveSecret`
