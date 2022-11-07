@@ -36,3 +36,15 @@ updates:
   - dependency-name: "@types/react-dom"
     versions:
     - ">= 17"
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "11:00"
+    timezone: "America/Los_Angeles" # Pacific Time
+  labels:
+  - "category: engineering"
+  - dependencies
+  commit-message:
+    prefix: chore
+    include: scope
