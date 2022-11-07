@@ -17,10 +17,10 @@ jobs:
       checks: write
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: 16.x
       
@@ -37,7 +37,7 @@ jobs:
 
     - name: Upload report artifact
       if: success() || failure()
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3
       with:
         name: accessibility-reports
         path: ${{ github.workspace }}/_accessibility-reports
