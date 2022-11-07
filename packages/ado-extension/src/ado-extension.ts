@@ -8,8 +8,8 @@ import { setupIocContainer } from './ioc/setup-ioc-container';
 import { adoStdoutTransformer } from './output-hooks/ado-stdout-transformer';
 import * as adoTask from 'azure-pipelines-task-lib/task';
 
-export function runScan(): void {
-    (async () => {
+export async function runScan(): Promise<void> {
+    await (async () => {
         hookStderr();
         hookStdout(adoStdoutTransformer);
 
@@ -25,5 +25,6 @@ export function runScan(): void {
         }
     })().catch((error: Error) => {
         adoTask.setResult(adoTask.TaskResult.Failed, `Exception thrown in extension: ${error.message}`);
+        process.exitCode = 1;
     });
 }
