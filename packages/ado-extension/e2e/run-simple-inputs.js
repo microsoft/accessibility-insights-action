@@ -6,6 +6,15 @@ const path = require('path');
 const fs = require('fs');
 
 // Prepare the task:
+// Apply default input values from task configuration
+const taskConfigPath = path.join(__dirname, '..', 'dist', 'pkg', 'task.json');
+const taskConfig = require(taskConfigPath);
+const inputs = {};
+for (const inputConfig of taskConfig['inputs']) {
+    if (inputConfig.defaultValue) {
+        inputs[inputConfig.name] = inputConfig.defaultValue;
+    }
+}
 // Make sure the task can access ado-extension-metadata.json
 const srcAdoExtensionMetadata = path.join(__dirname, '..', 'scripts', 'local-ado-extension-metadata.json');
 const destAdoExtensionMetadata = path.join(__dirname, '..', 'dist', 'pkg', 'ado-extension-metadata.json');
@@ -22,8 +31,11 @@ process.env['AGENT_TEMPDIRECTORY'] = tempPath;
 const taskExecutablePath = path.join(__dirname, '..', 'dist', 'pkg', 'index.js');
 const tmr = new tmrm.TaskMockRunner(taskExecutablePath);
 
-tmr.setInput('url', 'https://www.washington.edu/accesscomputing/AU/before.html');
-tmr.setInput('maxUrls', 1);
-tmr.setInput('scanTimeout', 50000);
+for (const name of Object.keys(inputs)) {
+    console.log(`e2e tests is apply up input ${name} to value ${inputs[name]}`);
+    tmr.setInput(name, inputs[name]);
+}
 
-tmr.run(true); // Requires true bypass ApplicationInsights `retrieveSecret`
+tmr.setInput('url', 'https://www.washington.edu/accesscomputing/AU/before.html');
+
+tmr.run(true); // Requires true bypass `retrieveSecret` error https://github.com/microsoft/azure-pipelines-task-lib/issues/794

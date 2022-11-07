@@ -8,13 +8,13 @@
         "build": "webpack --config ./webpack.config.js && node prepare-package-dir.js",
         "cbuild": "npm-run-all --serial clean build",
         "clean": "rimraf dist",
-        "lint:check": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\"",
-        "lint:fix": "eslint -c ../../.eslintrc.js \"src/**/*.{js,ts}\" --quiet --fix",
+        "lint:check": "eslint -c ../../.eslintrc.js \"{src,e2e}/**/*.{js,ts}\"",
+        "lint:fix": "eslint -c ../../.eslintrc.js \"{src,e2e}/**/*.{js,ts}\" --quiet --fix",
         "package": "cd dist && tfx extension create --manifest-globs ado-extension.json",
         "start": "node scripts/run-locally.js",
         "test": "jest",
         "watch:test": "jest --watch",
-        "test:e2e": "jest --testMatch \"**/e2e/?(*.)+(test).ts\""
+        "test:e2e": "jest --testMatch \"**/e2e/?(*.)+(test).ts\" --coverage false"
     },
     "repository": {
         "type": "git",
