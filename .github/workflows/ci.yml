@@ -64,3 +64,6 @@ jobs:
 
     - name: Publish code coverage to codecov
       run: yarn publish-code-coverage -- -t ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Run e2e tests
+      run: yarn test:e2e -- -- --ci
