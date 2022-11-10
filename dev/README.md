@@ -100,3 +100,5 @@ _Note_: When you get an error about composite actions is not supported then [bui
 Action is running inside a docker container. After action is completed the docker container is still running to preserve chrome setup and reduce subsequent action startup time.
 
 
+
+
