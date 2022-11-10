@@ -50,6 +50,7 @@
             "type": "string",
             "label": "Hosting mode: base URL",
             "required": false,
+            "defaultValue": "/",
             "helpMarkDown": "Set the base URL when the site lives at a subpath of the domain, such as `/blog`. If unspecified, the site will be scanned at the root.",
             "visibleRule": "hostingMode = staticSite"
         },
