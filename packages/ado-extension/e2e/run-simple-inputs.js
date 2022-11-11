@@ -32,7 +32,7 @@ const taskExecutablePath = path.join(__dirname, '..', 'dist', 'pkg', 'index.js')
 const tmr = new tmrm.TaskMockRunner(taskExecutablePath);
 
 for (const name of Object.keys(inputs)) {
-    console.log(`e2e tests is apply up input ${name} to value ${inputs[name]}`);
+    console.log(`e2e tests is applying input ${name} to value ${inputs[name]}`);
     tmr.setInput(name, inputs[name]);
 }
 
