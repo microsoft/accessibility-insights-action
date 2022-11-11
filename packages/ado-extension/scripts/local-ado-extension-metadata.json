@@ -1,8 +1,0 @@
-{
-    "publisherId": "unpublished",
-    "extensionId": "local-dev",
-    "extensionName": "Local dev build (run-locally.js)",
-    "extensionVersion": "0.0.0",
-    "environment": "dev",
-    "appInsightsConnectionString": "testAppInsightsConnectionString"
-}

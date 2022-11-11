@@ -1,9 +1,0 @@
-{
-    "tool": "Credential Scanner",
-    "suppressions": [
-        {
-            "file": "packages\\gh-action\\dist\\index.js",
-            "_justification": "False positive, this authorization header is created by an external package while compiling the code!"
-        }
-    ]
-}

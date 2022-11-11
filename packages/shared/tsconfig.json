@@ -1,9 +1,0 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-{
-    "extends": "../../tsconfig.base.json",
-    "compilerOptions": {
-        "outDir": "dist"
-    },
-    "include": ["src/**/*"] // With `allowJs: true` in tsconfig.base.json, this setting scopes the files to build the package properly.
-}
