@@ -21,7 +21,7 @@ describe('Sample task tests', () => {
                 'Accessibility scanning of URL https://www.washington.edu/accesscomputing/AU/before.html completed',
             ),
         ).toBeTruthy();
-        expect(testSubject.stdOutContained('Rules: 4 with failures, 11 passed, 39 not applicable')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 14 passed, 35 not applicable')).toBeTruthy();
 
         done();
     });
