@@ -38,6 +38,12 @@
         {
             "language": "markdown",
             "mapTo": "html"
+        },
+        {
+            "language": "yaml",
+            "begin": "",
+            "end": "",
+            "prefix": "# "
         }
     ],
     "psi-header.templates": [
