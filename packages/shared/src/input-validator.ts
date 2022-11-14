@@ -5,14 +5,10 @@ import { iocTypes } from './ioc/ioc-types';
 import { Logger } from './logger/logger';
 import { TaskConfig } from './task-config';
 import { sectionSeparator, link } from './console-output/console-log-formatter';
-import { TelemetryErrorSender } from './telemetry/telemetry-error-sender';
+import { TelemetryErrorCollector } from './telemetry/telemetry-error-collector';
 @injectable()
 export class InputValidator {
-    constructor(
-        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
-        @inject(Logger) private readonly logger: Logger,
-        @inject(TelemetryErrorSender) private readonly telemetryErrorSender: TelemetryErrorSender,
-    ) {}
+    constructor(@inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger) {}
     public validate(): boolean {
         let isValid = true;
         const hostingMode = this.taskConfig.getHostingMode();
@@ -26,7 +22,6 @@ export class InputValidator {
             isValid &&= this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
         if (!isValid) {
-            this.telemetryErrorSender.sendTelemetryErrorReport('InputValidator');
             const usageLink = link(this.taskConfig.getUsageDocsUrl(), 'usage documentation');
             this.logger.logInfo(usageLink);
         }
@@ -40,7 +35,6 @@ export class InputValidator {
             const siteDirName = this.taskConfig.getInputName('StaticSiteDir');
             const urlName = this.taskConfig.getInputName('Url');
             const errorLines = [`A configuration error has occurred, ${urlName} or ${siteDirName} must be set`];
-            this.telemetryErrorSender.errorCollector(errorLines);
             return this.writeConfigurationError(errorLines);
         }
         return true;
@@ -56,7 +50,6 @@ export class InputValidator {
             const errorLines = [
                 `A configuration error has occurred, only one of the following inputs can be set at a time: ${urlName} or ${siteDirName}`,
             ];
-            this.telemetryErrorSender.errorCollector(errorLines);
             return this.writeConfigurationError(errorLines);
         }
         return true;
@@ -70,7 +63,6 @@ export class InputValidator {
             const hostingModeName = this.taskConfig.getInputName('HostingMode');
 
             const errorLines = [`A configuration error has occurred, ${siteDirName} must be set when ${hostingModeName} is set to static`];
-            this.telemetryErrorSender.errorCollector(errorLines);
             return this.writeConfigurationError(errorLines);
         }
         return true;
@@ -87,7 +79,6 @@ export class InputValidator {
                     `A configuration error has occurred, ${urlName} must not be set when ${hostingModeName} is set to static`,
                     `To fix this error make sure ${urlName} has not been set in the input section of your YAML file`,
                 ];
-                this.telemetryErrorSender.errorCollector(errorLines);
                 return this.writeConfigurationError(errorLines);
             }
         }
@@ -103,7 +94,6 @@ export class InputValidator {
                 `A configuration error has occurred, ${urlName} must be set when ${hostingModeName} is set to dynamic`,
                 `To fix this error make sure to add ${urlName} to the input section in the corresponding YAML file`,
             ];
-            this.telemetryErrorSender.errorCollector(errorLines);
             return this.writeConfigurationError(errorLines);
         }
         return true;
@@ -138,7 +128,6 @@ export class InputValidator {
                     `A configuration error has occurred, ${failedInputNames} must not be set when ${hostingModeName} is set to dynamic`,
                     `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`,
                 ];
-                this.telemetryErrorSender.errorCollector(errorLines);
                 return this.writeConfigurationError(errorLines);
             }
         }
