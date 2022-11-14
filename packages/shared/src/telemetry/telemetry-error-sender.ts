@@ -7,22 +7,18 @@ import { iocTypes, TelemetryClient, TelemetryEvent } from '@accessibility-insigh
 const eventProperties: { [key: string]: any } = {};
 
 @injectable()
-export class TelemetryErrorSender{
-    constructor(
-        @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
-    ) { }
+export class TelemetryErrorSender {
+    constructor(@inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient) {}
 
     // eslint-disable-next-line @typescript-eslint/require-await
     public async errorCollector(errorType: string, errorName: string, errorMessage: string): Promise<void> {
-        eventProperties.errorType = errorType,
-        eventProperties.errorName = errorName,
-        eventProperties.errorMessage = errorMessage;
+        (eventProperties.errorType = errorType), (eventProperties.errorName = errorName), (eventProperties.errorMessage = errorMessage);
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
     public async sendTelemetryErrorReport(): Promise<void> {
         this.telemetryClient.trackEvent({
-            name: 'Error',
+            name: 'ErrorFound',
             properties: this.eventProperties,
         } as TelemetryEvent);
     }
