@@ -8,7 +8,11 @@ import { sectionSeparator, link } from './console-output/console-log-formatter';
 import { TelemetryErrorSender } from './telemetry/telemetry-error-sender';
 @injectable()
 export class InputValidator {
-    constructor(@inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger, @inject(TelemetryErrorSender) private readonly telemetryErrorSender: TelemetryErrorSender) {}
+    constructor(
+        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(Logger) private readonly logger: Logger,
+        @inject(TelemetryErrorSender) private readonly telemetryErrorSender: TelemetryErrorSender,
+    ) {}
     public validate(): boolean {
         let isValid = true;
         const hostingMode = this.taskConfig.getHostingMode();
@@ -22,7 +26,7 @@ export class InputValidator {
             isValid &&= this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
         if (!isValid) {
-            this.telemetryErrorSender.sendTelemetryErrorReport("InputValidator");
+            this.telemetryErrorSender.sendTelemetryErrorReport('InputValidator');
             const usageLink = link(this.taskConfig.getUsageDocsUrl(), 'usage documentation');
             this.logger.logInfo(usageLink);
         }

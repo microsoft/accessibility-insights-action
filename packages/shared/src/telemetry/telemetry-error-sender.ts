@@ -18,7 +18,7 @@ export class TelemetryErrorSender {
     public sendTelemetryErrorReport(sender: string): void {
         this.telemetryClient.trackEvent({
             name: 'ErrorFound',
-            properties: {sender: sender, errorList: errorList},
+            properties: { sender: sender, errorList: errorList },
         } as TelemetryEvent);
     }
 }
