@@ -4,22 +4,21 @@
 import { inject, injectable } from 'inversify';
 import { iocTypes, TelemetryClient, TelemetryEvent } from '@accessibility-insights-action/shared';
 
-const eventProperties: { [key: string]: any } = {};
-
+const errorList: unknown[] = [];
 @injectable()
 export class TelemetryErrorSender {
     constructor(@inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient) {}
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    public async errorCollector(errorType: string, errorName: string, errorMessage: string): Promise<void> {
-        (eventProperties.errorType = errorType), (eventProperties.errorName = errorName), (eventProperties.errorMessage = errorMessage);
+    public errorCollector(errorMessage: string[]): void {
+        errorList.push(errorMessage);
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    public async sendTelemetryErrorReport(): Promise<void> {
+    public sendTelemetryErrorReport(sender: string): void {
         this.telemetryClient.trackEvent({
             name: 'ErrorFound',
-            properties: this.eventProperties,
+            properties: {sender: sender, errorList: errorList},
         } as TelemetryEvent);
     }
 }
