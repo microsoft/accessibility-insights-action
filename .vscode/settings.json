@@ -1,5 +1,6 @@
 {
     "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "files.eol": "\n",
     "files.insertFinalNewline": true,
     "prettier.requireConfig": true,
@@ -13,5 +14,36 @@
         "**/.git": true,
         "**/out": true,
         "**/test-results": true
-    }
+    },
+    "psi-header.changes-tracking": {
+        "autoHeader": "autoSave",
+        "isActive": true
+    },
+    "psi-header.config": {
+        "forceToTop": true
+    },
+    "psi-header.lang-config": [
+        {
+            "language": "*",
+            "begin": "",
+            "end": "",
+            "prefix": "// "
+        },
+        {
+            "language": "html",
+            "begin": "<!--",
+            "end": "-->",
+            "prefix": ""
+        },
+        {
+            "language": "markdown",
+            "mapTo": "html"
+        }
+    ],
+    "psi-header.templates": [
+        {
+            "language": "*",
+            "template": ["Copyright (c) Microsoft Corporation. All rights reserved.", "Licensed under the MIT License."]
+        }
+    ]
 }
