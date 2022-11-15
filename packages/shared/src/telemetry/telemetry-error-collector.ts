@@ -3,8 +3,8 @@
 
 export type ErrorSender = 'Scanner' | 'Crawler' | 'InputValidator';
 export type Error = {
-    description: unknown,
-    properties?: { [key: string]: any },
+    description: unknown;
+    properties?: { [key: string]: any };
 };
 const errorList: unknown[] = [];
 
