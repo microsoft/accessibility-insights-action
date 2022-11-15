@@ -25,7 +25,9 @@ import { TaskConfig } from '../task-config';
 import { TelemetryClient } from '../telemetry/telemetry-client';
 import { InputValidator } from '../input-validator';
 import { isEmpty } from 'lodash';
+import { TelemetryErrorCollector } from '../../../ado-extension/src/progress-reporter/telemetry/telemetry-error-collector';
 import * as fs from 'fs';
+import { TelemetryEvent } from '../telemetry/telemetry-event';
 
 export type ScanSucceededWithNoRequiredUserAction = boolean;
 
@@ -68,6 +70,7 @@ export class Scanner {
     private async invokeScan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         let scanArguments: ScanArguments;
         let localServerUrl: string;
+        const telemetryErrorCollector = new TelemetryErrorCollector('Scanner');
 
         try {
             this.createReportOutputDirectory();
@@ -98,6 +101,7 @@ export class Scanner {
             if (!isEmpty(combinedScanResult.errors)) {
                 this.logger.logError(`Scan failed with ${combinedScanResult.errors.length} error(s)`);
                 combinedScanResult.errors.forEach((error) => {
+                    telemetryErrorCollector.collectError(error.error);
                     this.logAndTrackScanningException(error.error, error.url);
                 });
                 await this.allProgressReporter.failRun();
@@ -113,9 +117,16 @@ export class Scanner {
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
             return this.allProgressReporter.didScanSucceed();
         } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            telemetryErrorCollector.collectError(error);
             this.logAndTrackScanningException(error, scanArguments?.url);
             await this.allProgressReporter.failRun();
         } finally {
+            telemetryErrorCollector.collectError('ERROR!!!!');
+            this.telemetryClient.trackEvent({
+                name: 'ErrorFound',
+                properties: telemetryErrorCollector.errorList,
+            } as TelemetryEvent);
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
             await this.telemetryClient.flush();

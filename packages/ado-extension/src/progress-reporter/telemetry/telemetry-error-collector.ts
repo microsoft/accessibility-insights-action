@@ -16,7 +16,7 @@ export class TelemetryErrorCollector {
         this.errorSender = errorSender;
     }
     // eslint-disable-next-line @typescript-eslint/require-await
-    public collectError(errorMessage: string[]): void {
+    public collectError(errorMessage: string): void {
         errorList.push(errorMessage);
     }
 }
