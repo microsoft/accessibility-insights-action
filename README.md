@@ -8,19 +8,19 @@ Licensed under the MIT License.
 [![Actions Status](https://github.com/microsoft/accessibility-insights-action/workflows/Build/badge.svg)](https://github.com/microsoft/accessibility-insights-action/actions)
 [![codecov](https://codecov.io/gh/microsoft/accessibility-insights-action/branch/main/graph/badge.svg)](https://codecov.io/gh/microsoft/accessibility-insights-action)
 
-_This action is still in early development & we don't recommend its usage in public production projects yet._
-
 ## About
 
-The Accessibility Insights Action helps integrate automated accessibility tests in your GitHub workflow and Azure pipeline. It can be configured to scan a single page or also crawl and scan pages accessed from links on the given page. This can work for static files in your repository or remote URLs.
-The Accessibility Insights Action uses the [axe-core](https://github.com/dequelabs/axe-core) rules engine to scan websites and web apps for common accessibility issues.
+The Accessibility Insights Action and Extension help integrate automated accessibility tests in your GitHub workflow and Azure pipeline. You can configure it to scan a single page or crawl and scan pages accessed from links on the given page. This can work for static HTML files in your repository, a local web server, or remote URLs.
+
+The Accessibility Insights Action and Extension use the [axe-core](https://github.com/dequelabs/axe-core) rules engine to scan websites and web apps for common accessibility issues.
 
 Automated checks can detect some common accessibility problems such as missing or invalid properties. But most accessibility problems can only be discovered through manual testing. The best way to evaluate web accessibility compliance is to complete an assessment using [Accessibility Insights for Web](https://accessibilityinsights.io/docs/en/web/overview/).
 
-For more information, see [How to use the GitHub Action](docs/gh-action-usage.md).
+-   For Microsoft internal teams, visit [how to use the Azure DevOps Extension](docs/ado-extension-usage.md).
+-   For more information, visit [how to use the GitHub Action](docs/gh-action-usage.md).
 
 ## Contributing
 
-To build and test, see [developer docs](./dev/README.md).
+To build and test, visit [developer docs](./dev/README.md).
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for more info about the contributor license agreement.
+Visit [CONTRIBUTING.md](./CONTRIBUTING.md) for more information about the contributor license agreement.
