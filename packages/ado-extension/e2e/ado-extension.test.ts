@@ -5,14 +5,15 @@ import * as path from 'path';
 import * as ttm from './mock-test';
 
 describe('Sample task tests', () => {
-    it('should succeed with simple inputs', (done) => {
-        const compiledSourcePath = path.join(__dirname, 'run-simple-inputs.js');
-        const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath);
-
-        testSubject.run();
-
-        // Uncomment the following line to debug e2e tests:
-        // console.log(testSubject);
+    let inputs: { [key: string]: string } = {};
+    beforeEach(() => {
+        inputs = {};
+    });
+    it('should succeed with simple inputs', () => {
+        inputs = {
+            url: 'https://www.washington.edu/accesscomputing/AU/before.html',
+        };
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
@@ -22,7 +23,29 @@ describe('Sample task tests', () => {
             ),
         ).toBeTruthy();
         expect(testSubject.stdOutContained('Rules: 4 with failures, 14 passed, 35 not applicable')).toBeTruthy();
-
-        done();
     });
+
+    it('should succeed with staticSiteDir inputs', () => {
+        inputs = {
+            staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
+            staticSitePort: '39983',
+        };
+        const testSubject = runTestWithInputs(inputs);
+
+        expect(testSubject.warningIssues.length).toEqual(0);
+        expect(testSubject.errorIssues.length).toEqual(1);
+        expect(testSubject.stdOutContained('Accessibility scanning of URL http://localhost:39983/ completed')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 12 passed, 38 not applicable')).toBeTruthy();
+    });
+
+    function runTestWithInputs(inputs?: { [key: string]: string }): ttm.MockTestRunner {
+        const compiledSourcePath = path.join(__dirname, 'mock-test-runner.js');
+        const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath, inputs);
+
+        testSubject.run();
+
+        // Uncomment the following line to debug e2e tests:
+        console.log(testSubject.stdout);
+        return testSubject;
+    }
 });
