@@ -44,7 +44,6 @@ describe('Sample task tests', () => {
 
         testSubject.run();
 
-        // Uncomment the following line to debug e2e tests:
         console.log(testSubject.stdout);
         return testSubject;
     }
