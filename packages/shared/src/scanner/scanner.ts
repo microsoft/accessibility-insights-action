@@ -25,7 +25,7 @@ import { TaskConfig } from '../task-config';
 import { TelemetryClient } from '../telemetry/telemetry-client';
 import { InputValidator } from '../input-validator';
 import { isEmpty } from 'lodash';
-import { TelemetryErrorCollector } from '../../../ado-extension/src/progress-reporter/telemetry/telemetry-error-collector';
+import { TelemetryErrorCollector } from '../telemetry/telemetry-error-collector';
 import * as fs from 'fs';
 import { TelemetryEvent } from '../telemetry/telemetry-event';
 

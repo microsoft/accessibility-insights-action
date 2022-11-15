@@ -6,7 +6,7 @@ import { inject, injectable } from 'inversify';
 import { iocTypes, ProgressReporter, TelemetryClient, TelemetryEvent } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
-import { TelemetryErrorCollector } from './telemetry-error-collector';
+import { TelemetryErrorCollector } from '@accessibility-insights-action/shared/src/telemetry/telemetry-error-collector';
 
 @injectable()
 export class TelemetrySender extends ProgressReporter {
