@@ -5,7 +5,6 @@ import { iocTypes } from './ioc/ioc-types';
 import { Logger } from './logger/logger';
 import { TaskConfig } from './task-config';
 import { sectionSeparator, link } from './console-output/console-log-formatter';
-import { TelemetryErrorCollector } from './telemetry/telemetry-error-collector';
 @injectable()
 export class InputValidator {
     constructor(@inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger) {}

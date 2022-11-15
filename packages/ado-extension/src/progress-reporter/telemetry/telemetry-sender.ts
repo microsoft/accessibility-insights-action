@@ -6,6 +6,7 @@ import { inject, injectable } from 'inversify';
 import { iocTypes, ProgressReporter, TelemetryClient, TelemetryEvent } from '@accessibility-insights-action/shared';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
+import { TelemetryErrorCollector } from './telemetry-error-collector';
 
 @injectable()
 export class TelemetrySender extends ProgressReporter {
@@ -24,6 +25,7 @@ export class TelemetrySender extends ProgressReporter {
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const eventProperties: { [key: string]: any } = {};
+        const telemetryErrorCollector = new TelemetryErrorCollector('TelemetrySender');
 
         eventProperties.rulesFailedListWithCounts = combinedReportResult.results.resultsByRule.failed.map((failuresGroup) => {
             const failureCount = failuresGroup.failed.reduce(
@@ -46,6 +48,11 @@ export class TelemetrySender extends ProgressReporter {
         this.telemetryClient.trackEvent({
             name: 'ScanCompleted',
             properties: eventProperties,
+        } as TelemetryEvent);
+
+        this.telemetryClient.trackEvent({
+            name: 'ErrorFound',
+            properties: telemetryErrorCollector.errorList,
         } as TelemetryEvent);
     }
 
