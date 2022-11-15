@@ -113,6 +113,7 @@ describe(TelemetrySender, () => {
         function setupTelemetryClientWithEvent(generateWithBaselineEnabled: boolean): void {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const eventProperties: { [key: string]: any } = {};
+            const telemetryErrorCollector: { [key: string]: any } = {};
 
             eventProperties.rulesFailedListWithCounts = [
                 { ruleId: 'failed-rule-1', failureCount: 4 },
@@ -131,6 +132,15 @@ describe(TelemetrySender, () => {
                     x.trackEvent({
                         name: 'ScanCompleted',
                         properties: eventProperties,
+                    } as TelemetryEvent),
+                )
+                .verifiable(Times.once());
+
+            telemetryClientMock
+                .setup((x) =>
+                    x.trackEvent({
+                        name: 'ErrorFound',
+                        properties: telemetryErrorCollector,
                     } as TelemetryEvent),
                 )
                 .verifiable(Times.once());
