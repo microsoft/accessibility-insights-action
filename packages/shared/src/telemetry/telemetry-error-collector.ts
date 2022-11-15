@@ -2,11 +2,15 @@
 // Licensed under the MIT License.
 
 export type ErrorSender = 'Scanner' | 'Crawler' | 'InputValidator';
+export type Error = {
+    description: unknown,
+    properties?: { [key: string]: any },
+};
 const errorList: unknown[] = [];
 
 export class TelemetryErrorCollector {
     // eslint-disable-next-line @typescript-eslint/require-await
-    public errorCollector(errorMessage: string[]): void {
+    public collectError(errorMessage: string[]): void {
         errorList.push(errorMessage);
     }
 }
