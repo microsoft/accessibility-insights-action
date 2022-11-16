@@ -52,7 +52,7 @@ export class TelemetrySender extends ProgressReporter {
 
         this.telemetryClient.trackEvent({
             name: 'ErrorFound',
-            properties: telemetryErrorCollector.errorList,
+            properties: telemetryErrorCollector.returnErrorList(),
         } as TelemetryEvent);
     }
 
