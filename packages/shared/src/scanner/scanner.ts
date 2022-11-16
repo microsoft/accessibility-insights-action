@@ -33,6 +33,8 @@ export type ScanSucceededWithNoRequiredUserAction = boolean;
 
 @injectable()
 export class Scanner {
+    private telemetryErrorCollector: TelemetryErrorCollector;
+
     constructor(
         @inject(AICrawler) private readonly crawler: AICrawler,
         @inject(ConsolidatedReportGenerator) private readonly reportGenerator: ConsolidatedReportGenerator,
@@ -50,7 +52,9 @@ export class Scanner {
         @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
         @inject(InputValidator) private readonly inputValidator: InputValidator,
         private readonly fileSystemObj: typeof fs = fs,
-    ) {}
+    ) {
+        this.telemetryErrorCollector = new TelemetryErrorCollector('Scanner');
+    }
 
     public async scan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         if (!this.inputValidator.validate()) {
@@ -61,7 +65,9 @@ export class Scanner {
             this.invokeScan(),
             scanTimeoutMsec,
             async (): Promise<ScanSucceededWithNoRequiredUserAction> => {
-                this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
+                const errorMessage = `Scan timed out after ${scanTimeoutMsec / 1000} seconds`;
+                this.telemetryErrorCollector.collectError(errorMessage);
+                this.logger.logError(errorMessage);
                 return Promise.resolve(false);
             },
         );
@@ -70,7 +76,6 @@ export class Scanner {
     private async invokeScan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         let scanArguments: ScanArguments;
         let localServerUrl: string;
-        const telemetryErrorCollector = new TelemetryErrorCollector('Scanner');
 
         try {
             this.createReportOutputDirectory();
@@ -101,7 +106,6 @@ export class Scanner {
             if (!isEmpty(combinedScanResult.errors)) {
                 this.logger.logError(`Scan failed with ${combinedScanResult.errors.length} error(s)`);
                 combinedScanResult.errors.forEach((error) => {
-                    telemetryErrorCollector.collectError(error.error);
                     this.logAndTrackScanningException(error.error, error.url);
                 });
                 await this.allProgressReporter.failRun();
@@ -118,15 +122,16 @@ export class Scanner {
             return this.allProgressReporter.didScanSucceed();
         } catch (error) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            telemetryErrorCollector.collectError(error);
             this.logAndTrackScanningException(error, scanArguments?.url);
             await this.allProgressReporter.failRun();
         } finally {
-            telemetryErrorCollector.collectError('ERROR!!!!');
-            this.telemetryClient.trackEvent({
-                name: 'ErrorFound',
-                properties: telemetryErrorCollector.returnErrorList(),
-            } as TelemetryEvent);
+            //this.telemetryErrorCollector.collectError('ERROR!!!!');
+            if (this.telemetryErrorCollector.errorList.length > 0) {
+                this.telemetryClient.trackEvent({
+                    name: 'ErrorFound',
+                    properties: this.telemetryErrorCollector.returnErrorList(),
+                } as TelemetryEvent);
+            }
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
             await this.telemetryClient.flush();
@@ -166,6 +171,7 @@ export class Scanner {
     }
 
     private logAndTrackScanningException(error: unknown, url: string): void {
+        this.telemetryErrorCollector.collectError(String(error));
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
     }
 }

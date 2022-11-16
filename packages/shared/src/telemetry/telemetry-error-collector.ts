@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export type ErrorSender = 'Scanner' | 'Crawler' | 'TelemetrySender';
+export type ErrorSender = 'Scanner' | 'Crawler' | 'TelemetrySender' | 'InputValidator';
 /*export type Error = {
     sender: unknown;
     properties?: { [key: string]: any };
