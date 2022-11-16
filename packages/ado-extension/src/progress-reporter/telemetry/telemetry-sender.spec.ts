@@ -127,6 +127,9 @@ describe(TelemetrySender, () => {
                 eventProperties.baselineFailuresCount = baselineViolations;
             }
 
+            telemetryErrorCollector.sender = 'TelemetrySender';
+            telemetryErrorCollector.errorList = [];
+
             telemetryClientMock
                 .setup((x) =>
                     x.trackEvent({
