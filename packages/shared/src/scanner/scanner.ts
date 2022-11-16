@@ -125,7 +125,7 @@ export class Scanner {
             telemetryErrorCollector.collectError('ERROR!!!!');
             this.telemetryClient.trackEvent({
                 name: 'ErrorFound',
-                properties: telemetryErrorCollector.errorList,
+                properties: telemetryErrorCollector.returnErrorList(),
             } as TelemetryEvent);
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
