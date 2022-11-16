@@ -2,21 +2,28 @@
 // Licensed under the MIT License.
 
 export type ErrorSender = 'Scanner' | 'Crawler' | 'TelemetrySender';
-export type Error = {
-    description: unknown;
+/*export type Error = {
+    sender: unknown;
     properties?: { [key: string]: any };
 };
-const errorList: unknown[] = [];
+const errorList: unknown[] = [];*/
 
 export class TelemetryErrorCollector {
     errorSender: ErrorSender;
-    errorList: { [key: string]: any } = {};
+    errorList: string[] = [];
 
     constructor(errorSender: ErrorSender) {
         this.errorSender = errorSender;
     }
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     public collectError(errorMessage: string): void {
-        errorList.push(errorMessage);
+        this.errorList.push(errorMessage);
+    }
+
+    public returnErrorList(): { [key: string]: any } {
+        const errorObject: { [key: string]: any } = {};
+        errorObject.sender = this.errorSender;
+        errorObject.errorList = this.errorList;
+        return errorObject;
     }
 }
