@@ -6,16 +6,20 @@ import { Mock, Times, IMock, MockBehavior } from 'typemoq';
 import { TaskConfig, TaskInputKey } from './task-config';
 import { InputValidator } from './input-validator';
 import { Logger } from './logger/logger';
+import { TelemetryClient } from './telemetry/telemetry-client';
+import { TelemetryEvent } from './telemetry/telemetry-event';
 
 describe(InputValidator, () => {
     let taskConfigMock: IMock<TaskConfig>;
     let loggerMock: IMock<Logger>;
+    let telemetryClient: IMock<TelemetryClient>;
     let inputValidator: InputValidator;
     const defaultStaticSiteUrlRelativePath = '/';
 
     beforeEach(() => {
         taskConfigMock = Mock.ofType<TaskConfig>(undefined, MockBehavior.Strict);
         loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
+        telemetryClient = Mock.ofType<TelemetryClient>(undefined, MockBehavior.Strict);
     });
 
     describe('constructor', () => {
@@ -37,6 +41,7 @@ describe(InputValidator, () => {
 
             const errorMessage = `A configuration error has occurred, only one of the following inputs can be set at a time: url or staticSiteDir`;
             setupLoggerWithErrorMessage(errorMessage);
+            setupTelemetryClientWithEvent(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -57,6 +62,7 @@ describe(InputValidator, () => {
 
             const errorMessage = `A configuration error has occurred, url or staticSiteDir must be set`;
             setupLoggerWithErrorMessage(errorMessage);
+            setupTelemetryClientWithEvent(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -77,6 +83,7 @@ describe(InputValidator, () => {
 
             const errorMessage = `A configuration error has occurred, staticSiteDir must be set when hosting-mode is set to static`;
             setupLoggerWithErrorMessage(errorMessage);
+            setupTelemetryClientWithEvent(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -97,6 +104,7 @@ describe(InputValidator, () => {
 
             const errorMessage = `A configuration error has occurred, url must not be set when hosting-mode is set to static\nTo fix this error make sure url has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
+            setupTelemetryClientWithEvent(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -119,6 +127,7 @@ describe(InputValidator, () => {
 
             const errorMessage = `A configuration error has occurred, staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when hosting-mode is set to dynamic\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
+            setupTelemetryClientWithEvent(errorMessage);
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -185,7 +194,7 @@ describe(InputValidator, () => {
         });
     });
 
-    const buildInputValidatorWithMocks = () => new InputValidator(taskConfigMock.object, loggerMock.object);
+    const buildInputValidatorWithMocks = () => new InputValidator(taskConfigMock.object, loggerMock.object, telemetryClient.object);
 
     const verifyAllMocks = () => {
         taskConfigMock.verifyAll();
@@ -246,5 +255,12 @@ describe(InputValidator, () => {
 
     const setupLoggerWithInfoMessage = (message: string) => {
         loggerMock.setup((o) => o.logInfo(message)).verifiable(Times.once());
+    };
+
+    const setupTelemetryClientWithEvent = (message: string) => {
+        const telemetryErrorCollector: { [key: string]: any } = {};
+        telemetryErrorCollector.sender = 'InputValidator';
+        telemetryErrorCollector.errorList = [message];
+        telemetryClient.setup((o) => o.trackEvent({ name: 'ErrorFound', properties: telemetryErrorCollector } as TelemetryEvent));
     };
 });

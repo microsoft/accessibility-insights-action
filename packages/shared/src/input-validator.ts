@@ -6,11 +6,18 @@ import { Logger } from './logger/logger';
 import { TaskConfig } from './task-config';
 import { sectionSeparator, link } from './console-output/console-log-formatter';
 import { TelemetryErrorCollector } from './telemetry/telemetry-error-collector';
+import { TelemetryEvent } from './telemetry/telemetry-event';
+import { TelemetryClient } from './telemetry/telemetry-client';
+
 @injectable()
 export class InputValidator {
     private telemetryErrorCollector: TelemetryErrorCollector;
 
-    constructor(@inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig, @inject(Logger) private readonly logger: Logger) {
+    constructor(
+        @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
+        @inject(Logger) private readonly logger: Logger,
+        @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
+    ) {
         this.telemetryErrorCollector = new TelemetryErrorCollector('InputValidator');
     }
     public validate(): boolean {
@@ -26,6 +33,12 @@ export class InputValidator {
             isValid &&= this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
         if (!isValid) {
+            if (this.telemetryErrorCollector.errorList.length > 0) {
+                this.telemetryClient.trackEvent({
+                    name: 'ErrorFound',
+                    properties: this.telemetryErrorCollector.returnErrorList(),
+                } as TelemetryEvent);
+            }
             const usageLink = link(this.taskConfig.getUsageDocsUrl(), 'usage documentation');
             this.logger.logInfo(usageLink);
         }
