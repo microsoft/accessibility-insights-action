@@ -8993,10 +8993,10 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-pony-cause@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/pony-cause/-/pony-cause-2.1.4.tgz#18ef4799b5207ad0a7bacf5ea4602e6b06c75c8c"
-  integrity sha512-6jNyaeEi1I4rGD338qmNmx2yLg8N/JZJZU8JCrqDtfxCEYZttfuN6AnKhBGfMyTydW4t2iBioxDzKeZJC2mJVw==
+pony-cause@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/pony-cause/-/pony-cause-2.1.8.tgz#85d5c108566c63e81c6539a2f711598594543e4d"
+  integrity sha512-c4E5sVlX+npoRiKb72SkMOYMZ/c+jehaKAytybykhh49tEQYkjHxKSZ3YHUyH1v3oEL+wl3aXtkyYhJp+cNXDg==
 
 postinstall-build@^5.0.1:
   version "5.0.3"
