@@ -113,6 +113,20 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained('8 failure instances in baseline')).toBeTruthy();
     });
 
+    it('should find additional failures when the baseline does not cover all failures', () => {
+        inputs = {
+            staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
+            staticSitePort: '39983',
+            baselineFile: path.join(__dirname, '..', '..', '..', 'dev', 'website-baselines', 'e2e-baseline-2.baseline'),
+        };
+        const testSubject = runTestWithInputs(inputs);
+
+        expect(testSubject.warningIssues.length).toEqual(0);
+        expect(testSubject.errorIssues.length).toEqual(1);
+        expect(testSubject.stdOutContained('2 failure instances not in baseline')).toBeTruthy();
+        expect(testSubject.stdOutContained('6 failure instances in baseline')).toBeTruthy();
+    });
+
     it('should fail scan and generate a baseline file if baselineFile input is specified and file does not exist', () => {
         inputs = {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
