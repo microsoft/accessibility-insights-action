@@ -13,7 +13,7 @@ describe('Sample task tests', () => {
         inputs = {
             url: 'https://www.washington.edu/accesscomputing/AU/before.html',
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
@@ -30,7 +30,7 @@ describe('Sample task tests', () => {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
             staticSitePort: '39983',
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
@@ -44,7 +44,7 @@ describe('Sample task tests', () => {
             staticSitePort: '39983',
             maxUrls: '2',
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
@@ -58,7 +58,7 @@ describe('Sample task tests', () => {
             inputUrls: 'https://www.washington.edu/accesscomputing/AU/before.html https://www.washington.edu/accesscomputing/AU/after.html',
             maxUrls: '2', //By setting `maxUrls` to 2, only the `inputUrls` will be scanned
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
@@ -73,7 +73,7 @@ describe('Sample task tests', () => {
             staticSitePort: '39983',
             inputUrls: 'http://localhost:39983/unlinked',
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
@@ -86,7 +86,7 @@ describe('Sample task tests', () => {
             url: 'https://www.washington.edu/accesscomputing/AU/before.html',
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toBeGreaterThan(0);
@@ -103,7 +103,7 @@ describe('Sample task tests', () => {
             staticSitePort: '39983',
             baselineFile: path.join(__dirname, '..', '..', '..', 'dev', 'website-baselines', 'e2e-baseline-1.baseline'),
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(0);
@@ -119,7 +119,7 @@ describe('Sample task tests', () => {
             staticSitePort: '39983',
             baselineFile: path.join(__dirname, '..', '..', '..', 'dev', 'website-baselines', 'e2e-baseline-2.baseline'),
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
@@ -133,7 +133,7 @@ describe('Sample task tests', () => {
             staticSitePort: '39983',
             baselineFile: path.join(__dirname, '..', '..', '..', 'dev', 'website-baselines', 'e2e-baseline-that-does-not-exist.baseline'),
         };
-        const testSubject = runTestWithInputs(inputs, expect);
+        const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues[0]).toEqual('Scan failed');
@@ -141,14 +141,15 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained('8 failure instances')).toBeTruthy();
     });
 
-    function runTestWithInputs(inputs: { [key: string]: string }, expect: jest.Expect): ttm.MockTestRunner {
+    function runTestWithInputs(inputs?: { [key: string]: string }): ttm.MockTestRunner {
         const compiledSourcePath = path.join(__dirname, 'mock-test-runner.js');
         const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath, inputs);
 
         testSubject.run();
 
-        const id = expect.getState().currentTestName ?? 'e2e';
-        console.log(`vso[task.logdetail id=${id}]${testSubject.stdout}`);
+        // Replace errors with warnings to prevent the stdout from triggering failures in ADO
+        console.log(testSubject.stdout.replace(/type=error/g, 'type=warning').replace(/result=Failed/g, 'result=SucceededWithIssues'));
+
         return testSubject;
     }
 });
