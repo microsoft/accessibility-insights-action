@@ -147,9 +147,13 @@ describe('Sample task tests', () => {
 
         testSubject.run();
 
-        // Replace errors with warnings to prevent the stdout from triggering failures in ADO
-        console.log(testSubject.stdout.replace(/type=error/g, 'type=warning').replace(/result=Failed/g, 'result=SucceededWithIssues'));
+        console.log(formatStdout(testSubject.stdout));
 
         return testSubject;
     }
 });
+
+// Replace errors with warnings to prevent the stdout from triggering failures in ADO
+function formatStdout(stdout: string) {
+    return stdout.replace(/##vso\[task.issue type=error;\]/g, '').replace(/##vso\[task.complete result=Failed;\]/g, '');
+}
