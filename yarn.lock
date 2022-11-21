@@ -3551,13 +3551,13 @@ azure-devops-node-api@^10.2.2:
     tunnel "0.0.6"
     typed-rest-client "^1.8.4"
 
-azure-pipelines-task-lib@^4.0.1-preview:
-  version "4.0.1-preview"
-  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-4.0.1-preview.tgz#072f44783fd0b052762e1ae2cc329662adf93c8b"
-  integrity sha512-yvxqTzBy6G1U4lDkQgvewGDtd4UxrFTTI49JBByS0vjz55lE/9hmOttFm/BSRCEeLkG0lp3t3ja54bsNBBM4cA==
+azure-pipelines-task-lib@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/azure-pipelines-task-lib/-/azure-pipelines-task-lib-4.0.2.tgz#dbd09781d5291d1175b5a6a12bdd9f7df60ae617"
+  integrity sha512-TNFIZVrmYne9rjYRtjrzx0Z4ZepMMISe62RF7cvlujMXRKlSpQjGqxQ4Q6YLC4p+52uAfFBf+sBSLpG6TMC9Xw==
   dependencies:
     minimatch "3.0.5"
-    mockery "^1.7.0"
+    mockery "^2.1.0"
     q "^1.5.1"
     semver "^5.1.0"
     shelljs "^0.8.5"
@@ -8113,7 +8113,7 @@ mockdate@^3.0.5:
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.5.tgz#789be686deb3149e7df2b663d2bc4392bc3284fb"
   integrity sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==
 
-mockery@^1.7.0, mockery@^2.1.0:
+mockery@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mockery/-/mockery-2.1.0.tgz#5b0aef1ff564f0f8139445e165536c7909713470"
   integrity sha512-9VkOmxKlWXoDO/h1jDZaS4lH33aWfRiJiNT/tKj+8OGzrcFDLo8d0syGdbsc3Bc4GvRXPb+NMMvojotmuGJTvA==
