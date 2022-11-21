@@ -147,7 +147,7 @@ describe('Sample task tests', () => {
 
         testSubject.run();
 
-        console.log(testSubject.stdout);
+        // console.log(testSubject.stdout);
         return testSubject;
     }
 });
