@@ -153,9 +153,10 @@ describe('Sample task tests', () => {
     }
 });
 
-// Replace errors with warnings to prevent the stdout from triggering failures in ADO
+// Format stdout for ADO:
+// Prevent errors from stdout from being marked as pipeline failures
 function formatStdout(stdout: string) {
-    console.log('##[group]');
+    console.log('##[group]Test output');
     console.log(
         stdout.replace(/##vso\[task.issue type=error;\]/g, '##[error]').replace(/##vso\[task.complete result=Failed;\]/g, '##[error]'),
     );
