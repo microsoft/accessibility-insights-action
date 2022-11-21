@@ -147,7 +147,7 @@ describe('Sample task tests', () => {
 
         testSubject.run();
 
-        console.log(formatStdout(testSubject.stdout));
+        formatStdout(testSubject.stdout);
 
         return testSubject;
     }
@@ -155,5 +155,9 @@ describe('Sample task tests', () => {
 
 // Replace errors with warnings to prevent the stdout from triggering failures in ADO
 function formatStdout(stdout: string) {
-    return stdout.replace(/##vso\[task.issue type=error;\]/g, '').replace(/##vso\[task.complete result=Failed;\]/g, '');
+    console.log('##[group]');
+    console.log(
+        stdout.replace(/##vso\[task.issue type=error;\]/g, '##[error]').replace(/##vso\[task.complete result=Failed;\]/g, '##[error]'),
+    );
+    console.log('##[endgroup]');
 }
