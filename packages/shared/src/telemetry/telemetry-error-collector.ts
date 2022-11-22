@@ -2,11 +2,6 @@
 // Licensed under the MIT License.
 
 export type ErrorSender = 'Scanner' | 'Crawler' | 'TelemetrySender' | 'InputValidator';
-/*export type Error = {
-    sender: unknown;
-    properties?: { [key: string]: any };
-};
-const errorList: unknown[] = [];*/
 
 export class TelemetryErrorCollector {
     errorSender: ErrorSender;
@@ -18,6 +13,12 @@ export class TelemetryErrorCollector {
 
     public collectError(errorMessage: string): void {
         this.errorList.push(errorMessage);
+    }
+
+    public cleanErrorList(): void {
+        while (this.errorList.length > 0) {
+            this.errorList.pop();
+        }
     }
 
     public returnErrorList(): { [key: string]: any } {
