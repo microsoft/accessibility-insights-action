@@ -42,10 +42,10 @@ To make a change, you can follow these steps:
 
 4. Run `yarn build` and/or `yarn test`. If you're changing `shared`, you may need to build it before the action and extension pick up changes.
 
-5. Test your changes either:
+5. You can test your changes locally or remotely:
 
-    1. locally: follow the instructions below this section
-    2. remotely: push your changes to GitHub and consume your branch from a separate repository. Replace `uses: microsoft/accessibility-insights-action@v2` with `uses: YourAccount/accessibility-insights-action@YourBranchOrSHA`
+    1. locally: [Run the Azure extension locally](#run-the-azure-extension-locally), [Run the GitHub action locally](#run-the-github-action-locally)
+    2. remotely: [Deploy a staging Azure extension](#deploy-a-staging-azure-extension), [Deploy the GitHub action to your own test repo](#deploy-the-github-action-to-your-own-test-repo)
 
 6. Push your changes to GitHub.
 
@@ -55,11 +55,11 @@ To make a change, you can follow these steps:
 
 ### Deploy a staging Azure extension
 
-The steps to deploy a staging Azure Extension are currently limited to the Accessibility Insights team. Team member can find instruction in the "ADO Extension - ad-hoc test deployments" OneNote .
+The steps to deploy a staging Azure Extension are currently limited to the Accessibility Insights team. Team members can find instruction in the "ADO Extension - ad-hoc test deployments" OneNote.
 
 ### Run the Azure extension locally
 
-1. Follow the steps above to install dependencies and build the projects.
+1. Follow the steps in [Development workflow](#development-workflow) to install dependencies and build the project.
 
 2. From your terminal, move into the extension directory: `cd packages/ado-extension`.
 
