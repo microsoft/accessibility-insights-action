@@ -10,11 +10,11 @@ Licensed under the MIT License.
 
 ## About
 
-The Accessibility Insights for Azure DevOps (ADO) extension and GitHub action help integrate automated accessibility tests in your Azure pipeline and GitHub workflow. You can configure the extension and action to scan a single page or crawl an entire site. This can work for static HTML files in your repository, a local web server, or remote URLs.
+The Accessibility Insights for Azure DevOps (ADO) and GitHub Actions help integrate automated accessibility tests in your Azure pipeline and GitHub workflow. You can configure the extension and action to scan a single page or crawl an entire site. This can work for static HTML files in your repository, a local web server, or remote URLs.
 
 The extension and action use the [axe-core](https://github.com/dequelabs/axe-core) rules engine to scan websites and web apps for common accessibility issues.
 
-While automated checks can detect some common accessibility problems such as missing or invalid properties, most accessibility problems can only be discovered through manual testing. The best way to evaluate web accessibility compliance is to complete an assessment using [Accessibility Insights for Web](https://accessibilityinsights.io/docs/en/web/overview/).
+While automated checks can detect some common accessibility problems such as missing or invalid properties, most accessibility problems can only be discovered through manual testing. The best way to evaluate web accessibility compliance is to complete an assessment using [Accessibility Insights for Web](https://accessibilityinsights.io/docs/web/overview/).
 
 -   For Microsoft internal teams, visit [how to use the Azure DevOps Extension](docs/ado-extension-usage.md).
 -   For all other teams, visit [how to use the GitHub Action](docs/gh-action-usage.md).

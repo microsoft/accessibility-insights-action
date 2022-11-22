@@ -7,7 +7,7 @@ Licensed under the MIT License.
 
 Accessibility Insights for Azure DevOps is an extension that enables you to integrate Accessibility Insights' automated checks, powered by [axe-core](https://github.com/dequelabs/axe-core), into your Azure pipeline.
 
-_Automated checks can detect some common accessibility problems such as missing or invalid properties. But most accessibility problems can only be discovered through manual testing. Evaluate your web accessibility compliance completing an assessment with [Accessibility Insights for Web](https://accessibilityinsights.io/docs/en/web/overview/)._
+While automated checks can detect some common accessibility problems such as missing or invalid properties, most accessibility problems can only be discovered through manual testing. The best way to evaluate web accessibility compliance is to complete an assessment using [Accessibility Insights for Web](https://accessibilityinsights.io/docs/web/overview/).
 
 ## Features
 
