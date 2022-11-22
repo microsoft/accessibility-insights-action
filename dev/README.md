@@ -36,7 +36,7 @@ We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, runn
 
 To make a change, you can follow these steps:
 
-1. Clone the repository. While our team typically uses forks, the action (and therefore our self-test workflow) doesn't support pull requests from forks yet (tracked [here](https://github.com/microsoft/accessibility-insights-action/issues/629)). For this reason, maintainers might consider working off branches of the main repository. To test a fork, you can consume your fork's branch from a different repository.
+1. Clone the repository. If you would like to [deploy a staging Azure extension](#deploy-a-staging-azure-extension), maintainers will need to create branches off of the main repository.
 
 2. Run `yarn install`. This project requires Node 16.
 
