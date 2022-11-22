@@ -17,19 +17,18 @@ We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, runn
 
 <!-- prettier-ignore-start -->
 
-- [Project structure](#project-structure)
-  - [Table of contents](#table-of-contents)
-  - [Development workflow](#development-workflow)
-  - [Test the Azure extension](#test-the-azure-extension)
-    - [Deploy a staging Azure extension](#deploy-a-staging-azure-extension)
-    - [Run the Azure extension locally](#run-the-azure-extension-locally)
-  - [Test the GitHub action](#test-the-github-action)
-    - [Deploy the GitHub action to your own test repo](#deploy-the-github-action-to-your-own-test-repo)
-    - [Run the GitHub action locally](#run-the-github-action-locally)
-      - [Prerequisites](#prerequisites)
-        - [Prerequisites for Windows](#prerequisites-for-windows)
-        - [Prerequisites for Mac OS](#prerequisites-for-mac-os)
-      - [Run action](#run-action)
+- [Table of contents](#table-of-contents)
+- [Development workflow](#development-workflow)
+- [Test the Azure extension](#test-the-azure-extension)
+  - [Deploy a staging Azure extension](#deploy-a-staging-azure-extension)
+  - [Run the Azure extension locally](#run-the-azure-extension-locally)
+- [Test the GitHub action](#test-the-github-action)
+  - [Deploy the GitHub action to your own test repo](#deploy-the-github-action-to-your-own-test-repo)
+  - [Run the GitHub action locally](#run-the-github-action-locally)
+    - [Prerequisites](#prerequisites)
+      - [Prerequisites for Windows](#prerequisites-for-windows)
+      - [Prerequisites for Mac OS](#prerequisites-for-mac-os)
+    - [Run action](#run-action)
 
 <!-- prettier-ignore-end -->
 
