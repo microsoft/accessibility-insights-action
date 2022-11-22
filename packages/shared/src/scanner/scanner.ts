@@ -58,6 +58,7 @@ export class Scanner {
 
     public async scan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         if (!this.inputValidator.validate()) {
+            await this.telemetryClient.flush();
             return false;
         }
         const scanTimeoutMsec = this.taskConfig.getScanTimeout();
