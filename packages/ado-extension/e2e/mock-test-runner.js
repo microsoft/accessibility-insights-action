@@ -5,13 +5,17 @@ const tmrm = require('azure-pipelines-task-lib/mock-run');
 const path = require('path');
 const fs = require('fs');
 
+// Get inputs passed to the task
+const [node, file, ...args] = process.argv;
+const inputsPassedIn = args[0];
+
 // Prepare the task:
 // Apply default input values from task configuration
 const taskConfigPath = path.join(__dirname, '..', 'dist', 'pkg', 'task.json');
 const taskConfig = require(taskConfigPath);
-const inputs = {};
+const inputs = JSON.parse(inputsPassedIn) ?? {};
 for (const inputConfig of taskConfig['inputs']) {
-    if (inputConfig.defaultValue) {
+    if (inputConfig.defaultValue && !inputs[inputConfig.name]) {
         inputs[inputConfig.name] = inputConfig.defaultValue;
     }
 }
@@ -35,7 +39,5 @@ for (const name of Object.keys(inputs)) {
     console.log(`e2e tests is applying input ${name} to value ${inputs[name]}`);
     tmr.setInput(name, inputs[name]);
 }
-
-tmr.setInput('url', 'https://www.washington.edu/accesscomputing/AU/before.html');
 
 tmr.run(true); // Requires true bypass `retrieveSecret` error https://github.com/microsoft/azure-pipelines-task-lib/issues/794

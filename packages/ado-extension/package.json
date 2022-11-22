@@ -12,9 +12,9 @@
         "lint:fix": "eslint -c ../../.eslintrc.js \"{src,e2e}/**/*.{js,ts}\" --quiet --fix",
         "package": "cd dist && tfx extension create --manifest-globs ado-extension.json",
         "start": "node scripts/run-locally.js",
-        "test": "jest",
+        "test": "jest --rootDir src",
         "watch:test": "jest --watch",
-        "test:e2e": "jest --testMatch \"**/e2e/?(*.)+(test).ts\" --coverage false"
+        "test:e2e": "jest --rootDir e2e --coverage false"
     },
     "repository": {
         "type": "git",
@@ -32,7 +32,7 @@
     "dependencies": {
         "@accessibility-insights-action/shared": "^1.0.0",
         "applicationinsights": "^2.3.6",
-        "azure-pipelines-task-lib": "^4.0.1-preview",
+        "azure-pipelines-task-lib": "^4.0.2",
         "reflect-metadata": "^0.1.13"
     }
 }

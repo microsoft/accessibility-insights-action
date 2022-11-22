@@ -1,0 +1,41 @@
+{
+  metadata: {
+    fileFormatVersion: '1',
+  },
+  results: [
+    {
+      cssSelector: '#decorative',
+      htmlSnippet: '<img id="decorative" role="presentation" alt="Some alt text" src="./img1.png">',
+      rule: 'aria-allowed-role',
+      urls: [
+        'http://localhost:39983/',
+      ],
+    },
+    {
+      cssSelector: 'html',
+      htmlSnippet: '<html>',
+      rule: 'html-has-lang',
+      urls: [
+        'http://localhost:39983/',
+        'http://localhost:39983/linked1/inner-page.html',
+      ],
+    },
+    {
+      cssSelector: '#non-decorative',
+      htmlSnippet: '<img id="non-decorative" src="./img1.png">',
+      rule: 'image-alt',
+      urls: [
+        'http://localhost:39983/',
+        'http://localhost:39983/linked1/inner-page.html',
+      ],
+    },
+    {
+      cssSelector: '#input-radio-1',
+      htmlSnippet: '<input id="input-radio-1" type="radio" name="color" value="red" checked="">',
+      rule: 'label',
+      urls: [
+        'http://localhost:39983/',
+      ],
+    },
+  ],
+}

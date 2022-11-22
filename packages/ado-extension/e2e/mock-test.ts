@@ -12,10 +12,14 @@ const COMMAND_TAG = '[command]';
 const COMMAND_LENGTH = COMMAND_TAG.length;
 
 export class MockTestRunner {
-    constructor(testPath: string) {
+    constructor(testPath: string, inputs?: { [key: string]: string }) {
         this._testPath = testPath;
+        if (inputs !== undefined) {
+            this._inputs = inputs;
+        }
     }
 
+    private _inputs: { [key: string]: string } | undefined;
     private _testPath = '';
     public stdout = '';
     public stderr = '';
@@ -58,7 +62,12 @@ export class MockTestRunner {
         this.errorIssues = [];
         this.warningIssues = [];
 
-        const spawn = spawnSync('node', [this._testPath]);
+        const args = [this._testPath];
+        if (this._inputs !== undefined) {
+            args.push(JSON.stringify(this._inputs));
+        }
+
+        const spawn = spawnSync('node', args);
 
         if (spawn.error) {
             console.error('Running test failed');
