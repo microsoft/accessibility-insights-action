@@ -38,7 +38,7 @@ To make a change, you can follow these steps:
 
 1. Clone the repository. While our team typically uses forks, the action (and therefore our self-test workflow) doesn't support pull requests from forks yet (tracked [here](https://github.com/microsoft/accessibility-insights-action/issues/629)). For this reason, maintainers might consider working off branches of the main repository. To test a fork, you can consume your fork's branch from a different repository.
 
-2. Run `yarn install`. This projects requires Node 16.
+2. Run `yarn install`. This project requires Node 16.
 
 3. Make your code change.
 
@@ -135,8 +135,8 @@ From within Linux install applications below.
 
 _Note_: To run action on Windows use WSL 2.
 
-1. Build action using `yarn cbuild` or `yarn build` command.
-2. Run action using `act`.
+1. Build action using `yarn cbuild` or `yarn build` command
+2. Run action using `act`
 
 _Note_: When run act first time choose **large** image option.
 
