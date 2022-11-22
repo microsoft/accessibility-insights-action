@@ -24,6 +24,7 @@ describe(InputValidator, () => {
 
     describe('constructor', () => {
         it('initializes input validator', () => {
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
             inputValidator = buildInputValidatorWithMocks();
             verifyAllMocks();
         });
@@ -38,6 +39,7 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('staticSiteDir', 'StaticSiteDir');
             setupInputName('url', 'Url');
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             const errorMessage = `A configuration error has occurred, only one of the following inputs can be set at a time: url or staticSiteDir`;
             setupLoggerWithErrorMessage(errorMessage);
@@ -59,6 +61,7 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
             setupInputName('url', 'Url');
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             const errorMessage = `A configuration error has occurred, url or staticSiteDir must be set`;
             setupLoggerWithErrorMessage(errorMessage);
@@ -80,6 +83,7 @@ describe(InputValidator, () => {
             setupGetUrl(undefined);
             setupInputName('staticSiteDir', 'StaticSiteDir');
             setupInputName('hosting-mode', 'HostingMode');
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             const errorMessage = `A configuration error has occurred, staticSiteDir must be set when hosting-mode is set to static`;
             setupLoggerWithErrorMessage(errorMessage);
@@ -101,6 +105,7 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('url', 'Url');
             setupInputName('hosting-mode', 'HostingMode');
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             const errorMessage = `A configuration error has occurred, url must not be set when hosting-mode is set to static\nTo fix this error make sure url has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
@@ -124,6 +129,7 @@ describe(InputValidator, () => {
             setupInputName('staticSiteUrlRelativePath', 'StaticSiteUrlRelativePath');
             setupInputName('staticSitePort', 'StaticSitePort');
             setupInputName('hosting-mode', 'HostingMode');
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             const errorMessage = `A configuration error has occurred, staticSiteDir, staticSiteUrlRelativePath, staticSitePort must not be set when hosting-mode is set to dynamic\nTo fix this error make sure staticSiteDir, staticSiteUrlRelativePath, staticSitePort has not been set in the input section of your YAML file`;
             setupLoggerWithErrorMessage(errorMessage);
@@ -145,6 +151,7 @@ describe(InputValidator, () => {
             setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             inputValidator = buildInputValidatorWithMocks();
             expect(inputValidator.validate()).toBe(true);
@@ -156,6 +163,7 @@ describe(InputValidator, () => {
             setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl(undefined);
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -171,6 +179,7 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
             setupInputName('hosting-mode', 'HostingMode');
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -185,6 +194,7 @@ describe(InputValidator, () => {
             setupGetStaticSiteUrlRelativePath(defaultStaticSiteUrlRelativePath);
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
+            setupTelemetryClientWithEvent('INPUT ERROR!!!');
 
             const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
             setupGetUsageDocsUrl(usageLink);
@@ -198,6 +208,8 @@ describe(InputValidator, () => {
 
     const verifyAllMocks = () => {
         taskConfigMock.verifyAll();
+        loggerMock.verifyAll();
+        telemetryClient.verifyAll();
     };
 
     const setupGetUsageDocsUrl = (url: string) => {
@@ -261,6 +273,8 @@ describe(InputValidator, () => {
         const telemetryErrorCollector: { [key: string]: any } = {};
         telemetryErrorCollector.sender = 'InputValidator';
         telemetryErrorCollector.errorList = [message];
-        telemetryClient.setup((o) => o.trackEvent({ name: 'ErrorFound', properties: telemetryErrorCollector } as TelemetryEvent));
+        telemetryClient
+            .setup((o) => o.trackEvent({ name: 'ErrorFound', properties: telemetryErrorCollector } as TelemetryEvent))
+            .verifiable(Times.atLeastOnce());
     };
 });

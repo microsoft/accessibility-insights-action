@@ -19,6 +19,12 @@ export class InputValidator {
         @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
     ) {
         this.telemetryErrorCollector = new TelemetryErrorCollector('InputValidator');
+        this.telemetryErrorCollector.collectError('INPUT ERROR!!!');
+        this.telemetryClient.trackEvent({
+            name: 'ErrorFound',
+            properties: this.telemetryErrorCollector.returnErrorList(),
+        } as TelemetryEvent);
+        this.telemetryErrorCollector.errorList.pop();
     }
     public validate(): boolean {
         let isValid = true;
