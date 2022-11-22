@@ -17,7 +17,7 @@ The Accessibility Insights Action and Extension use the [axe-core](https://githu
 Automated checks can detect some common accessibility problems such as missing or invalid properties. But most accessibility problems can only be discovered through manual testing. The best way to evaluate web accessibility compliance is to complete an assessment using [Accessibility Insights for Web](https://accessibilityinsights.io/docs/en/web/overview/).
 
 -   For Microsoft internal teams, visit [how to use the Azure DevOps Extension](docs/ado-extension-usage.md).
--   For more information, visit [how to use the GitHub Action](docs/gh-action-usage.md).
+-   For all other teams, visit [how to use the GitHub Action](docs/gh-action-usage.md).
 
 ## Contributing
 
