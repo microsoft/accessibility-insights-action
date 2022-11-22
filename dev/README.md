@@ -13,9 +13,12 @@ This repository contains code for two projects:
 
 We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, running yarn scripts in the root directory should produce output from all packages.
 
+## Table of contents
+
 <!-- prettier-ignore-start -->
 
 - [Project structure](#project-structure)
+  - [Table of contents](#table-of-contents)
   - [Development workflow](#development-workflow)
   - [Test the Azure extension](#test-the-azure-extension)
     - [Deploy a staging Azure extension](#deploy-a-staging-azure-extension)
