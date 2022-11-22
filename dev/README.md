@@ -16,13 +16,14 @@ We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, runn
 - [Project structure](#project-structure)
   - [Development workflow](#development-workflow)
   - [Test the Azure extension](#test-the-azure-extension)
-    - [Run the Azure extension locally](#run-the-azure-extension-locally)
     - [Deploy a staging Azure extension](#deploy-a-staging-azure-extension)
+    - [Run the Azure extension locally](#run-the-azure-extension-locally)
   - [Test the GitHub action](#test-the-github-action)
-    - [Deploy GitHub Action to your own test repo](#deploy-github-action-to-your-own-test-repo)
-    - [Run GitHub Actions locally](#run-github-actions-locally)
-      - [Prerequisites (Windows)](#prerequisites-windows)
-      - [Prerequisites (Mac OS)](#prerequisites-mac-os)
+    - [Deploy the GitHub action to your own test repo](#deploy-the-github-action-to-your-own-test-repo)
+    - [Run the GitHub action locally](#run-the-github-action-locally)
+      - [Prerequisites](#prerequisites)
+        - [Prerequisites for Windows](#prerequisites-for-windows)
+        - [Prerequisites for Mac OS](#prerequisites-for-mac-os)
       - [Run action](#run-action)
 
 ## Development workflow
@@ -48,6 +49,10 @@ To make a change, you can follow these steps:
 
 ## Test the Azure extension
 
+### Deploy a staging Azure extension
+
+The steps to deploy a staging Azure Extension are currently limited to the Accessibility Insights team. Team member can find instruction in the "ADO Extension - ad-hoc test deployments" OneNote .
+
 ### Run the Azure extension locally
 
 1. Follow the steps above to install dependencies and build the projects.
@@ -56,19 +61,17 @@ To make a change, you can follow these steps:
 
 3. Run `yarn start`. This will run the extension locally using the inputs defined in [local-overrides.json](../packages/ado-extension/scripts/local-overrides.json). Modify local-overrides.json as needed to test your scenario.
 
-### Deploy a staging Azure extension
-
-The steps to deploy a staging Azure Extension are currently limited to the Accessibility Insights team. Team member can find instruction in the "ADO Extension - ad-hoc test deployments" OneNote .
-
 ## Test the GitHub action
 
-### Deploy GitHub Action to your own test repo
+### Deploy the GitHub action to your own test repo
 
 You can follow the [instructions to deploy to GitHub](../packages/gh-action/deploy-scripts/deploy-to-github-test.md).
 
-### Run GitHub Actions locally
+### Run the GitHub action locally
 
-#### Prerequisites (Windows)
+#### Prerequisites
+
+##### Prerequisites for Windows
 
 1. Install [Windows Subsystem for Linux 2 (WSL 2)](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#whats-new-in-wsl-2)
 
@@ -116,17 +119,18 @@ From within Linux install applications below.
     brew install act
     ```
 
-#### Prerequisites (Mac OS)
+##### Prerequisites for Mac OS
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
 2. Install [act](https://github.com/nektos/act)
 
 #### Run action
 
 _Note_: To run action on Windows use WSL 2.
 
-1. Build action using `yarn cbuild` or `yarn build` command
-2. Run action using `act`
+1. Build action using `yarn cbuild` or `yarn build` command.
+2. Run action using `act`.
 
 _Note_: When run act first time choose **large** image option.
 
