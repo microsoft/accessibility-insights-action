@@ -13,6 +13,8 @@ This repository contains code for two projects:
 
 We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, running yarn scripts in the root directory should produce output from all packages.
 
+<!-- prettier-ignore-start -->
+
 - [Project structure](#project-structure)
   - [Development workflow](#development-workflow)
   - [Test the Azure extension](#test-the-azure-extension)
@@ -25,6 +27,8 @@ We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, runn
         - [Prerequisites for Windows](#prerequisites-for-windows)
         - [Prerequisites for Mac OS](#prerequisites-for-mac-os)
       - [Run action](#run-action)
+
+<!-- prettier-ignore-end -->
 
 ## Development workflow
 
