@@ -8,7 +8,7 @@ Licensed under the MIT License.
 This repository contains code for two projects:
 
 -   `packages/gh-action` contains a GitHub action, also released to tags in this repository
--   `packages/ado-extension` contains a Azure DevOps extension
+-   `packages/ado-extension` contains an Azure DevOps extension
 -   `packages/shared` contains most of the shared logic from the two projects; over time, product-specific code should move from `packages/shared` into the appropriate product folder
 
 We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, running yarn scripts in the root directory should produce output from all packages.
