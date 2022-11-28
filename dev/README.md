@@ -27,8 +27,15 @@ To make a change, you can follow these steps:
 
 5. You can test your changes locally or remotely:
 
-    1. locally: [Run the Azure extension locally](#run-the-azure-extension-locally), [Run the GitHub action locally](#run-the-github-action-locally)
-    2. remotely: [Deploy a staging Azure extension](#deploy-a-staging-azure-extension), [Deploy the GitHub action to your own test repo](#deploy-the-github-action-to-your-own-test-repo)
+    - locally:
+
+        - [Run the Azure extension locally](#run-the-azure-extension-locally)
+        - [Run the GitHub action locally](#run-the-github-action-locally)
+
+    - remotely:
+
+        - [Deploy a staging Azure extension](#deploy-a-staging-azure-extension)
+        - [Deploy the GitHub action to your own test repo](#deploy-the-github-action-to-your-own-test-repo)
 
 6. Push your changes to GitHub.
 
