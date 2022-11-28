@@ -154,16 +154,16 @@
             "name": "singleWorker",
             "type": "boolean",
             "label": "Uses a single crawler worker",
-            "required": true,
+            "required": false,
             "defaultValue": true,
-            "helpMarkDown": "To get deterministic scanning results, either specify the singleWorker parameter or ensure that the value specified for the maxUrls parameter is larger than the total number of urls in the web site being scanned."
+            "helpMarkDown": "To get deterministic scanning results, either specify `singleWorker` or make sure the value for `maxUrls` is larger than the total number of URLs in the website being scanned."
         },
         {
             "name": "uploadOutputArtifact",
             "type": "boolean",
             "label": "Upload output artifact",
             "defaultValue": true,
-            "required": true,
+            "required": false,
             "helpMarkDown": "Automatically upload the result as an artifact to the build. Set to `false` if you need to upload the artifact manually in a separate task or publish step.",
             "groupName": "outputOptions"
         },
