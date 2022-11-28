@@ -35,7 +35,7 @@ Install [Accessibility Insights for Azure DevOps - Production](https://marketpla
 
 Reference this extension in your Azure pipelines by adding the relevant YAML file using the snippets on this document as guidance.
 
--   See [task.json](https://github.com/microsoft/accessibility-insights-action/blob/main/packages/ado-extension/task.json) for option descriptions.
+-   See [ado-extension-inputs.md](ado-extension-inputs.md) for option descriptions.
 
 Note: we also support adding the task via the classic pipeline interface in Azure DevOps.
 
