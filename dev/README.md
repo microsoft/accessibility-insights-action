@@ -7,33 +7,65 @@ Licensed under the MIT License.
 
 This repository contains code for two projects:
 
+-   `packages/ado-extension` contains an Azure DevOps extension
 -   `packages/gh-action` contains a GitHub action, also released to tags in this repository
--   `packages/ado-extension` is an in-progress Azure DevOps extension
 -   `packages/shared` contains most of the shared logic from the two projects; over time, product-specific code should move from `packages/shared` into the appropriate product folder
 
 We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, running yarn scripts in the root directory should produce output from all packages.
 
-# Development workflow
+## Development workflow
 
 To make a change, you can follow these steps:
 
--   clone the repository. While our team typically uses forks, the action (and therefore our self-test workflow) doesn't support pull requests from forks yet (tracked [here](https://github.com/microsoft/accessibility-insights-action/issues/629)). For this reason, maintainers might consider working off branches of the main repository. To test a fork, you can consume your fork's branch from a different repository.
--   run `yarn install`. You might encounter `Found incompatible module` because one of our dependencies expects node versions `^10.17.0 || ^12.3.0`. You can use `yarn install --ignore-engines` to ignore this error.
--   make your code change
--   run `yarn build` and/or `yarn test`. If you're changing `shared`, you may need to build it before `gh-action` picks up changes.
--   test your changes either
-    -   locally: follow the instructions below this section
-    -   remotely: push your changes to GitHub and consume your branch from a separate repository. Replace `uses: microsoft/accessibility-insights-action@v2` with `uses: YourAccount/accessibility-insights-action@YourBranchOrSHA`
--   push your changes to GitHub
--   create a pull request. If your branch is on the main repo, the PR build should run your implementation against the test files in `website-root`.
+1. Clone the repository. If you would like to [deploy a staging Azure extension](#deploy-a-staging-azure-extension), maintainers will need to create branches off of the main repository.
 
-# Deploy GitHub Action to your own test repo
+2. Run `yarn install`. This project requires Node 16.
+
+3. Make your code change.
+
+4. Run `yarn build` and/or `yarn test`. If you're changing `shared`, you may need to build it before the action and extension pick up changes.
+
+5. You can test your changes locally or remotely:
+
+    - locally:
+
+        - [Run the Azure extension locally](#run-the-azure-extension-locally)
+        - [Run the GitHub action locally](#run-the-github-action-locally)
+
+    - remotely:
+
+        - [Deploy a staging Azure extension](#deploy-a-staging-azure-extension)
+        - [Deploy the GitHub action to your own test repo](#deploy-the-github-action-to-your-own-test-repo)
+
+6. Push your changes to GitHub.
+
+7. Create a pull request. If your branch is on the main repository, the pull request build should run your implementation against the test files in `website-root`.
+
+## Test the Azure extension
+
+### Deploy a staging Azure extension
+
+The steps to deploy a staging Azure Extension are currently limited to the Accessibility Insights team. Team members can find instruction in the "ADO Extension - ad-hoc test deployments" OneNote.
+
+### Run the Azure extension locally
+
+1. Follow the steps in [Development workflow](#development-workflow) to install dependencies and build the project.
+
+2. From your terminal, move into the extension directory: `cd packages/ado-extension`.
+
+3. Run `yarn start`. This will run the extension locally using the inputs defined in [local-overrides.json](../packages/ado-extension/scripts/local-overrides.json). Modify local-overrides.json as needed to test your scenario.
+
+## Test the GitHub action
+
+### Deploy the GitHub action to your own test repo
 
 You can follow the [instructions to deploy to GitHub](../packages/gh-action/deploy-scripts/deploy-to-github-test.md).
 
-# Run GitHub Actions locally
+### Run the GitHub action locally
 
-## Prerequisites (Windows)
+#### Prerequisites
+
+##### Prerequisites for Windows
 
 1. Install [Windows Subsystem for Linux 2 (WSL 2)](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#whats-new-in-wsl-2)
 
@@ -81,12 +113,13 @@ From within Linux install applications below.
     brew install act
     ```
 
-## Prerequisites (Mac OS)
+##### Prerequisites for Mac OS
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
 2. Install [act](https://github.com/nektos/act)
 
-## Run action
+#### Run action
 
 _Note_: To run action on Windows use WSL 2.
 
