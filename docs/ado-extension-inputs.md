@@ -24,17 +24,13 @@ Your site must be served (hosted) before the extension can scan it, choose from 
 
 -   `staticSitePort` (int). The preferred local website TCP port to use when serving local website content. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using baselining, set the port to make sure future scans will match the baseline file.
 
-## Authentication
-
-If your site requires authentication in order to be scanned, you can create a service account, store its credentials in key vault, and use it to authenticate with the Accessibility Insights for Azure DevOps extension. We currently support Azure Active Directory (AAD) authentication.
+## Additional inputs
 
 -   `authType` (One of: "AAD"). For sites with authenticated pages, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to set up authentication](https://aka.ms/AI-action-auth).
 
 -   `serviceAccountName` (string). Email address for the service account to be used in authentication. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
 
 -   `serviceAccountPassword` (string). Password for the service account to be used in authentication. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
-
-## Additional inputs
 
 -   `maxUrls` (int). Default: `100`. Maximum number of pages opened by crawler. The crawl will stop when this limit is reached.
 

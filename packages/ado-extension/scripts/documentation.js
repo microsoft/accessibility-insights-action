@@ -20,12 +20,6 @@ const layout = [
         heading: '## Static site',
         inputs: ['staticSiteDir', 'staticSiteUrlRelativePath', 'staticSitePort'],
     },
-    {
-        heading: '## Authentication',
-        description:
-            'If your site requires authentication in order to be scanned, you can create a service account, store its credentials in key vault, and use it to authenticate with the Accessibility Insights for Azure DevOps extension. We currently support Azure Active Directory (AAD) authentication.',
-        inputs: ['authType', 'serviceAccountName', 'serviceAccountPassword'],
-    },
 ];
 
 // Create and "Additional inputs" section
