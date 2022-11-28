@@ -14,7 +14,8 @@
         "start": "node scripts/run-locally.js",
         "test": "jest --rootDir src",
         "watch:test": "jest --watch",
-        "test:e2e": "jest --rootDir e2e --coverage false"
+        "test:e2e": "jest --rootDir e2e --coverage false",
+        "docs": "node scripts/documentation.js && prettier --write \"../../docs/ado-extension-inputs.md\""
     },
     "repository": {
         "type": "git",
