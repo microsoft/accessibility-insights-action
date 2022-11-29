@@ -52,8 +52,7 @@ export class InputValidator {
             const siteDirName = this.taskConfig.getInputName('StaticSiteDir');
             const urlName = this.taskConfig.getInputName('Url');
             const errorLines = [`A configuration error has occurred, ${urlName} or ${siteDirName} must be set`];
-            this.telemetryErrorCollector.collectError(errorLines.join(sectionSeparator()));
-            return this.writeConfigurationError(errorLines);
+            return this.writeConfigurationError(errorLines.join(sectionSeparator()));
         }
         return true;
     }
@@ -68,8 +67,7 @@ export class InputValidator {
             const errorLines = [
                 `A configuration error has occurred, only one of the following inputs can be set at a time: ${urlName} or ${siteDirName}`,
             ];
-            this.telemetryErrorCollector.collectError(errorLines.join(sectionSeparator()));
-            return this.writeConfigurationError(errorLines);
+            return this.writeConfigurationError(errorLines.join(sectionSeparator()));
         }
         return true;
     }
@@ -82,8 +80,7 @@ export class InputValidator {
             const hostingModeName = this.taskConfig.getInputName('HostingMode');
 
             const errorLines = [`A configuration error has occurred, ${siteDirName} must be set when ${hostingModeName} is set to static`];
-            this.telemetryErrorCollector.collectError(errorLines.join(sectionSeparator()));
-            return this.writeConfigurationError(errorLines);
+            return this.writeConfigurationError(errorLines.join(sectionSeparator()));
         }
         return true;
     }
@@ -99,8 +96,7 @@ export class InputValidator {
                     `A configuration error has occurred, ${urlName} must not be set when ${hostingModeName} is set to static`,
                     `To fix this error make sure ${urlName} has not been set in the input section of your YAML file`,
                 ];
-                this.telemetryErrorCollector.collectError(errorLines.join(sectionSeparator()));
-                return this.writeConfigurationError(errorLines);
+                return this.writeConfigurationError(errorLines.join(sectionSeparator()));
             }
         }
         return true;
@@ -115,8 +111,7 @@ export class InputValidator {
                 `A configuration error has occurred, ${urlName} must be set when ${hostingModeName} is set to dynamic`,
                 `To fix this error make sure to add ${urlName} to the input section in the corresponding YAML file`,
             ];
-            this.telemetryErrorCollector.collectError(errorLines.join(sectionSeparator()));
-            return this.writeConfigurationError(errorLines);
+            return this.writeConfigurationError(errorLines.join(sectionSeparator()));
         }
         return true;
     }
@@ -150,15 +145,15 @@ export class InputValidator {
                     `A configuration error has occurred, ${failedInputNames} must not be set when ${hostingModeName} is set to dynamic`,
                     `To fix this error make sure ${failedInputNames} has not been set in the input section of your YAML file`,
                 ];
-                this.telemetryErrorCollector.collectError(errorLines.join(sectionSeparator()));
-                return this.writeConfigurationError(errorLines);
+                return this.writeConfigurationError(errorLines.join(sectionSeparator()));
             }
         }
         return true;
     }
 
-    private writeConfigurationError(errorLines: string[]): boolean {
-        this.logger.logError(errorLines.join(sectionSeparator()));
+    private writeConfigurationError(errorMessage: string): boolean {
+        this.telemetryErrorCollector.collectError(errorMessage);
+        this.logger.logError(errorMessage);
         return false;
     }
 }

@@ -122,7 +122,6 @@ export class Scanner {
             await this.allProgressReporter.completeRun(combinedReportParameters, combinedScanResult.baselineEvaluation);
             return this.allProgressReporter.didScanSucceed();
         } catch (error) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             this.logAndTrackScanningException(error, scanArguments?.url);
             await this.allProgressReporter.failRun();
         } finally {
