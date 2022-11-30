@@ -5,7 +5,7 @@ Licensed under the MIT License.
 
 # How to use the Azure DevOps extension
 
-The Accessibility Insights for Azure DevOps (ADO) extension is available to Microsoft internal teams. To learn how to install the extension to your pipeline, visit [Accessibility Insights for Azure DevOps on Engineering Hub](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops).
+The Accessibility Insights Azure DevOps (ADO) extension is available to Microsoft internal teams. To learn how to install the extension to your pipeline, visit [Accessibility Insights for Azure DevOps on Engineering Hub](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops).
 
 The documentation on Engineering Hub are for version 3 of the extension.
 
