@@ -15,7 +15,7 @@ pr:
 
 resources:
     pipelines:
-        - pipeline: prod-release
+        - pipeline: canary-release
           source: accessibility-insights-ado-extension-release-canary
           trigger:
               stages:
