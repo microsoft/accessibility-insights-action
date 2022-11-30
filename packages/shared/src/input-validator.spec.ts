@@ -8,11 +8,13 @@ import { InputValidator } from './input-validator';
 import { Logger } from './logger/logger';
 import { TelemetryClient } from './telemetry/telemetry-client';
 import { TelemetryEvent } from './telemetry/telemetry-event';
+import { TelemetryErrorCollector } from './telemetry/telemetry-error-collector';
 
 describe(InputValidator, () => {
     let taskConfigMock: IMock<TaskConfig>;
     let loggerMock: IMock<Logger>;
     let telemetryClient: IMock<TelemetryClient>;
+    let telemetryErrorCollectorMock: IMock<TelemetryErrorCollector>;
     let inputValidator: InputValidator;
     const defaultStaticSiteUrlRelativePath = '/';
 
@@ -20,6 +22,7 @@ describe(InputValidator, () => {
         taskConfigMock = Mock.ofType<TaskConfig>(undefined, MockBehavior.Strict);
         loggerMock = Mock.ofType<Logger>(undefined, MockBehavior.Strict);
         telemetryClient = Mock.ofType<TelemetryClient>(undefined, MockBehavior.Strict);
+        telemetryErrorCollectorMock = Mock.ofType<TelemetryErrorCollector>();
     });
 
     describe('constructor', () => {
@@ -90,6 +93,7 @@ describe(InputValidator, () => {
             setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
             inputValidator = buildInputValidatorWithMocks();
+            telemetryErrorCollectorMock.setup((o) => o.cleanErrorList()).verifiable(Times.once());
             expect(inputValidator.validate()).toBe(false);
         });
 

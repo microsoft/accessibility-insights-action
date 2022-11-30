@@ -38,6 +38,7 @@ export class InputValidator {
                     name: 'ErrorFound',
                     properties: this.telemetryErrorCollector.returnErrorList(),
                 } as TelemetryEvent);
+                this.telemetryErrorCollector.cleanErrorList();
             }
             const usageLink = link(this.taskConfig.getUsageDocsUrl(), 'usage documentation');
             this.logger.logInfo(usageLink);
