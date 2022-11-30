@@ -33,7 +33,7 @@ export class InputValidator {
             isValid &&= this.failIfDynamicInputsAreConfiguredInStaticMode();
         }
         if (!isValid) {
-            if (this.telemetryErrorCollector.errorList.length > 0) {
+            if (!this.telemetryErrorCollector.isEmpty()) {
                 this.telemetryClient.trackEvent({
                     name: 'ErrorFound',
                     properties: this.telemetryErrorCollector.returnErrorList(),

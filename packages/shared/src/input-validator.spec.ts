@@ -264,11 +264,12 @@ describe(InputValidator, () => {
     };
 
     const setupTelemetryClientWithEvent = (message: string) => {
-        const telemetryErrorCollector: { [key: string]: any } = {};
-        telemetryErrorCollector.sender = 'InputValidator';
-        telemetryErrorCollector.errorList = [message];
+        const ErrorReport = { sender: 'InputValidator', errorList: [message] };
+        //const telemetryErrorCollector: { [key: string]: any } = {};
+        //telemetryErrorCollector.sender = 'InputValidator';
+        //telemetryErrorCollector.errorList = [message];
         telemetryClient
-            .setup((o) => o.trackEvent({ name: 'ErrorFound', properties: telemetryErrorCollector } as TelemetryEvent))
+            .setup((o) => o.trackEvent({ name: 'ErrorFound', properties: ErrorReport } as TelemetryEvent))
             .verifiable(Times.atLeastOnce());
     };
 });

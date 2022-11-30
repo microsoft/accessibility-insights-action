@@ -3,28 +3,30 @@
 
 export type ErrorSender = 'Scanner' | 'Crawler' | 'TelemetrySender' | 'InputValidator';
 
+export type ErrorReport = { sender: ErrorSender; errorList: string[] };
+
 export class TelemetryErrorCollector {
-    errorSender: ErrorSender;
-    errorList: string[] = [];
+    errorReport: ErrorReport;
 
     constructor(errorSender: ErrorSender) {
-        this.errorSender = errorSender;
+        this.errorReport = { sender: errorSender, errorList: [] };
     }
 
     public collectError(errorMessage: string): void {
-        this.errorList.push(errorMessage);
+        this.errorReport.errorList.push(errorMessage);
     }
 
     public cleanErrorList(): void {
-        while (this.errorList.length > 0) {
-            this.errorList.pop();
+        while (this.errorReport.errorList.length > 0) {
+            this.errorReport.errorList.pop();
         }
     }
 
-    public returnErrorList(): { [key: string]: any } {
-        const errorObject: { [key: string]: any } = {};
-        errorObject.sender = this.errorSender;
-        errorObject.errorList = this.errorList;
-        return errorObject;
+    public isEmpty(): boolean {
+        return this.errorReport.errorList.length == 0;
+    }
+
+    public returnErrorList(): ErrorReport {
+        return this.errorReport;
     }
 }

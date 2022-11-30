@@ -19,14 +19,14 @@ describe(TelemetryErrorCollector, () => {
 
     describe('cleanErrorList', () => {
         it('it cleans errorList while any data on it', () => {
-            telemetryErrorCollector.errorList = ['Error'];
+            telemetryErrorCollector.errorReport.errorList = ['Error'];
             telemetryErrorCollector.cleanErrorList();
 
-            expect(telemetryErrorCollector.errorList.length).toBe(0);
+            expect(telemetryErrorCollector.errorReport.errorList.length).toBe(0);
         });
 
         it('does nothing if try to clean empty errorList', () => {
-            const spy = jest.spyOn(telemetryErrorCollector.errorList, 'pop');
+            const spy = jest.spyOn(telemetryErrorCollector.errorReport.errorList, 'pop');
             telemetryErrorCollector.cleanErrorList();
             expect(spy).not.toBeCalled();
         });
@@ -34,10 +34,10 @@ describe(TelemetryErrorCollector, () => {
 
     describe('collectError', () => {
         it('Adds new errors into errorList', () => {
-            telemetryErrorCollector.errorList = [];
-            expect(telemetryErrorCollector.errorList.length).toBe(0);
+            telemetryErrorCollector.errorReport.errorList = [];
+            expect(telemetryErrorCollector.errorReport.errorList.length).toBe(0);
             telemetryErrorCollector.collectError('Error');
-            expect(telemetryErrorCollector.errorList.length).toBe(1);
+            expect(telemetryErrorCollector.errorReport.errorList.length).toBe(1);
         });
     });
 

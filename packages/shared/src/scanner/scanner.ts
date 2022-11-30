@@ -125,7 +125,7 @@ export class Scanner {
             this.logAndTrackScanningException(error, scanArguments?.url);
             await this.allProgressReporter.failRun();
         } finally {
-            if (this.telemetryErrorCollector.errorList.length > 0) {
+            if (!this.telemetryErrorCollector.isEmpty()) {
                 this.telemetryClient.trackEvent({
                     name: 'ErrorFound',
                     properties: this.telemetryErrorCollector.returnErrorList(),
