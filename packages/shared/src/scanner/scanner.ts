@@ -69,7 +69,7 @@ export class Scanner {
                 const errorMessage = `Scan timed out after ${scanTimeoutMsec / 1000} seconds`;
                 this.telemetryErrorCollector.collectError(errorMessage);
                 this.logger.logError(errorMessage);
-                void this.telemetryClient.flush();
+                await this.telemetryClient.flush();
                 return Promise.resolve(false);
             },
         );
