@@ -11,9 +11,6 @@
 parameters:
     - name: taskUnderTest
       type: string
-    - name: testAuth
-      type: boolean
-      default: false
 
 variables:
     - group: 'ado-auth-example-secrets'
@@ -129,5 +126,5 @@ steps:
           serviceAccountPassword: $(a11yinsscan-service-acct-password)
           authType: 'AAD'
           outputArtifactName: 'accessibility-reports-case-12'
-      condition: and(succeededOrFailed(), eq('${{ parameters.testAuth }}', true))
+      condition: succeededOrFailed()
       continueOnError: true
