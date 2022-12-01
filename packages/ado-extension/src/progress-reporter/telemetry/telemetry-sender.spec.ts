@@ -138,15 +138,6 @@ describe(TelemetrySender, () => {
                     } as TelemetryEvent),
                 )
                 .verifiable(Times.once());
-
-            telemetryClientMock
-                .setup((x) =>
-                    x.trackEvent({
-                        name: 'ErrorFound',
-                        properties: telemetryErrorCollector,
-                    } as TelemetryEvent),
-                )
-                .verifiable(Times.once());
         }
     });
 
