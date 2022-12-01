@@ -15,6 +15,9 @@ parameters:
       type: boolean
       default: false
 
+variables:
+    - group: 'ado-extension-canary'
+
 steps:
     # reused by all "url" cases
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
