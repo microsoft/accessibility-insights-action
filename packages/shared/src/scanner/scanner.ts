@@ -68,8 +68,14 @@ export class Scanner {
             async (): Promise<ScanSucceededWithNoRequiredUserAction> => {
                 const errorMessage = `Scan timed out after ${scanTimeoutMsec / 1000} seconds`;
                 this.telemetryErrorCollector.collectError(errorMessage);
-                this.logger.logError(errorMessage);
+                if (!this.telemetryErrorCollector.isEmpty()) {
+                    this.telemetryClient.trackEvent({
+                        name: 'ErrorFound',
+                        properties: this.telemetryErrorCollector.returnErrorList(),
+                    } as TelemetryEvent);
+                }
                 await this.telemetryClient.flush();
+                this.logger.logError(errorMessage);
                 return Promise.resolve(false);
             },
         );
