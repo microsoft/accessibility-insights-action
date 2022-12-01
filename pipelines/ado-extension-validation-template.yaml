@@ -16,7 +16,7 @@ parameters:
       default: false
 
 variables:
-    - group: 'ado-extension-canary'
+    - group: 'ado-auth-example-secrets'
 
 steps:
     # reused by all "url" cases
@@ -121,22 +121,22 @@ steps:
       condition: succeededOrFailed()
       continueOnError: true
 
-    # necessary for auth testing in next case
-    - task: AzureKeyVault@2
-      inputs:
-          azureSubscription: $(azureSubscription)
-          KeyVaultName: $(keyVaultName)
-          SecretsFilter: $(secretsFilter)
-          RunAsPreJob: false
-      condition: and(succeededOrFailed(), eq('${{ parameters.testAuth }}', true))
-      continueOnError: true
+    # # necessary for auth testing in next case
+    # - task: AzureKeyVault@2
+    #   inputs:
+    #       azureSubscription: $(azureSubscription)
+    #       KeyVaultName: $(keyVaultName)
+    #       SecretsFilter: $(secretsFilter)
+    #       RunAsPreJob: false
+    #   condition: and(succeededOrFailed(), eq('${{ parameters.testAuth }}', true))
+    #   continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should fail] case 12: url, azure portal auth test'
       inputs:
           url: 'https://portal.azure.com'
-          serviceAccountName: $($(usernameKvName))
-          serviceAccountPassword: $($(passwordKvName))
+          serviceAccountName: $(a11yinsscan-service-acct-username)
+          serviceAccountPassword: $(a11yinsscan-service-acct-password)
           authType: 'AAD'
           outputArtifactName: 'accessibility-reports-case-12'
       condition: and(succeededOrFailed(), eq('${{ parameters.testAuth }}', true))
