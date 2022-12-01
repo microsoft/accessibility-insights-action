@@ -21,10 +21,10 @@ resources:
               stages:
                   - package_publish_staging
 
-pool:
-    vmImage: ubuntu-latest
+pool: a11y-ado-auth
 
 extends:
     template: ado-extension-validation-template.yaml
     parameters:
         taskUnderTest: accessibility-insights.staging.task.accessibility-insights@3
+        testAuth: true
