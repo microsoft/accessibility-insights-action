@@ -12,6 +12,9 @@ parameters:
     - name: taskUnderTest
       type: string
 
+variables:
+    - group: 'ado-auth-example-secrets'
+
 steps:
     # reused by all "url" cases
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
@@ -112,5 +115,16 @@ steps:
           repoServiceConnectionName: 'this isnt used anymore'
           # siteDir instead of staticSiteDir
           siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+      condition: succeededOrFailed()
+      continueOnError: true
+
+    - task: ${{ parameters.taskUnderTest }}
+      displayName: 'case 12: url, azure portal auth test'
+      inputs:
+          url: 'https://portal.azure.com'
+          serviceAccountName: $(a11yinsscan-service-acct-username)
+          serviceAccountPassword: $(a11yinsscan-service-acct-password)
+          authType: 'AAD'
+          outputArtifactName: 'accessibility-reports-case-12'
       condition: succeededOrFailed()
       continueOnError: true
