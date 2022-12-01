@@ -7,20 +7,19 @@ pr:
     branches:
         include:
             - main
-            - brocktaylor/canary-test-auth
     paths:
         include:
             - dev
             - pipelines/ado-extension-canary-validation.yaml
             - pipelines/ado-extension-validation-template.yaml
 
-# resources:
-#     pipelines:
-#         - pipeline: canary-release
-#           source: accessibility-insights-ado-extension-release-canary
-#           trigger:
-#               stages:
-#                   - package_publish_canary
+resources:
+    pipelines:
+        - pipeline: canary-release
+          source: accessibility-insights-ado-extension-release-canary
+          trigger:
+              stages:
+                  - package_publish_canary
 
 pool: a11y-ado-auth
 
