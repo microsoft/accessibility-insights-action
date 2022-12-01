@@ -50,10 +50,12 @@ export class TelemetrySender extends ProgressReporter {
             properties: eventProperties,
         } as TelemetryEvent);
 
-        this.telemetryClient.trackEvent({
-            name: 'ErrorFound',
-            properties: telemetryErrorCollector.returnErrorList(),
-        } as TelemetryEvent);
+        if (!telemetryErrorCollector.isEmpty()) {
+            this.telemetryClient.trackEvent({
+                name: 'ErrorFound',
+                properties: telemetryErrorCollector.returnErrorList(),
+            } as TelemetryEvent);
+        }
     }
 
     public async failRun(): Promise<void> {
