@@ -26,9 +26,9 @@ or
 
 -   `authType` (One of: "AAD"). For sites with authenticated pages, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to set up authentication](https://aka.ms/AI-action-auth).
 
--   `serviceAccountName` (string). Email address for the service account to be used in authentication. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
+-   `serviceAccountName` (string). For sites with authenticated pages, the email address for the non-people service account. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
 
--   `serviceAccountPassword` (string). Password for the service account to be used in authentication. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
+-   `serviceAccountPassword` (string). For sites with authenticated pages, the password for the non-people service account. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
 
 -   `maxUrls` (int). Default: `100`. Maximum number of pages opened by crawler. The crawl will stop when this limit is reached.
 
