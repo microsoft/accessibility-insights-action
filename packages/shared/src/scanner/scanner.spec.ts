@@ -28,6 +28,7 @@ import { TaskConfig } from '../task-config';
 import * as fs from 'fs';
 import { TelemetryClient } from '../telemetry/telemetry-client';
 import { InputValidator } from '../input-validator';
+import { TelemetryErrorCollector } from '../telemetry/telemetry-error-collector';
 
 describe(Scanner, () => {
     let aiCrawlerMock: IMock<AICrawler>;
@@ -49,6 +50,7 @@ describe(Scanner, () => {
     let combinedScanResult: CombinedScanResult;
     let scanArguments: ScanArguments;
     let inputValidatorMock: IMock<InputValidator>;
+    let telemetryErrorCollectorMock: IMock<TelemetryErrorCollector>;
 
     const scanTimeoutMsec = 100000;
     const reportOutDir = 'reportOutDir';
@@ -69,6 +71,7 @@ describe(Scanner, () => {
         baselineFileUpdaterMock = Mock.ofType<BaselineFileUpdater>();
         telemetryClientMock = Mock.ofType<TelemetryClient>();
         inputValidatorMock = Mock.ofType<InputValidator>();
+        telemetryErrorCollectorMock = Mock.ofType<TelemetryErrorCollector>();
         fsMock = Mock.ofType<typeof fs>();
         scanner = new Scanner(
             aiCrawlerMock.object,
@@ -145,6 +148,7 @@ describe(Scanner, () => {
         it('reports error when timeout occurs and returns false', async () => {
             const errorMessage = `Scan timed out after ${scanTimeoutMsec / 1000} seconds`;
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
+            telemetryErrorCollectorMock.setup((o) => o.collectError(errorMessage)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
             taskConfigMock
                 .setup((m) => m.getScanTimeout())
@@ -158,15 +162,13 @@ describe(Scanner, () => {
         });
 
         it('should trackException and return false after an Error is thrown', async () => {
-            const errorMessage = 'some err';
+            const errorMessage = 'An error occurred while scanning website page: undefined';
             const error = new Error(errorMessage);
 
             taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
             progressReporterMock.setup((m) => m.start()).throws(error);
-
-            loggerMock
-                .setup((lm) => lm.trackExceptionAny(error, `An error occurred while scanning website page: undefined`))
-                .verifiable(Times.once());
+            telemetryErrorCollectorMock.setup((o) => o.collectError(errorMessage)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.trackExceptionAny(error, errorMessage)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL undefined completed`)).verifiable(Times.once());
             progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
@@ -227,8 +229,10 @@ describe(Scanner, () => {
 
             setupWaitForPromiseToReturnOriginalPromise();
 
+            const errorMessage = `Scan failed with ${combinedScanResult.errors.length} error(s)`;
+            telemetryErrorCollectorMock.setup((o) => o.collectError(errorMessage)).verifiable(Times.once());
             // Check that logger is called the expected amount of times and that exceptions are tracked
-            loggerMock.setup((lm) => lm.logError(`Scan failed with ${combinedScanResult.errors.length} error(s)`)).verifiable(Times.once());
+            loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
 
             loggerMock
                 .setup((lm) => lm.trackExceptionAny(It.isAny(), It.isAnyString()))
