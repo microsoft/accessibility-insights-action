@@ -51,7 +51,7 @@
             "label": "Hosting mode: base URL",
             "required": false,
             "defaultValue": "/",
-            "helpMarkDown": "Set the base URL when the site lives at a subpath of the domain, such as `/blog`. If unspecified, the site will be scanned at the root.",
+            "helpMarkDown": "If using `staticSiteDir`, you can set the base URL when the site lives at a subpath of the domain, such as `/blog`. If unspecified, the site will be scanned at the root.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
@@ -59,7 +59,7 @@
             "type": "int",
             "label": "Hosting mode: port",
             "required": false,
-            "helpMarkDown": "The preferred local website TCP port to use when serving local website content. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using baselining, set the port to make sure future scans will match the baseline file.",
+            "helpMarkDown": "If using `staticSiteDir`, you can set the preferred local website TCP port that the extension should use when serving the static site. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using `baselineFile`, set the port to make sure future scans will match the baseline file.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
