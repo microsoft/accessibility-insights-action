@@ -59,7 +59,7 @@
             "type": "int",
             "label": "Hosting mode: port",
             "required": false,
-            "helpMarkDown": "If using `staticSiteDir`, you can set the preferred local website TCP port that the extension should use when serving the static site. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using `baselineFile`, set the port to make sure future scans will match the baseline file.",
+            "helpMarkDown": "If using `staticSiteDir`, you can set the local website TCP port for the extension to use when serving the static site. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using `baselineFile`, set the port to make sure future scans will match the baseline file.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
@@ -87,7 +87,7 @@
             "type": "string",
             "label": "Authentication: service account email address",
             "required": false,
-            "helpMarkDown": "For sites with authenticated pages, the email address for the non-people service account. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).",
+            "helpMarkDown": "For sites with authenticated pages, set the email address for the non-people service account. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).",
             "visibleRule": "authType = AAD"
         },
         {
@@ -95,7 +95,7 @@
             "type": "string",
             "label": "Authentication: service account password",
             "required": false,
-            "helpMarkDown": "For sites with authenticated pages, the password for the non-people service account. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).",
+            "helpMarkDown": "For sites with authenticated pages, set the password for the non-people service account. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).",
             "visibleRule": "authType = AAD"
         },
         {
