@@ -61,8 +61,8 @@ function handleRequired(required) {
 
 function handleType(type, options) {
     if (type !== 'pickList') return type;
-    return `One of: ${Object.keys(options)
+    return `Choose one: ${Object.keys(options)
         .filter((f) => f)
-        .map((o) => `"${o}"`)
+        .map((o) => `\`${o}\` - ${options[o]}`)
         .join(', ')}`;
 }

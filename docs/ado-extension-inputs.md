@@ -28,7 +28,7 @@ or
 
 -   `staticSitePort` (int). If using `staticSiteDir`, you can set the preferred local website TCP port that the extension should use when serving the static site. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using `baselineFile`, set the port to make sure future scans will match the baseline file.
 
--   `authType` (One of: "AAD"). For sites with authenticated pages, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to set up authentication](https://aka.ms/AI-action-auth).
+-   `authType` (Choose one: `AAD` - Azure Active Directory). For sites with authenticated pages, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to set up authentication](https://aka.ms/AI-action-auth).
 
 -   `serviceAccountName` (string). For sites with authenticated pages, the email address for the non-people service account. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
 
