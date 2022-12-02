@@ -95,7 +95,7 @@
             "type": "string",
             "label": "Authentication: service account password",
             "required": false,
-            "helpMarkDown": "For sites with authenticated pages, the password for the non-people  service account. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).",
+            "helpMarkDown": "For sites with authenticated pages, the password for the non-people service account. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).",
             "visibleRule": "authType = AAD"
         },
         {
