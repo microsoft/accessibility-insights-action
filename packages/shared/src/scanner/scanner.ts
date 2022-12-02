@@ -25,12 +25,16 @@ import { TaskConfig } from '../task-config';
 import { TelemetryClient } from '../telemetry/telemetry-client';
 import { InputValidator } from '../input-validator';
 import { isEmpty } from 'lodash';
+import { TelemetryErrorCollector } from '../telemetry/telemetry-error-collector';
 import * as fs from 'fs';
+import { TelemetryEvent } from '../telemetry/telemetry-event';
 
 export type ScanSucceededWithNoRequiredUserAction = boolean;
 
 @injectable()
 export class Scanner {
+    private telemetryErrorCollector: TelemetryErrorCollector;
+
     constructor(
         @inject(AICrawler) private readonly crawler: AICrawler,
         @inject(ConsolidatedReportGenerator) private readonly reportGenerator: ConsolidatedReportGenerator,
@@ -48,10 +52,13 @@ export class Scanner {
         @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
         @inject(InputValidator) private readonly inputValidator: InputValidator,
         private readonly fileSystemObj: typeof fs = fs,
-    ) {}
+    ) {
+        this.telemetryErrorCollector = new TelemetryErrorCollector('Scanner');
+    }
 
     public async scan(): Promise<ScanSucceededWithNoRequiredUserAction> {
         if (!this.inputValidator.validate()) {
+            await this.telemetryClient.flush();
             return false;
         }
         const scanTimeoutMsec = this.taskConfig.getScanTimeout();
@@ -59,7 +66,16 @@ export class Scanner {
             this.invokeScan(),
             scanTimeoutMsec,
             async (): Promise<ScanSucceededWithNoRequiredUserAction> => {
-                this.logger.logError(`Scan timed out after ${scanTimeoutMsec / 1000} seconds`);
+                const errorMessage = `Scan timed out after ${scanTimeoutMsec / 1000} seconds`;
+                this.telemetryErrorCollector.collectError(errorMessage);
+                if (!this.telemetryErrorCollector.isEmpty()) {
+                    this.telemetryClient.trackEvent({
+                        name: 'ErrorFound',
+                        properties: this.telemetryErrorCollector.returnErrorList(),
+                    } as TelemetryEvent);
+                }
+                await this.telemetryClient.flush();
+                this.logger.logError(errorMessage);
                 return Promise.resolve(false);
             },
         );
@@ -116,6 +132,12 @@ export class Scanner {
             this.logAndTrackScanningException(error, scanArguments?.url);
             await this.allProgressReporter.failRun();
         } finally {
+            if (!this.telemetryErrorCollector.isEmpty()) {
+                this.telemetryClient.trackEvent({
+                    name: 'ErrorFound',
+                    properties: this.telemetryErrorCollector.returnErrorList(),
+                } as TelemetryEvent);
+            }
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanArguments?.url} completed`);
             await this.telemetryClient.flush();
@@ -155,6 +177,7 @@ export class Scanner {
     }
 
     private logAndTrackScanningException(error: unknown, url: string): void {
+        this.telemetryErrorCollector.collectError(String(error));
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
     }
 }

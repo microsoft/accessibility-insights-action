@@ -3,15 +3,7 @@
 
 trigger: none
 
-pr:
-    branches:
-        include:
-            - main
-    paths:
-        include:
-            - dev
-            - pipelines/ado-extension-staging-validation.yaml
-            - pipelines/ado-extension-validation-template.yaml
+pr: none
 
 resources:
     pipelines:
@@ -21,8 +13,7 @@ resources:
               stages:
                   - package_publish_staging
 
-pool:
-    vmImage: ubuntu-latest
+pool: a11y-ado-auth
 
 extends:
     template: ado-extension-validation-template.yaml

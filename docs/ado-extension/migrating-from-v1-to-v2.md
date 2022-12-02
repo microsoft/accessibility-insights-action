@@ -22,10 +22,10 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
 3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate `publish` step to upload the `_accessibility-reports` folder, you can delete that `publish` step
     - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, specify `uploadOutputArtifact: false` to skip the new automatic artifact uploading. You can specify `outputDir` to control where the output artifact contents get written to on the build agent
-    - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
-4. By default, the task now fails if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
+    - See [Report Artifacts](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#view-scan-summary-and-artifact-report) for more details, including how to customize the artifact name
+4. By default, the task now fails if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#use-a-baseline-file))
     - If you previously specified `failOnAccessibilityError: true`, you can remove it (this is now the default behavior)
-    - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can add `failOnAccessibilityError: false` (but consider [using a Baseline File](#using-a-baseline-file) instead!)
+    - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can add `failOnAccessibilityError: false` (but consider [using a Baseline File](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#use-a-baseline-file) instead!)
 
 ## Migrating a "Classic" Pipeline definition
 
@@ -41,7 +41,7 @@ Version 2.x of the extension contains several breaking changes from version 1.x.
 3. Publishing a pipeline artifact containing scan results is now built into the Accessibility Insights task, instead of being a separate step you must add yourself afterwards
     - If you previously used a separate "Publish" step to upload the `_accessibility-reports` folder, you can delete that "Publish" step
     - If your pipeline is running in OneBranch, or any other environment where individual tasks cannot publish artifacts directly, uncheck the "Upload Output Artifact" option to skip the new automatic artifact uploading. You can specify an "Output Directory" to control where the output artifact contents get written to on the build agent
-    - See [Report Artifacts](#report-artifacts) for more details, including how to customize the artifact name
-4. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](#using-a-baseline-file))
-    - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can still uncheck this option (but consider [using a Baseline File](#using-a-baseline-file) instead!)
+    - See [Report Artifacts](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#view-scan-summary-and-artifact-report) for more details, including how to customize the artifact name
+4. The "Fail on Accessibility Error" option is now checked by default; when it is checked, the task will fail if it detects an accessibility failure (unless the failure is a known issue tracked by a [Baseline File](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#use-a-baseline-file))
+    - If you would prefer to keep the old behavior, where accessibility issues are not treated as a task failure, you can still uncheck this option (but consider [using a Baseline File](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops#use-a-baseline-file) instead!)
 5. The "Chrome Path" option has moved under a new "Advanced Options" group

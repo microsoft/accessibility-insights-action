@@ -3,28 +3,19 @@
 
 trigger: none
 
-pr:
-    branches:
-        include:
-            - main
-    paths:
-        include:
-            - dev
-            - pipelines/ado-extension-canary-validation.yaml
-            - pipelines/ado-extension-validation-template.yaml
+pr: none
 
 resources:
     pipelines:
-        - pipeline: prod-release
+        - pipeline: canary-release
           source: accessibility-insights-ado-extension-release-canary
           trigger:
               stages:
                   - package_publish_canary
 
-pool:
-    vmImage: ubuntu-latest
+pool: a11y-ado-auth
 
 extends:
     template: ado-extension-validation-template.yaml
     parameters:
-        taskUnderTest: accessibility-insights.canary.task.accessibility-insights@3
+        taskUnderTest: accessibility-insights.canary.task.accessibility-insights@1
