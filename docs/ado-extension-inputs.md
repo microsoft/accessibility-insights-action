@@ -44,9 +44,9 @@ or
 
 -   `baselineFile` (string). The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled.
 
--   `singleWorker` (boolean) **Required**. Default: `true`. To get deterministic scanning results, either specify the singleWorker parameter or ensure that the value specified for the maxUrls parameter is larger than the total number of urls in the web site being scanned.
+-   `singleWorker` (boolean). Default: `true`. To get deterministic scanning results when this value is set to `false`, make sure the value for `maxUrls` is larger than the total number of URLs in the website being scanned.
 
--   `uploadOutputArtifact` (boolean) **Required**. Default: `true`. Automatically upload the result as an artifact to the build. Set to `false` if you need to upload the artifact manually in a separate task or publish step.
+-   `uploadOutputArtifact` (boolean). Default: `true`. Automatically upload the result as an artifact to the build. Set to `false` if you need to upload the artifact manually in a separate task or publish step.
 
 -   `outputArtifactName` (string). Default: `accessibility-reports`. Name of the report artifact to be uploaded to the build. Ignored if `uploadOutputArtifact` is `false`.
 
