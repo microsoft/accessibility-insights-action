@@ -37,7 +37,10 @@ To rebuild this file, run "yarn docs" or "yarn precheckin"
 
 ## Required inputs
 
-${requiredInputs.reverse().map(documentInput).join('\nor\n')}
+${requiredInputs
+    .sort((a, b) => b.name.localeCompare(a.name))
+    .map(documentInput)
+    .join('\nor\n')}
 
 ## Optional inputs
 
