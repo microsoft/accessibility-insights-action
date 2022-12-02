@@ -42,7 +42,7 @@
             "type": "string",
             "label": "Hosting mode: site directory",
             "required": true,
-            "helpMarkDown": "Directory containing the HTML files to be scanned.",
+            "helpMarkDown": "The directory containing built HTML files that the extension will serve, scan, and crawl for accessibility issues.",
             "visibleRule": "hostingMode = staticSite"
         },
         {
