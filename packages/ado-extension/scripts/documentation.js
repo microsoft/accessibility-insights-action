@@ -46,9 +46,7 @@ ${optionalInputs.map(documentInput).join('\n')}`;
 // Write documentation:
 writeFileSync('../../docs/ado-extension-inputs.md', markdown);
 
-//
-// Documentation functions
-//
+// Helper functions:
 function documentInput({ name, type, required, defaultValue, helpMarkDown, options }) {
     return `- \`${name}\` (${handleType(type, options)})${handleRequired(required)}.${handleDefault(defaultValue)} ${helpMarkDown}\n`;
 }
