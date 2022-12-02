@@ -156,7 +156,7 @@
             "label": "Uses a single crawler worker",
             "required": false,
             "defaultValue": true,
-            "helpMarkDown": "To get deterministic scanning results, either specify `singleWorker` or make sure the value for `maxUrls` is larger than the total number of URLs in the website being scanned."
+            "helpMarkDown": "To get deterministic scanning results when this value is set to `false`, make sure the value for `maxUrls` is larger than the total number of URLs in the website being scanned."
         },
         {
             "name": "uploadOutputArtifact",
