@@ -18,7 +18,8 @@
         "copyright:fix": "license-check-and-add add -f ./license-check-and-add-config.json",
         "test": "lerna run test --stream",
         "test:e2e": "lerna run test:e2e --stream",
-        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test",
+        "docs": "lerna run docs --stream",
+        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test docs",
         "publish-code-coverage": "npx codecov"
     },
     "repository": {
