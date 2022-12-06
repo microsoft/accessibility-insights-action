@@ -46,7 +46,7 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
             setupTelemetryClientWithEvent(errorMessage);
 
-            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            const usageLink = 'https://aka.ms/ado-extension-usage';
             setupGetUsageDocsUrl(usageLink);
             setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
@@ -67,7 +67,7 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
             setupTelemetryClientWithEvent(errorMessage);
 
-            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            const usageLink = 'https://aka.ms/ado-extension-usage';
             setupGetUsageDocsUrl(usageLink);
             setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
@@ -88,7 +88,7 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
             setupTelemetryClientWithEvent(errorMessage);
 
-            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            const usageLink = 'https://aka.ms/ado-extension-usage';
             setupGetUsageDocsUrl(usageLink);
             setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
@@ -110,7 +110,7 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
             setupTelemetryClientWithEvent(errorMessage);
 
-            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            const usageLink = 'https://aka.ms/ado-extension-usage';
             setupGetUsageDocsUrl(usageLink);
             setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
@@ -133,7 +133,7 @@ describe(InputValidator, () => {
             setupLoggerWithErrorMessage(errorMessage);
             setupTelemetryClientWithEvent(errorMessage);
 
-            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            const usageLink = 'https://aka.ms/ado-extension-usage';
             setupGetUsageDocsUrl(usageLink);
             setupLoggerWithInfoMessage(`usage documentation (${usageLink})`);
 
@@ -161,7 +161,7 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl(undefined);
 
-            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            const usageLink = 'https://aka.ms/ado-extension-usage';
             setupGetUsageDocsUrl(usageLink);
 
             inputValidator = buildInputValidatorWithMocks();
@@ -176,7 +176,7 @@ describe(InputValidator, () => {
             setupGetUrl('url');
             setupInputName('hosting-mode', 'HostingMode');
 
-            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            const usageLink = 'https://aka.ms/ado-extension-usage';
             setupGetUsageDocsUrl(usageLink);
 
             inputValidator = buildInputValidatorWithMocks();
@@ -190,7 +190,7 @@ describe(InputValidator, () => {
             setupGetStaticSitePort(undefined);
             setupGetUrl('url');
 
-            const usageLink = 'https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md';
+            const usageLink = 'https://aka.ms/ado-extension-usage';
             setupGetUsageDocsUrl(usageLink);
 
             inputValidator = buildInputValidatorWithMocks();

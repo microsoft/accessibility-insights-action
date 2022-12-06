@@ -88,7 +88,7 @@ export class ResultConsoleLogBuilder {
     private baselineDetails = (baselineInfo: BaselineInfo): string => {
         const baselineFileName = baselineInfo.baselineFileName;
         const baselineEvaluation = baselineInfo.baselineEvaluation;
-        const baseliningDocsUrl = `https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file`;
+        const baseliningDocsUrl = `https://aka.ms/ado-extension-usage-baseline`;
         const baseliningDocsLink = link(baseliningDocsUrl, 'baselining docs');
         const scanArgumentsLink = link(this.artifactsInfoProvider.getArtifactsUrl(), 'scan arguments');
         const baselineNotConfiguredHelpText = `A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See ${baseliningDocsLink} for more.`;
