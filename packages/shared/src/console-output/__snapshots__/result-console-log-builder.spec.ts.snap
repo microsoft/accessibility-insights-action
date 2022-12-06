@@ -72,7 +72,7 @@ No failures were detected by automatic scanning except those which exist in the 
 Next step: Manually assess keyboard accessibility with Accessibility Insights Tab Stops (https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 6 failure instances in baseline
-(not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
+(not shown; see baselining docs (https://aka.ms/ado-extension-usage-baseline))
 
 To see all failures and scan details, download the accessibility report (artifacts-url)
 
@@ -97,7 +97,7 @@ Accessibility Insights
 * (1) rule id:  rule description
 
 9 failure instances in baseline
-(not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
+(not shown; see baselining docs (https://aka.ms/ado-extension-usage-baseline) for how to integrate your changes into the baseline)
 
 To see all failures and scan details, download the accessibility report (artifacts-url)
 
@@ -121,7 +121,7 @@ Accessibility Insights
 0 failure instances not in baseline
 
 9 failure instances in baseline
-(not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
+(not shown; see baselining docs (https://aka.ms/ado-extension-usage-baseline) for how to integrate your changes into the baseline)
 
 To see all failures and scan details, download the accessibility report (artifacts-url)
 
@@ -144,7 +144,7 @@ Accessibility Insights
 * (1) rule id 2:  rule description 2
 
 2 failure instances in baseline
-(not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for how to integrate your changes into the baseline)
+(not shown; see baselining docs (https://aka.ms/ado-extension-usage-baseline) for how to integrate your changes into the baseline)
 
 To see all failures and scan details, download the accessibility report (artifacts-url)
 
@@ -168,7 +168,7 @@ No failures were detected by automatic scanning except those which exist in the 
 Next step: Manually assess keyboard accessibility with Accessibility Insights Tab Stops (https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 1 failure instances in baseline
-(not shown; see baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file))
+(not shown; see baselining docs (https://aka.ms/ado-extension-usage-baseline))
 
 To see all failures and scan details, download the accessibility report (artifacts-url)
 
@@ -191,7 +191,7 @@ Accessibility Insights
 * (1) rule id 2:  rule description 2
 
 Baseline not detected
-To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://aka.ms/ado-extension-usage-baseline) for more.
 
 To see all failures and scan details, download the accessibility report (artifacts-url)
 
@@ -214,7 +214,7 @@ Accessibility Insights
 * (1) rule id 2:  rule description 2
 
 Baseline not detected
-To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://aka.ms/ado-extension-usage-baseline) for more.
 
 To see all failures and scan details, download the accessibility report (artifacts-url)
 
@@ -261,7 +261,7 @@ No failures were detected by automatic scanning.
 Next step: Manually assess keyboard accessibility with Accessibility Insights Tab Stops (https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 Baseline not configured
-A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See baselining docs (https://aka.ms/ado-extension-usage-baseline) for more.
 
 To see scan details, download the accessibility report (artifacts-url)
 
@@ -285,7 +285,7 @@ No failures were detected by automatic scanning.
 Next step: Manually assess keyboard accessibility with Accessibility Insights Tab Stops (https://accessibilityinsights.io/docs/en/web/getstarted/fastpass/#complete-the-manual-test-for-tab-stops)
 
 Baseline not detected
-To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+To update the baseline with these changes, copy the updated baseline file to scan arguments (artifacts-url). See baselining docs (https://aka.ms/ado-extension-usage-baseline) for more.
 
 To see scan details, download the accessibility report (artifacts-url)
 
@@ -308,7 +308,7 @@ Accessibility Insights
 * (1) rule id 2:  rule description 2
 
 Baseline not configured
-A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See baselining docs (https://github.com/microsoft/accessibility-insights-action/blob/main/docs/ado-extension-usage.md#using-a-baseline-file) for more.
+A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See baselining docs (https://aka.ms/ado-extension-usage-baseline) for more.
 
 To see all failures and scan details, download the accessibility report (artifacts-url)
 
