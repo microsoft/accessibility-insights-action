@@ -2974,6 +2974,21 @@ accessibility-insights-report@4.4.0:
     react-helmet "^6.1.0"
     uuid "^9.0.0"
 
+accessibility-insights-report@4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.4.1.tgz#0234587981c5f7bd99f95d45d79abfc4a457dbbb"
+  integrity sha512-K6sAFV3dkthsBJZOj3MN9D2Zkk+aOVQX/c51kg+SgZcF6t7QMEBiClyV0hek5mZFpyomk7M9GL/GcMKpiN/P5A==
+  dependencies:
+    "@fluentui/react" "^8.96.1"
+    axe-core "4.4.1"
+    classnames "^2.3.2"
+    lodash "^4.17.21"
+    luxon "^3.1.1"
+    react "^16.14.0"
+    react-dom "^16.14.0"
+    react-helmet "^6.1.0"
+    uuid "^9.0.0"
+
 accessibility-insights-scan@1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-1.5.2.tgz#a14eec1dc20441c4a44e2015789e79588b8f9275"
@@ -7596,10 +7611,10 @@ lru-cache@^7.5.1:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.10.2.tgz#aab494e0768ce94f199ef553ffe0a362f2a58bb9"
   integrity sha512-9zDbhgmXAUvUMPV81A705K3tVzcPiZL3Bf5/5JC/FjYJlLZ5AJCeqIRFHJqyBppiLosqF+uKB7p8/RDXylqBIw==
 
-luxon@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.0.4.tgz#d179e4e9f05e092241e7044f64aaa54796b03929"
-  integrity sha512-aV48rGUwP/Vydn8HT+5cdr26YYQiUZ42NM6ToMoaGKwYfWbfLeRkEu1wXWMHBZT6+KyLfcbbtVcoQFCbbPjKlw==
+luxon@^3.0.4, luxon@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.1.1.tgz#b492c645b2474fb86f3bd3283213846b99c32c1e"
+  integrity sha512-Ah6DloGmvseB/pX1cAmjbFvyU/pKuwQMQqz7d0yvuDlVYLTs2WeDHQMpC8tGjm1da+BriHROW/OEIT/KfYg6xw==
 
 make-dir@^2.1.0:
   version "2.1.0"
