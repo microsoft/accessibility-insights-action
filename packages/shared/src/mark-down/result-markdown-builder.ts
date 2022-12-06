@@ -10,7 +10,7 @@ import { brand } from '../content/strings';
 import { bold, escaped, footerSeparator, heading, link, listItem, productTitle, sectionSeparator } from './markdown-formatter';
 import { iocTypes } from '../ioc/ioc-types';
 
-export type ExecutionEnvironment = 'github' | 'ADO';
+export type ExecutionEnvironment = 'ADO';
 
 @injectable()
 export class ResultMarkdownBuilder {
@@ -228,8 +228,8 @@ export class ResultMarkdownBuilder {
     };
 
     private getNoFailuresText = (baselineEvaluation: BaselineEvaluation, executionEnvironment: ExecutionEnvironment): string[] => {
-        const checkMark = executionEnvironment == 'github' ? ':white_check_mark:' : '✅';
-        const pointRight = executionEnvironment == 'github' ? ':point_right:' : '👉';
+        const checkMark = executionEnvironment == 'ADO' ? '✅' : ':white_check_mark:';
+        const pointRight = executionEnvironment == 'ADO' ? '👉' : ':point_right:';
         let failureDetailsHeading = `${checkMark} No failures detected`;
         let failureDetailsDescription = `No failures were detected by automatic scanning.`;
         if (this.baselineHasFailures(baselineEvaluation)) {

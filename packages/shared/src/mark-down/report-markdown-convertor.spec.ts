@@ -12,7 +12,7 @@ describe(ReportMarkdownConvertor, () => {
     let resultMarkdownBuilderMock: IMock<ResultMarkdownBuilder>;
     let reportMarkdownConvertor: ReportMarkdownConvertor;
     let combinedReportResult: CombinedReportParameters;
-    const executionEnvArray = ['ADO', 'github'];
+    const executionEnvArray = ['ADO'];
 
     beforeEach(() => {
         resultMarkdownBuilderMock = Mock.ofType(ResultMarkdownBuilder);

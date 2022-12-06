@@ -15,7 +15,7 @@ describe(ResultMarkdownBuilder, () => {
     let combinedReportResult: CombinedReportParameters;
     let checkResultMarkdownBuilder: ResultMarkdownBuilder;
     let artifactsInfoProviderMock: IMock<ArtifactsInfoProvider>;
-    const executionEnvArray = ['ADO', 'github'];
+    const executionEnvArray = ['ADO'];
 
     beforeEach(() => {
         artifactsInfoProviderMock = Mock.ofType<ArtifactsInfoProvider>(undefined, MockBehavior.Strict);
