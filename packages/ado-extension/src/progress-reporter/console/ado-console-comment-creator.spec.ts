@@ -47,7 +47,7 @@ describe(AdoConsoleCommentCreator, () => {
         pathStub = { join: (...paths) => paths.join('/'), basename: (filepath) => baselineFilenameStub } as typeof path;
 
         reportMarkdownConvertorMock
-            .setup((o) => o.convert(reportStub, 'ADO', undefined, baselineInfoStub))
+            .setup((o) => o.convert(reportStub, undefined, baselineInfoStub))
             .returns(() => reportMarkdownStub)
             .verifiable(Times.atMostOnce());
 
@@ -165,7 +165,7 @@ describe(AdoConsoleCommentCreator, () => {
                 const baselineInfoWithEvalStub = { baselineFileName: baselineFilenameStub, baselineEvaluation: baselineEvaluationStub };
 
                 reportMarkdownConvertorMock
-                    .setup((o) => o.convert(reportStub, 'ADO', undefined, baselineInfoWithEvalStub))
+                    .setup((o) => o.convert(reportStub, undefined, baselineInfoWithEvalStub))
                     .returns(() => reportMarkdownStub)
                     .verifiable(Times.atMostOnce());
 

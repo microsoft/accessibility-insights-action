@@ -4,7 +4,7 @@ import 'reflect-metadata';
 
 import { IMock, Mock } from 'typemoq';
 import { ReportMarkdownConvertor } from './report-markdown-convertor';
-import { ExecutionEnvironment, ResultMarkdownBuilder } from './result-markdown-builder';
+import { ResultMarkdownBuilder } from './result-markdown-builder';
 import { CombinedReportParameters } from 'accessibility-insights-report';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 
@@ -12,7 +12,6 @@ describe(ReportMarkdownConvertor, () => {
     let resultMarkdownBuilderMock: IMock<ResultMarkdownBuilder>;
     let reportMarkdownConvertor: ReportMarkdownConvertor;
     let combinedReportResult: CombinedReportParameters;
-    const executionEnvArray = ['ADO'];
 
     beforeEach(() => {
         resultMarkdownBuilderMock = Mock.ofType(ResultMarkdownBuilder);
@@ -37,37 +36,27 @@ describe(ReportMarkdownConvertor, () => {
     });
 
     describe('convert', () => {
-        it.each(executionEnvArray)(
-            'should convert with baseline and title undefined and execution env %s',
-            (executionEnv: ExecutionEnvironment) => {
-                resultMarkdownBuilderMock
-                    .setup((o) => o.buildContent(combinedReportResult, executionEnv, undefined, undefined))
-                    .verifiable();
+        it('should convert with baseline and title undefined', () => {
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, undefined)).verifiable();
 
-                reportMarkdownConvertor.convert(combinedReportResult, executionEnv);
-            },
-        );
+            reportMarkdownConvertor.convert(combinedReportResult);
+        });
 
-        it.each(executionEnvArray)(
-            'should convert with baseline and title defined and execution env %s',
-            (executionEnv: ExecutionEnvironment) => {
-                const title = 'some title';
-                resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, executionEnv, title, undefined)).verifiable();
+        it('should convert with baseline and title defined', () => {
+            const title = 'some title';
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, title, undefined)).verifiable();
 
-                reportMarkdownConvertor.convert(combinedReportResult, executionEnv, title);
-            },
-        );
+            reportMarkdownConvertor.convert(combinedReportResult, title);
+        });
 
-        it.each(executionEnvArray)('report with baseline, execution env %s', (executionEnv: ExecutionEnvironment) => {
+        it('report with baseline', () => {
             const baselineInfo = {
                 baselineFileName: 'some filename',
                 baselineEvaluationStub: {} as BaselineEvaluation,
             };
-            resultMarkdownBuilderMock
-                .setup((o) => o.buildContent(combinedReportResult, executionEnv, undefined, baselineInfo))
-                .verifiable();
+            resultMarkdownBuilderMock.setup((o) => o.buildContent(combinedReportResult, undefined, baselineInfo)).verifiable();
 
-            reportMarkdownConvertor.convert(combinedReportResult, executionEnv, undefined, baselineInfo);
+            reportMarkdownConvertor.convert(combinedReportResult, undefined, baselineInfo);
         });
     });
 
