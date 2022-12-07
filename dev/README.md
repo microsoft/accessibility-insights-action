@@ -7,7 +7,7 @@ Licensed under the MIT License.
 
 This repository contains code for two packages:
 
--   `packages/shared` contains the core logic that is not specific to running any specific CI solution. Any code that could be shared across multiple CI solutions in the future such as a GitHub Action, should be put in the shared package.
+-   `packages/shared` contains the core logic that is not specific to running any specific CI solution. Any code that could be shared across additional CI solutions in the future such as a GitHub Action, should be put in the shared package.
 -   `packages/ado-extension` contains the code specifically relevant to the Azure DevOps extension.
 
 We use `lerna` and `yarn workspaces` to manage the monorepo. In most cases, running yarn scripts in the root directory should produce output from all packages.
