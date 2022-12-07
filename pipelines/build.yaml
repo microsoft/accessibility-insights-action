@@ -124,7 +124,7 @@ jobs:
           - task: ComponentGovernanceComponentDetection@0
             displayName: 'dependency detection (Component Governance)'
             inputs:
-                ignoreDirectories: 'drop,dist,extension,node_modules'
+                ignoreDirectories: 'dist,extension,node_modules'
 
           - task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
             displayName: 'generate NOTICE.html file'
@@ -134,19 +134,7 @@ jobs:
                 outputformat: html
 
           - task: CopyFiles@2
-            displayName: 'Copy Files to: gh-drop'
-            inputs:
-                Contents: |
-                    $(System.DefaultWorkingDirectory)/NOTICE.html
-                    $(System.DefaultWorkingDirectory)/packages/gh-action/dist/index.js
-                    $(System.DefaultWorkingDirectory)/packages/gh-action/dist/package.json
-                    $(System.DefaultWorkingDirectory)/packages/gh-action/dist/yarn.lock
-                    $(System.DefaultWorkingDirectory)/packages/gh-action/action.yml
-
-                TargetFolder: '$(System.DefaultWorkingDirectory)/drop'
-
-          - task: CopyFiles@2
-            displayName: 'Copy Notices.html to: ado-drop'
+            displayName: 'Copy Notices.html to: ado-extension'
             inputs:
                 Contents: |
                     $(System.DefaultWorkingDirectory)/NOTICE.html
@@ -162,23 +150,9 @@ jobs:
                 # About
                               
                 This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
-                ' > '$(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md'
+                ' > '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist/RELEASE_COMMIT.md'
 
-            displayName: 'Generate Release README Info'
-
-          - task: CopyFiles@2
-            displayName: 'Copy ReadMe to: ado-drop'
-            inputs:
-                Contents: |
-                    $(System.DefaultWorkingDirectory)/drop/RELEASE_COMMIT.md
-
-                TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
-
-          - task: PublishBuildArtifacts@1
-            inputs:
-                pathtoPublish: '$(System.DefaultWorkingDirectory)/drop'
-                artifactName: 'drop'
-            displayName: publish drop
+            displayName: 'Generate Release README Info to: ado-extension'
 
           - task: PublishBuildArtifacts@1
             inputs:
