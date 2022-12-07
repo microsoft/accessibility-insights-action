@@ -39,7 +39,7 @@ Please provide a reproduction of the bug in a codepen, if possible. Here’s how
 ## Context (please complete the following information)
 
 - OS Name & Version: <!--e.g. Windows 10.0.18363 Build 18363 / macOS Catalina 10.15(19A583)-->
-- AI-Action Version & Environment: <!--e.g. 1.140.1 Insider-->
+- Azure DevOps Extension Version & Environment: <!--e.g. 1.140.1 Insider-->
 - Browser Version: <!--e.g. Google Chrome 78.0.3904.108 (Official Build) (64-bit)-->
 - Target Page: <!--e.g. https://www.bing.com-->
 

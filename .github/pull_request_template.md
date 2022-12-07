@@ -18,4 +18,3 @@
 - [ ] Added relevant unit test for your changes. (`yarn test`)
 - [ ] Verified code coverage for the changes made. Check coverage report at: `<rootDir>/test-results/unit/coverage`
 - [ ] Ran precheckin (`yarn precheckin`)
-- [ ] Described how this PR impacts both the ADO extension and the GitHub action
