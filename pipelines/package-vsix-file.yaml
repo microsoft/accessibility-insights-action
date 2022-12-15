@@ -36,14 +36,14 @@ steps:
           artifact: ado-extension-drop
           path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
 
-    - task: QueryAzureDevOpsExtensionVersion@3
+    - task: QueryAzureDevOpsExtensionVersion@4
+      name: QueryVersion
       inputs:
           connectTo: 'VsTeam'
           connectedServiceName: 'vs-marketplace'
           publisherId: '$(PublisherID)'
           extensionId: '$(ExtensionID)'
           versionAction: 'Patch'
-          outputVariable: 'Task.Extension.Version'
           extensionVersionOverride: 'extensionVersionOverride'
 
     # Keep this in sync with /packages/ado-extension/src/ado-extension-metadata.ts
@@ -58,7 +58,7 @@ steps:
             "publisherId": "$(PublisherId)",
             "extensionId": "$(ExtensionID)",
             "extensionName": "$(ExtensionName)",
-            "extensionVersion": "$(Task.Extension.Version)",
+            "extensionVersion": "$(QueryVersion.Extension.Version)",
             "environment": "${{ parameters.environment }}",
             "appInsightsConnectionString": "$(AppInsightsConnectionString)"
           }
@@ -71,7 +71,7 @@ steps:
           publisherId: '$(PublisherID)'
           extensionId: '$(ExtensionID)'
           extensionName: '$(ExtensionName)'
-          extensionVersion: '$(Task.Extension.Version)'
+          extensionVersion: '$(QueryVersion.Extension.Version)'
           updateTasksVersion: true
           updateTasksId: true
           updateTasksVersionType: 'major'
