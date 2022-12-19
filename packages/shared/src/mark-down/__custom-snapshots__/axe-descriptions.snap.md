@@ -102,4 +102,4 @@
 * **1 × video-caption**:  Ensures \<video> elements have captions
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent.
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) with userAgent and browser resolution 1920x800.

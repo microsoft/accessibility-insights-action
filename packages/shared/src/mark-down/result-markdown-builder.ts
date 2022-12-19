@@ -316,11 +316,11 @@ export class ResultMarkdownBuilder {
     }
 
     private scanResultFooter(combinedReportResult: CombinedReportParameters): string {
-        const axeVersion = combinedReportResult.axeVersion;
+        const { axeVersion, userAgent, browserResolution } = combinedReportResult;
         const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
         const axeLink = link(axeCoreUrl, `axe-core ${axeVersion}`);
 
-        return `This scan used ${axeLink} with ${combinedReportResult.userAgent}.`;
+        return `This scan used ${axeLink} with ${userAgent} and browser resolution ${browserResolution}.`;
     }
 
     private downloadArtifacts(): string {
