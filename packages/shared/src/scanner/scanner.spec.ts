@@ -250,6 +250,7 @@ describe(Scanner, () => {
             inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'Inputs' }));
             telemetryClientMock.setup((m) => m.flush());
 
             await scanner.scan();
@@ -265,6 +266,7 @@ describe(Scanner, () => {
             inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'Inputs' }));
             telemetryClientMock.setup((m) => m.trackEvent({ name: 'AuthUsed' }));
             telemetryClientMock.setup((m) => m.flush());
 
