@@ -249,9 +249,11 @@ describe(Scanner, () => {
 
             inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
-            telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
-            telemetryClientMock.setup((m) => m.trackEvent({ name: 'Inputs' }));
-            telemetryClientMock.setup((m) => m.flush());
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' })).verifiable();
+            telemetryClientMock
+                .setup((m) => m.trackEvent({ name: 'Inputs', properties: { failOnAccessibilityError: false } }))
+                .verifiable();
+            telemetryClientMock.setup((m) => m.flush()).verifiable();
 
             await scanner.scan();
 
@@ -265,10 +267,12 @@ describe(Scanner, () => {
 
             inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
-            telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' }));
-            telemetryClientMock.setup((m) => m.trackEvent({ name: 'Inputs' }));
-            telemetryClientMock.setup((m) => m.trackEvent({ name: 'AuthUsed' }));
-            telemetryClientMock.setup((m) => m.flush());
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' })).verifiable();
+            telemetryClientMock
+                .setup((m) => m.trackEvent({ name: 'Inputs', properties: { failOnAccessibilityError: false } }))
+                .verifiable();
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'AuthUsed' })).verifiable();
+            telemetryClientMock.setup((m) => m.flush()).verifiable();
 
             await scanner.scan();
 
@@ -287,6 +291,10 @@ describe(Scanner, () => {
             taskConfigMock
                 .setup((m) => m.getReportOutDir())
                 .returns(() => reportOutDir)
+                .verifiable(Times.once());
+            taskConfigMock
+                .setup((m) => m.getFailOnAccessibilityError())
+                .returns(() => false)
                 .verifiable(Times.once());
             progressReporterMock.setup((p) => p.start()).verifiable(Times.once());
             progressReporterMock
