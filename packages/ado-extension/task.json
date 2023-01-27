@@ -192,6 +192,34 @@
             "required": false,
             "helpMarkDown": "Path to Chrome executable. By default, the task downloads a version of Chrome that is tested to work with this task.",
             "groupName": "advancedOptions"
+        },
+        {
+            "name": "debug",
+            "type": "boolean",
+            "label": "Debug mode",
+            "required": false,
+            "helpMarkDown": "Enables crawler engine debug mode."
+        },
+        {
+            "name": "snapshot",
+            "type": "boolean",
+            "label": "Snapshot",
+            "required": false,
+            "helpMarkDown": "Save snapshot of the crawled page. Enabled by default if simulation option is selected, otherwise false."
+        },
+        {
+            "name": "simulate",
+            "type": "boolean",
+            "label": "Simulate",
+            "required": false,
+            "helpMarkDown": "Simulate user click on elements that match to the specified selectors."
+        },
+        {
+            "name": "selectors",
+            "type": "string",
+            "label": "Selectors",
+            "required": false,
+            "helpMarkDown": "List of CSS selectors to match against, separated by space. Default selector is 'button'."
         }
     ],
     "execution": {
