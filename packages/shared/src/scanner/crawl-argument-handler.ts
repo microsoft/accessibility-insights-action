@@ -37,7 +37,6 @@ export class CrawlArgumentHandler {
         const inputFile = this.taskConfig.getInputFile() || undefined;
         const inputUrlsArg = this.taskConfig.getInputUrls() || undefined;
         const discoveryPatternsArg = this.taskConfig.getDiscoveryPatterns() || undefined;
-        const selectorsArg = this.taskConfig.getSelectors() || undefined;
 
         const args = {
             inputFile,
@@ -56,10 +55,7 @@ export class CrawlArgumentHandler {
             serviceAccountName: this.taskConfig.getServiceAccountName() || undefined,
             serviceAccountPassword: this.taskConfig.getServiceAccountPassword() || undefined,
             authType: this.taskConfig.getAuthType() || undefined,
-            debug: this.taskConfig.getDebug() || undefined,
             snapshot: this.taskConfig.getSnapshot() || undefined,
-            simulate: this.taskConfig.getSimulate() || undefined,
-            selectors: selectorsArg?.split(/\s+/),
         };
 
         return args;
