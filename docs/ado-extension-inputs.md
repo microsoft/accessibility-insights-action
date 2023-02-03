@@ -56,4 +56,6 @@ or
 
 -   `outputDir` (string). Directory to write the scan output to. Its contents will be uploaded as a pipeline artifact unless `uploadOutputArtifact` is set to `false`. If unspecified, output will be written to a generated temporary directory.
 
+-   `snapshot` (boolean). Save snapshots of scanned pages as artifacts. These snapshots will show you exactly what the scanner sees when scanning the page. This requires `uploadOutputArtifact` to not be set to `false`.
+
 -   `chromePath` (string). Path to Chrome executable. By default, the task downloads a version of Chrome that is tested to work with this task.
