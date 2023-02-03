@@ -140,6 +140,71 @@ describe(AdoConsoleCommentCreator, () => {
             },
         );
 
+        it('should upload snapshot artifacts but not other files in the directory when snapshot is set to true and uploadOutputArtifact is set to true', async () => {
+            setupTaskConfig({
+                uploadOutputArtifact: true,
+                outputArtifactName: 'accessibility-reports',
+                jobAttempt: 1,
+                snapshot: true,
+            });
+
+            const snapshotDirectory = `${defaultReportOutDir}/key_value_stores/scan-results`;
+
+            fsMock
+                // eslint-disable-next-line security/detect-non-literal-fs-filename
+                .setup((fsm) => fsm.existsSync(`${snapshotDirectory}`))
+                .returns(() => true)
+                .verifiable(Times.once());
+
+            fsMock
+                // eslint-disable-next-line security/detect-non-literal-fs-filename
+                .setup((fsm) => fsm.readdirSync(`${snapshotDirectory}`))
+                .returns(() => ['snapshot1.screenshot.jpg', 'snapshot2.screenshot.jpg', 'this-is-not-a-snapshot.txt'])
+                .verifiable(Times.once());
+
+            await testSubject.completeRun(reportStub);
+
+            expect(logger.recordedLogs()).toContain(
+                `[info] ##vso[artifact.upload artifactname=accessibility-reports-snapshots]${snapshotDirectory}/snapshot1.screenshot.jpg`,
+            );
+            expect(logger.recordedLogs()).toContain(
+                `[info] ##vso[artifact.upload artifactname=accessibility-reports-snapshots]${snapshotDirectory}/snapshot2.screenshot.jpg`,
+            );
+            expect(logger.recordedLogs()).not.toContain(
+                `[info] ##vso[artifact.upload artifactname=accessibility-reports-snapshots]${snapshotDirectory}/this-is-not-a-snapshot.txt`,
+            );
+
+            verifyAllMocks();
+        });
+
+        it.each`
+            uploadOutputArtifact | snapshot
+            ${true}              | ${false}
+            ${false}             | ${true}
+        `(
+            'should not attempt snapshot upload logic when uploadOutputArtifact=$uploadOutputArtifact, snapshot=$snapshot',
+            async ({ uploadOutputArtifact, snapshot }) => {
+                setupTaskConfig({
+                    uploadOutputArtifact: uploadOutputArtifact,
+                    outputArtifactName: 'accessibility-reports',
+                    jobAttempt: 1,
+                    snapshot: snapshot,
+                });
+
+                const snapshotDirectory = `${defaultReportOutDir}/key_value_stores/scan-results`;
+
+                fsMock
+                    // eslint-disable-next-line security/detect-non-literal-fs-filename
+                    .setup((fsm) => fsm.existsSync(`${snapshotDirectory}`))
+                    .returns(() => true)
+                    .verifiable(Times.never());
+
+                await testSubject.completeRun(reportStub);
+
+                verifyAllMocks();
+            },
+        );
+
         it.each`
             baselineFileExists
             ${true}
@@ -229,6 +294,7 @@ describe(AdoConsoleCommentCreator, () => {
         jobAttempt: number;
         baselineFile?: string;
         reportOutDir?: string;
+        snapshot?: boolean;
     }): void {
         adoTaskConfigMock.setup((atcm) => atcm.getUploadOutputArtifact()).returns(() => config.uploadOutputArtifact);
 
@@ -239,6 +305,8 @@ describe(AdoConsoleCommentCreator, () => {
         adoTaskConfigMock.setup((atcm) => atcm.getBaselineFile()).returns(() => config.baselineFile);
 
         adoTaskConfigMock.setup((atcm) => atcm.getReportOutDir()).returns(() => config.reportOutDir ?? defaultReportOutDir);
+
+        adoTaskConfigMock.setup((atcm) => atcm.getSnapshot()).returns(() => config.snapshot ?? false);
     }
 
     const verifyAllMocks = () => {
