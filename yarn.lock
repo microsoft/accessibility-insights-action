@@ -2929,21 +2929,6 @@ accepts@~1.3.8:
     mime-types "~2.1.34"
     negotiator "0.6.3"
 
-accessibility-insights-report@4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.4.0.tgz#4208092795e5e274141056937d3d4d25d30819c3"
-  integrity sha512-e4jF3prb5nVCVSP1y4E7LVaJCZb0GIw5opVvzq8yhjxM0wseu5+1p9jLl2TwfDZeybz2LiSs68scKjqluB7/mw==
-  dependencies:
-    "@fluentui/react" "^8.96.1"
-    axe-core "4.4.1"
-    classnames "^2.3.2"
-    lodash "^4.17.21"
-    luxon "^3.0.4"
-    react "^16.14.0"
-    react-dom "^16.14.0"
-    react-helmet "^6.1.0"
-    uuid "^9.0.0"
-
 accessibility-insights-report@4.6.3:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/accessibility-insights-report/-/accessibility-insights-report-4.6.3.tgz#23adce3dc9a3484b105131a26c3063c8defaeb16"
@@ -2959,22 +2944,22 @@ accessibility-insights-report@4.6.3:
     react-helmet "^6.1.0"
     uuid "^9.0.0"
 
-accessibility-insights-scan@1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-1.5.2.tgz#a14eec1dc20441c4a44e2015789e79588b8f9275"
-  integrity sha512-sAvSFgR8JVGdTR1xZb9H95D+yGdmj0oHX9cdAlx0Yunlf7LUFbhz8twXgR3Dx73MgjIGgm5q0HKy5JS4VNuH+g==
+accessibility-insights-scan@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/accessibility-insights-scan/-/accessibility-insights-scan-1.6.0.tgz#78560cbdbfe2ca9c94e5da6357ced0e6501895c7"
+  integrity sha512-be/L2UoG1Jl59MfGsCs9J5B1dtf6zSPZG6Ul6gib34t/i4fJ67CbdrZn38q36y/W2YnAcIEXI4M3KLsFKtIqJQ==
   dependencies:
     "@axe-core/puppeteer" "^4.5.0"
     "@medv/finder" "^2.1.0"
     "@sindresorhus/fnv1a" "^2.0.1"
-    accessibility-insights-report "4.4.0"
-    ajv "^8.10.0"
+    accessibility-insights-report "4.6.3"
+    ajv "^8.12.0"
     apify "^2.3.2"
     applicationinsights "^2.3.1"
-    axe-core "4.4.1"
+    axe-core "4.6.3"
     browser-pool "^3.1.4"
     cli-spinner "^0.2.10"
-    convict "^6.2.3"
+    convict "^6.2.4"
     dotenv "^16.0.1"
     encoding-down "^7.1.0"
     exponential-backoff "^3.1.0"
@@ -2982,7 +2967,7 @@ accessibility-insights-scan@1.5.2:
     filenamify-url "^2.1.2"
     got "^11.8.5"
     inversify "^6.0.1"
-    json5 "^2.2.1"
+    json5 "^2.2.3"
     leveldown "^6.1.1"
     levelup "^5.1.1"
     lodash "^4.17.21"
@@ -2999,7 +2984,7 @@ accessibility-insights-scan@1.5.2:
     sha.js "^2.4.11"
     uuid-with-v6 "^2.0.0"
     wtfnode "^0.9.0"
-    yargs "^17.6.0"
+    yargs "^17.6.2"
 
 acorn-import-assertions@^1.7.6:
   version "1.7.6"
@@ -3060,10 +3045,10 @@ ajv@^6.10.0, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^8.10.0:
-  version "8.11.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
-  integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
+ajv@^8.12.0:
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
+  integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -4342,7 +4327,7 @@ convert-source-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-2.0.0.tgz#4b560f649fc4e918dd0ab75cf4961e8bc882d82a"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
 
-convict@^6.2.3:
+convict@^6.2.4:
   version "6.2.4"
   resolved "https://registry.yarnpkg.com/convict/-/convict-6.2.4.tgz#be290672bf6397eec808d3b11fc5f71785b02a4b"
   integrity sha512-qN60BAwdMVdofckX7AlohVJ2x9UvjTNoKVXCL2LxFk1l7757EJqf1nySdMkPQer0bt8kQ5lQiyZ9/2NvrFBuwQ==
@@ -7642,7 +7627,7 @@ lru-cache@^7.5.1:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.10.2.tgz#aab494e0768ce94f199ef553ffe0a362f2a58bb9"
   integrity sha512-9zDbhgmXAUvUMPV81A705K3tVzcPiZL3Bf5/5JC/FjYJlLZ5AJCeqIRFHJqyBppiLosqF+uKB7p8/RDXylqBIw==
 
-luxon@^3.0.4, luxon@^3.2.1:
+luxon@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.2.1.tgz#14f1af209188ad61212578ea7e3d518d18cee45f"
   integrity sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==
@@ -11243,7 +11228,7 @@ yargs-parser@20.2.4:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.4.tgz#b42890f14566796f85ae8e3a25290d205f154a54"
   integrity sha512-WOkpgNhPTlE73h4VFAFsOnomJVaovO8VqLDzy5saChRBFQFBoMYirowyW+Q9HB4HFF4Z7VZTiG3iSzJJA29yRA==
 
-yargs-parser@21.1.1, yargs-parser@^21.0.0, yargs-parser@^21.0.1, yargs-parser@^21.1.1:
+yargs-parser@21.1.1, yargs-parser@^21.0.1, yargs-parser@^21.1.1:
   version "21.1.1"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
   integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
@@ -11290,20 +11275,7 @@ yargs@^16.2.0:
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
 
-yargs@^17.3.1:
-  version "17.5.1"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.5.1.tgz#e109900cab6fcb7fd44b1d8249166feb0b36e58e"
-  integrity sha512-t6YAJcxDkNX7NFYiVtKvWUz8l+PaKTLiL63mJYWR2GnHq2gjEWISzsLp9wg3aY36dY1j+gfIEL3pIF+XlJJfbA==
-  dependencies:
-    cliui "^7.0.2"
-    escalade "^3.1.1"
-    get-caller-file "^2.0.5"
-    require-directory "^2.1.1"
-    string-width "^4.2.3"
-    y18n "^5.0.5"
-    yargs-parser "^21.0.0"
-
-yargs@^17.6.0, yargs@^17.6.2:
+yargs@^17.3.1, yargs@^17.6.2:
   version "17.6.2"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.2.tgz#2e23f2944e976339a1ee00f18c77fedee8332541"
   integrity sha512-1/9UrdHjDZc0eOU0HxOHoS78C69UD3JRMvzlJ7S79S2nTaWRA/whGCTV8o9e/N/1Va9YIV7Q4sOxD8VV4pCWOw==
