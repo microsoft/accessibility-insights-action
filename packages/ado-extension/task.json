@@ -186,6 +186,14 @@
             "groupName": "outputOptions"
         },
         {
+            "name": "snapshot",
+            "type": "boolean",
+            "label": "Snapshot",
+            "required": false,
+            "helpMarkDown": "Save snapshots of scanned pages as artifacts. These snapshots will show you exactly what the scanner sees when scanning the page. This requires `uploadOutputArtifact` to not be set to `false`.",
+            "groupName": "outputOptions"
+        },
+        {
             "name": "chromePath",
             "type": "string",
             "label": "Chrome path",

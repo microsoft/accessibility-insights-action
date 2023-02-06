@@ -29,4 +29,5 @@ export abstract class TaskConfig {
     abstract getServiceAccountPassword(): string | undefined;
     abstract getAuthType(): string | undefined;
     abstract getFailOnAccessibilityError(): boolean;
+    abstract getSnapshot(): boolean | undefined;
 }

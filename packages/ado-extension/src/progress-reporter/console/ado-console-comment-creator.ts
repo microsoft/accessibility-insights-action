@@ -34,6 +34,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         const artifactName = this.getArtifactName();
         this.outputResultsMarkdownToBuildSummary(artifactName, combinedReportResult, baselineInfo);
         this.uploadOutputArtifact(artifactName);
+        this.uploadSnapshotsAsArtifacts(artifactName);
         this.logResultsToConsole(combinedReportResult, baselineInfo);
 
         return Promise.resolve();
@@ -116,6 +117,35 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
                 this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${baselineFilePath}`);
             }
         }
+    }
+
+    private uploadSnapshotsAsArtifacts(artifactName: string | null): void {
+        if (artifactName != null) {
+            const snapshotInputValue: boolean = this.taskConfig.getSnapshot();
+            if (snapshotInputValue) {
+                const snapshotFilePaths: string[] = this.getSnapshotFilePaths();
+                snapshotFilePaths.forEach((snapshotFilePath) => {
+                    this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}-snapshots]${snapshotFilePath}`);
+                });
+            }
+        }
+    }
+
+    private getSnapshotFilePaths(): string[] {
+        const outputDirectory = this.taskConfig.getReportOutDir();
+        const snapshotOutputDirectory = this.pathObj.join(outputDirectory, 'key_value_stores', 'scan-results');
+        const snapshotFilePaths: string[] = [];
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        if (this.fileSystemObj.existsSync(snapshotOutputDirectory)) {
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            const files = this.fileSystemObj.readdirSync(snapshotOutputDirectory);
+            files.forEach((snapshotFileName) => {
+                if (snapshotFileName.includes('screenshot')) {
+                    snapshotFilePaths.push(this.pathObj.join(snapshotOutputDirectory, snapshotFileName));
+                }
+            });
+        }
+        return snapshotFilePaths;
     }
 
     private logResultsToConsole(combinedReportResult: CombinedReportParameters, baselineInfo?: BaselineInfo): void {
