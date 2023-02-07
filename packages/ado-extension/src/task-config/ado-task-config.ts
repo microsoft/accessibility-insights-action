@@ -32,14 +32,12 @@ export class ADOTaskConfig extends TaskConfig {
         return this.memoizedReportOutDir;
     }
 
-    public getStaticSiteDir(): string {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.adoTaskObj.getInput('staticSiteDir')!;
+    public getStaticSiteDir(): string | undefined {
+        return this.adoTaskObj.getInput('staticSiteDir');
     }
 
-    public getStaticSiteUrlRelativePath(): string {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.adoTaskObj.getInput('staticSiteUrlRelativePath')!;
+    public getStaticSiteUrlRelativePath(): string | undefined {
+        return this.adoTaskObj.getInput('staticSiteUrlRelativePath');
     }
 
     public getChromePath(): string | undefined {
