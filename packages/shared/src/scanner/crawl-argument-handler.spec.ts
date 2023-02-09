@@ -54,6 +54,7 @@ describe(CrawlArgumentHandler, () => {
             serviceAccountName: undefined,
             serviceAccountPassword: undefined,
             authType: undefined,
+            snapshot: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -84,6 +85,7 @@ describe(CrawlArgumentHandler, () => {
             serviceAccountName: undefined,
             serviceAccountPassword: undefined,
             authType: undefined,
+            snapshot: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -112,6 +114,7 @@ describe(CrawlArgumentHandler, () => {
             serviceAccountName: undefined,
             serviceAccountPassword: undefined,
             authType: undefined,
+            snapshot: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -138,6 +141,7 @@ describe(CrawlArgumentHandler, () => {
             serviceAccountName: undefined,
             serviceAccountPassword: undefined,
             authType: undefined,
+            snapshot: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -166,5 +170,6 @@ describe(CrawlArgumentHandler, () => {
         taskConfigMock.setup((m) => m.getServiceAccountName()).returns((_) => undefined);
         taskConfigMock.setup((m) => m.getServiceAccountPassword()).returns((_) => undefined);
         taskConfigMock.setup((m) => m.getAuthType()).returns((_) => undefined);
+        taskConfigMock.setup((m) => m.getSnapshot()).returns((_) => undefined);
     }
 });

@@ -1,6 +1,6 @@
 Accessibility Insights
 * URLs: 1 URL(s) failed, 1 URL(s) passed, and 1 were not scannable
-* Rules: 97 check(s) failed, 1 check(s) passed, and 2 were not applicable
+* Rules: 99 check(s) failed, 1 check(s) passed, and 2 were not applicable
 * Download the Accessibility Insights artifact to view the detailed results of these checks
 Failed instances
 * 1 × accesskeys:  Ensures every accesskey attribute value is unique
@@ -10,7 +10,7 @@ Failed instances
 * 1 × aria-command-name:  Ensures every ARIA button, link and menuitem has an accessible name
 * 1 × aria-dialog-name:  Ensures every ARIA dialog and alertdialog node has an accessible name
 * 1 × aria-hidden-body:  Ensures aria-hidden='true' is not present on the document body.
-* 1 × aria-hidden-focus:  Ensures aria-hidden elements do not contain focusable elements
+* 1 × aria-hidden-focus:  Ensures aria-hidden elements are not focusable nor contain focusable elements
 * 1 × aria-input-field-name:  Ensures every ARIA input field has an accessible name
 * 1 × aria-meter-name:  Ensures every ARIA meter node has an accessible name
 * 1 × aria-progressbar-name:  Ensures every ARIA progressbar node has an accessible name
@@ -75,7 +75,8 @@ Failed instances
 * 1 × list:  Ensures that lists are structured correctly
 * 1 × listitem:  Ensures <li> elements are used semantically
 * 1 × marquee:  Ensures <marquee> elements are not used
-* 1 × meta-refresh:  Ensures <meta http-equiv="refresh"> is not used
+* 1 × meta-refresh-no-exceptions:  Ensures <meta http-equiv="refresh"> is not used for delayed refresh
+* 1 × meta-refresh:  Ensures <meta http-equiv="refresh"> is not used for delayed refresh
 * 1 × meta-viewport-large:  Ensures <meta name="viewport"> can scale a significant amount
 * 1 × meta-viewport:  Ensures <meta name="viewport"> does not disable text scaling and zooming
 * 1 × nested-interactive:  Ensures interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies
@@ -83,7 +84,7 @@ Failed instances
 * 1 × object-alt:  Ensures <object> elements have alternate text
 * 1 × p-as-heading:  Ensure bold, italic text and font-size is not used to style <p> elements as a heading
 * 1 × page-has-heading-one:  Ensure that the page, or at least one of its frames contains a level-one heading
-* 1 × presentation-role-conflict:  Flags elements whose role is none or presentation and which cause the role conflict resolution to trigger.
+* 1 × presentation-role-conflict:  Elements marked as presentational should not have global ARIA or tabindex to ensure all screen readers ignore them
 * 1 × region:  Ensures all page content is contained by landmarks
 * 1 × role-img-alt:  Ensures [role='img'] elements have alternate text
 * 1 × scope-attr-valid:  Ensures the scope attribute is used correctly on tables
@@ -95,6 +96,7 @@ Failed instances
 * 1 × tabindex:  Ensures tabindex attribute values are not greater than 0
 * 1 × table-duplicate-name:  Ensure the <caption> element does not contain the same text as the summary attribute
 * 1 × table-fake-caption:  Ensure that tables with a caption use the <caption> element.
+* 1 × target-size:  Ensure touch target have sufficient size and space
 * 1 × td-has-header:  Ensure that each non-empty data cell in a <table> larger than 3 by 3  has one or more table headers
 * 1 × td-headers-attr:  Ensure that each cell in a table that uses the headers attribute refers only to other cells in that table
 * 1 × th-has-data-cells:  Ensure that <th> elements and elements with role=columnheader/rowheader have data cells they describe

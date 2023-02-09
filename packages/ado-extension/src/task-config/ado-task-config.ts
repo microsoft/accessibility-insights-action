@@ -170,6 +170,10 @@ export class ADOTaskConfig extends TaskConfig {
         return this.adoTaskObj.getInput('authType');
     }
 
+    public getSnapshot(): boolean {
+        return this.adoTaskObj.getBoolInput('snapshot');
+    }
+
     public getInputName(key: TaskInputKey): string {
         const keyToName = {
             HostingMode: 'hostingMode',

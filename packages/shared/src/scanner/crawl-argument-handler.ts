@@ -55,6 +55,7 @@ export class CrawlArgumentHandler {
             serviceAccountName: this.taskConfig.getServiceAccountName() || undefined,
             serviceAccountPassword: this.taskConfig.getServiceAccountPassword() || undefined,
             authType: this.taskConfig.getAuthType() || undefined,
+            snapshot: this.taskConfig.getSnapshot() || undefined,
         };
 
         return args;

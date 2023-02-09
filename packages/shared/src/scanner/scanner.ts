@@ -97,6 +97,10 @@ export class Scanner {
             scanArguments = this.crawlArgumentHandler.processScanArguments(localServerUrl);
 
             this.telemetryClient.trackEvent({ name: 'ScanStart' });
+            this.telemetryClient.trackEvent({
+                name: 'Inputs',
+                properties: { failOnAccessibilityError: this.taskConfig.getFailOnAccessibilityError() },
+            });
 
             if (scanArguments.serviceAccountName !== undefined) {
                 this.telemetryClient.trackEvent({ name: 'AuthUsed' });
