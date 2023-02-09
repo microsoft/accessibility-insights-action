@@ -320,7 +320,7 @@ export class ResultMarkdownBuilder {
         const axeCoreUrl = `https://github.com/dequelabs/axe-core/releases/tag/v${axeVersion}`;
         const axeLink = link(axeCoreUrl, `axe-core ${axeVersion}`);
 
-        return `This scan used ${axeLink} with ${userAgent} and browser resolution ${browserResolution}.`;
+        return `This scan used ${axeLink} and ${userAgent} with a display resolution of ${browserResolution}.`;
     }
 
     private downloadArtifacts(): string {
