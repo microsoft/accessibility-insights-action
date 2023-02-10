@@ -99,7 +99,10 @@ export class Scanner {
             this.telemetryClient.trackEvent({ name: 'ScanStart' });
             this.telemetryClient.trackEvent({
                 name: 'Inputs',
-                properties: { failOnAccessibilityError: this.taskConfig.getFailOnAccessibilityError() },
+                properties: {
+                    failOnAccessibilityError: this.taskConfig.getFailOnAccessibilityError(),
+                    staticSiteDirSet: this.taskConfig.getStaticSiteDir() == undefined ? false : true,
+                },
             });
 
             if (scanArguments.serviceAccountName !== undefined) {

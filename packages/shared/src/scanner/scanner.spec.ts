@@ -48,7 +48,8 @@ describe(Scanner, () => {
     let fsMock: IMock<typeof fs>;
     let scanner: Scanner;
     let combinedScanResult: CombinedScanResult;
-    let scanArguments: ScanArguments;
+    let urlScanArguments: ScanArguments;
+    let staticSiteScanArguments: ScanArguments;
     let inputValidatorMock: IMock<InputValidator>;
     let telemetryErrorCollectorMock: IMock<TelemetryErrorCollector>;
 
@@ -96,11 +97,12 @@ describe(Scanner, () => {
                 baseUrl: 'baseUrl',
             },
         };
-        scanArguments = {
+        urlScanArguments = {
             url: 'url',
             chromePath: 'chrome',
             axeSourcePath: 'axe',
         } as ScanArguments;
+        staticSiteScanArguments = {} as ScanArguments;
     });
 
     describe('scan', () => {
@@ -112,9 +114,8 @@ describe(Scanner, () => {
             expect(result).toBe(false);
         });
         it('performs expected steps in happy path with remote url and returns true', async () => {
-            setupMocksForSuccessfulScan();
+            setupMocksForSuccessfulScan(urlScanArguments);
             setupWaitForPromiseToReturnOriginalPromise();
-            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             const result = await scanner.scan();
             expect(result).toBe(true);
@@ -123,22 +124,17 @@ describe(Scanner, () => {
         });
 
         it('performs expected steps in happy path with local url (starts file server) and returns true', async () => {
-            scanArguments.url = '';
-            localFileServerMock.setup((m) => m.start()).returns((_) => Promise.resolve('localhost'));
-            setupMocksForSuccessfulScan();
+            setupMocksForSuccessfulScan(staticSiteScanArguments);
             setupWaitForPromiseToReturnOriginalPromise();
-            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             await expect(scanner.scan()).resolves.toBe(true);
 
             verifyMocks();
-            localFileServerMock.verify((m) => m.start(), Times.once());
         });
 
         it('passes BaselineEvaluation to ProgressReporter', async () => {
-            setupMocksForSuccessfulScan({} as BaselineEvaluation);
+            setupMocksForSuccessfulScan(urlScanArguments, {} as BaselineEvaluation);
             setupWaitForPromiseToReturnOriginalPromise();
-            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             await expect(scanner.scan()).resolves.toBe(true);
 
@@ -185,7 +181,7 @@ describe(Scanner, () => {
         it('should trackException for multiple errors and return false when combinedScanResult returns array of errors', async () => {
             //Setup for run that fails with combinedScanResult errors
             const crawlerParams: CrawlerRunOptions = {
-                baseUrl: scanArguments.url,
+                baseUrl: urlScanArguments.url,
             };
 
             const baselineOptions: BaselineOptions = {} as BaselineOptions;
@@ -197,11 +193,11 @@ describe(Scanner, () => {
             taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
             taskConfigMock
                 .setup((m) => m.getUrl())
-                .returns((_) => scanArguments.url)
+                .returns((_) => urlScanArguments.url)
                 .verifiable(Times.once());
             crawlArgumentHandlerMock
                 .setup((m) => m.processScanArguments(It.isAny()))
-                .returns((_) => scanArguments)
+                .returns((_) => urlScanArguments)
                 .verifiable(Times.once());
             taskConfigMock
                 .setup((m) => m.getReportOutDir())
@@ -214,11 +210,11 @@ describe(Scanner, () => {
                 })
                 .verifiable(Times.once());
             crawlerParametersBuilder
-                .setup((m) => m.build(scanArguments))
+                .setup((m) => m.build(urlScanArguments))
                 .returns((_) => crawlerParams)
                 .verifiable(Times.once());
             baselineOptionsBuilderMock
-                .setup((m) => m.build(scanArguments))
+                .setup((m) => m.build(urlScanArguments))
                 .returns(() => baselineOptions)
                 .verifiable(Times.once());
 
@@ -244,14 +240,27 @@ describe(Scanner, () => {
         });
 
         it('emits the expected pattern of telemetry', async () => {
-            setupMocksForSuccessfulScan();
+            setupMocksForSuccessfulScan(urlScanArguments);
             setupWaitForPromiseToReturnOriginalPromise();
-
-            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' })).verifiable();
             telemetryClientMock
-                .setup((m) => m.trackEvent({ name: 'Inputs', properties: { failOnAccessibilityError: false } }))
+                .setup((m) => m.trackEvent({ name: 'Inputs', properties: { failOnAccessibilityError: false, staticSiteDirSet: false } }))
+                .verifiable();
+            telemetryClientMock.setup((m) => m.flush()).verifiable();
+
+            await scanner.scan();
+
+            verifyMocks();
+        });
+
+        it('emits the expected pattern of telemetry when staticSiteDir is set', async () => {
+            setupMocksForSuccessfulScan(staticSiteScanArguments);
+            setupWaitForPromiseToReturnOriginalPromise();
+
+            telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' })).verifiable();
+            telemetryClientMock
+                .setup((m) => m.trackEvent({ name: 'Inputs', properties: { failOnAccessibilityError: false, staticSiteDirSet: true } }))
                 .verifiable();
             telemetryClientMock.setup((m) => m.flush()).verifiable();
 
@@ -261,15 +270,13 @@ describe(Scanner, () => {
         });
 
         it('emits the expected pattern of telemetry when service account name is provided', async () => {
-            scanArguments.serviceAccountName = 'name';
-            setupMocksForSuccessfulScan();
+            urlScanArguments.serviceAccountName = 'name';
+            setupMocksForSuccessfulScan(urlScanArguments);
             setupWaitForPromiseToReturnOriginalPromise();
-
-            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
             telemetryClientMock.setup((m) => m.trackEvent({ name: 'ScanStart' })).verifiable();
             telemetryClientMock
-                .setup((m) => m.trackEvent({ name: 'Inputs', properties: { failOnAccessibilityError: false } }))
+                .setup((m) => m.trackEvent({ name: 'Inputs', properties: { failOnAccessibilityError: false, staticSiteDirSet: false } }))
                 .verifiable();
             telemetryClientMock.setup((m) => m.trackEvent({ name: 'AuthUsed' })).verifiable();
             telemetryClientMock.setup((m) => m.flush()).verifiable();
@@ -279,7 +286,7 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
-        function setupMocksForSuccessfulScan(baselineEvaluation?: BaselineEvaluation): void {
+        function setupMocksForSuccessfulScan(scanArguments: ScanArguments, baselineEvaluation?: BaselineEvaluation): void {
             taskConfigMock
                 .setup((m) => m.getScanTimeout())
                 .returns((_) => scanTimeoutMsec)
@@ -287,6 +294,14 @@ describe(Scanner, () => {
             taskConfigMock
                 .setup((m) => m.getUrl())
                 .returns((_) => scanArguments.url)
+                .verifiable(Times.once());
+            taskConfigMock
+                .setup((m) => m.getStaticSiteDir())
+                .returns(() => (scanArguments.url == undefined ? 'staticSiteDir' : undefined))
+                .verifiable(Times.once());
+            taskConfigMock
+                .setup((m) => m.getStaticSiteUrlRelativePath())
+                .returns(() => (scanArguments.url == undefined ? '/' : undefined))
                 .verifiable(Times.once());
             taskConfigMock
                 .setup((m) => m.getReportOutDir())
@@ -357,7 +372,14 @@ describe(Scanner, () => {
             reportGeneratorMock.setup((rgm) => rgm.generateReport(combinedReportData)).verifiable(Times.once());
             loggerMock.setup((lm) => lm.logInfo(`Accessibility scanning of URL ${scanArguments.url} completed`)).verifiable(Times.once());
             progressReporterMock.setup((p) => p.completeRun(combinedReportData, baselineEvaluation)).verifiable(Times.once());
+            if (scanArguments.url == undefined) {
+                localFileServerMock
+                    .setup((m) => m.start())
+                    .returns((_) => Promise.resolve('localhost'))
+                    .verifiable(Times.once());
+            }
             localFileServerMock.setup((lfs) => lfs.stop()).verifiable();
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
         }
 
         function setupWaitForPromiseToReturnOriginalPromise(): void {
