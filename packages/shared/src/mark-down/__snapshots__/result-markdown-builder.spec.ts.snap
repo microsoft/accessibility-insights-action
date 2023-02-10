@@ -10,7 +10,7 @@ exports[`ResultMarkdownBuilder builds content with failures 1`] = `
 * **1 × rule id 2**:  rule description 2
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder builds content with no failures 1`] = `
@@ -19,7 +19,7 @@ exports[`ResultMarkdownBuilder builds content with no failures 1`] = `
 * **Rules**: 1 check(s) passed, and 2 were not applicable
 * Download the **Accessibility Insights artifact** to view the detailed results of these checks
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder builds content with title 1`] = `
@@ -29,7 +29,7 @@ exports[`ResultMarkdownBuilder builds content with title 1`] = `
 * **Rules**: 1 check(s) passed, and 2 were not applicable
 * Download the **Accessibility Insights artifact** to view the detailed results of these checks
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder builds error content 1`] = `
@@ -54,7 +54,7 @@ No failures were detected by automatic scanning.
 **Rules**: 0 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when baseline failures and scanned failures are the same (no new failures) 1`] = `
@@ -76,7 +76,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 **Rules**: 2 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some new ones have been introduced 1`] = `
@@ -99,7 +99,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 **Rules**: 2 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when some baseline failures have been fixed and some still occur 1`] = `
@@ -121,7 +121,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 **Rules**: 2 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and new failures 1`] = `
@@ -142,7 +142,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 **Rules**: 2 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are baseline failures and no additional failures 1`] = `
@@ -164,7 +164,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 **Rules**: 0 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are new failures and no baseline detected 1`] = `
@@ -185,7 +185,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 **Rules**: 2 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are new failures and no baseline failures 1`] = `
@@ -206,7 +206,7 @@ To see all failures and scan details, [download the accessibility report](artifa
 **Rules**: 2 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no baseline failures and no new failures 1`] = `
@@ -227,7 +227,7 @@ To see scan details, [download the accessibility report](artifacts-url)
 **Rules**: 0 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and baseline failures are undefined 1`] = `
@@ -249,7 +249,7 @@ To see scan details, [download the accessibility report](artifacts-url)
 **Rules**: 0 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there are no new failures and no baseline detected 1`] = `
@@ -271,7 +271,7 @@ To see scan details, [download the accessibility report](artifacts-url)
 **Rules**: 0 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;
 
 exports[`ResultMarkdownBuilder with baseline builds content when there is no baseline configured 1`] = `
@@ -292,5 +292,5 @@ To see all failures and scan details, [download the accessibility report](artifa
 **Rules**: 2 with failures, 1 passed, 2 not applicable
 
 ---
-This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800."
+This scan used [axe-core axeVersion](https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080."
 `;

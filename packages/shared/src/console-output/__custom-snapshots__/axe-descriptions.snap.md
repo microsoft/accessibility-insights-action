@@ -104,4 +104,4 @@ Failed instances
 * 1 × video-caption:  Ensures <video> elements have captions
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.

@@ -10,7 +10,7 @@ Failed instances
 * 1 × rule id 2:  rule description 2
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -20,7 +20,7 @@ exports[`ResultConsoleLogBuilder builds content with no failures 1`] = `
 * Rules: 1 check(s) passed, and 2 were not applicable
 * Download the Accessibility Insights artifact to view the detailed results of these checks
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -31,7 +31,7 @@ Accessibility Insights: All applicable checks passed
 * Rules: 1 check(s) passed, and 2 were not applicable
 * Download the Accessibility Insights artifact to view the detailed results of these checks
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -58,7 +58,7 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -82,7 +82,7 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -107,7 +107,7 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -131,7 +131,7 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -154,7 +154,7 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -178,7 +178,7 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -201,7 +201,7 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -224,7 +224,7 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -247,7 +247,7 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -271,7 +271,7 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -295,7 +295,7 @@ URLs: 0 with failures, 1 passed, 7 not scannable
 Rules: 0 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
 
@@ -318,6 +318,6 @@ URLs: 5 with failures, 1 passed, 7 not scannable
 Rules: 2 with failures, 1 passed, 2 not applicable
 
 -------------------
-This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x800.
+This scan used axe-core axeVersion (https://github.com/dequelabs/axe-core/releases/tag/vaxeVersion) and userAgent with a display resolution of 1920x1080.
 "
 `;
