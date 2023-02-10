@@ -124,15 +124,12 @@ describe(Scanner, () => {
         });
 
         it('performs expected steps in happy path with local url (starts file server) and returns true', async () => {
-            urlScanArguments.url = '';
-            // localFileServerMock.setup((m) => m.start()).returns((_) => Promise.resolve('localhost'));
             setupMocksForSuccessfulScan(staticSiteScanArguments);
             setupWaitForPromiseToReturnOriginalPromise();
 
             await expect(scanner.scan()).resolves.toBe(true);
 
             verifyMocks();
-            // localFileServerMock.verify((m) => m.start(), Times.once());
         });
 
         it('passes BaselineEvaluation to ProgressReporter', async () => {
