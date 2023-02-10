@@ -50,6 +50,7 @@ describe(ResultConsoleLogBuilder, () => {
         combinedReportResult = {
             axeVersion: 'axeVersion',
             userAgent: 'userAgent',
+            browserResolution: '1920x1080',
             results: {
                 resultsByRule: {
                     failed: failedRules.map((rule) => ({
@@ -307,6 +308,7 @@ describe(ResultConsoleLogBuilder, () => {
         combinedReportResult = {
             axeVersion: 'axeVersion',
             userAgent: 'userAgent',
+            browserResolution: '1920x1080',
             results: {
                 resultsByRule: {
                     failed: [
@@ -337,6 +339,7 @@ describe(ResultConsoleLogBuilder, () => {
         combinedReportResult = {
             axeVersion: 'axeVersion',
             userAgent: 'userAgent',
+            browserResolution: '1920x1080',
             results: {
                 resultsByRule: {
                     failed: [],

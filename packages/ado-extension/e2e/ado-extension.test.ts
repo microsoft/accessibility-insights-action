@@ -9,6 +9,40 @@ describe('Sample task tests', () => {
     beforeEach(() => {
         inputs = {};
     });
+
+    it('returns expected markdown report', () => {
+        inputs = {
+            url: 'https://www.washington.edu/accesscomputing/AU/before.html',
+        };
+        const testSubject = runTestWithInputs(inputs);
+        expect(filterStdOut(testSubject.stdout)).toMatchInlineSnapshot(`
+            "Accessibility Insights
+
+            20 failure instances
+            * (10) label:  Ensures every form element has a label
+            * (4) color-contrast:  Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds
+            * (3) link-in-text-block:  Ensure links are distinguished from surrounding text in a way that does not rely on color
+            * (2) image-alt:  Ensures <img> elements have alternate text or a role of none or presentation
+            * (1) html-has-lang:  Ensures every HTML document has a lang attribute
+
+            Baseline not configured
+            A baseline lets you mark known failures so it's easier to identify new failures as they're introduced. See baselining docs (https://aka.ms/ado-extension-usage-baseline) for more.-------------------
+            Scan summary
+            URLs: 1 with failures, 0 passed, 0 not scannable
+            Rules: 5 with failures, 14 passed, 36 not applicable
+
+            -------------------
+            This scan used axe-core 4.6.3 (https://github.com/dequelabs/axe-core/releases/tag/v4.6.3) and Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36 with a display resolution of 1920x1080.
+
+            ##[debug][Telemetry] tracking a 'ScanCompleted' event"
+        `);
+
+        function filterStdOut(stdout: string) {
+            const logs = stdout.match(/Accessibility Insights\n(.|\n)*##\[debug\]\[Telemetry\] tracking a 'ScanCompleted' event/);
+            return logs ? logs[0] : '';
+        }
+    });
+
     it('should succeed with simple inputs', () => {
         inputs = {
             url: 'https://www.washington.edu/accesscomputing/AU/before.html',
