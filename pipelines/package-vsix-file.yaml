@@ -80,6 +80,12 @@ steps:
           patternManifest: 'ado-extension.json'
           outputPath: '$(Build.ArtifactStagingDirectory)/${{ parameters.environment }}.vsix'
 
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk 2.1.x'
+      inputs:
+          packageType: 'sdk'
+          version: '2.1.x'
+
     - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
       condition: and(succeeded(), eq('${{ parameters.shouldSign }}', 'true'))
       displayName: 'ESRP: Sign VSIX file '
