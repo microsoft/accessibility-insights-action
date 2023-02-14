@@ -47,4 +47,4 @@ The steps to deploy a staging Azure Extension are currently limited to the Acces
 
 2. From your terminal, move into the extension directory: `cd packages/ado-extension`.
 
-3. Run `yarn start`. This will run the extension locally using the inputs defined in [local-overrides.json](../packages/ado-extension/scripts/local-overrides.json). Modify local-overrides.json as needed to test your scenario.
+3. Run `yarn start`. This will run the extension locally using the inputs defined in [local-overrides.json](../packages/ado-extension/scripts/local-overrides.json). Modify local-overrides.json, as needed to test your scenario.
