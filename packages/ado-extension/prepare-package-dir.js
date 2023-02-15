@@ -39,8 +39,9 @@ console.log('copied task.json to dist/pkg/task.json with any overrides');
 fs.copyFileSync('../../docs/ado-extension-overview.md', 'dist/overview.md');
 console.log('copied ado-extension-overview.md to dist/overview.md');
 
-fs.copyFileSync('../../icons/brand-blue-128px.png', 'dist/extension-icon.png');
-console.log('copied brand-blue-128px.png to dist/extension-icon.png');
+if (!fs.existsSync('dist/images')) fs.mkdirSync('dist/images');
+fs.copyFileSync('../../icons/brand-blue-128px.png', 'dist/images/extension-icon.png');
+console.log('copied brand-blue-128px.png to dist/images/extension-icon.png');
 
 buildRuntimePackageMetadata({
     packageJson,

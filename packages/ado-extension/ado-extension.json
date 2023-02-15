@@ -12,14 +12,11 @@
     "description": "Scan accessibility issues in an Azure DevOps pipeline",
     "categories": ["Azure Pipelines"],
     "icons": {
-        "default": "extension-icon.png"
+        "default": "images/extension-icon.png"
     },
     "files": [
         {
             "path": "pkg"
-        },
-        {
-            "path": "extension-icon.png"
         }
     ],
     "content": {
