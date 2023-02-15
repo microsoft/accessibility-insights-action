@@ -12,7 +12,7 @@
     "description": "Scan accessibility issues in an Azure DevOps pipeline",
     "categories": ["Azure Pipelines"],
     "icons": {
-        "default": "extension-icon.png"
+        "default": "pkg/extension-icon.png"
     },
     "files": [
         {
@@ -25,7 +25,9 @@
         }
     },
     "links": {
-        "getstarted": "https://aka.ms/ado-extension-usage"
+        "getstarted": {
+            "uri": "https://aka.ms/ado-extension-usage"
+        }
     },
     "contributions": [
         {
