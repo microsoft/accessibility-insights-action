@@ -24,6 +24,9 @@
             "path": "overview.md"
         }
     },
+    "links": {
+        "getstarted": "https://aka.ms/ado-extension-usage"
+    },
     "contributions": [
         {
             "id": "task",
