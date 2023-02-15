@@ -45,6 +45,9 @@ console.log('copied brand-blue-128px.png to dist/extension-icon.png');
 fs.copyFileSync('../../icons/brand-blue-128px.png', 'dist/pkg/extension-icon.png');
 console.log('copied brand-blue-128px.png to dist/pkg/extension-icon.png');
 
+fs.copyFileSync('../../icons/brand-blue-32px.png', 'dist/pkg/icon.png');
+console.log('copied brand-blue-32px.png to dist/pkg/icon.png');
+
 buildRuntimePackageMetadata({
     packageJson,
     webpackConfig: getWebpackConfig(),
