@@ -3,6 +3,11 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License.
 -->
 
+<!--
+The contents of this file is used on the extension's marketplace page:
+https://marketplace.visualstudio.com/items?itemName=accessibility-insights.prod
+-->
+
 # Accessibility Insights for Azure DevOps
 
 Accessibility Insights for Azure DevOps is an extension that enables you to integrate Accessibility Insights' automated checks, powered by [axe-core](https://github.com/dequelabs/axe-core), into your Azure pipeline.
@@ -21,7 +26,7 @@ While automated checks can detect some common accessibility problems such as mis
 
 ## Documentation
 
-For more details about the extension visit [Accessibility Insights for Azure DevOps on Engineering Hub](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/accessibility-insights/accessibility-insights-for-azure-devops).
+For more details about the extension visit [Accessibility Insights for Azure DevOps on Engineering Hub](https://aka.ms/ado-extension-usage).
 
 ## Feedback
 
