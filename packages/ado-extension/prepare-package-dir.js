@@ -39,8 +39,14 @@ console.log('copied task.json to dist/pkg/task.json with any overrides');
 fs.copyFileSync('../../docs/ado-extension-overview.md', 'dist/overview.md');
 console.log('copied ado-extension-overview.md to dist/overview.md');
 
-fs.copyFileSync('../../icons/brand-blue-48px.png', 'dist/pkg/extension-icon.png');
-console.log('copied brand-blue-48px.png to dist/pkg/extension-icon.png');
+fs.copyFileSync('../../icons/brand-blue-128px.png', 'dist/extension-icon.png');
+console.log('copied brand-blue-128px.png to dist/extension-icon.png');
+
+// "icon.png" is the the icon image that will be shown in the task list for classic pipelines
+// While the documentation recommends 32x32, it works with 128x128 and prevents the image from appearing blurry
+// https://learn.microsoft.com/en-us/azure/devops/extend/develop/integrate-build-task?view=azure-devops#traditional-extension-layout
+fs.copyFileSync('../../icons/brand-blue-128px.png', 'dist/pkg/icon.png');
+console.log('copied brand-blue-128px.png to dist/pkg/icon.png');
 
 buildRuntimePackageMetadata({
     packageJson,
