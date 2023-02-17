@@ -128,6 +128,8 @@ export class Scanner {
             }
             const scanEnded = new Date();
 
+            await this.checkForAuthenticationIssues(combinedScanResult, scanArguments);
+
             const combinedReportParameters = this.getCombinedReportParameters(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportParameters);
             await this.baselineFileUpdater.updateBaseline(scanArguments, combinedScanResult.baselineEvaluation);
@@ -186,5 +188,24 @@ export class Scanner {
     private logAndTrackScanningException(error: unknown, url: string): void {
         this.telemetryErrorCollector.collectError(String(error));
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
+    }
+
+    private async checkForAuthenticationIssues(
+        combinedScanResult: CombinedScanResult,
+        scanArguments: ScanArguments,
+    ): Promise<void | false> {
+        const { urls } = combinedScanResult.combinedAxeResults;
+        const { baseUrl } = combinedScanResult.scanMetadata;
+        const { serviceAccountName } = scanArguments;
+        const url = urls[0];
+        if (urls.length === 1 && url !== baseUrl && url.startsWith('https://login.microsoftonline.com')) {
+            this.logger.logError(
+                serviceAccountName === undefined
+                    ? `The URL ${baseUrl} requires authentication. Visit https://aka.ms/AI-action-auth to learn how to add authentication.`
+                    : `The service account ${serviceAccountName} does not have sufficient permissions to access the URL ${baseUrl}.`,
+            );
+            await this.allProgressReporter.failRun();
+            return Promise.resolve(false);
+        }
     }
 }
