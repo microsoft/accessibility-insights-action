@@ -16,6 +16,10 @@ variables:
     - group: 'ado-auth-example-secrets'
 
 steps:
+    - task: NodeTool@0
+      inputs:
+          versionSpec: '16.x'
+          displayName: Use node 16.x
     # reused by all "url" cases
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
       displayName: 'Start /dev/website-root test server at http://localhost:5858'
