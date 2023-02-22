@@ -9765,10 +9765,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-tfx-cli@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/tfx-cli/-/tfx-cli-0.12.0.tgz#d1b344d6ced5f7db78c249404214cd38d7816c5a"
-  integrity sha512-CtGVDasX20zFyIUScegXFuIXmqJsnNQa/Tiv5bXB9anzU1xZSQoSVa5XL2DlMtEsuu16+BcDxwc+bpqguUjBCg==
+tfx-cli@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/tfx-cli/-/tfx-cli-0.13.0.tgz#9dfe10b0af5da48b5c00e4cba846e176d97ccb77"
+  integrity sha512-tuTyHqtZvFZstNPx7Dnd+PGMAaOvhfHa0J/j1PjPCDL7IUxTq8jSu9s3bdTyAmRZH5EhepJeaT1Q6I/LMZwoWA==
   dependencies:
     app-root-path "1.0.0"
     archiver "2.0.3"
