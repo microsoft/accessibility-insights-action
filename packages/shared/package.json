@@ -26,7 +26,6 @@
         "url": "https://github.com/microsoft/accessibility-insights-action/issues"
     },
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
-    "devDependencies": {},
     "dependencies": {
         "@types/react": "^16.14",
         "@types/react-dom": "^16.9",
