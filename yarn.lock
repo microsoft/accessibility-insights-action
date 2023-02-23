@@ -9,7 +9,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@accessibility-insights-action/ado-extension@workspace:packages/ado-extension"
   dependencies:
-    "@accessibility-insights-action/shared": ^1.0.0
+    "@accessibility-insights-action/shared": "workspace:*"
     applicationinsights: ^2.4.2
     azure-pipelines-task-lib: ^4.2.0
     reflect-metadata: ^0.1.13
@@ -17,7 +17,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@accessibility-insights-action/shared@^1.0.0, @accessibility-insights-action/shared@workspace:packages/shared":
+"@accessibility-insights-action/shared@workspace:*, @accessibility-insights-action/shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "@accessibility-insights-action/shared@workspace:packages/shared"
   dependencies:
