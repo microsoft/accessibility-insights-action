@@ -6665,7 +6665,7 @@ jsprim@^2.0.2:
     json-schema "0.4.0"
     verror "1.10.0"
 
-jszip@^3.7.1:
+jszip@^3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
   integrity sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==
@@ -9765,10 +9765,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-tfx-cli@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/tfx-cli/-/tfx-cli-0.13.0.tgz#9dfe10b0af5da48b5c00e4cba846e176d97ccb77"
-  integrity sha512-tuTyHqtZvFZstNPx7Dnd+PGMAaOvhfHa0J/j1PjPCDL7IUxTq8jSu9s3bdTyAmRZH5EhepJeaT1Q6I/LMZwoWA==
+tfx-cli@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/tfx-cli/-/tfx-cli-0.14.0.tgz#8ac0dc69e511a0160bd491eb4e2f62f6e247d404"
+  integrity sha512-LTtp5JMVrsAvtnbvtRIqkEFG6WqO1qThNNM+3/CAlIKwxhBaenl+D/YL9pNojX83pgTA2Fe/FyZJ0A6jAiu5rA==
   dependencies:
     app-root-path "1.0.0"
     archiver "2.0.3"
@@ -9778,7 +9778,7 @@ tfx-cli@^0.13.0:
     glob "7.1.2"
     jju "^1.4.0"
     json-in-place "^1.0.1"
-    jszip "^3.7.1"
+    jszip "^3.10.1"
     lodash "^4.17.21"
     minimist "^1.2.6"
     mkdirp "^1.0.4"
