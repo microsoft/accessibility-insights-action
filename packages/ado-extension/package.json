@@ -31,7 +31,7 @@
         "tfx-cli": "^0.13.0"
     },
     "dependencies": {
-        "@accessibility-insights-action/shared": "^1.0.0",
+        "@accessibility-insights-action/shared": "workspace:*",
         "applicationinsights": "^2.4.2",
         "azure-pipelines-task-lib": "^4.2.0",
         "reflect-metadata": "^0.1.13"
