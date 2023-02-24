@@ -9,6 +9,11 @@ import { join } from 'path';
 export function installRuntimeDependencies(): void {
     console.log('##[group]Installing runtime dependencies');
 
+    // It's very important that we use the same node binary here as
+    // we're already executing under. Some transitive dependencies
+    // involve native build steps that are node-version-dependent
+    // and will throw runtime errors if "yarn install" is run with
+    // a different node version than we execute under.
     const nodePath = argv[0];
 
     const yarnReleasesPath = join(__dirname, '.yarn', 'releases');
