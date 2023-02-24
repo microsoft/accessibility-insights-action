@@ -14,6 +14,11 @@ export function installRuntimeDependencies(): void {
     // involve native build steps that are node-version-dependent
     // and will throw runtime errors if "yarn install" is run with
     // a different node version than we execute under.
+    //
+    // This is why we don't just invoke "yarn" - that would use whatever
+    // node version the user's pipeline happens to have installed globally,
+    // which might differ from the version that the build agent is
+    // running our task with.
     const nodePath = argv[0];
 
     const yarnReleasesPath = join(__dirname, '.yarn', 'releases');
