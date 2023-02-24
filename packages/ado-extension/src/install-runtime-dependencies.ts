@@ -11,7 +11,7 @@ export function installRuntimeDependencies(): void {
     // yarn.bat, or yarn.cmd (any of these are possible depending on OS + how Yarn is
     // installed). This doesn't create a shell injection concern because the command
     // is a fixed string.
-    execSync('yarn install --prod --ignore-engines --frozen-lockfile', {
+    execSync('yarn install --immutable', {
         stdio: 'inherit',
         cwd: __dirname,
     });
