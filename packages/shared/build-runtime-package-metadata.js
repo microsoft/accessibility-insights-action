@@ -57,14 +57,22 @@ function buildRuntimePackageMetadata({ packageJson, webpackConfig, outputDirecto
     // yarn.bat, or yarn.cmd (any of these are possible depending on OS + how Yarn is
     // installed). This doesn't create a shell injection concern because the command
     // is a fixed string.
-    execSync('yarn install --prod --ignore-engines --ignore-scripts', {
+    execSync('yarn install --mode=update-lockfile', {
         stdio: 'inherit',
         cwd: outputDirectory,
     });
 
     const outNodeModulesPath = path.join(outputDirectory, 'node_modules');
     console.log(`removing ${outNodeModulesPath} left behind by yarn.lock update`);
-    rmdirSync(outNodeModulesPath, { recursive: true });
+    rmdirSync(outNodeModulesPath, { recursive: true, force: true });
+
+    const outYarnCache = path.join(outputDirectory, '.yarn', 'cache');
+    console.log(`removing ${outYarnCache} left behind by yarn.lock update`);
+    rmdirSync(outYarnCache, { recursive: true, force: true });
+
+    const outYarnInstallState = path.join(outputDirectory, '.yarn', 'install-state.gz');
+    console.log(`removing ${outYarnInstallState} left behind by yarn.lock update`);
+    rmdirSync(outYarnInstallState, { recursive: true, force: true });
 
     console.log('building runtime package metadata complete');
 }
