@@ -28,7 +28,7 @@
     },
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
     "devDependencies": {
-        "tfx-cli": "^0.13.0"
+        "tfx-cli": "^0.14.0"
     },
     "dependencies": {
         "@accessibility-insights-action/shared": "^1.0.0",
