@@ -128,7 +128,7 @@ export class Scanner {
             }
             const scanEnded = new Date();
 
-            await this.checkForAuthenticationIssues(combinedScanResult, scanArguments);
+            await this.checkIfLoginPageWasScanned(combinedScanResult, scanArguments);
 
             const combinedReportParameters = this.getCombinedReportParameters(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportParameters);
@@ -190,22 +190,32 @@ export class Scanner {
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
     }
 
-    private async checkForAuthenticationIssues(
-        combinedScanResult: CombinedScanResult,
-        scanArguments: ScanArguments,
-    ): Promise<void | false> {
+    private async checkIfLoginPageWasScanned(combinedScanResult: CombinedScanResult, scanArguments: ScanArguments): Promise<void | false> {
         const { urls } = combinedScanResult.combinedAxeResults;
         const { baseUrl } = combinedScanResult.scanMetadata;
         const { serviceAccountName } = scanArguments;
-        const url = urls[0];
-        if (urls.length === 1 && url !== baseUrl && url.startsWith('https://login.microsoftonline.com')) {
+        const authEnabled = serviceAccountName !== undefined;
+
+        // Throw error if the only URL scanned is the login page
+        if (urls.length === 1 && urls[0] !== baseUrl && urls[0].startsWith('https://login.microsoftonline.com') && !authEnabled) {
             this.logger.logError(
-                serviceAccountName === undefined
-                    ? `The URL ${baseUrl} requires authentication. Visit https://aka.ms/AI-action-auth to learn how to add authentication.`
-                    : `The service account ${serviceAccountName} does not have sufficient permissions to access the URL ${baseUrl}.`,
+                `The URL ${baseUrl} requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`,
             );
             await this.allProgressReporter.failRun();
             return Promise.resolve(false);
+        }
+
+        // Log warning if the login page was scanned
+        const scannedLoginPage = urls.filter((f) => f.startsWith('https://login.microsoftonline.com'));
+        if (authEnabled && scannedLoginPage.length > 0) {
+            for (const url of scannedLoginPage) {
+                const baseUrlMatch = url.match(/redirect_uri=(.*?)&/);
+                const baseUrlMatchEncoded = baseUrlMatch ? baseUrlMatch[1] : '';
+                const baseUrlMatchDecoded = baseUrlMatchEncoded ? decodeURIComponent(baseUrlMatchEncoded) : 'one of the pages in your site';
+                this.logger.logWarning(
+                    `The service account ${serviceAccountName} does not have sufficient permissions to access ${baseUrlMatchDecoded}. For more information, visit https://aka.ms/ai-faq#authentication`, // This is not a real aka.ms url yet!
+                );
+            }
         }
     }
 }
