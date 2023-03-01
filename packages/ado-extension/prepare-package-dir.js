@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 const packageJson = require(process.cwd() + '/package.json');
 const getWebpackConfig = require(process.cwd() + '/webpack.config');
 const { buildRuntimePackageMetadata } = require('../shared/build-runtime-package-metadata');
@@ -41,6 +42,14 @@ console.log('copied ado-extension-overview.md to dist/overview.md');
 
 fs.copyFileSync('../../icons/brand-blue-128px.png', 'dist/extension-icon.png');
 console.log('copied brand-blue-128px.png to dist/extension-icon.png');
+
+fs.cpSync('../../.yarn/releases', 'dist/pkg/.yarn/releases', { recursive: true });
+console.log('copied .yarn/releases to dist/pkg/.yarn/releases');
+
+const yarnrcYaml = yaml.load(fs.readFileSync('../../.yarnrc.yml'));
+delete yarnrcYaml['plugins'];
+fs.writeFileSync('dist/pkg/.yarnrc.yml', yaml.dump(yarnrcYaml));
+console.log('wrote plugin-free dist/pkg/.yarnrc.yml');
 
 // "icon.png" is the the icon image that will be shown in the task list for classic pipelines
 // While the documentation recommends 32x32, it works with 128x128 and prevents the image from appearing blurry

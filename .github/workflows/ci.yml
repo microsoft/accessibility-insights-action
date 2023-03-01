@@ -24,7 +24,7 @@ jobs:
         node-version: 16.x
         
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: yarn install --immutable
       
     - name: Check copyright headers
       run: yarn copyright:check
@@ -52,18 +52,18 @@ jobs:
         node-version: 16.x
     
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: yarn install --immutable
     
     - name: Build
       run: yarn cbuild
 
     - name: Run tests
-      run: yarn test -- -- --ci --coverage
+      run: yarn test --ci --coverage
       env:
         NODE_OPTIONS: --max_old_space_size=4096
 
     - name: Publish code coverage to codecov
-      run: yarn publish-code-coverage -- -t ${{ secrets.CODECOV_TOKEN }}
+      run: yarn publish-code-coverage -t ${{ secrets.CODECOV_TOKEN }}
 
     - name: Run e2e tests
-      run: yarn test:e2e -- -- --ci
+      run: yarn test:e2e --ci

@@ -1,21 +1,22 @@
 {
     "ignore": [
+        ".dependabot",
         ".git",
         ".github",
-        "./.dependabot",
-        "**/yarn.lock",
-        "**/CODEOWNERS",
-        "package.json",
-        "cred-scan-suppressions.json",
-        "**/node_modules",
+        ".yarn",
+        "**/.DS_Store",
         "**/.gitattributes",
-        "**/test-results",
-        "**/dist",
         "**/*.baseline",
-        "**/*.snap",
         "**/*.snap.md",
+        "**/*.snap",
         "**/*.taskkey",
-        "**/.DS_Store"
+        "**/CODEOWNERS",
+        "**/dist",
+        "**/node_modules",
+        "**/test-results",
+        "**/yarn.lock",
+        "cred-scan-suppressions.json",
+        "package.json"
     ],
     "license": "./copyright-header.txt",
     "licenseFormats": {
