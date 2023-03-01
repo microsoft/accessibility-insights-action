@@ -4,7 +4,7 @@
     "name": "accessibility-insights",
     "friendlyName": "Accessibility Insights Azure DevOps Task",
     "description": "Scan for accessibility issues in an Azure DevOps pipeline",
-    "helpMarkDown": "Learn [how to add Accessibility Insights Azure DevOps Task](https://aka.ms/ado-extension-usage) to your pipeline. For authenticated sites, learn [how to setup authentication](https://aka.ms/AI-action-auth)",
+    "helpMarkDown": "For help with configuring and troubleshooting this task, see https://aka.ms/accessibility-insights-faq#azure-devops-extension",
     "category": "Test",
     "author": "Accessibility Insights",
     "version": {
