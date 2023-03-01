@@ -30,7 +30,7 @@
     "dependencies": {
         "@accessibility-insights-action/shared": "workspace:*",
         "applicationinsights": "^2.5.0",
-        "azure-pipelines-task-lib": "^4.2.0",
+        "azure-pipelines-task-lib": "^4.3.0",
         "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
