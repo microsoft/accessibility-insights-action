@@ -4,6 +4,7 @@
 .gitattributes
 .github
 .prettierignore
+.yarn
 **/.DS_Store
 **/.funcignore
 **/.gitignore

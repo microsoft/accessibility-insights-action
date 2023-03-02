@@ -21,7 +21,7 @@ jobs:
                 versionSpec: '16.x'
             displayName: use node 16.x
 
-          - script: yarn install --frozen-lockfile
+          - script: yarn install --immutable
             displayName: Install dependencies
 
           - script: yarn copyright:check
@@ -36,7 +36,7 @@ jobs:
           - script: yarn lint:check
             displayName: Check for lint errors
 
-          - script: yarn test -- -- --ci --coverage
+          - script: yarn test --ci --coverage
             displayName: Run tests
             env:
                 NODE_OPTIONS: --max_old_space_size=4096
@@ -115,7 +115,7 @@ jobs:
                 versionSpec: '16.x'
             displayName: use node 16.x
 
-          - script: yarn install --frozen-lockfile
+          - script: yarn install --immutable
             displayName: Install dependencies
 
           - script: yarn cbuild
