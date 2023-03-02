@@ -3,21 +3,6 @@
   "tasks": [
     {
       "taskType": "trigger",
-      "capabilityId": "AutoMerge",
-      "subCapability": "AutoMerge",
-      "version": "1.0",
-      "config": {
-        "taskName": "auto-merge",
-        "label": "pr: auto-merge",
-        "minMinutesOpen": "1",
-        "mergeType": "squash",
-        "deleteBranches": true,
-        "requireAllStatuses": true
-      },
-      "id": "rm57lnlY4P3UWpNJCGGRE"
-    },
-    {
-      "taskType": "trigger",
       "capabilityId": "IssueResponder",
       "subCapability": "IssuesOnlyResponder",
       "version": "1.0",
