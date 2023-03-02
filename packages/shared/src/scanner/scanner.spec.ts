@@ -96,7 +96,10 @@ describe(Scanner, () => {
             scanMetadata: {
                 baseUrl: 'baseUrl',
             },
-        };
+            combinedAxeResults: {
+                urls: [],
+            },
+        } as CombinedScanResult;
         urlScanArguments = {
             url: 'url',
             chromePath: 'chrome',
@@ -236,6 +239,102 @@ describe(Scanner, () => {
 
             await expect(scanner.scan()).resolves.toBe(false);
 
+            verifyMocks();
+        });
+
+        it('should logError when only page scanned is login page', async () => {
+            const errorMessage = `https://eng.ms/ requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`;
+            combinedScanResult.combinedAxeResults.urls = [
+                'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Feng.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
+            ];
+            combinedScanResult.scanMetadata.baseUrl = 'https://eng.ms/';
+            urlScanArguments.serviceAccountName = undefined;
+            const crawlerParams: CrawlerRunOptions = {
+                baseUrl: 'https://eng.ms/',
+            };
+            const baselineOptions: BaselineOptions = {} as BaselineOptions;
+            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
+            taskConfigMock
+                .setup((m) => m.getUrl())
+                .returns((_) => urlScanArguments.url)
+                .verifiable(Times.once());
+            crawlArgumentHandlerMock
+                .setup((m) => m.processScanArguments(It.isAny()))
+                .returns((_) => urlScanArguments)
+                .verifiable(Times.once());
+            taskConfigMock
+                .setup((m) => m.getReportOutDir())
+                .returns(() => reportOutDir)
+                .verifiable(Times.once());
+            aiCrawlerMock
+                .setup((m) => m.crawl(crawlerParams, baselineOptions))
+                .returns(async () => {
+                    return Promise.resolve(combinedScanResult);
+                })
+                .verifiable(Times.once());
+            crawlerParametersBuilder
+                .setup((m) => m.build(urlScanArguments))
+                .returns((_) => crawlerParams)
+                .verifiable(Times.once());
+            baselineOptionsBuilderMock
+                .setup((m) => m.build(urlScanArguments))
+                .returns(() => baselineOptions)
+                .verifiable(Times.once());
+            progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
+            localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
+            setupWaitForPromiseToReturnOriginalPromise();
+            loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
+            await expect(scanner.scan()).resolves.toBe(false);
+            verifyMocks();
+        });
+
+        it('should logWarning when a login page is scanned with auth', async () => {
+            const warningMessage = `The service account "name" does not have sufficient permissions to access https://eng.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
+            combinedScanResult.combinedAxeResults.urls = [
+                'https://eng.ms/path-2/',
+                'https://eng.ms/path-1/',
+                'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Feng.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
+            ];
+            urlScanArguments.serviceAccountName = 'name';
+            const crawlerParams: CrawlerRunOptions = {
+                baseUrl: 'https://eng.ms/',
+            };
+
+            const baselineOptions: BaselineOptions = {} as BaselineOptions;
+
+            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
+            taskConfigMock
+                .setup((m) => m.getUrl())
+                .returns((_) => urlScanArguments.url)
+                .verifiable(Times.once());
+            crawlArgumentHandlerMock
+                .setup((m) => m.processScanArguments(It.isAny()))
+                .returns((_) => urlScanArguments)
+                .verifiable(Times.once());
+            taskConfigMock
+                .setup((m) => m.getReportOutDir())
+                .returns(() => reportOutDir)
+                .verifiable(Times.once());
+            aiCrawlerMock
+                .setup((m) => m.crawl(crawlerParams, baselineOptions))
+                .returns(async () => {
+                    return Promise.resolve(combinedScanResult);
+                })
+                .verifiable(Times.once());
+            crawlerParametersBuilder
+                .setup((m) => m.build(urlScanArguments))
+                .returns((_) => crawlerParams)
+                .verifiable(Times.once());
+            baselineOptionsBuilderMock
+                .setup((m) => m.build(urlScanArguments))
+                .returns(() => baselineOptions)
+                .verifiable(Times.once());
+            localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
+            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
+            setupWaitForPromiseToReturnOriginalPromise();
+            loggerMock.setup((lm) => lm.logWarning(warningMessage)).verifiable(Times.once());
+            await scanner.scan();
             verifyMocks();
         });
 

@@ -128,7 +128,15 @@ export class Scanner {
             }
             const scanEnded = new Date();
 
-            await this.checkIfLoginPageWasScanned(combinedScanResult, scanArguments);
+            const onlyLoginPagedScanned = this.checkOnlyLoginPageScanned(combinedScanResult, scanArguments);
+            if (onlyLoginPagedScanned) {
+                this.logger.logError(
+                    `${combinedScanResult.scanMetadata.baseUrl} requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`,
+                );
+                await this.allProgressReporter.failRun();
+                return Promise.resolve(false);
+            }
+            this.checkAuthEnabledLoginPageScanned(combinedScanResult, scanArguments);
 
             const combinedReportParameters = this.getCombinedReportParameters(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportParameters);
@@ -190,20 +198,18 @@ export class Scanner {
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
     }
 
-    private async checkIfLoginPageWasScanned(combinedScanResult: CombinedScanResult, scanArguments: ScanArguments): Promise<void | false> {
+    private checkOnlyLoginPageScanned(combinedScanResult: CombinedScanResult, scanArguments: ScanArguments): boolean {
         const { urls } = combinedScanResult.combinedAxeResults;
-        const { baseUrl } = combinedScanResult.scanMetadata;
         const { serviceAccountName } = scanArguments;
         const authEnabled = serviceAccountName !== undefined;
 
-        // Throw error if the only URL scanned is the login page
-        if (urls.length === 1 && urls[0] !== baseUrl && urls[0].startsWith('https://login.microsoftonline.com') && !authEnabled) {
-            this.logger.logError(
-                `${baseUrl} requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`,
-            );
-            await this.allProgressReporter.failRun();
-            return Promise.resolve(false);
-        }
+        return !authEnabled && urls.length === 1 && urls[0].startsWith('https://login.microsoftonline.com');
+    }
+
+    private checkAuthEnabledLoginPageScanned(combinedScanResult: CombinedScanResult, scanArguments: ScanArguments): void {
+        const { urls } = combinedScanResult.combinedAxeResults;
+        const { serviceAccountName } = scanArguments;
+        const authEnabled = serviceAccountName !== undefined;
 
         // Log warning if the login page was scanned
         const scannedLoginPage = urls.filter((f) => f.startsWith('https://login.microsoftonline.com'));
@@ -213,7 +219,7 @@ export class Scanner {
                 const baseUrlMatchEncoded = baseUrlMatch ? baseUrlMatch[1] : '';
                 const baseUrlMatchDecoded = baseUrlMatchEncoded ? decodeURIComponent(baseUrlMatchEncoded) : 'one of the pages in your site';
                 this.logger.logWarning(
-                    `The service account ${serviceAccountName} does not have sufficient permissions to access ${baseUrlMatchDecoded}. For more information, visit https://aka.ms/ai-faq#authentication`, // This is not a real aka.ms url yet!
+                    `The service account "${serviceAccountName}" does not have sufficient permissions to access ${baseUrlMatchDecoded}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`,
                 );
             }
         }
