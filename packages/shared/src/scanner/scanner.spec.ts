@@ -242,116 +242,72 @@ describe(Scanner, () => {
             verifyMocks();
         });
 
-        it('should logError when only page scanned is login page', async () => {
-            const errorMessage = `https://site.ms/ requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`;
+        it.each`
+            serviceAccountName                    | expectedError                                                                                                                                                                                                                                   | url
+            ${undefined}                          | ${'https://site.ms/ requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth'}                                                                                                                          | ${'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000'}
+            ${'my-service-account@microsoft.com'} | ${'The service account does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication'}                                                                  | ${'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000'}
+            ${'my-service-account@microsoft.com'} | ${'The service account does not have sufficient permissions to access https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=00000000. For more information, visit https://aka.ms/accessibility-insights-faq#authentication'} | ${'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=00000000'}
+        `(
+            `should throw error when the only page scanned is the login page`,
+            async ({
+                serviceAccountName,
+                expectedError,
+                url,
+            }: {
+                serviceAccountName: string | undefined;
+                expectedError: string;
+                url: string;
+            }) => {
+                combinedScanResult.combinedAxeResults.urls = [url];
+                combinedScanResult.scanMetadata.baseUrl = 'https://site.ms/';
+                urlScanArguments.serviceAccountName = serviceAccountName;
 
-            combinedScanResult.combinedAxeResults.urls = [
-                'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
-            ];
+                const crawlerParams: CrawlerRunOptions = {
+                    baseUrl: 'https://site.ms/',
+                };
 
-            combinedScanResult.scanMetadata.baseUrl = 'https://site.ms/';
+                const baselineOptions: BaselineOptions = {} as BaselineOptions;
 
-            urlScanArguments.serviceAccountName = undefined;
+                taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
+                taskConfigMock
+                    .setup((m) => m.getUrl())
+                    .returns((_) => urlScanArguments.url)
+                    .verifiable(Times.once());
+                crawlArgumentHandlerMock
+                    .setup((m) => m.processScanArguments(It.isAny()))
+                    .returns((_) => urlScanArguments)
+                    .verifiable(Times.once());
+                taskConfigMock
+                    .setup((m) => m.getReportOutDir())
+                    .returns(() => reportOutDir)
+                    .verifiable(Times.once());
+                aiCrawlerMock
+                    .setup((m) => m.crawl(crawlerParams, baselineOptions))
+                    .returns(async () => {
+                        return Promise.resolve(combinedScanResult);
+                    })
+                    .verifiable(Times.once());
+                crawlerParametersBuilder
+                    .setup((m) => m.build(urlScanArguments))
+                    .returns((_) => crawlerParams)
+                    .verifiable(Times.once());
+                baselineOptionsBuilderMock
+                    .setup((m) => m.build(urlScanArguments))
+                    .returns(() => baselineOptions)
+                    .verifiable(Times.once());
+                progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
+                localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
+                inputValidatorMock.setup((m) => m.validate()).returns(() => true);
 
-            const crawlerParams: CrawlerRunOptions = {
-                baseUrl: 'https://site.ms/',
-            };
+                setupWaitForPromiseToReturnOriginalPromise();
 
-            const baselineOptions: BaselineOptions = {} as BaselineOptions;
+                loggerMock.setup((lm) => lm.logError(expectedError)).verifiable(Times.once());
 
-            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
-            taskConfigMock
-                .setup((m) => m.getUrl())
-                .returns((_) => urlScanArguments.url)
-                .verifiable(Times.once());
-            crawlArgumentHandlerMock
-                .setup((m) => m.processScanArguments(It.isAny()))
-                .returns((_) => urlScanArguments)
-                .verifiable(Times.once());
-            taskConfigMock
-                .setup((m) => m.getReportOutDir())
-                .returns(() => reportOutDir)
-                .verifiable(Times.once());
-            aiCrawlerMock
-                .setup((m) => m.crawl(crawlerParams, baselineOptions))
-                .returns(async () => {
-                    return Promise.resolve(combinedScanResult);
-                })
-                .verifiable(Times.once());
-            crawlerParametersBuilder
-                .setup((m) => m.build(urlScanArguments))
-                .returns((_) => crawlerParams)
-                .verifiable(Times.once());
-            baselineOptionsBuilderMock
-                .setup((m) => m.build(urlScanArguments))
-                .returns(() => baselineOptions)
-                .verifiable(Times.once());
-            progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
-            localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
-            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
+                await expect(scanner.scan()).resolves.toBe(false);
 
-            setupWaitForPromiseToReturnOriginalPromise();
-
-            loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
-
-            await expect(scanner.scan()).resolves.toBe(false);
-
-            verifyMocks();
-        });
-
-        it('should logError when a login page is scanned with auth', async () => {
-            const errorMessage = `The service account does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
-
-            combinedScanResult.combinedAxeResults.urls = [
-                'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
-            ];
-
-            urlScanArguments.serviceAccountName = 'name';
-
-            const crawlerParams: CrawlerRunOptions = {
-                baseUrl: 'https://site.ms/',
-            };
-
-            const baselineOptions: BaselineOptions = {} as BaselineOptions;
-
-            taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
-            taskConfigMock
-                .setup((m) => m.getUrl())
-                .returns((_) => urlScanArguments.url)
-                .verifiable(Times.once());
-            crawlArgumentHandlerMock
-                .setup((m) => m.processScanArguments(It.isAny()))
-                .returns((_) => urlScanArguments)
-                .verifiable(Times.once());
-            taskConfigMock
-                .setup((m) => m.getReportOutDir())
-                .returns(() => reportOutDir)
-                .verifiable(Times.once());
-            aiCrawlerMock
-                .setup((m) => m.crawl(crawlerParams, baselineOptions))
-                .returns(async () => {
-                    return Promise.resolve(combinedScanResult);
-                })
-                .verifiable(Times.once());
-            crawlerParametersBuilder
-                .setup((m) => m.build(urlScanArguments))
-                .returns((_) => crawlerParams)
-                .verifiable(Times.once());
-            baselineOptionsBuilderMock
-                .setup((m) => m.build(urlScanArguments))
-                .returns(() => baselineOptions)
-                .verifiable(Times.once());
-            localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
-            inputValidatorMock.setup((m) => m.validate()).returns(() => true);
-
-            setupWaitForPromiseToReturnOriginalPromise();
-
-            loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
-
-            await scanner.scan();
-
-            verifyMocks();
-        });
+                verifyMocks();
+            },
+        );
 
         it('emits the expected pattern of telemetry', async () => {
             setupMocksForSuccessfulScan(urlScanArguments);
