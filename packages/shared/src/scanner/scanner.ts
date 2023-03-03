@@ -210,9 +210,8 @@ export class Scanner {
         const { urls } = combinedScanResult.combinedAxeResults;
         const { serviceAccountName } = scanArguments;
         const authEnabled = serviceAccountName !== undefined;
-
-        // Log warning if the login page was scanned
         const scannedLoginPage = urls.filter((f) => f.startsWith('https://login.microsoftonline.com'));
+
         if (authEnabled && scannedLoginPage.length > 0) {
             for (const url of scannedLoginPage) {
                 const baseUrlMatch = url.match(/redirect_uri=(.*?)&/);
