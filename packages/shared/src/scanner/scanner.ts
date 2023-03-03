@@ -128,15 +128,15 @@ export class Scanner {
             }
             const scanEnded = new Date();
 
-            const onlyLoginPagedScanned = this.checkOnlyLoginPageScanned(combinedScanResult, scanArguments);
-            if (onlyLoginPagedScanned) {
-                this.logger.logError(
-                    `${combinedScanResult.scanMetadata.baseUrl} requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`,
-                );
+            const urlsScanned = combinedScanResult.combinedAxeResults.urls;
+            const scannedLoginPage = urlsScanned.filter((url) => url.startsWith('https://login.microsoftonline.com'));
+
+            // Throw error when only login page is scanned
+            if (urlsScanned.length === 1 && scannedLoginPage.length === 1) {
+                this.logger.logError(this.createAuthErrorMessage(scanArguments, combinedScanResult));
                 await this.allProgressReporter.failRun();
                 return Promise.resolve(false);
             }
-            this.checkAuthEnabledLoginPageScanned(combinedScanResult, scanArguments);
 
             const combinedReportParameters = this.getCombinedReportParameters(combinedScanResult, scanStarted, scanEnded);
             this.reportGenerator.generateReport(combinedReportParameters);
@@ -198,29 +198,15 @@ export class Scanner {
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
     }
 
-    private checkOnlyLoginPageScanned(combinedScanResult: CombinedScanResult, scanArguments: ScanArguments): boolean {
-        const { urls } = combinedScanResult.combinedAxeResults;
-        const { serviceAccountName } = scanArguments;
-        const authEnabled = serviceAccountName !== undefined;
-
-        return !authEnabled && urls.length === 1 && urls[0].startsWith('https://login.microsoftonline.com');
-    }
-
-    private checkAuthEnabledLoginPageScanned(combinedScanResult: CombinedScanResult, scanArguments: ScanArguments): void {
-        const { urls } = combinedScanResult.combinedAxeResults;
-        const { serviceAccountName } = scanArguments;
-        const authEnabled = serviceAccountName !== undefined;
-        const scannedLoginPage = urls.filter((f) => f.startsWith('https://login.microsoftonline.com'));
-
-        if (authEnabled && scannedLoginPage.length > 0) {
-            for (const url of scannedLoginPage) {
-                const baseUrlMatch = url.match(/redirect_uri=(.*?)&/);
-                const baseUrlMatchEncoded = baseUrlMatch ? baseUrlMatch[1] : '';
-                const baseUrlMatchDecoded = baseUrlMatchEncoded ? decodeURIComponent(baseUrlMatchEncoded) : 'one of the pages in your site';
-                this.logger.logWarning(
-                    `The service account does not have sufficient permissions to access ${baseUrlMatchDecoded}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`,
-                );
-            }
+    private createAuthErrorMessage(scanArguments: ScanArguments, combinedScanResult: CombinedScanResult): string {
+        const url = combinedScanResult.combinedAxeResults.urls[0];
+        if (scanArguments.serviceAccountName === undefined) {
+            return `${combinedScanResult.scanMetadata.baseUrl} requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`;
         }
+        // Attempt to extract the base URL from the redirect URL
+        const baseUrlMatch = url.match(/redirect_uri=(.*?)&/);
+        const baseUrlMatchEncoded = baseUrlMatch ? baseUrlMatch[1] : '';
+        const baseUrlMatchDecoded = baseUrlMatchEncoded ? decodeURIComponent(baseUrlMatchEncoded) : url;
+        return `The service account does not have sufficient permissions to access ${baseUrlMatchDecoded}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
     }
 }

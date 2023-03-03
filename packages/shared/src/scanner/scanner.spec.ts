@@ -244,15 +244,21 @@ describe(Scanner, () => {
 
         it('should logError when only page scanned is login page', async () => {
             const errorMessage = `https://site.ms/ requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`;
+
             combinedScanResult.combinedAxeResults.urls = [
                 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
             ];
+
             combinedScanResult.scanMetadata.baseUrl = 'https://site.ms/';
+
             urlScanArguments.serviceAccountName = undefined;
+
             const crawlerParams: CrawlerRunOptions = {
                 baseUrl: 'https://site.ms/',
             };
+
             const baselineOptions: BaselineOptions = {} as BaselineOptions;
+
             taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
             taskConfigMock
                 .setup((m) => m.getUrl())
@@ -283,20 +289,25 @@ describe(Scanner, () => {
             progressReporterMock.setup((p) => p.failRun()).verifiable(Times.once());
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
             inputValidatorMock.setup((m) => m.validate()).returns(() => true);
+
             setupWaitForPromiseToReturnOriginalPromise();
+
             loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
+
             await expect(scanner.scan()).resolves.toBe(false);
+
             verifyMocks();
         });
 
-        it('should logWarning when a login page is scanned with auth', async () => {
-            const warningMessage = `The service account does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
+        it('should logError when a login page is scanned with auth', async () => {
+            const errorMessage = `The service account does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
+
             combinedScanResult.combinedAxeResults.urls = [
-                'https://site.ms/path-2/',
-                'https://site.ms/path-1/',
                 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
             ];
+
             urlScanArguments.serviceAccountName = 'name';
+
             const crawlerParams: CrawlerRunOptions = {
                 baseUrl: 'https://site.ms/',
             };
@@ -332,9 +343,13 @@ describe(Scanner, () => {
                 .verifiable(Times.once());
             localFileServerMock.setup((m) => m.stop()).verifiable(Times.once());
             inputValidatorMock.setup((m) => m.validate()).returns(() => true);
+
             setupWaitForPromiseToReturnOriginalPromise();
-            loggerMock.setup((lm) => lm.logWarning(warningMessage)).verifiable(Times.once());
+
+            loggerMock.setup((lm) => lm.logError(errorMessage)).verifiable(Times.once());
+
             await scanner.scan();
+
             verifyMocks();
         });
 
