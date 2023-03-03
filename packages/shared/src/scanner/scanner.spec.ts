@@ -243,14 +243,14 @@ describe(Scanner, () => {
         });
 
         it('should logError when only page scanned is login page', async () => {
-            const errorMessage = `https://eng.ms/ requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`;
+            const errorMessage = `https://site.ms/ requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`;
             combinedScanResult.combinedAxeResults.urls = [
-                'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Feng.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
+                'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
             ];
-            combinedScanResult.scanMetadata.baseUrl = 'https://eng.ms/';
+            combinedScanResult.scanMetadata.baseUrl = 'https://site.ms/';
             urlScanArguments.serviceAccountName = undefined;
             const crawlerParams: CrawlerRunOptions = {
-                baseUrl: 'https://eng.ms/',
+                baseUrl: 'https://site.ms/',
             };
             const baselineOptions: BaselineOptions = {} as BaselineOptions;
             taskConfigMock.setup((m) => m.getScanTimeout()).returns((_) => scanTimeoutMsec);
@@ -290,15 +290,15 @@ describe(Scanner, () => {
         });
 
         it('should logWarning when a login page is scanned with auth', async () => {
-            const warningMessage = `The service account "name" does not have sufficient permissions to access https://eng.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
+            const warningMessage = `The service account "name" does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
             combinedScanResult.combinedAxeResults.urls = [
-                'https://eng.ms/path-2/',
-                'https://eng.ms/path-1/',
-                'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Feng.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
+                'https://site.ms/path-2/',
+                'https://site.ms/path-1/',
+                'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000-0000-0000-0000-000000000000&response_type=code',
             ];
             urlScanArguments.serviceAccountName = 'name';
             const crawlerParams: CrawlerRunOptions = {
-                baseUrl: 'https://eng.ms/',
+                baseUrl: 'https://site.ms/',
             };
 
             const baselineOptions: BaselineOptions = {} as BaselineOptions;
