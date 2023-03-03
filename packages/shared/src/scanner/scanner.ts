@@ -218,7 +218,7 @@ export class Scanner {
                 const baseUrlMatchEncoded = baseUrlMatch ? baseUrlMatch[1] : '';
                 const baseUrlMatchDecoded = baseUrlMatchEncoded ? decodeURIComponent(baseUrlMatchEncoded) : 'one of the pages in your site';
                 this.logger.logWarning(
-                    `The service account "${serviceAccountName}" does not have sufficient permissions to access ${baseUrlMatchDecoded}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`,
+                    `The service account does not have sufficient permissions to access ${baseUrlMatchDecoded}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`,
                 );
             }
         }

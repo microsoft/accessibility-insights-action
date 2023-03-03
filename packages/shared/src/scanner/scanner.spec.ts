@@ -290,7 +290,7 @@ describe(Scanner, () => {
         });
 
         it('should logWarning when a login page is scanned with auth', async () => {
-            const warningMessage = `The service account "name" does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
+            const warningMessage = `The service account does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
             combinedScanResult.combinedAxeResults.urls = [
                 'https://site.ms/path-2/',
                 'https://site.ms/path-1/',
