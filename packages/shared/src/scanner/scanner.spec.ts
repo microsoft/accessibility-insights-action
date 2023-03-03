@@ -243,22 +243,22 @@ describe(Scanner, () => {
         });
 
         it.each`
-            serviceAccountName                    | expectedError                                                                                                                                                                                                                                   | url
-            ${undefined}                          | ${'https://site.ms/ requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth'}                                                                                                                          | ${'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000'}
-            ${'my-service-account@microsoft.com'} | ${'The service account does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication'}                                                                  | ${'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000'}
-            ${'my-service-account@microsoft.com'} | ${'The service account does not have sufficient permissions to access https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=00000000. For more information, visit https://aka.ms/accessibility-insights-faq#authentication'} | ${'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=00000000'}
+            serviceAccountName                    | expectedError
+            ${undefined}                          | ${'https://site.ms/ requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth'}
+            ${'my-service-account@microsoft.com'} | ${'The service account does not have sufficient permissions to access https://site.ms/. For more information, visit https://aka.ms/accessibility-insights-faq#authentication'}
         `(
             `should throw error when the only page scanned is the login page`,
             async ({
                 serviceAccountName,
                 expectedError,
-                url,
             }: {
                 serviceAccountName: string | undefined;
                 expectedError: string;
                 url: string;
             }) => {
-                combinedScanResult.combinedAxeResults.urls = [url];
+                combinedScanResult.combinedAxeResults.urls = [
+                    'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https%3A%2F%2Fsite.ms%2F&client_id=00000000',
+                ];
                 combinedScanResult.scanMetadata.baseUrl = 'https://site.ms/';
                 urlScanArguments.serviceAccountName = serviceAccountName;
 

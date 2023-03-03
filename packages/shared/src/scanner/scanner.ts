@@ -133,7 +133,11 @@ export class Scanner {
 
             // Throw error when only login page is scanned
             if (urlsScanned.length === 1 && scannedLoginPage.length === 1) {
-                this.logger.logError(this.createAuthErrorMessage(scanArguments, combinedScanResult));
+                this.logger.logError(
+                    scanArguments.serviceAccountName === undefined
+                        ? `${combinedScanResult.scanMetadata.baseUrl} requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`
+                        : `The service account does not have sufficient permissions to access ${combinedScanResult.scanMetadata.baseUrl}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`,
+                );
                 await this.allProgressReporter.failRun();
                 return Promise.resolve(false);
             }
@@ -196,17 +200,5 @@ export class Scanner {
     private logAndTrackScanningException(error: unknown, url: string): void {
         this.telemetryErrorCollector.collectError(String(error));
         this.logger.trackExceptionAny(error, `An error occurred while scanning website page: ${url}`);
-    }
-
-    private createAuthErrorMessage(scanArguments: ScanArguments, combinedScanResult: CombinedScanResult): string {
-        const url = combinedScanResult.combinedAxeResults.urls[0];
-        if (scanArguments.serviceAccountName === undefined) {
-            return `${combinedScanResult.scanMetadata.baseUrl} requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`;
-        }
-        // Attempt to extract the base URL from the redirect URL
-        const baseUrlMatch = url.match(/redirect_uri=(.*?)&/);
-        const baseUrlMatchEncoded = baseUrlMatch ? baseUrlMatch[1] : '';
-        const baseUrlMatchDecoded = baseUrlMatchEncoded ? decodeURIComponent(baseUrlMatchEncoded) : url;
-        return `The service account does not have sufficient permissions to access ${baseUrlMatchDecoded}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
     }
 }
