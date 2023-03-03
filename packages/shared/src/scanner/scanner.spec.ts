@@ -302,6 +302,7 @@ describe(Scanner, () => {
                 setupWaitForPromiseToReturnOriginalPromise();
 
                 loggerMock.setup((lm) => lm.logError(expectedError)).verifiable(Times.once());
+                telemetryErrorCollectorMock.setup((o) => o.collectError(expectedError)).verifiable(Times.once());
 
                 await expect(scanner.scan()).resolves.toBe(false);
 

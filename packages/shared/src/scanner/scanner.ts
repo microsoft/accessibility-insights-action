@@ -133,11 +133,12 @@ export class Scanner {
 
             // Throw error when only login page is scanned
             if (urlsScanned.length === 1 && scannedLoginPage.length === 1) {
-                this.logger.logError(
+                const authErrorMessage =
                     scanArguments.serviceAccountName === undefined
                         ? `${combinedScanResult.scanMetadata.baseUrl} requires authentication. To learn how to add authentication, visit https://aka.ms/AI-action-auth`
-                        : `The service account does not have sufficient permissions to access ${combinedScanResult.scanMetadata.baseUrl}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`,
-                );
+                        : `The service account does not have sufficient permissions to access ${combinedScanResult.scanMetadata.baseUrl}. For more information, visit https://aka.ms/accessibility-insights-faq#authentication`;
+                this.logger.logError(authErrorMessage);
+                this.telemetryErrorCollector.collectError(String(authErrorMessage));
                 await this.allProgressReporter.failRun();
                 return Promise.resolve(false);
             }
