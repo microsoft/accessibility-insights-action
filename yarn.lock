@@ -54,7 +54,7 @@ __metadata:
     "@types/serve-static": ^1.15.1
     "@typescript-eslint/eslint-plugin": ^5.54.1
     "@typescript-eslint/parser": ^5.54.1
-    accessibility-insights-report: 4.6.3
+    accessibility-insights-report: 4.6.4
     accessibility-insights-scan: 1.6.0
     axe-core: 4.6.3
     eslint: ^8.35.0
@@ -2697,6 +2697,23 @@ __metadata:
     react-helmet: ^6.1.0
     uuid: ^9.0.0
   checksum: 34ba89cd5b1fbe1e2e126212148f5c4728c2dd31085e0ee97bb3ef3bc46e1cbb9c54c6f9fb5762fe152bdb4e54edc95593123d565d33ce0bc378fdf9f2d44e7a
+  languageName: node
+  linkType: hard
+
+"accessibility-insights-report@npm:4.6.4":
+  version: 4.6.4
+  resolution: "accessibility-insights-report@npm:4.6.4"
+  dependencies:
+    "@fluentui/react": ^8.96.1
+    axe-core: 4.6.3
+    classnames: ^2.3.2
+    lodash: ^4.17.21
+    luxon: ^3.2.1
+    react: ^16.14.0
+    react-dom: ^16.14.0
+    react-helmet: ^6.1.0
+    uuid: ^9.0.0
+  checksum: c13e74d13465d95fb40b039e9b68009bd2925e11c764fcd765033fdc6af730cf1a60df79ae6ab1f4e449f3d865fdeaf3db49e0f3be0cedf5cf51d9770b7da4d6
   languageName: node
   linkType: hard
 
