@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License.
 -->
 
-# Project structure
+# Project structure 🐶
 
 This repository contains code for two packages:
 
