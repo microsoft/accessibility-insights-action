@@ -34,7 +34,7 @@
         "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^5.55.0",
+        "@typescript-eslint/eslint-plugin": "^5.56.0",
         "@typescript-eslint/parser": "^5.55.0",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
         "eslint": "^8.36.0",
