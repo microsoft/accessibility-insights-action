@@ -4,7 +4,7 @@
 import { brand, brandLogoImg, toolName } from '../content/strings';
 
 export const escaped = (markdown: string): string => {
-    return markdown.replace(/</g, '\\<');
+    return markdown.replace(/</g, '\\<'); // CodeQL [SM02383] False Positive: The expected input does not include a backslash, so the replacement is not needed.
 };
 
 export const snippet = (text: string): string => {
