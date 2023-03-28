@@ -74,7 +74,7 @@ __metadata:
     mockdate: ^3.0.5
     normalize-path: ^3.0.0
     npm-run-all: ^4.1.5
-    pony-cause: ^2.1.8
+    pony-cause: ^2.1.9
     prettier: ^2.8.4
     reflect-metadata: ^0.1.13
     rimraf: ^4.4.0
@@ -9196,10 +9196,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pony-cause@npm:^2.1.8":
-  version: 2.1.8
-  resolution: "pony-cause@npm:2.1.8"
-  checksum: 1d99d40ea9040799034ea24ca093872cfee6be39d8c041d6b159a76ab42fcfcd90d8f1e260b80ce50f65765e49b56d82d6ad87ab2f6b8fce4b9a7ebcba3a6828
+"pony-cause@npm:^2.1.9":
+  version: 2.1.9
+  resolution: "pony-cause@npm:2.1.9"
+  checksum: 9e549dd126145bfed472b07e9d3eb24231033878c105813b3512d1cc99be16b84dfe4694e49b869e236a0e89c33a3b5244fdfde36355ad0c0c1a8c2b19b28f45
   languageName: node
   linkType: hard
 
