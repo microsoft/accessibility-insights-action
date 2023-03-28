@@ -28,6 +28,12 @@ extends:
             os: windows
 
         sdl:
+            # Enable TSA
+            # https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/1es-pipeline-templates/features/sdlanalysis/overview
+            tsa:
+                enabled: true
+                configFile: '$(Build.SourcesDirectory)\tsa.config'
+
             # Suppressing CodeQL (Semmle) failures that we are unable to fix or are false positives.
             # https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/1es-pipeline-templates/features/sdlanalysis/baselines#azure-devops-based-builds
             suppression:
@@ -36,13 +42,23 @@ extends:
         stages:
             - stage: Stage
               jobs:
-                  - job: 'BuildAndCheckCodeStyling'
+                  # This pipeline has TSA enabled (extends.parameters.sdl.tsa) and TSA requires `tsa.config`.
+                  # This first job uses a PowerShell script to create tsa.config.
+                  # The values for this configuration file are saved a pipeline variables.
+                  # https://eng.ms/docs/microsoft-security/security/azure-security/cloudai-security-fundamentals-engineering/security-integration/guardian-wiki/sdl-azdo-extension/tsa-upload-build-task
+                  - job: CreateTSAConfig
+                    displayName: Create tsa.config
                     steps:
-                        - task: NodeTool@0
+                        - task: PowerShell@2
+                          displayName: Create tsa.config
                           inputs:
-                              versionSpec: '16.x'
-                          displayName: use node 16.x
+                              targetType: filePath
+                              filePath: pipelines\create-tsa-options.ps1
+                              arguments: '-InstanceUrl "$(TSAInstanceUrl)" -ProjectName "$(TSAV2ProjectName)" -CodeBaseAdmins "$(TSACodeBaseAdmins)" -AreaPath "$(TSAV2AreaPath)" -IterationPath "$(TSAV2IterationPath)" -NotificationAliases "$(TSANotificationAlias)" -Tools "CredScan;PoliCheck" -OutputFile "$(Build.SourcesDirectory)\tsa.config"'
 
+                  - job: BuildAndCheckCodeStyling
+                    displayName: Build and check code styling
+                    steps:
                         - script: yarn install --immutable
                           displayName: Install dependencies
 
@@ -67,20 +83,17 @@ extends:
                           displayName: Publish code coverage to codecov
 
                         - script: yarn test:e2e --verbose
-                          displayName: 'Run e2e tests'
+                          displayName: Run e2e tests
 
-                  - job: 'PublishBuildDrops'
+                  - job: PublishBuildDrops
+                    displayName: Publish build drops
+                    dependsOn: CreateTSAConfig # Wait for CreateTSAConfig to complete before starting this job.
                     templateContext:
                         outputs:
                             - output: pipelineArtifact
                               targetPath: $(System.DefaultWorkingDirectory)/packages/ado-extension/dist
                               artifactName: ado-extension-drop
                     steps:
-                        - task: NodeTool@0
-                          inputs:
-                              versionSpec: '16.x'
-                          displayName: use node 16.x
-
                         - script: yarn install --immutable
                           displayName: Install dependencies
 
@@ -88,14 +101,14 @@ extends:
                           displayName: Build
 
                         - task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
-                          displayName: 'generate NOTICE.html file'
+                          displayName: Generate NOTICE.html file
                           retryCountOnTaskFailure: 3
                           inputs:
                               outputfile: '$(System.DefaultWorkingDirectory)/NOTICE.html'
                               outputformat: html
 
                         - task: CopyFiles@2
-                          displayName: 'Copy Notices.html to: ado-extension'
+                          displayName: Copy NOTICE.html
                           inputs:
                               Contents: |
                                   $(System.DefaultWorkingDirectory)/NOTICE.html
@@ -113,4 +126,4 @@ extends:
                               This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
                               ' > '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist/RELEASE_COMMIT.md'
 
-                          displayName: 'Generate Release README Info to: ado-extension'
+                          displayName: Generate README

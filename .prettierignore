@@ -19,6 +19,7 @@
 **/obj/
 **/dist/
 **/yarn-*.log
+**/*.ps1
 copyright-header.txt
 LICENSE
 NOTICES.txt
