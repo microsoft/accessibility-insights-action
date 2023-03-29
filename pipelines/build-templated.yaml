@@ -70,7 +70,7 @@ extends:
                     # There doesn't seem to be a way for the SDL pipeline to access a configuration generated on a pipeline.
                     # Until that is resolved in 1ES PT, this pipeline will need to define this job to enable TSA:
                   - job: SDT
-                    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+                    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
                     steps:
                         - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
                           displayName: 'Run CredScan'
