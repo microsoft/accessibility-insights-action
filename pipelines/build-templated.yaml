@@ -122,7 +122,7 @@ extends:
                         - script: yarn cbuild
                           displayName: Build
 
-                        # CG is included in SDL analysis, but notice task is not recognizing it.
+                        # CG is included in SDL analysis, but notice task does not appear to be able to recognize it in this job.
                         # https://docs.opensource.microsoft.com/tools/cg/features/notice/#build-failed-with-failed-to-get-snapshot-type-id-error
                         - task: ComponentGovernanceComponentDetection@0
                           displayName: 'dependency detection (Component Governance)'
