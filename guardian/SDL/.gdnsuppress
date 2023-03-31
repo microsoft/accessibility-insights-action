@@ -1,0 +1,140 @@
+{
+  "version": "latest",
+  "suppressionSets": {
+    "default": {
+      "name": "default",
+      "createdDate": "2023-03-27 20:39:12Z",
+      "lastUpdatedDate": "2023-03-27 20:39:12Z"
+    }
+  },
+  "results": {
+    "b11bf13ce16b2bbae951a27d47e939065d4ec47aaecf67a2a7a4261aa6558e43": {
+      "signature": "b11bf13ce16b2bbae951a27d47e939065d4ec47aaecf67a2a7a4261aa6558e43",
+      "alternativeSignatures": [
+        "3f93174e0aae3b4aeedaf7af5d0f59f1d291b8ee74f8b686bb18188b8b661a88"
+      ],
+      "target": ".yarn/releases/yarn-3.4.1.cjs",
+      "memberOf": [
+        "default"
+      ],
+      "tool": "semmle",
+      "ruleId": "SM01632",
+      "justification": null,
+      "createdDate": "2023-03-27 20:39:12Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1baee3515c3cb7ad53e8f40c81477455965aae1039651fea2284f2848bf74756": {
+      "signature": "1baee3515c3cb7ad53e8f40c81477455965aae1039651fea2284f2848bf74756",
+      "alternativeSignatures": [
+        "98366e3348226988d20554326877a25392a793e8d89c319abd779e42cb2d1f17"
+      ],
+      "target": ".yarn/releases/yarn-3.4.1.cjs",
+      "memberOf": [
+        "default"
+      ],
+      "tool": "semmle",
+      "ruleId": "SM01632",
+      "justification": null,
+      "createdDate": "2023-03-27 20:39:12Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7fc98a3df62efd17267a88b395ac45860d5103b033725ce764fa39886b2e1a7b": {
+      "signature": "7fc98a3df62efd17267a88b395ac45860d5103b033725ce764fa39886b2e1a7b",
+      "alternativeSignatures": [
+        "4732a1942674e3727fad6a32018e39e4b63ad09b54422e4213de6d0988f07fe3"
+      ],
+      "target": ".yarn/releases/yarn-3.4.1.cjs",
+      "memberOf": [
+        "default"
+      ],
+      "tool": "semmle",
+      "ruleId": "SM01632",
+      "justification": null,
+      "createdDate": "2023-03-27 20:39:12Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "991c0d0ba03ecef1fa9450a143fe3727810eac591a0b25b2ce2075a2cf815d8e": {
+      "signature": "991c0d0ba03ecef1fa9450a143fe3727810eac591a0b25b2ce2075a2cf815d8e",
+      "alternativeSignatures": [
+        "c65cfd8986ff6ee44d8c661a29533d141d71e60dbba0be869381b444a3f460c3"
+      ],
+      "target": ".yarn/releases/yarn-3.4.1.cjs",
+      "memberOf": [
+        "default"
+      ],
+      "tool": "semmle",
+      "ruleId": "SM02383",
+      "justification": null,
+      "createdDate": "2023-03-27 20:39:12Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e592524b5ce83f1bfb83d9a31eaf6f4cee4becd57772c8ef297958ad0b69ad51": {
+      "signature": "e592524b5ce83f1bfb83d9a31eaf6f4cee4becd57772c8ef297958ad0b69ad51",
+      "alternativeSignatures": [
+        "ad8e82750b44135da72e00248c8c36d63a228a9c9b4c3f53fbf206cd5c88c992"
+      ],
+      "target": ".yarn/releases/yarn-3.4.1.cjs",
+      "memberOf": [
+        "default"
+      ],
+      "tool": "semmle",
+      "ruleId": "SM02383",
+      "justification": null,
+      "createdDate": "2023-03-27 20:39:12Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "16d4bde645a9a531f5952531dad38c712dcdcef73dae063119bc2e3767a94b13": {
+      "signature": "16d4bde645a9a531f5952531dad38c712dcdcef73dae063119bc2e3767a94b13",
+      "alternativeSignatures": [
+        "d26847ca44e3b727eedd707edcf945ceda67aee7e46f9df7ee26576f246fd2b7"
+      ],
+      "target": ".yarn/releases/yarn-3.4.1.cjs",
+      "memberOf": [
+        "default"
+      ],
+      "tool": "semmle",
+      "ruleId": "SM04198",
+      "justification": null,
+      "createdDate": "2023-03-27 20:39:12Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1ffda865a512200b80880c12bb421f35b33c54d4a10a567db575e87dc22e7f06": {
+      "signature": "1ffda865a512200b80880c12bb421f35b33c54d4a10a567db575e87dc22e7f06",
+      "alternativeSignatures": [
+        "5b7b50fedb7139b7b0daacbc4a0ffe048fbb313ed964f653c72374e2314a4d16"
+      ],
+      "target": ".yarn/releases/yarn-3.4.1.cjs",
+      "memberOf": [
+        "default"
+      ],
+      "tool": "semmle",
+      "ruleId": "SM04198",
+      "justification": null,
+      "createdDate": "2023-03-27 20:39:12Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4b023bb013fcee9841eded36c009d5140e22e05df9ae0562d04afe6124c27b54": {
+      "signature": "4b023bb013fcee9841eded36c009d5140e22e05df9ae0562d04afe6124c27b54",
+      "alternativeSignatures": [
+        "d29ed34cd5fd90acacffda9249ad18597977672cf63e6929721ef448bc6679b2"
+      ],
+      "target": ".yarn/releases/yarn-3.4.1.cjs",
+      "memberOf": [
+        "default"
+      ],
+      "tool": "semmle",
+      "ruleId": "SM04198",
+      "justification": null,
+      "createdDate": "2023-03-27 20:39:12Z",
+      "expirationDate": null,
+      "type": null
+    }
+  }
+}

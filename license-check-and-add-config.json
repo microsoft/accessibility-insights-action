@@ -16,7 +16,8 @@
         "**/test-results",
         "**/yarn.lock",
         "cred-scan-suppressions.json",
-        "package.json"
+        "package.json",
+        "guardian"
     ],
     "license": "./copyright-header.txt",
     "licenseFormats": {

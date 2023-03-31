@@ -19,6 +19,7 @@
 **/obj/
 **/dist/
 **/yarn-*.log
+**/*.ps1
 copyright-header.txt
 LICENSE
 NOTICES.txt
@@ -26,3 +27,4 @@ test-results/
 yarn.lock
 _accessibility-reports/
 **/.taskkey
+.gdnsuppress

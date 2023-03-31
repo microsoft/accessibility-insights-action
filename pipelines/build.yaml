@@ -6,156 +6,153 @@ trigger: # trigger only affects CI builds
         include:
             - main
 
-variables:
-    linuxImage: 'ubuntu-latest'
-    windowsImage: 'windows-2019'
+# Do not edit. The resources tell us where our 1ES pipeline is being pulled from:
+resources:
+    repositories:
+        - repository: 1esPipelines
+          type: git
+          name: 1ESPipelineTemplates/1ESPipelineTemplates
+          ref: refs/tags/release
 
-jobs:
-    - job: 'BuildAndCheckCodeStyling'
-      pool:
-          vmImage: $(linuxImage)
-          demands: npm
-      steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '16.x'
-            displayName: use node 16.x
+extends:
+    # Do not edit. This is the 1ES template that holds different SDL and compliance tasks that the template injects into the pipeline.
+    # It uses the Official template because it's a production pipeline.
+    template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
 
-          - script: yarn install --immutable
-            displayName: Install dependencies
+    parameters:
+        # Accessibility Insights team's 1ES hosted pool.
+        # This variable is saved in Azure DevOps from the "Edit" pipeline view.
+        pool:
+            name: $(a11yInsightsPool)
+            image: windows-2022-secure
+            os: windows
 
-          - script: yarn copyright:check
-            displayName: Check copyright headers
+        sdl:
+            # Suppressing CodeQL (Semmle) failures that we are unable to fix or are false positives.
+            # https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/1es-pipeline-templates/features/sdlanalysis/baselines#azure-devops-based-builds
+            suppression:
+                suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
 
-          - script: yarn format:check
-            displayName: Check code formatting
+        stages:
+            - stage: Stage
+              jobs:
+                  - job: BuildAndCheckCodeStyling
+                    displayName: Build and check code styling
+                    steps:
+                        - script: yarn install --immutable
+                          displayName: Install dependencies
 
-          - script: yarn cbuild
-            displayName: Build
+                        - script: yarn copyright:check
+                          displayName: Check copyright headers
 
-          - script: yarn lint:check
-            displayName: Check for lint errors
+                        - script: yarn format:check
+                          displayName: Check code formatting
 
-          - script: yarn test --ci --coverage
-            displayName: Run tests
-            env:
-                NODE_OPTIONS: --max_old_space_size=4096
+                        - script: yarn cbuild
+                          displayName: Build
 
-          - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
-            displayName: Publish code coverage to codecov
+                        - script: yarn lint:check
+                          displayName: Check for lint errors
 
-          - script: yarn test:e2e --verbose
-            displayName: 'Run e2e tests'
+                        - script: yarn test --ci --coverage
+                          displayName: Run tests
+                          env:
+                              NODE_OPTIONS: --max_old_space_size=4096
 
-    - job: 'SDT'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-      pool:
-          vmImage: $(windowsImage)
-          demands: npm
-      steps:
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
-            displayName: 'Run CredScan'
-            inputs:
-                toolMajorVersion: V2
-                debugMode: false
+                        - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
+                          displayName: Publish code coverage to codecov
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-policheck.PoliCheck@1
-            displayName: 'Run PoliCheck'
-            inputs:
-                targetType: F
-                SOMEnabled: true
+                        - script: yarn test:e2e --verbose
+                          displayName: Run e2e tests
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
-            displayName: 'Generate CodeAnalysisLogs for TSA'
-            inputs:
-                CredScan: true
-                PoliCheck: true
+                    # The SDT job is made redundant by 1ES PT SDL Analysis pipeline.
+                    # However, sdl.tsa configuration only accepts a configuration file.
+                    # There doesn't seem to be a way for the SDL pipeline to access a configuration generated on a pipeline.
+                    # Until that is resolved in 1ES PT, this pipeline will need to define this job to enable TSA:
+                  - job: SDT
+                    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+                    steps:
+                        - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
+                          displayName: 'Run CredScan'
+                          inputs:
+                              outputFormat: 'pre'
+                              verboseOutput: true
+                              debugMode: false
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@2
-            displayName: 'Publish CodeAnalysisLogs Artifact for Scans tab UI'
-            condition: succeededOrFailed()
+                        - task: securedevelopmentteam.vss-secure-development-tools.build-task-policheck.PoliCheck@2
+                          displayName: 'Run PoliCheck'
+                          inputs:
+                              targetType: F
+                          continueOnError: true
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-uploadtotsa.TSAUpload@1
-            displayName: 'TSA Upload'
-            inputs:
-                tsaVersion: TsaV2
-                codebase: NewOrUpdate
-                codeBaseName: '$(TSACodebaseName)'
-                notificationAlias: '$(notificationAlias)'
-                codeBaseAdmins: '$(codeBaseAdmins)'
-                instanceUrlForTsaV2: $(instanceUrlForTsaV2)
-                projectNameMSENG: $(projectNameMSENG)
-                areaPath: '$(areaPath)'
-                iterationPath: '$(iterationPath)'
-                uploadAPIScan: false
-                uploadBinSkim: false
-                uploadFortifySCA: false
-                uploadFxCop: false
-                uploadModernCop: false
-                uploadPREfast: false
-                uploadRoslyn: false
-                uploadTSLint: false
+                        - task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@2
+                          displayName: 'Create Security Analysis Report (CredScan and PoliCheck)'
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@1
-            displayName: 'Break build on CredScan violations'
-            inputs:
-                CredScan: true
+                        - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
+                          displayName: 'Publish Security Analysis Logs (CredScan and PoliCheck)'
+                          condition: succeededOrFailed()
 
-    - job: 'CodeQL'
-      variables:
-          Codeql.Enabled: true
+                        - task: PowerShell@2
+                          displayName: 'Create tsa.config'
+                          inputs:
+                              targetType: filePath
+                              filePath: pipelines\create-tsa-options.ps1
+                              arguments: '-InstanceUrl "$(TSAInstanceUrl)" -ProjectName "$(TSAV2ProjectName)" -CodeBaseAdmins "$(TSACodeBaseAdmins)" -AreaPath "$(TSAV2AreaPath)" -IterationPath "$(TSAV2IterationPath)" -NotificationAliases "$(TSANotificationAlias)" -Tools "CredScan;PoliCheck" -OutputFile "$(Build.SourcesDirectory)\tsa.config"'
 
-    - job: 'PublishBuildDrops'
-      pool:
-          vmImage: $(linuxImage)
-          demands: npm
-      steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '16.x'
-            displayName: use node 16.x
+                        - task: securedevelopmentteam.vss-secure-development-tools.build-task-uploadtotsa.TSAUpload@2
+                          displayName: 'TSA Upload'
+                          inputs:
+                              GdnPublishTsaOnboard: true
+                              GdnPublishTsaConfigFile: '$(Build.SourcesDirectory)\tsa.config'
 
-          - script: yarn install --immutable
-            displayName: Install dependencies
+                        - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
+                          displayName: 'Post Analysis (CredScan and PoliCheck)'
 
-          - script: yarn cbuild
-            displayName: Build
+                  - job: PublishBuildDrops
+                    displayName: Publish build drops
+                    templateContext:
+                        outputs:
+                            - output: pipelineArtifact
+                              targetPath: $(System.DefaultWorkingDirectory)/packages/ado-extension/dist
+                              artifactName: ado-extension-drop
+                    steps:
+                        - script: yarn install --immutable
+                          displayName: Install dependencies
 
-          - task: ComponentGovernanceComponentDetection@0
-            displayName: 'dependency detection (Component Governance)'
-            inputs:
-                ignoreDirectories: 'drop,dist,extension,node_modules'
+                        - script: yarn cbuild
+                          displayName: Build
 
-          - task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
-            displayName: 'generate NOTICE.html file'
-            retryCountOnTaskFailure: 3
-            inputs:
-                outputfile: '$(System.DefaultWorkingDirectory)/NOTICE.html'
-                outputformat: html
+                        # CG is included in SDL analysis, but notice task does not appear to be able to recognize it in this job.
+                        # https://docs.opensource.microsoft.com/tools/cg/features/notice/#build-failed-with-failed-to-get-snapshot-type-id-error
+                        - task: ComponentGovernanceComponentDetection@0
+                          displayName: 'dependency detection (Component Governance)'
+                          inputs:
+                              ignoreDirectories: 'drop,dist,extension,node_modules'
 
-          - task: CopyFiles@2
-            displayName: 'Copy Notices.html to: ado-extension'
-            inputs:
-                Contents: |
-                    $(System.DefaultWorkingDirectory)/NOTICE.html
+                        - task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
+                          displayName: Generate NOTICE.html file
+                          retryCountOnTaskFailure: 3
+                          inputs:
+                              outputfile: '$(System.DefaultWorkingDirectory)/NOTICE.html'
+                              outputformat: html
 
-                TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
+                        - task: CopyFiles@2
+                          displayName: Copy NOTICE.html
+                          inputs:
+                              Contents: |
+                                  $(System.DefaultWorkingDirectory)/NOTICE.html
 
-          - bash: |
-                echo '<!--
-                Copyright (c) Microsoft Corporation. All rights reserved.
-                Licensed under the MIT License.
-                -->
-                              
-                # About
-                              
-                This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
-                ' > '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist/RELEASE_COMMIT.md'
+                              TargetFolder: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
 
-            displayName: 'Generate Release README Info to: ado-extension'
+                        - bash: |
+                              echo '<!--
+                              Copyright (c) Microsoft Corporation. All rights reserved.
+                              Licensed under the MIT License.
+                              -->
+                                            
+                              # About
+                                            
+                              This release was generated from this source tree [$(Build.SourceVersion)](https://github.com/microsoft/accessibility-insights-action/tree/$(Build.SourceVersion)).
+                              ' > '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist/RELEASE_COMMIT.md'
 
-          - task: PublishBuildArtifacts@1
-            inputs:
-                pathtoPublish: '$(System.DefaultWorkingDirectory)/packages/ado-extension/dist'
-                artifactName: 'ado-extension-drop'
-            displayName: publish ado-extension-drop
+                          displayName: Generate README
