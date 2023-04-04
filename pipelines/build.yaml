@@ -39,6 +39,11 @@ extends:
                   - job: BuildAndCheckCodeStyling
                     displayName: Build and check code styling
                     steps:
+                        - task: NodeTool@0
+                          inputs:
+                              versionSpec: '16.x'
+                          displayName: Use Node 16.x
+
                         - script: yarn install --immutable
                           displayName: Install dependencies
 
@@ -116,6 +121,11 @@ extends:
                               targetPath: $(System.DefaultWorkingDirectory)/packages/ado-extension/dist
                               artifactName: ado-extension-drop
                     steps:
+                        - task: NodeTool@0
+                          inputs:
+                              versionSpec: '16.x'
+                          displayName: Use Node 16.x
+
                         - script: yarn install --immutable
                           displayName: Install dependencies
 
