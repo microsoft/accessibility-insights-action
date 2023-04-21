@@ -20,7 +20,7 @@ To make a change, you can follow these steps:
 
 2. Run `yarn install`. This project requires Node 16.
 
-3. Make your code change.
+3. Make your code change(s).
 
 4. Run `yarn build` and/or `yarn test`. If you're changing `shared`, you may need to build it before the extension picks up changes.
 
