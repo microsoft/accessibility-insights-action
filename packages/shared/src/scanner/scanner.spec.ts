@@ -405,7 +405,7 @@ describe(Scanner, () => {
                 .returns(() => false)
                 .verifiable();
             // eslint-disable-next-line security/detect-non-literal-fs-filename
-            fsMock.setup((fsm) => fsm.mkdirSync(reportOutDir)).verifiable();
+            fsMock.setup((fsm) => fsm.mkdirSync(reportOutDir, { recursive: true })).verifiable();
 
             const crawlerParams: CrawlerRunOptions = {
                 baseUrl: scanArguments.url,
