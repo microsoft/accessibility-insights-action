@@ -393,7 +393,7 @@ describe(Scanner, () => {
                 .verifiable(Times.once());
             loggerMock.setup((lm) => lm.logDebug(`Starting accessibility scanning of URL ${scanArguments.url}`)).verifiable(Times.once());
             loggerMock
-                .setup((lm) => lm.logDebug(`Chrome app executable: ${scanArguments.chromePath ?? 'system default'}`))
+                .setup((lm) => lm.logDebug(`Chrome app executable: ${scanArguments.chromePath ?? 'default (bundled with task)'}`))
                 .verifiable(Times.once());
             loggerMock
                 .setup((lm) => lm.logInfo(`Report output directory does not exist. Creating directory ${reportOutDir}`))
