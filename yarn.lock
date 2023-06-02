@@ -12,7 +12,7 @@ __metadata:
     "@accessibility-insights-action/shared": "workspace:*"
     "@typescript-eslint/eslint-plugin": ^5.59.8
     "@typescript-eslint/parser": ^5.59.8
-    applicationinsights: ^2.6.0
+    applicationinsights: ^2.7.0
     azure-pipelines-task-lib: ^4.3.1
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.41.0
@@ -3185,9 +3185,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"applicationinsights@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "applicationinsights@npm:2.6.0"
+"applicationinsights@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "applicationinsights@npm:2.7.0"
   dependencies:
     "@azure/core-auth": ^1.4.0
     "@azure/core-rest-pipeline": 1.10.1
@@ -3207,7 +3207,7 @@ __metadata:
   peerDependenciesMeta:
     applicationinsights-native-metrics:
       optional: true
-  checksum: c72361fcc523a8568da8377b67445a01ed3f95a86647e36ed1d8b8f87626b4646d12ab75ea33753a51469f245e5683623ac6350fa8ae70b17ac081949c47c9e2
+  checksum: c4644ecd2e4871eb63604bc7294d9b6e7a3c0a8ae03304733627f61a5b993273adfc78b9f083da0c8503786396b70f47a106df3061dc97867e5b50fcc518968a
   languageName: node
   linkType: hard
 
