@@ -55,7 +55,7 @@
         "@types/puppeteer-core": "^7.0.4",
         "@types/serve-static": "^1.15.1",
         "@typescript-eslint/eslint-plugin": "^5.59.9",
-        "@typescript-eslint/parser": "^5.59.8",
+        "@typescript-eslint/parser": "^5.59.9",
         "eslint": "^8.42.0",
         "eslint-plugin-security": "^1.7.1",
         "fork-ts-checker-webpack-plugin": "^8.0.0",
