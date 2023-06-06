@@ -28,7 +28,7 @@ __metadata:
     prettier: ^2.8.8
     reflect-metadata: ^0.1.13
     rimraf: ^5.0.1
-    tfx-cli: ^0.14.0
+    tfx-cli: ^0.15.0
     ts-jest: ^29.1.0
     ts-loader: ^9.4.3
     typemoq: ^2.1.0
@@ -11351,9 +11351,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tfx-cli@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "tfx-cli@npm:0.14.0"
+"tfx-cli@npm:^0.15.0":
+  version: 0.15.0
+  resolution: "tfx-cli@npm:0.15.0"
   dependencies:
     app-root-path: 1.0.0
     archiver: 2.0.3
@@ -11381,7 +11381,7 @@ __metadata:
     xml2js: ^0.4.16
   bin:
     tfx: _build/tfx-cli.js
-  checksum: aae5a29c775af9303da39aee30ea82e06729f46e4bab2cafe2ccc6e8eb27cb0cb569463090a3da1cc654c4cb2a0e10a68e18691b9a5bd64c4d701720d25d1255
+  checksum: 5e23a87c76092848b9f11152a16262cdc28e45cfe4cea9c9fde879cad74c81fdde05980d01ac5ebea35b6128c1a96ac5b8db54f51812a907a1376b8ab7f5c9e8
   languageName: node
   linkType: hard
 
