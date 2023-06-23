@@ -51,7 +51,7 @@ __metadata:
     "@types/puppeteer-core": ^7.0.4
     "@types/react": ^16.14
     "@types/react-dom": ^16.9
-    "@types/serve-static": ^1.15.1
+    "@types/serve-static": ^1.15.2
     "@typescript-eslint/eslint-plugin": ^5.60.0
     "@typescript-eslint/parser": ^5.60.0
     accessibility-insights-report: 4.6.7
@@ -2146,6 +2146,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/http-errors@npm:*":
+  version: 2.0.1
+  resolution: "@types/http-errors@npm:2.0.1"
+  checksum: 3bb0c50b0a652e679a84c30cd0340d696c32ef6558518268c238840346c077f899315daaf1c26c09c57ddd5dc80510f2a7f46acd52bf949e339e35ed3ee9654f
+  languageName: node
+  linkType: hard
+
 "@types/integer@latest":
   version: 4.0.1
   resolution: "@types/integer@npm:4.0.1"
@@ -2402,13 +2409,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/serve-static@npm:^1.15.1":
-  version: 1.15.1
-  resolution: "@types/serve-static@npm:1.15.1"
+"@types/serve-static@npm:^1.15.2":
+  version: 1.15.2
+  resolution: "@types/serve-static@npm:1.15.2"
   dependencies:
+    "@types/http-errors": "*"
     "@types/mime": "*"
     "@types/node": "*"
-  checksum: 2e078bdc1e458c7dfe69e9faa83cc69194b8896cce57cb745016580543c7ab5af07fdaa8ac1765eb79524208c81017546f66056f44d1204f812d72810613de36
+  checksum: 15c261dbfc57890f7cc17c04d5b22b418dfa0330c912b46c5d8ae2064da5d6f844ef7f41b63c7f4bbf07675e97ebe6ac804b032635ec742ae45d6f1274259b3e
   languageName: node
   linkType: hard
 
@@ -2814,7 +2822,7 @@ __metadata:
     "@types/marked-terminal": ^3.1.3
     "@types/normalize-path": ^3.0.0
     "@types/puppeteer-core": ^7.0.4
-    "@types/serve-static": ^1.15.1
+    "@types/serve-static": ^1.15.2
     "@typescript-eslint/eslint-plugin": ^5.60.0
     "@typescript-eslint/parser": ^5.60.0
     case-sensitive-paths-webpack-plugin: ^2.4.0
