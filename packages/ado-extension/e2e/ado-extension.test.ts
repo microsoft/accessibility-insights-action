@@ -101,7 +101,9 @@ describe('Sample task tests', () => {
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
-        expect(testSubject.stdOutContained('Processing page http://localhost:39983/unlinked/')).toBeTruthy();
+        expect(
+            testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/')),
+        ).toBeTruthy();
         expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
     });
 
