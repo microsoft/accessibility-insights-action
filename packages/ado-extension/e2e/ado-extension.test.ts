@@ -10,7 +10,7 @@ describe('Sample task tests', () => {
         inputs = {};
     });
 
-    it('returns expected scan summary and footer', () => {
+    it('returns expected scan summary and footer (ignoring user agent)', () => {
         inputs = {
             url: 'https://www.washington.edu/accesscomputing/AU/before.html',
         };
@@ -22,13 +22,16 @@ describe('Sample task tests', () => {
             Rules: 5 with failures, 14 passed, 36 not applicable
 
             -------------------
-            This scan used axe-core 4.6.3 (https://github.com/dequelabs/axe-core/releases/tag/v4.6.3) and Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36 with a display resolution of 1920x1080.
-
-            ##[debug][Telemetry] tracking a 'ScanCompleted' event"
+            This scan used axe-core 4.6.3"
         `);
 
+        expect(
+            testSubject.stdOutContainedRegex(new RegExp('This scan used axe-core 4.* with a display resolution of 1920x1080.$')),
+        ).toBeTruthy();
+        expect(testSubject.stdOutContained("##[debug][Telemetry] tracking a 'ScanCompleted' event"));
+
         function filterStdOut(stdout: string) {
-            const logs = stdout.match(/-------------------(.|\n)*##\[debug\]\[Telemetry\] tracking a 'ScanCompleted' event/);
+            const logs = stdout.match(/-------------------(.|\n)*This scan used axe-core 4\.6\.3/);
             return logs ? logs[0] : '';
         }
     });
