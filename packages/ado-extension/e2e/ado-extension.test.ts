@@ -89,8 +89,16 @@ describe('Sample task tests', () => {
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
-        expect(testSubject.stdOutContained('Processing page https://www.washington.edu/accesscomputing/AU/after.html')).toBeTruthy();
-        expect(testSubject.stdOutContained('Processing page https://www.washington.edu/accesscomputing/AU/before.html')).toBeTruthy();
+        expect(
+            testSubject.stdOutContainedRegex(
+                new RegExp('Processing loaded page.*{"url":"https://www.washington.edu/accesscomputing/AU/before.html"}'),
+            ),
+        ).toBeTruthy();
+        expect(
+            testSubject.stdOutContainedRegex(
+                new RegExp('Processing loaded page.*{"url":"https://www.washington.edu/accesscomputing/AU/after.html"}'),
+            ),
+        ).toBeTruthy();
         expect(testSubject.stdOutContained('URLs: 1 with failures, 1 passed, 0 not scannable')).toBeTruthy();
     });
 
@@ -105,7 +113,7 @@ describe('Sample task tests', () => {
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
-            testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/')),
+            testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/"}')),
         ).toBeTruthy();
         expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
     });
