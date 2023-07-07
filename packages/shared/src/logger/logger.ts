@@ -12,7 +12,10 @@ export class Logger {
     protected initialized = false;
     public errors: string[] = [];
 
-    constructor(protected readonly loggerClients: LoggerClient[], protected readonly currentProcess: typeof process) {}
+    constructor(
+        protected readonly loggerClients: LoggerClient[],
+        protected readonly currentProcess: typeof process,
+    ) {}
 
     public async setup(baseProperties?: { [property: string]: string }): Promise<void> {
         if (this.initialized === true) {

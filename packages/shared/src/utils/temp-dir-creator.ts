@@ -7,7 +7,10 @@ import { injectable } from 'inversify';
 
 @injectable()
 export class TempDirCreator {
-    constructor(private readonly fsObj: typeof fs = fs, private readonly pathObj: typeof path = path) {}
+    constructor(
+        private readonly fsObj: typeof fs = fs,
+        private readonly pathObj: typeof path = path,
+    ) {}
 
     public createTempDirSync(baseTempDir?: string): string {
         const prefix = `${baseTempDir}${this.pathObj.sep}accessibility-insights-action-`;
