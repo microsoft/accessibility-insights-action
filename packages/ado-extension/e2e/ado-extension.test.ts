@@ -106,14 +106,14 @@ describe('Sample task tests', () => {
         inputs = {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
             staticSitePort: '39983',
-            inputUrls: 'http://localhost:39983/unlinked',
+            inputUrls: 'http://localhost:39983/unlinked/index.html',
         };
         const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
-            testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/"}')),
+            testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/index.html"}')),
         ).toBeTruthy();
         expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
     });
