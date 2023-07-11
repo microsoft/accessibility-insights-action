@@ -118,6 +118,22 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
     });
 
+    it('scans directories that are passed in as inputUrls', () => {
+        inputs = {
+            staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
+            staticSitePort: '39983',
+            inputUrls: 'http://localhost:39983/unlinked/',
+        };
+        const testSubject = runTestWithInputs(inputs);
+
+        expect(testSubject.warningIssues.length).toEqual(0);
+        expect(testSubject.errorIssues.length).toEqual(1);
+        expect(
+            testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/"}')),
+        ).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
+    });
+
     it('should fail if both URL and staticSiteDir are defined', () => {
         inputs = {
             url: 'https://www.washington.edu/accesscomputing/AU/before.html',
