@@ -106,6 +106,7 @@ describe('Sample task tests', () => {
         inputs = {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
             staticSitePort: '39983',
+            discoveryPatterns: 'http://localhost:39983/unlinked/index.html',
             inputUrls: 'http://localhost:39983/unlinked/index.html',
         };
         const testSubject = runTestWithInputs(inputs);
@@ -115,7 +116,7 @@ describe('Sample task tests', () => {
         expect(
             testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/index.html"}')),
         ).toBeTruthy();
-        expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 11 passed, 41 not applicable')).toBeTruthy();
     });
 
     it('scans directories that are passed in as inputUrls', () => {
