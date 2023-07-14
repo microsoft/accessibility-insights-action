@@ -52,7 +52,7 @@ __metadata:
     "@types/express": ^4.17.17
     "@types/jest": ^29.5.3
     "@types/lodash": ^4.14.195
-    "@types/marked": ^4.3.0
+    "@types/marked": ^5.0.1
     "@types/marked-terminal": ^3.1.3
     "@types/normalize-path": ^3.0.0
     "@types/puppeteer-core": ^7.0.4
@@ -76,7 +76,7 @@ __metadata:
     jest-file-snapshot: ^0.5.0
     jest-junit: ^16.0.0
     lodash: ^4.17.21
-    marked: ^5.0.2
+    marked: ^5.1.1
     marked-terminal: ^5.2.0
     mockdate: ^3.0.5
     normalize-path: ^3.0.0
@@ -2227,10 +2227,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/marked@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "@types/marked@npm:4.3.0"
-  checksum: 953e19c20a917f40386ea835536ca722439fbd004dfacd8db768c8151dbadc125c464b0c221a990ffea43524475864fafe1568101c4a6d05c54fbfd81029f58f
+"@types/marked@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@types/marked@npm:5.0.1"
+  checksum: 84323058e0a5127aeb67d709e1dcb0cc0024b190c337ca68813fcd1f271e7c7351ed14ea83e5e21a7a264fb87ba8767c0a98fb26d05a06181a7edd49299ef437
   languageName: node
   linkType: hard
 
@@ -2796,7 +2796,7 @@ __metadata:
     "@types/express": ^4.17.17
     "@types/jest": ^29.5.3
     "@types/lodash": ^4.14.195
-    "@types/marked": ^4.3.0
+    "@types/marked": ^5.0.1
     "@types/marked-terminal": ^3.1.3
     "@types/normalize-path": ^3.0.0
     "@types/puppeteer-core": ^7.0.4
@@ -8274,12 +8274,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^5.0.2":
-  version: 5.0.2
-  resolution: "marked@npm:5.0.2"
+"marked@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "marked@npm:5.1.1"
   bin:
     marked: bin/marked.js
-  checksum: 9d66c998a91d33c422f6242fe08c3b451e4e7863a37e990617179f96786f613e49176859dacc9557d3f6944b2afe44feaaa6a1187550a68746f070c250462213
+  checksum: e0c6d3a63d01c3b47f7758c3add02abdb3747701b6fce60c4b5602cc3b33122439c5c0a95ac1e8b5fcbb0f7d3aa7af2126aa56074c3d41e207bf9a9ed9948026
   languageName: node
   linkType: hard
 
