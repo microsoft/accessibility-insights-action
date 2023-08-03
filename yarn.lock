@@ -35,7 +35,7 @@ __metadata:
     prettier: ^3.0.1
     reflect-metadata: ^0.1.13
     rimraf: ^5.0.1
-    tfx-cli: ^0.15.0
+    tfx-cli: ^0.16.0
     ts-jest: ^29.1.1
     ts-loader: ^9.4.4
     typemoq: ^2.1.0
@@ -11433,9 +11433,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tfx-cli@npm:^0.15.0":
-  version: 0.15.0
-  resolution: "tfx-cli@npm:0.15.0"
+"tfx-cli@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "tfx-cli@npm:0.16.0"
   dependencies:
     app-root-path: 1.0.0
     archiver: 2.0.3
@@ -11460,10 +11460,10 @@ __metadata:
     uuid: ^3.0.1
     validator: ^13.7.0
     winreg: 0.0.12
-    xml2js: ^0.4.16
+    xml2js: ^0.5.0
   bin:
     tfx: _build/tfx-cli.js
-  checksum: 5e23a87c76092848b9f11152a16262cdc28e45cfe4cea9c9fde879cad74c81fdde05980d01ac5ebea35b6128c1a96ac5b8db54f51812a907a1376b8ab7f5c9e8
+  checksum: 518094518219d018783139b4b902769a6c541449387d23353134458aa0a5524bd17b3dc5414af10f4633a13f64b209f096358250d1f7d3a5a9a15d22a8bfda20
   languageName: node
   linkType: hard
 
@@ -12408,13 +12408,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xml2js@npm:^0.4.16":
-  version: 0.4.23
-  resolution: "xml2js@npm:0.4.23"
+"xml2js@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "xml2js@npm:0.5.0"
   dependencies:
     sax: ">=0.6.0"
     xmlbuilder: ~11.0.0
-  checksum: ca0cf2dfbf6deeaae878a891c8fbc0db6fd04398087084edf143cdc83d0509ad0fe199b890f62f39c4415cf60268a27a6aed0d343f0658f8779bd7add690fa98
+  checksum: 1aa71d62e5bc2d89138e3929b9ea46459157727759cbc62ef99484b778641c0cd21fb637696c052d901a22f82d092a3e740a16b4ce218e81ac59b933535124ea
   languageName: node
   linkType: hard
 
