@@ -35,7 +35,7 @@
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.61.0",
-        "@typescript-eslint/parser": "^6.1.0",
+        "@typescript-eslint/parser": "^6.2.1",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
         "eslint": "^8.46.0",
         "eslint-plugin-security": "^1.7.1",
