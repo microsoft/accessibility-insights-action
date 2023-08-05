@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -34,4 +35,27 @@ export function installRuntimeDependencies(): void {
     });
 
     console.log('##[endgroup]');
+
+    if (process.platform === 'win32') {
+        // #1575: Windows Server Core and Nano Server do not have the needed
+        // dependencies to run Chrome. Try to detect this case and warn
+        // the user.
+        const wmi = require('node-wmi');
+        wmi.Query(
+            {
+                class: 'Win32_OptionalFeature',
+                where: "name = 'Server-Media-Foundation'",
+            },
+            function (err, features) {
+                const INSTALLSTATE_INSTALLED = 1;
+                if (features)
+                    for (const feat of features) {
+                        if (feat['InstallState'] !== INSTALLSTATE_INSTALLED)
+                            console.log(
+                                `[warning]${feat['Caption']} is not installed! Verify that you are using a supported image (Server Core and Nano Server are not supported).`,
+                            );
+                    }
+            },
+        );
+    }
 }
