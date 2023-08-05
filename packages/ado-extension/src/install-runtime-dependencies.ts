@@ -34,4 +34,37 @@ export function installRuntimeDependencies(): void {
     });
 
     console.log('##[endgroup]');
+
+    if (process.platform === 'win32') {
+        // #1575: Windows Server Core and Nano Server do not have the needed
+        // dependencies to run Chrome. Try to detect this case and warn
+        // the user.
+
+        interface Feature {
+            "InstallState": number,
+            "caption": string
+        }
+
+        type WMICallback = (err: error, features: Feature[]) => void;
+
+        interface Wmic {
+            query: (string, WMICallback) => void
+        }
+
+        const WmiClient = await import('wmi-client');
+        const wmi: Wmic = new WmiClient();
+        wmi.query(
+            "SELECT Caption,InstallState FROM Win32_OptionalFeature WHERE name='ServerMediaFoundation'",
+            function (err: error, features: Feature[]) {
+                const INSTALLSTATE_INSTALLED = 1;
+                if (features)
+                    for (const feat: Feature of features) {
+                        if (feat['InstallState'] !== INSTALLSTATE_INSTALLED)
+                            console.log(
+                                `[warning]${feat['Caption']} is not installed! Verify that you are using a supported image (Server Core and Nano Server are not supported).`,
+                            );
+                    }
+            },
+        );
+    }
 }
