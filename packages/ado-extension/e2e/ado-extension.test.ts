@@ -9,7 +9,7 @@ describe('Sample task tests', () => {
     beforeEach(() => {
         inputs = {};
     });
-    /*
+
     it('returns expected scan summary and footer (ignoring user agent)', () => {
         inputs = {
             url: 'https://www.washington.edu/accesscomputing/AU/before.html',
@@ -101,7 +101,7 @@ describe('Sample task tests', () => {
         ).toBeTruthy();
         expect(testSubject.stdOutContained('URLs: 1 with failures, 1 passed, 0 not scannable')).toBeTruthy();
     });
-*/
+
     it('scans pages that are passed in as inputUrls', () => {
         inputs = {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
@@ -117,7 +117,7 @@ describe('Sample task tests', () => {
         ).toBeTruthy();
         expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
     });
-    /*
+
     it('scans folders that are passed in as inputUrls without a trailing slash', () => {
         inputs = {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
@@ -209,7 +209,7 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained('##[debug]Saved new baseline file at')).toBeTruthy();
         expect(testSubject.stdOutContained('8 failure instances')).toBeTruthy();
     });
-*/
+
     function runTestWithInputs(inputs?: { [key: string]: string }): ttm.MockTestRunner {
         const compiledSourcePath = path.join(__dirname, 'mock-test-runner.js');
         const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath, inputs);
