@@ -118,7 +118,7 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
     });
 
-    it('scans folders that are passed in as inputUrls without a trailing slash', () => {
+    it('scans folders that are passed in as inputUrls (without a trailing slash)', () => {
         inputs = {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
             staticSitePort: '39983',
@@ -134,7 +134,7 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
     });
 
-    it('scans folders that are passed in as inputUrls with a trailing slash', () => {
+    it('scans folders that are passed in as inputUrls (with a trailing slash)', () => {
         inputs = {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
             staticSitePort: '39983',
