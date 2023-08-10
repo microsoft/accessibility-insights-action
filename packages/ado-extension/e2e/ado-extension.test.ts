@@ -95,7 +95,35 @@ describe('Sample task tests', () => {
         inputs = {
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
             staticSitePort: '39983',
+            inputUrls: 'http://localhost:39983/unlinked/index.html',
+        };
+        const testSubject = runTestWithInputs(inputs);
+
+        expect(testSubject.warningIssues.length).toEqual(0);
+        expect(testSubject.errorIssues.length).toEqual(1);
+        expect(testSubject.stdOutContained('Processing page http://localhost:39983/unlinked/')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
+    });
+
+    it('scans folders that are passed in as inputUrls (without trailing slash)', () => {
+        inputs = {
+            staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
+            staticSitePort: '39983',
             inputUrls: 'http://localhost:39983/unlinked',
+        };
+        const testSubject = runTestWithInputs(inputs);
+
+        expect(testSubject.warningIssues.length).toEqual(0);
+        expect(testSubject.errorIssues.length).toEqual(1);
+        expect(testSubject.stdOutContained('Processing page http://localhost:39983/unlinked/')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
+    });
+
+    it('scans folders that are passed in as inputUrls (with trailing slash)', () => {
+        inputs = {
+            staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
+            staticSitePort: '39983',
+            inputUrls: 'http://localhost:39983/unlinked/',
         };
         const testSubject = runTestWithInputs(inputs);
 
