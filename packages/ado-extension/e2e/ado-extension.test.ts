@@ -22,7 +22,7 @@ describe('Sample task tests', () => {
             Rules: 5 with failures, 14 passed, 36 not applicable
 
             -------------------
-            This scan used axe-core 4.6.3"
+            This scan used axe-core 4.7.2"
         `);
 
         expect(
@@ -31,7 +31,7 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained("##[debug][Telemetry] tracking a 'ScanCompleted' event"));
 
         function filterStdOut(stdout: string) {
-            const logs = stdout.match(/-------------------(.|\n)*This scan used axe-core 4\.6\.3/);
+            const logs = stdout.match(/-------------------(.|\n)*This scan used axe-core 4\.7\.2/);
             return logs ? logs[0] : '';
         }
     });

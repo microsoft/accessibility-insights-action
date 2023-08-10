@@ -63,7 +63,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.3.0
     accessibility-insights-report: 4.7.0
     accessibility-insights-scan: 2.3.1
-    axe-core: 4.6.3
+    axe-core: 4.7.2
     eslint: ^8.46.0
     eslint-plugin-security: ^1.7.1
     express: ^4.18.2
