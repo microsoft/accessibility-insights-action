@@ -31,8 +31,8 @@
 * **1 × blink**:  Ensures \<blink> elements are not used
 * **1 × button-name**:  Ensures buttons have discernible text
 * **1 × bypass**:  Ensures each page has at least one mechanism for a user to bypass navigation and jump straight to the content
-* **1 × color-contrast-enhanced**:  Ensures the contrast between foreground and background colors meets WCAG 2 AAA contrast ratio thresholds
-* **1 × color-contrast**:  Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds
+* **1 × color-contrast-enhanced**:  Ensures the contrast between foreground and background colors meets WCAG 2 AAA enhanced contrast ratio thresholds
+* **1 × color-contrast**:  Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
 * **1 × css-orientation-lock**:  Ensures content is not locked to any specific display orientation, and the content is operable in all display orientations
 * **1 × definition-list**:  Ensures \<dl> elements are structured correctly
 * **1 × dlitem**:  Ensures \<dt> and \<dd> elements are contained by a \<dl>
