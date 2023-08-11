@@ -54,6 +54,22 @@ export class MockTestRunner {
         return this.stderr.indexOf(message) > 0;
     }
 
+    public stdOutContainedRegex(regex: RegExp): boolean {
+        const lines: string[] = this.splitToLines(this.stdout.toString());
+
+        for (const line of lines) {
+            if (regex.test(line)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    splitToLines(text: string): string[] {
+        return text.replace(/\r\n/g, '\n').split('\n');
+    }
+
     public run(): void {
         this.cmdlines = {};
         this.invokedToolCount = 0;
