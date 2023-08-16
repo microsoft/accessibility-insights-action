@@ -29,7 +29,7 @@
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
     "dependencies": {
         "@accessibility-insights-action/shared": "workspace:*",
-        "applicationinsights": "^2.7.0",
+        "applicationinsights": "^2.7.3",
         "azure-pipelines-task-lib": "^4.4.0",
         "reflect-metadata": "^0.1.13"
     },
