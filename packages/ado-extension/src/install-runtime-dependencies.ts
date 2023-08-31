@@ -5,7 +5,7 @@ import { execFileSync } from 'child_process';
 import { argv } from 'process';
 import { readdirSync } from 'fs';
 import { join } from 'path';
-import { WMIC } from 'wmi-client';
+import WMIC from 'wmi-client';
 
 export function installRuntimeDependencies(): void {
     console.log('##[group]Installing runtime dependencies');
@@ -34,8 +34,6 @@ export function installRuntimeDependencies(): void {
         cwd: __dirname,
     });
 
-    console.log('##[endgroup]');
-
     if (process.platform === 'win32') {
         // #1575: Windows Server Core and Nano Server do not have the needed
         // dependencies to run Chrome. Try to detect this case and warn
@@ -44,19 +42,20 @@ export function installRuntimeDependencies(): void {
             InstallState: number;
             Caption: string;
         }
-        const wmic: WMIC = new WMIC();
-        wmic.query(
-            "SELECT Caption,InstallState FROM Win32_OptionalFeature WHERE name='ServerMediaFoundation'",
-            function (err: Error, features: Feature[]) {
+        const wmi = new WMIC();
+
+        wmi.query(
+            `SELECT Caption,InstallState FROM Win32_OptionalFeature WHERE name="ServerMediaFoundation"`,
+            function (err: string, features: Feature[]) {
                 const INSTALLSTATE_INSTALLED = 1;
-                if (features)
-                    for (const feat of features) {
-                        if (feat['InstallState'] !== INSTALLSTATE_INSTALLED)
-                            console.log(
-                                `[warning]${feat['Caption']} is not installed! Verify that you are using a supported image (Server Core and Nano Server are not supported).`,
-                            );
-                    }
+                for (const feat of features) {
+                    if (feat['InstallState'] !== INSTALLSTATE_INSTALLED)
+                        console.log(
+                            `##[warning]${feat['Caption']} is not installed! Verify that you are using a supported image (Server Core and Nano Server are not supported).`,
+                        );
+                }
             },
         );
     }
+    console.log('##[endgroup]');
 }
