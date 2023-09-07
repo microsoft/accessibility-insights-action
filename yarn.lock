@@ -62,7 +62,7 @@ __metadata:
     "@types/serve-static": ^1.15.2
     "@typescript-eslint/eslint-plugin": ^6.5.0
     "@typescript-eslint/parser": ^6.6.0
-    accessibility-insights-report: 4.7.1
+    accessibility-insights-report: 4.7.2
     accessibility-insights-scan: 2.3.2
     axe-core: 4.7.2
     eslint: ^8.48.0
@@ -3350,9 +3350,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"accessibility-insights-report@npm:4.7.1":
-  version: 4.7.1
-  resolution: "accessibility-insights-report@npm:4.7.1"
+"accessibility-insights-report@npm:4.7.2":
+  version: 4.7.2
+  resolution: "accessibility-insights-report@npm:4.7.2"
   dependencies:
     "@fluentui/react": ^8.96.1
     axe-core: 4.7.2
@@ -3363,7 +3363,7 @@ __metadata:
     react-dom: ^16.14.0
     react-helmet: ^6.1.0
     uuid: ^9.0.0
-  checksum: 43202e7f837f65d781ab6068c00badb279a9638dea566a00ac439f869aeb1e5b0ff0e8e111e228826e923e29d33828732da87bbb46b6d9ba76aa9e28659e6152
+  checksum: 2920ac176f214736d5a20da94d1e60596254d560fdeb14894ee16c13c72bc03ffc057bb474c5664e13e23a6e97dbffae4f0167fcc2ef0ce77f35eabdf9255673
   languageName: node
   linkType: hard
 
