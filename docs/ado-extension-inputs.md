@@ -44,9 +44,9 @@ or
 
 -   `scanTimeout` (int). Default: `90000`. The maximum timeout in milliseconds for the scan (excluding dependency setup).
 
--   `failOnAccessibilityError` (boolean). Default: `true`. Fail the task if there are accessibility issues. See [Intentional failures](#intentional-failures) for more information.
+-   `failOnAccessibilityError` (boolean). Default: `true`. Fail the task if there are any accessibility issues. See [Intentional failures](#intentional-failures) for more information.
 
--   `baselineFile` (string). The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled. See [Intentional failures](#intentional-failures) for more information.
+-   `baselineFile` (string). The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled. If you specify the `baselineFile` option, you will generally want to set the `failOnAccessibilityError` option to false. See [Intentional failures](#intentional-failures) for more information.
 
 -   `singleWorker` (boolean). Default: `true`. To get deterministic scanning results when this value is set to `false`, make sure the value for `maxUrls` is larger than the total number of URLs in the website being scanned.
 
