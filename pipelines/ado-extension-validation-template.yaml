@@ -24,14 +24,7 @@ steps:
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
       displayName: 'Start /dev/website-root test server at http://localhost:5858'
 
-    - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 1: staticSiteDir, no baseline'
-      inputs:
-          staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-          # intentionally omits artifactName; should go to default accessibility-reports
-      condition: succeededOrFailed()
-      continueOnError: true
-
+    # Please keep all "should succeed" cases together as a block before and "should fail" cases
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should succeed] case 2: staticSiteDir, no baseline, failOnAccessibilityError:false'
       inputs:
@@ -41,20 +34,40 @@ steps:
       condition: succeededOrFailed()
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 3: url, no baseline'
-      inputs:
-          url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-3'
-      condition: succeededOrFailed()
-      continueOnError: true
-
-    - task: ${{ parameters.taskUnderTest }}
       displayName: '[should succeed] case 4: up-to-date baseline'
       inputs:
           url: 'http://localhost:5858'
           outputArtifactName: 'accessibility-reports-case-4'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
       condition: succeededOrFailed()
+
+    - task: ${{ parameters.taskUnderTest }}
+      displayName: '[should succeed] case 12: url, azure portal auth test'
+      inputs:
+          url: 'https://portal.azure.com'
+          serviceAccountName: $(a11yinsscan-service-acct-username)
+          serviceAccountPassword: $(a11yinsscan-service-acct-password)
+          authType: 'AAD'
+          outputArtifactName: 'accessibility-reports-case-12'
+      condition: succeededOrFailed()
+      continueOnError: true
+
+    # Please keep all "should fail" cases together as a block after all "should succeed" cases
+    - task: ${{ parameters.taskUnderTest }}
+      displayName: '[should fail] case 1: staticSiteDir, no baseline'
+      inputs:
+          staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+          # intentionally omits artifactName; should go to default accessibility-reports
+      condition: succeededOrFailed()
+      continueOnError: true
+
+    - task: ${{ parameters.taskUnderTest }}
+      displayName: '[should fail] case 3: url, no baseline'
+      inputs:
+          url: 'http://localhost:5858'
+          outputArtifactName: 'accessibility-reports-case-3'
+      condition: succeededOrFailed()
+      continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should fail] case 5: baseline missing failures'
@@ -119,16 +132,5 @@ steps:
           repoServiceConnectionName: 'this isnt used anymore'
           # siteDir instead of staticSiteDir
           siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-      condition: succeededOrFailed()
-      continueOnError: true
-
-    - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should succeed] case 12: url, azure portal auth test'
-      inputs:
-          url: 'https://portal.azure.com'
-          serviceAccountName: $(a11yinsscan-service-acct-username)
-          serviceAccountPassword: $(a11yinsscan-service-acct-password)
-          authType: 'AAD'
-          outputArtifactName: 'accessibility-reports-case-12'
       condition: succeededOrFailed()
       continueOnError: true
