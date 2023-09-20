@@ -123,7 +123,7 @@ steps:
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: 'case 12: url, azure portal auth test'
+      displayName: '[should succeed] case 12: url, azure portal auth test'
       inputs:
           url: 'https://portal.azure.com'
           serviceAccountName: $(a11yinsscan-service-acct-username)
