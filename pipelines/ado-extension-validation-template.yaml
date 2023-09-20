@@ -54,7 +54,7 @@ steps:
 
     # Please keep all "should fail" cases together as a block after all "should succeed" cases
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 1: staticSiteDir, no baseline'
+      displayName: '[should fail] case fail-1: staticSiteDir, no baseline'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           # intentionally omits artifactName; should go to default accessibility-reports
@@ -62,72 +62,72 @@ steps:
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 3: url, no baseline'
+      displayName: '[should fail] case fail-2: url, no baseline'
       inputs:
           url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-3'
+          outputArtifactName: 'accessibility-reports-case-fail-2'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 5: baseline missing failures'
+      displayName: '[should fail] case fail-3: baseline missing failures'
       inputs:
           url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-5'
+          outputArtifactName: 'accessibility-reports-case-fail-3'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/missing-failures-5858.baseline'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 6: baseline with resolved failures'
+      displayName: '[should fail] case fail-4 baseline with resolved failures'
       inputs:
           url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-6'
+          outputArtifactName: 'accessibility-reports-case-fail-4'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/with-resolved-failures-5858.baseline'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 7: new baseline file'
+      displayName: '[should fail] case fail-5: new baseline file'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-          outputArtifactName: 'accessibility-reports-case-7'
+          outputArtifactName: 'accessibility-reports-case-fail-5'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 8: url, custom artifact upload step'
+      displayName: '[should fail] case fail-6: url, custom artifact upload step'
       inputs:
           url: 'http://localhost:5858'
           uploadOutputArtifact: false
-          outputDir: '_accessibility-reports-case-8'
+          outputDir: '_accessibility-reports-case-fail-6'
       condition: succeededOrFailed()
       continueOnError: true
 
-    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-8'
-      displayName: 'custom report artifact upload for case 8'
-      artifact: 'accessibility-reports-case-8'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
+      displayName: 'custom report artifact upload for case fail-6'
+      artifact: 'accessibility-reports-case-fail-6'
       condition: succeededOrFailed()
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 9: invalid inputs (no site specified)'
+      displayName: '[should fail] case fail-7: invalid inputs (no site specified)'
       inputs:
-          outputArtifactName: 'accessibility-reports-case-9'
+          outputArtifactName: 'accessibility-reports-case-fail-7'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 10: invalid inputs (both url and staticSiteDir specified)'
+      displayName: '[should fail] case fail-8: invalid inputs (both url and staticSiteDir specified)'
       inputs:
           url: 'http://localhost:5858'
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-          outputArtifactName: 'accessibility-reports-case-10'
+          outputArtifactName: 'accessibility-reports-case-fail-8'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 11: v1 inputs specified'
+      displayName: '[should fail] case fail-9: v1 inputs specified'
       inputs:
           repoServiceConnectionName: 'this isnt used anymore'
           # siteDir instead of staticSiteDir
