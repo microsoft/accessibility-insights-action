@@ -26,29 +26,29 @@ steps:
 
     # Please keep all "should succeed" cases together as a block before and "should fail" cases
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should succeed] case 2: staticSiteDir, no baseline, failOnAccessibilityError:false'
+      displayName: '[should succeed] case succeed-1: staticSiteDir, no baseline, failOnAccessibilityError:false'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           failOnAccessibilityError: false
-          outputArtifactName: accessibility-reports-case-2
+          outputArtifactName: accessibility-reports-case-succeed-1
       condition: succeededOrFailed()
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should succeed] case 4: up-to-date baseline'
+      displayName: '[should succeed] case succeed-2: up-to-date baseline'
       inputs:
           url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-4'
+          outputArtifactName: 'accessibility-reports-case-succeed-2'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
       condition: succeededOrFailed()
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should succeed] case 12: url, azure portal auth test'
+      displayName: '[should succeed] case succeed-3: url, azure portal auth test'
       inputs:
           url: 'https://portal.azure.com'
           serviceAccountName: $(a11yinsscan-service-acct-username)
           serviceAccountPassword: $(a11yinsscan-service-acct-password)
           authType: 'AAD'
-          outputArtifactName: 'accessibility-reports-case-12'
+          outputArtifactName: 'accessibility-reports-case-succeed-3'
       condition: succeededOrFailed()
       continueOnError: true
 
