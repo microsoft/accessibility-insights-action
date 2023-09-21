@@ -108,11 +108,6 @@ steps:
       condition: succeededOrFailed()
       continueOnError: true
 
-    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
-      displayName: 'custom report artifact upload for case fail-6'
-      artifact: 'accessibility-reports-case-fail-6'
-      condition: succeededOrFailed()
-
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should fail] case fail-7: invalid inputs (no site specified)'
       inputs:
@@ -137,3 +132,8 @@ steps:
           siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
       condition: succeededOrFailed()
       continueOnError: true
+
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
+      displayName: 'custom report artifact upload for case fail-6'
+      artifact: 'accessibility-reports-case-fail-6'
+      condition: succeededOrFailed()
