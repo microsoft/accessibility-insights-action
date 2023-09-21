@@ -24,14 +24,14 @@ steps:
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
       displayName: 'Start /dev/website-root test server at http://localhost:5858'
 
-    # Please keep all "should succeed" cases together as a block before and "should fail" cases
+    # Please keep all "should succeed" cases together as a block before and "should fail" cases.
+    # Do not specify a condition so that the pipeline will fail if any of these fail.
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should succeed] case succeed-1: staticSiteDir, no baseline, failOnAccessibilityError:false'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           failOnAccessibilityError: false
           outputArtifactName: accessibility-reports-case-succeed-1
-      condition: succeededOrFailed()
 
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should succeed] case succeed-2: up-to-date baseline'
@@ -39,8 +39,8 @@ steps:
           url: 'http://localhost:5858'
           outputArtifactName: 'accessibility-reports-case-succeed-2'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
-      condition: succeededOrFailed()
 
+    # The continueOnError for this case reflects a known issue with the task that will be fixed in a future release
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should succeed] case succeed-3: url, azure portal auth test'
       inputs:
@@ -49,10 +49,13 @@ steps:
           serviceAccountPassword: $(a11yinsscan-service-acct-password)
           authType: 'AAD'
           outputArtifactName: 'accessibility-reports-case-succeed-3'
-      condition: succeededOrFailed()
       continueOnError: true
 
     # Please keep all "should fail" cases together as a block after all "should succeed" cases
+    # Each case will need to have continueOnError: true. Each case but the first will also need
+    # a condition: succeededOrFailed() so that the pipeline will run correctly.
+    # Note that the first case _temporarily_ has a condition: succeededOrFailed(). This will
+    # be removed once we fix the issue that is causing the succeed-3 case to fail.
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should fail] case fail-1: staticSiteDir, no baseline'
       inputs:
