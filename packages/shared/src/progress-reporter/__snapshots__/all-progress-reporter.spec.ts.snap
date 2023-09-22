@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AllProgressReporter start should rethrow an AggregateError if multiple reporters throw 1`] = `
+"Multiple progress reporters encountered Errors
+    error from failingReporter
+    error from failingReporter"
+`;

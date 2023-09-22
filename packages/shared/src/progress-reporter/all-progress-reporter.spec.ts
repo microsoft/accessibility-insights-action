@@ -67,11 +67,7 @@ describe(AllProgressReporter, () => {
         it('should rethrow an AggregateError if multiple reporters throw', async () => {
             const testSubject = new AllProgressReporter([failingReporter, failingReporter]);
 
-            await expect(testSubject.start()).rejects.toThrowErrorMatchingInlineSnapshot(`
-                        "Multiple progress reporters encountered Errors
-                            error from failingReporter
-                            error from failingReporter"
-                    `);
+            await expect(testSubject.start()).rejects.toThrowErrorMatchingSnapshot();
         });
     });
 
