@@ -41,11 +41,7 @@ describe(AggregateError, () => {
     });
 
     it('uses the pinned message format', () => {
-        expect(testSubject.message).toMatchInlineSnapshot(`
-            "Multiple errors occurred
-                first error
-                second error"
-        `);
+        expect(testSubject.message).toMatchSnapshot();
     });
 
     it('uses the pinned stack format', () => {
@@ -54,14 +50,7 @@ describe(AggregateError, () => {
             .replace(/^(    at) .*\n/gm, '') // This removes all stack lines except the last one (which won't have the \n)
             .replace(/^(    at) .*$/gm, '$1 <normalized location>'); // This normalizes the path/location in the last stack line
 
-        expect(stackWithLocationsCollapsed).toMatchInlineSnapshot(`
-            "AggregateError: Multiple errors occurred
-                Error: first error
-                    at <normalized first location>
-                Error: second error
-                    at <normalized second location>
-                at <normalized location>"
-        `);
+        expect(stackWithLocationsCollapsed).toMatchSnapshot();
     });
 
     it('uses the name "AggregateError"', () => {

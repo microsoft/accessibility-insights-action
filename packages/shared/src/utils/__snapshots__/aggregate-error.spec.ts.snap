@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AggregateError uses the pinned message format 1`] = `
+"Multiple errors occurred
+    first error
+    second error"
+`;
+
+exports[`AggregateError uses the pinned stack format 1`] = `
+"AggregateError: Multiple errors occurred
+    Error: first error
+        at <normalized first location>
+    Error: second error
+        at <normalized second location>
+    at <normalized location>"
+`;

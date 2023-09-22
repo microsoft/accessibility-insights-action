@@ -67,11 +67,7 @@ describe(AllProgressReporter, () => {
         it('should rethrow an AggregateError if multiple reporters throw', async () => {
             const testSubject = new AllProgressReporter([failingReporter, failingReporter]);
 
-            await expect(testSubject.start()).rejects.toThrowErrorMatchingInlineSnapshot(`
-                        "Multiple progress reporters encountered Errors
-                            error from failingReporter
-                            error from failingReporter"
-                    `);
+            await expect(testSubject.start()).rejects.toThrowErrorMatchingSnapshot();
         });
     });
 
@@ -116,11 +112,7 @@ describe(AllProgressReporter, () => {
         it('should rethrow an AggregateError if multiple reporters throw', async () => {
             testSubject = new AllProgressReporter([failingReporter, failingReporter]);
 
-            await expect(testSubject.completeRun(axeResultsStub)).rejects.toThrowErrorMatchingInlineSnapshot(`
-                        "Multiple progress reporters encountered Errors
-                            error from failingReporter
-                            error from failingReporter"
-                    `);
+            await expect(testSubject.completeRun(axeResultsStub)).rejects.toThrowErrorMatchingSnapshot();
         });
     });
 
@@ -154,11 +146,7 @@ describe(AllProgressReporter, () => {
             testSubject = new AllProgressReporter([failingReporter, failingReporter]);
 
             // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
-            await expect(testSubject.failRun()).rejects.toThrowErrorMatchingInlineSnapshot(`
-                    "Multiple progress reporters encountered Errors
-                        error from failingReporter
-                        error from failingReporter"
-                `);
+            await expect(testSubject.failRun()).rejects.toThrowErrorMatchingSnapshot();
         });
     });
 
@@ -192,11 +180,7 @@ describe(AllProgressReporter, () => {
             testSubject = new AllProgressReporter([failingReporter, failingReporter]);
 
             // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
-            await expect(testSubject.didScanSucceed()).rejects.toThrowErrorMatchingInlineSnapshot(`
-                    "Multiple progress reporters encountered Errors
-                        error from failingReporter
-                        error from failingReporter"
-                `);
+            await expect(testSubject.didScanSucceed()).rejects.toThrowErrorMatchingSnapshot();
         });
 
         it('should return true if all reporters return true', async () => {
