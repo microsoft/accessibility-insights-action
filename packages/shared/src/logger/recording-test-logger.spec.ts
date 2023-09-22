@@ -19,28 +19,6 @@ describe(RecordingTestLogger, () => {
         testSubject.logStartGroup('message 9 (start group)');
         testSubject.logEndGroup();
 
-        expect(testSubject.recordedLogs()).toMatchInlineSnapshot(`
-            [
-              "[info] message 1 (info)",
-              "[debug] message 2 (debug)",
-              "[info] message 3 (info)",
-              {
-                "message": "[info] message 4 (info w/props)",
-                "properties": {
-                  "key": "val",
-                },
-              },
-              {
-                "exception": [Error: message 5 (exception)],
-              },
-              {
-                "exception": [ErrorWithCause: message 6 (exceptionAny)],
-              },
-              "[warning] message 7 (warning)",
-              "[error] message 8 (error)",
-              "[group] message 9 (start group)",
-              "[endgroup] ",
-            ]
-        `);
+        expect(testSubject.recordedLogs()).toMatchSnapshot();
     });
 });
