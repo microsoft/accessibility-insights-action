@@ -41,11 +41,7 @@ describe(AggregateError, () => {
     });
 
     it('uses the pinned message format', () => {
-        expect(testSubject.message).toMatchInlineSnapshot(`
-            "Multiple errors occurred
-                first error
-                second error"
-        `);
+        expect(testSubject.message).toMatchSnapshot();
     });
 
     it('uses the pinned stack format', () => {
