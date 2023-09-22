@@ -24,8 +24,40 @@ steps:
     - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
       displayName: 'Start /dev/website-root test server at http://localhost:5858'
 
+    # Please keep all "should succeed" cases together as a block before and "should fail" cases.
+    # Do not specify a condition so that the pipeline will fail if any of these fail.
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 1: staticSiteDir, no baseline'
+      displayName: '[should succeed] case succeed-1: staticSiteDir, no baseline, failOnAccessibilityError:false'
+      inputs:
+          staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+          failOnAccessibilityError: false
+          outputArtifactName: accessibility-reports-case-succeed-1
+
+    - task: ${{ parameters.taskUnderTest }}
+      displayName: '[should succeed] case succeed-2: up-to-date baseline'
+      inputs:
+          url: 'http://localhost:5858'
+          outputArtifactName: 'accessibility-reports-case-succeed-2'
+          baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
+
+    # The continueOnError for this case reflects a known issue with the task that will be fixed in a future release
+    - task: ${{ parameters.taskUnderTest }}
+      displayName: '[should succeed] case succeed-3: url, azure portal auth test'
+      inputs:
+          url: 'https://portal.azure.com'
+          serviceAccountName: $(a11yinsscan-service-acct-username)
+          serviceAccountPassword: $(a11yinsscan-service-acct-password)
+          authType: 'AAD'
+          outputArtifactName: 'accessibility-reports-case-succeed-3'
+      continueOnError: true
+
+    # Please keep all "should fail" cases together as a block after all "should succeed" cases
+    # Each case will need to have continueOnError: true. Each case but the first will also need
+    # a condition: succeededOrFailed() so that the pipeline will run correctly.
+    # Note that the first case _temporarily_ has a condition: succeededOrFailed(). This will
+    # be removed once we fix the issue that is causing the succeed-3 case to fail.
+    - task: ${{ parameters.taskUnderTest }}
+      displayName: '[should fail] case fail-1: staticSiteDir, no baseline'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           # intentionally omits artifactName; should go to default accessibility-reports
@@ -33,88 +65,67 @@ steps:
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should succeed] case 2: staticSiteDir, no baseline, failOnAccessibilityError:false'
-      inputs:
-          staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-          failOnAccessibilityError: false
-          outputArtifactName: accessibility-reports-case-2
-      condition: succeededOrFailed()
-
-    - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 3: url, no baseline'
+      displayName: '[should fail] case fail-2: url, no baseline'
       inputs:
           url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-3'
+          outputArtifactName: 'accessibility-reports-case-fail-2'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should succeed] case 4: up-to-date baseline'
+      displayName: '[should fail] case fail-3: baseline missing failures'
       inputs:
           url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-4'
-          baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
-      condition: succeededOrFailed()
-
-    - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 5: baseline missing failures'
-      inputs:
-          url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-5'
+          outputArtifactName: 'accessibility-reports-case-fail-3'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/missing-failures-5858.baseline'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 6: baseline with resolved failures'
+      displayName: '[should fail] case fail-4 baseline with resolved failures'
       inputs:
           url: 'http://localhost:5858'
-          outputArtifactName: 'accessibility-reports-case-6'
+          outputArtifactName: 'accessibility-reports-case-fail-4'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/with-resolved-failures-5858.baseline'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 7: new baseline file'
+      displayName: '[should fail] case fail-5: new baseline file'
       inputs:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-          outputArtifactName: 'accessibility-reports-case-7'
+          outputArtifactName: 'accessibility-reports-case-fail-5'
           baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 8: url, custom artifact upload step'
+      displayName: '[should fail] case fail-6: url, custom artifact upload step'
       inputs:
           url: 'http://localhost:5858'
           uploadOutputArtifact: false
-          outputDir: '_accessibility-reports-case-8'
+          outputDir: '_accessibility-reports-case-fail-6'
       condition: succeededOrFailed()
       continueOnError: true
 
-    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-8'
-      displayName: 'custom report artifact upload for case 8'
-      artifact: 'accessibility-reports-case-8'
-      condition: succeededOrFailed()
-
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 9: invalid inputs (no site specified)'
+      displayName: '[should fail] case fail-7: invalid inputs (no site specified)'
       inputs:
-          outputArtifactName: 'accessibility-reports-case-9'
+          outputArtifactName: 'accessibility-reports-case-fail-7'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 10: invalid inputs (both url and staticSiteDir specified)'
+      displayName: '[should fail] case fail-8: invalid inputs (both url and staticSiteDir specified)'
       inputs:
           url: 'http://localhost:5858'
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-          outputArtifactName: 'accessibility-reports-case-10'
+          outputArtifactName: 'accessibility-reports-case-fail-8'
       condition: succeededOrFailed()
       continueOnError: true
 
     - task: ${{ parameters.taskUnderTest }}
-      displayName: '[should fail] case 11: v1 inputs specified'
+      displayName: '[should fail] case fail-9: v1 inputs specified'
       inputs:
           repoServiceConnectionName: 'this isnt used anymore'
           # siteDir instead of staticSiteDir
@@ -122,13 +133,7 @@ steps:
       condition: succeededOrFailed()
       continueOnError: true
 
-    - task: ${{ parameters.taskUnderTest }}
-      displayName: 'case 12: url, azure portal auth test'
-      inputs:
-          url: 'https://portal.azure.com'
-          serviceAccountName: $(a11yinsscan-service-acct-username)
-          serviceAccountPassword: $(a11yinsscan-service-acct-password)
-          authType: 'AAD'
-          outputArtifactName: 'accessibility-reports-case-12'
+    - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
+      displayName: 'custom report artifact upload for case fail-6'
+      artifact: 'accessibility-reports-case-fail-6'
       condition: succeededOrFailed()
-      continueOnError: true
