@@ -6,6 +6,12 @@ exports[`AllProgressReporter complete should rethrow an AggregateError if multip
     error from failingReporter"
 `;
 
+exports[`AllProgressReporter didScanSucceed should rethrow an AggregateError if multiple reporters throw 1`] = `
+"Multiple progress reporters encountered Errors
+    error from failingReporter
+    error from failingReporter"
+`;
+
 exports[`AllProgressReporter failRun should rethrow an AggregateError if multiple reporters throw 1`] = `
 "Multiple progress reporters encountered Errors
     error from failingReporter
