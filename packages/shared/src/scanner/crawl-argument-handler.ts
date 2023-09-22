@@ -37,6 +37,8 @@ export class CrawlArgumentHandler {
         const inputFile = this.taskConfig.getInputFile() || undefined;
         const inputUrlsArg = this.taskConfig.getInputUrls() || undefined;
         const discoveryPatternsArg = this.taskConfig.getDiscoveryPatterns() || undefined;
+        const authType = this.taskConfig.getAuthType() || undefined;
+        const browserOptions = authType !== undefined ? ['disable-web-security'] : undefined;
 
         const args = {
             inputFile,
@@ -54,8 +56,9 @@ export class CrawlArgumentHandler {
             baselineFile: this.taskConfig.getBaselineFile() || null,
             serviceAccountName: this.taskConfig.getServiceAccountName() || undefined,
             serviceAccountPassword: this.taskConfig.getServiceAccountPassword() || undefined,
-            authType: this.taskConfig.getAuthType() || undefined,
+            authType,
             snapshot: this.taskConfig.getSnapshot() || undefined,
+            browserOptions,
         };
 
         return args;
