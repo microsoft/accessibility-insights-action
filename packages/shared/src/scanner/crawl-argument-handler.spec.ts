@@ -55,6 +55,7 @@ describe(CrawlArgumentHandler, () => {
             serviceAccountPassword: undefined,
             authType: undefined,
             snapshot: undefined,
+            browserOptions: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -86,6 +87,7 @@ describe(CrawlArgumentHandler, () => {
             serviceAccountPassword: undefined,
             authType: undefined,
             snapshot: undefined,
+            browserOptions: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -115,6 +117,7 @@ describe(CrawlArgumentHandler, () => {
             serviceAccountPassword: undefined,
             authType: undefined,
             snapshot: undefined,
+            browserOptions: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
@@ -142,6 +145,7 @@ describe(CrawlArgumentHandler, () => {
             serviceAccountPassword: undefined,
             authType: undefined,
             snapshot: undefined,
+            browserOptions: undefined,
         };
 
         validateMock.setup((m) => m(expectedArgs));
