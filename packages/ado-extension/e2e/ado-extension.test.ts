@@ -15,15 +15,7 @@ describe('Sample task tests', () => {
             url: 'https://www.washington.edu/accesscomputing/AU/before.html',
         };
         const testSubject = runTestWithInputs(inputs);
-        expect(filterStdOut(testSubject.stdout)).toMatchInlineSnapshot(`
-            "-------------------
-            Scan summary
-            URLs: 1 with failures, 0 passed, 0 not scannable
-            Rules: 5 with failures, 14 passed, 36 not applicable
-
-            -------------------
-            This scan used axe-core 4.7.2"
-        `);
+        expect(filterStdOut(testSubject.stdout)).toMatchSnapshot();
 
         expect(
             testSubject.stdOutContainedRegex(new RegExp('This scan used axe-core 4.* with a display resolution of 1920x1080.$')),
