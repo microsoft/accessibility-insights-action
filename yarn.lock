@@ -2732,11 +2732,11 @@ __metadata:
   linkType: hard
 
 "@types/react-dom@npm:^16.9":
-  version: 16.9.19
-  resolution: "@types/react-dom@npm:16.9.19"
+  version: 16.9.20
+  resolution: "@types/react-dom@npm:16.9.20"
   dependencies:
     "@types/react": ^16
-  checksum: c696f137aba09be0ea87ad6e99a083607b4fc574857d92c264cc6518ee929ef7e94855362436c2ef5fefb70ebfc9b7413634bb3a2f3a8c2b7522521faaac7d62
+  checksum: 5ec29cf34842c40fc65d7d98aa17d903a861897716bb5843301ee2bed87aa16b4a0261c25036e825d33bc097d79edd612ceb4a3432de21b646de6373a9c9340f
   languageName: node
   linkType: hard
 
