@@ -54,7 +54,7 @@ __metadata:
     "@types/jest": ^29.5.5
     "@types/lodash": ^4.14.199
     "@types/marked": ^5.0.2
-    "@types/marked-terminal": ^3.1.4
+    "@types/marked-terminal": ^3.1.5
     "@types/normalize-path": ^3.0.0
     "@types/puppeteer-core": ^7.0.4
     "@types/react": ^16.14
@@ -2628,20 +2628,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/marked-terminal@npm:^3.1.4":
-  version: 3.1.4
-  resolution: "@types/marked-terminal@npm:3.1.4"
+"@types/marked-terminal@npm:^3.1.5":
+  version: 3.1.5
+  resolution: "@types/marked-terminal@npm:3.1.5"
   dependencies:
-    "@types/marked": ^3
     chalk: ^2.4.1
-  checksum: 29b91d7e2873fa00f5253398f83cf697085f94f0c5c31d8f00f16bf306e3f4eab55d25176f231bf08dc6740deb559ac0914a9a3479abc49c475855ed64f5a3a4
-  languageName: node
-  linkType: hard
-
-"@types/marked@npm:^3":
-  version: 3.0.3
-  resolution: "@types/marked@npm:3.0.3"
-  checksum: 42d859c2e4b38d738dd09a3d90b695e1188f975c82e40d122cf5f40bf2f52b0f9c5815b217eeb01a5a5549c6cf3a5f2b291478a505d4832f813af22e3040ff00
+    marked: ^6.0.0
+  checksum: 2a21a5506f336d05423c266fe95fab6fe871b0af4af02d5eeffd46d7aeb43a7cb260dd466aadf5b48ff6e59c5ac09a5cecb86b5e8fb69d801877a422712d05af
   languageName: node
   linkType: hard
 
@@ -3216,7 +3209,7 @@ __metadata:
     "@types/jest": ^29.5.5
     "@types/lodash": ^4.14.199
     "@types/marked": ^5.0.2
-    "@types/marked-terminal": ^3.1.4
+    "@types/marked-terminal": ^3.1.5
     "@types/normalize-path": ^3.0.0
     "@types/puppeteer-core": ^7.0.4
     "@types/serve-static": ^1.15.3
@@ -8457,6 +8450,15 @@ __metadata:
   peerDependencies:
     marked: ">=1 <10"
   checksum: 82a73f787bb69410860b8e8a62975be49a6b3ad8e82a3f9015e4ee6b68c3494e90320323c45342433d8970b381e934aa1aea7d1c923142a7e21d084f4b5fa199
+  languageName: node
+  linkType: hard
+
+"marked@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "marked@npm:6.0.0"
+  bin:
+    marked: bin/marked.js
+  checksum: 1b02d4254d8aeec4d54799d2191821fd86da8c743361065b523617d1c226ba14ebd8677dc7bef7fa183a4253217c53d0d56e82d378a78b5a1ebaf8409e90136e
   languageName: node
   linkType: hard
 
