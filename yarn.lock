@@ -42,7 +42,6 @@ __metadata:
     typescript: ^5.2.2
     webpack: ^5.88.2
     webpack-cli: ^5.1.4
-    wmi-client: ^0.5.0
   languageName: unknown
   linkType: soft
 
@@ -12149,13 +12148,6 @@ __metadata:
     isstream: 0.1.x
     stack-trace: 0.0.x
   checksum: aba54cae4c97df6f01c6ad98b5ecbf79eaa79326b5f99c379063e91a9bd6dd961b2958768d850546b7a54ef159ecc67bcaf08a6fec4029592be7436d955460f0
-  languageName: node
-  linkType: hard
-
-"wmi-client@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "wmi-client@npm:0.5.0"
-  checksum: 98b09856bc8948e913ece80be86bf70035cb39b7dff5a110b37eba3ebf029805839528e0013d14ad2424ab6a4af8a73d99ec09410323d8b1dd24c7eb460050d6
   languageName: node
   linkType: hard
 
