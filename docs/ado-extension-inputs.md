@@ -44,9 +44,9 @@ or
 
 -   `scanTimeout` (int). Default: `90000`. The maximum timeout in milliseconds for the scan (excluding dependency setup).
 
--   `failOnAccessibilityError` (boolean). Default: `true`. Fail the task if there are any accessibility issues. See [Intentional failures](#intentional-failures) for more information.
+-   `failOnAccessibilityError` (boolean). Default: `true`. Fail the task if _any_ accessibility issues are detected, even if they are also present in the baseline file.
 
--   `baselineFile` (string). The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled. If you specify the `baselineFile` option, you will generally want to set the `failOnAccessibilityError` option to false. See [Intentional failures](#intentional-failures) for more information.
+-   `baselineFile` (string). The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled. If a baseline is used, the task will fail if _any_ changes are detected between the baselined results and the current results. This behavior is independent of the value of `failOnAccessibilityError`
 
 -   `singleWorker` (boolean). Default: `true`. To get deterministic scanning results when this value is set to `false`, make sure the value for `maxUrls` is larger than the total number of URLs in the website being scanned.
 
@@ -59,12 +59,3 @@ or
 -   `snapshot` (boolean). Save snapshots of scanned pages as artifacts. These snapshots will show you exactly what the scanner sees when scanning the page. This requires `uploadOutputArtifact` to not be set to `false`.
 
 -   `chromePath` (string). Path to Chrome executable. By default, the task downloads a version of Chrome that is tested to work with this task.
-
-## Intentional failures
-
-The ADO extension reports an intentional failure if _either_ of the following cases are true:
-
--   The `failOnAccessibilityError` option is `true` and any accessibility errors are found.
--   The `baselineFile` option is specified and any changes are detected between the currently reported set of errors and the set of errors previously captured in `baselineFile`.
-
-Note that these two failure modes and their associated options operate _independently_ of each other. Where feasible, the `baselineFile` option is usually the more powerful option, as it can enable both the _get clean_ and _stay clean_ scenarios. The `failOnAccessibilityError` option can realistically enable only the _stay clean_ scenario.

@@ -141,14 +141,14 @@
             "label": "Fail on accessibility error",
             "defaultValue": true,
             "required": false,
-            "helpMarkDown": "Fail the task if there are accessibility issues."
+            "helpMarkDown": "Fail the task if _any_ accessibility issues are detected, even if they are also present in the baseline file."
         },
         {
             "name": "baselineFile",
             "type": "string",
             "label": "Baseline file path",
             "required": false,
-            "helpMarkDown": "The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled."
+            "helpMarkDown": "The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled. If a baseline is used, the task will fail if _any_ changes are detected between the baselined results and the current results. This behavior is independent of the value of `failOnAccessibilityError`"
         },
         {
             "name": "singleWorker",
