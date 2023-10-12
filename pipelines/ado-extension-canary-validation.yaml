@@ -18,4 +18,4 @@ pool: a11y-ado-auth
 extends:
     template: ado-extension-validation-template.yaml
     parameters:
-        taskUnderTest: accessibility-insights.canary.task.accessibility-insights@1
+        taskUnderTest: accessibility-insights.canary.task.accessibility-insights@3

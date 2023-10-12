@@ -32,6 +32,7 @@ steps:
           staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
           failOnAccessibilityError: false
           outputArtifactName: accessibility-reports-case-succeed-1
+          scanTimeout: 180000
 
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should succeed] case succeed-2: up-to-date baseline'
