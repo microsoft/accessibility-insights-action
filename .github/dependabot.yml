@@ -15,7 +15,7 @@ updates:
     prefix: chore
     include: scope
   versioning-strategy: increase
-  open-pull-requests-limit: 20  # Default value of 5 has been problematic
+  open-pull-requests-limit: 10  # Default value of 5 has been problematic
   ignore:
     # axe-core updates require extra validation and synchronization with
     # accessibility-insights-web; we handle them as features, not auto-updates.
