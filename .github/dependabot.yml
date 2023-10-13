@@ -36,6 +36,10 @@ updates:
   - dependency-name: "@types/react-dom"
     versions:
     - ">= 17"
+    # applicationinsights needs to be reworked to fix an initialization problem
+  - dependency-name: "applicationinsights"
+    versions:
+    - ">= 2.7.3"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:

@@ -19,7 +19,7 @@ __metadata:
     "@accessibility-insights-action/shared": "workspace:*"
     "@typescript-eslint/eslint-plugin": ^6.7.5
     "@typescript-eslint/parser": ^6.7.5
-    applicationinsights: ^2.9.0
+    applicationinsights: 2.7.3
     azure-pipelines-task-lib: ^4.6.0
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.51.0
@@ -3522,6 +3522,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"applicationinsights@npm:2.7.3":
+  version: 2.7.3
+  resolution: "applicationinsights@npm:2.7.3"
+  dependencies:
+    "@azure/core-auth": ^1.5.0
+    "@azure/core-rest-pipeline": 1.10.1
+    "@azure/core-util": 1.2.0
+    "@azure/opentelemetry-instrumentation-azure-sdk": ^1.0.0-beta.5
+    "@microsoft/applicationinsights-web-snippet": ^1.0.1
+    "@opentelemetry/api": ^1.4.1
+    "@opentelemetry/core": ^1.15.2
+    "@opentelemetry/sdk-trace-base": ^1.15.2
+    "@opentelemetry/semantic-conventions": ^1.15.2
+    cls-hooked: ^4.2.2
+    continuation-local-storage: ^3.2.1
+    diagnostic-channel: 1.1.1
+    diagnostic-channel-publishers: 1.0.7
+  peerDependencies:
+    applicationinsights-native-metrics: "*"
+  peerDependenciesMeta:
+    applicationinsights-native-metrics:
+      optional: true
+  checksum: 3f5ebc1063b4ca9e69841736f1b31186b2655202d64dcb082d20cebed56e7bf758faeee9bc52e9e01d9e6eaf6cf1de84b8ecd2ee500388bfdcc5792a58bc10e4
+  languageName: node
+  linkType: hard
+
 "applicationinsights@npm:^2.3.1":
   version: 2.4.2
   resolution: "applicationinsights@npm:2.4.2"
@@ -3543,32 +3569,6 @@ __metadata:
     applicationinsights-native-metrics:
       optional: true
   checksum: a202a6485cb6819269177eeed3fd16d32d1fc0618275305b48f4141c81e274f352a11f9372ba6ad25d4f08fd1a7e4e69602dec85c32d0eb10f4ea727f04ae01a
-  languageName: node
-  linkType: hard
-
-"applicationinsights@npm:^2.9.0":
-  version: 2.9.0
-  resolution: "applicationinsights@npm:2.9.0"
-  dependencies:
-    "@azure/core-auth": ^1.5.0
-    "@azure/core-rest-pipeline": 1.10.1
-    "@azure/core-util": 1.2.0
-    "@azure/opentelemetry-instrumentation-azure-sdk": ^1.0.0-beta.5
-    "@microsoft/applicationinsights-web-snippet": ^1.0.1
-    "@opentelemetry/api": ^1.4.1
-    "@opentelemetry/core": ^1.15.2
-    "@opentelemetry/sdk-trace-base": ^1.15.2
-    "@opentelemetry/semantic-conventions": ^1.15.2
-    cls-hooked: ^4.2.2
-    continuation-local-storage: ^3.2.1
-    diagnostic-channel: 1.1.1
-    diagnostic-channel-publishers: 1.0.7
-  peerDependencies:
-    applicationinsights-native-metrics: "*"
-  peerDependenciesMeta:
-    applicationinsights-native-metrics:
-      optional: true
-  checksum: ff044bd70355c059960c2e1d47e8a32ce4df5d0ed5338bf1399663cb251b3010c1ef96cad65d062be9b7e073fa3a2fea05b24043f996b1314cc72fba7c36836f
   languageName: node
   linkType: hard
 
