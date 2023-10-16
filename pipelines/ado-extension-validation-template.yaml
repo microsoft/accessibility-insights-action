@@ -44,8 +44,6 @@ steps:
     # Please keep all "should fail" cases together as a block after all "should succeed" cases
     # Each case will need to have continueOnError: true. Each case but the first will also need
     # a condition: succeededOrFailed() so that the pipeline will run correctly.
-    # Note that the first case _temporarily_ has a condition: succeededOrFailed(). This will
-    # be removed once we fix the issue that is causing the succeed-3 case to fail.
     - task: ${{ parameters.taskUnderTest }}
       displayName: '[should fail] case fail-1: staticSiteDir, no baseline'
       inputs:
