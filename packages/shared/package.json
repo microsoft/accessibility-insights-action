@@ -54,7 +54,7 @@
         "@types/normalize-path": "^3.0.0",
         "@types/puppeteer-core": "^7.0.4",
         "@types/serve-static": "^1.15.3",
-        "@typescript-eslint/eslint-plugin": "^6.7.5",
+        "@typescript-eslint/eslint-plugin": "^6.8.0",
         "@typescript-eslint/parser": "^6.8.0",
         "eslint": "^8.51.0",
         "eslint-plugin-security": "^1.7.1",
