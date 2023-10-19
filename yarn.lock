@@ -54,7 +54,7 @@ __metadata:
     "@types/lodash": ^4.14.200
     "@types/marked": ^5.0.2
     "@types/marked-terminal": ^3.1.7
-    "@types/normalize-path": ^3.0.0
+    "@types/normalize-path": ^3.0.1
     "@types/puppeteer-core": ^7.0.4
     "@types/react": ^16.14
     "@types/react-dom": ^16.9
@@ -2733,10 +2733,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/normalize-path@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@types/normalize-path@npm:3.0.0"
-  checksum: 19f49b1cef57e4ce58a5aafa65b75bbea900d1fc0509c412b67d0e9d4a941e1e6fe6a52c29466cea920a0eec9766b2a188279eeec155a565eaba2c8ddd6ec9db
+"@types/normalize-path@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@types/normalize-path@npm:3.0.1"
+  checksum: 7d6f36e5140efec80085d4a405c8c74d0d0242ce7738ace8cb7e6178113655eee5a31bec072e99fb9aaf79e7723377cf62cc4bb7387b3bb7ccd44fe5b3c641bf
   languageName: node
   linkType: hard
 
@@ -3256,7 +3256,7 @@ __metadata:
     "@types/lodash": ^4.14.200
     "@types/marked": ^5.0.2
     "@types/marked-terminal": ^3.1.7
-    "@types/normalize-path": ^3.0.0
+    "@types/normalize-path": ^3.0.1
     "@types/puppeteer-core": ^7.0.4
     "@types/serve-static": ^1.15.4
     "@typescript-eslint/eslint-plugin": ^6.8.0

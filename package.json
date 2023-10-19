@@ -43,7 +43,7 @@
         "@types/lodash": "^4.14.200",
         "@types/marked": "^5.0.2",
         "@types/marked-terminal": "^3.1.7",
-        "@types/normalize-path": "^3.0.0",
+        "@types/normalize-path": "^3.0.1",
         "@types/puppeteer-core": "^7.0.4",
         "@types/serve-static": "^1.15.4",
         "@typescript-eslint/eslint-plugin": "^6.8.0",
