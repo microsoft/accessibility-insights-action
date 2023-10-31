@@ -54,7 +54,6 @@ jobs:
             inputs:
                 staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
                 # intentionally omits artifactName; should go to default accessibility-reports
-            condition: succeededOrFailed()
             continueOnError: true
 
           - task: ${{ parameters.taskUnderTest }}
