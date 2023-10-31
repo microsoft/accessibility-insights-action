@@ -53,7 +53,7 @@ __metadata:
     "@types/jest": ^29.5.7
     "@types/lodash": ^4.14.200
     "@types/marked": ^5.0.2
-    "@types/marked-terminal": ^3.1.7
+    "@types/marked-terminal": ^6.0.0
     "@types/normalize-path": ^3.0.1
     "@types/puppeteer-core": ^7.0.4
     "@types/react": ^16.14
@@ -2489,6 +2489,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cardinal@npm:^2.1":
+  version: 2.1.0
+  resolution: "@types/cardinal@npm:2.1.0"
+  checksum: 0416d49783269a60560b9073179a312bd8dce100a7a0f5c4f389e4a39e6cbdff89c3ec30bbd3bc9cb4ba04a5b013979061bc6f516c64512c6fab90da75c9e3b9
+  languageName: node
+  linkType: hard
+
 "@types/connect@npm:*":
   version: 3.4.34
   resolution: "@types/connect@npm:3.4.34"
@@ -2674,13 +2681,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/marked-terminal@npm:^3.1.7":
-  version: 3.1.7
-  resolution: "@types/marked-terminal@npm:3.1.7"
+"@types/marked-terminal@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@types/marked-terminal@npm:6.0.0"
   dependencies:
-    chalk: ^2.4.1
-    marked: ^6.0.0
-  checksum: aa4bdf523f365a7bc45bdb8e31d7d9f2501496f601676c3b97c96a77dde1fb4cdc0343b0fe2118fd7aebc70d16fbce8fb39f437c3f93fe53892aeaa9ea03fd23
+    "@types/cardinal": ^2.1
+    "@types/node": "*"
+    chalk: ^5.3.0
+    marked: ">=6.0.0 <10"
+  checksum: 5e08e2c80255b228f26a7b448f39c08bea995a18898231513aa64028c9ed5c93babd87b4a3beedd36ec0882f8457ba293dbd931016d45ee9ef3c42de3b9d7543
   languageName: node
   linkType: hard
 
@@ -3262,7 +3271,7 @@ __metadata:
     "@types/jest": ^29.5.7
     "@types/lodash": ^4.14.200
     "@types/marked": ^5.0.2
-    "@types/marked-terminal": ^3.1.7
+    "@types/marked-terminal": ^6.0.0
     "@types/normalize-path": ^3.0.1
     "@types/puppeteer-core": ^7.0.4
     "@types/serve-static": ^1.15.4
@@ -8501,12 +8510,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "marked@npm:6.0.0"
+"marked@npm:>=6.0.0 <10":
+  version: 9.1.4
+  resolution: "marked@npm:9.1.4"
   bin:
     marked: bin/marked.js
-  checksum: 1b02d4254d8aeec4d54799d2191821fd86da8c743361065b523617d1c226ba14ebd8677dc7bef7fa183a4253217c53d0d56e82d378a78b5a1ebaf8409e90136e
+  checksum: 660efebcf15bb86e6de5130b5c0bf484d9ad44752fb5a8064f425eb1cd590080727813e416329e6b33922fc36052c5e372109ee131b2556af82149e4b4a1d8f1
   languageName: node
   linkType: hard
 
