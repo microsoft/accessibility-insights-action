@@ -5,7 +5,7 @@ Licensed under the MIT License.
 
 # Project structure
 
-This repository contains code for two packages:
+This repository contains code for two packages: 
 
 -   `packages/shared` contains the core logic that is not specific to running any specific CI solution. Any code that could be shared across additional CI solutions in the future such as a GitHub Action, should be put in the shared package.
 -   `packages/ado-extension` contains the code specifically relevant to the Azure DevOps extension.
