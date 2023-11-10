@@ -85,7 +85,7 @@ __metadata:
     prettier: ^3.0.3
     reflect-metadata: ^0.1.13
     rimraf: ^5.0.5
-    serialize-error: ^11.0.2
+    serialize-error: ^11.0.3
     serve-static: ^1.15.0
     ts-jest: ^29.1.1
     ts-loader: ^9.5.0
@@ -10560,12 +10560,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serialize-error@npm:^11.0.2":
-  version: 11.0.2
-  resolution: "serialize-error@npm:11.0.2"
+"serialize-error@npm:^11.0.3":
+  version: 11.0.3
+  resolution: "serialize-error@npm:11.0.3"
   dependencies:
     type-fest: ^2.12.2
-  checksum: 3685cb476737e83bee679984440f519021582a0fa076186e9dd38061f05a25a0dd938858d0d5ff7069db46b9c9e9e8e87c20d509423d82e38e4e9eda1ac0cc36
+  checksum: 09d1aee6186fd5ff8acc074ee8641116cdd07b12df1e95682c43d8b5d1ef657deecc2efede7f1a08f5ff3ef3d65fb60ab9c8b4b2fdde65867ad3e6d4feed34a9
   languageName: node
   linkType: hard
 
