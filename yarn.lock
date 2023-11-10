@@ -20,7 +20,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.10.0
     "@typescript-eslint/parser": ^6.10.0
     applicationinsights: 2.7.3
-    azure-pipelines-task-lib: ^4.6.1
+    azure-pipelines-task-lib: ^4.7.0
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.53.0
     eslint-plugin-security: ^1.7.1
@@ -3816,20 +3816,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-pipelines-task-lib@npm:^4.6.1":
-  version: 4.6.1
-  resolution: "azure-pipelines-task-lib@npm:4.6.1"
+"azure-pipelines-task-lib@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "azure-pipelines-task-lib@npm:4.7.0"
   dependencies:
     adm-zip: ^0.5.10
     deasync: ^0.1.28
     minimatch: 3.0.5
-    mockery: ^2.1.0
     nodejs-file-downloader: ^4.11.1
     q: ^1.5.1
     semver: ^5.1.0
     shelljs: ^0.8.5
     uuid: ^3.0.1
-  checksum: a02bab1213133a93388714a840b25dca0265afe25c81b52d0bcba13e7d85d15d9a5b9bf34e16f5fd5bef9359ea538f6a677ba1780c599c0f4b61bc5fa98e1458
+  checksum: e6064ed4996429dce6ac3a1ad2b2348f9b2447c38ee6b420953ee9efe0f07823b3dc19aecd714960129d19df0b4b939ebf2ea04681373c3032c6d0c0195ee4cc
   languageName: node
   linkType: hard
 
@@ -8847,13 +8846,6 @@ __metadata:
   version: 3.0.5
   resolution: "mockdate@npm:3.0.5"
   checksum: 72b66786d9e072379693f80bf9fb82eb5153c9741030a4294184e3ccaf952d0713fae8966f77780580cf902f8ec7ccc95577b0ad47980d255e2ffb71fc7ca49c
-  languageName: node
-  linkType: hard
-
-"mockery@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "mockery@npm:2.1.0"
-  checksum: 2454348d891fc8a6f2ff8d60776372461b8a129e1feb2ee19052190add2a28216b91a28c8403040c52ce1e7ec337fb03387f31ecd644af3edcc325ec80da9bcc
   languageName: node
   linkType: hard
 
