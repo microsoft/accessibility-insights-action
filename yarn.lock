@@ -2780,11 +2780,11 @@ __metadata:
   linkType: hard
 
 "@types/react-dom@npm:^16.9":
-  version: 16.9.22
-  resolution: "@types/react-dom@npm:16.9.22"
+  version: 16.9.23
+  resolution: "@types/react-dom@npm:16.9.23"
   dependencies:
     "@types/react": ^16
-  checksum: 01581a6f46dab827f306961c40a2a4a6c75ecb8ed9a3a45e0e151081f08f68812818c4f745cc9f9f31b059509712f20a188855f77e04d04b3801a58e9722d909
+  checksum: 95b4a2ed5da7fc853f5202c72d0c50d90cae8b72943bc199824cd75f09e1906ce9829bfbe1053edb5a39fd853ffe2a1e4220f7ede60f57b850a423fb0b535df5
   languageName: node
   linkType: hard
 
