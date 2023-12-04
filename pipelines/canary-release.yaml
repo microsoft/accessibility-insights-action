@@ -28,18 +28,30 @@ resources:
           trigger:
               branches: [main]
 
-stages:
-    - stage: package_publish_canary
-      variables:
-          - group: ${{ parameters.variableGroupName }}
-      jobs:
-          - template: release-template.yaml
-            parameters:
-                ${{ if eq(parameters.variableGroupName, 'ado-extension-canary') }}:
-                    environment: ado-extension-canary
-                    shouldSign: true
-                    visibility: preview
-                ${{ if ne(parameters.variableGroupName, 'ado-extension-canary') }}:
-                    environment: ado-extension-test
-                    shouldSign: false
-                    visibility: private
+    repositories:
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+
+extends: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+parameters:
+    pool:
+        name: $(a11yInsightsPool)
+        image: windows-2022-secure
+        os: windows
+    stages:
+        - stage: package_publish_canary
+          variables:
+              - group: ${{ parameters.variableGroupName }}
+          jobs:
+              - template: release-template.yaml
+                parameters:
+                    ${{ if eq(parameters.variableGroupName, 'ado-extension-canary') }}:
+                        environment: ado-extension-canary
+                        shouldSign: true
+                        visibility: preview
+                    ${{ if ne(parameters.variableGroupName, 'ado-extension-canary') }}:
+                        environment: ado-extension-test
+                        shouldSign: false
+                        visibility: private
