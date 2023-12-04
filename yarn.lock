@@ -67,7 +67,7 @@ __metadata:
     eslint: ^8.54.0
     eslint-plugin-security: ^1.7.1
     express: ^4.18.2
-    filenamify-url: ^3.0.0
+    filenamify-url: ^3.1.0
     fork-ts-checker-webpack-plugin: ^9.0.2
     get-port: ^7.0.0
     inversify: 6.0.1
@@ -5964,13 +5964,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"filenamify-url@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "filenamify-url@npm:3.0.0"
+"filenamify-url@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "filenamify-url@npm:3.1.0"
   dependencies:
     filenamify: ^5.0.1
     humanize-url: ^3.0.0
-  checksum: b32d18b316e0cdf9725bd94ffd880716e8c05088726b0f7c2ddeef5bcb4c76cfd5e22691ad433fa6266efadbbd8daf042f4a2e33b2bca083a4ac4da64c3e5575
+  checksum: 1b6fb9a82ced85807e0f9db47726aa2f3d9b5ed0e1b1487a6fa6b6ed7de4401342ac00d324369b4c2e4d5d9db7763bb2d472d1f76c6927c3385bd85545fa8e78
   languageName: node
   linkType: hard
 
