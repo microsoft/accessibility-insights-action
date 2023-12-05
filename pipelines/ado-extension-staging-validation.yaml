@@ -30,7 +30,7 @@ extends:
       os: windows
          
     stages:
-    - stage: ADO Extension Validation
+    - stage: ADO_Extension_Validation
       jobs:
       - template: pipelines/ado-extension-validation-template.yaml@self
         parameters:
