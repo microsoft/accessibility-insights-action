@@ -23,8 +23,8 @@ extends:
   parameters:
     pool: 
       name: a11y-insights-pool-dev
-      image: ubuntu-22.04-secure 
-      os: linux 
+      image: windows-2022-secure
+      os: windows
          
     stages:
     - stage: ADO Extension Validation
