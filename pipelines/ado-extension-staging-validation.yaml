@@ -27,8 +27,8 @@ extends:
       os: linux 
          
     stages:
-    - stage: Stage
+    - stage: ADO Extension Validation
       jobs:
-      - template: ado-extension-validation-template.yaml
+      - template: pipelines/ado-extension-validation-template.yaml@self
         parameters:
             taskUnderTest: accessibility-insights.staging.task.accessibility-insights@3
