@@ -13,10 +13,22 @@ resources:
               stages:
                   - package_publish_staging
 
-pool: a11y-ado-auth
-
+    repositories:
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
 extends:
-    template: ado-extension-validation-template.yaml
-    parameters:
-        taskUnderTest: accessibility-insights.staging.task.accessibility-insights@3
-        a11yInsightsPool: a11y-insights-pool-dev
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool: 
+      name: a11y-insights-pool-dev
+      image: ubuntu-22.04-secure 
+      os: linux 
+         
+    stages:
+    - stage: Stage
+      jobs:
+      - template: ado-extension-validation-template.yaml
+        parameters:
+            taskUnderTest: accessibility-insights.staging.task.accessibility-insights@3
