@@ -16,6 +16,11 @@ parameters:
 jobs:
     - job: run_tests
       displayName: 'Run tests'
+      templateContext:
+        outputs:
+          - output: pipelineArtifact
+            targetPath: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
+            artifactName: 'accessibility-reports-case-fail-6'
       #pool:
       #    name: a11y-ado-auth
       steps:
@@ -132,11 +137,6 @@ jobs:
                 siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
             condition: succeededOrFailed()
             continueOnError: true
-
-          - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
-            displayName: 'custom report artifact upload for case fail-6'
-            artifact: 'accessibility-reports-case-fail-6'
-            condition: succeededOrFailed()
 
     - job: validate_artifacts
       dependsOn: run_tests
