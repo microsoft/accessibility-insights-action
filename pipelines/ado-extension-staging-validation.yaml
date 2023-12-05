@@ -5,6 +5,9 @@ trigger: none
 
 pr: none
 
+variables:
+    - group: 'ado-auth-example-secrets'
+
 resources:
     pipelines:
         - pipeline: prod-release

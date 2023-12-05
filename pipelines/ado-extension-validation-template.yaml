@@ -12,8 +12,6 @@ parameters:
     - name: taskUnderTest
       type: string
 
-variables:
-    - group: 'ado-auth-example-secrets'
 
 jobs:
     - job: run_tests
