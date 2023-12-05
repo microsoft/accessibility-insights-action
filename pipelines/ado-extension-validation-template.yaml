@@ -12,14 +12,41 @@ parameters:
     - name: taskUnderTest
       type: string
 
+    - name: a11yInsightsPool
+      type: string
+
 variables:
     - group: 'ado-auth-example-secrets'
 
-jobs:
+resources:
+   repositories:
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+
+extends: 
+  template: v1/1ES.Official.PipelineTemplate.yml@
+  parameters:
+    sdl:
+      # If image is not windows, must provide windows to SDL
+      sourceAnalysisPool: 
+        name: ${{ parameters.a11yInsightsPool }} 
+        image: windows-2022-secure
+        os: windows
+
+    pool: 
+      name: ${{ parameters.a11yInsightsPool }}
+      image: ubuntu-22.04-secure 
+      os: linux 
+  
+  stages:
+  - stage: ADO Extension Validation
+    jobs:
     - job: run_tests
       displayName: 'Run tests'
-      pool:
-          name: a11y-ado-auth
+      #pool:
+      #    name: a11y-ado-auth
       steps:
           - task: NodeTool@0
             inputs:

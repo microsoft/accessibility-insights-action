@@ -19,3 +19,4 @@ extends:
     template: ado-extension-validation-template.yaml
     parameters:
         taskUnderTest: accessibility-insights.staging.task.accessibility-insights@3
+        a11yInsightsPool: a11y-insights-pool-dev
