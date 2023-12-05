@@ -40,185 +40,186 @@ extends:
       image: ubuntu-22.04-secure 
       os: linux 
   
-  stages:
-  - stage: ADO Extension Validation
-    jobs:
-    - job: run_tests
-      displayName: 'Run tests'
-      #pool:
-      #    name: a11y-ado-auth
-      steps:
-          - task: NodeTool@0
-            inputs:
-                versionSpec: '16.x'
-                displayName: Use Node 16.x
-          # reused by all "url" cases
-          - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
-            displayName: 'Start /dev/website-root test server at http://localhost:5858'
-
-          # Please keep all "should succeed" cases together as a block before and "should fail" cases.
-          # Do not specify a condition so that the pipeline will fail if any of these fail.
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should succeed] case succeed-1: staticSiteDir, no baseline, failOnAccessibilityError:false'
-            inputs:
-                staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-                failOnAccessibilityError: false
-                outputArtifactName: accessibility-reports-case-succeed-1
-                scanTimeout: 180000
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should succeed] case succeed-2: up-to-date baseline'
-            inputs:
-                url: 'http://localhost:5858'
-                outputArtifactName: 'accessibility-reports-case-succeed-2'
-                baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
-
-          # Please keep all "should fail" cases together as a block after all "should succeed" cases
-          # Each case will need to have continueOnError: true. Each case but the first will also need
-          # a condition: succeededOrFailed() so that the pipeline will run correctly.
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-1: staticSiteDir, no baseline'
-            inputs:
-                staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-                # intentionally omits artifactName; should go to default accessibility-reports
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-2: url, no baseline'
-            inputs:
-                url: 'http://localhost:5858'
-                outputArtifactName: 'accessibility-reports-case-fail-2'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-3: baseline missing failures'
-            inputs:
-                url: 'http://localhost:5858'
-                outputArtifactName: 'accessibility-reports-case-fail-3'
-                baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/missing-failures-5858.baseline'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-4 baseline with resolved failures'
-            inputs:
-                url: 'http://localhost:5858'
-                outputArtifactName: 'accessibility-reports-case-fail-4'
-                baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/with-resolved-failures-5858.baseline'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-5: new baseline file'
-            inputs:
-                staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-                outputArtifactName: 'accessibility-reports-case-fail-5'
-                baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-6: url, custom artifact upload step'
-            inputs:
-                url: 'http://localhost:5858'
-                uploadOutputArtifact: false
-                outputDir: '_accessibility-reports-case-fail-6'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-7: url, azure portal auth test'
-            inputs:
-                url: 'https://portal.azure.com'
-                serviceAccountName: $(a11yinsscan-service-acct-username)
-                serviceAccountPassword: $(a11yinsscan-service-acct-password)
-                authType: 'AAD'
-                outputArtifactName: 'accessibility-reports-case-fail-7'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-8: invalid inputs (no site specified)'
-            inputs:
-                outputArtifactName: 'no-artifact-will-be-created-here'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-9: invalid inputs (both url and staticSiteDir specified)'
-            inputs:
-                url: 'http://localhost:5858'
-                staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-10: v1 inputs specified'
-            inputs:
-                repoServiceConnectionName: 'this isnt used anymore'
-                # siteDir instead of staticSiteDir
-                siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
-            condition: succeededOrFailed()
-            continueOnError: true
-
-          - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
-            displayName: 'custom report artifact upload for case fail-6'
-            artifact: 'accessibility-reports-case-fail-6'
-            condition: succeededOrFailed()
-
-    - job: validate_artifacts
-      dependsOn: run_tests
-      displayName: 'Validate artifacts'
-      pool:
-          name: a11y-ado-auth
-      steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: 'Download artifacts from running tests'
-            inputs:
-                allowPartiallySucceededBuilds: true
-                targetPath: '$(Pipeline.Workspace)/artifacts'
-
-          - task: CmdLine@2
-            displayName: 'Validate index.html files from artifacts'
-            # Note: Update the list of expected files as needed for changing test cases
-            inputs:
-                script: |
-                    echo artifacts/accessibility-reports-case-fail-2/index.html > expected-index-html-files.txt
-                    echo artifacts/accessibility-reports-case-fail-3/index.html >> expected-index-html-files.txt
-                    echo artifacts/accessibility-reports-case-fail-4/index.html >> expected-index-html-files.txt
-                    echo artifacts/accessibility-reports-case-fail-5/index.html >> expected-index-html-files.txt
-                    echo artifacts/accessibility-reports-case-fail-6/index.html >> expected-index-html-files.txt
-                    echo artifacts/accessibility-reports-case-fail-7/index.html >> expected-index-html-files.txt
-                    echo artifacts/accessibility-reports-case-succeed-1/index.html >> expected-index-html-files.txt
-                    echo artifacts/accessibility-reports-case-succeed-2/index.html >> expected-index-html-files.txt
-                    echo artifacts/accessibility-reports/index.html >> expected-index-html-files.txt
-                    echo Expected index.html files \(expected-index-html-files.txt\):
-                    cat expected-index-html-files.txt
-                    echo 
-                    echo Actual index.html files from artifacts \(actual-index-html-files.txt\):
-                    find artifacts -name index.html | sort | tee actual-index-html-files.txt
-                    echo 
-                    echo Comparing actual-index-html-files.txt to expected-index-html-files.txt
-                    # Note: diff will return 0 if the files are identical, 1 if they differ, and 2 if an error occurs
-                    diff actual-index-html-files.txt expected-index-html-files.txt
-                workingDirectory: '$(Pipeline.Workspace)'
-
-          - task: CmdLine@2
-            displayName: 'Validate .baseline files from artifacts'
-            # Note: Update the list of expected files as needed for changing test cases
-            inputs:
-                script: |
-                    echo artifacts/accessibility-reports-case-fail-3/missing-failures-5858.baseline > expected-baseline-files.txt
-                    echo artifacts/accessibility-reports-case-fail-4/with-resolved-failures-5858.baseline >> expected-baseline-files.txt
-                    echo artifacts/accessibility-reports-case-fail-5/doesnt-exist.baseline >> expected-baseline-files.txt
-                    echo Expected .baseline files \(expected-baseline-files.txt\):
-                    cat expected-baseline-files.txt
-                    echo 
-                    echo Actual .baseline files from artifacts \(actual-baseline-files.txt\):
-                    find artifacts -name *.baseline | sort | tee actual-baseline-files.txt
-                    echo 
-                    echo Comparing actual-baseline-files.txt to expected-baseline-files.txt
-                    # Note: diff will return 0 if the files are identical, 1 if they differ, and 2 if an error occurs
-                    diff actual-baseline-files.txt expected-baseline-files.txt
-                workingDirectory: '$(Pipeline.Workspace)'
+    stages:
+    - stage: ADO Extension Validation
+      jobs:
+      - job: run_tests
+        displayName: 'Run tests'
+        #pool:
+        #    name: a11y-ado-auth
+        steps:
+            - task: NodeTool@0
+              inputs:
+                  versionSpec: '16.x'
+                  displayName: Use Node 16.x
+            # reused by all "url" cases
+            - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
+              displayName: 'Start /dev/website-root test server at http://localhost:5858'
+              
+            # Please keep all "should succeed" cases together as a block before and "should fail" cases.
+            # Do not specify a condition so that the pipeline will fail if any of these fail.
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should succeed] case succeed-1: staticSiteDir, no baseline, failOnAccessibilityError:false'
+              inputs:
+                  staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+                  failOnAccessibilityError: false
+                  outputArtifactName: accessibility-reports-case-succeed-1
+                  scanTimeout: 180000
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should succeed] case succeed-2: up-to-date baseline'
+              inputs:
+                  url: 'http://localhost:5858'
+                  outputArtifactName: 'accessibility-reports-case-succeed-2'
+                  baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
+              
+            # Please keep all "should fail" cases together as a block after all "should succeed" cases
+            # Each case will need to have continueOnError: true. Each case but the first will also need
+            # a condition: succeededOrFailed() so that the pipeline will run correctly.
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-1: staticSiteDir, no baseline'
+              inputs:
+                  staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+                  # intentionally omits artifactName; should go to default accessibility-reports
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-2: url, no baseline'
+              inputs:
+                  url: 'http://localhost:5858'
+                  outputArtifactName: 'accessibility-reports-case-fail-2'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-3: baseline missing failures'
+              inputs:
+                  url: 'http://localhost:5858'
+                  outputArtifactName: 'accessibility-reports-case-fail-3'
+                  baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/missing-failures-5858.baseline'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-4 baseline with resolved failures'
+              inputs:
+                  url: 'http://localhost:5858'
+                  outputArtifactName: 'accessibility-reports-case-fail-4'
+                  baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/with-resolved-failures-5858.baseline'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-5: new baseline file'
+              inputs:
+                  staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+                  outputArtifactName: 'accessibility-reports-case-fail-5'
+                  baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/doesnt-exist.baseline'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-6: url, custom artifact upload step'
+              inputs:
+                  url: 'http://localhost:5858'
+                  uploadOutputArtifact: false
+                  outputDir: '_accessibility-reports-case-fail-6'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-7: url, azure portal auth test'
+              inputs:
+                  url: 'https://portal.azure.com'
+                  serviceAccountName: $(a11yinsscan-service-acct-username)
+                  serviceAccountPassword: $(a11yinsscan-service-acct-password)
+                  authType: 'AAD'
+                  outputArtifactName: 'accessibility-reports-case-fail-7'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-8: invalid inputs (no site specified)'
+              inputs:
+                  outputArtifactName: 'no-artifact-will-be-created-here'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-9: invalid inputs (both url and staticSiteDir specified)'
+              inputs:
+                  url: 'http://localhost:5858'
+                  staticSiteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - task: ${{ parameters.taskUnderTest }}
+              displayName: '[should fail] case fail-10: v1 inputs specified'
+              inputs:
+                  repoServiceConnectionName: 'this isnt used anymore'
+                  # siteDir instead of staticSiteDir
+                  siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
+              condition: succeededOrFailed()
+              continueOnError: true
+              
+            - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
+              displayName: 'custom report artifact upload for case fail-6'
+              artifact: 'accessibility-reports-case-fail-6'
+              condition: succeededOrFailed()
+              
+      - job: validate_artifacts
+        dependsOn: run_tests
+        displayName: 'Validate artifacts'
+        pool:
+            name: a11y-ado-auth
+        steps:
+            - task: DownloadPipelineArtifact@2
+              displayName: 'Download artifacts from running tests'
+              inputs:
+                  allowPartiallySucceededBuilds: true
+                  targetPath: '$(Pipeline.Workspace)/artifacts'
+              
+            - task: CmdLine@2
+              displayName: 'Validate index.html files from artifacts'
+              # Note: Update the list of expected files as needed for changing test cases
+              inputs:
+                  script: |
+                      echo artifacts/accessibility-reports-case-fail-2/index.html > expected-index-html-files.txt
+                      echo artifacts/accessibility-reports-case-fail-3/index.html >> expected-index-html-files.txt
+                      echo artifacts/accessibility-reports-case-fail-4/index.html >> expected-index-html-files.txt
+                      echo artifacts/accessibility-reports-case-fail-5/index.html >> expected-index-html-files.txt
+                      echo artifacts/accessibility-reports-case-fail-6/index.html >> expected-index-html-files.txt
+                      echo artifacts/accessibility-reports-case-fail-7/index.html >> expected-index-html-files.txt
+                      echo artifacts/accessibility-reports-case-succeed-1/index.html >> expected-index-html-files.txt
+                      echo artifacts/accessibility-reports-case-succeed-2/index.html >> expected-index-html-files.txt
+                      echo artifacts/accessibility-reports/index.html >> expected-index-html-files.txt
+                      echo Expected index.html files \(expected-index-html-files.txt\):
+                      cat expected-index-html-files.txt
+                      echo 
+                      echo Actual index.html files from artifacts \(actual-index-html-files.txt\):
+                      find artifacts -name index.html | sort | tee actual-index-html-files.txt
+                      echo 
+                      echo Comparing actual-index-html-files.txt to expected-index-html-files.txt
+                      # Note: diff will return 0 if the files are identical, 1 if they differ, and 2 if an error occurs
+                      diff actual-index-html-files.txt expected-index-html-files.txt
+                  workingDirectory: '$(Pipeline.Workspace)'
+                      
+            - task: CmdLine@2
+              displayName: 'Validate .baseline files from artifacts'
+              # Note: Update the list of expected files as needed for changing test cases
+              inputs:
+                  script: |
+                      echo artifacts/accessibility-reports-case-fail-3/missing-failures-5858.baseline > expected-baseline-files.txt
+                      echo artifacts/accessibility-reports-case-fail-4/with-resolved-failures-5858.baseline >> expected-baseline-files.txt
+                      echo artifacts/accessibility-reports-case-fail-5/doesnt-exist.baseline >> expected-baseline-files.txt
+                      echo Expected .baseline files \(expected-baseline-files.txt\):
+                      cat expected-baseline-files.txt
+                      echo 
+                      echo Actual .baseline files from artifacts \(actual-baseline-files.txt\):
+                      find artifacts -name *.baseline | sort | tee actual-baseline-files.txt
+                      echo 
+                      echo Comparing actual-baseline-files.txt to expected-baseline-files.txt
+                      # Note: diff will return 0 if the files are identical, 1 if they differ, and 2 if an error occurs
+                      diff actual-baseline-files.txt expected-baseline-files.txt
+                  workingDirectory: '$(Pipeline.Workspace)'
+                      
