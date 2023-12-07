@@ -1,0 +1,123 @@
+# This pipeline was generated from the classic pipeline "Create ESRP service connection" on 2023-12-07 with https://aka.ms/1ESPTMigration (v1.1.0): https://dev.azure.com/accessibility-insights-private/Accessibility%20Insights%20(private)/_build?definitionId=133
+#
+# The following items require attention:
+# Variables were exported from the classic pipeline, confirm that `variables` values do not contain private information. If a variable contains private information, follow the guidance on handling secret variables: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables
+# Secret variable 'SERVICE_CONNECTION_PAT' detected in `variables`, follow the guidance on handling secret variables: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables
+# Agent Queue 'Azure Pipelines' was used with unrecognized Agent Specification, vmImage property must be specified to determine image - https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#software
+# No trigger found, defaulting to 'none'. Update the trigger as needed.
+# No name found, setting the default value '$(Date:yyyyMMdd).$(Rev:r)'. This value determines how your pipeline runs are numbered. Update the name as needed: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/run-number?view=azure-devops&tabs=yaml
+
+name: $(Date:yyyyMMdd).$(Rev:r)
+variables:
+  - name: Codeql.SkipTaskAutoInjection
+    value: true
+  - name: SERVICE_CONNECTION_PAT
+    value: null
+  - group: esrp-signing-certificate
+resources:
+  repositories:
+    - repository: self
+      type: git
+      ref: refs/heads/main
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+trigger: none
+extends:
+  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      os: windows
+      image: windows-2022-secure
+      name: a11y-insights-pool-dev
+    customBuildTags:
+      - MigrationTooling-accessibility-insights-private-Accessibility Insights (private)-133-Tool
+    stages:
+      - stage: Stage
+        jobs:
+          - job: Job_1
+            displayName: Create ESRP service connection
+            steps:
+              - checkout: self
+                clean: true
+                fetchTags: false
+              - task: CmdLine@2
+                displayName: Show environment variables
+                inputs:
+                  script: set
+              - task: PowerShell@2
+                displayName: Create connection
+                inputs:
+                  targetType: inline
+                  script: |-
+                    # This script grabs the latest ESRP client secret & cert
+                    # from the PME KeyVault and creates a new service
+                    # connection called 'ESRP (staging)' with those values.
+                    # This script does not actually rotate the certificates.
+                    # You still need to JIT into the PME KV and create a new
+                    # version of the certificate. Once you've done that,
+                    # you can run this pipeline and test the newly created
+                    # service connection.
+
+                    Write-Host "Finding path for new config file"
+
+                    $TempPath = $env:TEMP.ToString() + "\"
+                    $randomId = [GUID]::NewGuid().ToString()
+                    $resultFile = $TempPath + $randomId + ".json"
+
+                    $ConfigJson = @"
+                    {
+                       "administratorsGroup":null,
+                       "authorization":{
+                          "scheme":"UsernamePassword",
+                          "parameters":{
+                             "username":"",
+                             "password":"",
+                             "tenantid":"",
+                             "RequestSignCertConnectedService":""
+                          }
+                       },
+                       "createdBy":null,
+                       "data":{
+                          
+                       },
+                       "description":"ESRP service connection used for all signing requests",
+                       "groupScopeId":null,
+                       "name":"ESRP (staging)",
+                       "operationStatus":null,
+                       "readersGroup":null,
+                       "type":"PRSS",
+                       "url":"https://api.esrp.microsoft.com/api/v2",
+                       "isShared":false,
+                       "owner":"library"
+                    }
+                    "@
+
+                    try {
+                        az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project="Accessibility Insights (private)" --use-git-aliases true
+
+                        Write-Host "Updating config object"
+                        $ConfigObj = $ConfigJson | ConvertFrom-Json
+
+                        # Username comes from the AAD App ID in the microsoft tenant
+                        $ConfigObj.authorization.parameters.username = "1cb0e84f-0234-46e0-ab7f-3fd56746d743"
+                        $ConfigObj.authorization.parameters.password = "$(a11y-unified-esrp-client-secret)"
+                        $ConfigObj.authorization.parameters.RequestSignCertConnectedService = "$(a11y-unified-esrp-cert)"
+
+                        Write-Host "Creating config file"
+                        $JsonText = $ConfigObj | ConvertTo-Json
+
+                        $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+                        [System.IO.File]::WriteAllLines($resultFile, $JsonText, $Utf8NoBomEncoding)
+
+                        Write-Host "Updating service connection"
+                        az devops service-endpoint create --service-endpoint-configuration $resultFile --org "https://dev.azure.com/accessibility-insights-private" --project "Accessibility Insights (private)" | Out-Null
+                    } finally {
+                        Write-Host "removing key file"
+                        Remove-Item $resultFile
+                    }
+                env:
+                  AZURE_DEVOPS_EXT_PAT: $(SERVICE_CONNECTION_PAT)
+                  a11y-unified-esrp-client-secret: $(a11y-unified-esrp-client-secret)
+                  a11y-unified-esrp-cert: $(a11y-unified-esrp-cert)
