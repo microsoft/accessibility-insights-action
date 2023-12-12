@@ -8,10 +8,12 @@
 # No name found, setting the default value '$(Date:yyyyMMdd).$(Rev:r)'. This value determines how your pipeline runs are numbered. Update the name as needed: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/run-number?view=azure-devops&tabs=yaml
 
 name: $(Date:yyyyMMdd).$(Rev:r)
+
 variables:
   - name: Codeql.SkipTaskAutoInjection
     value: true
   - group: esrp-signing-certificate
+
 resources:
   repositories:
     - repository: self
@@ -21,14 +23,16 @@ resources:
       type: git
       name: 1ESPipelineTemplates/1ESPipelineTemplates
       ref: refs/tags/release
+
 trigger: none
+
 extends:
-  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
   parameters:
     pool:
       os: windows
       image: windows-2022-secure
-      name: a11y-insights-pool-dev
+      name: a11y-insights-pool-prod
     stages:
       - stage: Stage
         jobs:
@@ -80,7 +84,7 @@ extends:
                        },
                        "description":"ESRP service connection used for all signing requests",
                        "groupScopeId":null,
-                       "name":"ESRP (staging) From yaml",
+                       "name":"ESRP (staging)",
                        "operationStatus":null,
                        "readersGroup":null,
                        "type":"PRSS",
