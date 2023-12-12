@@ -80,7 +80,7 @@ extends:
                        },
                        "description":"ESRP service connection used for all signing requests",
                        "groupScopeId":null,
-                       "name":"ESRP (staging)",
+                       "name":"ESRP (staging) From yaml",
                        "operationStatus":null,
                        "readersGroup":null,
                        "type":"PRSS",
