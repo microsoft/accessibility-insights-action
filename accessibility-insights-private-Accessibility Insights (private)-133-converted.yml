@@ -11,8 +11,6 @@ name: $(Date:yyyyMMdd).$(Rev:r)
 variables:
   - name: Codeql.SkipTaskAutoInjection
     value: true
-  - name: SERVICE_CONNECTION_PAT
-    value: null
   - group: esrp-signing-certificate
 resources:
   repositories:
@@ -31,8 +29,6 @@ extends:
       os: windows
       image: windows-2022-secure
       name: a11y-insights-pool-dev
-    customBuildTags:
-      - MigrationTooling-accessibility-insights-private-Accessibility Insights (private)-133-Tool
     stages:
       - stage: Stage
         jobs:
@@ -95,13 +91,13 @@ extends:
                     "@
 
                     try {
-                        az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project="Accessibility Insights (private)" --use-git-aliases true
+                        az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project="$(system.teamProject)" --use-git-aliases true
 
                         Write-Host "Updating config object"
                         $ConfigObj = $ConfigJson | ConvertFrom-Json
 
                         # Username comes from the AAD App ID in the microsoft tenant
-                        $ConfigObj.authorization.parameters.username = "1cb0e84f-0234-46e0-ab7f-3fd56746d743"
+                        $ConfigObj.authorization.parameters.username = "$(a11y-unified-esrp-client-app)"
                         $ConfigObj.authorization.parameters.password = "$(a11y-unified-esrp-client-secret)"
                         $ConfigObj.authorization.parameters.RequestSignCertConnectedService = "$(a11y-unified-esrp-cert)"
 
@@ -112,12 +108,13 @@ extends:
                         [System.IO.File]::WriteAllLines($resultFile, $JsonText, $Utf8NoBomEncoding)
 
                         Write-Host "Updating service connection"
-                        az devops service-endpoint create --service-endpoint-configuration $resultFile --org "https://dev.azure.com/accessibility-insights-private" --project "Accessibility Insights (private)" | Out-Null
+                        az devops service-endpoint create --service-endpoint-configuration $resultFile --org "$(System.TeamFoundationCollectionUri)" --project "$(system.teamProject)" | Out-Null
                     } finally {
                         Write-Host "removing key file"
                         Remove-Item $resultFile
                     }
                 env:
-                  AZURE_DEVOPS_EXT_PAT: $(SERVICE_CONNECTION_PAT)
+                  AZURE_DEVOPS_EXT_PAT: $(a11y-unified-service-connection-pat)
                   a11y-unified-esrp-client-secret: $(a11y-unified-esrp-client-secret)
                   a11y-unified-esrp-cert: $(a11y-unified-esrp-cert)
+                  a11y-unified-esrp-client-app: $(a11y-unified-esrp-client-app)
