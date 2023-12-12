@@ -1,8 +1,10 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # This pipeline was generated from the classic pipeline "Create ESRP service connection" on 2023-12-07 with https://aka.ms/1ESPTMigration (v1.1.0): https://dev.azure.com/accessibility-insights-private/Accessibility%20Insights%20(private)/_build?definitionId=133
 #
 # The following items require attention:
 # Variables were exported from the classic pipeline, confirm that `variables` values do not contain private information. If a variable contains private information, follow the guidance on handling secret variables: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables
-# Secret variable 'SERVICE_CONNECTION_PAT' detected in `variables`, follow the guidance on handling secret variables: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables
 # Agent Queue 'Azure Pipelines' was used with unrecognized Agent Specification, vmImage property must be specified to determine image - https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#software
 # No trigger found, defaulting to 'none'. Update the trigger as needed.
 # No name found, setting the default value '$(Date:yyyyMMdd).$(Rev:r)'. This value determines how your pipeline runs are numbered. Update the name as needed: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/run-number?view=azure-devops&tabs=yaml
