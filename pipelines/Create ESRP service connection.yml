@@ -34,7 +34,7 @@ extends:
         pool:
             os: windows
             image: windows-2022-secure
-            name: a11y-insights-pool-prod
+            name: $(a11yInsightsPool)
         stages:
             - stage: Stage
               jobs:
