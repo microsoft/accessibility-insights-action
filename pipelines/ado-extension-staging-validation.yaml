@@ -22,13 +22,17 @@ resources:
       name: 1ESPipelineTemplates/1ESPipelineTemplates
       ref: refs/tags/release
 extends:
-  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
   parameters:
     pool: 
       name: a11y-ado-auth
-      #image: windows-2022-secure
-      #os: windows
-         
+      image: ubuntu-2022-secure
+      os: linux
+    sdl:
+        sourceAnalysisPool:
+            name: a11y-ado-auth
+            image: windows-2022-secure
+            os: windows    
     stages:
     - stage: ADO_Extension_Validation
       jobs:
