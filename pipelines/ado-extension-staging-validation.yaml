@@ -26,7 +26,7 @@ extends:
   parameters:
     pool: 
       name: a11y-ado-auth
-      image: ubuntu-2022-secure
+      image: ubuntu-22.04-secure
       os: linux
     sdl:
         sourceAnalysisPool:
