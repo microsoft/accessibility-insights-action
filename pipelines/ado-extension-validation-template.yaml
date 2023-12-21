@@ -12,17 +12,14 @@ parameters:
     - name: taskUnderTest
       type: string
 
-
 jobs:
     - job: run_tests
       displayName: 'Run tests'
       templateContext:
-        outputs:
-          - output: pipelineArtifact
-            targetPath: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
-            artifactName: 'accessibility-reports-case-fail-6'
-      #pool:
-      #    name: a11y-ado-auth
+          outputs:
+              - output: pipelineArtifact
+                targetPath: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
+                artifactName: 'accessibility-reports-case-fail-6'
       steps:
           - task: NodeTool@0
             inputs:
