@@ -17,25 +17,25 @@ resources:
                   - package_publish_staging
 
     repositories:
-    - repository: 1esPipelines
-      type: git
-      name: 1ESPipelineTemplates/1ESPipelineTemplates
-      ref: refs/tags/release
+        - repository: 1esPipelines
+          type: git
+          name: 1ESPipelineTemplates/1ESPipelineTemplates
+          ref: refs/tags/release
 extends:
-  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
-  parameters:
-    pool: 
-      name: a11y-ado-auth
-      image: ubuntu-22.04-secure
-      os: linux
-    sdl:
-        sourceAnalysisPool:
+    template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+    parameters:
+        pool:
             name: a11y-ado-auth
-            image: windows-2022-secure
-            os: windows    
-    stages:
-    - stage: ADO_Extension_Validation
-      jobs:
-      - template: pipelines/ado-extension-validation-template.yaml@self
-        parameters:
-            taskUnderTest: accessibility-insights.staging.task.accessibility-insights@3
+            image: ubuntu-22.04-secure
+            os: linux
+        sdl:
+            sourceAnalysisPool:
+                name: a11y-ado-auth
+                image: windows-2022-secure
+                os: windows
+        stages:
+            - stage: ADO_Extension_Validation
+              jobs:
+                  - template: pipelines/ado-extension-validation-template.yaml@self
+                    parameters:
+                        taskUnderTest: accessibility-insights.staging.task.accessibility-insights@3
