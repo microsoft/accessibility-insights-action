@@ -33,7 +33,7 @@ __metadata:
     mockdate: ^3.0.5
     npm-run-all: ^4.1.5
     prettier: ^3.1.1
-    reflect-metadata: ^0.1.14
+    reflect-metadata: ^0.2.1
     rimraf: ^5.0.5
     tfx-cli: ^0.16.0
     ts-jest: ^29.1.1
@@ -83,7 +83,7 @@ __metadata:
     npm-run-all: ^4.1.5
     pony-cause: ^2.1.10
     prettier: ^3.1.1
-    reflect-metadata: ^0.1.14
+    reflect-metadata: ^0.2.1
     rimraf: ^5.0.5
     serialize-error: ^11.0.3
     serve-static: ^1.15.0
@@ -10287,10 +10287,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.1.14":
-  version: 0.1.14
-  resolution: "reflect-metadata@npm:0.1.14"
-  checksum: 155ad339319cec3c2d9d84719f730f8b6a6cd2a074733ec29dbae6c89d48a2914c7d07a2350212594f3aae160fa4da4f903e6512f27ceaf968443a7c692bcad0
+"reflect-metadata@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "reflect-metadata@npm:0.2.1"
+  checksum: 772f552a544e04b999c1bf2c868225fef10032274e9d9e315bc3e7a687a504b8b115fa71966665b9619acfd323123a941f892b593250140da809330d41564181
   languageName: node
   linkType: hard
 
