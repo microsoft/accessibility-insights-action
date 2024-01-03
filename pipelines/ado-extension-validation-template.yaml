@@ -12,14 +12,15 @@ parameters:
     - name: taskUnderTest
       type: string
 
-variables:
-    - group: 'ado-auth-example-secrets'
-
 jobs:
     - job: run_tests
       displayName: 'Run tests'
-      pool:
-          name: a11y-ado-auth
+      templateContext:
+          outputs:
+              - output: pipelineArtifact
+                targetPath: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
+                artifactName: 'accessibility-reports-case-fail-6'
+                condition: succeededOrFailed()
       steps:
           - task: NodeTool@0
             inputs:
@@ -135,22 +136,18 @@ jobs:
             condition: succeededOrFailed()
             continueOnError: true
 
-          - publish: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
-            displayName: 'custom report artifact upload for case fail-6'
-            artifact: 'accessibility-reports-case-fail-6'
-            condition: succeededOrFailed()
-
     - job: validate_artifacts
       dependsOn: run_tests
       displayName: 'Validate artifacts'
-      pool:
-          name: a11y-ado-auth
+      #pool:
+      #    name: a11y-ado-auth
       steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download artifacts from running tests'
             inputs:
                 allowPartiallySucceededBuilds: true
                 targetPath: '$(Pipeline.Workspace)/artifacts'
+                itemPattern: accessibility-reports*/*
 
           - task: CmdLine@2
             displayName: 'Validate index.html files from artifacts'
