@@ -147,7 +147,7 @@ jobs:
             inputs:
                 allowPartiallySucceededBuilds: true
                 targetPath: '$(Pipeline.Workspace)/artifacts'
-                itemPattern: accessibility-reports**
+                itemPattern: accessibility-reports*/*
 
           - task: CmdLine@2
             displayName: 'Validate index.html files from artifacts'
