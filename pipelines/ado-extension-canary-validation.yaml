@@ -33,6 +33,9 @@ extends:
                 name: a11y-ado-auth
                 image: windows-2022-secure
                 os: windows
+            codeql:
+                compiled:
+                    enabled: true
         stages:
             - stage: ADO_Extension_Validation
               jobs:

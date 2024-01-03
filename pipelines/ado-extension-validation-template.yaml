@@ -146,7 +146,8 @@ jobs:
             displayName: 'Download artifacts from running tests'
             inputs:
                 allowPartiallySucceededBuilds: true
-                targetPath: '$(Pipeline.Workspace)/artifacts/accessibility-reports**'
+                targetPath: '$(Pipeline.Workspace)/artifacts'
+                itemPattern: accessibility-reports**
 
           - task: CmdLine@2
             displayName: 'Validate index.html files from artifacts'
