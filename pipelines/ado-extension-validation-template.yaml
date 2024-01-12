@@ -39,7 +39,7 @@ jobs:
           - script: dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI
             displayName: 'Install AttackSurfaceAnalyzer'
 
-          - script: asa collect -cdFktpPsuw --debug --verbose --runid SDL
+          - script: asa collect -dFkpPsuw --debug --verbose --runid SDL
             displayName: 'Start AttackSurfaceAnalyzer'
 
           # Please keep all "should succeed" cases together as a block before and "should fail" cases.
@@ -52,7 +52,7 @@ jobs:
                 outputArtifactName: accessibility-reports-case-succeed-1
                 scanTimeout: 180000
 
-          - script: asa collect -cdFktpPsuw --debug --verbose --match-run-id SDL
+          - script: asa collect -dFkpPsuw --debug --verbose --match-run-id SDL
             displayName: 'Stop AttackSurfaceAnalyzer'
 
           - script: asa export-collect --outputsarif --outputpath SDL.sarif --debug --verbose
