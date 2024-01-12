@@ -39,8 +39,8 @@ jobs:
           - script: dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI
             displayName: 'Install AttackSurfaceAnalyzer'
 
-          - script: asa
-            displayName: 'Run AttackSurfaceAnalyzer'
+          - script: asa collect -cdFktpPsuw --debug --verbose --runid SDL
+            displayName: 'Start AttackSurfaceAnalyzer'
 
           # Please keep all "should succeed" cases together as a block before and "should fail" cases.
           # Do not specify a condition so that the pipeline will fail if any of these fail.
@@ -51,6 +51,12 @@ jobs:
                 failOnAccessibilityError: false
                 outputArtifactName: accessibility-reports-case-succeed-1
                 scanTimeout: 180000
+
+          - script: asa collect -cdFktpPsuw --debug --verbose --match-run-id SDL
+            displayName: 'Stop AttackSurfaceAnalyzer'
+
+          - script: asa export-collect --exportsarif --outputpath SDL.sarif --debug --verbose
+            displayName: 'Export AttackSurfaceAnalyzer results'
 
           - task: ${{ parameters.taskUnderTest }}
             displayName: '[should succeed] case succeed-2: up-to-date baseline'
