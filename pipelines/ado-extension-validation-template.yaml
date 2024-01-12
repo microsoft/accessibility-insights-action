@@ -55,7 +55,7 @@ jobs:
           - script: asa collect -cdFktpPsuw --debug --verbose --match-run-id SDL
             displayName: 'Stop AttackSurfaceAnalyzer'
 
-          - script: asa export-collect --exportsarif --outputpath SDL.sarif --debug --verbose
+          - script: asa export-collect --outputsarif --outputpath SDL.sarif --debug --verbose
             displayName: 'Export AttackSurfaceAnalyzer results'
 
           - task: ${{ parameters.taskUnderTest }}
