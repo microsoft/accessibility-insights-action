@@ -21,6 +21,10 @@ jobs:
                 targetPath: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
                 artifactName: 'accessibility-reports-case-fail-6'
                 condition: succeededOrFailed()
+              - output: pipelineArtifact
+                targetPath: '$(System.DefaultWorkingDirectory)/ASA'
+                artifactName: 'ASA'
+                condition: succeededOrFailed()
       steps:
           - task: NodeTool@0
             inputs:
@@ -51,12 +55,6 @@ jobs:
                 failOnAccessibilityError: false
                 outputArtifactName: accessibility-reports-case-succeed-1
                 scanTimeout: 180000
-
-          - script: asa collect -dFkpPsuw --debug --verbose --match-run-id SDL
-            displayName: 'Stop AttackSurfaceAnalyzer'
-
-          - script: asa export-collect --outputsarif --outputpath SDL.sarif --debug --verbose
-            displayName: 'Export AttackSurfaceAnalyzer results'
 
           - task: ${{ parameters.taskUnderTest }}
             displayName: '[should succeed] case succeed-2: up-to-date baseline'
@@ -153,6 +151,12 @@ jobs:
                 siteDir: '$(System.DefaultWorkingDirectory)/dev/website-root'
             condition: succeededOrFailed()
             continueOnError: true
+
+          - script: asa collect -dFkpPsuw --debug --verbose --match-run-id SDL
+            displayName: 'Stop AttackSurfaceAnalyzer'
+
+          - script: mkdir $(System.DefaultWorkingDirectory)/ASA && asa export-collect --outputsarif --outputpath $(System.DefaultWorkingDirectory)/ASA --debug --verbose
+            displayName: 'Export AttackSurfaceAnalyzer results'
 
     - job: validate_artifacts
       dependsOn: run_tests
