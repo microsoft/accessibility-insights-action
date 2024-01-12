@@ -31,10 +31,10 @@ jobs:
             displayName: 'Start /dev/website-root test server at http://localhost:5858'
 
           - task: UseDotNet@2
-            displayName: 'Install .NET 6'
+            displayName: 'Install .NET 6.x'
             inputs:
                 packageType: 'sdk'
-                version: '6.0'
+                version: '6.x'
 
           - script: dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI
             displayName: 'Install AttackSurfaceAnalyzer'
