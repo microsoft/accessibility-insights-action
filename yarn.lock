@@ -20,7 +20,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     applicationinsights: 2.7.3
-    azure-pipelines-task-lib: ^4.7.0
+    azure-pipelines-task-lib: ^4.8.1
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.56.0
     eslint-plugin-security: ^1.7.1
@@ -3827,9 +3827,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-pipelines-task-lib@npm:^4.7.0":
-  version: 4.7.0
-  resolution: "azure-pipelines-task-lib@npm:4.7.0"
+"azure-pipelines-task-lib@npm:^4.8.1":
+  version: 4.8.1
+  resolution: "azure-pipelines-task-lib@npm:4.8.1"
   dependencies:
     adm-zip: ^0.5.10
     deasync: ^0.1.28
@@ -3839,7 +3839,7 @@ __metadata:
     semver: ^5.1.0
     shelljs: ^0.8.5
     uuid: ^3.0.1
-  checksum: e6064ed4996429dce6ac3a1ad2b2348f9b2447c38ee6b420953ee9efe0f07823b3dc19aecd714960129d19df0b4b939ebf2ea04681373c3032c6d0c0195ee4cc
+  checksum: 9cd2ab81d0c00770cdf05c25b2f8ba719bc73a603fa73a900ad78367163ddd904d1595dd753a0bd9b6526443042830dfd5ab7654f29cbeee8caa35aaed899445
   languageName: node
   linkType: hard
 
