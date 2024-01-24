@@ -53,7 +53,7 @@ __metadata:
     "@types/jest": ^29.5.11
     "@types/lodash": ^4.14.202
     "@types/marked": ^5.0.2
-    "@types/marked-terminal": ^6.0.1
+    "@types/marked-terminal": ^6.1.0
     "@types/normalize-path": ^3.0.2
     "@types/puppeteer-core": ^7.0.4
     "@types/react": ^16.14
@@ -2674,15 +2674,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/marked-terminal@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "@types/marked-terminal@npm:6.0.1"
+"@types/marked-terminal@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "@types/marked-terminal@npm:6.1.0"
   dependencies:
     "@types/cardinal": ^2.1
     "@types/node": "*"
     chalk: ^5.3.0
-    marked: ">=6.0.0 <10"
-  checksum: 6ac5879c3624e30532fc9cb06e35898a8c048bb75e51333089cabbfb971df4d68bfdc1233a2d1a55c71d74c3efc5ccaeb1c5e9b92226d6bc3f639fc80a9afb2a
+    marked: ">=6.0.0 <12"
+  checksum: 08b96cbf525d178ef60963548940e9ab27195ac37b8edc5cf98c945697b8d6606851b6b998061f60716eac1ee9983155ab8b9c61701472a167f02ecfa682737b
   languageName: node
   linkType: hard
 
@@ -3265,7 +3265,7 @@ __metadata:
     "@types/jest": ^29.5.11
     "@types/lodash": ^4.14.202
     "@types/marked": ^5.0.2
-    "@types/marked-terminal": ^6.0.1
+    "@types/marked-terminal": ^6.1.0
     "@types/normalize-path": ^3.0.2
     "@types/puppeteer-core": ^7.0.4
     "@types/serve-static": ^1.15.5
@@ -8527,7 +8527,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:>=6.0.0 <10, marked@npm:^9.1.4":
+"marked@npm:>=6.0.0 <12":
+  version: 11.1.1
+  resolution: "marked@npm:11.1.1"
+  bin:
+    marked: bin/marked.js
+  checksum: e30e16bf1d2c6627fff4369ffef73a1fbec629c5d18be76fc1f9c36f3df96499845bb7785f73313d06082b4562307e4f314f35eaa24ac737c176234b4bf24982
+  languageName: node
+  linkType: hard
+
+"marked@npm:^9.1.4":
   version: 9.1.4
   resolution: "marked@npm:9.1.4"
   bin:
