@@ -57,6 +57,10 @@ export class ADOTaskConfig extends TaskConfig {
         return isEmpty(value) ? undefined : value;
     }
 
+    public getKeepUrlFragment(): boolean {
+        return this.adoTaskObj.getBoolInput('keepUrlFragment');
+    }
+
     public getHostingMode(): string | undefined {
         const value = this.adoTaskObj.getInput('hostingMode');
 

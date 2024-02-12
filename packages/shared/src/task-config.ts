@@ -7,7 +7,7 @@ import { iocTypes } from './ioc/ioc-types';
 export type TaskInputKey = 'HostingMode' | 'StaticSiteDir' | 'StaticSiteUrlRelativePath' | 'Url' | 'StaticSitePort';
 @injectable()
 export abstract class TaskConfig {
-    constructor(@inject(iocTypes.Process) protected readonly processObj: typeof process) {}
+    constructor(@inject(iocTypes.Process) protected readonly processObj: typeof process) { }
     abstract getReportOutDir(): string;
     abstract getStaticSiteDir(): string | undefined;
     abstract getStaticSiteUrlRelativePath(): string | undefined;
@@ -15,6 +15,7 @@ export abstract class TaskConfig {
     abstract getBaselineFile(): string | undefined;
     abstract getChromePath(): string | undefined;
     abstract getUrl(): string | undefined;
+    abstract getKeepUrlFragment(): boolean;
     abstract getMaxUrls(): number;
     abstract getDiscoveryPatterns(): string | undefined;
     abstract getInputFile(): string | undefined;

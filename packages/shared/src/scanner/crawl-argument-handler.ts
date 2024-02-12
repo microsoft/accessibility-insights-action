@@ -16,7 +16,7 @@ export class CrawlArgumentHandler {
         @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
         private readonly resolvePath: typeof resolve = resolve,
         private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,
-    ) {}
+    ) { }
 
     public processScanArguments(localServerUrl?: string): ScanArguments {
         let scanArguments = this.getInitialScanArguments();
@@ -50,6 +50,7 @@ export class CrawlArgumentHandler {
             discoveryPatterns: discoveryPatternsArg?.split(/\s+/),
             inputUrls: inputUrlsArg?.split(/\s+/),
             url: this.taskConfig.getUrl(),
+            keepUrlFragment: this.taskConfig.getKeepUrlFragment(),
             singleWorker: this.taskConfig.getSingleWorker(),
             baselineFile: this.taskConfig.getBaselineFile() || null,
             serviceAccountName: this.taskConfig.getServiceAccountName() || undefined,
