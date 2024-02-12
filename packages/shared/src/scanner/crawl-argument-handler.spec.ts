@@ -27,7 +27,6 @@ describe(CrawlArgumentHandler, () => {
         maxUrls: 10,
         chromePath: 'chrome',
         url: 'url',
-        keepUrlFragment: false,
         singleWorker: false,
         baselineFile: null,
     };
@@ -167,7 +166,6 @@ describe(CrawlArgumentHandler, () => {
         taskConfigMock.setup((m) => m.getInputUrls()).returns((_) => args.inputUrls);
         taskConfigMock.setup((m) => m.getUrl()).returns((_) => args.url);
         taskConfigMock.setup((m) => m.getSingleWorker()).returns((_) => args.singleWorker);
-        taskConfigMock.setup((m) => m.getKeepUrlFragment()).returns((_) => args.keepUrlFragment);
         taskConfigMock.setup((m) => m.getBaselineFile()).returns((_) => args.baselineFile);
         taskConfigMock.setup((m) => m.getServiceAccountName()).returns((_) => undefined);
         taskConfigMock.setup((m) => m.getServiceAccountPassword()).returns((_) => undefined);
