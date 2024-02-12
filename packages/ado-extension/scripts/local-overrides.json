@@ -1,14 +1,14 @@
 [
-  {
-    "name": "failOnAccessibilityError",
-    "value": false
-  },
-  {
-    "name": "url",
-    "value": "http://127.0.0.1:5500/"
-  },
-  {
-    "name": "keepUrlFragment",
-    "value": true
-  }
+    {
+        "name": "failOnAccessibilityError",
+        "value": false
+    },
+    {
+        "name": "url",
+        "value": "http://127.0.0.1:5500/"
+    },
+    {
+        "name": "keepUrlFragment",
+        "value": true
+    }
 ]

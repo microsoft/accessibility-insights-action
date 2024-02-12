@@ -16,7 +16,7 @@ export class CrawlArgumentHandler {
         @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
         private readonly resolvePath: typeof resolve = resolve,
         private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,
-    ) { }
+    ) {}
 
     public processScanArguments(localServerUrl?: string): ScanArguments {
         let scanArguments = this.getInitialScanArguments();
