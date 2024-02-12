@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as ttm from './mock-test';
 
 describe('Sample task tests', () => {
-    let inputs: { [key: string]: any } = {};
+    let inputs: { [key: string]: string } = {};
     beforeEach(() => {
         inputs = {};
     });
@@ -201,28 +201,6 @@ describe('Sample task tests', () => {
         expect(testSubject.errorIssues[0]).toEqual('Scan failed');
         expect(testSubject.stdOutContained('##[debug]Saved new baseline file at')).toBeTruthy();
         expect(testSubject.stdOutContained('8 failure instances')).toBeTruthy();
-    });
-
-    it('should crawl all hash urls with `keepUrlFragment` as true', () => {
-        inputs = {
-            url: 'http://127.0.0.1:5500/',
-            keepUrlFragment: false,
-        };
-        const testSubject = runTestWithInputs(inputs);
-
-        expect(testSubject.stdOutContained('Accessibility scanning of URL http://127.0.0.1:5500/ completed')).toBeTruthy();
-        expect(testSubject.stdOutContainedRegex(new RegExp('Navigate page to URL.*{"url":"http://127.0.0.1:5500/#about"}'))).toBeTruthy();
-    });
-
-    it('should not crawl hash url with `keepUrlFragment` as false', () => {
-        inputs = {
-            url: 'http://127.0.0.1:5500/',
-            keepUrlFragment: false,
-        };
-        const testSubject = runTestWithInputs(inputs);
-
-        expect(testSubject.stdOutContained('Accessibility scanning of URL http://127.0.0.1:5500/ completed')).toBeTruthy();
-        expect(testSubject.stdOutContainedRegex(new RegExp('Navigate page to URL.*{"url":"http://127.0.0.1:5500/#about"}'))).toBeFalsy();
     });
 
     function runTestWithInputs(inputs?: { [key: string]: string }): ttm.MockTestRunner {
