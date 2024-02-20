@@ -179,10 +179,10 @@ export class Scanner {
             scanEngineName: toolName,
             axeCoreVersion: this.axeInfo.version,
             browserUserAgent: combinedScanResult?.scanMetadata?.userAgent ?? 'n/a',
-            urlCount: combinedScanResult?.urlCount ?? 0,
+            urlCount: combinedScanResult.urlCount,
             scanStarted,
             scanEnded,
-            browserResolution: combinedScanResult?.scanMetadata?.browserResolution? ?? 'n/a',
+            browserResolution: combinedScanResult?.scanMetadata?.browserResolution ?? 'n/a',
         };
 
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
