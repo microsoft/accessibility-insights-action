@@ -174,15 +174,15 @@ export class Scanner {
         scanEnded: Date,
     ): CombinedReportParameters {
         const scanResultData = {
-            baseUrl: combinedScanResult.scanMetadata.baseUrl ?? 'n/a',
-            basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
+            baseUrl: combinedScanResult?.scanMetadata?.baseUrl ?? 'n/a',
+            basePageTitle: combinedScanResult?.scanMetadata?.basePageTitle ?? 'n/a',
             scanEngineName: toolName,
             axeCoreVersion: this.axeInfo.version,
-            browserUserAgent: combinedScanResult.scanMetadata.userAgent,
-            urlCount: combinedScanResult.urlCount,
+            browserUserAgent: combinedScanResult?.scanMetadata?.userAgent ?? 'n/a',
+            urlCount: combinedScanResult?.urlCount ?? 0,
             scanStarted,
             scanEnded,
-            browserResolution: combinedScanResult.scanMetadata.browserResolution,
+            browserResolution: combinedScanResult?.scanMetadata?.browserResolution? ?? 'n/a',
         };
 
         return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
