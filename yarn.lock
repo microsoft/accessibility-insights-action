@@ -40,7 +40,7 @@ __metadata:
     ts-loader: ^9.5.1
     typemoq: ^2.1.0
     typescript: ^5.3.3
-    webpack: ^5.90.1
+    webpack: ^5.90.3
     webpack-cli: ^5.1.4
   languageName: unknown
   linkType: soft
@@ -3315,7 +3315,7 @@ __metadata:
     ts-loader: ^9.5.1
     typemoq: ^2.1.0
     typescript: ^5.3.3
-    webpack: ^5.90.1
+    webpack: ^5.90.3
     webpack-cli: ^5.1.4
   languageName: unknown
   linkType: soft
@@ -12190,9 +12190,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.90.1":
-  version: 5.90.1
-  resolution: "webpack@npm:5.90.1"
+"webpack@npm:^5.90.3":
+  version: 5.90.3
+  resolution: "webpack@npm:5.90.3"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^1.0.5
@@ -12223,7 +12223,7 @@ __metadata:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: a7be844d5720a0c6282fec012e6fa34b1137dff953c5d48bf2ef066a6c27c1dbc92a9b9effc05ee61c9fe269499266db9782073f2d82a589d3c5c966ffc56584
+  checksum: de0c824ac220f41cc1153ac33e081d46260b104c4f2fda26f011cdf7a73f74cc091f288cb1fc16f88a36e35bac44e0aa85fc9922fdf3109dfb361f46b20f3fcc
   languageName: node
   linkType: hard
 
