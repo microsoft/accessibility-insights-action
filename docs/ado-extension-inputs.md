@@ -28,7 +28,7 @@ or
 
 -   `staticSitePort` (int). If using `staticSiteDir`, you can set the local website TCP port for the extension to use when serving the static site. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using `baselineFile`, set the port to make sure future scans will match the baseline file.
 
--   `keepUrlFragment` (boolean). Default: `false`. To enable the crawler to crawl on SPA that uses hash routing, make sure to mark this `true` if your application contains hash routing.
+-   `keepUrlFragment` (boolean). Default: `false`. To keep the hash fragment in the URLs. If set to false, it will remove the hash fragment from URL for example, http://www.example.com/#foo will be considered as http://www.example.com.
 
 -   `authType` (Choose one: `AAD` - Azure Active Directory). For sites with authenticated pages, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to set up authentication](https://aka.ms/AI-action-auth).
 

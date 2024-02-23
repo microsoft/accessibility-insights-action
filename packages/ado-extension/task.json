@@ -73,10 +73,10 @@
         {
             "name": "keepUrlFragment",
             "type": "boolean",
-            "label": "Keep hash in URLs.",
+            "label": "Keep hash fragments in URLs.",
             "required": false,
             "defaultValue": false,
-            "helpMarkDown": "To enable the crawler to crawl on SPA that uses hash routing, make sure to mark this `true` if your application contains hash routing."
+            "helpMarkDown": "To keep the hash fragment in the URLs. If set to false, it will remove the hash fragment from URL for example, http://www.example.com/#foo will be considered as http://www.example.com."
         },
         {
             "name": "authType",

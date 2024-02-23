@@ -14,7 +14,7 @@
         "start": "node scripts/run-locally.js",
         "test": "jest --rootDir src",
         "watch:test": "jest --watch",
-        "test:e2e": "jest --rootDir e2e --coverage false",
+        "test:e2e": "concurrently \"npm --prefix ../test-website-hashroute start\" \"jest --rootDir e2e --coverage false\" --kill-others --success first",
         "docs": "node scripts/documentation.js && prettier --write \"../../docs/ado-extension-inputs.md\""
     },
     "repository": {
@@ -37,6 +37,7 @@
         "@typescript-eslint/eslint-plugin": "^6.18.1",
         "@typescript-eslint/parser": "^6.18.1",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
+        "concurrently": "^8.2.2",
         "eslint": "^8.56.0",
         "eslint-plugin-security": "^1.7.1",
         "fork-ts-checker-webpack-plugin": "^9.0.2",
