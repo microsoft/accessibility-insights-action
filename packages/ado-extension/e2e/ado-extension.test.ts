@@ -34,7 +34,7 @@ describe('Sample task tests', () => {
         };
         const testSubject = runTestWithInputs(inputs);
 
-        expect(testSubject.warningIssues.length).toEqual(5);
+        expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
             testSubject.stdOutContained(

@@ -39,7 +39,6 @@
         "@typescript-eslint/eslint-plugin": "^6.18.1",
         "@typescript-eslint/parser": "^6.18.1",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
-        "concurrently": "^8.2.2",
         "eslint": "^8.56.0",
         "eslint-plugin-security": "^1.7.1",
         "fork-ts-checker-webpack-plugin": "^9.0.2",
