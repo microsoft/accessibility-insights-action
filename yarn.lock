@@ -20943,7 +20943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.90.3":
+"webpack@npm:^5.64.4, webpack@npm:^5.90.3":
   version: 5.90.3
   resolution: "webpack@npm:5.90.3"
   dependencies:
