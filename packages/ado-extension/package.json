@@ -14,7 +14,9 @@
         "start": "node scripts/run-locally.js",
         "test": "jest --rootDir src",
         "watch:test": "jest --watch",
-        "test:e2e": "jest --rootDir e2e --coverage false",
+        "test:e2e": "npm-run-all --race --parallel test:e2e:serve-hashroute \"test:e2e:run-tests\" --",
+        "test:e2e:run-tests": "jest --rootDir e2e --coverage false",
+        "test:e2e:serve-hashroute": "yarn workspace test-website-hashroute start",
         "docs": "node scripts/documentation.js && prettier --write \"../../docs/ado-extension-inputs.md\""
     },
     "repository": {

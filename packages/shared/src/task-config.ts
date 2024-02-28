@@ -15,6 +15,7 @@ export abstract class TaskConfig {
     abstract getBaselineFile(): string | undefined;
     abstract getChromePath(): string | undefined;
     abstract getUrl(): string | undefined;
+    abstract getKeepUrlFragment(): boolean;
     abstract getMaxUrls(): number;
     abstract getDiscoveryPatterns(): string | undefined;
     abstract getInputFile(): string | undefined;

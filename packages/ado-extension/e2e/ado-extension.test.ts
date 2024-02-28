@@ -203,6 +203,28 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained('8 failure instances')).toBeTruthy();
     });
 
+    it('should crawl all hash urls with `keepUrlFragment` as true', () => {
+        inputs = {
+            url: 'http://localhost:3000/',
+            keepUrlFragment: 'true',
+        };
+        const testSubject = runTestWithInputs(inputs);
+
+        expect(testSubject.stdOutContained('Accessibility scanning of URL http://localhost:3000/ completed')).toBeTruthy();
+        expect(testSubject.stdOutContainedRegex(new RegExp('Navigate page to URL.*{"url":"http://localhost:3000/#linked1"}'))).toBeTruthy();
+    });
+
+    it('should not crawl hash url with `keepUrlFragment` as false', () => {
+        inputs = {
+            url: 'http://localhost:3000/',
+            keepUrlFragment: 'false',
+        };
+        const testSubject = runTestWithInputs(inputs);
+
+        expect(testSubject.stdOutContained('Accessibility scanning of URL http://localhost:3000/ completed')).toBeTruthy();
+        expect(testSubject.stdOutContainedRegex(new RegExp('Navigate page to URL.*{"url":"http://localhost:3000/#linked1"}'))).toBeFalsy();
+    });
+
     function runTestWithInputs(inputs?: { [key: string]: string }): ttm.MockTestRunner {
         const compiledSourcePath = path.join(__dirname, 'mock-test-runner.js');
         const testSubject: ttm.MockTestRunner = new ttm.MockTestRunner(compiledSourcePath, inputs);

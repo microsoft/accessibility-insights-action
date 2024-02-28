@@ -50,6 +50,7 @@ export class CrawlArgumentHandler {
             discoveryPatterns: discoveryPatternsArg?.split(/\s+/),
             inputUrls: inputUrlsArg?.split(/\s+/),
             url: this.taskConfig.getUrl(),
+            keepUrlFragment: this.taskConfig.getKeepUrlFragment(),
             singleWorker: this.taskConfig.getSingleWorker(),
             baselineFile: this.taskConfig.getBaselineFile() || null,
             serviceAccountName: this.taskConfig.getServiceAccountName() || undefined,

@@ -71,6 +71,14 @@
             "visibleRule": "hostingMode = dynamicSite"
         },
         {
+            "name": "keepUrlFragment",
+            "type": "boolean",
+            "label": "Keep hash fragments in URLs.",
+            "required": false,
+            "defaultValue": false,
+            "helpMarkDown": "To keep the hash fragment in the URLs. If set to false, it will remove the hash fragment from URL for example, http://www.example.com/#foo will be considered as http://www.example.com."
+        },
+        {
             "name": "authType",
             "type": "pickList",
             "label": "Authentication type",
