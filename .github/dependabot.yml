@@ -40,6 +40,11 @@ updates:
   - dependency-name: "applicationinsights"
     versions:
     - ">= 2.7.3"
+    # react-router-dom is used for test website for testing Urls with hash fragments.
+    # the feature used in test website is not supported from v6. https://github.com/remix-run/react-router/issues/11076
+  - dependency-name: "react-router-dom"
+    versions:
+    - ">= 5.3.4"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
