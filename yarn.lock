@@ -23,7 +23,7 @@ __metadata:
     azure-pipelines-task-lib: ^4.10.0
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.57.0
-    eslint-plugin-security: ^1.7.1
+    eslint-plugin-security: ^2.1.1
     fork-ts-checker-webpack-plugin: ^9.0.2
     jest: ^29.7.0
     jest-extended: ^4.0.2
@@ -65,7 +65,7 @@ __metadata:
     accessibility-insights-scan: 2.5.1
     axe-core: 4.7.2
     eslint: ^8.57.0
-    eslint-plugin-security: ^1.7.1
+    eslint-plugin-security: ^2.1.1
     express: ^4.18.3
     filenamify-url: ^3.1.0
     fork-ts-checker-webpack-plugin: ^9.0.2
@@ -5845,7 +5845,7 @@ __metadata:
     case-sensitive-paths-webpack-plugin: ^2.4.0
     codecov: ^3.8.3
     eslint: ^8.57.0
-    eslint-plugin-security: ^1.7.1
+    eslint-plugin-security: ^2.1.1
     fork-ts-checker-webpack-plugin: ^9.0.2
     jest: ^29.7.0
     jest-extended: ^4.0.2
@@ -9808,12 +9808,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-security@npm:^1.7.1":
-  version: 1.7.1
-  resolution: "eslint-plugin-security@npm:1.7.1"
+"eslint-plugin-security@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "eslint-plugin-security@npm:2.1.1"
   dependencies:
     safe-regex: ^2.1.1
-  checksum: 3a650e2482e108bb4b9c3b9ac64adefcf1dfda069cd43f89a7d3b84822da2417c9d1b764ec5e1acf4c193b48edc630c7ef2d0a5279a478a8672f9030bc78a8c0
+  checksum: 9ff8ba3aec548c1133db156b64214518ee953e3cb58f828c2f943bcc8d153238f2caf3c11a6ae45990795eb1c70076041f228842a0c77af20dc48ed8b3bca743
   languageName: node
   linkType: hard
 
