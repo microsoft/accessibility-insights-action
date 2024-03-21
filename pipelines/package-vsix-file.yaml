@@ -40,7 +40,7 @@ steps:
       name: QueryVersion
       inputs:
           connectTo: 'VsTeam'
-          connectedServiceName: 'vs-marketplace'
+          connectedServiceName: 'a11y-insights-vs-marketplace'
           publisherId: '$(PublisherID)'
           extensionId: '$(ExtensionID)'
           versionAction: 'Patch'
