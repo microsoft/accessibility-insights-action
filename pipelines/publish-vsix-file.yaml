@@ -23,7 +23,7 @@ steps:
     - task: PublishAzureDevOpsExtension@3
       inputs:
           connectTo: 'VsTeam'
-          connectedServiceName: 'vs-marketplace'
+          connectedServiceName: 'a11y-insights-vs-marketplace'
           fileType: 'vsix'
           vsixFile: '${{ parameters.environment }}-vsix/${{ parameters.environment }}.vsix'
           publisherId: '$(PublisherID)'
