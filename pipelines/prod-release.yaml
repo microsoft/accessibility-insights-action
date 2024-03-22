@@ -24,14 +24,14 @@ resources:
 stages:
     - stage: package_publish_staging
       variables:
-          - group: ado-extension-staging
+          - group: a11y-insights-ado-extension-staging
           - ${{ if ne(parameters.stagingVersionOverride, 'increment') }}:
                 - name: extensionVersionOverride
                   value: ${{ parameters.stagingVersionOverride }}
       jobs:
           - template: release-template.yaml
             parameters:
-                environment: ado-extension-staging
+                environment: a11y-insights-ado-extension-staging
                 shouldSign: true
                 visibility: preview
 
@@ -66,12 +66,12 @@ stages:
 
     - stage: package_publish_prod
       variables:
-          - group: ado-extension-prod
+          - group: a11y-insights-ado-extension-prod
           - name: extensionVersionOverride
             value: ${{ parameters.prodVersionOverride }}
       jobs:
           - template: release-template.yaml
             parameters:
-                environment: ado-extension-prod
+                environment: a11y-insights-ado-extension-prod
                 shouldSign: true
                 visibility: preview
