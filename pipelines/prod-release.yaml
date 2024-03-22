@@ -58,7 +58,7 @@ stages:
                       tag: '$(tag)'
                       action: edit
                       tagSource: userSpecifiedTag
-                      gitHubConnection: 'ada-cat-github-repo-access'
+                      gitHubConnection: 'a11y-insights-ada-cat-github-oauth'
                       isPreRelease: true
                       isDraft: true
                       target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
