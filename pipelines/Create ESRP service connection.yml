@@ -14,7 +14,7 @@ name: $(Date:yyyyMMdd).$(Rev:r)
 variables:
     - name: Codeql.SkipTaskAutoInjection
       value: true
-    - group: esrp-signing-certificate
+    - group: a11y-insights-esrp-signing-certificate
 
 resources:
     repositories:
@@ -55,7 +55,7 @@ extends:
                               script: |-
                                   # This script grabs the latest ESRP client secret & cert
                                   # from the PME KeyVault and creates a new service
-                                  # connection called 'ESRP (staging)' with those values.
+                                  # connection called 'a11y-insights-esrp-code-signing (staging)' with those values.
                                   # This script does not actually rotate the certificates.
                                   # You still need to JIT into the PME KV and create a new
                                   # version of the certificate. Once you've done that,
@@ -86,7 +86,7 @@ extends:
                                      },
                                      "description":"ESRP service connection used for all signing requests",
                                      "groupScopeId":null,
-                                     "name":"ESRP (staging)",
+                                     "name":"a11y-insights-esrp-code-signing (staging)",
                                      "operationStatus":null,
                                      "readersGroup":null,
                                      "type":"PRSS",
