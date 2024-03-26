@@ -23,7 +23,7 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained("##[debug][Telemetry] tracking a 'ScanCompleted' event"));
 
         function filterStdOut(stdout: string) {
-            const logs = stdout.match(/-------------------(.|\n)*This scan used axe-core 4\.7\.2/);
+            const logs = stdout.match(/-------------------(.|\n)*This scan used axe-core 4\.8\.4/);
             return logs ? logs[0] : '';
         }
     });
