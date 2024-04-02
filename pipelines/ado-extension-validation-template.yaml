@@ -29,7 +29,7 @@ jobs:
 
           - script: yarn install --immutable
             displayName: 'yarn install'
-    
+
           # reused by all "url" cases except hash routing
           - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
             displayName: 'Start /dev/website-root test server at http://localhost:5858'
