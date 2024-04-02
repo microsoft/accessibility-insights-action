@@ -26,9 +26,17 @@ jobs:
             inputs:
                 versionSpec: '16.x'
                 displayName: Use Node 16.x
-          # reused by all "url" cases
+
+          - script: yarn install --immutable
+            displayName: 'yarn install'
+    
+          # reused by all "url" cases except hash routing
           - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
             displayName: 'Start /dev/website-root test server at http://localhost:5858'
+
+            # reused by all "url" cases with hash routing
+          - script: yarn workspace test-website-hashroute start &
+            displayName: 'Start /packages/test-website-hashroute test server'
 
           # Please keep all "should succeed" cases together as a block before and "should fail" cases.
           # Do not specify a condition so that the pipeline will fail if any of these fail.
@@ -136,6 +144,25 @@ jobs:
             condition: succeededOrFailed()
             continueOnError: true
 
+          # Below cases are for keepUrlFragment parameter validation
+          - task: ${{ parameters.taskUnderTest }}
+            displayName: '[should crawl] case keepUrlFragment-1: crawl to hash routed page'
+            inputs:
+                url: 'http://localhost:3000/'
+                keepUrlFragment: 'true'
+                outputArtifactName: 'accessibility-reports-case-keepUrlFragment-1'
+            condition: succeededOrFailed()
+            continueOnError: true
+
+          - task: ${{ parameters.taskUnderTest }}
+            displayName: '[should not crawl] case keepUrlFragment-2: do not crawl to hash routed page'
+            inputs:
+                url: 'http://localhost:3000/'
+                keepUrlFragment: 'false'
+                outputArtifactName: 'accessibility-reports-case-keepUrlFragment-2'
+            condition: succeededOrFailed()
+            continueOnError: true
+
     - job: validate_artifacts
       dependsOn: run_tests
       displayName: 'Validate artifacts'
@@ -160,6 +187,8 @@ jobs:
                     echo artifacts/accessibility-reports-case-fail-5/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-fail-6/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-fail-7/index.html >> expected-index-html-files.txt
+                    echo artifacts/accessibility-reports-case-keepUrlFragment-1/index.html >> expected-index-html-files.txt
+                    echo artifacts/accessibility-reports-case-keepUrlFragment-2/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-succeed-1/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-succeed-2/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports/index.html >> expected-index-html-files.txt
@@ -191,4 +220,29 @@ jobs:
                     echo Comparing actual-baseline-files.txt to expected-baseline-files.txt
                     # Note: diff will return 0 if the files are identical, 1 if they differ, and 2 if an error occurs
                     diff actual-baseline-files.txt expected-baseline-files.txt
+                workingDirectory: '$(Pipeline.Workspace)'
+
+          - task: CmdLine@2
+            displayName: 'Validate keepUrlFragment from index.html file'
+            # Below validation is based on number of URLs scanned by crawler in index.html file
+            # with keepUrlFragment as false, only 1 Url should be scanned
+            # with keepUrlFragment as true, 5 Urls should be scanned
+            inputs:
+                script: |
+                    cd artifacts/accessibility-reports-case-keepUrlFragment-1
+                    grep -r --include='*.html' '5</span> total URLs scanned' > accessibility-reports-case-keepUrlFragment-1.txt
+                    if [ -s "accessibility-reports-case-keepUrlFragment-1.txt" ]; then
+                    echo test-passed > expected-result.txt
+                    echo keepUrlFragment-1-test-passed
+                    fi
+
+                    cd ../accessibility-reports-case-keepUrlFragment-2
+                    grep -r --include='*.html' '5</span> total URLs scanned' > accessibility-reports-case-keepUrlFragment-2.txt
+                    if [ ! -s "accessibility-reports-case-keepUrlFragment-2.txt" ]; then
+                    echo test-passed > expected-result.txt
+                    echo keepUrlFragment-2-test-passed
+                    fi
+
+                    cd ..
+                    diff accessibility-reports-case-keepUrlFragment-1/expected-result.txt accessibility-reports-case-keepUrlFragment-2/expected-result.txt
                 workingDirectory: '$(Pipeline.Workspace)'
