@@ -141,7 +141,7 @@ jobs:
           - task: ${{ parameters.taskUnderTest }}
             displayName: '[should crawl] case keepUrlFragment-1: crawl to hash routed page'
             inputs:
-                url: 'https://ms.portal.azure.com/#browse/all'
+                url: 'https://ms.portal.azure.com/#home'
                 serviceAccountName: $(a11yinsscan-service-acct-username)
                 serviceAccountPassword: $(a11yinsscan-service-acct-password)
                 authType: 'AAD'
@@ -154,7 +154,7 @@ jobs:
           - task: ${{ parameters.taskUnderTest }}
             displayName: '[should not crawl] case keepUrlFragment-2: do not crawl to hash routed page'
             inputs:
-                url: 'https://ms.portal.azure.com/#browse/all'
+                url: 'https://ms.portal.azure.com/#home'
                 serviceAccountName: $(a11yinsscan-service-acct-username)
                 serviceAccountPassword: $(a11yinsscan-service-acct-password)
                 authType: 'AAD'
