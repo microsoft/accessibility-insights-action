@@ -40,7 +40,7 @@ steps:
       name: QueryVersion
       inputs:
           connectTo: 'VsTeam'
-          connectedServiceName: 'vs-marketplace'
+          connectedServiceName: 'a11y-insights-vs-marketplace'
           publisherId: '$(PublisherID)'
           extensionId: '$(ExtensionID)'
           versionAction: 'Patch'
@@ -90,7 +90,7 @@ steps:
       condition: and(succeeded(), eq('${{ parameters.shouldSign }}', 'true'))
       displayName: 'ESRP: Sign VSIX file '
       inputs:
-          ConnectedServiceName: 'ESRP Code Signing'
+          ConnectedServiceName: 'a11y-insights-esrp-code-signing'
           FolderPath: '$(Build.ArtifactStagingDirectory)'
           Pattern: '${{ parameters.environment }}.vsix'
           signConfigType: inlineSignParams

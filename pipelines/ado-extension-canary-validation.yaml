@@ -6,7 +6,7 @@ trigger: none
 pr: none
 
 variables:
-    - group: 'ado-auth-example-secrets'
+    - group: 'a11y-insights-ado-auth-example-secrets'
 
 resources:
     pipelines:
