@@ -48,6 +48,14 @@ extends:
                           displayName: Show environment variables
                           inputs:
                               script: set
+                        - task: AzureCLI@2
+                          displayName: 'Fetch profile for Service Principal'
+                          inputs:
+                            azureSubscription: 'a11y-insights-action-prod-multi-tenant'
+                            scriptType: pscore
+                            scriptLocation: inlineScript
+                            inlineScript: |
+                              az rest -u https://app.vssps.visualstudio.com/_apis/profile/profiles/me --resource 499b84ac-1321-427f-aa17-267ca6975798
                         - task: PowerShell@2
                           displayName: Create connection
                           inputs:
