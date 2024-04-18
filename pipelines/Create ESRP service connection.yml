@@ -51,7 +51,7 @@ extends:
                         - task: AzureCLI@2
                           displayName: 'Fetch profile for Service Principal'
                           inputs:
-                            azureSubscription: 'a11y-insights-action-prod-multi-tenant'
+                            azureSubscription: 'a11y-insights-action-prod'
                             scriptType: pscore
                             scriptLocation: inlineScript
                             inlineScript: |
