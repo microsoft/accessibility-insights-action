@@ -51,15 +51,15 @@ extends:
                         - task: AzureCLI@2
                           displayName: Get accessToken
                           inputs:
-                            azureSubscription: a11y-insights-action-prod
-                            scriptType: pscore
-                            scriptLocation: 'inlineScript'
-                            inlineScript: |
-                              $env:AZURE_DEVOPS_EXT_PAT = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
-                              write-host "##vso[task.setsecret]$env:AZURE_DEVOPS_EXT_PAT"
-                         - task: PowerShell@2
-                           displayName: Create connection
-                           inputs:
+                              azureSubscription: a11y-insights-action-prod
+                              scriptType: pscore
+                              scriptLocation: 'inlineScript'
+                              inlineScript: |
+                                  $env:AZURE_DEVOPS_EXT_PAT = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
+                                  write-host "##vso[task.setsecret]$env:AZURE_DEVOPS_EXT_PAT"
+                        - task: PowerShell@2
+                          displayName: Create connection
+                          inputs:
                               targetType: inline
                               script: |-
                                   # This script grabs the latest ESRP client secret & cert
@@ -70,65 +70,65 @@ extends:
                                   # version of the certificate. Once you've done that,
                                   # you can run this pipeline and test the newly created
                                   # service connection.
-                            
+
                                   Write-Host "Finding path for new config file"
-                            
+
                                   $TempPath = $env:TEMP.ToString() + "\"
                                   $randomId = [GUID]::NewGuid().ToString()
                                   $resultFile = $TempPath + $randomId + ".json"
-                            
+
                                   $ConfigJson = @"
                                   {
-                                     "administratorsGroup":null,
-                                     "authorization":{
+                                      "administratorsGroup":null,
+                                      "authorization":{
                                         "scheme":"UsernamePassword",
                                         "parameters":{
-                                           "username":"",
-                                           "password":"",
-                                           "tenantid":"",
-                                           "RequestSignCertConnectedService":""
+                                            "username":"",
+                                            "password":"",
+                                            "tenantid":"",
+                                            "RequestSignCertConnectedService":""
                                         }
-                                     },
-                                     "createdBy":null,
-                                     "data":{
-                                        
-                                     },
-                                     "description":"ESRP service connection used for all signing requests",
-                                     "groupScopeId":null,
-                                     "name":"a11y-insights-esrp-code-signing (staging)",
-                                     "operationStatus":null,
-                                     "readersGroup":null,
-                                     "type":"PRSS",
-                                     "url":"https://api.esrp.microsoft.com/api/v2",
-                                     "isShared":false,
-                                     "owner":"library"
+                                      },
+                                      "createdBy":null,
+                                      "data":{
+
+                                      },
+                                      "description":"ESRP service connection used for all signing requests",
+                                      "groupScopeId":null,
+                                      "name":"a11y-insights-esrp-code-signing (staging)",
+                                      "operationStatus":null,
+                                      "readersGroup":null,
+                                      "type":"PRSS",
+                                      "url":"https://api.esrp.microsoft.com/api/v2",
+                                      "isShared":false,
+                                      "owner":"library"
                                   }
                                   "@
-                            
-                                  try {                                            
+
+                                  try {
                                       az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project="$(system.teamProject)" --use-git-aliases true
-                            
+
                                       Write-Host "Updating config object"
                                       $ConfigObj = $ConfigJson | ConvertFrom-Json
-                            
+
                                       # Username comes from the AAD App ID in the microsoft tenant
                                       $ConfigObj.authorization.parameters.username = "$(a11y-unified-esrp-client-app)"
                                       $ConfigObj.authorization.parameters.password = "$(a11y-unified-esrp-client-secret)"
                                       $ConfigObj.authorization.parameters.RequestSignCertConnectedService = "$(a11y-unified-esrp-cert)"
-                            
+
                                       Write-Host "Creating config file"
                                       $JsonText = $ConfigObj | ConvertTo-Json
-                            
+
                                       $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
                                       [System.IO.File]::WriteAllLines($resultFile, $JsonText, $Utf8NoBomEncoding)
-                            
+
                                       Write-Host "Updating service connection"
                                       az devops service-endpoint create --service-endpoint-configuration $resultFile --org "$(System.TeamFoundationCollectionUri)" --project "$(system.teamProject)" | Out-Null
                                   } finally {
                                       Write-Host "removing key file"
                                       Remove-Item $resultFile
                                   }
-                            env:
+                          env:
                               a11y-unified-esrp-client-secret: $(a11y-unified-esrp-client-secret)
                               a11y-unified-esrp-cert: $(a11y-unified-esrp-cert)
                               a11y-unified-esrp-client-app: $(a11y-unified-esrp-client-app)
