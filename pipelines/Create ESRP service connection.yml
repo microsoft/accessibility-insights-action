@@ -60,7 +60,6 @@ extends:
                          - task: PowerShell@2
                               displayName: Create connection
                               inputs:
-                                  azureSubscription: a11y-insights-action-prod
                                   targetType: inline
                                   script: |-
                                       # This script grabs the latest ESRP client secret & cert
