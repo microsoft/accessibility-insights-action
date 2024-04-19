@@ -50,18 +50,15 @@ extends:
                               script: set
                         - task: AzureCLI@2
                           displayName: Get accessToken
+                          name: getAccessToken
                           inputs:
                               azureSubscription: a11y-insights-action-prod
                               scriptType: pscore
                               scriptLocation: 'inlineScript'
                               inlineScript: |
-                                  $accessToken= az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
+                                  $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
                                   write-host "##vso[task.setsecret]$accessToken"
-                                  write-host "##vso[task.setvariable variable=servicePrincipalToken;issecret=true;readonly=true]$accessToken"
-                        - task: Bash@3
-                          inputs:
-                              targetType: 'inline'
-                              script: 'printenv'
+                                  write-host "##vso[task.setvariable variable=servicePrincipalToken;issecret=true;readonly=true;isoutput=true]$accessToken"
                         - task: PowerShell@2
                           displayName: Create connection
                           inputs:
@@ -138,4 +135,4 @@ extends:
                               a11y-unified-esrp-client-secret: $(a11y-unified-esrp-client-secret)
                               a11y-unified-esrp-cert: $(a11y-unified-esrp-cert)
                               a11y-unified-esrp-client-app: $(a11y-unified-esrp-client-app)
-                              AZURE_DEVOPS_EXT_PAT: $(servicePrincipalToken)
+                              AZURE_DEVOPS_EXT_PAT: $(getAccessToken.servicePrincipalToken)
