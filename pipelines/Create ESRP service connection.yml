@@ -73,7 +73,7 @@ extends:
                                   # you can run this pipeline and test the newly created
                                   # service connection.
 
-                                  Write-Host "PAT env variable: $(AZURE_DEVOPS_EXT_PAT)"
+                                  Write-Host "PAT env variable: $env:AZURE_DEVOPS_EXT_PAT"
                                   Write-Host "Finding path for new config file"
 
                                   $TempPath = $env:TEMP.ToString() + "\"
