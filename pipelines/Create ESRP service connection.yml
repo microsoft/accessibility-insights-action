@@ -132,3 +132,4 @@ extends:
                               a11y-unified-esrp-client-secret: $(a11y-unified-esrp-client-secret)
                               a11y-unified-esrp-cert: $(a11y-unified-esrp-cert)
                               a11y-unified-esrp-client-app: $(a11y-unified-esrp-client-app)
+                              AZURE_DEVOPS_EXT_PAT: $(AZURE_DEVOPS_EXT_PAT)
