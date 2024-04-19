@@ -57,6 +57,10 @@ extends:
                               inlineScript: |
                                   $env:AZURE_DEVOPS_EXT_PAT = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
                                   write-host "##vso[task.setsecret]$env:AZURE_DEVOPS_EXT_PAT"
+                        - task: Bash@3
+                          inputs:
+                              targetType: 'inline'
+                              script: 'printenv'
                         - task: PowerShell@2
                           displayName: Create connection
                           inputs:
