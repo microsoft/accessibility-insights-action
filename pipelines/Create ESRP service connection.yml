@@ -57,7 +57,7 @@ extends:
                               inlineScript: |
                                   $accessToken= az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
                                   write-host "##vso[task.setsecret]$accessToken"
-                                  write-host "##vso[task.setvariable variable=servicePrincipalToken;issecret=true;isoutput=true]$accessToken"
+                                  write-host "##vso[task.setvariable variable=servicePrincipalToken;issecret=true;readonly=true]$accessToken"
                         - task: Bash@3
                           inputs:
                               targetType: 'inline'
@@ -111,6 +111,7 @@ extends:
                                   "@
 
                                   try {
+                                      Write-Host "PAT env variable: $(AZURE_DEVOPS_EXT_PAT)"
                                       az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project="$(system.teamProject)" --use-git-aliases true
 
                                       Write-Host "Updating config object"
