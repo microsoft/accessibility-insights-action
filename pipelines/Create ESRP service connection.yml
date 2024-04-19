@@ -48,7 +48,7 @@ extends:
                           displayName: Show environment variables
                           inputs:
                               script: set
-                        - task: AzureCLI@3
+                        - task: AzureCLI@2
                           displayName: 'Fetch profile for Service Principal'
                           inputs:
                             azureSubscription: 'a11y-insights-action-prod'
