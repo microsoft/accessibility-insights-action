@@ -109,7 +109,7 @@ extends:
 
                                   try {
                                       Write-Host "Log in with identity"
-                                      az login --identity -u $(a11y-insights-action-prod-managed-id) --federated-token $env:AZURE_DEVOPS_EXT_PAT
+                                      az login --identity -u $(a11y-insights-action-prod-managed-id)
 
                                       Write-Host "List subscriptions with access"
                                       az account list
