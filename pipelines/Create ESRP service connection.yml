@@ -108,6 +108,12 @@ extends:
                                   "@
 
                                   try {
+                                      Write-Host "Log in with identity"
+                                      az login --identity
+
+                                      Write-Host "List managed identity resources"
+                                      az identity list-resources --resource-group a11y-insights-action-identities --name a11y-insights-action-prod-managed-id
+
                                       az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project="$(system.teamProject)" --use-git-aliases true
 
                                       Write-Host "Checking access by listing projects"
