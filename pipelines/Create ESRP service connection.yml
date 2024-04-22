@@ -109,7 +109,7 @@ extends:
 
                                   try {
                                       Write-Host "Log in with identity"
-                                      az login --identity
+                                      az login --identity --allow-no-subscriptions
 
                                       Write-Host "List managed identity resources"
                                       az identity list-resources --resource-group a11y-insights-action-identities --name a11y-insights-action-prod-managed-id
