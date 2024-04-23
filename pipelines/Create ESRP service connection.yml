@@ -109,7 +109,7 @@ extends:
 
                                   try {
                                       Write-Host "Log in with service principal"
-                                      az login --service-principal --username  a53f2e83-dba9-6a3f-a674-8cf827a91ac7 --allow-no-subscriptions --federated-token $env:AZURE_DEVOPS_EXT_PAT
+                                      az login --service-principal --username $(a11y-insights-action-prod-multi-tenant) --allow-no-subscriptions --federated-token $env:AZURE_DEVOPS_EXT_PAT
 
                                       Write-Host "List subscriptions with access"
                                       az account list
@@ -144,3 +144,4 @@ extends:
                               a11y-unified-esrp-cert: $(a11y-unified-esrp-cert)
                               a11y-unified-esrp-client-app: $(a11y-unified-esrp-client-app)
                               AZURE_DEVOPS_EXT_PAT: $(getAccessToken.servicePrincipalToken)
+                              a11y-insights-action-prod-multi-tenant: 'a53f2e83-dba9-6a3f-a674-8cf827a91ac7'
