@@ -86,11 +86,16 @@ steps:
           packageType: 'sdk'
           version: '2.1.x'
 
-    - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
+    - task: oss-test.build-tasks.custom-build-task-1.EsrpCodeSigning@5
       condition: and(succeeded(), eq('${{ parameters.shouldSign }}', 'true'))
       displayName: 'ESRP: Sign VSIX file '
       inputs:
-          ConnectedServiceName: 'a11y-insights-esrp-code-signing'
+          ConnectedServiceName: 'a11y-insights-esrp-code-signing-mi'
+          AppRegistrationClientId: '1cb0e84f-0234-46e0-ab7f-3fd56746d743'
+          AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+          AuthAKVName: 'a11y-insights-esrp-certs'
+          AuthCertName: 'a11y-insights-action-esrp-auth-cert'
+          AuthSignCertName: 'a11y-insights-action-esrp-cert'
           FolderPath: '$(Build.ArtifactStagingDirectory)'
           Pattern: '${{ parameters.environment }}.vsix'
           signConfigType: inlineSignParams
