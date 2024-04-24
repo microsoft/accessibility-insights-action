@@ -81,10 +81,10 @@ steps:
           outputPath: '$(Build.ArtifactStagingDirectory)/${{ parameters.environment }}.vsix'
 
     - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk 2.1.x'
+      displayName: 'Use .NET Core sdk 6.0.x'
       inputs:
           packageType: 'sdk'
-          version: '2.1.x'
+          version: '6.0.x'
 
     - task: EsrpCodeSigning@5
       condition: and(succeeded(), eq('${{ parameters.shouldSign }}', 'true'))
