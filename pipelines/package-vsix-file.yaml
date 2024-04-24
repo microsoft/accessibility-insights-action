@@ -86,7 +86,7 @@ steps:
           packageType: 'sdk'
           version: '2.1.x'
 
-    - task: oss-test.build-tasks.custom-build-task-1.EsrpCodeSigning@5
+    - task: EsrpCodeSigning@5
       condition: and(succeeded(), eq('${{ parameters.shouldSign }}', 'true'))
       displayName: 'ESRP: Sign VSIX file '
       inputs:
