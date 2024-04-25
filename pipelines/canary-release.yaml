@@ -18,8 +18,12 @@ variables:
 
 trigger: none
 
+# Accessibility Insights team's 1ES hosted pool.
+# This variable is saved in Azure DevOps from the "Edit" pipeline view.
 pool:
-    vmImage: ubuntu-latest
+    name: $(a11yInsightsPool)
+    image: ubuntu-22.04-secure
+    os: linux
 
 resources:
     pipelines:
