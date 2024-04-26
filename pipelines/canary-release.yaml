@@ -21,7 +21,8 @@ trigger: none
 pool:
     name: $(a11yInsightsPool)
     vmImage: ubuntu-22.04-secure
-    demands: Agent.OS -equals Linux
+    demands:
+        - agent.name -equals c7a7fcd0c000000
 
 resources:
     pipelines:
