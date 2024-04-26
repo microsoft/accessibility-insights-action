@@ -22,8 +22,7 @@ trigger: none
 # This variable is saved in Azure DevOps from the "Edit" pipeline view.
 pool:
     name: $(a11yInsightsPool)
-    image: ubuntu-22.04-secure
-    os: linux
+    demands: Agent.Name -equals ubuntu-22.04-secure
 
 resources:
     pipelines:
