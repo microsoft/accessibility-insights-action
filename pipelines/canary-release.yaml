@@ -20,9 +20,8 @@ trigger: none
 
 pool:
     name: $(a11yInsightsPool)
-    vmImage: ubuntu-22.04-secure
-    demands:
-        - agent.name -equals c7a7fcd0c000000
+    image: ubuntu-22.04-secure
+    os: linux
 
 resources:
     pipelines:
@@ -33,6 +32,10 @@ resources:
 
 stages:
     - stage: package_publish_canary
+      pool:
+          name: $(a11yInsightsPool)
+          image: ubuntu-22.04-secure
+          os: linux
       variables:
           - group: ${{ parameters.variableGroupName }}
       jobs:
