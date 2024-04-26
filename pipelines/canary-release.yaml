@@ -20,8 +20,8 @@ trigger: none
 
 pool:
     name: $(a11yInsightsPool)
-    image: ubuntu-22.04-secure
-    os: linux
+    vmImage: ubuntu-22.04-secure
+    demands: Agent.OS -equals Linux
 
 resources:
     pipelines:
