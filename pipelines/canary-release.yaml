@@ -37,10 +37,6 @@ stages:
       jobs:
           - template: release-template.yaml
             parameters:
-                pool:
-                    name: $(a11yInsightsPool)
-                    image: $(linuxImage)
-                    os: linux
                 ${{ if eq(parameters.variableGroupName, 'a11y-insights-ado-extension-canary') }}:
                     environment: a11y-insghts-ado-extension-canary
                     shouldSign: true
