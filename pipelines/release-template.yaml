@@ -20,10 +20,6 @@ jobs:
                 environment: ${{ parameters.environment }}
                 shouldSign: ${{ parameters.shouldSign }}
                 visibility: ${{parameters.visibility}}
-                pool:
-                    name: $(a11yInsightsPool)
-                    image: ubuntu-22.04-secure
-                    os: linux
     - deployment: publish_vsix_file
       displayName: deploy vsix file
       dependsOn: package_job
@@ -36,7 +32,3 @@ jobs:
                         parameters:
                             environment: ${{ parameters.environment }}
                             visibility: ${{parameters.visibility}}
-                            pool:
-                                name: $(a11yInsightsPool)
-                                image: ubuntu-22.04-secure
-                                os: linux
