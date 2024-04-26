@@ -41,10 +41,6 @@ stages:
                     environment: a11y-insghts-ado-extension-canary
                     shouldSign: true
                     visibility: preview
-                    pool:
-                        name: $(a11yInsightsPool)
-                        image: $(linuxImage)
-                        os: linux
                 ${{ if ne(parameters.variableGroupName, 'a11y-insights-ado-extension-canary') }}:
                     environment: a11y-insghts-ado-extension-test
                     shouldSign: false
