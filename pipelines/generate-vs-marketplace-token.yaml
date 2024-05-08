@@ -12,6 +12,4 @@ steps:
           inlineScript: |
               $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
               write-host "##vso[task.setsecret]$accessToken"
-              write-host "##vso[task.setendpoint id=$env:MARKETPLACE_SERVICE_CONNECTION;field=authParameter;key=password]$accessToken"
-      env:
-          MARKETPLACE_SERVICE_CONNECTION: '9956b57f-a4b0-44bf-96fc-ac1ef0dc3642'
+              write-host "##vso[task.setendpoint id=$(MARKETPLACE_RESOURCE_ID);field=authParameter;key=password]$accessToken"
