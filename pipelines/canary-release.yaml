@@ -20,8 +20,9 @@ trigger: none
 
 pool:
     name: $(a11yInsightsPool)
-    image: $(linuxImage)
-    os: linux
+    vmImage: $(linuxImage)
+    demands:
+        - ImageOverride -equals $(linuxImage)
 
 resources:
     pipelines:
