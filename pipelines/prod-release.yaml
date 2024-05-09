@@ -15,8 +15,9 @@ trigger: none
 
 pool:
     name: $(a11yInsightsPool)
-    image: ubuntu-22.04-secure
-    os: linux
+    vmImage: $(linuxImage)
+    demands:
+        - ImageOverride -equals $(linuxImage)
 
 resources:
     pipelines:
