@@ -3,8 +3,7 @@
 
 import { injectable } from 'inversify';
 import { CombinedReportParameters } from 'accessibility-insights-report';
-import { marked } from 'marked';
-import TerminalRenderer from 'marked-terminal';
+import { Renderer, marked } from 'marked';
 import { BaselineEvaluation } from 'accessibility-insights-scan';
 
 @injectable()
@@ -12,7 +11,7 @@ export abstract class ProgressReporter {
     constructor() {
         if (process.env.ACT === 'true') {
             marked.setOptions({
-                renderer: new TerminalRenderer(),
+                renderer: new Renderer(),
             });
         }
     }
