@@ -91,8 +91,8 @@ steps:
       displayName: 'ESRP: Sign VSIX file '
       inputs:
           ConnectedServiceName: 'a11y-insights-esrp-code-signing-mi'
-          AppRegistrationClientId: '1cb0e84f-0234-46e0-ab7f-3fd56746d743'
-          AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+          AppRegistrationClientId: $(esrp-app-registration-client-id)
+          AppRegistrationTenantId: $(esrp-app-registration-tenant-id)
           AuthAKVName: 'a11y-insights-esrp-certs'
           AuthCertName: 'a11y-insights-action-esrp-auth-cert'
           AuthSignCertName: 'a11y-insights-action-esrp-cert'
