@@ -14,6 +14,11 @@ parameters:
 
 jobs:
     - job: package_job
+      pool:
+          name: $(a11yInsightsPool)
+          vmImage: $(linuxImage)
+          demands:
+              - ImageOverride -equals $(linuxImage)
       steps:
           - template: package-vsix-file.yaml
             parameters:

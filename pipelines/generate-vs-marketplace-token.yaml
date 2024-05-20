@@ -1,0 +1,17 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+steps:
+    - task: AzureCLI@2
+      displayName: Get accessToken
+      name: getAccessToken
+      inputs:
+          azureSubscription: a11y-insights-action-prod
+          scriptType: pscore
+          scriptLocation: 'inlineScript'
+          ## The guid after --resource in the following command maps to the Azure DevOps Services
+          ## REST API (https://learn.microsoft.com/en-us/rest/api/azure/devops/tokens/)
+          inlineScript: |
+              $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
+              write-host "##vso[task.setsecret]$accessToken"
+              write-host "##vso[task.setendpoint id=$(MARKETPLACE_RESOURCE_ID);field=authParameter;key=password]$accessToken"

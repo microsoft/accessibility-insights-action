@@ -20,6 +20,7 @@ steps:
           downloadType: 'single'
           artifactName: '${{ parameters.environment }}-vsix'
           downloadPath: '$(System.DefaultWorkingDirectory)'
+    - template: generate-vs-marketplace-token.yaml
     - task: PublishAzureDevOpsExtension@3
       inputs:
           connectTo: 'VsTeam'

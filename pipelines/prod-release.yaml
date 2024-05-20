@@ -14,7 +14,10 @@ parameters:
 trigger: none
 
 pool:
-    vmImage: ubuntu-latest
+    name: $(a11yInsightsPool)
+    vmImage: $(linuxImage)
+    demands:
+        - ImageOverride -equals $(linuxImage)
 
 resources:
     pipelines:

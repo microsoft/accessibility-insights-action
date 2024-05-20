@@ -35,7 +35,7 @@ steps:
           runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
           artifact: ado-extension-drop
           path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
-
+    - template: generate-vs-marketplace-token.yaml
     - task: QueryAzureDevOpsExtensionVersion@4
       name: QueryVersion
       inputs:
@@ -81,16 +81,21 @@ steps:
           outputPath: '$(Build.ArtifactStagingDirectory)/${{ parameters.environment }}.vsix'
 
     - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk 2.1.x'
+      displayName: 'Use .NET Core sdk 6.0.x'
       inputs:
           packageType: 'sdk'
-          version: '2.1.x'
+          version: '6.0.x'
 
-    - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
+    - task: EsrpCodeSigning@5
       condition: and(succeeded(), eq('${{ parameters.shouldSign }}', 'true'))
       displayName: 'ESRP: Sign VSIX file '
       inputs:
-          ConnectedServiceName: 'a11y-insights-esrp-code-signing'
+          ConnectedServiceName: 'a11y-insights-esrp-code-signing-mi'
+          AppRegistrationClientId: $(esrp-app-registration-client-id)
+          AppRegistrationTenantId: $(esrp-app-registration-tenant-id)
+          AuthAKVName: 'a11y-insights-esrp-certs'
+          AuthCertName: 'a11y-insights-action-esrp-auth-cert'
+          AuthSignCertName: 'a11y-insights-action-esrp-cert'
           FolderPath: '$(Build.ArtifactStagingDirectory)'
           Pattern: '${{ parameters.environment }}.vsix'
           signConfigType: inlineSignParams
