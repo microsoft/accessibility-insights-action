@@ -56,7 +56,7 @@ __metadata:
     "@types/marked-terminal": ^6.1.1
     "@types/normalize-path": ^3.0.2
     "@types/puppeteer-core": ^7.0.4
-    "@types/react": ^16.14
+    "@types/react": ^18.3
     "@types/react-dom": ^16.9
     "@types/serve-static": ^1.15.7
     "@typescript-eslint/eslint-plugin": ^6.18.1
@@ -5137,7 +5137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^16, @types/react@npm:^16.14":
+"@types/react@npm:^16":
   version: 16.14.60
   resolution: "@types/react@npm:16.14.60"
   dependencies:
@@ -5145,6 +5145,16 @@ __metadata:
     "@types/scheduler": ^0.16
     csstype: ^3.0.2
   checksum: 75f7a88ace7fafd670b076ef0b2d490b18a8abb51271f7c04fb6141778ad03c83d741981f2809d430d8a205ba8b4153b31814efa5e8b505e29919c981c3a1889
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.3":
+  version: 18.3.1
+  resolution: "@types/react@npm:18.3.1"
+  dependencies:
+    "@types/prop-types": "*"
+    csstype: ^3.0.2
+  checksum: 9224ef319a0c2b7f66e7e7f06012aa5eb638a6c76c9742843eab1a5d243f2bed5ff829ddbb41efd60d33a266420528adfcb84cb93f238b00e905f98c3a355768
   languageName: node
   linkType: hard
 
@@ -17767,12 +17777,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.2.0":
-  version: 18.2.0
-  resolution: "react@npm:18.2.0"
+"react@npm:^18.3.1":
+  version: 18.3.1
+  resolution: "react@npm:18.3.1"
   dependencies:
     loose-envify: ^1.1.0
-  checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
+  checksum: a27bcfa8ff7c15a1e50244ad0d0c1cb2ad4375eeffefd266a64889beea6f6b64c4966c9b37d14ee32d6c9fcd5aa6ba183b6988167ab4d127d13e7cb5b386a376
   languageName: node
   linkType: hard
 
@@ -19916,7 +19926,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "test-website-hashroute@workspace:packages/test-website-hashroute"
   dependencies:
-    react: ^18.2.0
+    react: ^18.3.1
     react-dom: ^18.2.0
     react-router-dom: ^5.3.4
     react-scripts: 5.0.1
