@@ -61,7 +61,7 @@ __metadata:
     "@types/serve-static": ^1.15.7
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
-    accessibility-insights-report: 4.7.3
+    accessibility-insights-report: 4.8.0
     accessibility-insights-scan: 2.5.1
     axe-core: 4.7.2
     eslint: ^8.57.0
@@ -6039,20 +6039,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"accessibility-insights-report@npm:4.7.3":
-  version: 4.7.3
-  resolution: "accessibility-insights-report@npm:4.7.3"
+"accessibility-insights-report@npm:4.8.0":
+  version: 4.8.0
+  resolution: "accessibility-insights-report@npm:4.8.0"
   dependencies:
     "@fluentui/react": ^8.96.1
-    axe-core: 4.7.2
-    classnames: ^2.3.2
+    axe-core: 4.8.4
+    classnames: ^2.5.1
     lodash: ^4.17.21
     luxon: ^3.4.4
     react: ^16.14.0
     react-dom: ^16.14.0
     react-helmet: ^6.1.0
     uuid: ^9.0.1
-  checksum: ce2a911baafefa7f5fd6f87f003fc1d863eb1bec7d57d5c0d4d2704da693c1222a776a21588096a4e6ffb244bbabb1db39b28daccaa2ceeaec6556e172db7bda
+  checksum: 495b3533241cccbf4d2825eb91d4d337c9fb6beb48376ec20e16108c833bf71f9754bccc48a6bca37e2a46f3f72c5580399cb33d2447a0df25c3202d045be60b
   languageName: node
   linkType: hard
 
@@ -6831,6 +6831,13 @@ __metadata:
   version: 4.7.2
   resolution: "axe-core@npm:4.7.2"
   checksum: 5d86fa0f45213b0e54cbb5d713ce885c4a8fe3a72b92dd915a47aa396d6fd149c4a87fec53aa978511f6d941402256cfeb26f2db35129e370f25a453c688655a
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:4.8.4":
+  version: 4.8.4
+  resolution: "axe-core@npm:4.8.4"
+  checksum: 644da2fec17bcf6f834edaab1baa5a75a9a3ee370c323215c73da6d7e45fac11d01470d92d0a3d5f26695e15c1d9b781733dfbe1fe09d505076c58f09ed74e02
   languageName: node
   linkType: hard
 
@@ -7797,6 +7804,13 @@ __metadata:
   version: 2.3.2
   resolution: "classnames@npm:2.3.2"
   checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
   languageName: node
   linkType: hard
 
