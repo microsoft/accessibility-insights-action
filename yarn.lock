@@ -20,7 +20,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     applicationinsights: 2.7.3
-    azure-pipelines-task-lib: ^4.12.0
+    azure-pipelines-task-lib: ^4.13.0
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
@@ -6867,19 +6867,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-pipelines-task-lib@npm:^4.12.0":
-  version: 4.12.0
-  resolution: "azure-pipelines-task-lib@npm:4.12.0"
+"azure-pipelines-task-lib@npm:^4.13.0":
+  version: 4.13.0
+  resolution: "azure-pipelines-task-lib@npm:4.13.0"
   dependencies:
     adm-zip: ^0.5.10
-    deasync: ^0.1.28
     minimatch: 3.0.5
     nodejs-file-downloader: ^4.11.1
     q: ^1.5.1
     semver: ^5.1.0
     shelljs: ^0.8.5
     uuid: ^3.0.1
-  checksum: 2959c82829c248d9229cbfcc1081993a2ebc17e6b55384301785c257bf38bbc45e1d2697bde816c8e669751a70fb901d77b6d117b823d23599566880146c2582
+  checksum: 7eedb402d3bda4b91d57f844e1161e0c32d4b6bb65ab35e01dc978f05320989904a4c8bf0202fad9ae1dee42d748ef8c6eef61c02c15dbc711f14e95c1dd4824
   languageName: node
   linkType: hard
 
@@ -7162,15 +7161,6 @@ __metadata:
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
   checksum: ccd267956c58d2315f5d3ea6757cf09863c5fc703e50fbeb13a7dc849b812ef76e3cf9ca8f35a0c48498776a7478d7b4a0418e1e2b8cb9cb9731f2922aaad7f8
-  languageName: node
-  linkType: hard
-
-"bindings@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "bindings@npm:1.5.0"
-  dependencies:
-    file-uri-to-path: 1.0.0
-  checksum: 65b6b48095717c2e6105a021a7da4ea435aa8d3d3cd085cb9e85bcb6e5773cf318c4745c3f7c504412855940b585bdf9b918236612a1c7a7942491de176f1ae7
   languageName: node
   linkType: hard
 
@@ -8761,16 +8751,6 @@ __metadata:
   bin:
     dateformat: bin/cli.js
   checksum: 82130dbce8903d021d80d05174d54ad52fa3be66920aa1a5489161a962979d352f0ec671f9683caaa5a53066e59585a5b833ffebbb4ad4abe27c564f63a0ad28
-  languageName: node
-  linkType: hard
-
-"deasync@npm:^0.1.28":
-  version: 0.1.28
-  resolution: "deasync@npm:0.1.28"
-  dependencies:
-    bindings: ^1.5.0
-    node-addon-api: ^1.7.1
-  checksum: e0c1ef427875c897e0d903a08410df1d0a3dfd0d2a0a1e43fb6c2824dfbc504b810bd08a0d30653117259316e1aa65409c96dbed40101c934f75bac7499e1265
   languageName: node
   linkType: hard
 
@@ -10518,13 +10498,6 @@ __metadata:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: faf43eecf233f4897b0150aaa874eeeac214e4f9de49738a9e0ef734a30b5260059e85b7edadf852b98e415f875bd5f12587768a93fd52aaf2e479ecf95fab20
-  languageName: node
-  linkType: hard
-
-"file-uri-to-path@npm:1.0.0":
-  version: 1.0.0
-  resolution: "file-uri-to-path@npm:1.0.0"
-  checksum: b648580bdd893a008c92c7ecc96c3ee57a5e7b6c4c18a9a09b44fb5d36d79146f8e442578bc0e173dc027adf3987e254ba1dfd6e3ec998b7c282873010502144
   languageName: node
   linkType: hard
 
@@ -15248,15 +15221,6 @@ __metadata:
   version: 3.0.1
   resolution: "node-abort-controller@npm:3.0.1"
   checksum: 2b3d75c65249fea99e8ba22da3a8bc553f034f44dd12f5f4b38b520f718b01c88718c978f0c24c2a460fc01de9a80b567028f547b94440cb47adeacfeb82c2ee
-  languageName: node
-  linkType: hard
-
-"node-addon-api@npm:^1.7.1":
-  version: 1.7.2
-  resolution: "node-addon-api@npm:1.7.2"
-  dependencies:
-    node-gyp: latest
-  checksum: 938922b3d7cb34ee137c5ec39df6289a3965e8cab9061c6848863324c21a778a81ae3bc955554c56b6b86962f6ccab2043dd5fa3f33deab633636bd28039333f
   languageName: node
   linkType: hard
 
