@@ -1,25 +1,29 @@
 ### ![Accessibility Insights](https://accessibilityinsights.io/img/a11yinsights-blue.svg) Accessibility Insights
 * **URLs**: 1 URL(s) failed, 1 URL(s) passed, and 1 were not scannable
-* **Rules**: 99 check(s) failed, 1 check(s) passed, and 2 were not applicable
+* **Rules**: 103 check(s) failed, 1 check(s) passed, and 2 were not applicable
 * Download the **Accessibility Insights artifact** to view the detailed results of these checks
 #### Failed instances
 * **1 × accesskeys**:  Ensures every accesskey attribute value is unique
 * **1 × area-alt**:  Ensures \<area> elements of image maps have alternate text
-* **1 × aria-allowed-attr**:  Ensures ARIA attributes are allowed for an element's role
+* **1 × aria-allowed-attr**:  Ensures an element's role supports its ARIA attributes
 * **1 × aria-allowed-role**:  Ensures role attribute has an appropriate value for the element
+* **1 × aria-braille-equivalent**:  Ensure aria-braillelabel and aria-brailleroledescription have a non-braille equivalent
 * **1 × aria-command-name**:  Ensures every ARIA button, link and menuitem has an accessible name
+* **1 × aria-conditional-attr**:  Ensures ARIA attributes are used as described in the specification of the element's role
+* **1 × aria-deprecated-role**:  Ensures elements do not use deprecated roles
 * **1 × aria-dialog-name**:  Ensures every ARIA dialog and alertdialog node has an accessible name
-* **1 × aria-hidden-body**:  Ensures aria-hidden='true' is not present on the document body.
+* **1 × aria-hidden-body**:  Ensures aria-hidden="true" is not present on the document body.
 * **1 × aria-hidden-focus**:  Ensures aria-hidden elements are not focusable nor contain focusable elements
 * **1 × aria-input-field-name**:  Ensures every ARIA input field has an accessible name
 * **1 × aria-meter-name**:  Ensures every ARIA meter node has an accessible name
 * **1 × aria-progressbar-name**:  Ensures every ARIA progressbar node has an accessible name
+* **1 × aria-prohibited-attr**:  Ensures ARIA attributes are not prohibited for an element's role
 * **1 × aria-required-attr**:  Ensures elements with ARIA roles have all required ARIA attributes
 * **1 × aria-required-children**:  Ensures elements with an ARIA role that require child roles contain them
 * **1 × aria-required-parent**:  Ensures elements with an ARIA role that require parent roles are contained by them
 * **1 × aria-roledescription**:  Ensure aria-roledescription is only used on elements with an implicit or explicit role
 * **1 × aria-roles**:  Ensures all elements with a role attribute use a valid value
-* **1 × aria-text**:  Ensures "role=text" is used on elements with no focusable descendants
+* **1 × aria-text**:  Ensures role="text" is used on elements with no focusable descendants
 * **1 × aria-toggle-field-name**:  Ensures every ARIA toggle field has an accessible name
 * **1 × aria-tooltip-name**:  Ensures every ARIA tooltip node has an accessible name
 * **1 × aria-treeitem-name**:  Ensures every ARIA treeitem node has an accessible name
@@ -86,7 +90,7 @@
 * **1 × page-has-heading-one**:  Ensure that the page, or at least one of its frames contains a level-one heading
 * **1 × presentation-role-conflict**:  Elements marked as presentational should not have global ARIA or tabindex to ensure all screen readers ignore them
 * **1 × region**:  Ensures all page content is contained by landmarks
-* **1 × role-img-alt**:  Ensures [role='img'] elements have alternate text
+* **1 × role-img-alt**:  Ensures [role="img"] elements have alternate text
 * **1 × scope-attr-valid**:  Ensures the scope attribute is used correctly on tables
 * **1 × scrollable-region-focusable**:  Ensure elements that have scrollable content are accessible by keyboard
 * **1 × select-name**:  Ensures select element has an accessible name
