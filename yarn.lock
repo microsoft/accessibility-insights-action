@@ -6029,7 +6029,7 @@ __metadata:
     npm-run-all: ^4.1.5
     prettier: ^3.2.5
     rimraf: ^5.0.5
-    simple-git: ^3.23.0
+    simple-git: ^3.25.0
     ts-jest: ^29.1.2
     ts-loader: ^9.5.1
     typemoq: ^2.1.0
@@ -8809,6 +8809,18 @@ __metadata:
   dependencies:
     ms: ^2.1.1
   checksum: b3d8c5940799914d30314b7c3304a43305fd0715581a919dacb8b3176d024a782062368405b47491516d2091d6462d4d11f2f4974a405048094f8bfebfa3071c
+  languageName: node
+  linkType: hard
+
+"debug@npm:^4.3.5":
+  version: 4.3.5
+  resolution: "debug@npm:4.3.5"
+  dependencies:
+    ms: 2.1.2
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 7c002b51e256257f936dda09eb37167df952758c57badf6bf44bdc40b89a4bcb8e5a0a2e4c7b53f97c69e2970dd5272d33a757378a12c8f8e64ea7bf99e8e86e
   languageName: node
   linkType: hard
 
@@ -18905,14 +18917,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:^3.23.0":
-  version: 3.23.0
-  resolution: "simple-git@npm:3.23.0"
+"simple-git@npm:^3.25.0":
+  version: 3.25.0
+  resolution: "simple-git@npm:3.25.0"
   dependencies:
     "@kwsites/file-exists": ^1.1.1
     "@kwsites/promise-deferred": ^1.1.1
-    debug: ^4.3.4
-  checksum: 188c04e83a3d76f5d8f325a6d1c169799b8d9536563d6a244e60bde959c6476406f91ebcec9bdcaaacfcb0b8005205673f12fd98c5af63b0f49c57b3901718d6
+    debug: ^4.3.5
+  checksum: 0f54f03882f3b733fc5b61826935b3a6b1d2f8976fe74a488ef72d05baf1f8eb6f465867dcf72c1b7292b20843de23e900160c5c9b5d6933b3db2188cb79e1d2
   languageName: node
   linkType: hard
 
