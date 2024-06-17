@@ -36,7 +36,7 @@ __metadata:
     reflect-metadata: ^0.2.2
     rimraf: ^5.0.5
     tfx-cli: ^0.17.0
-    ts-jest: ^29.1.2
+    ts-jest: ^29.1.5
     ts-loader: ^9.5.1
     typemoq: ^2.1.0
     typescript: ^5.4.5
@@ -87,7 +87,7 @@ __metadata:
     rimraf: ^5.0.5
     serialize-error: ^11.0.3
     serve-static: ^1.15.0
-    ts-jest: ^29.1.2
+    ts-jest: ^29.1.5
     ts-loader: ^9.5.1
     typemoq: ^2.1.0
     typescript: ^5.4.5
@@ -6030,7 +6030,7 @@ __metadata:
     prettier: ^3.2.5
     rimraf: ^5.0.5
     simple-git: ^3.25.0
-    ts-jest: ^29.1.2
+    ts-jest: ^29.1.5
     ts-loader: ^9.5.1
     typemoq: ^2.1.0
     typescript: ^5.4.5
@@ -20240,9 +20240,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^29.1.2":
-  version: 29.1.2
-  resolution: "ts-jest@npm:29.1.2"
+"ts-jest@npm:^29.1.5":
+  version: 29.1.5
+  resolution: "ts-jest@npm:29.1.5"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -20254,12 +20254,15 @@ __metadata:
     yargs-parser: ^21.0.1
   peerDependencies:
     "@babel/core": ">=7.0.0-beta.0 <8"
+    "@jest/transform": ^29.0.0
     "@jest/types": ^29.0.0
     babel-jest: ^29.0.0
     jest: ^29.0.0
     typescript: ">=4.3 <6"
   peerDependenciesMeta:
     "@babel/core":
+      optional: true
+    "@jest/transform":
       optional: true
     "@jest/types":
       optional: true
@@ -20269,7 +20272,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: a0ce0affc1b716c78c9ab55837829c42cb04b753d174a5c796bb1ddf9f0379fc20647b76fbe30edb30d9b23181908138d6b4c51ef2ae5e187b66635c295cefd5
+  checksum: 96bfdea46d7faa83457c2647806a31a86f28656f703515fee9f6d2ff1ccfc58ccfbbe3ae9283f40141a85af0def30afe887843be5b002c08ed5d5189c941eab1
   languageName: node
   linkType: hard
 

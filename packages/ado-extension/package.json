@@ -52,7 +52,7 @@
         "prettier": "^3.2.5",
         "rimraf": "^5.0.5",
         "tfx-cli": "^0.17.0",
-        "ts-jest": "^29.1.2",
+        "ts-jest": "^29.1.5",
         "ts-loader": "^9.5.1",
         "typemoq": "^2.1.0",
         "typescript": "^5.4.5",
