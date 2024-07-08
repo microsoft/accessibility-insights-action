@@ -34,7 +34,7 @@ __metadata:
     npm-run-all: ^4.1.5
     prettier: ^3.2.5
     reflect-metadata: ^0.2.2
-    rimraf: ^5.0.5
+    rimraf: ^5.0.8
     tfx-cli: ^0.17.0
     ts-jest: ^29.1.5
     ts-loader: ^9.5.1
@@ -84,7 +84,7 @@ __metadata:
     pony-cause: ^2.1.11
     prettier: ^3.2.5
     reflect-metadata: ^0.2.2
-    rimraf: ^5.0.5
+    rimraf: ^5.0.8
     serialize-error: ^11.0.3
     serve-static: ^1.15.0
     ts-jest: ^29.1.5
@@ -6028,7 +6028,7 @@ __metadata:
     mockdate: ^3.0.5
     npm-run-all: ^4.1.5
     prettier: ^3.2.5
-    rimraf: ^5.0.5
+    rimraf: ^5.0.8
     simple-git: ^3.25.0
     ts-jest: ^29.1.5
     ts-loader: ^9.5.1
@@ -18361,14 +18361,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^5.0.5":
-  version: 5.0.5
-  resolution: "rimraf@npm:5.0.5"
+"rimraf@npm:^5.0.8":
+  version: 5.0.8
+  resolution: "rimraf@npm:5.0.8"
   dependencies:
     glob: ^10.3.7
   bin:
     rimraf: dist/esm/bin.mjs
-  checksum: d66eef829b2e23b16445f34e73d75c7b7cf4cbc8834b04720def1c8f298eb0753c3d76df77325fad79d0a2c60470525d95f89c2475283ad985fd7441c32732d1
+  checksum: 6d67ee92a3e2fef24e36c0763ebb5250d27f31f056a8a1e02d66e76578c16bdea00924438d73ec78270bca7c93b9da50cc2da6d9fcc24fbaef427870feac1ec0
   languageName: node
   linkType: hard
 
