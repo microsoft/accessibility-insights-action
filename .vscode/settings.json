@@ -7,7 +7,7 @@
     "eslint.validate": ["typescript", "javascript"],
     "eslint.workingDirectories": [{ "pattern": "./packages/*/" }],
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "true"
+        "source.fixAll.eslint": true
     },
     "shellformat.effectLanguages": ["shellscript"],
     "files.exclude": {
