@@ -64,7 +64,7 @@
         "prettier": "^3.3.3",
         "rimraf": "^5.0.5",
         "simple-git": "^3.25.0",
-        "ts-jest": "^29.1.5",
+        "ts-jest": "^29.2.4",
         "ts-loader": "^9.5.1",
         "typemoq": "^2.1.0",
         "typescript": "^5.5.4",
