@@ -33,20 +33,22 @@ export function installRuntimeDependencies(): void {
 
     const registryUrl: string = adoTask.getInput('npmRegistryUrl') || 'https://registry.yarnpkg.com';
 
-    const npmrcPath = adoTask.getInput('npmrcfilePath') || '';
-    // Ensure the directories exist
-    if (npmrcPath === '' && registryUrl != 'https://registry.yarnpkg.com') {
-        console.error(`.npmrc file path is required for authenticating registry Url ${registryUrl}`);
-        process.exit(1);
-    }
+    if (registryUrl != 'https://registry.yarnpkg.com') {
+        const npmrcPath = adoTask.getInput('npmrcfilePath') || '';
+        // Ensure the npmrc file path is provided
+        if (npmrcPath === '') {
+            console.error(`.npmrc file path is required for authenticating registry Url ${registryUrl}`);
+            process.exit(1);
+        }
 
-    // Copy .npmrc to the Yarn working directory
-    try {
-        fs.copyFileSync(npmrcPath, tempNpmrcPath);
-        console.log(`Copied .npmrc to ${tempNpmrcPath}`);
-    } catch (err) {
-        console.error(`Failed to copy .npmrc: ${err}`);
-        process.exit(1);
+        // Copy .npmrc to the Yarn working directory
+        try {
+            fs.copyFileSync(npmrcPath, tempNpmrcPath);
+            console.log(`Copied .npmrc to ${tempNpmrcPath}`);
+        } catch (err) {
+            console.error(`Failed to copy .npmrc: ${err}`);
+            process.exit(1);
+        }
     }
 
     // Set the Yarn registry URL
