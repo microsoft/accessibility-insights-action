@@ -5,6 +5,7 @@ import { execFileSync } from 'child_process';
 import { argv } from 'process';
 import { readdirSync } from 'fs';
 import { join } from 'path';
+import * as adoTask from 'azure-pipelines-task-lib/task';
 
 export function installRuntimeDependencies(): void {
     console.log('##[group]Installing runtime dependencies');
@@ -25,8 +26,30 @@ export function installRuntimeDependencies(): void {
     const yarnFilename = readdirSync(yarnReleasesPath)[0];
     const yarnPath = join(yarnReleasesPath, yarnFilename);
 
+    process.env.YARN_ENABLE_IMMUTABLE_INSTALLS = '1';
+
     console.log(`##[debug]Using node from ${nodePath}`);
     console.log(`##[debug]Using bundled yarn from ${yarnPath}`);
+
+    const registryUrl: string = adoTask.getInput('npmRegistryUrl', true) || 'https://registry.yarnpkg.com';
+
+    // Set the Yarn registry URL
+    execFileSync(nodePath, [yarnPath, 'cache', 'clean'], {
+        stdio: 'inherit',
+        cwd: __dirname,
+    });
+
+    console.log(`Using registry URL: ${registryUrl}`);
+    // Set the Yarn registry URL
+    execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmRegistryServer', registryUrl], {
+        stdio: 'inherit',
+        cwd: __dirname,
+    });
+    // Set the Yarn registry URL
+    execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAlwaysAuth', 'true'], {
+        stdio: 'inherit',
+        cwd: __dirname,
+    });
 
     execFileSync(nodePath, [yarnPath, 'install', '--immutable'], {
         stdio: 'inherit',

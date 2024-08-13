@@ -191,4 +191,8 @@ export class ADOTaskConfig extends TaskConfig {
         const url = 'https://aka.ms/ado-extension-usage';
         return url;
     }
+
+    public getNPMRegistryUrl(): string | undefined {
+        return this.adoTaskObj.getInput('npmRegistryUrl');
+    }
 }

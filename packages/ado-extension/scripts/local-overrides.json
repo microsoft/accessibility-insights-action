@@ -10,5 +10,9 @@
     {
         "name": "failOnAccessibilityError",
         "value": false
+    },
+    {
+        "name": "npmRegistryUrl",
+        "value": "https://pkgs.dev.azure.com/accessibility-insights-private/c79273f4-2dcc-480f-852b-0267a30c82db/_packaging/TestFeedA11yADOExtension/npm/registry/"
     }
 ]
