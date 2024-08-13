@@ -6,6 +6,7 @@ import { argv } from 'process';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import * as adoTask from 'azure-pipelines-task-lib/task';
+import * as fs from 'fs';
 
 export function installRuntimeDependencies(): void {
     console.log('##[group]Installing runtime dependencies');
@@ -25,13 +26,28 @@ export function installRuntimeDependencies(): void {
     const yarnReleasesPath = join(__dirname, '.yarn', 'releases');
     const yarnFilename = readdirSync(yarnReleasesPath)[0];
     const yarnPath = join(yarnReleasesPath, yarnFilename);
-
-    process.env.YARN_ENABLE_IMMUTABLE_INSTALLS = '1';
+    const tempNpmrcPath = join(__dirname, '.npmrc');
 
     console.log(`##[debug]Using node from ${nodePath}`);
     console.log(`##[debug]Using bundled yarn from ${yarnPath}`);
 
-    const registryUrl: string = adoTask.getInput('npmRegistryUrl', true) || 'https://registry.yarnpkg.com';
+    const registryUrl: string = adoTask.getInput('npmRegistryUrl') || 'https://registry.yarnpkg.com';
+
+    const npmrcPath = adoTask.getInput('npmrcfilePath') || '';
+    // Ensure the directories exist
+    if (npmrcPath === '' && registryUrl != 'https://registry.yarnpkg.com') {
+        console.error(`.npmrc file path is required for authenticating registry Url ${registryUrl}`);
+        process.exit(1);
+    }
+
+    // Copy .npmrc to the Yarn working directory
+    try {
+        fs.copyFileSync(npmrcPath, tempNpmrcPath);
+        console.log(`Copied .npmrc to ${tempNpmrcPath}`);
+    } catch (err) {
+        console.error(`Failed to copy .npmrc: ${err}`);
+        process.exit(1);
+    }
 
     // Set the Yarn registry URL
     execFileSync(nodePath, [yarnPath, 'cache', 'clean'], {

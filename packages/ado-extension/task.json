@@ -213,9 +213,19 @@
             "name": "npmRegistryUrl",
             "type": "string",
             "label": "NPM registry Url",
-            "required": true,
+            "required": false,
             "defaultValue": "https://registry.yarnpkg.com",
             "helpMarkDown": "NPM registry Url for installing runtime dependency.",
+            "groupName": "advancedOptions"
+        },
+        {
+            "name": "npmrcfilePath",
+            "type": "string",
+            "label": ".npmrc File Path to Authenticate",
+            "required": false,
+            "defaultValue": "",
+            "helpMarkDown": ".npmrc File Path to authenticate npm registry Url",
+            "visibleRule": "npmRegistryUrl != \"https://registry.yarnpkg.com\"",
             "groupName": "advancedOptions"
         }
     ],
