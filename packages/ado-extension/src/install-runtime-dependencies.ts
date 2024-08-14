@@ -43,6 +43,11 @@ export function installRuntimeDependencies(): void {
         const serviceConnectionName: string | undefined = adoTask.getInput('npmRegistryCredential');
 
         if (!serviceConnectionName) {
+            execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAuthToken', npmRegistryUtil.getSystemAccessToken()], {
+                stdio: 'inherit',
+                cwd: __dirname,
+            });
+        } else {
             execFileSync(
                 nodePath,
                 [yarnPath, 'config', 'set', 'npmAuthIdent', npmRegistryUtil.getTokenFromServiceConnection(serviceConnectionName ?? '')],
@@ -51,11 +56,6 @@ export function installRuntimeDependencies(): void {
                     cwd: __dirname,
                 },
             );
-        } else {
-            execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAuthToken', npmRegistryUtil.getSystemAccessToken()], {
-                stdio: 'inherit',
-                cwd: __dirname,
-            });
         }
         execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAlwaysAuth', 'true'], {
             stdio: 'inherit',
