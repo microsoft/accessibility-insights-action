@@ -6,7 +6,7 @@ import { argv } from 'process';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import * as adoTask from 'azure-pipelines-task-lib/task';
-import * as fs from 'fs';
+import * as npmRegistryUtil from './npm-registry-util';
 
 export function installRuntimeDependencies(): void {
     console.log('##[group]Installing runtime dependencies');
@@ -26,36 +26,11 @@ export function installRuntimeDependencies(): void {
     const yarnReleasesPath = join(__dirname, '.yarn', 'releases');
     const yarnFilename = readdirSync(yarnReleasesPath)[0];
     const yarnPath = join(yarnReleasesPath, yarnFilename);
-    const tempNpmrcPath = join(__dirname, '.npmrc');
 
     console.log(`##[debug]Using node from ${nodePath}`);
     console.log(`##[debug]Using bundled yarn from ${yarnPath}`);
 
     const registryUrl: string = adoTask.getInput('npmRegistryUrl') || 'https://registry.yarnpkg.com';
-
-    if (registryUrl != 'https://registry.yarnpkg.com') {
-        const npmrcPath = adoTask.getInput('npmrcfilePath') || '';
-        // Ensure the npmrc file path is provided
-        if (npmrcPath === '') {
-            console.error(`.npmrc file path is required for authenticating registry Url ${registryUrl}`);
-            process.exit(1);
-        }
-
-        // Copy .npmrc to the Yarn working directory
-        try {
-            fs.copyFileSync(npmrcPath, tempNpmrcPath);
-            console.log(`Copied .npmrc to ${tempNpmrcPath}`);
-        } catch (err) {
-            console.error(`Failed to copy .npmrc: ${err}`);
-            process.exit(1);
-        }
-    }
-
-    // Set the Yarn registry URL
-    execFileSync(nodePath, [yarnPath, 'cache', 'clean'], {
-        stdio: 'inherit',
-        cwd: __dirname,
-    });
 
     console.log(`Using registry URL: ${registryUrl}`);
     // Set the Yarn registry URL
@@ -63,11 +38,32 @@ export function installRuntimeDependencies(): void {
         stdio: 'inherit',
         cwd: __dirname,
     });
-    // Set the Yarn registry URL
-    execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAlwaysAuth', 'true'], {
-        stdio: 'inherit',
-        cwd: __dirname,
-    });
+
+    if (registryUrl != 'https://registry.yarnpkg.com') {
+        const serviceConnectionName: string | undefined = adoTask.getInput('npmRegistryCredential');
+
+        if (!serviceConnectionName) {
+            execFileSync(
+                nodePath,
+                [yarnPath, 'config', 'set', 'npmAuthIdent', npmRegistryUtil.getTokenFromServiceConnection(serviceConnectionName ?? '')],
+                {
+                    stdio: 'inherit',
+                    cwd: __dirname,
+                },
+            );
+        } else {
+            execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAuthToken', npmRegistryUtil.getSystemAccessToken()], {
+                stdio: 'inherit',
+                cwd: __dirname,
+            });
+        }
+        execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAlwaysAuth', 'true'], {
+            stdio: 'inherit',
+            cwd: __dirname,
+        });
+    } else {
+        adoTask.warning('Task will use public OSS endpoint https://registry.yarnpkg.com');
+    }
 
     execFileSync(nodePath, [yarnPath, 'install', '--immutable'], {
         stdio: 'inherit',

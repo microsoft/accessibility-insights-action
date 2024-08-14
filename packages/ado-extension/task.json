@@ -215,18 +215,19 @@
             "label": "NPM registry Url",
             "required": false,
             "defaultValue": "https://registry.yarnpkg.com",
-            "helpMarkDown": "NPM registry Url for installing runtime dependency.",
+            "helpMarkDown": "NPM registry Url to install the runtime dependencies.",
             "groupName": "advancedOptions"
         },
         {
-            "name": "npmrcfilePath",
-            "type": "string",
-            "label": ".npmrc File Path to Authenticate",
-            "required": false,
-            "defaultValue": "",
-            "helpMarkDown": ".npmrc File Path to authenticate npm registry Url",
-            "visibleRule": "npmRegistryUrl != \"https://registry.yarnpkg.com\"",
-            "groupName": "advancedOptions"
+            "name": "npmRegistryCredential",
+            "label": "Credentials for registries outside this organization/collection",
+            "helpMarkDown": "Credentials to use for external registries to install the runtime dependencies. For registries in this organization/collection, leave this blank; the build’s credentials are used automatically.",
+            "type": "connectedService:externalnpmregistry",
+            "properties": {
+                "MultiSelect": "False",
+                "MultiSelectFlatList": "False",
+                "IsSearchable": "True"
+            }
         }
     ],
     "execution": {
