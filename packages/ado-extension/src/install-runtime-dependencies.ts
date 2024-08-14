@@ -61,9 +61,10 @@ export function installRuntimeDependencies(): void {
             stdio: 'inherit',
             cwd: __dirname,
         });
-    } else {
-        adoTask.warning('Task will use public OSS endpoint https://registry.yarnpkg.com');
     }
+    // } else {
+    //     adoTask.warning('Task will use public OSS endpoint https://registry.yarnpkg.com');
+    // }
 
     execFileSync(nodePath, [yarnPath, 'install', '--immutable'], {
         stdio: 'inherit',
