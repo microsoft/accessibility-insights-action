@@ -29,10 +29,12 @@ export function getTokenFromServiceConnection(serviceConnectionName: string): st
 
         // to mask the token in pipeline logs
         adoTask.setSecret(token);
-        const base64Token = Buffer.from(token).toString('base64');
+        const usernameToken = `username:${token}`;
+        adoTask.setSecret(usernameToken);
+        const base64Token = Buffer.from(usernameToken).toString('base64');
         // to mask the token in pipeline logs
         adoTask.setSecret(base64Token);
-        npmAuthIdent = `username:${base64Token}`;
+        npmAuthIdent = base64Token;
     } else if (serviceConnectionAuth?.scheme === 'UsernamePassword') {
         const username = serviceConnectionAuth.parameters['username'];
         const password = serviceConnectionAuth.parameters['password'];
