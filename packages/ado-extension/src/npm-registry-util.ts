@@ -25,22 +25,24 @@ export function getTokenFromServiceConnection(serviceConnectionName: string): st
     }
 
     if (serviceConnectionAuth?.scheme === 'Token') {
-        const token = serviceConnectionAuth.parameters['apiToken'];
+        const token = serviceConnectionAuth.parameters['apitoken'];
 
         // to mask the token in pipeline logs
         adoTask.setSecret(token);
         const base64Token = Buffer.from(token).toString('base64');
+        // to mask the token in pipeline logs
         adoTask.setSecret(base64Token);
         npmAuthIdent = `username:${base64Token}`;
     } else if (serviceConnectionAuth?.scheme === 'UsernamePassword') {
         const username = serviceConnectionAuth.parameters['username'];
         const password = serviceConnectionAuth.parameters['password'];
+        // to mask the token in pipeline logs
         adoTask.setSecret(password);
         npmAuthIdent = `${username}:${password}`;
     } else {
         throw new Error('Service connection auth scheme not supported');
     }
-
+    // to mask the token in pipeline logs
     adoTask.setSecret(npmAuthIdent);
     return npmAuthIdent;
 }
