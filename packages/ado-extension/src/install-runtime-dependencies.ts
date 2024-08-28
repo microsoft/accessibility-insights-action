@@ -42,7 +42,7 @@ export function installRuntimeDependencies(): void {
     if (registryUrl != 'https://registry.yarnpkg.com') {
         const serviceConnectionName: string | undefined = adoTask.getInput('npmRegistryCredential');
 
-        if (!serviceConnectionName) {
+        if (npmRegistryUtil.isLocalNPMRegistry(registryUrl) || !serviceConnectionName) {
             execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAuthToken', npmRegistryUtil.getSystemAccessToken()], {
                 stdio: 'inherit',
                 cwd: __dirname,
@@ -62,9 +62,6 @@ export function installRuntimeDependencies(): void {
             cwd: __dirname,
         });
     }
-    // } else {
-    //     adoTask.warning('Task will use public OSS endpoint https://registry.yarnpkg.com');
-    // }
 
     execFileSync(nodePath, [yarnPath, 'install', '--immutable'], {
         stdio: 'inherit',

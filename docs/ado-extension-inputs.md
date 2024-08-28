@@ -61,3 +61,7 @@ or
 -   `snapshot` (boolean). Save snapshots of scanned pages as artifacts. These snapshots will show you exactly what the scanner sees when scanning the page. This requires `uploadOutputArtifact` to not be set to `false`.
 
 -   `chromePath` (string). Path to Chrome executable. By default, the task downloads a version of Chrome that is tested to work with this task.
+
+-   `npmRegistryUrl` (string). Default: `https://registry.yarnpkg.com`. NPM registry Url to install the runtime dependencies.
+
+-   `npmRegistryCredential` (connectedService:externalnpmregistry). Credentials to use for external registries to install the runtime dependencies. For registries in this organization/collection, leave this blank; the build’s credentials are used automatically.

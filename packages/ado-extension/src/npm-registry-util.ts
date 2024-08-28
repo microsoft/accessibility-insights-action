@@ -20,13 +20,18 @@ export function getTokenFromServiceConnection(serviceConnectionName: string): st
     let npmAuthIdent: string;
     try {
         serviceConnectionAuth = adoTask.getEndpointAuthorization(serviceConnectionName, false);
-    } catch (exception) {
+    }
+    catch (exception) {
+        throw new Error('Could not find the service connection');
+    }
+    if (!serviceConnectionAuth) {
         throw new Error('Could not find the service connection');
     }
 
-    if (serviceConnectionAuth?.scheme === 'Token') {
-        const token = serviceConnectionAuth.parameters['apitoken'];
+    const serviceConnectionAuthScheme = serviceConnectionAuth?.scheme;
 
+    if (serviceConnectionAuthScheme === 'Token') {
+        const token = serviceConnectionAuth.parameters['apitoken'];
         // to mask the token in pipeline logs
         adoTask.setSecret(token);
         const usernameToken = `username:${token}`;
@@ -35,13 +40,15 @@ export function getTokenFromServiceConnection(serviceConnectionName: string): st
         // to mask the token in pipeline logs
         adoTask.setSecret(base64Token);
         npmAuthIdent = base64Token;
-    } else if (serviceConnectionAuth?.scheme === 'UsernamePassword') {
+    }
+    else if (serviceConnectionAuthScheme === 'UsernamePassword') {
         const username = serviceConnectionAuth.parameters['username'];
         const password = serviceConnectionAuth.parameters['password'];
         // to mask the token in pipeline logs
         adoTask.setSecret(password);
         npmAuthIdent = `${username}:${password}`;
-    } else {
+    }
+    else {
         throw new Error('Service connection auth scheme not supported');
     }
     // to mask the token in pipeline logs
@@ -66,22 +73,28 @@ export function isLocalNPMRegistry(npmRegistryUrl: string): boolean {
 function getProjectIdFromNpmRegistryUrl(npmRegistryUrl: string): string | null {
     const baseUrl = 'https://pkgs.dev.azure.com';
     const packagingPath = '/_packaging/';
+    let formatedRegistryURL = npmRegistryUrl.toLowerCase();
 
-    if (!npmRegistryUrl.startsWith(baseUrl)) {
-        return null;
-    }
-
-    const removedBaseUrl = npmRegistryUrl.substring(baseUrl.length);
-
-    const packageStartIndex = removedBaseUrl.indexOf(packagingPath);
+    const packageStartIndex = formatedRegistryURL.indexOf(packagingPath);
 
     if (packageStartIndex === -1) {
         return null;
     }
 
-    const removedPackaginPath = removedBaseUrl.substring(0, packageStartIndex);
+    formatedRegistryURL = formatedRegistryURL.substring(0, packageStartIndex);
 
-    const adoDetailParts = removedPackaginPath.split('/');
+    if (formatedRegistryURL.startsWith(baseUrl)) {
+        formatedRegistryURL = formatedRegistryURL.substring(baseUrl.length);
+        const adoDetailParts = formatedRegistryURL.split('/');
+        return adoDetailParts[0];
+    }
+    else if (formatedRegistryURL.includes('visualstudio.com')) {
+        const formatedAdoURL = npmRegistryUrl.replace("https://", "");
+        const adoDetailParts = formatedAdoURL.split('.');
+        return adoDetailParts[0];
+    }
+    else {
+        return null;
+    }
 
-    return adoDetailParts[0];
 }

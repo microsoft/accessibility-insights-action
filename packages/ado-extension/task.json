@@ -223,10 +223,12 @@
             "label": "Credentials for registries outside this organization/collection",
             "helpMarkDown": "Credentials to use for external registries to install the runtime dependencies. For registries in this organization/collection, leave this blank; the build’s credentials are used automatically.",
             "type": "connectedService:externalnpmregistry",
+            "defaultValue": "",
             "properties": {
                 "MultiSelect": "False",
-                "MultiSelectFlatList": "False",
-                "IsSearchable": "True"
+                "MultiSelectFlatList": "True",
+                "IsSearchable": "True",
+                "PopulateDefaultValue": "True"
             },
             "groupName": "advancedOptions"
         }
