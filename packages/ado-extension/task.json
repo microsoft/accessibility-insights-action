@@ -226,7 +226,7 @@
             "defaultValue": "",
             "properties": {
                 "MultiSelect": "False",
-                "MultiSelectFlatList": "True",
+                "MultiSelectFlatList": "False",
                 "IsSearchable": "True",
                 "PopulateDefaultValue": "True"
             },

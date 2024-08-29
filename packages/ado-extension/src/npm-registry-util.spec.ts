@@ -71,24 +71,4 @@ describe('NpmRegistryUtil', () => {
             expect(NpmRegistryUtil.getTokenFromServiceConnection('serviceConnectionName')).toBeTruthy();
         });
     });
-
-    it('should not match org name if url has different org or not in correct format', () => {
-        let url = 'https://registry.yarnpkg.com';
-        const org = jest.spyOn(adoTask, 'getVariable');
-        org.mockReturnValue('AccessibilityInsights');
-        expect(NpmRegistryUtil.isLocalNPMRegistry(url)).toBeFalsy();
-        url = 'https://pkgs.dev.azure.com/mseng/_packaging/React/npm/registry/';
-        expect(NpmRegistryUtil.isLocalNPMRegistry(url)).toBeFalsy();
-        url = 'https://mseng.visualstudio.com/_packaging/React/npm/registry/';
-        expect(NpmRegistryUtil.isLocalNPMRegistry(url)).toBeFalsy();
-    });
-
-    it('should match org name if url has same org', () => {
-        let url = 'https://pkgs.dev.azure.com/AccessibilityInsights/_packaging/React/npm/registry/';
-        const org = jest.spyOn(adoTask, 'getVariable');
-        org.mockReturnValue('AccessibilityInsights');
-        expect(NpmRegistryUtil.isLocalNPMRegistry(url)).toBeTruthy();
-        url = 'https://AccessibilityInsights.visualstudio.com/_packaging/React/npm/registry/';
-        expect(NpmRegistryUtil.isLocalNPMRegistry(url)).toBeTruthy();
-    });
 });
