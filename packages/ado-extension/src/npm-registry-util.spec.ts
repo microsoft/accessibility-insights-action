@@ -10,18 +10,21 @@ describe('NpmRegistryUtil', () => {
 
     describe('Improper Authentications', () => {
         it('should not get system access token authentication when scheme is not OAuth', () => {
+            const auth = jest.spyOn(adoTask, 'getEndpointAuthorization');
+            auth.mockReturnValue(authenticationMock.object);
             const accessToken = NpmRegistryUtil.getSystemAccessToken();
             expect(accessToken).toBeFalsy();
         });
 
         it('should not get npmAuthIdent from service connection when service connection does not exist', () => {
+            const auth = jest.spyOn(adoTask, 'getEndpointAuthorization');
+            auth.mockReturnValue(undefined);
             expect(() => NpmRegistryUtil.getTokenFromServiceConnection('serviceConnectionName')).toThrowError(
                 'Could not find the service connection',
             );
         });
 
         it('should not get npmAuthIdent from service connection when service connection scheme is other than Token or UsernamePassword', () => {
-            authenticationMock.setup((x) => x.scheme).returns(() => 'OAuth');
             const auth = jest.spyOn(adoTask, 'getEndpointAuthorization');
             auth.mockReturnValue(authenticationMock.object);
             expect(() => NpmRegistryUtil.getTokenFromServiceConnection('serviceConnectionName')).toThrowError(
