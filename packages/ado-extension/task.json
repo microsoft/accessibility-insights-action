@@ -228,7 +228,7 @@
                 "MultiSelect": "False",
                 "MultiSelectFlatList": "False",
                 "IsSearchable": "True",
-                "PopulateDefaultValue": "True"
+                "EditableOptions": "True"
             },
             "groupName": "advancedOptions"
         }
