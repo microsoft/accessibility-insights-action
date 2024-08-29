@@ -20,8 +20,7 @@ export function getTokenFromServiceConnection(serviceConnectionName: string): st
     let npmAuthIdent: string;
     try {
         serviceConnectionAuth = adoTask.getEndpointAuthorization(serviceConnectionName, false);
-    }
-    catch (exception) {
+    } catch (exception) {
         throw new Error('Could not find the service connection');
     }
     if (!serviceConnectionAuth) {
@@ -40,15 +39,13 @@ export function getTokenFromServiceConnection(serviceConnectionName: string): st
         // to mask the token in pipeline logs
         adoTask.setSecret(base64Token);
         npmAuthIdent = base64Token;
-    }
-    else if (serviceConnectionAuthScheme === 'UsernamePassword') {
+    } else if (serviceConnectionAuthScheme === 'UsernamePassword') {
         const username = serviceConnectionAuth.parameters['username'];
         const password = serviceConnectionAuth.parameters['password'];
         // to mask the token in pipeline logs
         adoTask.setSecret(password);
         npmAuthIdent = `${username}:${password}`;
-    }
-    else {
+    } else {
         throw new Error('Service connection auth scheme not supported');
     }
     // to mask the token in pipeline logs
@@ -71,7 +68,7 @@ export function isLocalNPMRegistry(npmRegistryUrl: string): boolean {
 }
 
 function getProjectIdFromNpmRegistryUrl(npmRegistryUrl: string): string | null {
-    const baseUrl = 'https://pkgs.dev.azure.com';
+    const baseUrl = 'https://pkgs.dev.azure.com/';
     const packagingPath = '/_packaging/';
     let formatedRegistryURL = npmRegistryUrl.toLowerCase();
 
@@ -87,14 +84,11 @@ function getProjectIdFromNpmRegistryUrl(npmRegistryUrl: string): string | null {
         formatedRegistryURL = formatedRegistryURL.substring(baseUrl.length);
         const adoDetailParts = formatedRegistryURL.split('/');
         return adoDetailParts[0];
-    }
-    else if (formatedRegistryURL.includes('visualstudio.com')) {
-        const formatedAdoURL = npmRegistryUrl.replace("https://", "");
-        const adoDetailParts = formatedAdoURL.split('.');
+    } else if (formatedRegistryURL.includes('visualstudio.com')) {
+        formatedRegistryURL = formatedRegistryURL.replace('https://', '');
+        const adoDetailParts = formatedRegistryURL.split('.');
         return adoDetailParts[0];
-    }
-    else {
+    } else {
         return null;
     }
-
 }
