@@ -64,4 +64,6 @@ or
 
 -   `npmRegistryUrl` (string). Default: `https://registry.yarnpkg.com`. NPM registry Url to install the runtime dependencies.
 
--   `npmRegistryCredential` (connectedService:externalnpmregistry). Credentials to use for external registries to install the runtime dependencies. For registries in this organization/collection, leave this blank; the build’s credentials are used automatically.
+-   `npmRegistryCredential` (connectedService:externalnpmregistry). Credentials to use for external registries to install the runtime dependencies. For registries in this organization/collection, leave this blank; the buildâ€™s credentials are used automatically. Note :
+      1. If you are using classic pipeline, '`project name` Build Service `Org name`' user should have Feed and Upstream Reader (Collaborator) role on the feed.
+      2. If you are using yml pipeline, 'Project Collection Build Service `Org name`' user should have Feed and Upstream Reader (Collaborator) role on the feed.
