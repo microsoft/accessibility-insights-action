@@ -5,6 +5,8 @@ import { execFileSync } from 'child_process';
 import { argv } from 'process';
 import { readdirSync } from 'fs';
 import { join } from 'path';
+import * as adoTask from 'azure-pipelines-task-lib/task';
+import * as npmRegistryUtil from './npm-registry-util';
 
 export function installRuntimeDependencies(): void {
     console.log('##[group]Installing runtime dependencies');
@@ -27,6 +29,39 @@ export function installRuntimeDependencies(): void {
 
     console.log(`##[debug]Using node from ${nodePath}`);
     console.log(`##[debug]Using bundled yarn from ${yarnPath}`);
+
+    const registryUrl: string = adoTask.getInput('npmRegistryUrl') || 'https://registry.yarnpkg.com';
+
+    console.log(`Using registry URL: ${registryUrl}`);
+    // Set the Yarn registry URL
+    execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmRegistryServer', registryUrl], {
+        stdio: 'inherit',
+        cwd: __dirname,
+    });
+
+    if (registryUrl != 'https://registry.yarnpkg.com') {
+        const serviceConnectionName: string | undefined = adoTask.getInput('npmRegistryCredential');
+
+        if (!serviceConnectionName) {
+            execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAuthToken', npmRegistryUtil.getSystemAccessToken()], {
+                stdio: 'inherit',
+                cwd: __dirname,
+            });
+        } else {
+            execFileSync(
+                nodePath,
+                [yarnPath, 'config', 'set', 'npmAuthIdent', npmRegistryUtil.getTokenFromServiceConnection(serviceConnectionName ?? '')],
+                {
+                    stdio: 'inherit',
+                    cwd: __dirname,
+                },
+            );
+        }
+        execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAlwaysAuth', 'true'], {
+            stdio: 'inherit',
+            cwd: __dirname,
+        });
+    }
 
     execFileSync(nodePath, [yarnPath, 'install', '--immutable'], {
         stdio: 'inherit',

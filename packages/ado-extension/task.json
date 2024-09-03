@@ -208,6 +208,23 @@
             "required": false,
             "helpMarkDown": "Path to Chrome executable. By default, the task downloads a version of Chrome that is tested to work with this task.",
             "groupName": "advancedOptions"
+        },
+        {
+            "name": "npmRegistryUrl",
+            "type": "string",
+            "label": "NPM registry Url",
+            "required": false,
+            "defaultValue": "https://registry.yarnpkg.com",
+            "helpMarkDown": "NPM registry Url to install the runtime dependencies.",
+            "groupName": "advancedOptions"
+        },
+        {
+            "name": "npmRegistryCredential",
+            "label": "Credentials for registries outside this organization/collection",
+            "helpMarkDown": "Credentials to use for external registries to install the runtime dependencies. For registries in this organization/collection, leave this blank; the build’s credentials are used automatically.",
+            "type": "connectedService:externalnpmregistry",
+            "defaultValue": "",
+            "groupName": "advancedOptions"
         }
     ],
     "execution": {
