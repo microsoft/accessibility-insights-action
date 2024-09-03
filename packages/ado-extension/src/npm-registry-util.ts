@@ -44,7 +44,13 @@ export function getTokenFromServiceConnection(serviceConnectionName: string): st
         const password = serviceConnectionAuth.parameters['password'];
         // to mask the token in pipeline logs
         adoTask.setSecret(password);
-        npmAuthIdent = `${username}:${password}`;
+        const usernamePassword = `${username}:${password}`;
+        // to mask the token in pipeline logs
+        adoTask.setSecret(usernamePassword);
+        const base64Password = Buffer.from(usernamePassword).toString('base64');
+        // to mask the token in pipeline logs
+        adoTask.setSecret(base64Password);
+        npmAuthIdent = base64Password;
     } else {
         throw new Error('Service connection auth scheme not supported');
     }
