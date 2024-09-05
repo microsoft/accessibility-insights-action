@@ -49,7 +49,7 @@ jobs:
                 baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
 
           - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should succeed] case case succeed-3: use same org artifact feed registry URL'
+            displayName: '[should succeed] case succeed-3: use same org artifact feed registry URL'
             inputs:
                 url: 'https://accessibilityinsights.io/'
                 maxUrls: 1
