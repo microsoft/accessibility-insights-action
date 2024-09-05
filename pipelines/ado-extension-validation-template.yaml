@@ -48,7 +48,6 @@ jobs:
                 outputArtifactName: 'accessibility-reports-case-succeed-2'
                 baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
 
-          # Below are succeed cases for private registry parameter validation
           - task: ${{ parameters.taskUnderTest }}
             displayName: '[should succeed] case case succeed-3: use same org artifact feed registry URL'
             inputs:
@@ -145,13 +144,12 @@ jobs:
             condition: succeededOrFailed()
             continueOnError: true
 
-          # Below is succeed fail case for private registry parameter validation          
           - task: ${{ parameters.taskUnderTest }}
             displayName: '[should fail] case fail-11: use different org artifact feed registry URL without credentials'
             inputs:
                 url: 'https://accessibilityinsights.io/'
                 maxUrls: 1
-                npmRegistryUrl: $(outsideArtifactURL)
+                npmRegistryUrl: $(outsideOrgArtifactURL)
             condition: succeededOrFailed()
             continueOnError: true
 
