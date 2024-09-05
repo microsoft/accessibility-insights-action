@@ -48,6 +48,14 @@ jobs:
                 outputArtifactName: 'accessibility-reports-case-succeed-2'
                 baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
 
+          # Below are succeed cases for private registry parameter validation
+          - task: ${{ parameters.taskUnderTest }}
+            displayName: '[should succeed] case case succeed-3: use same org artifact feed registry URL'
+            inputs:
+                url: 'https://accessibilityinsights.io/'
+                maxUrls: 1
+                npmRegistryUrl: $(sameOrgArtifactURL)
+
           # Please keep all "should fail" cases together as a block after all "should succeed" cases
           # Each case will need to have continueOnError: true. Each case but the first will also need
           # a condition: succeededOrFailed() so that the pipeline will run correctly.
@@ -137,6 +145,16 @@ jobs:
             condition: succeededOrFailed()
             continueOnError: true
 
+          # Below is succeed fail case for private registry parameter validation          
+          - task: ${{ parameters.taskUnderTest }}
+            displayName: '[should fail] case fail-11: use different org artifact feed registry URL without credentials'
+            inputs:
+                url: 'https://accessibilityinsights.io/'
+                maxUrls: 1
+                npmRegistryUrl: $(outsideArtifactURL)
+            condition: succeededOrFailed()
+            continueOnError: true
+
           # Below cases are for keepUrlFragment parameter validation
           - task: ${{ parameters.taskUnderTest }}
             displayName: '[should crawl] case keepUrlFragment-1: crawl to hash routed page'
@@ -148,6 +166,7 @@ jobs:
                 maxUrls: 10
                 keepUrlFragment: 'true'
                 outputArtifactName: 'accessibility-reports-case-keepUrlFragment-1'
+                scanTimeout: 180000
             condition: succeededOrFailed()
             continueOnError: true
 
