@@ -20,7 +20,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     applicationinsights: 2.7.3
-    azure-pipelines-task-lib: ^4.13.0
+    azure-pipelines-task-lib: ^4.17.0
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
@@ -6844,18 +6844,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-pipelines-task-lib@npm:^4.13.0":
-  version: 4.13.0
-  resolution: "azure-pipelines-task-lib@npm:4.13.0"
+"azure-pipelines-task-lib@npm:^4.17.0":
+  version: 4.17.0
+  resolution: "azure-pipelines-task-lib@npm:4.17.0"
   dependencies:
     adm-zip: ^0.5.10
     minimatch: 3.0.5
     nodejs-file-downloader: ^4.11.1
     q: ^1.5.1
-    semver: ^5.1.0
+    semver: ^5.7.2
     shelljs: ^0.8.5
     uuid: ^3.0.1
-  checksum: 7eedb402d3bda4b91d57f844e1161e0c32d4b6bb65ab35e01dc978f05320989904a4c8bf0202fad9ae1dee42d748ef8c6eef61c02c15dbc711f14e95c1dd4824
+  checksum: bb695b652a1d8f24bfe1fd98f1c3619d580b0046901954bcec45281f4cb858480024ca28c0615fd1a4baf09259d4a718a7b3b3e6ff427613b7d040fc3b0e53ae
   languageName: node
   linkType: hard
 
@@ -18576,7 +18576,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:2 || 3 || 4 || 5, semver@npm:^5.1.0, semver@npm:^5.3.0, semver@npm:^5.4.1, semver@npm:^5.5.0":
+"semver@npm:2 || 3 || 4 || 5, semver@npm:^5.3.0, semver@npm:^5.4.1, semver@npm:^5.5.0, semver@npm:^5.7.2":
   version: 5.7.2
   resolution: "semver@npm:5.7.2"
   bin:
