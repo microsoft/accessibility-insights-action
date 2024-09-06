@@ -13,6 +13,27 @@ parameters:
       type: string
 
 jobs:
+    - job: run_registry_url_tests
+      displayName: 'Run registry URL tests'
+      steps:
+          - task: ${{ parameters.taskUnderTest }}
+            displayName: '[should fail] case fail: use different org artifact feed registry URL without credentials'
+            inputs:
+                url: 'https://accessibilityinsights.io/'
+                maxUrls: 1
+                npmRegistryUrl: $(outsideOrgArtifactURL)
+                outputArtifactName: 'no-artifact-will-be-created-here'
+            condition: succeededOrFailed()
+            continueOnError: true
+
+          - task: ${{ parameters.taskUnderTest }}
+            displayName: '[should succeed] case succeed: use same org artifact feed registry URL'
+            inputs:
+                url: 'https://accessibilityinsights.io/'
+                maxUrls: 1
+                npmRegistryUrl: $(sameOrgArtifactURL)
+                outputArtifactName: 'accessibility-reports-case-same-org-registry-url'
+
     - job: run_tests
       displayName: 'Run tests'
       templateContext:
@@ -47,13 +68,6 @@ jobs:
                 url: 'http://localhost:5858'
                 outputArtifactName: 'accessibility-reports-case-succeed-2'
                 baselineFile: '$(System.DefaultWorkingDirectory)/dev/website-baselines/up-to-date-5858.baseline'
-
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should succeed] case succeed-3: use same org artifact feed registry URL'
-            inputs:
-                url: 'https://accessibilityinsights.io/'
-                maxUrls: 1
-                npmRegistryUrl: $(sameOrgArtifactURL)
 
           # Please keep all "should fail" cases together as a block after all "should succeed" cases
           # Each case will need to have continueOnError: true. Each case but the first will also need
@@ -144,15 +158,6 @@ jobs:
             condition: succeededOrFailed()
             continueOnError: true
 
-          - task: ${{ parameters.taskUnderTest }}
-            displayName: '[should fail] case fail-11: use different org artifact feed registry URL without credentials'
-            inputs:
-                url: 'https://accessibilityinsights.io/'
-                maxUrls: 1
-                npmRegistryUrl: $(outsideOrgArtifactURL)
-            condition: succeededOrFailed()
-            continueOnError: true
-
           # Below cases are for keepUrlFragment parameter validation
           - task: ${{ parameters.taskUnderTest }}
             displayName: '[should crawl] case keepUrlFragment-1: crawl to hash routed page'
@@ -182,7 +187,9 @@ jobs:
             continueOnError: true
 
     - job: validate_artifacts
-      dependsOn: run_tests
+      dependsOn:
+          - run_tests
+          - run_registry_url_tests
       displayName: 'Validate artifacts'
       #pool:
       #    name: a11y-ado-auth
@@ -207,6 +214,7 @@ jobs:
                     echo artifacts/accessibility-reports-case-fail-7/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-keepUrlFragment-1/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-keepUrlFragment-2/index.html >> expected-index-html-files.txt
+                    echo artifacts/accessibility-reports-case-same-org-registry-url/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-succeed-1/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-succeed-2/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports/index.html >> expected-index-html-files.txt
