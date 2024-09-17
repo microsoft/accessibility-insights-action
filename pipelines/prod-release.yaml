@@ -55,7 +55,7 @@ extends:
                         environment: a11y-insights-ado-extension-staging
                         shouldSign: true
                         visibility: preview
-                        isProduction: false
+                        isProduction: true
 
             - stage: create_release_tag
               variables:
@@ -97,4 +97,4 @@ extends:
                         environment: a11y-insights-ado-extension-prod
                         shouldSign: true
                         visibility: preview
-                        isProduction: false
+                        isProduction: true
