@@ -36,7 +36,7 @@ steps:
           artifactName: ado-extension-drop
           targetPath: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
 
-    - template: generate-vs-marketplace-token.yaml
+    - template: pipelines/generate-vs-marketplace-token.yaml@self
     - task: QueryAzureDevOpsExtensionVersion@4
       name: QueryVersion
       inputs:

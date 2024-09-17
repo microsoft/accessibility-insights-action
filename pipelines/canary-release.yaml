@@ -50,20 +50,20 @@ extends:
             suppression:
                 suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
 
-    stages:
-        - stage: package_publish_canary
-          variables:
-              - group: ${{ parameters.variableGroupName }}
-          jobs:
-              - template: release-template.yaml
-                parameters:
-                    ${{ if eq(parameters.variableGroupName, 'a11y-insights-ado-extension-canary') }}:
-                        environment: a11y-insghts-ado-extension-canary
-                        shouldSign: true
-                        visibility: preview
-                        isProduction: false
-                    ${{ if ne(parameters.variableGroupName, 'a11y-insights-ado-extension-canary') }}:
-                        environment: a11y-insghts-ado-extension-test
-                        shouldSign: false
-                        visibility: private
-                        isProduction: false
+        stages:
+            - stage: package_publish_canary
+              variables:
+                  - group: ${{ parameters.variableGroupName }}
+              jobs:
+                  - template: pipelines/release-template.yaml@self
+                    parameters:
+                        ${{ if eq(parameters.variableGroupName, 'a11y-insights-ado-extension-canary') }}:
+                            environment: a11y-insghts-ado-extension-canary
+                            shouldSign: true
+                            visibility: preview
+                            isProduction: false
+                        ${{ if ne(parameters.variableGroupName, 'a11y-insights-ado-extension-canary') }}:
+                            environment: a11y-insghts-ado-extension-test
+                            shouldSign: false
+                            visibility: private
+                            isProduction: false
