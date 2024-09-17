@@ -30,7 +30,7 @@ jobs:
                 visibility: ${{parameters.visibility}}      
       templateContext:
         inputs:
-            - input:
+            - input: pipelineArtifact
               source: 'specific'
               runVersion: 'specific'
               project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
