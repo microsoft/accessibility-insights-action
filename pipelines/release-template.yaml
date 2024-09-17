@@ -11,6 +11,9 @@ parameters:
     - name: visibility
       displayName: marketplace visibility
       type: string
+    - name: isProduction
+      displayName: whether to deploy to production
+      type: string
 
 jobs:
     - job: package_job
@@ -28,6 +31,15 @@ jobs:
     - deployment: publish_vsix_file
       displayName: deploy vsix file
       dependsOn: package_job
+      templateContext:
+          type: releaseJob
+          isProduction: ${{ parameters.isProduction }}
+          inputs:
+              - input: pipelineArtifact
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: '${{ parameters.environment }}-vsix'
+                downloadPath: '$(System.DefaultWorkingDirectory)'
       environment: ${{ parameters.environment }}
       strategy:
           runOnce:
