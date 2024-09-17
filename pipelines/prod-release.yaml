@@ -50,7 +50,7 @@ extends:
                         - name: extensionVersionOverride
                           value: ${{ parameters.stagingVersionOverride }}
               jobs:
-                  - template: release-template.yaml
+                  - template: pipelines/release-template.yaml@self
                     parameters:
                         environment: a11y-insights-ado-extension-staging
                         shouldSign: true
@@ -92,7 +92,7 @@ extends:
                   - name: extensionVersionOverride
                     value: ${{ parameters.prodVersionOverride }}
               jobs:
-                  - template: release-template.yaml
+                  - template: pipelines/release-template.yaml@self
                     parameters:
                         environment: a11y-insights-ado-extension-prod
                         shouldSign: true

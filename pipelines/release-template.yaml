@@ -23,7 +23,7 @@ jobs:
           demands:
               - ImageOverride -equals $(linuxImage)
       steps:
-          - template: pipelines/package-vsix-file.yaml@self
+          - template: package-vsix-file.yaml@self
             parameters:
                 environment: ${{ parameters.environment }}
                 shouldSign: ${{ parameters.shouldSign }}
@@ -45,7 +45,7 @@ jobs:
           runOnce:
               deploy:
                   steps:
-                      - template: pipelines/publish-vsix-file.yaml@self
+                      - template: publish-vsix-file.yaml@self
                         parameters:
                             environment: ${{ parameters.environment }}
                             visibility: ${{parameters.visibility}}
