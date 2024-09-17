@@ -17,6 +17,16 @@ parameters:
 
 jobs:
     - job: package_job
+      templateContext:
+        - inputs:
+            inputs:
+              source: 'specific'
+              runVersion: 'specific'
+              project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
+              pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
+              runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
+              artifactName: ado-extension-drop
+              targetPath: '$(System.DefaultWorkingDirectory)/ado-extension-drop'   
       pool:
           name: $(a11yInsightsPool)
           vmImage: $(linuxImage)
