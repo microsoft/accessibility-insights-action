@@ -15,7 +15,7 @@ steps:
       inputs:
           version: 'v0.7.x'
     - template: generate-vs-marketplace-token.yaml
-    - task: PublishAzureDevOpsExtension@3
+    - task: 1ES.PublishAzureDevOpsExtension@1
       inputs:
           connectTo: 'VsTeam'
           connectedServiceName: 'a11y-insights-vs-marketplace'
