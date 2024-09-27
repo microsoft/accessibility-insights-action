@@ -64,9 +64,6 @@ extends:
                           env:
                               NODE_OPTIONS: --max_old_space_size=4096
 
-                        # - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
-                        #   displayName: Publish code coverage to codecov
-
                         - script: yarn test:e2e --verbose
                           displayName: Run e2e tests
 
