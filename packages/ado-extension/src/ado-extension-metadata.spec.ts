@@ -76,7 +76,7 @@ describe(AdoExtensionMetadataProvider, () => {
             throw readFileError;
         };
 
-        expect(() => testSubject.readMetadata()).toThrowError(readFileError);
+        expect(() => testSubject.readMetadata()).toThrowError('readFileSync error');
     });
 
     it('throws an error if ado-extension-metadata.json is malformatted', () => {
