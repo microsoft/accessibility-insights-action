@@ -34,7 +34,7 @@ export function installRuntimeDependencies(): void {
 
     console.log(`Using registry URL: ${registryUrl}`);
 
-    // Ignore environment variables starting with YARN_, Yarn_ or yarn_
+    // Ignore environment variables starting with YARN_, Yarn_, or yarn_
     const filteredEnv = getFilteredEnv();
 
     // Set the Yarn registry URL
