@@ -41,8 +41,8 @@ extends:
                     steps:
                         - task: NodeTool@0
                           inputs:
-                              versionSpec: '16.x'
-                          displayName: Use Node 16.x
+                              versionSpec: '20.17.0'
+                          displayName: Use Node 20.17.0
 
                         - script: yarn install --immutable
                           displayName: Install dependencies
@@ -120,8 +120,8 @@ extends:
                     steps:
                         - task: NodeTool@0
                           inputs:
-                              versionSpec: '16.x'
-                          displayName: Use Node 16.x
+                              versionSpec: '20.17.0'
+                          displayName: Use Node 20.17.0
 
                         - script: yarn install --immutable
                           displayName: Install dependencies
