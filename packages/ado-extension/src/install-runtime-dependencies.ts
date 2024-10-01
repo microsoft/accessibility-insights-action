@@ -33,10 +33,17 @@ export function installRuntimeDependencies(): void {
     const registryUrl: string = adoTask.getInput('npmRegistryUrl') || 'https://registry.yarnpkg.com';
 
     console.log(`Using registry URL: ${registryUrl}`);
+
+    // Ignore environment variables starting with YARN_, Yarn_, or yarn_
+    const filteredEnv = getFilteredEnv();
+
     // Set the Yarn registry URL
     execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmRegistryServer', registryUrl], {
         stdio: 'inherit',
         cwd: __dirname,
+        env: {
+            ...filteredEnv, // Use the filtered environment variable
+        },
     });
 
     if (registryUrl != 'https://registry.yarnpkg.com') {
@@ -46,6 +53,9 @@ export function installRuntimeDependencies(): void {
             execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAuthToken', npmRegistryUtil.getSystemAccessToken()], {
                 stdio: 'inherit',
                 cwd: __dirname,
+                env: {
+                    ...filteredEnv, // Use the filtered environment variable
+                },
             });
         } else {
             execFileSync(
@@ -54,19 +64,42 @@ export function installRuntimeDependencies(): void {
                 {
                     stdio: 'inherit',
                     cwd: __dirname,
+                    env: {
+                        ...filteredEnv, // Use the filtered environment variable
+                    },
                 },
             );
         }
         execFileSync(nodePath, [yarnPath, 'config', 'set', 'npmAlwaysAuth', 'true'], {
             stdio: 'inherit',
             cwd: __dirname,
+            env: {
+                ...filteredEnv, // Use the filtered environment variable
+            },
         });
     }
 
     execFileSync(nodePath, [yarnPath, 'install', '--immutable'], {
         stdio: 'inherit',
         cwd: __dirname,
+        env: {
+            ...filteredEnv, // Use the filtered environment variable
+        },
     });
 
     console.log('##[endgroup]');
+}
+
+// Function to filter environment variables
+function getFilteredEnv(): Record<string, string> {
+    const filteredEnv: Record<string, string> = {};
+    for (const [key, value] of Object.entries(process.env)) {
+        if (value !== undefined && !key.toLowerCase().startsWith('yarn_')) {
+            filteredEnv[key] = value;
+        } else {
+            console.log(`filtered environment variable ${key}`);
+        }
+    }
+
+    return filteredEnv;
 }
