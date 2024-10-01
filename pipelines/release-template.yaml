@@ -22,12 +22,6 @@ jobs:
           vmImage: $(linuxImage)
           demands:
               - ImageOverride -equals $(linuxImage)
-      steps:
-          - template: package-vsix-file.yaml@self
-            parameters:
-                environment: ${{ parameters.environment }}
-                shouldSign: ${{ parameters.shouldSign }}
-                visibility: ${{parameters.visibility}}      
       templateContext:
         inputs:
             - input: pipelineArtifact
@@ -38,6 +32,17 @@ jobs:
               runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
               artifactName: ado-extension-drop
               targetPath: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+        outputs:
+            - output: pipelineArtifact
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              artifactName: '${{ parameters.environment }}-vsix'
+              publishLocation: 'Container'    
+      steps:
+          - template: package-vsix-file.yaml@self
+            parameters:
+                environment: ${{ parameters.environment }}
+                shouldSign: ${{ parameters.shouldSign }}
+                visibility: ${{parameters.visibility}}
               
     - deployment: publish_vsix_file
       displayName: deploy vsix file

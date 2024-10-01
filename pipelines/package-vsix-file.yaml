@@ -109,9 +109,3 @@ steps:
                         "ToolVersion" : "1.0"
                     }
               ]
-
-    - task: 1ES.PublishBuildArtifacts@1
-      inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: '${{ parameters.environment }}-vsix'
-          publishLocation: 'Container'
