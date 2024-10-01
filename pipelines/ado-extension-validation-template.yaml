@@ -45,8 +45,8 @@ jobs:
       steps:
           - task: NodeTool@0
             inputs:
-                versionSpec: '20.17.0'
-                displayName: Use Node 20.17.0
+                versionSpec: '20.x'
+                displayName: Use Node 20.x
 
           # reused by all "url" cases
           - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
