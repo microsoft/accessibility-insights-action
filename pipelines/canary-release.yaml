@@ -32,8 +32,8 @@ resources:
 
 extends:
     # Do not edit. This is the 1ES template that holds different SDL and compliance tasks that the template injects into the pipeline.
-    # It uses the Official template because it's a production pipeline.
-    template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+    # It uses the unofficial template because it's a canary pipeline.
+    template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
 
     parameters:
         # Accessibility Insights team's 1ES hosted pool.
