@@ -55,7 +55,7 @@ jobs:
                 buildType: 'current'
                 downloadType: 'single'
                 artifactName: '${{ parameters.environment }}-vsix'
-                downloadPath: '$(System.DefaultWorkingDirectory)/${{ parameters.environment }}-vsix'
+                downloadPath: '$(System.DefaultWorkingDirectory)/${{ parameters.environment }}-artifacts'
       environment: ${{ parameters.environment }}
       strategy:
           runOnce:
