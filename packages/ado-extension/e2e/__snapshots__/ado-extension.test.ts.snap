@@ -7,5 +7,5 @@ URLs: 1 with failures, 0 passed, 0 not scannable
 Rules: 5 with failures, 14 passed, 36 not applicable
 
 -------------------
-This scan used axe-core 4.10.0"
+This scan used axe-core 4.10.1"
 `;
