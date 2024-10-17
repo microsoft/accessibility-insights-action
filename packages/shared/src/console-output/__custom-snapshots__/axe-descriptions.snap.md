@@ -4,7 +4,7 @@ Accessibility Insights
 * Download the Accessibility Insights artifact to view the detailed results of these checks
 Failed instances
 * 1 × accesskeys:  Ensure every accesskey attribute value is unique
-* 1 × area-alt:  Ensure <area> elements of image maps have alternate text
+* 1 × area-alt:  Ensure <area> elements of image maps have alternative text
 * 1 × aria-allowed-attr:  Ensure an element's role supports its ARIA attributes
 * 1 × aria-allowed-role:  Ensure role attribute has an appropriate value for the element
 * 1 × aria-braille-equivalent:  Ensure aria-braillelabel and aria-brailleroledescription have a non-braille equivalent
@@ -58,10 +58,10 @@ Failed instances
 * 1 × html-lang-valid:  Ensure the lang attribute of the <html> element has a valid value
 * 1 × html-xml-lang-mismatch:  Ensure that HTML elements with both valid lang and xml:lang attributes agree on the base language of the page
 * 1 × identical-links-same-purpose:  Ensure that links with the same accessible name serve a similar purpose
-* 1 × image-alt:  Ensure <img> elements have alternate text or a role of none or presentation
+* 1 × image-alt:  Ensure <img> elements have alternative text or a role of none or presentation
 * 1 × image-redundant-alt:  Ensure image alternative is not repeated as text
 * 1 × input-button-name:  Ensure input buttons have discernible text
-* 1 × input-image-alt:  Ensure <input type="image"> elements have alternate text
+* 1 × input-image-alt:  Ensure <input type="image"> elements have alternative text
 * 1 × label-content-name-mismatch:  Ensure that elements labelled through their content must have their visible text as part of their accessible name
 * 1 × label-title-only:  Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
 * 1 × label:  Ensure every form element has a label
@@ -85,12 +85,12 @@ Failed instances
 * 1 × meta-viewport:  Ensure <meta name="viewport"> does not disable text scaling and zooming
 * 1 × nested-interactive:  Ensure interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies
 * 1 × no-autoplay-audio:  Ensure <video> or <audio> elements do not autoplay audio for more than 3 seconds without a control mechanism to stop or mute the audio
-* 1 × object-alt:  Ensure <object> elements have alternate text
+* 1 × object-alt:  Ensure <object> elements have alternative text
 * 1 × p-as-heading:  Ensure bold, italic text and font-size is not used to style <p> elements as a heading
 * 1 × page-has-heading-one:  Ensure that the page, or at least one of its frames contains a level-one heading
 * 1 × presentation-role-conflict:  Elements marked as presentational should not have global ARIA or tabindex to ensure all screen readers ignore them
 * 1 × region:  Ensure all page content is contained by landmarks
-* 1 × role-img-alt:  Ensure [role="img"] elements have alternate text
+* 1 × role-img-alt:  Ensure [role="img"] elements have alternative text
 * 1 × scope-attr-valid:  Ensure the scope attribute is used correctly on tables
 * 1 × scrollable-region-focusable:  Ensure elements that have scrollable content are accessible by keyboard
 * 1 × select-name:  Ensure select element has an accessible name
