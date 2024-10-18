@@ -22,7 +22,12 @@ module.exports = {
     reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/test-results/unit', outputName: 'junit.xml' }]],
     setupFilesAfterEnv: ['jest-extended'],
     transform: {
-        '^.+\\.(jsx?|tsx?)$': 'ts-jest',
+        '^.+\\.(jsx?|tsx?)$': [
+            'ts-jest',
+            {
+                isolatedModules: true,
+            },
+        ],
     },
     transformIgnorePatterns: ['/node_modules/(?!(serialize-error|get-port))'], // Transform pure ESM with ts-jest
     testMatch: ['**/*.spec.[tj]s', '**/*.test.[tj]s'],
