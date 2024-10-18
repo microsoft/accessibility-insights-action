@@ -29,7 +29,7 @@ steps:
           publisherId: '$(PublisherID)'
           extensionId: '$(ExtensionID)'
           extensionName: '$(ExtensionName)'
-          updateTasksVersion: 'false'
+          updateTasksVersion: false
           extensionVisibility: '${{parameters.visibility}}'
           extensionPricing: 'free'
           shareWith: 'accessibility-insights-private'
