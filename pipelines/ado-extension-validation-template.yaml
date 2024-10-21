@@ -169,7 +169,7 @@ jobs:
                 maxUrls: 10
                 keepUrlFragment: 'true'
                 outputArtifactName: 'accessibility-reports-case-keepUrlFragment-1'
-                scanTimeout: 180000
+                scanTimeout: 300000
             condition: succeededOrFailed()
             continueOnError: true
 
@@ -183,6 +183,7 @@ jobs:
                 maxUrls: 10
                 keepUrlFragment: 'false'
                 outputArtifactName: 'accessibility-reports-case-keepUrlFragment-2'
+                scanTimeout: 300000
             condition: succeededOrFailed()
             continueOnError: true
 
