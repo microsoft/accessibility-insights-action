@@ -49,7 +49,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@accessibility-insights-action/shared@workspace:packages/shared"
   dependencies:
-    "@types/express": ^4.17.21
+    "@types/express": ^5.0.0
     "@types/jest": ^29.5.14
     "@types/lodash": ^4.17.12
     "@types/marked": ^5.0.2
@@ -4827,7 +4827,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:*, @types/express@npm:^4.17.13, @types/express@npm:^4.17.21":
+"@types/express-serve-static-core@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "@types/express-serve-static-core@npm:5.0.1"
+  dependencies:
+    "@types/node": "*"
+    "@types/qs": "*"
+    "@types/range-parser": "*"
+    "@types/send": "*"
+  checksum: e9daf9bc0d83f593aa2fdcb7c3f9c0a8747bfdf6d8a5ee48ed8d8cc4dc2ed52bdc75d20f6fec9ef00a1aa5ade4c7f16668ff1c020911b50394472844813b1cdb
+  languageName: node
+  linkType: hard
+
+"@types/express@npm:*, @types/express@npm:^4.17.13":
   version: 4.17.21
   resolution: "@types/express@npm:4.17.21"
   dependencies:
@@ -4836,6 +4848,18 @@ __metadata:
     "@types/qs": "*"
     "@types/serve-static": "*"
   checksum: fb238298630370a7392c7abdc80f495ae6c716723e114705d7e3fb67e3850b3859bbfd29391463a3fb8c0b32051847935933d99e719c0478710f8098ee7091c5
+  languageName: node
+  linkType: hard
+
+"@types/express@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@types/express@npm:5.0.0"
+  dependencies:
+    "@types/body-parser": "*"
+    "@types/express-serve-static-core": ^5.0.0
+    "@types/qs": "*"
+    "@types/serve-static": "*"
+  checksum: ef68d8e2b7593c930093b1e79bf4df15413773508c9acd6a1a933ed7017f2a4892a8d128b2222d7eab9a3fa43181067a378c2600d9258bd7ae917f170e962df4
   languageName: node
   linkType: hard
 
@@ -5974,7 +5998,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "accessibility-insights-action@workspace:."
   dependencies:
-    "@types/express": ^4.17.21
+    "@types/express": ^5.0.0
     "@types/jest": ^29.5.14
     "@types/lodash": ^4.17.12
     "@types/marked": ^5.0.2
