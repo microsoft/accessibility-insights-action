@@ -23,27 +23,27 @@ jobs:
           demands:
               - ImageOverride -equals $(linuxImage)
       templateContext:
-        inputs:
-            - input: pipelineArtifact
-              source: 'specific'
-              runVersion: 'specific'
-              project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
-              definition: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
-              runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
-              artifactName: ado-extension-drop
-              targetPath: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
-        outputs:
-            - output: pipelineArtifact
-              targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifactName: '${{ parameters.environment }}-vsix'
-              publishLocation: 'Container'    
+          inputs:
+              - input: pipelineArtifact
+                source: 'specific'
+                runVersion: 'specific'
+                project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
+                definition: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
+                runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
+                artifactName: ado-extension-drop
+                targetPath: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+          outputs:
+              - output: pipelineArtifact
+                targetPath: '$(Build.ArtifactStagingDirectory)'
+                artifactName: '${{ parameters.environment }}-vsix'
+                publishLocation: 'Container'
       steps:
           - template: package-vsix-file.yaml@self
             parameters:
                 environment: ${{ parameters.environment }}
                 shouldSign: ${{ parameters.shouldSign }}
                 visibility: ${{parameters.visibility}}
-              
+
     - deployment: publish_vsix_file
       displayName: deploy vsix file
       dependsOn: package_job
