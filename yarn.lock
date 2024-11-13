@@ -61,7 +61,7 @@ __metadata:
     "@types/serve-static": ^1.15.7
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
-    accessibility-insights-report: 5.1.0
+    accessibility-insights-report: 5.2.0
     accessibility-insights-scan: ^3.0.1
     axe-core: ^4.10.2
     eslint: ^8.57.0
@@ -6026,6 +6026,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"accessibility-insights-report@npm:5.2.0":
+  version: 5.2.0
+  resolution: "accessibility-insights-report@npm:5.2.0"
+  dependencies:
+    "@fluentui/react": ^8.118.1
+    axe-core: 4.10.2
+    classnames: ^2.5.1
+    lodash: ^4.17.21
+    luxon: ^3.5.0
+    react: ^18.3.1
+    react-dom: ^18.3.1
+    react-helmet-async: ^2.0.5
+    uuid: ^9.0.1
+  checksum: 94d1892e9b1941480775588e6555076e8c50d8589bfa23662e50fdf06a0d94d07abd3aa529ac4b6bfcb15cb3aeccd0dacd4fb5459611f3cb11e4f3bc0cb7de80
+  languageName: node
+  linkType: hard
+
 "accessibility-insights-scan@npm:^3.0.1":
   version: 3.0.1
   resolution: "accessibility-insights-scan@npm:3.0.1"
@@ -6789,6 +6806,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axe-core@npm:4.10.2, axe-core@npm:^4.10.2":
+  version: 4.10.2
+  resolution: "axe-core@npm:4.10.2"
+  checksum: 2b9b1c93ea73ea9f206604e4e17bd771d2d835f077bde54517d73028b8865c69b209460e73d5b109968cbdb39ab3d28943efa5695189bd79e16421ce1706719e
+  languageName: node
+  linkType: hard
+
 "axe-core@npm:4.9.1, axe-core@npm:~4.9.1":
   version: 4.9.1
   resolution: "axe-core@npm:4.9.1"
@@ -6800,13 +6824,6 @@ __metadata:
   version: 4.7.0
   resolution: "axe-core@npm:4.7.0"
   checksum: f086bcab42be1761ba2b0b127dec350087f4c3a853bba8dd58f69d898cefaac31a1561da23146f6f3c07954c76171d1f2ce460e555e052d2b02cd79af628fa4a
-  languageName: node
-  linkType: hard
-
-"axe-core@npm:^4.10.2":
-  version: 4.10.2
-  resolution: "axe-core@npm:4.10.2"
-  checksum: 2b9b1c93ea73ea9f206604e4e17bd771d2d835f077bde54517d73028b8865c69b209460e73d5b109968cbdb39ab3d28943efa5695189bd79e16421ce1706719e
   languageName: node
   linkType: hard
 
@@ -14592,6 +14609,13 @@ __metadata:
   version: 3.4.4
   resolution: "luxon@npm:3.4.4"
   checksum: 36c1f99c4796ee4bfddf7dc94fa87815add43ebc44c8934c924946260a58512f0fd2743a629302885df7f35ccbd2d13f178c15df046d0e3b6eb71db178f1c60c
+  languageName: node
+  linkType: hard
+
+"luxon@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "luxon@npm:3.5.0"
+  checksum: f290fe5788c8e51e748744f05092160d4be12150dca70f9fadc0d233e53d60ce86acd82e7d909a114730a136a77e56f0d3ebac6141bbb82fd310969a4704825b
   languageName: node
   linkType: hard
 
