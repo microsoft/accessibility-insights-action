@@ -10,12 +10,6 @@ parameters:
       type: string
 
 steps:
-    - bash: |
-          mkdir $(System.DefaultWorkingDirectory)/${{ parameters.environment }}-vsix/
-          cp $(System.DefaultWorkingDirectory)/${{ parameters.environment }}-artifacts/${{ parameters.environment }}.vsix $(System.DefaultWorkingDirectory)/${{ parameters.environment }}-vsix/
-          find $(System.DefaultWorkingDirectory)/${{ parameters.environment }}-artifacts/ -name *.md -exec cp {} $(System.DefaultWorkingDirectory)/${{ parameters.environment }}-vsix/ \;
-          echo "${{ parameters.environment }}.vsix and CodeSignSummary file copied to $(System.DefaultWorkingDirectory)/${{ parameters.environment }}-vsix/"
-      displayName: Copy vsix file for publishing
     - task: TfxInstaller@3
       inputs:
           version: 'v0.7.x'
