@@ -13,68 +13,89 @@ parameters:
 
 trigger: none
 
-pool:
-    name: $(a11yInsightsPool)
-    vmImage: $(linuxImage)
-    demands:
-        - ImageOverride -equals $(linuxImage)
-
 resources:
+    repositories:
+        - repository: 1esPipelines
+          type: git
+          name: 1ESPipelineTemplates/1ESPipelineTemplates
+          ref: refs/tags/release
     pipelines:
         - pipeline: accessibility-insights-action-ci
           source: accessibility-insights-action-ci
+extends:
+    # Do not edit. This is the 1ES template that holds different SDL and compliance tasks that the template injects into the pipeline.
+    # It uses the Official template because it's a production pipeline.
+    template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
 
-stages:
-    - stage: package_publish_staging
-      variables:
-          - group: a11y-insights-ado-extension-staging
-          - ${{ if ne(parameters.stagingVersionOverride, 'increment') }}:
-                - name: extensionVersionOverride
-                  value: ${{ parameters.stagingVersionOverride }}
-      jobs:
-          - template: release-template.yaml
-            parameters:
-                environment: a11y-insights-ado-extension-staging
-                shouldSign: true
-                visibility: preview
+    parameters:
+        # Accessibility Insights team's 1ES hosted pool.
+        # This variable is saved in Azure DevOps from the "Edit" pipeline view.
+        pool:
+            name: $(a11yInsightsPool)
+            image: $(linuxImage)
+            os: linux
+            demands:
+                - ImageOverride -equals $(linuxImage)
 
-    - stage: create_release_tag
-      variables:
-          - name: tag
-            value: v${{ parameters.prodVersionOverride }}-sources-ado
-      jobs:
-          - job: 'CreateReleaseTag'
-            steps:
-                - task: DownloadPipelineArtifact@2
-                  inputs:
-                      source: 'specific'
-                      runVersion: 'specific'
-                      project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
-                      pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
-                      runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
-                      artifact: ado-extension-drop
-                      path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+        sdl:
+            sourceAnalysisPool:
+                name: a11y-ado-auth
+                image: windows-2022-secure
+                os: windows
 
-                - task: GitHubRelease@1
-                  displayName: 'GitHub release'
-                  inputs:
-                      tag: '$(tag)'
-                      action: edit
-                      tagSource: userSpecifiedTag
-                      gitHubConnection: 'a11y-insights-ada-cat-github-oauth'
-                      isPreRelease: true
-                      isDraft: true
-                      target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
-                      assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
+        stages:
+            - stage: package_publish_staging
+              variables:
+                  - group: a11y-insights-ado-extension-staging
+                  - ${{ if ne(parameters.stagingVersionOverride, 'increment') }}:
+                        - name: extensionVersionOverride
+                          value: ${{ parameters.stagingVersionOverride }}
+              jobs:
+                  - template: pipelines/release-template.yaml@self
+                    parameters:
+                        environment: a11y-insights-ado-extension-staging
+                        shouldSign: true
+                        visibility: preview
+                        isProduction: true
 
-    - stage: package_publish_prod
-      variables:
-          - group: a11y-insights-ado-extension-prod
-          - name: extensionVersionOverride
-            value: ${{ parameters.prodVersionOverride }}
-      jobs:
-          - template: release-template.yaml
-            parameters:
-                environment: a11y-insights-ado-extension-prod
-                shouldSign: true
-                visibility: preview
+            - stage: create_release_tag
+              variables:
+                  - name: tag
+                    value: v${{ parameters.prodVersionOverride }}-sources-ado
+              jobs:
+                  - job: 'CreateReleaseTag'
+                    steps:
+                        - task: 1ES.DownloadPipelineArtifact@1
+                          inputs:
+                              source: 'specific'
+                              runVersion: 'specific'
+                              project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
+                              pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
+                              runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
+                              artifactName: ado-extension-drop
+                              targetPath: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
+
+                        - task: GitHubRelease@1
+                          displayName: 'GitHub release'
+                          inputs:
+                              tag: '$(tag)'
+                              action: edit
+                              tagSource: userSpecifiedTag
+                              gitHubConnection: 'a11y-insights-ada-cat-github-oauth'
+                              isPreRelease: true
+                              isDraft: true
+                              target: $(resources.pipeline.accessibility-insights-action-ci.sourceCommit)
+                              assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
+
+            - stage: package_publish_prod
+              variables:
+                  - group: a11y-insights-ado-extension-prod
+                  - name: extensionVersionOverride
+                    value: ${{ parameters.prodVersionOverride }}
+              jobs:
+                  - template: pipelines/release-template.yaml@self
+                    parameters:
+                        environment: a11y-insights-ado-extension-prod
+                        shouldSign: true
+                        visibility: preview
+                        isProduction: true

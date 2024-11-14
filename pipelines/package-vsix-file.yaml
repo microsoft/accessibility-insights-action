@@ -26,16 +26,7 @@ steps:
       inputs:
           version: 'v0.7.x'
 
-    - task: DownloadPipelineArtifact@2
-      inputs:
-          source: 'specific'
-          runVersion: 'specific'
-          project: $(resources.pipeline.accessibility-insights-action-ci.projectID)
-          pipeline: $(resources.pipeline.accessibility-insights-action-ci.pipelineID)
-          runId: $(resources.pipeline.accessibility-insights-action-ci.runID)
-          artifact: ado-extension-drop
-          path: '$(System.DefaultWorkingDirectory)/ado-extension-drop'
-    - template: generate-vs-marketplace-token.yaml
+    - template: generate-vs-marketplace-token.yaml@self
     - task: QueryAzureDevOpsExtensionVersion@4
       name: QueryVersion
       inputs:
@@ -118,9 +109,3 @@ steps:
                         "ToolVersion" : "1.0"
                     }
               ]
-
-    - task: PublishBuildArtifacts@1
-      inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: '${{ parameters.environment }}-vsix'
-          publishLocation: 'Container'
