@@ -70,7 +70,7 @@ __metadata:
     filenamify-url: ^3.1.0
     fork-ts-checker-webpack-plugin: ^9.0.2
     get-port: ^7.1.0
-    inversify: 6.0.1
+    inversify: 6.1.4
     jest: ^29.7.0
     jest-extended: ^4.0.2
     jest-file-snapshot: ^0.7.0
@@ -3153,6 +3153,32 @@ __metadata:
   version: 2.0.2
   resolution: "@humanwhocodes/object-schema@npm:2.0.2"
   checksum: 2fc11503361b5fb4f14714c700c02a3f4c7c93e9acd6b87a29f62c522d90470f364d6161b03d1cc618b979f2ae02aed1106fd29d302695d8927e2fc8165ba8ee
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/common@npm:1.3.3":
+  version: 1.3.3
+  resolution: "@inversifyjs/common@npm:1.3.3"
+  checksum: da39379127e5e84facaa5cd533a482df54675a7455bd0e69b6ca72f54bc54ec6a23bc3040fda65df662326457bdd3cbc54b884043ac99ebee19d339a8014c1cf
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/core@npm:1.3.4":
+  version: 1.3.4
+  resolution: "@inversifyjs/core@npm:1.3.4"
+  dependencies:
+    "@inversifyjs/common": 1.3.3
+    "@inversifyjs/reflect-metadata-utils": 0.2.3
+  checksum: b62f77e8eace5edd4a52693ceaabbe30aadbcfd64a7efba7df0e92a60110326523c2ac9e35c5fb15822ca0e231dc910833b0ae487c87bdf30b2b51c2f994e031
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/reflect-metadata-utils@npm:0.2.3":
+  version: 0.2.3
+  resolution: "@inversifyjs/reflect-metadata-utils@npm:0.2.3"
+  peerDependencies:
+    reflect-metadata: 0.2.2
+  checksum: 6b0790ad4bd6333a601319a4cf87067f8f7ef03cf61ecfeb34b2e0d4d159c64e422889fff301ec2147a65e61565940b1e063ddf6b824fee03986d7f7132ca808
   languageName: node
   linkType: hard
 
@@ -12139,7 +12165,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inversify@npm:6.0.1, inversify@npm:^6.0.1":
+"inversify@npm:6.1.4":
+  version: 6.1.4
+  resolution: "inversify@npm:6.1.4"
+  dependencies:
+    "@inversifyjs/common": 1.3.3
+    "@inversifyjs/core": 1.3.4
+  checksum: 23ae5b0af2cdbe89b86187f246275400cb6dcf7e1d33729b1f082116548686b5213717bbc6c8d97b7f3793276d97d670789129670bf8b81b67002aba7075b64c
+  languageName: node
+  linkType: hard
+
+"inversify@npm:^6.0.1":
   version: 6.0.1
   resolution: "inversify@npm:6.0.1"
   checksum: b6c9b56ef7817a71534b06101c2b0a0130b67c47a769f58794d9c0643591a83ac02be30a48c00cb729c0c83ece96dde369c419d48c32d0201c6cc7407629fbc5
