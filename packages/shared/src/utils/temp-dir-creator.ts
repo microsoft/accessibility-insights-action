@@ -3,12 +3,12 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { injectable } from 'inversify';
+import { injectable,inject, optional } from 'inversify';
 
 @injectable()
 export class TempDirCreator {
     constructor(
-        private readonly fsObj: typeof fs = fs,
+        @optional() @inject('fsObj') private readonly fsObj: typeof fs = fs,
         private readonly pathObj: typeof path = path,
     ) {}
 

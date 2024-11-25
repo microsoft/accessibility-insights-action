@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { ScanArguments, validateScanArguments } from 'accessibility-insights-scan';
-import { inject, injectable } from 'inversify';
+import { inject, injectable, optional } from 'inversify';
 import { resolve } from 'path';
 import { TaskConfig } from '../task-config';
 import { isEmpty } from 'lodash';
@@ -14,8 +14,8 @@ export class CrawlArgumentHandler {
     constructor(
         @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
-        private readonly resolvePath: typeof resolve = resolve,
-        private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,
+        @optional() @inject('resolve') private readonly resolvePath: typeof resolve = resolve,
+        @optional() @inject('validateScanArguments') private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,
     ) {}
 
     public processScanArguments(localServerUrl?: string): ScanArguments {

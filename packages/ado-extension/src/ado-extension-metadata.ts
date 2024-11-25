@@ -4,7 +4,7 @@
 import 'reflect-metadata';
 import * as path from 'path';
 import * as fs from 'fs';
-import { injectable } from 'inversify';
+import { inject,optional,injectable } from 'inversify';
 
 // Extension metadata is written by /pipelines/package-vsix-file.yaml
 // Any changes to this type should also be reflected there!
@@ -21,7 +21,7 @@ export type AdoExtensionMetadata = {
 
 @injectable()
 export class AdoExtensionMetadataProvider {
-    constructor(private readonly fileSystemObj: typeof fs = fs) {}
+    constructor(@optional() @inject('fs') private readonly fileSystemObj: typeof fs = fs) {}
 
     readMetadata(): AdoExtensionMetadata {
         const metadataFilePath = path.join(__dirname, 'ado-extension-metadata.json');
