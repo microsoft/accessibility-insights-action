@@ -3,7 +3,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { injectable,inject, optional } from 'inversify';
+import { injectable, inject, optional } from 'inversify';
 
 @injectable()
 export class TempDirCreator {

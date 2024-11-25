@@ -4,7 +4,7 @@
 import 'reflect-metadata';
 import * as path from 'path';
 import * as fs from 'fs';
-import { inject,optional,injectable } from 'inversify';
+import { inject, optional, injectable } from 'inversify';
 
 // Extension metadata is written by /pipelines/package-vsix-file.yaml
 // Any changes to this type should also be reflected there!

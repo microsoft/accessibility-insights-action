@@ -15,7 +15,9 @@ export class CrawlArgumentHandler {
         @inject(iocTypes.TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(ScanUrlResolver) private readonly scanUrlResolver: ScanUrlResolver,
         @optional() @inject('resolve') private readonly resolvePath: typeof resolve = resolve,
-        @optional() @inject('validateScanArguments') private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,
+        @optional()
+        @inject('validateScanArguments')
+        private readonly validateScanArgumentsExt: typeof validateScanArguments = validateScanArguments,
     ) {}
 
     public processScanArguments(localServerUrl?: string): ScanArguments {
