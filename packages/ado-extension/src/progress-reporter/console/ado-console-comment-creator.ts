@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { ADOTaskConfig } from '../../task-config/ado-task-config';
-import { inject, injectable } from 'inversify';
+import { inject, injectable, optional } from 'inversify';
 import { iocTypes, Logger, ReportConsoleLogConvertor } from '@accessibility-insights-action/shared';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -19,7 +19,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         @inject(ReportMarkdownConvertor) private readonly reportMarkdownConvertor: ReportMarkdownConvertor,
         @inject(ReportConsoleLogConvertor) private readonly reportConsoleLogConvertor: ReportConsoleLogConvertor,
         @inject(Logger) private readonly logger: Logger,
-        private readonly fileSystemObj: typeof fs = fs,
+        @optional() @inject('fs') private readonly fileSystemObj: typeof fs = fs,
         private readonly pathObj: typeof path = path,
     ) {
         super();

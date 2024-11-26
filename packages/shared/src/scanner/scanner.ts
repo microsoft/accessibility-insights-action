@@ -10,7 +10,7 @@ import {
     BaselineOptionsBuilder,
     BaselineFileUpdater,
 } from 'accessibility-insights-scan';
-import { inject, injectable } from 'inversify';
+import { inject, injectable, optional } from 'inversify';
 import { iocTypes } from '../ioc/ioc-types';
 import { LocalFileServer } from '../local-file-server';
 import { Logger } from '../logger/logger';
@@ -51,7 +51,7 @@ export class Scanner {
         @inject(BaselineFileUpdater) private readonly baselineFileUpdater: BaselineFileUpdater,
         @inject(iocTypes.TelemetryClient) private readonly telemetryClient: TelemetryClient,
         @inject(InputValidator) private readonly inputValidator: InputValidator,
-        private readonly fileSystemObj: typeof fs = fs,
+        @optional() @inject('fs') private readonly fileSystemObj: typeof fs = fs,
     ) {
         this.telemetryErrorCollector = new TelemetryErrorCollector('Scanner');
     }
