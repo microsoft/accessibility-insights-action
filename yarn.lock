@@ -63,7 +63,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.18.1
     accessibility-insights-report: 5.1.0
     accessibility-insights-scan: ^3.0.2
-    axe-core: ^4.9.1
+    axe-core: ^4.10.2
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
     express: ^4.21.0
@@ -6884,7 +6884,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:4.9.1, axe-core@npm:^4.9.1, axe-core@npm:~4.9.1":
+"axe-core@npm:4.9.1, axe-core@npm:~4.9.1":
   version: 4.9.1
   resolution: "axe-core@npm:4.9.1"
   checksum: 41d9227871781f96c2952e2a777fca73624959dd0e98864f6d82806a77602f82b4fc490852082a7e524d8cd864e50d8b4d9931819b4a150112981d8c932110c5
@@ -6895,6 +6895,13 @@ __metadata:
   version: 4.7.0
   resolution: "axe-core@npm:4.7.0"
   checksum: f086bcab42be1761ba2b0b127dec350087f4c3a853bba8dd58f69d898cefaac31a1561da23146f6f3c07954c76171d1f2ce460e555e052d2b02cd79af628fa4a
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:^4.10.2":
+  version: 4.10.2
+  resolution: "axe-core@npm:4.10.2"
+  checksum: 2b9b1c93ea73ea9f206604e4e17bd771d2d835f077bde54517d73028b8865c69b209460e73d5b109968cbdb39ab3d28943efa5695189bd79e16421ce1706719e
   languageName: node
   linkType: hard
 
