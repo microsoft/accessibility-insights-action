@@ -63,7 +63,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.18.1
     accessibility-insights-report: 5.1.0
     accessibility-insights-scan: ^3.0.2
-    axe-core: ^4.10.2
+    axe-core: ^4.9.1
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
     express: ^4.21.0
@@ -6898,7 +6898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.10.2":
+"axe-core@npm:^4.9.1":
   version: 4.10.2
   resolution: "axe-core@npm:4.10.2"
   checksum: 2b9b1c93ea73ea9f206604e4e17bd771d2d835f077bde54517d73028b8865c69b209460e73d5b109968cbdb39ab3d28943efa5695189bd79e16421ce1706719e
