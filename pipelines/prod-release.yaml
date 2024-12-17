@@ -64,6 +64,8 @@ extends:
                     value: v${{ parameters.prodVersionOverride }}-sources-ado
               jobs:
                   - job: 'CreateReleaseTag'
+                    templateContext:
+                        type: releaseJob
                     steps:
                         - task: 1ES.DownloadPipelineArtifact@1
                           inputs:
