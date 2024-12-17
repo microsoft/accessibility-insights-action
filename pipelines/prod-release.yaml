@@ -66,6 +66,7 @@ extends:
                   - job: 'CreateReleaseTag'
                     templateContext:
                         type: releaseJob
+                        isProduction: true
                     steps:
                         - task: 1ES.DownloadPipelineArtifact@1
                           inputs:
