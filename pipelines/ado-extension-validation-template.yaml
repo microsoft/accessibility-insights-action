@@ -252,19 +252,20 @@ jobs:
           - task: CmdLine@2
             displayName: 'Validate keepUrlFragment from index.html file'
             # Below validation is based on hash URLs pattern scanned by crawler in index.html file
-            # with keepUrlFragment as false, azure portal URL with #view should not be present
-            # with keepUrlFragment as true, azure portal URL with #view should be present
+            # with keepUrlFragment as false, azure portal URL with # routed page should not be present
+            # with keepUrlFragment as true, azure portal URL with # routed page should be present
+            # Note: https://ms.portal.azure.com/#home is default routed page it will be present in both case so excluding #home routing for validation
             inputs:
                 script: |
                     cd artifacts/accessibility-reports-case-keepUrlFragment-1
-                    grep -r --include='*.html' 'https://ms.portal.azure.com/#view' > accessibility-reports-case-keepUrlFragment-1.txt
+                    grep -r --include='*.html' -P 'https://ms.portal.azure.com/#(?!home)' > accessibility-reports-case-keepUrlFragment-1.txt
                     if [ -s "accessibility-reports-case-keepUrlFragment-1.txt" ]; then
                         echo test-passed > expected-result.txt
                         echo keepUrlFragment-1-test-passed
                     fi
 
                     cd ../accessibility-reports-case-keepUrlFragment-2
-                    grep -r --include='*.html' 'https://ms.portal.azure.com/#view' > accessibility-reports-case-keepUrlFragment-2.txt
+                    grep -r --include='*.html' -P 'https://ms.portal.azure.com/#(?!home)' > accessibility-reports-case-keepUrlFragment-2.txt
                     if [ ! -s "accessibility-reports-case-keepUrlFragment-2.txt" ]; then
                         echo test-passed > expected-result.txt
                         echo keepUrlFragment-2-test-passed
