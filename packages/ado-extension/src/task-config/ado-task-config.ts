@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as adoTask from 'azure-pipelines-task-lib/task';
-import { inject, injectable } from 'inversify';
+import { inject, injectable, optional } from 'inversify';
 import { isEmpty } from 'lodash';
 import * as process from 'process';
 import { iocTypes, TaskConfig, TaskInputKey, TempDirCreator } from '@accessibility-insights-action/shared';
@@ -14,8 +14,8 @@ export class ADOTaskConfig extends TaskConfig {
     constructor(
         @inject(iocTypes.Process) protected readonly processObj: typeof process,
         @inject(TempDirCreator) private readonly tempDirCreator: TempDirCreator,
-        private readonly adoTaskObj = adoTask,
-        private readonly resolvePath: typeof resolve = resolve,
+        @optional() @inject('adoTaskObj') private readonly adoTaskObj = adoTask,
+        @optional() @inject('resolve') private readonly resolvePath: typeof resolve = resolve,
     ) {
         super(processObj);
     }
