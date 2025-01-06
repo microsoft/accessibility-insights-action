@@ -1,12 +1,11 @@
 {
-    "name": "test-website-hashroute",
+    "name": "@accessibility-insights-action/test-website-hashroute",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
-        "react-router-dom": "^5.3.4",
-        "test-website-hashroute": "file:"
+        "react-router-dom": "^5.3.4"
     },
     "devDependencies": {
         "react-scripts": "5.0.1"
