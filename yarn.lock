@@ -94,6 +94,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@accessibility-insights-action/test-website-hashroute@workspace:packages/test-website-hashroute":
+  version: 0.0.0-use.local
+  resolution: "@accessibility-insights-action/test-website-hashroute@workspace:packages/test-website-hashroute"
+  dependencies:
+    react: ^18.3.1
+    react-dom: ^18.3.1
+    react-router-dom: ^5.3.4
+    react-scripts: 5.0.1
+  languageName: unknown
+  linkType: soft
+
 "@alloc/quick-lru@npm:^5.2.0":
   version: 5.2.0
   resolution: "@alloc/quick-lru@npm:5.2.0"
@@ -19963,18 +19974,6 @@ __metadata:
   checksum: 3b34a3d77165a2cb82b34014b3aba93b1c4637a5011807557dc2f3da826c59975a5ccad765721c4648b39817e3472789f9b0fa98fc854c5c1c7a1e632aacdc28
   languageName: node
   linkType: hard
-
-"test-website-hashroute@file:, test-website-hashroute@workspace:packages/test-website-hashroute":
-  version: 0.0.0-use.local
-  resolution: "test-website-hashroute@workspace:packages/test-website-hashroute"
-  dependencies:
-    react: ^18.3.1
-    react-dom: ^18.3.1
-    react-router-dom: ^5.3.4
-    react-scripts: 5.0.1
-    test-website-hashroute: "file:"
-  languageName: unknown
-  linkType: soft
 
 "text-table@npm:^0.2.0":
   version: 0.2.0
