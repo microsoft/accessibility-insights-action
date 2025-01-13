@@ -56,7 +56,7 @@ __metadata:
     "@types/marked-terminal": ^6.1.1
     "@types/normalize-path": ^3.0.2
     "@types/puppeteer-core": ^7.0.4
-    "@types/react": ^18.3.3
+    "@types/react": ^19.0.6
     "@types/react-dom": ^19.0.2
     "@types/serve-static": ^1.15.7
     "@typescript-eslint/eslint-plugin": ^6.18.1
@@ -98,7 +98,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@accessibility-insights-action/test-website-hashroute@workspace:packages/test-website-hashroute"
   dependencies:
-    react: ^18.3.1
+    react: ^19.0.0
     react-dom: ^19.0.0
     react-router-dom: ^5.3.4
     react-scripts: 5.0.1
@@ -5116,13 +5116,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
-  version: 15.7.4
-  resolution: "@types/prop-types@npm:15.7.4"
-  checksum: ef6e1899e59b876c273811b1bd845022fc66d5a3d11cb38a25b6c566b30514ae38fe20a40f67622f362a4f4f7f9224e22d8da101cff3d6e97e11d7b4c307cfc1
-  languageName: node
-  linkType: hard
-
 "@types/puppeteer-core@npm:^7.0.4":
   version: 7.0.4
   resolution: "@types/puppeteer-core@npm:7.0.4"
@@ -5162,13 +5155,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.3.3":
-  version: 18.3.3
-  resolution: "@types/react@npm:18.3.3"
+"@types/react@npm:^19.0.6":
+  version: 19.0.6
+  resolution: "@types/react@npm:19.0.6"
   dependencies:
-    "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: c63d6a78163244e2022b01ef79b0baec4fe4da3475dc4a90bb8accefad35ef0c43560fd0312e5974f92a0f1108aa4d669ac72d73d66396aa060ea03b5d2e3873
+  checksum: 462a736ce0e6162e0e4002afe4157ae1f56c3ae9ce1eccc2ddabe137970cd84e689199197e0705ff646152e8408dd6201a703ead7f2aa01e4c48c7a47447fe6b
   languageName: node
   linkType: hard
 
@@ -17812,6 +17804,13 @@ __metadata:
   dependencies:
     loose-envify: ^1.1.0
   checksum: a27bcfa8ff7c15a1e50244ad0d0c1cb2ad4375eeffefd266a64889beea6f6b64c4966c9b37d14ee32d6c9fcd5aa6ba183b6988167ab4d127d13e7cb5b386a376
+  languageName: node
+  linkType: hard
+
+"react@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "react@npm:19.0.0"
+  checksum: 86de15d85b2465feb40297a90319c325cb07cf27191a361d47bcfe8c6126c973d660125aa67b8f4cbbe39f15a2f32efd0c814e98196d8e5b68c567ba40a399c6
   languageName: node
   linkType: hard
 
