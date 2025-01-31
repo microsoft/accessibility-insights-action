@@ -62,7 +62,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     accessibility-insights-report: 6.0.0
-    accessibility-insights-scan: ^3.1.0
+    accessibility-insights-scan: ^3.1.2
     axe-core: ^4.10.2
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
@@ -6182,9 +6182,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"accessibility-insights-scan@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "accessibility-insights-scan@npm:3.1.0"
+"accessibility-insights-scan@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "accessibility-insights-scan@npm:3.1.2"
   dependencies:
     "@apify/log": 2.2.18
     "@axe-core/puppeteer": 4.10.1
@@ -6225,7 +6225,7 @@ __metadata:
     yargs: ^17.6.2
   bin:
     ai-scan: dist/ai-scan-cli.js
-  checksum: 5bc58afd57176a94dbd75fb338c228fcee1efa98a61726b3f6003d0ba46a5bcb7cd2b7f6da0b9e9231aca90d07d9e2fee79453526fa0591e86f42dc81e21c191
+  checksum: 384cfc67f8f4b652f0021d1b558e0efb93cf480bf507b4fc53147528a000659b5b8563738f06c1edd4faf8d15100462a93182498c7f0647564f7c91f6c4f2a56
   languageName: node
   linkType: hard
 
