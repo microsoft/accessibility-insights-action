@@ -59,6 +59,7 @@ extends:
                         isProduction: true
 
             - stage: create_release_tag
+              dependsOn: package_publish_staging
               variables:
                   - name: tag
                     value: v${{ parameters.prodVersionOverride }}-sources-ado
@@ -91,6 +92,7 @@ extends:
                               assets: '$(System.DefaultWorkingDirectory)/ado-extension-drop/NOTICE.html'
 
             - stage: package_publish_prod
+              dependsOn: create_release_tag
               variables:
                   - group: a11y-insights-ado-extension-prod
                   - name: extensionVersionOverride
