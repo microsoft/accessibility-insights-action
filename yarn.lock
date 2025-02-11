@@ -77,7 +77,7 @@ __metadata:
     jest-junit: ^16.0.0
     lodash: ^4.17.21
     marked: ^9.1.4
-    marked-terminal: ^7.1.0
+    marked-terminal: ^7.3.0
     mockdate: ^3.0.5
     normalize-path: ^3.0.0
     npm-run-all: ^4.1.5
@@ -6506,6 +6506,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ansi-regex@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "ansi-regex@npm:6.1.0"
+  checksum: 495834a53b0856c02acd40446f7130cb0f8284f4a39afdab20d5dc42b2e198b1196119fe887beed8f9055c4ff2055e3b2f6d4641d0be018cdfb64fedf6fc1aac
+  languageName: node
+  linkType: hard
+
 "ansi-styles@npm:^3.2.0, ansi-styles@npm:^3.2.1":
   version: 3.2.1
   resolution: "ansi-styles@npm:3.2.1"
@@ -7855,6 +7862,13 @@ __metadata:
   version: 5.3.0
   resolution: "chalk@npm:5.3.0"
   checksum: 623922e077b7d1e9dedaea6f8b9e9352921f8ae3afe739132e0e00c275971bdd331268183b2628cf4ab1727c45ea1f28d7e24ac23ce1db1eb653c414ca8a5a80
+  languageName: node
+  linkType: hard
+
+"chalk@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "chalk@npm:5.4.1"
+  checksum: 0c656f30b782fed4d99198825c0860158901f449a6b12b818b0aabad27ec970389e7e8767d0e00762175b23620c812e70c4fd92c0210e55fc2d993638b74e86e
   languageName: node
   linkType: hard
 
@@ -14975,19 +14989,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked-terminal@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "marked-terminal@npm:7.1.0"
+"marked-terminal@npm:^7.3.0":
+  version: 7.3.0
+  resolution: "marked-terminal@npm:7.3.0"
   dependencies:
     ansi-escapes: ^7.0.0
-    chalk: ^5.3.0
+    ansi-regex: ^6.1.0
+    chalk: ^5.4.1
     cli-highlight: ^2.1.11
     cli-table3: ^0.6.5
-    node-emoji: ^2.1.3
-    supports-hyperlinks: ^3.0.0
+    node-emoji: ^2.2.0
+    supports-hyperlinks: ^3.1.0
   peerDependencies:
-    marked: ">=1 <14"
-  checksum: 352274182ba67f07ed1663d98854dfdb6eec5f864e8473225809dad8f821c90315f709e55f895d753b0b11ec1e4771c436879ac8d8737edc4c91337890fa0178
+    marked: ">=1 <16"
+  checksum: eb0d13ab5bfbec6be412157529fde83ea6c026a83a280ef449a27bc8fddb5ddd92904499cfb275efa96d696f119453d566ad58805c14167055c4f58a7891ac0f
   languageName: node
   linkType: hard
 
@@ -15554,15 +15569,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-emoji@npm:^2.1.3":
-  version: 2.1.3
-  resolution: "node-emoji@npm:2.1.3"
+"node-emoji@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "node-emoji@npm:2.2.0"
   dependencies:
     "@sindresorhus/is": ^4.6.0
     char-regex: ^1.0.2
     emojilib: ^2.4.0
     skin-tone: ^2.0.0
-  checksum: 9ae5a1fb12fd5ce6885f251f345986115de4bb82e7d06fdc943845fb19260d89d0aaaccbaf85cae39fe7aaa1fc391640558865ba690c9bb8a7236c3ac10bbab0
+  checksum: 9642bee0b8c5f2124580e6a2d4c5ec868987bc77b6ce3a335bbec8db677082cbe1a9b72c11aac60043396a8d36e0afad4bcc33d92105d103d2d1b6a59106219a
   languageName: node
   linkType: hard
 
@@ -19981,13 +19996,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-hyperlinks@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "supports-hyperlinks@npm:3.0.0"
+"supports-hyperlinks@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "supports-hyperlinks@npm:3.1.0"
   dependencies:
     has-flag: ^4.0.0
     supports-color: ^7.0.0
-  checksum: 41021305de5255b10d821bf93c7a781f783e1693d0faec293d7fc7ccf17011b90bde84b0295fa92ba75c6c390351fe84fdd18848cad4bf656e464a958243c3e7
+  checksum: 051ffc31ae0d3334502decb6a17170ff89d870094d6835d93dfb2cda03e2a4504bf861a0954942af5e65fdd038b81cef5998696d0f4f4ff5f5bd3e40c7981874
   languageName: node
   linkType: hard
 
