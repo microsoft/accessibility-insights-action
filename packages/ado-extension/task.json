@@ -228,7 +228,7 @@
         }
     ],
     "execution": {
-        "Node20_1": {
+        "Node16": {
             "target": "index.js"
         }
     },

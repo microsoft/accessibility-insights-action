@@ -76,12 +76,12 @@ describe(AdoExtensionMetadataProvider, () => {
             throw readFileError;
         };
 
-        expect(() => testSubject.readMetadata()).toThrow(readFileError);
+        expect(() => testSubject.readMetadata()).toThrowError(readFileError);
     });
 
     it('throws an error if ado-extension-metadata.json is malformatted', () => {
         mockFs.readFileSync = () => '{ "extensionName": "Oops it had some stray "quotes"" }';
 
-        expect(() => testSubject.readMetadata()).toThrow("Expected ',' or '}' after property value in JSON at position 44");
+        expect(() => testSubject.readMetadata()).toThrowError(/Unexpected token/);
     });
 });
