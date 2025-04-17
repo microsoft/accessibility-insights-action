@@ -41,8 +41,8 @@ extends:
                     steps:
                         - task: NodeTool@0
                           inputs:
-                              versionSpec: '16.x'
-                          displayName: Use Node 16.x
+                              versionSpec: '20.x'
+                          displayName: Use Node 20.x
 
                         - script: yarn install --immutable
                           displayName: Install dependencies
@@ -63,9 +63,6 @@ extends:
                           displayName: Run tests
                           env:
                               NODE_OPTIONS: --max_old_space_size=4096
-
-                        - script: yarn publish-code-coverage -t $(CODECOV_TOKEN)
-                          displayName: Publish code coverage to codecov
 
                         - script: yarn test:e2e --verbose
                           displayName: Run e2e tests
@@ -123,8 +120,8 @@ extends:
                     steps:
                         - task: NodeTool@0
                           inputs:
-                              versionSpec: '16.x'
-                          displayName: Use Node 16.x
+                              versionSpec: '20.x'
+                          displayName: Use Node 20.x
 
                         - script: yarn install --immutable
                           displayName: Install dependencies

@@ -13,6 +13,27 @@ parameters:
       type: string
 
 jobs:
+    - job: run_registry_url_tests
+      displayName: 'Run registry URL tests'
+      steps:
+          - task: ${{ parameters.taskUnderTest }}
+            displayName: '[should fail] case fail: use different org artifact feed registry URL without credentials'
+            inputs:
+                url: 'https://accessibilityinsights.io/'
+                maxUrls: 1
+                npmRegistryUrl: $(outsideOrgArtifactURL)
+                outputArtifactName: 'no-artifact-will-be-created-here'
+            condition: succeededOrFailed()
+            continueOnError: true
+
+          - task: ${{ parameters.taskUnderTest }}
+            displayName: '[should succeed] case succeed: use same org artifact feed registry URL'
+            inputs:
+                url: 'https://accessibilityinsights.io/'
+                maxUrls: 1
+                npmRegistryUrl: $(sameOrgArtifactURL)
+                outputArtifactName: 'accessibility-reports-case-same-org-registry-url'
+
     - job: run_tests
       displayName: 'Run tests'
       templateContext:
@@ -24,8 +45,8 @@ jobs:
       steps:
           - task: NodeTool@0
             inputs:
-                versionSpec: '16.x'
-                displayName: Use Node 16.x
+                versionSpec: '20.x'
+                displayName: Use Node 20.x
 
           # reused by all "url" cases
           - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
@@ -148,6 +169,7 @@ jobs:
                 maxUrls: 10
                 keepUrlFragment: 'true'
                 outputArtifactName: 'accessibility-reports-case-keepUrlFragment-1'
+                scanTimeout: 300000
             condition: succeededOrFailed()
             continueOnError: true
 
@@ -161,11 +183,14 @@ jobs:
                 maxUrls: 10
                 keepUrlFragment: 'false'
                 outputArtifactName: 'accessibility-reports-case-keepUrlFragment-2'
+                scanTimeout: 300000
             condition: succeededOrFailed()
             continueOnError: true
 
     - job: validate_artifacts
-      dependsOn: run_tests
+      dependsOn:
+          - run_tests
+          - run_registry_url_tests
       displayName: 'Validate artifacts'
       #pool:
       #    name: a11y-ado-auth
@@ -190,6 +215,7 @@ jobs:
                     echo artifacts/accessibility-reports-case-fail-7/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-keepUrlFragment-1/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-keepUrlFragment-2/index.html >> expected-index-html-files.txt
+                    echo artifacts/accessibility-reports-case-same-org-registry-url/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-succeed-1/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports-case-succeed-2/index.html >> expected-index-html-files.txt
                     echo artifacts/accessibility-reports/index.html >> expected-index-html-files.txt
@@ -225,21 +251,22 @@ jobs:
 
           - task: CmdLine@2
             displayName: 'Validate keepUrlFragment from index.html file'
-            # Below validation is based on number of URLs scanned by crawler in index.html file
-            # with keepUrlFragment as false, only 1 Url should be scanned
-            # with keepUrlFragment as true, 10 Urls should be scanned
+            # Below validation is based on hash URLs pattern scanned by crawler in index.html file
+            # with keepUrlFragment as false, azure portal URL with # routed page should not be present
+            # with keepUrlFragment as true, azure portal URL with # routed page should be present
+            # Note: https://ms.portal.azure.com/#home is default routed page it will be present in both case so excluding #home routing for validation
             inputs:
                 script: |
                     cd artifacts/accessibility-reports-case-keepUrlFragment-1
-                    grep -r --include='*.html' '10</span> total URLs scanned' > accessibility-reports-case-keepUrlFragment-1.txt
+                    grep -r --include='*.html' -P 'https://ms.portal.azure.com/#(?!home)' > accessibility-reports-case-keepUrlFragment-1.txt
                     if [ -s "accessibility-reports-case-keepUrlFragment-1.txt" ]; then
                         echo test-passed > expected-result.txt
                         echo keepUrlFragment-1-test-passed
                     fi
 
                     cd ../accessibility-reports-case-keepUrlFragment-2
-                    grep -r --include='*.html' '1</span> total URLs scanned' > accessibility-reports-case-keepUrlFragment-2.txt
-                    if [ -s "accessibility-reports-case-keepUrlFragment-2.txt" ]; then
+                    grep -r --include='*.html' -P 'https://ms.portal.azure.com/#(?!home)' > accessibility-reports-case-keepUrlFragment-2.txt
+                    if [ ! -s "accessibility-reports-case-keepUrlFragment-2.txt" ]; then
                         echo test-passed > expected-result.txt
                         echo keepUrlFragment-2-test-passed
                     fi

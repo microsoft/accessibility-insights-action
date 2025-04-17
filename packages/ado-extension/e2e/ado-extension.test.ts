@@ -23,7 +23,7 @@ describe('Sample task tests', () => {
         expect(testSubject.stdOutContained("##[debug][Telemetry] tracking a 'ScanCompleted' event"));
 
         function filterStdOut(stdout: string) {
-            const logs = stdout.match(/-------------------(.|\n)*This scan used axe-core 4\.8\.4/);
+            const logs = stdout.match(/-------------------(.|\n)*This scan used axe-core 4\.10\.2/);
             return logs ? logs[0] : '';
         }
     });
@@ -41,7 +41,7 @@ describe('Sample task tests', () => {
                 'Accessibility scanning of URL https://www.washington.edu/accesscomputing/AU/before.html completed',
             ),
         ).toBeTruthy();
-        expect(testSubject.stdOutContained('Rules: 5 with failures, 14 passed, 36 not applicable')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 5 with failures, 13 passed, 36 not applicable')).toBeTruthy();
     });
 
     it('should succeed with staticSiteDir inputs', () => {
@@ -54,7 +54,7 @@ describe('Sample task tests', () => {
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(testSubject.stdOutContained('Accessibility scanning of URL http://localhost:39983/ completed')).toBeTruthy();
-        expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 12 passed, 39 not applicable')).toBeTruthy();
     });
 
     it('limits the number of pages crawled and scanned when maxUrls input is set', () => {
@@ -108,7 +108,7 @@ describe('Sample task tests', () => {
         expect(
             testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/index.html"}')),
         ).toBeTruthy();
-        expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 12 passed, 39 not applicable')).toBeTruthy();
     });
 
     it('scans folders that are passed in as inputUrls (without a trailing slash)', () => {
@@ -124,7 +124,7 @@ describe('Sample task tests', () => {
         expect(
             testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/"}')),
         ).toBeTruthy();
-        expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 12 passed, 39 not applicable')).toBeTruthy();
     });
 
     it('scans folders that are passed in as inputUrls (with a trailing slash)', () => {
@@ -140,7 +140,7 @@ describe('Sample task tests', () => {
         expect(
             testSubject.stdOutContainedRegex(new RegExp('Processing loaded page.*{"url":"http://localhost:39983/unlinked/"}')),
         ).toBeTruthy();
-        expect(testSubject.stdOutContained('Rules: 4 with failures, 13 passed, 39 not applicable')).toBeTruthy();
+        expect(testSubject.stdOutContained('Rules: 4 with failures, 12 passed, 39 not applicable')).toBeTruthy();
     });
 
     it('should fail if both URL and staticSiteDir are defined', () => {

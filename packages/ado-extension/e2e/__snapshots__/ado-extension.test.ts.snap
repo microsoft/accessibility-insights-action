@@ -4,8 +4,8 @@ exports[`Sample task tests returns expected scan summary and footer (ignoring us
 "-------------------
 Scan summary
 URLs: 1 with failures, 0 passed, 0 not scannable
-Rules: 5 with failures, 14 passed, 36 not applicable
+Rules: 5 with failures, 13 passed, 36 not applicable
 
 -------------------
-This scan used axe-core 4.8.4"
+This scan used axe-core 4.10.2"
 `;

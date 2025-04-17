@@ -16,7 +16,7 @@
         "watch:test": "jest --watch",
         "test:e2e": "npm-run-all --race --parallel test:e2e:serve-hashroute \"test:e2e:run-tests\" --",
         "test:e2e:run-tests": "jest --rootDir e2e --coverage false",
-        "test:e2e:serve-hashroute": "yarn workspace test-website-hashroute start",
+        "test:e2e:serve-hashroute": "yarn workspace @accessibility-insights-action/test-website-hashroute start",
         "docs": "node scripts/documentation.js && prettier --write \"../../docs/ado-extension-inputs.md\""
     },
     "repository": {
@@ -32,7 +32,7 @@
     "dependencies": {
         "@accessibility-insights-action/shared": "workspace:*",
         "applicationinsights": "2.7.3",
-        "azure-pipelines-task-lib": "^4.13.0",
+        "azure-pipelines-task-lib": "^4.17.3",
         "reflect-metadata": "^0.2.2"
     },
     "devDependencies": {
@@ -44,7 +44,7 @@
         "fork-ts-checker-webpack-plugin": "^9.0.2",
         "jest": "^29.7.0",
         "jest-extended": "^4.0.2",
-        "jest-file-snapshot": "^0.5.0",
+        "jest-file-snapshot": "^0.7.0",
         "jest-junit": "^16.0.0",
         "js-yaml": "^4.1.0",
         "mockdate": "^3.0.5",
@@ -52,11 +52,11 @@
         "prettier": "^3.3.3",
         "rimraf": "^6.0.1",
         "tfx-cli": "^0.17.0",
-        "ts-jest": "^29.1.5",
+        "ts-jest": "^29.2.5",
         "ts-loader": "^9.5.1",
         "typemoq": "^2.1.0",
-        "typescript": "^5.4.5",
-        "webpack": "^5.92.1",
+        "typescript": "^5.6.3",
+        "webpack": "^5.96.1",
         "webpack-cli": "^5.1.4"
     }
 }
