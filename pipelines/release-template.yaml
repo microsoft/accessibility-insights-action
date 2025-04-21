@@ -44,24 +44,24 @@ jobs:
                 shouldSign: ${{ parameters.shouldSign }}
                 visibility: ${{parameters.visibility}}
 
-    # - deployment: publish_vsix_file
-    #   displayName: deploy vsix file
-    #   dependsOn: package_job
-    #   templateContext:
-    #       type: releaseJob
-    #       isProduction: ${{ parameters.isProduction }}
-    #       inputs:
-    #           - input: pipelineArtifact
-    #             buildType: 'current'
-    #             downloadType: 'single'
-    #             artifactName: '${{ parameters.environment }}-vsix'
-    #             targetPath: '$(System.DefaultWorkingDirectory)/${{ parameters.environment }}-vsix'
-    #   environment: ${{ parameters.environment }}
-    #   strategy:
-    #       runOnce:
-    #           deploy:
-    #               steps:
-    #                   - template: publish-vsix-file.yaml@self
-    #                     parameters:
-    #                         environment: ${{ parameters.environment }}
-    #                         visibility: ${{parameters.visibility}}
+    - deployment: publish_vsix_file
+      displayName: deploy vsix file
+      dependsOn: package_job
+      templateContext:
+          type: releaseJob
+          isProduction: ${{ parameters.isProduction }}
+          inputs:
+              - input: pipelineArtifact
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: '${{ parameters.environment }}-vsix'
+                targetPath: '$(System.DefaultWorkingDirectory)/${{ parameters.environment }}-vsix'
+      environment: ${{ parameters.environment }}
+      strategy:
+          runOnce:
+              deploy:
+                  steps:
+                      - template: publish-vsix-file.yaml@self
+                        parameters:
+                            environment: ${{ parameters.environment }}
+                            visibility: ${{parameters.visibility}}
