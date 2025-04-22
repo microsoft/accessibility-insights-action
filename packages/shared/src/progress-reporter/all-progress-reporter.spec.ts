@@ -8,7 +8,7 @@ import { BaselineEvaluation } from 'accessibility-insights-scan';
 import { AllProgressReporter } from './all-progress-reporter';
 import { ProgressReporter } from './progress-reporter';
 
-/* eslint-disable @typescript-eslint/require-await */
+ 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 describe(AllProgressReporter, () => {

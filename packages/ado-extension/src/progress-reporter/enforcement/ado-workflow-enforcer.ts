@@ -22,7 +22,7 @@ export class AdoWorkflowEnforcer extends ProgressReporter {
         // We don't do anything for workflow enforcement
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
+     
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
         const baselineFileInput = this.adoTaskConfig.getBaselineFile();
 
@@ -33,7 +33,7 @@ export class AdoWorkflowEnforcer extends ProgressReporter {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
+     
     public async failRun(): Promise<void> {
         this.scanSucceeded = false;
     }

@@ -28,13 +28,13 @@ export class AdoExtensionMetadataProvider {
 
         // This is a literal filename, the linter just can't see through the path.join
         //
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
+         
         const rawMetadata = this.fileSystemObj.readFileSync(metadataFilePath, { encoding: 'utf8' });
 
         // We allow the unsafe assignment and "as" usage because we trust that
         // package-vsix-file.yaml produces a valid metadata file
         //
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+         
         const parsedMetadata = JSON.parse(rawMetadata) as AdoExtensionMetadata;
 
         if (parsedMetadata.appInsightsConnectionString === '') {

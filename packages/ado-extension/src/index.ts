@@ -5,7 +5,7 @@ import { installRuntimeDependencies } from './install-runtime-dependencies';
 
 installRuntimeDependencies();
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
+ 
 import('./ado-extension').then(async (adoExtension) => {
     await adoExtension.runScan();
     process.exit();

@@ -40,7 +40,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         return Promise.resolve();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     public async failRun(): Promise<void> {
         // We don't do anything for failed runs
     }
@@ -65,7 +65,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
 
         const summaryFilePath = this.pathObj.join(outDirectory, this.summaryMarkdownFileName(artifactName));
 
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
+         
         this.fileSystemObj.writeFileSync(summaryFilePath, reportMarkdown);
         this.logger.logInfo(`##vso[task.uploadsummary]${summaryFilePath}`);
     }
@@ -112,7 +112,7 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
 
             this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${reportFilePath}`);
 
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
+             
             if (baselineFilePath !== undefined && this.fileSystemObj.existsSync(baselineFilePath)) {
                 this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${baselineFilePath}`);
             }
@@ -135,9 +135,9 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         const outputDirectory = this.taskConfig.getReportOutDir();
         const snapshotOutputDirectory = this.pathObj.join(outputDirectory, 'key_value_stores', 'scan-results');
         const snapshotFilePaths: string[] = [];
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
+         
         if (this.fileSystemObj.existsSync(snapshotOutputDirectory)) {
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
+             
             const files = this.fileSystemObj.readdirSync(snapshotOutputDirectory);
             files.forEach((snapshotFileName) => {
                 if (snapshotFileName.includes('screenshot')) {

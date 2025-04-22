@@ -111,7 +111,7 @@ describe(TelemetrySender, () => {
         }
 
         function setupTelemetryClientWithEvent(generateWithBaselineEnabled: boolean): void {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+             
             const eventProperties: { [key: string]: any } = {};
             const telemetryErrorCollector: { [key: string]: any } = {};
 

@@ -3,7 +3,7 @@
 
 import { throwOnAnyErrors, AggregateError } from './aggregate-error';
 
-/* eslint-disable no-regex-spaces */
+ 
 
 describe(throwOnAnyErrors, () => {
     it('does not throw if passed zero errors', () => {

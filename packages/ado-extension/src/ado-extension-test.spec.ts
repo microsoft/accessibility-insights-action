@@ -50,7 +50,7 @@ function mockContainer() {
 
 // Mock get(Scanner), but leave other values like get(Logger) intact
 function mockContainerGet(serviceIdentifier: inversify.interfaces.ServiceIdentifier<Scanner | Logger>): { scan: jest.Mock } | Logger {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+     
     const originalModule = jest.requireActual('./ioc/setup-ioc-container');
 
     if (serviceIdentifier === Scanner) {
@@ -58,7 +58,7 @@ function mockContainerGet(serviceIdentifier: inversify.interfaces.ServiceIdentif
             scan: jest.fn().mockImplementationOnce(() => scanResponse),
         };
     } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+         
         return originalModule.setupIocContainer().get(serviceIdentifier);
     }
 }

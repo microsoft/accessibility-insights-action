@@ -28,3 +28,4 @@ yarn.lock
 _accessibility-reports/
 **/.taskkey
 .gdnsuppress
+packages/**/build

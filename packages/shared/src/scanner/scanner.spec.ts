@@ -400,11 +400,11 @@ describe(Scanner, () => {
                 .verifiable(Times.once());
 
             fsMock
-                // eslint-disable-next-line security/detect-non-literal-fs-filename
+                 
                 .setup((fsm) => fsm.existsSync(reportOutDir))
                 .returns(() => false)
                 .verifiable();
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
+             
             fsMock.setup((fsm) => fsm.mkdirSync(reportOutDir, { recursive: true })).verifiable();
 
             const crawlerParams: CrawlerRunOptions = {
@@ -456,7 +456,7 @@ describe(Scanner, () => {
         function setupWaitForPromiseToReturnOriginalPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), scanTimeoutMsec, It.isAny()))
-                // eslint-disable-next-line @typescript-eslint/require-await
+                 
                 .returns(async (scanPromiseObj) => {
                     return scanPromiseObj;
                 })
@@ -466,7 +466,7 @@ describe(Scanner, () => {
         function setupWaitForPromiseToReturnTimeoutPromise(): void {
             promiseUtilsMock
                 .setup((s) => s.waitFor(It.isAny(), scanTimeoutMsec, It.isAny()))
-                // eslint-disable-next-line @typescript-eslint/require-await
+                 
                 .returns(async (_, __, timeoutCb) => {
                     return timeoutCb();
                 })

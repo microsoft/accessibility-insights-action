@@ -7,7 +7,7 @@ import type * as fs from 'fs';
 import * as path from 'path';
 import { AdoExtensionMetadataProvider } from './ado-extension-metadata';
 
-/* eslint-disable security/detect-non-literal-fs-filename */
+ 
 
 describe(AdoExtensionMetadataProvider, () => {
     const metadataFileContentsWithTelemetry = `{

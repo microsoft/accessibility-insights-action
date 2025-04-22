@@ -17,7 +17,8 @@
         "**/yarn.lock",
         "cred-scan-suppressions.json",
         "package.json",
-        "guardian"
+        "guardian",
+        "**/build/**"
     ],
     "license": "./copyright-header.txt",
     "licenseFormats": {
@@ -26,7 +27,7 @@
                 "prepend": "# "
             }
         },
-        "ts|tsx|d.ts|js|scss|css": {
+        "ts|tsx|d.ts|js|scss|css|mjs": {
             "eachLine": {
                 "prepend": "// "
             }

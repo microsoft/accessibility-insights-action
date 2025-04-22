@@ -9,7 +9,7 @@ import { TaskConfig } from '../task-config';
 import { Logger } from '../logger/logger';
 import * as fs from 'fs';
 
-/* eslint-disable security/detect-non-literal-fs-filename */
+ 
 const htmlReportString = 'html report';
 const reportOutDir = 'reportOutDir';
 const reportFileName = `${reportOutDir}/index.html`;
