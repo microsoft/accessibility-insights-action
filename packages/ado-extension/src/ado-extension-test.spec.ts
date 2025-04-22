@@ -50,7 +50,6 @@ function mockContainer() {
 
 // Mock get(Scanner), but leave other values like get(Logger) intact
 function mockContainerGet(serviceIdentifier: inversify.interfaces.ServiceIdentifier<Scanner | Logger>): { scan: jest.Mock } | Logger {
-     
     const originalModule = jest.requireActual('./ioc/setup-ioc-container');
 
     if (serviceIdentifier === Scanner) {
@@ -58,7 +57,6 @@ function mockContainerGet(serviceIdentifier: inversify.interfaces.ServiceIdentif
             scan: jest.fn().mockImplementationOnce(() => scanResponse),
         };
     } else {
-         
         return originalModule.setupIocContainer().get(serviceIdentifier);
     }
 }

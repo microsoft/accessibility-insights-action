@@ -8,7 +8,7 @@ const VERSION = 'axe.core.version';
 
 describe(AxeInfo, () => {
     const axe = { version: VERSION };
-     
+
     const axeInfo = new AxeInfo(axe as any);
 
     it('has a default', () => {

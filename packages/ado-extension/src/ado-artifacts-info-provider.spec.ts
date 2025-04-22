@@ -58,17 +58,17 @@ describe(ADOArtifactsInfoProvider, () => {
             ({ collectionUri, teamProject, runId, expectedUrl }) => {
                 adoTaskConfigMock
                     .setup((atc) => atc.getCollectionUri())
-                     
+
                     .returns(() => collectionUri)
                     .verifiable(Times.once());
                 adoTaskConfigMock
                     .setup((atc) => atc.getTeamProject())
-                     
+
                     .returns(() => teamProject)
                     .verifiable(Times.once());
                 adoTaskConfigMock
                     .setup((atc) => atc.getRunId())
-                     
+
                     .returns(() => runId)
                     .verifiable(Times.once());
 
@@ -84,7 +84,7 @@ describe(ADOArtifactsInfoProvider, () => {
     `(`getCommitHash with hash value '$hashValue' returns '$expectedValue'`, ({ hashValue, expectedValue }) => {
         adoTaskConfigMock
             .setup((atc) => atc.getCommitHash())
-             
+
             .returns(() => hashValue)
             .verifiable(Times.once());
 

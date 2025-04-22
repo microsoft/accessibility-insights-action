@@ -3,8 +3,6 @@
 
 import { throwOnAnyErrors, AggregateError } from './aggregate-error';
 
- 
-
 describe(throwOnAnyErrors, () => {
     it('does not throw if passed zero errors', () => {
         expect(() => throwOnAnyErrors([])).not.toThrow();

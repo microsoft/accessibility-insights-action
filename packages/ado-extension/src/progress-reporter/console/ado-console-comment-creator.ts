@@ -40,7 +40,6 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         return Promise.resolve();
     }
 
-     
     public async failRun(): Promise<void> {
         // We don't do anything for failed runs
     }
@@ -65,7 +64,6 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
 
         const summaryFilePath = this.pathObj.join(outDirectory, this.summaryMarkdownFileName(artifactName));
 
-         
         this.fileSystemObj.writeFileSync(summaryFilePath, reportMarkdown);
         this.logger.logInfo(`##vso[task.uploadsummary]${summaryFilePath}`);
     }
@@ -112,7 +110,6 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
 
             this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${reportFilePath}`);
 
-             
             if (baselineFilePath !== undefined && this.fileSystemObj.existsSync(baselineFilePath)) {
                 this.logger.logInfo(`##vso[artifact.upload artifactname=${artifactName}]${baselineFilePath}`);
             }
@@ -135,9 +132,8 @@ export class AdoConsoleCommentCreator extends ProgressReporter {
         const outputDirectory = this.taskConfig.getReportOutDir();
         const snapshotOutputDirectory = this.pathObj.join(outputDirectory, 'key_value_stores', 'scan-results');
         const snapshotFilePaths: string[] = [];
-         
+
         if (this.fileSystemObj.existsSync(snapshotOutputDirectory)) {
-             
             const files = this.fileSystemObj.readdirSync(snapshotOutputDirectory);
             files.forEach((snapshotFileName) => {
                 if (snapshotFileName.includes('screenshot')) {

@@ -5,6 +5,6 @@ export type TelemetryEventName = 'ScanStart' | 'ScanCompleted' | 'AuthUsed' | 'E
 
 export type TelemetryEvent = {
     name: TelemetryEventName;
-     
+
     properties?: { [key: string]: any };
 };

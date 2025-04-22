@@ -21,9 +21,7 @@ export class TelemetrySender extends ProgressReporter {
         // We don't send anything for telemetry
     }
 
-     
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
-         
         const eventProperties: { [key: string]: any } = {};
         const telemetryErrorCollector = new TelemetryErrorCollector('TelemetrySender');
 

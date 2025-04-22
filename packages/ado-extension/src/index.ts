@@ -5,7 +5,6 @@ import { installRuntimeDependencies } from './install-runtime-dependencies';
 
 installRuntimeDependencies();
 
- 
 import('./ado-extension').then(async (adoExtension) => {
     await adoExtension.runScan();
     process.exit();

@@ -9,7 +9,6 @@ import { TaskConfig } from '../task-config';
 import { Logger } from '../logger/logger';
 import * as fs from 'fs';
 
- 
 const htmlReportString = 'html report';
 const reportOutDir = 'reportOutDir';
 const reportFileName = `${reportOutDir}/index.html`;

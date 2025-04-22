@@ -68,7 +68,6 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getMaxUrls(): number {
-         
         return parseInt(this.adoTaskObj.getInput('maxUrls')!);
     }
 
@@ -89,21 +88,18 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getScanTimeout(): number {
-         
         return parseInt(this.adoTaskObj.getInput('scanTimeout')!);
     }
 
     public getStaticSitePort(): number | undefined {
         const value = this.adoTaskObj.getInput('staticSitePort');
 
-         
         return isEmpty(value) ? undefined : parseInt(value!, 10);
     }
 
     public getRunId(): number | undefined {
         const value = this.processObj.env.BUILD_BUILDID;
 
-         
         return isEmpty(value) ? undefined : parseInt(value!, 10);
     }
 
@@ -134,7 +130,6 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getOutputArtifactName(): string {
-         
         return this.adoTaskObj.getInput('outputArtifactName')!;
     }
 
@@ -156,7 +151,6 @@ export class ADOTaskConfig extends TaskConfig {
 
         const dirname = this.processObj.env.SYSTEM_DEFAULTWORKINGDIRECTORY ?? __dirname;
 
-         
         return normalizePath(this.resolvePath(dirname, normalizePath(path!)));
     }
 

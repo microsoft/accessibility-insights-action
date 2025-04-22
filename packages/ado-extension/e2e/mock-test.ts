@@ -34,7 +34,6 @@ export class MockTestRunner {
     }
 
     public ran(cmdline: string): boolean {
-         
         return this.cmdlines.hasOwnProperty(cmdline.trim());
     }
 

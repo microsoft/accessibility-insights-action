@@ -7,7 +7,6 @@ import { LoggerClient } from './logger-client';
 import { LogLevel } from './log-level';
 import { serializeError as serializeErrorExt } from 'serialize-error';
 
- 
 export class Logger {
     protected initialized = false;
     public errors: string[] = [];

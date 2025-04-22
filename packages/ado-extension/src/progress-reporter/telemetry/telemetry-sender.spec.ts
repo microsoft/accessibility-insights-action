@@ -111,7 +111,6 @@ describe(TelemetrySender, () => {
         }
 
         function setupTelemetryClientWithEvent(generateWithBaselineEnabled: boolean): void {
-             
             const eventProperties: { [key: string]: any } = {};
             const telemetryErrorCollector: { [key: string]: any } = {};
 

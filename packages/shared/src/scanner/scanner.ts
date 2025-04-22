@@ -190,10 +190,10 @@ export class Scanner {
 
     private createReportOutputDirectory(): void {
         const outDirectory = this.taskConfig.getReportOutDir();
-         
+
         if (!this.fileSystemObj.existsSync(outDirectory)) {
             this.logger.logInfo(`Report output directory does not exist. Creating directory ${outDirectory}`);
-             
+
             this.fileSystemObj.mkdirSync(outDirectory, { recursive: true });
         }
     }

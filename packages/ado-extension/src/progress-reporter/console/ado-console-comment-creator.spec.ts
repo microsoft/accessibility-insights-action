@@ -12,9 +12,6 @@ import * as path from 'path';
 
 import { RecordingTestLogger, ReportConsoleLogConvertor, ReportMarkdownConvertor } from '@accessibility-insights-action/shared';
 
- 
- 
-
 describe(AdoConsoleCommentCreator, () => {
     let adoTaskConfigMock: IMock<ADOTaskConfig>;
     let logger: RecordingTestLogger;
@@ -84,7 +81,6 @@ describe(AdoConsoleCommentCreator, () => {
                     jobAttempt,
                 });
 
-                 
                 fsMock.setup((fsm) => fsm.writeFileSync(expectedSummaryFilePath, reportMarkdownStub)).verifiable(Times.once());
 
                 await testSubject.completeRun(reportStub);
@@ -151,13 +147,13 @@ describe(AdoConsoleCommentCreator, () => {
             const snapshotDirectory = `${defaultReportOutDir}/key_value_stores/scan-results`;
 
             fsMock
-                 
+
                 .setup((fsm) => fsm.existsSync(`${snapshotDirectory}`))
                 .returns(() => true)
                 .verifiable(Times.once());
 
             fsMock
-                 
+
                 .setup((fsm) => fsm.readdirSync(`${snapshotDirectory}`))
                 .returns(() => ['snapshot1.screenshot.jpg', 'snapshot2.screenshot.jpg', 'this-is-not-a-snapshot.txt'])
                 .verifiable(Times.once());
@@ -194,7 +190,7 @@ describe(AdoConsoleCommentCreator, () => {
                 const snapshotDirectory = `${defaultReportOutDir}/key_value_stores/scan-results`;
 
                 fsMock
-                     
+
                     .setup((fsm) => fsm.existsSync(`${snapshotDirectory}`))
                     .returns(() => true)
                     .verifiable(Times.never());
@@ -242,7 +238,7 @@ describe(AdoConsoleCommentCreator, () => {
                 const expectedBaselineOutputFilePath = `${defaultReportOutDir}/${baselineFilenameStub}`;
 
                 fsMock
-                     
+
                     .setup((fsm) => fsm.existsSync(`${expectedBaselineOutputFilePath}`))
                     .returns(() => baselineFileExists as boolean)
                     .verifiable(Times.once());

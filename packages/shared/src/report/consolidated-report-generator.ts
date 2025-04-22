@@ -30,7 +30,6 @@ export class ConsolidatedReportGenerator {
     }
 
     private saveHtmlReport(fileName: string, content: string): void {
-         
         this.fileSystemObj.writeFileSync(fileName, content);
         this.logger.logInfo(`Scan report saved successfully as ${fileName}`);
     }

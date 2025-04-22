@@ -82,7 +82,7 @@ describe(ADOTaskConfig, () => {
                     .returns(() => inputValue as string)
                     .verifiable(Times.once());
             }
-             
+
             const retrievedOption: unknown = getInputFunc();
             expect(retrievedOption).toStrictEqual(expectedValue);
         },

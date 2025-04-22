@@ -3,9 +3,6 @@
 
 import { StreamTransformer } from './stream-transformer';
 
- 
- 
-
 // This method hooks a stream at its _write method, which is the lowest level that
 // is exposed via the interface. Calling the method returned from hookStream
 // removes the hook by restoring the previous _write method.

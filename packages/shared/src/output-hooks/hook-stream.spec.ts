@@ -5,9 +5,6 @@ import { hookStream } from './hook-stream';
 import { Writable } from 'stream';
 import { StreamTransformer } from './stream-transformer';
 
- 
- 
-
 const defaultEncoding = 'buffer';
 
 type WriteCall = {

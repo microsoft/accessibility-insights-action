@@ -7,8 +7,6 @@ import type * as fs from 'fs';
 import * as path from 'path';
 import { AdoExtensionMetadataProvider } from './ado-extension-metadata';
 
- 
-
 describe(AdoExtensionMetadataProvider, () => {
     const metadataFileContentsWithTelemetry = `{
         "publisherId": "accessibility-insights", 
