@@ -21,9 +21,7 @@ export class TelemetrySender extends ProgressReporter {
         // We don't send anything for telemetry
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     public async completeRun(combinedReportResult: CombinedReportParameters, baselineEvaluation?: BaselineEvaluation): Promise<void> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const eventProperties: { [key: string]: any } = {};
         const telemetryErrorCollector = new TelemetryErrorCollector('TelemetrySender');
 

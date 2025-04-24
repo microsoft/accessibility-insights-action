@@ -4,6 +4,12 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "outDir": "./dist/pkg/",
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "paths": {
+            "@accessibility-insights-action/shared": ["../shared"],
+            "@accessibility-insights-action/shared/src/telemetry/telemetry-error-collector": [
+                "../shared/src/telemetry/telemetry-error-collector"
+            ]
+        }
     }
 }

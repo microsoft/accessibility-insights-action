@@ -56,7 +56,6 @@ const regexTransformations: RegexTransformation[] = [
         method: replaceFirstMatchWithEndgroupPrefix,
     },
     {
-        // eslint-disable-next-line no-control-regex
         regex: new RegExp('^\u001B\\[32mINFO\u001b\\[39m '), // Includes escape characters used for color formatting)
         method: replaceFirstMatchWithDebugPrefix,
     },

@@ -60,7 +60,7 @@ class RecordingLoggerClient implements LoggerClient {
         });
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async setup(baseProperties?: { [index: string]: string }): Promise<void> {
         throw new Error('Not supported');
     }

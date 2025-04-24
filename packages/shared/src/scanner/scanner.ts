@@ -190,10 +190,10 @@ export class Scanner {
 
     private createReportOutputDirectory(): void {
         const outDirectory = this.taskConfig.getReportOutDir();
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
+
         if (!this.fileSystemObj.existsSync(outDirectory)) {
             this.logger.logInfo(`Report output directory does not exist. Creating directory ${outDirectory}`);
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
+
             this.fileSystemObj.mkdirSync(outDirectory, { recursive: true });
         }
     }

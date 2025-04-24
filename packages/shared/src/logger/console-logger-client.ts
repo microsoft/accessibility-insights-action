@@ -17,7 +17,6 @@ export class ConsoleLoggerClient implements LoggerClient {
 
     constructor(@inject(iocTypes.Console) private readonly consoleObject: typeof console) {}
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     public async setup(baseProperties?: BaseTelemetryProperties): Promise<void> {
         this.baseProperties = baseProperties;
     }
