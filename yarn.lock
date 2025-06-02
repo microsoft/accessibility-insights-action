@@ -70,7 +70,7 @@ __metadata:
     filenamify-url: ^3.1.0
     fork-ts-checker-webpack-plugin: ^9.0.2
     get-port: ^7.1.0
-    inversify: 6.0.1
+    inversify: 7.5.2
     jest: ^29.7.0
     jest-extended: ^4.0.2
     jest-file-snapshot: ^0.7.0
@@ -3180,6 +3180,63 @@ __metadata:
   version: 2.0.2
   resolution: "@humanwhocodes/object-schema@npm:2.0.2"
   checksum: 2fc11503361b5fb4f14714c700c02a3f4c7c93e9acd6b87a29f62c522d90470f364d6161b03d1cc618b979f2ae02aed1106fd29d302695d8927e2fc8165ba8ee
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/common@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@inversifyjs/common@npm:1.5.0"
+  checksum: 3f4e484e45522684c0565399a4e4dc3fbd24133ee2405e6b8970e3188e3073765ae73331f3b0dd37a6df995c4537568650bcfec37ef386dc2dfdbdc89b839d80
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/container@npm:1.10.1":
+  version: 1.10.1
+  resolution: "@inversifyjs/container@npm:1.10.1"
+  dependencies:
+    "@inversifyjs/common": 1.5.0
+    "@inversifyjs/core": 5.3.1
+    "@inversifyjs/plugin": 0.2.0
+    "@inversifyjs/reflect-metadata-utils": 1.1.0
+  peerDependencies:
+    reflect-metadata: ~0.2.2
+  checksum: c1a97eddf8514b8a24707e3b46491bd2a4eeca30bb546cd69ae289f01fbedce83a826fb69e6f9d58b5cb2fd04b8f8015db66bf286d83f686cc9d2a4cb4b2bdc6
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/core@npm:5.3.1":
+  version: 5.3.1
+  resolution: "@inversifyjs/core@npm:5.3.1"
+  dependencies:
+    "@inversifyjs/common": 1.5.0
+    "@inversifyjs/prototype-utils": 0.1.0
+    "@inversifyjs/reflect-metadata-utils": 1.1.0
+  checksum: fe7c1ff69b53bb028a8e643d578717fa58f8d32e7f403a349662efdcdbf48a421d9cd09dfcef406c1931cbfaa238c9f68bc590f87fca1a02318f39e9d04089a8
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/plugin@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@inversifyjs/plugin@npm:0.2.0"
+  checksum: d9ec7aee6484a7efb5af14f9ef600796389838c28cf0c4c3d46156cd37a88d1af684026baa68cbad5fffbf7e1a7ae51ea7ff7d1ab46d48b2ccb911bd11a50b8f
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/prototype-utils@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@inversifyjs/prototype-utils@npm:0.1.0"
+  dependencies:
+    "@inversifyjs/common": 1.5.0
+  checksum: 91b6bcba9bbc2502aa24ce50352a38c88466cca6a1b6aca91099c1e3a162cec9e599eed393e0ead677963b7fd8f3de81ed81837d9bc020c68a1797407b6c2d4c
+  languageName: node
+  linkType: hard
+
+"@inversifyjs/reflect-metadata-utils@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@inversifyjs/reflect-metadata-utils@npm:1.1.0"
+  peerDependencies:
+    reflect-metadata: 0.2.2
+  checksum: b543e34a0f70133239a5634635ec9567f8fe8c7f8501c01acdeb49c96777d1c6d0d680dfad5c67b4b823d1f4750f890621190da15486c9d814d698fff6bfef95
   languageName: node
   linkType: hard
 
@@ -12448,7 +12505,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inversify@npm:6.0.1, inversify@npm:^6.0.1":
+"inversify@npm:7.5.2":
+  version: 7.5.2
+  resolution: "inversify@npm:7.5.2"
+  dependencies:
+    "@inversifyjs/common": 1.5.0
+    "@inversifyjs/container": 1.10.1
+    "@inversifyjs/core": 5.3.1
+  peerDependencies:
+    reflect-metadata: ~0.2.2
+  checksum: 811eec6c039abf935d5f4ae2e4de3ca4e01b64c548c10c74f95308eb12394c2ccc5667e8375372b0c62e8e30da9fe4c9d4ac799f9884f0fe9e50511cbb582690
+  languageName: node
+  linkType: hard
+
+"inversify@npm:^6.0.1":
   version: 6.0.1
   resolution: "inversify@npm:6.0.1"
   checksum: b6c9b56ef7817a71534b06101c2b0a0130b67c47a769f58794d9c0643591a83ac02be30a48c00cb729c0c83ece96dde369c419d48c32d0201c6cc7407629fbc5
