@@ -33,7 +33,6 @@
         "@accessibility-insights-action/shared": "workspace:*",
         "applicationinsights": "2.7.3",
         "azure-pipelines-task-lib": "^4.17.3",
-        "puppeteer": "^24.10.0",
         "reflect-metadata": "^0.2.2"
     },
     "devDependencies": {
