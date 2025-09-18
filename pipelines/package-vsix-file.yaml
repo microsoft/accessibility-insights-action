@@ -97,9 +97,7 @@ steps:
                   {
                     "KeyCode" : "CP-500813",
                     "OperationCode" : "AdoExtensionSign",
-                    "Parameters" : {
-                        "FileDigest" : "/fd SHA256"
-                    },
+                    "Parameters" : {},
                     "ToolName" : "sign",
                     "ToolVersion" : "1.0"
                     },
