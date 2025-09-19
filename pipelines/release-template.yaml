@@ -8,6 +8,7 @@ parameters:
     - name: shouldSign
       displayName: whether to sign VSIX file
       type: string
+      default: 'true'
     - name: visibility
       displayName: marketplace visibility
       type: string
@@ -65,4 +66,3 @@ jobs:
                         parameters:
                             environment: ${{ parameters.environment }}
                             visibility: ${{parameters.visibility}}
-                            shouldSign: true
