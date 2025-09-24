@@ -42,6 +42,10 @@ jobs:
                 targetPath: '$(System.DefaultWorkingDirectory)/_accessibility-reports-case-fail-6'
                 artifactName: 'accessibility-reports-case-fail-6'
                 condition: succeededOrFailed()
+              - output: pipelineArtifact
+                targetPath: '$(System.DefaultWorkingDirectory)/ASA'
+                artifactName: 'ASA'
+                condition: succeededOrFailed()
       steps:
           - task: NodeTool@0
             inputs:
@@ -51,6 +55,18 @@ jobs:
           # reused by all "url" cases
           - script: npx serve "$(System.DefaultWorkingDirectory)/dev/website-root" -l 5858 &
             displayName: 'Start /dev/website-root test server at http://localhost:5858'
+
+          - task: UseDotNet@2
+            displayName: 'Install .NET 6.x'
+            inputs:
+                packageType: 'sdk'
+                version: '6.x'
+
+          - script: dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI
+            displayName: 'Install AttackSurfaceAnalyzer'
+
+          - script: asa collect -dFkpPsuw --debug --verbose --runid SDL
+            displayName: 'Start AttackSurfaceAnalyzer'
 
           # Please keep all "should succeed" cases together as a block before and "should fail" cases.
           # Do not specify a condition so that the pipeline will fail if any of these fail.
@@ -186,6 +202,12 @@ jobs:
                 scanTimeout: 300000
             condition: succeededOrFailed()
             continueOnError: true
+
+          - script: asa collect -dFkpPsuw --debug --verbose --match-run-id SDL
+            displayName: 'Stop AttackSurfaceAnalyzer'
+
+          - script: mkdir $(System.DefaultWorkingDirectory)/ASA && asa export-collect --outputsarif --outputpath $(System.DefaultWorkingDirectory)/ASA --debug --verbose
+            displayName: 'Export AttackSurfaceAnalyzer results'
 
     - job: validate_artifacts
       dependsOn:
