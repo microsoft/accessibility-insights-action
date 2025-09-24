@@ -57,7 +57,7 @@ jobs:
             displayName: 'Start /dev/website-root test server at http://localhost:5858'
 
           - task: UseDotNet@2
-            displayName: 'Install .NET 6.x'
+            displayName: 'Install .NET 8.x'
             inputs:
                 packageType: 'sdk'
                 version: '6.x'
