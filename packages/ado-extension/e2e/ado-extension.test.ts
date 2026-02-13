@@ -12,7 +12,7 @@ describe('Sample task tests', () => {
 
     it('returns expected scan summary and footer (ignoring user agent)', () => {
         inputs = {
-            url: 'https://www.washington.edu/accesscomputing/AU/before.html',
+            url: 'https://projects.accesscomputing.uw.edu/au/before.html',
         };
         const testSubject = runTestWithInputs(inputs);
         expect(filterStdOut(testSubject.stdout)).toMatchSnapshot();
