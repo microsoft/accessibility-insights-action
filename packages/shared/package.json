@@ -36,7 +36,7 @@
         "filenamify-url": "^3.1.0",
         "get-port": "^7.1.0",
         "inversify": "6.0.1",
-        "lodash": "^4.17.21",
+        "lodash": "^4.17.23",
         "marked": "^9.1.4",
         "marked-terminal": "^7.3.0",
         "normalize-path": "^3.0.0",

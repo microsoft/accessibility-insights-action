@@ -12,7 +12,7 @@ describe('Sample task tests', () => {
 
     it('returns expected scan summary and footer (ignoring user agent)', () => {
         inputs = {
-            url: 'https://www.washington.edu/accesscomputing/AU/before.html',
+            url: 'https://projects.accesscomputing.uw.edu/au/before.html',
         };
         const testSubject = runTestWithInputs(inputs);
         expect(filterStdOut(testSubject.stdout)).toMatchSnapshot();
@@ -30,16 +30,14 @@ describe('Sample task tests', () => {
 
     it('should succeed with simple inputs', () => {
         inputs = {
-            url: 'https://www.washington.edu/accesscomputing/AU/before.html',
+            url: 'https://projects.accesscomputing.uw.edu/au/before.html',
         };
         const testSubject = runTestWithInputs(inputs);
 
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
-            testSubject.stdOutContained(
-                'Accessibility scanning of URL https://www.washington.edu/accesscomputing/AU/before.html completed',
-            ),
+            testSubject.stdOutContained('Accessibility scanning of URL https://projects.accesscomputing.uw.edu/au/before.html completed'),
         ).toBeTruthy();
         expect(testSubject.stdOutContained('Rules: 5 with failures, 13 passed, 36 not applicable')).toBeTruthy();
     });
@@ -74,21 +72,21 @@ describe('Sample task tests', () => {
     it('only scans the inputUrls when maxUrls input matches number of inputUrls, (url input can be anything)', () => {
         inputs = {
             url: 'https://www.washington.edu', // this input must be set to something, but it is ignored
-            inputUrls: 'https://www.washington.edu/accesscomputing/AU/before.html https://www.washington.edu/accesscomputing/AU/after.html',
+            inputUrls: 'https://projects.accesscomputing.uw.edu/au/before.html https://projects.accesscomputing.uw.edu/au/after.html',
             maxUrls: '2', //By setting `maxUrls` to 2, only the `inputUrls` will be scanned
         };
         const testSubject = runTestWithInputs(inputs);
-
+        console.log('STDOUT:', testSubject.stdout);
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
             testSubject.stdOutContainedRegex(
-                new RegExp('Processing loaded page.*{"url":"https://www.washington.edu/accesscomputing/AU/before.html"}'),
+                new RegExp('Processing loaded page.*{"url":"https://projects.accesscomputing.uw.edu/au/before.html"}'),
             ),
         ).toBeTruthy();
         expect(
             testSubject.stdOutContainedRegex(
-                new RegExp('Processing loaded page.*{"url":"https://www.washington.edu/accesscomputing/AU/after.html"}'),
+                new RegExp('Processing loaded page.*{"url":"https://projects.accesscomputing.uw.edu/au/after.html"}'),
             ),
         ).toBeTruthy();
         expect(testSubject.stdOutContained('URLs: 1 with failures, 1 passed, 0 not scannable')).toBeTruthy();
@@ -145,7 +143,7 @@ describe('Sample task tests', () => {
 
     it('should fail if both URL and staticSiteDir are defined', () => {
         inputs = {
-            url: 'https://www.washington.edu/accesscomputing/AU/before.html',
+            url: 'https://projects.accesscomputing.uw.edu/au/before.html',
             staticSiteDir: path.join(__dirname, '..', '..', '..', 'dev', 'website-root'),
         };
         const testSubject = runTestWithInputs(inputs);
