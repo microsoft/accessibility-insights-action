@@ -37,9 +37,7 @@ describe('Sample task tests', () => {
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
-            testSubject.stdOutContained(
-                'Accessibility scanning of URL https://projects.accesscomputing.uw.edu/au/before.html completed',
-            ),
+            testSubject.stdOutContained('Accessibility scanning of URL https://projects.accesscomputing.uw.edu/au/before.html completed'),
         ).toBeTruthy();
         expect(testSubject.stdOutContained('Rules: 5 with failures, 13 passed, 36 not applicable')).toBeTruthy();
     });
