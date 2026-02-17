@@ -9,7 +9,6 @@ import { Logger, TelemetryEvent } from '@accessibility-insights-action/shared';
 import { IMock, Mock } from 'typemoq';
 import { AdoExtensionMetadata } from '../ado-extension-metadata';
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 describe(AppInsightsTelemetryClient, () => {
@@ -141,7 +140,6 @@ describe(AppInsightsTelemetryClient, () => {
             const underlying = MockUnderlyingClient.lastConstructedInstance!;
 
             underlying.flush = jest.fn(({ callback }) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
                 callback();
             });
 

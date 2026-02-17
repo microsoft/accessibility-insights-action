@@ -68,7 +68,6 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getMaxUrls(): number {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return parseInt(this.adoTaskObj.getInput('maxUrls')!);
     }
 
@@ -89,21 +88,18 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getScanTimeout(): number {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return parseInt(this.adoTaskObj.getInput('scanTimeout')!);
     }
 
     public getStaticSitePort(): number | undefined {
         const value = this.adoTaskObj.getInput('staticSitePort');
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return isEmpty(value) ? undefined : parseInt(value!, 10);
     }
 
     public getRunId(): number | undefined {
         const value = this.processObj.env.BUILD_BUILDID;
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return isEmpty(value) ? undefined : parseInt(value!, 10);
     }
 
@@ -134,7 +130,6 @@ export class ADOTaskConfig extends TaskConfig {
     }
 
     public getOutputArtifactName(): string {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return this.adoTaskObj.getInput('outputArtifactName')!;
     }
 
@@ -156,7 +151,6 @@ export class ADOTaskConfig extends TaskConfig {
 
         const dirname = this.processObj.env.SYSTEM_DEFAULTWORKINGDIRECTORY ?? __dirname;
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return normalizePath(this.resolvePath(dirname, normalizePath(path!)));
     }
 

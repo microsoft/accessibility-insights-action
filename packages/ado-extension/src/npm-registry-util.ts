@@ -20,7 +20,7 @@ export function getTokenFromServiceConnection(serviceConnectionName: string): st
     let npmAuthIdent: string;
     try {
         serviceConnectionAuth = adoTask.getEndpointAuthorization(serviceConnectionName, false);
-    } catch (exception) {
+    } catch {
         throw new Error('Could not find the service connection');
     }
     if (!serviceConnectionAuth) {
