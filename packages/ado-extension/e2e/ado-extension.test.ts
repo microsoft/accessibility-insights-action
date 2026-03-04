@@ -76,7 +76,7 @@ describe('Sample task tests', () => {
             maxUrls: '2', //By setting `maxUrls` to 2, only the `inputUrls` will be scanned
         };
         const testSubject = runTestWithInputs(inputs);
-        formatStdout(testSubject.stdout);
+        formatStdout(testSubject.stdout, 'STDOUT:');
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
@@ -242,11 +242,10 @@ describe('Sample task tests', () => {
 //   2. ##[error] — legacy ADO logging format (emitted by tl.error() directly)
 // We strip both patterns (using [^\]]* to match any extra properties like source=TaskInternal;)
 // so the agent ignores them while the content remains visible in logs.
-function formatStdout(stdout: string) {
-    console.log(
-        stdout
-            .replace(/##vso\[task\.issue type=error;[^\]]*\]/g, '[error]')
-            .replace(/##vso\[task\.complete result=Failed;[^\]]*\]/g, '[error]')
-            .replace(/##\[error\]/g, '[error]'),
-    );
+function formatStdout(stdout: string, label?: string) {
+    const sanitized = stdout
+        .replace(/##vso\[task\.issue type=error;[^\]]*\]/g, '[error]')
+        .replace(/##vso\[task\.complete result=Failed;[^\]]*\]/g, '[error]')
+        .replace(/##\[error\]/g, '[error]');
+    label ? console.log(label, sanitized) : console.log(sanitized);
 }
