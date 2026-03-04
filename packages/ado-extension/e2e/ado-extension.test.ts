@@ -76,6 +76,7 @@ describe('Sample task tests', () => {
             maxUrls: '2', //By setting `maxUrls` to 2, only the `inputUrls` will be scanned
         };
         const testSubject = runTestWithInputs(inputs);
+        formatStdout(testSubject.stdout);
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
