@@ -236,7 +236,14 @@ describe('Sample task tests', () => {
 });
 
 // Format stdout for ADO:
-// Prevent errors from stdout from being marked as pipeline failures
+// Prevent errors from stdout from being marked as pipeline failures.
+// ADO agents interpret ##vso[task.issue type=error;...] commands in step stdout natively
+// and emit ##[error] lines. We strip the ##vso prefix (using [^\]]* to match any additional
+// properties like source=TaskInternal; that the task library appends) to prevent this.
 function formatStdout(stdout: string) {
-    console.log(stdout.replace(/##vso\[task.issue type=error;\]/g, '[error]').replace(/##vso\[task.complete result=Failed;\]/g, '[error]'));
+    console.log(
+        stdout
+            .replace(/##vso\[task\.issue type=error;[^\]]*\]/g, '[error]')
+            .replace(/##vso\[task\.complete result=Failed;[^\]]*\]/g, '[error]'),
+    );
 }
