@@ -243,9 +243,6 @@ describe('Sample task tests', () => {
 // We strip both patterns (using [^\]]* to match any extra properties like source=TaskInternal;)
 // so the agent ignores them while the content remains visible in logs
 function formatStdout(stdout: string, label?: string) {
-    const sanitized = stdout
-        .replace(/##vso\[task\.issue type=error;[^\]]*\]/g, '[error]')
-        .replace(/##vso\[task\.complete result=Failed;[^\]]*\]/g, '[error]')
-        .replace(/##\[error\]/g, '[error]');
+    const sanitized = stdout.replace(/##vso\[task\.issue type=error;[^\]]*\]/g, '[error]').replace(/##\[error\]/g, '[error]');
     label ? console.log(label, sanitized) : console.log(sanitized);
 }
