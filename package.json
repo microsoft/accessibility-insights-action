@@ -88,6 +88,9 @@
         "sha.js": "^2.4.12",
         "tar-fs": "^3.1.1",
         "brace-expansion": "^2.0.2",
-        "js-yaml": "^ 4.1.1"
+        "js-yaml": "^ 4.1.1",
+        "tar": "7.5.10",
+        "@tootallnate/once": "3.0.1",
+        "minimatch": "^9.0.6"
     }
 }
