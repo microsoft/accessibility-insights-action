@@ -31,7 +31,7 @@
         "@types/react-dom": "^18.3.0",
         "accessibility-insights-report": "6.0.0",
         "accessibility-insights-scan": "^3.1.2",
-        "axe-core": "^4.10.2",
+        "axe-core": "^4.11.1",
         "express": "^4.21.0",
         "filenamify-url": "^3.1.0",
         "get-port": "^7.1.0",
