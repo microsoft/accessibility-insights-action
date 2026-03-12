@@ -53,7 +53,7 @@
 * **1 × frame-title-unique**:  Ensure \<iframe> and \<frame> elements contain a unique title attribute
 * **1 × frame-title**:  Ensure \<iframe> and \<frame> elements have an accessible name
 * **1 × heading-order**:  Ensure the order of headings is semantically correct
-* **1 × hidden-content**:  Informs users about hidden content.
+* **1 × hidden-content**:  Inform users about hidden content.
 * **1 × html-has-lang**:  Ensure every HTML document has a lang attribute
 * **1 × html-lang-valid**:  Ensure the lang attribute of the \<html> element has a valid value
 * **1 × html-xml-lang-mismatch**:  Ensure that HTML elements with both valid lang and xml:lang attributes agree on the base language of the page
@@ -88,7 +88,7 @@
 * **1 × object-alt**:  Ensure \<object> elements have alternative text
 * **1 × p-as-heading**:  Ensure bold, italic text and font-size is not used to style \<p> elements as a heading
 * **1 × page-has-heading-one**:  Ensure that the page, or at least one of its frames contains a level-one heading
-* **1 × presentation-role-conflict**:  Elements marked as presentational should not have global ARIA or tabindex to ensure all screen readers ignore them
+* **1 × presentation-role-conflict**:  Ensure elements marked as presentational do not have global ARIA or tabindex so that all screen readers ignore them
 * **1 × region**:  Ensure all page content is contained by landmarks
 * **1 × role-img-alt**:  Ensure [role="img"] elements have alternative text
 * **1 × scope-attr-valid**:  Ensure the scope attribute is used correctly on tables
@@ -97,13 +97,13 @@
 * **1 × server-side-image-map**:  Ensure that server-side image maps are not used
 * **1 × skip-link**:  Ensure all skip links have a focusable target
 * **1 × summary-name**:  Ensure summary elements have discernible text
-* **1 × svg-img-alt**:  Ensure \<svg> elements with an img, graphics-document or graphics-symbol role have an accessible text
+* **1 × svg-img-alt**:  Ensure \<svg> elements with an img, graphics-document or graphics-symbol role have accessible text
 * **1 × tabindex**:  Ensure tabindex attribute values are not greater than 0
 * **1 × table-duplicate-name**:  Ensure the \<caption> element does not contain the same text as the summary attribute
 * **1 × table-fake-caption**:  Ensure that tables with a caption use the \<caption> element.
 * **1 × target-size**:  Ensure touch targets have sufficient size and space
 * **1 × td-has-header**:  Ensure that each non-empty data cell in a \<table> larger than 3 by 3  has one or more table headers
-* **1 × td-headers-attr**:  Ensure that each cell in a table that uses the headers attribute refers only to other cells in that table
+* **1 × td-headers-attr**:  Ensure that each cell in a table that uses the headers attribute refers only to other \<th> elements in that table
 * **1 × th-has-data-cells**:  Ensure that \<th> elements and elements with role=columnheader/rowheader have data cells they describe
 * **1 × valid-lang**:  Ensure lang attributes have valid values
 * **1 × video-caption**:  Ensure \<video> elements have captions
