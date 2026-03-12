@@ -29,7 +29,7 @@ module.exports = {
             },
         ],
     },
-    transformIgnorePatterns: ['/node_modules/(?!(serialize-error|get-port))'], // Transform pure ESM with ts-jest
+    transformIgnorePatterns: ['/node_modules/(?!(serialize-error|get-port|@tootallnate))'], // Transform pure ESM with ts-jest
     testMatch: ['**/*.spec.[tj]s', '**/*.test.[tj]s'],
     testPathIgnorePatterns: ['/dist/', '/out/'],
     verbose: true,
