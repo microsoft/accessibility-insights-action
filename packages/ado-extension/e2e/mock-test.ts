@@ -34,7 +34,6 @@ export class MockTestRunner {
     }
 
     public ran(cmdline: string): boolean {
-        // eslint-disable-next-line no-prototype-builtins
         return this.cmdlines.hasOwnProperty(cmdline.trim());
     }
 

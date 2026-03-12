@@ -8,7 +8,7 @@ const VERSION = 'axe.core.version';
 
 describe(AxeInfo, () => {
     const axe = { version: VERSION };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const axeInfo = new AxeInfo(axe as any);
 
     it('has a default', () => {

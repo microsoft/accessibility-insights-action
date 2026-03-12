@@ -5,9 +5,6 @@ import { hookStream } from './hook-stream';
 import { Writable } from 'stream';
 import { StreamTransformer } from './stream-transformer';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 const defaultEncoding = 'buffer';
 
 type WriteCall = {

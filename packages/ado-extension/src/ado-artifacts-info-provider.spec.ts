@@ -58,17 +58,17 @@ describe(ADOArtifactsInfoProvider, () => {
             ({ collectionUri, teamProject, runId, expectedUrl }) => {
                 adoTaskConfigMock
                     .setup((atc) => atc.getCollectionUri())
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
                     .returns(() => collectionUri)
                     .verifiable(Times.once());
                 adoTaskConfigMock
                     .setup((atc) => atc.getTeamProject())
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
                     .returns(() => teamProject)
                     .verifiable(Times.once());
                 adoTaskConfigMock
                     .setup((atc) => atc.getRunId())
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
                     .returns(() => runId)
                     .verifiable(Times.once());
 
@@ -84,7 +84,7 @@ describe(ADOArtifactsInfoProvider, () => {
     `(`getCommitHash with hash value '$hashValue' returns '$expectedValue'`, ({ hashValue, expectedValue }) => {
         adoTaskConfigMock
             .setup((atc) => atc.getCommitHash())
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
             .returns(() => hashValue)
             .verifiable(Times.once());
 
