@@ -93,6 +93,7 @@
         "lodash": "^4.17.23",
         "@tootallnate/once": "3.0.1",
         "minimatch@3.0.5": "^3.1.5",
+        "minimatch@^5.0.1": "^5.1.9",
         "minimatch@9.0.3": "^9.0.9",
         "test-exclude": "^8.0.0"
     }
