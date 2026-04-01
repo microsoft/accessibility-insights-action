@@ -2757,6 +2757,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@borewit/text-codec@npm:^0.2.1":
+  version: 0.2.2
+  resolution: "@borewit/text-codec@npm:0.2.2"
+  checksum: 7b4852c38b2a4b5b90b154e325bf090ee6e4ea931d70f7d0cb14d34741ef5ce6d98240c0e30e3395c08aed0acbcce41f88d0c79cb1fdb3f4ba877cb15398030c
+  languageName: node
+  linkType: hard
+
 "@colors/colors@npm:1.5.0":
   version: 1.5.0
   resolution: "@colors/colors@npm:1.5.0"
@@ -5632,14 +5639,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tokenizer/inflate@npm:^0.2.6":
-  version: 0.2.7
-  resolution: "@tokenizer/inflate@npm:0.2.7"
+"@tokenizer/inflate@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@tokenizer/inflate@npm:0.4.1"
   dependencies:
-    debug: ^4.4.0
-    fflate: ^0.8.2
-    token-types: ^6.0.0
-  checksum: 0c77759d453501aa0509f6c60a3f2ec2ff6db9e33f196d077af719be6c2cc5a6b2c686e425610ed25d6416ddcb7f495a5e9ef689c8df225a80703b03e83aa956
+    debug: ^4.4.3
+    token-types: ^6.1.1
+  checksum: 5255225fa3674b88f79cd00b1fda4c74c3ed36fe8b8baeb2460ba966b65bc6382472774adea82c63883f7264eb7e6ae7840d2ae7e0c4600e49edefd402b49df7
   languageName: node
   linkType: hard
 
@@ -8430,31 +8436,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"brace-expansion@npm:^1.1.7":
-  version: 1.1.12
-  resolution: "brace-expansion@npm:1.1.12"
+"brace-expansion@npm:^1.1.13":
+  version: 1.1.13
+  resolution: "brace-expansion@npm:1.1.13"
   dependencies:
     balanced-match: ^1.0.0
     concat-map: 0.0.1
-  checksum: 12cb6d6310629e3048cadb003e1aca4d8c9bb5c67c3c321bafdd7e7a50155de081f78ea3e0ed92ecc75a9015e784f301efc8132383132f4f7904ad1ac529c562
+  checksum: b5f4329fdbe9d2e25fa250c8f866ebd054ba946179426e99b86dcccddabdb1d481f0e40ee5430032e62a7d0a6c2837605ace6783d015aa1d65d85ca72154d936
   languageName: node
   linkType: hard
 
-"brace-expansion@npm:^2.0.1, brace-expansion@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "brace-expansion@npm:2.0.2"
+"brace-expansion@npm:^2.0.2, brace-expansion@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "brace-expansion@npm:2.0.3"
   dependencies:
     balanced-match: ^1.0.0
-  checksum: 01dff195e3646bc4b0d27b63d9bab84d2ebc06121ff5013ad6e5356daa5a9d6b60fa26cf73c74797f2dc3fbec112af13578d51f75228c1112b26c790a87b0488
+  checksum: e9dd66caaf0784126e1654f1bc19adb28f3ef86f39f2226f833f7700ec727c141f6cd85eaa47bacf3426beda01c9fbc3a2f28174cf59330dc9b58ffaf9e09d96
   languageName: node
   linkType: hard
 
-"brace-expansion@npm:^5.0.2":
-  version: 5.0.4
-  resolution: "brace-expansion@npm:5.0.4"
+"brace-expansion@npm:^5.0.5":
+  version: 5.0.5
+  resolution: "brace-expansion@npm:5.0.5"
   dependencies:
     balanced-match: ^4.0.2
-  checksum: ded86c0f0b138734110d67437fee52c1f97bc19175644788b1d71afec2d87d405cf05424ce428f88ae3abe8e09e13ee55f2675534b38076ef70e1e583ed75686
+  checksum: 4481b7ffa467b34c14e258167dbd8d9485a2d31d03060e8e8b38142dcde32cdc89c8f55b04d3ae7aae9304fa7eac1dfafd602787cf09c019cc45de3bb6950ffc
   languageName: node
   linkType: hard
 
@@ -11952,13 +11958,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fflate@npm:^0.8.2":
-  version: 0.8.2
-  resolution: "fflate@npm:0.8.2"
-  checksum: 29470337b85d3831826758e78f370e15cda3169c5cd4477c9b5eea2402261a74b2975bae816afabe1c15d21d98591e0d30a574f7103aa117bff60756fa3035d4
-  languageName: node
-  linkType: hard
-
 "file-entry-cache@npm:^6.0.1":
   version: 6.0.1
   resolution: "file-entry-cache@npm:6.0.1"
@@ -11980,15 +11979,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-type@npm:^20.0.0":
-  version: 20.5.0
-  resolution: "file-type@npm:20.5.0"
+"file-type@npm:^21.3.2":
+  version: 21.3.4
+  resolution: "file-type@npm:21.3.4"
   dependencies:
-    "@tokenizer/inflate": ^0.2.6
-    strtok3: ^10.2.0
-    token-types: ^6.0.0
+    "@tokenizer/inflate": ^0.4.1
+    strtok3: ^10.3.4
+    token-types: ^6.1.1
     uint8array-extras: ^1.4.0
-  checksum: 6e7ee661e0c189a8c0b3e2f38afed999f3cb9154cd8f3cbdecc526d5734697b0197c92981c319a233c40c5d7b2785b80e6cc3284b8f3803e046e609fbe006a97
+  checksum: fa4c9a30a619e1b7fad1e416cc994eb446520a4001bcecea933fa115ae17cc24f38257d2c54b27df6c511e85ec5e6400968c61ecaee7fd332646bdb70512f620
   languageName: node
   linkType: hard
 
@@ -21511,12 +21510,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strtok3@npm:^10.2.0":
-  version: 10.3.4
-  resolution: "strtok3@npm:10.3.4"
+"strtok3@npm:^10.3.4":
+  version: 10.3.5
+  resolution: "strtok3@npm:10.3.5"
   dependencies:
     "@tokenizer/token": ^0.3.0
-  checksum: 7faf008cdf7f96c3d066d349116affbd5e5a49da0f03520299a9a04ad55d57b338d368231d469a64d358a86a03c2a0a3b67d61aa124000c941f65093ada9ae98
+  checksum: 709a9847df43ffee4c0dfdd5beb9db502b28b522745578f1236816ffc7fe97e8c394a6a02c68077306ce6721d751ed2425083c265b1cd5838313f3ee003b5875
   languageName: node
   linkType: hard
 
@@ -22072,13 +22071,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"token-types@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "token-types@npm:6.0.0"
+"token-types@npm:^6.1.1":
+  version: 6.1.2
+  resolution: "token-types@npm:6.1.2"
   dependencies:
+    "@borewit/text-codec": ^0.2.1
     "@tokenizer/token": ^0.3.0
     ieee754: ^1.2.1
-  checksum: 9d4fb5fad76bb968687a03aaae37f7eb606cca54c35b840ec438bbbc9b696ad0fbbd72760248b4eed16cbb3c87ab61590c287fc6bd973583944626b7c772f47b
+  checksum: ddade9c99fdf8636ff765f7280798cd8204de8cc99a6bffa42a70c0166ca562817617426f4c7fbeb7c66c7ffd22900c02297a19bd7db0622b7458deded184d16
   languageName: node
   linkType: hard
 
