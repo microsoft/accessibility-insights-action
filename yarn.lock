@@ -11979,15 +11979,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-type@npm:^21.3.2":
-  version: 21.3.4
-  resolution: "file-type@npm:21.3.4"
+"file-type@npm:21.3.2":
+  version: 21.3.2
+  resolution: "file-type@npm:21.3.2"
   dependencies:
     "@tokenizer/inflate": ^0.4.1
     strtok3: ^10.3.4
     token-types: ^6.1.1
     uint8array-extras: ^1.4.0
-  checksum: fa4c9a30a619e1b7fad1e416cc994eb446520a4001bcecea933fa115ae17cc24f38257d2c54b27df6c511e85ec5e6400968c61ecaee7fd332646bdb70512f620
+  checksum: 175ce8a21cf2129410a6e01134638c9237a079c9abb7200cda46824c2a9ff1bdff0c63ce52c40201bb741d9139c24cbe5573b5d06f3ce0b723e018416d0c86cf
   languageName: node
   linkType: hard
 
