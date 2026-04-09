@@ -514,12 +514,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-browser@npm:^4.2.0":
-  version: 4.28.2
-  resolution: "@azure/msal-browser@npm:4.28.2"
+"@azure/msal-browser@npm:^4.30.0":
+  version: 4.30.0
+  resolution: "@azure/msal-browser@npm:4.30.0"
   dependencies:
-    "@azure/msal-common": 15.14.2
-  checksum: 8654e911742e25825710eba0669ffbc53e773dbac915676aa1c1074b6d024bf28104c0903798039204d747eb19fabe19fe7bd64fd03a45dda3b029d205cf7cda
+    "@azure/msal-common": 15.17.0
+  checksum: 37919ccd6520022be19933c7d6254eeb2a6dda9d99cc02e25afa53a12377b12b9cc348745ab06222b04e4e6de5e1b547472eee8a28ef9b20f38da727da0aa718
   languageName: node
   linkType: hard
 
@@ -527,6 +527,13 @@ __metadata:
   version: 15.14.2
   resolution: "@azure/msal-common@npm:15.14.2"
   checksum: 7b30fc56d8a810a742bc4edc45281c60310323f9c91dce44551f766dc4fd6a028d5821ff2c22bf2aeb5f06ea7c864b823989277c43e332f71e125f2430b45978
+  languageName: node
+  linkType: hard
+
+"@azure/msal-common@npm:15.17.0":
+  version: 15.17.0
+  resolution: "@azure/msal-common@npm:15.17.0"
+  checksum: d7761c7f06a9703278ed5885652f861fbc6d5a751cbb994ffa63eb70f72f99e62dad10ca92f932651b34b95834a3837dd40a6d4810edf674ec63fd312d1aa2ef
   languageName: node
   linkType: hard
 
@@ -9541,13 +9548,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"convict@npm:^6.2.4":
-  version: 6.2.4
-  resolution: "convict@npm:6.2.4"
+"convict@npm:^6.2.5":
+  version: 6.2.5
+  resolution: "convict@npm:6.2.5"
   dependencies:
     lodash.clonedeep: ^4.5.0
     yargs-parser: ^20.2.7
-  checksum: e14da5c359e3b0452d39c005429e5e4ab1192fa94e51824e135ca8e6b921e95dfd803c15993ea6d23837b6cecb5a402e981a5dd37bee52a62a7a0924798eefe0
+  checksum: ef7ec35f8a190e129bdd485321346d8a9c3946a82d84e40902a4a30fe840a18abcb4da9fd9a0a7057abf0d3179a8421c1d385ee3a58011ec959e7a679eec5276
   languageName: node
   linkType: hard
 
@@ -16662,12 +16669,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^5.0.1":
-  version: 5.1.6
-  resolution: "minimatch@npm:5.1.6"
+"minimatch@npm:^5.1.9":
+  version: 5.1.9
+  resolution: "minimatch@npm:5.1.9"
   dependencies:
     brace-expansion: ^2.0.1
-  checksum: 7564208ef81d7065a370f788d337cd80a689e981042cb9a1d0e6580b6c6a8c9279eba80010516e258835a988363f99f54a6f711a315089b8b42694f5da9d0d77
+  checksum: 418438bd7701ba811f1108f28fcd3a638a6065c7b1245b85e25bcdb674410b4bebd8763c90c91bc8d22d93260c02cc129b354267a463c3399be5732d6e11e120
   languageName: node
   linkType: hard
 
@@ -21763,16 +21770,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:7.5.10":
-  version: 7.5.10
-  resolution: "tar@npm:7.5.10"
+"tar@npm:7.5.13":
+  version: 7.5.13
+  resolution: "tar@npm:7.5.13"
   dependencies:
     "@isaacs/fs-minipass": ^4.0.0
     chownr: ^3.0.0
     minipass: ^7.1.2
     minizlib: ^3.1.0
     yallist: ^5.0.0
-  checksum: aed1a7ae188fc80539184682bfaed7c4d5ae276f591dce67cc03b4ed8898aebde0cc195187f6abd455e3f25b24399a809ed2eaf6410ca3abc1ba30b19a94089e
+  checksum: adcc2a9179dab1b36ecb26575e698d2df8491a1df2cc83e2a0fdd8eaefd076da60dd2e20383a37760b5790bee34e9291aa2b2a9b3deef37ff03c1046219e5df7
   languageName: node
   linkType: hard
 
