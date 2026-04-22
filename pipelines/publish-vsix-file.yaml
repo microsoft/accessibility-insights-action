@@ -20,12 +20,6 @@ steps:
           connectedServiceName: 'a11y-insights-vs-marketplace'
           fileType: 'vsix'
           vsixFile: '${{ parameters.environment }}-vsix/${{ parameters.environment }}.vsix'
-          publisherId: '$(PublisherID)'
-          extensionId: '$(ExtensionID)'
-          extensionName: '$(ExtensionName)'
-          updateTasksVersion: false
-          extensionVisibility: '${{parameters.visibility}}'
-          extensionPricing: 'free'
           shareWith: 'accessibility-insights-private'
     - bash: |
           echo "to use the published extension, reference its fully-qualified name"
