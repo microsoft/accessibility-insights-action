@@ -7185,37 +7185,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"accessibility-insights-report@npm:6.0.0":
-  version: 6.0.0
-  resolution: "accessibility-insights-report@npm:6.0.0"
+"accessibility-insights-report@npm:^7.5.0":
+  version: 7.5.0
+  resolution: "accessibility-insights-report@npm:7.5.0"
   dependencies:
     "@fluentui/react": ^8.118.1
-    axe-core: 4.10.2
+    axe-core: 4.11.3
     classnames: ^2.5.1
-    lodash: ^4.17.21
+    lodash: ^4.18.0
     luxon: ^3.5.0
     react: ^18.3.1
     react-dom: ^18.3.1
     react-helmet-async: ^2.0.5
-    uuid: ^9.0.1
-  checksum: 84596cd8613e8fafee96f5178beac9636400907baaaeb1d04aedfbb548fe6c38d1d213da76ef00f31fe14b5259f7e730c3256e6b72a36679fd029ccf50f80b21
-  languageName: node
-  linkType: hard
-
-"accessibility-insights-report@npm:7.0.0":
-  version: 7.0.0
-  resolution: "accessibility-insights-report@npm:7.0.0"
-  dependencies:
-    "@fluentui/react": ^8.118.1
-    axe-core: 4.10.2
-    classnames: ^2.5.1
-    lodash: ^4.17.21
-    luxon: ^3.5.0
-    react: ^18.3.1
-    react-dom: ^18.3.1
-    react-helmet-async: ^2.0.5
-    uuid: ^9.0.1
-  checksum: f9f056fae2588287ba520e4ba359927352405013348c454936f449b551712fb448e28087e4a59aea26450630fc57b41f72ad57f5fbbd5215ffed8a7ba7195a8a
+    uuid: ^14.0.0
+  checksum: 564f531cf53d74818d6e272869eae1579c3fe7a607b00af4c6db5c1f7a670860f48268b2ed1e0dedfac38d9b94141f17247de303cf5041e662f78dc6d4f051d8
   languageName: node
   linkType: hard
 
@@ -8039,6 +8022,13 @@ __metadata:
   version: 4.10.2
   resolution: "axe-core@npm:4.10.2"
   checksum: 2b9b1c93ea73ea9f206604e4e17bd771d2d835f077bde54517d73028b8865c69b209460e73d5b109968cbdb39ab3d28943efa5695189bd79e16421ce1706719e
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:4.11.3":
+  version: 4.11.3
+  resolution: "axe-core@npm:4.11.3"
+  checksum: b01fc82cd0e809db09166a90bbb8942a978eefab5ba1ebab8faebd94969e0bd36df9848e4e510520cd08cde9800a6d14888ebbca380dfc4594db48e9b494d399
   languageName: node
   linkType: hard
 
@@ -22926,21 +22916,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "uuid@npm:14.0.0"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 08608584a79e987cdae000fa8eb724fa51dd8aafc136cd9fa9a8c87d07b246c56eec5fd9027fdb3e49a863eedf758bc19e325909ce281955c7a027fed67dc89e
+  languageName: node
+  linkType: hard
+
 "uuid@npm:^3.0.1":
   version: 3.4.0
   resolution: "uuid@npm:3.4.0"
   bin:
     uuid: ./bin/uuid
   checksum: 58de2feed61c59060b40f8203c0e4ed7fd6f99d42534a499f1741218a1dd0c129f4aa1de797bcf822c8ea5da7e4137aa3673431a96dae729047f7aca7b27866f
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "uuid@npm:9.0.1"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 39931f6da74e307f51c0fb463dc2462807531dc80760a9bff1e35af4316131b4fc3203d16da60ae33f07fdca5b56f3f1dd662da0c99fea9aaeab2004780cc5f4
   languageName: node
   linkType: hard
 
