@@ -76,7 +76,7 @@ describe('Sample task tests', () => {
             maxUrls: '2', //By setting `maxUrls` to 2, only the `inputUrls` will be scanned
         };
         const testSubject = runTestWithInputs(inputs);
-        console.log('STDOUT:', testSubject.stdout);
+        formatStdout(testSubject.stdout, 'STDOUT:');
         expect(testSubject.warningIssues.length).toEqual(0);
         expect(testSubject.errorIssues.length).toEqual(1);
         expect(
@@ -236,9 +236,14 @@ describe('Sample task tests', () => {
 });
 
 // Format stdout for ADO:
-// Prevent errors from stdout from being marked as pipeline failures
-function formatStdout(stdout: string) {
-    console.log(
-        stdout.replace(/##vso\[task.issue type=error;\]/g, '##[error]').replace(/##vso\[task.complete result=Failed;\]/g, '##[error]'),
-    );
+// Prevent errors from stdout from being marked as pipeline failures.
+// The ADO agent scans step stdout for two error patterns and treats them as hard failures:
+//   1. ##vso[task.issue type=error;...] — VSO pipeline command format (emitted by tl internals)
+//   2. ##[error] — legacy ADO logging format (emitted by tl.error() directly)
+function formatStdout(stdout: string, label?: string) {
+    const sanitized = stdout
+        .replace(/##vso\[task\.issue type=error;[^\]]*\]/g, '[error]')
+        .replace(/##vso\[task\.complete result=Failed;[^\]]*\]/g, '[error]')
+        .replace(/##\[error\]/g, '[error]');
+    label ? console.log(label, sanitized) : console.log(sanitized);
 }
