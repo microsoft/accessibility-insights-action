@@ -92,7 +92,7 @@ Failed instances
 * 1 × region:  Ensure all page content is contained by landmarks
 * 1 × role-img-alt:  Ensure [role="img"] elements have alternative text
 * 1 × scope-attr-valid:  Ensure the scope attribute is used correctly on tables
-* 1 × scrollable-region-focusable:  Ensure elements that have scrollable content are accessible by keyboard
+* 1 × scrollable-region-focusable:  Ensure elements that have scrollable content are accessible by keyboard in Safari
 * 1 × select-name:  Ensure select element has an accessible name
 * 1 × server-side-image-map:  Ensure that server-side image maps are not used
 * 1 × skip-link:  Ensure all skip links have a focusable target
