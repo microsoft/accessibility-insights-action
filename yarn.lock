@@ -61,9 +61,9 @@ __metadata:
     "@types/serve-static": ^1.15.7
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
-    accessibility-insights-report: 6.0.0
+    accessibility-insights-report: 7.5.0
     accessibility-insights-scan: ^3.2.0
-    axe-core: ^4.10.2
+    axe-core: ^4.11.3
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
     express: ^5.1.0
@@ -7349,23 +7349,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"accessibility-insights-report@npm:6.0.0":
-  version: 6.0.0
-  resolution: "accessibility-insights-report@npm:6.0.0"
-  dependencies:
-    "@fluentui/react": ^8.118.1
-    axe-core: 4.10.2
-    classnames: ^2.5.1
-    lodash: ^4.17.21
-    luxon: ^3.5.0
-    react: ^18.3.1
-    react-dom: ^18.3.1
-    react-helmet-async: ^2.0.5
-    uuid: ^9.0.1
-  checksum: 84596cd8613e8fafee96f5178beac9636400907baaaeb1d04aedfbb548fe6c38d1d213da76ef00f31fe14b5259f7e730c3256e6b72a36679fd029ccf50f80b21
-  languageName: node
-  linkType: hard
-
 "accessibility-insights-report@npm:7.0.0":
   version: 7.0.0
   resolution: "accessibility-insights-report@npm:7.0.0"
@@ -7380,6 +7363,23 @@ __metadata:
     react-helmet-async: ^2.0.5
     uuid: ^9.0.1
   checksum: f9f056fae2588287ba520e4ba359927352405013348c454936f449b551712fb448e28087e4a59aea26450630fc57b41f72ad57f5fbbd5215ffed8a7ba7195a8a
+  languageName: node
+  linkType: hard
+
+"accessibility-insights-report@npm:7.5.0":
+  version: 7.5.0
+  resolution: "accessibility-insights-report@npm:7.5.0"
+  dependencies:
+    "@fluentui/react": ^8.118.1
+    axe-core: 4.11.3
+    classnames: ^2.5.1
+    lodash: ^4.18.0
+    luxon: ^3.5.0
+    react: ^18.3.1
+    react-dom: ^18.3.1
+    react-helmet-async: ^2.0.5
+    uuid: ^14.0.0
+  checksum: 564f531cf53d74818d6e272869eae1579c3fe7a607b00af4c6db5c1f7a670860f48268b2ed1e0dedfac38d9b94141f17247de303cf5041e662f78dc6d4f051d8
   languageName: node
   linkType: hard
 
@@ -8189,10 +8189,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:4.10.2, axe-core@npm:^4.10.2, axe-core@npm:~4.10.2":
+"axe-core@npm:4.10.2, axe-core@npm:~4.10.2":
   version: 4.10.2
   resolution: "axe-core@npm:4.10.2"
   checksum: 2b9b1c93ea73ea9f206604e4e17bd771d2d835f077bde54517d73028b8865c69b209460e73d5b109968cbdb39ab3d28943efa5695189bd79e16421ce1706719e
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:4.11.3":
+  version: 4.11.3
+  resolution: "axe-core@npm:4.11.3"
+  checksum: b01fc82cd0e809db09166a90bbb8942a978eefab5ba1ebab8faebd94969e0bd36df9848e4e510520cd08cde9800a6d14888ebbca380dfc4594db48e9b494d399
   languageName: node
   linkType: hard
 
@@ -8200,6 +8207,13 @@ __metadata:
   version: 4.7.0
   resolution: "axe-core@npm:4.7.0"
   checksum: f086bcab42be1761ba2b0b127dec350087f4c3a853bba8dd58f69d898cefaac31a1561da23146f6f3c07954c76171d1f2ce460e555e052d2b02cd79af628fa4a
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:^4.11.3":
+  version: 4.11.4
+  resolution: "axe-core@npm:4.11.4"
+  checksum: a7b1bf7cbec7a3c5752de11f28b552bf1ef7cbe9191bfeb887bc8fe02d727feadab4889426d7da11e6a9f18045aa6e4249112f5b7590fa02c79f97f2a9f40cd5
   languageName: node
   linkType: hard
 
@@ -23227,6 +23241,15 @@ __metadata:
   bin:
     uuid: dist-node/bin/uuid
   checksum: 7510ee1ab371be5339ef26ff8cabc2f4a2c60640ff880652968f758072f53bd4f4af1c8b0e671a8c9bb29ef926a24dec3ef0e3861d78183b39291a85743a9f96
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "uuid@npm:14.0.0"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 08608584a79e987cdae000fa8eb724fa51dd8aafc136cd9fa9a8c87d07b246c56eec5fd9027fdb3e49a863eedf758bc19e325909ce281955c7a027fed67dc89e
   languageName: node
   linkType: hard
 
