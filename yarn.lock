@@ -58,7 +58,7 @@ __metadata:
     "@types/puppeteer-core": ^7.0.4
     "@types/react": ^19.0.6
     "@types/react-dom": ^19.0.2
-    "@types/serve-static": ^1.15.7
+    "@types/serve-static": ^2.2.0
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     accessibility-insights-report: 6.0.0
@@ -86,7 +86,7 @@ __metadata:
     reflect-metadata: ^0.2.2
     rimraf: ^6.1.3
     serialize-error: ^11.0.3
-    serve-static: ^1.16.0
+    serve-static: ^2.2.1
     ts-jest: ^29.4.11
     ts-loader: ^9.5.1
     typemoq: ^2.1.0
@@ -6536,14 +6536,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/serve-static@npm:^1.15.7":
-  version: 1.15.7
-  resolution: "@types/serve-static@npm:1.15.7"
+"@types/serve-static@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@types/serve-static@npm:2.2.0"
   dependencies:
     "@types/http-errors": "*"
     "@types/node": "*"
-    "@types/send": "*"
-  checksum: bbbf00dbd84719da2250a462270dc68964006e8d62f41fe3741abd94504ba3688f420a49afb2b7478921a1544d3793183ffa097c5724167da777f4e0c7f1a7d6
+  checksum: 0ad152ae2851cbe6c9381d0eca5fff8e6ff56afc0e03099efa88712c00318f52d8b01000be391375dcb2dbd912a54dacfc67ff36bae636a61570d74feba559b7
   languageName: node
   linkType: hard
 
@@ -7321,7 +7320,7 @@ __metadata:
     "@types/marked-terminal": ^6.1.1
     "@types/normalize-path": ^3.0.2
     "@types/puppeteer-core": ^7.0.4
-    "@types/serve-static": ^1.15.7
+    "@types/serve-static": ^2.2.0
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     case-sensitive-paths-webpack-plugin: ^2.4.0
