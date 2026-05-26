@@ -85,7 +85,7 @@ __metadata:
     prettier: ^3.3.3
     reflect-metadata: ^0.2.2
     rimraf: ^6.1.3
-    serialize-error: ^11.0.3
+    serialize-error: ^13.0.1
     serve-static: ^2.2.1
     ts-jest: ^29.4.11
     ts-loader: ^9.5.1
@@ -17425,6 +17425,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"non-error@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "non-error@npm:0.1.0"
+  checksum: 55e01cad850b93bbe08754ec6a15f73a1d18619f911d6f7d5bc5cdcf681c1b9f35c64c984d1f9d8c835cfe6d6834fa389ba8380e0b574121fe67ec0e660b7b25
+  languageName: node
+  linkType: hard
+
 "nopt@npm:^6.0.0":
   version: 6.0.0
   resolution: "nopt@npm:6.0.0"
@@ -20846,12 +20853,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serialize-error@npm:^11.0.3":
-  version: 11.0.3
-  resolution: "serialize-error@npm:11.0.3"
+"serialize-error@npm:^13.0.1":
+  version: 13.0.1
+  resolution: "serialize-error@npm:13.0.1"
   dependencies:
-    type-fest: ^2.12.2
-  checksum: 09d1aee6186fd5ff8acc074ee8641116cdd07b12df1e95682c43d8b5d1ef657deecc2efede7f1a08f5ff3ef3d65fb60ab9c8b4b2fdde65867ad3e6d4feed34a9
+    non-error: ^0.1.0
+    type-fest: ^5.4.1
+  checksum: 2b1d6a6fb0ed969dd1dabddc558116c2b717be627944fb168be1205aaa1d58cf22fe1089721a92e6f32e9fe04ade974e9021285668bab01beebcf89f8c93882f
   languageName: node
   linkType: hard
 
@@ -21996,6 +22004,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tagged-tag@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "tagged-tag@npm:1.0.0"
+  checksum: e37653df3e495daa7ea7790cb161b810b00075bba2e4d6c93fb06a709e747e3ae9da11a120d0489833203926511b39e038a2affbd9d279cfb7a2f3fcccd30b5d
+  languageName: node
+  linkType: hard
+
 "tailwindcss@npm:^3.0.2":
   version: 3.4.1
   resolution: "tailwindcss@npm:3.4.1"
@@ -22733,13 +22748,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^2.12.2":
-  version: 2.18.0
-  resolution: "type-fest@npm:2.18.0"
-  checksum: 0737128d9d77b93793c6ee443e304462a792f5b723a6be035d6cb488c5610a8baa00522805421341c04324c80efba9849885bbfbc5a9623d0672fe8712969f62
-  languageName: node
-  linkType: hard
-
 "type-fest@npm:^2.3.4":
   version: 2.14.0
   resolution: "type-fest@npm:2.14.0"
@@ -22765,6 +22773,15 @@ __metadata:
   version: 4.41.0
   resolution: "type-fest@npm:4.41.0"
   checksum: 7055c0e3eb188425d07403f1d5dc175ca4c4f093556f26871fe22041bc93d137d54bef5851afa320638ca1379106c594f5aa153caa654ac1a7f22c71588a4e80
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^5.4.1":
+  version: 5.6.0
+  resolution: "type-fest@npm:5.6.0"
+  dependencies:
+    tagged-tag: ^1.0.0
+  checksum: af2a7c85698cdca84a9e29a8c16c8b6a82beaea6d5655dbe8553a11f9ba4f86352db0647c20b9c7dbdc3bc61330026fb043d3883a16249be8203fcfdb12e2c51
   languageName: node
   linkType: hard
 

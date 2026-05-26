@@ -42,7 +42,7 @@
         "normalize-path": "^3.0.0",
         "pony-cause": "^2.1.11",
         "reflect-metadata": "^0.2.2",
-        "serialize-error": "^11.0.3",
+        "serialize-error": "^13.0.1",
         "serve-static": "^2.2.1"
     },
     "devDependencies": {
