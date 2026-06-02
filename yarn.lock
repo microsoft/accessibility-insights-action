@@ -76,7 +76,7 @@ __metadata:
     jest-file-snapshot: ^0.7.0
     jest-junit: ^16.0.0
     lodash: ^4.18.0
-    marked: ^9.1.4
+    marked: ^18.0.4
     marked-terminal: ^7.3.0
     mockdate: ^3.0.5
     normalize-path: ^3.0.0
@@ -16709,12 +16709,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^9.1.4":
-  version: 9.1.4
-  resolution: "marked@npm:9.1.4"
+"marked@npm:^18.0.4":
+  version: 18.0.4
+  resolution: "marked@npm:18.0.4"
   bin:
     marked: bin/marked.js
-  checksum: 660efebcf15bb86e6de5130b5c0bf484d9ad44752fb5a8064f425eb1cd590080727813e416329e6b33922fc36052c5e372109ee131b2556af82149e4b4a1d8f1
+  checksum: 90bd8c30c56eb6ee285cbdbcfdc61fa0baee58df815c9beb7ed6ee0e0d210c29a54bebed057c0bc24aacde2f7d63c434e00d61ffa8473bca4122b1066b54808f
   languageName: node
   linkType: hard
 
