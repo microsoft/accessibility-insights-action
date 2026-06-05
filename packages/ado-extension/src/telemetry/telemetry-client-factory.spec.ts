@@ -54,7 +54,11 @@ class StubTelemetryClient {
     public context: unknown;
     constructor() {
         this.context = {
-            keys: new appInsights.Contracts.ContextTagKeys(),
+            keys: {
+                cloudRole: 'ai.cloud.role',
+                cloudRoleInstance: 'ai.cloud.roleInstance',
+                locationIp: 'ai.location.ip',
+            },
             tags: {},
         };
     }
