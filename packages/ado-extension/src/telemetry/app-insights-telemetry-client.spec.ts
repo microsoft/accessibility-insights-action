@@ -164,7 +164,10 @@ class MockUnderlyingClient {
         tags: { [key: string]: string };
     };
 
-    constructor(public readonly config: string, public readonly options?: { useGlobalProviders?: boolean }) {
+    constructor(
+        public readonly config: string,
+        public readonly options?: { useGlobalProviders?: boolean },
+    ) {
         MockUnderlyingClient.lastConstructedInstance = this;
         const tags: { [key: string]: string } = {};
         for (const value of Object.values(mockContextKeys)) {
