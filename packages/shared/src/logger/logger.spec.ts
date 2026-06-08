@@ -59,7 +59,7 @@ describe(Logger, () => {
         it('throw if called before setup', () => {
             expect(() => {
                 testSubject.log('trace1', LogLevel.warning);
-            }).toThrowError(
+            }).toThrow(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
         });
@@ -92,7 +92,7 @@ describe(Logger, () => {
         it('throw if called before setup', () => {
             expect(() => {
                 testSubject.logInfo('info1');
-            }).toThrowError(
+            }).toThrow(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
         });
@@ -125,7 +125,7 @@ describe(Logger, () => {
         it('throw if called before setup', () => {
             expect(() => {
                 testSubject.logWarning('warn1');
-            }).toThrowError(
+            }).toThrow(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
         });
@@ -158,7 +158,7 @@ describe(Logger, () => {
         it('throw if called before setup', () => {
             expect(() => {
                 testSubject.logError('error1');
-            }).toThrowError(
+            }).toThrow(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
         });
@@ -284,7 +284,7 @@ describe(Logger, () => {
         it('throw if called before setup', () => {
             expect(() => {
                 testSubject.trackException(new Error('test error'));
-            }).toThrowError(
+            }).toThrow(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
         });
@@ -306,7 +306,7 @@ describe(Logger, () => {
         it('throw if called before setup', () => {
             expect(() => {
                 testSubject.trackExceptionAny(new Error('test error'), 'error message');
-            }).toThrowError(
+            }).toThrow(
                 'The logger instance is not initialized. Ensure the setup() method is invoked by derived class implementation.',
             );
         });

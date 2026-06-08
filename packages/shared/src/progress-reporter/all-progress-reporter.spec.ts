@@ -61,7 +61,7 @@ describe(AllProgressReporter, () => {
             });
 
             // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
-            await expect(testSubject.start()).rejects.toThrowError(failingReporterError);
+            await expect(testSubject.start()).rejects.toThrow(failingReporterError);
         });
 
         it('should rethrow an AggregateError if multiple reporters throw', async () => {
@@ -106,7 +106,7 @@ describe(AllProgressReporter, () => {
             });
 
             // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
-            await expect(testSubject.completeRun(axeResultsStub)).rejects.toThrowError(failingReporterError);
+            await expect(testSubject.completeRun(axeResultsStub)).rejects.toThrow(failingReporterError);
         });
 
         it('should rethrow an AggregateError if multiple reporters throw', async () => {
@@ -139,7 +139,7 @@ describe(AllProgressReporter, () => {
             });
 
             // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
-            await expect(testSubject.failRun()).rejects.toThrowError(failingReporterError);
+            await expect(testSubject.failRun()).rejects.toThrow(failingReporterError);
         });
 
         it('should rethrow an AggregateError if multiple reporters throw', async () => {
@@ -173,7 +173,7 @@ describe(AllProgressReporter, () => {
             });
 
             // The error from the first reporter should be rethrown, but we should still see the call to the second reporter
-            await expect(testSubject.didScanSucceed()).rejects.toThrowError(failingReporterError);
+            await expect(testSubject.didScanSucceed()).rejects.toThrow(failingReporterError);
         });
 
         it('should rethrow an AggregateError if multiple reporters throw', async () => {

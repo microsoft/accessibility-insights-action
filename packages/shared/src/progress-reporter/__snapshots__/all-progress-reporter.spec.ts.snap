@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`AllProgressReporter complete should rethrow an AggregateError if multiple reporters throw 1`] = `
 "Multiple progress reporters encountered Errors
