@@ -12239,32 +12239,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect@npm:^29.0.0":
-  version: 29.4.0
-  resolution: "expect@npm:29.4.0"
-  dependencies:
-    "@jest/expect-utils": ^29.4.0
-    jest-get-type: ^29.2.0
-    jest-matcher-utils: ^29.4.0
-    jest-message-util: ^29.4.0
-    jest-util: ^29.4.0
-  checksum: ea4fb9c19ead80e0551b06a44a1cdb23faaa03d95e5f939ec951a2c569de447d59e6a7ea3ef097d3d6c73b1bcbf7fbcd8e7290feab69637e1f884e234c5effda
-  languageName: node
-  linkType: hard
-
-"expect@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "expect@npm:29.7.0"
-  dependencies:
-    "@jest/expect-utils": ^29.7.0
-    jest-get-type: ^29.6.3
-    jest-matcher-utils: ^29.7.0
-    jest-message-util: ^29.7.0
-    jest-util: ^29.7.0
-  checksum: 9257f10288e149b81254a0fda8ffe8d54a7061cd61d7515779998b012579d2b8c22354b0eb901daf0145f347403da582f75f359f4810c007182ad3fb318b5c0c
-  languageName: node
-  linkType: hard
-
 "exponential-backoff@npm:^3.1.3":
   version: 3.1.3
   resolution: "exponential-backoff@npm:3.1.3"
