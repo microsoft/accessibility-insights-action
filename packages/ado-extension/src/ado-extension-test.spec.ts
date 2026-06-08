@@ -20,7 +20,7 @@ describe('runScan', () => {
         const setResultMock = jest.spyOn(adoTask, 'setResult');
         await runScan();
         await flushPromises();
-        expect(setResultMock).toBeCalledWith(adoTask.TaskResult.Failed, errorMessage);
+        expect(setResultMock).toHaveBeenCalledWith(adoTask.TaskResult.Failed, errorMessage);
     });
 
     it('show exception message when runScan experiences an error', async () => {
@@ -28,7 +28,7 @@ describe('runScan', () => {
         const setResultMock = jest.spyOn(adoTask, 'setResult');
         await runScan();
         await flushPromises();
-        expect(setResultMock).toBeCalledWith(adoTask.TaskResult.Failed, 'Exception thrown in extension: test error');
+        expect(setResultMock).toHaveBeenCalledWith(adoTask.TaskResult.Failed, 'Exception thrown in extension: test error');
     });
 });
 
