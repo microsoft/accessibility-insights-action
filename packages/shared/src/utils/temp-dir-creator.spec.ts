@@ -38,7 +38,7 @@ describe(TempDirCreator, () => {
                 .throws(mkdtempSyncError)
                 .verifiable();
 
-            expect(() => testSubject.createTempDirSync('irrelevant')).toThrowError(mkdtempSyncError);
+            expect(() => testSubject.createTempDirSync('irrelevant')).toThrow(mkdtempSyncError);
 
             mockFs.verifyAll();
         });

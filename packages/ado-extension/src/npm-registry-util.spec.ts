@@ -19,7 +19,7 @@ describe('NpmRegistryUtil', () => {
         it('should not get npmAuthIdent from service connection when service connection does not exist', () => {
             const auth = jest.spyOn(adoTask, 'getEndpointAuthorization');
             auth.mockReturnValue(undefined);
-            expect(() => NpmRegistryUtil.getTokenFromServiceConnection('serviceConnectionName')).toThrowError(
+            expect(() => NpmRegistryUtil.getTokenFromServiceConnection('serviceConnectionName')).toThrow(
                 'Could not find the service connection',
             );
         });
@@ -27,7 +27,7 @@ describe('NpmRegistryUtil', () => {
         it('should not get npmAuthIdent from service connection when service connection scheme is other than Token or UsernamePassword', () => {
             const auth = jest.spyOn(adoTask, 'getEndpointAuthorization');
             auth.mockReturnValue(authenticationMock.object);
-            expect(() => NpmRegistryUtil.getTokenFromServiceConnection('serviceConnectionName')).toThrowError(
+            expect(() => NpmRegistryUtil.getTokenFromServiceConnection('serviceConnectionName')).toThrow(
                 'Service connection auth scheme not supported',
             );
         });
