@@ -29,8 +29,8 @@
     "dependencies": {
         "@types/react": "^19.2.15",
         "@types/react-dom": "^19.2.3",
-        "accessibility-insights-report": "7.5.0",
-        "accessibility-insights-scan": "^3.2.0",
+        "accessibility-insights-report": "7.6.0",
+        "accessibility-insights-scan": "^3.3.0",
         "axe-core": "^4.10.2",
         "express": "^5.1.0",
         "filenamify-url": "^3.1.0",

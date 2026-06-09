@@ -140,10 +140,7 @@ describe(AppInsightsTelemetryClient, () => {
 
             const underlying = MockUnderlyingClient.lastConstructedInstance!;
 
-            underlying.flush = jest.fn(({ callback }) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-                callback();
-            });
+            underlying.flush = jest.fn().mockResolvedValue(undefined);
 
             await testSubject.flush();
 
@@ -152,26 +149,33 @@ describe(AppInsightsTelemetryClient, () => {
     });
 });
 
+const mockContextKeys = {
+    cloudRole: 'ai.cloud.role',
+    cloudRoleInstance: 'ai.cloud.roleInstance',
+    locationIp: 'ai.location.ip',
+} as const;
+
 class MockUnderlyingClient {
     public static lastConstructedInstance?: MockUnderlyingClient;
 
     public commonProperties?: { [key: string]: string };
     public context: {
-        keys: appInsights.Contracts.ContextTagKeys;
+        keys: typeof mockContextKeys;
         tags: { [key: string]: string };
     };
 
-    constructor(public readonly config: string) {
+    constructor(
+        public readonly config: string,
+        public readonly options?: { useGlobalProviders?: boolean },
+    ) {
         MockUnderlyingClient.lastConstructedInstance = this;
-        this.context = {
-            keys: new appInsights.Contracts.ContextTagKeys(),
-            tags: {},
-        };
-        for (const key in this.context.keys) {
-            this.context.tags[key] = `default value for tag ${key}`;
+        const tags: { [key: string]: string } = {};
+        for (const value of Object.values(mockContextKeys)) {
+            tags[value] = `default value for tag ${value}`;
         }
+        this.context = { keys: mockContextKeys, tags };
     }
 
     public trackEvent = jest.fn();
-    public flush = jest.fn();
+    public flush = jest.fn().mockResolvedValue(undefined);
 }

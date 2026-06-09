@@ -18,7 +18,7 @@ To make a change, you can follow these steps:
 
 1. Clone the repository. If you would like to [deploy a staging Azure extension](#deploy-a-staging-azure-extension), maintainers will need to create branches off of the main repository.
 
-2. Run `yarn install`. This project requires Node 16.
+2. Run `yarn install`. This project requires Node 20.
 
 3. Make your code change.
 

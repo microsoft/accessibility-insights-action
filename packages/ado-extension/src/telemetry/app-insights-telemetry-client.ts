@@ -22,7 +22,8 @@ export class AppInsightsTelemetryClient implements TelemetryClient {
     ) {
         // It's very important that we invoke new TelemetryClient and *not* setup()
         // The latter initializes a bunch of auto-collectors that we don't want to run
-        this.underlyingClient = new appInsightsObj.TelemetryClient(connectionString);
+        // useGlobalProviders: false disables OpenTelemetry auto-instrumentation in 3.x
+        this.underlyingClient = new appInsightsObj.TelemetryClient(connectionString, { useGlobalProviders: false });
 
         // This disables collection of the local machine's hostname
         this.underlyingClient.context.tags[this.underlyingClient.context.keys.cloudRole] = '';
@@ -52,10 +53,6 @@ export class AppInsightsTelemetryClient implements TelemetryClient {
     }
 
     public async flush(): Promise<void> {
-        await new Promise<void>((resolve) => {
-            this.underlyingClient.flush({
-                callback: () => resolve(),
-            });
-        });
+        await this.underlyingClient.flush();
     }
 }
