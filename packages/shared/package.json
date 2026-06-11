@@ -48,7 +48,7 @@
     "devDependencies": {
         "@types/express": "^5.0.1",
         "@types/jest": "^30.0.0",
-        "@types/lodash": "^4.17.13",
+        "@types/lodash": "^4.17.24",
         "@types/marked": "^5.0.2",
         "@types/marked-terminal": "^6.1.1",
         "@types/normalize-path": "^3.0.2",
