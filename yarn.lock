@@ -41,7 +41,7 @@ __metadata:
     typemoq: ^2.1.0
     typescript: ^5.6.3
     webpack: ^5.104.1
-    webpack-cli: ^7.0.2
+    webpack-cli: ^7.0.3
   languageName: unknown
   linkType: soft
 
@@ -3244,7 +3244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discoveryjs/json-ext@npm:^1.0.0":
+"@discoveryjs/json-ext@npm:^1.1.0":
   version: 1.1.0
   resolution: "@discoveryjs/json-ext@npm:1.1.0"
   checksum: f16d3732629095cbe37d42d504a80c44261dd5ad703ec5963729dab0786b2b8a2b86f81cf9d1dd593ad914d50146ecd281eeac60bfe9cf246257f84c57b72204
@@ -7641,7 +7641,7 @@ __metadata:
     typemoq: ^2.1.0
     typescript: ^5.6.3
     webpack: ^5.104.1
-    webpack-cli: ^7.0.2
+    webpack-cli: ^7.0.3
   languageName: unknown
   linkType: soft
 
@@ -12410,13 +12410,6 @@ __metadata:
   dependencies:
     punycode: ^1.3.2
   checksum: 5043d0c4a8d775ff58504d56c096563c11b113e4cb8a2668c6f824a1cd4fb3812e2fdf76537eb24a7ce4ae7def6bd9747da630c617cf2a4b6ce0c42514e4f21c
-  languageName: node
-  linkType: hard
-
-"fastest-levenshtein@npm:^1.0.12":
-  version: 1.0.12
-  resolution: "fastest-levenshtein@npm:1.0.12"
-  checksum: e1a013698dd1d302c7a78150130c7d50bb678c2c2f8839842a796d66cc7cdf50ea6b3d7ca930b0c8e7e8c2cd84fea8ab831023b382f7aab6922c318c1451beab
   languageName: node
   linkType: hard
 
@@ -23832,15 +23825,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-cli@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "webpack-cli@npm:7.0.2"
+"webpack-cli@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "webpack-cli@npm:7.0.3"
   dependencies:
-    "@discoveryjs/json-ext": ^1.0.0
+    "@discoveryjs/json-ext": ^1.1.0
     commander: ^14.0.3
     cross-spawn: ^7.0.6
     envinfo: ^7.14.0
-    fastest-levenshtein: ^1.0.12
     import-local: ^3.0.2
     interpret: ^3.1.1
     rechoir: ^0.8.0
@@ -23856,7 +23848,7 @@ __metadata:
       optional: true
   bin:
     webpack-cli: bin/cli.js
-  checksum: e7f8c33283cb3ddc1c7163ed0fd4a5658bd7a048d0accd8a49197ab4be819484c214316db65e3bb2e1d8109fbfdeb9a2f9a7c5c1fec4488dd07532dedd1bd61f
+  checksum: bf3f9ef77c305945a4033b7b08b52ac2fd3c0373aeb8e06abc158d4568e60ecc0f42ddf932fef42bbaf10835b1a34c61ef2a0920ab187822123b907d10b5bf5d
   languageName: node
   linkType: hard
 
