@@ -51,7 +51,7 @@ __metadata:
   dependencies:
     "@types/express": ^5.0.1
     "@types/jest": ^30.0.0
-    "@types/lodash": ^4.17.13
+    "@types/lodash": ^4.17.24
     "@types/marked": ^5.0.2
     "@types/marked-terminal": ^6.1.1
     "@types/normalize-path": ^3.0.2
@@ -6411,10 +6411,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.17.13":
-  version: 4.17.13
-  resolution: "@types/lodash@npm:4.17.13"
-  checksum: d0bf8fbd950be71946e0076b30fd40d492293baea75f05931b6b5b906fd62583708c6229abdb95b30205ad24ce1ed2f48bc9d419364f682320edd03405cc0c7e
+"@types/lodash@npm:^4.17.24":
+  version: 4.17.24
+  resolution: "@types/lodash@npm:4.17.24"
+  checksum: 2b254973145ecdf9b052d83f00ebaa111245f319d45b217c78f81cea8892fda81180fc749bd50a99c08f4e5efceb834c774d3f74153a50a9c4a28648343dc9f3
   languageName: node
   linkType: hard
 
@@ -7612,7 +7612,7 @@ __metadata:
   dependencies:
     "@types/express": ^5.0.1
     "@types/jest": ^30.0.0
-    "@types/lodash": ^4.17.13
+    "@types/lodash": ^4.17.24
     "@types/marked": ^5.0.2
     "@types/marked-terminal": ^6.1.1
     "@types/normalize-path": ^3.0.2
