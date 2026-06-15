@@ -56,7 +56,7 @@ __metadata:
     "@types/marked-terminal": ^6.1.1
     "@types/normalize-path": ^3.0.2
     "@types/puppeteer-core": ^7.0.4
-    "@types/react": ^19.2.15
+    "@types/react": ^19.2.17
     "@types/react-dom": ^19.2.3
     "@types/serve-static": ^2.2.0
     "@typescript-eslint/eslint-plugin": ^6.18.1
@@ -98,7 +98,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@accessibility-insights-action/test-website-hashroute@workspace:packages/test-website-hashroute"
   dependencies:
-    react: ^19.2.6
+    react: ^19.2.7
     react-dom: ^19.2.6
     react-router-dom: ^5.3.4
     react-scripts: 5.0.1
@@ -6561,12 +6561,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^19.2.15":
-  version: 19.2.15
-  resolution: "@types/react@npm:19.2.15"
+"@types/react@npm:^19.2.17":
+  version: 19.2.17
+  resolution: "@types/react@npm:19.2.17"
   dependencies:
     csstype: ^3.2.2
-  checksum: 3ea645cf5ef6c06eb892dc95363af97f0d28166eb362ccee0a1b4c5f9b7998bd9740fa81901f6fb314aaf522bca540e1a5fb14f6538ab1010c6d35bb3331d852
+  checksum: 9704dc2001b6bcc32efc6e3fe144e18c411d5ee8a5c8dfe572535e44bd300424c4e7bddc9314299eeec28efb547816368b5c9851c93a3082e8ad1265786f3d31
   languageName: node
   linkType: hard
 
@@ -20192,10 +20192,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^19.2.6":
-  version: 19.2.6
-  resolution: "react@npm:19.2.6"
-  checksum: e250029064bff3f3308ee61e52c44bc9a0c938f6ef11a3f39c31db487ca173eb9b4b0cd3261e32613d3498df0da5586f3c582bc83cef54ad99bc5643772c4535
+"react@npm:^19.2.7":
+  version: 19.2.7
+  resolution: "react@npm:19.2.7"
+  checksum: be94ec2f1779b27cac328ddae18e52933c2977a2425b67039229ead45c62d0363b66e894076236616c8d98821a9a760fcbab8a9da8ae9c4b2849dfd12cc32a46
   languageName: node
   linkType: hard
 
