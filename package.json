@@ -56,7 +56,7 @@
         "jest": "^30.4.2",
         "jest-extended": "^4.0.2",
         "jest-file-snapshot": "^0.7.0",
-        "jest-junit": "^16.0.0",
+        "jest-junit": "^17.0.0",
         "js-yaml": "^4.2.0",
         "license-check-and-add": "^4.0.5",
         "mockdate": "^3.0.5",
