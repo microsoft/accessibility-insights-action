@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`AdoWorkflowEnforcer completeRun with baseline and failOnAccessibilityError=false fails with pinned error log if baseline needs to be updated 1`] = `
 [

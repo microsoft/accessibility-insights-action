@@ -28,7 +28,7 @@ describe(TelemetryErrorCollector, () => {
         it('does nothing if try to clean empty errorList', () => {
             const spy = jest.spyOn(telemetryErrorCollector.errorReport.errorList, 'pop');
             telemetryErrorCollector.cleanErrorList();
-            expect(spy).not.toBeCalled();
+            expect(spy).not.toHaveBeenCalled();
         });
     });
 
