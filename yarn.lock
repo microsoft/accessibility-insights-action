@@ -24,7 +24,7 @@ __metadata:
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
-    fork-ts-checker-webpack-plugin: ^9.0.2
+    fork-ts-checker-webpack-plugin: ^9.1.0
     jest: ^30.4.2
     jest-extended: ^4.0.2
     jest-file-snapshot: ^0.7.0
@@ -68,7 +68,7 @@ __metadata:
     eslint-plugin-security: ^1.7.1
     express: ^5.1.0
     filenamify-url: ^3.1.0
-    fork-ts-checker-webpack-plugin: ^9.0.2
+    fork-ts-checker-webpack-plugin: ^9.1.0
     get-port: ^7.2.0
     inversify: 6.0.1
     jest: ^30.4.2
@@ -7292,7 +7292,7 @@ __metadata:
     codecov: ^3.8.3
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
-    fork-ts-checker-webpack-plugin: ^9.0.2
+    fork-ts-checker-webpack-plugin: ^9.1.0
     jest: ^30.4.2
     jest-extended: ^4.0.2
     jest-file-snapshot: ^0.7.0
@@ -9223,6 +9223,15 @@ __metadata:
     fsevents:
       optional: true
   checksum: b49fcde40176ba007ff361b198a2d35df60d9bb2a5aab228279eb810feae9294a6b4649ab15981304447afe1e6ffbf4788ad5db77235dc770ab777c6e771980c
+  languageName: node
+  linkType: hard
+
+"chokidar@npm:^4.0.1":
+  version: 4.0.3
+  resolution: "chokidar@npm:4.0.3"
+  dependencies:
+    readdirp: ^4.0.1
+  checksum: a8765e452bbafd04f3f2fad79f04222dd65f43161488bb6014a41099e6ca18d166af613d59a90771908c1c823efa3f46ba36b86ac50b701c20c1b9908c5fe36e
   languageName: node
   linkType: hard
 
@@ -12401,13 +12410,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^9.0.2":
-  version: 9.0.2
-  resolution: "fork-ts-checker-webpack-plugin@npm:9.0.2"
+"fork-ts-checker-webpack-plugin@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "fork-ts-checker-webpack-plugin@npm:9.1.0"
   dependencies:
     "@babel/code-frame": ^7.16.7
     chalk: ^4.1.2
-    chokidar: ^3.5.3
+    chokidar: ^4.0.1
     cosmiconfig: ^8.2.0
     deepmerge: ^4.2.2
     fs-extra: ^10.0.0
@@ -12420,7 +12429,7 @@ __metadata:
   peerDependencies:
     typescript: ">3.6.0"
     webpack: ^5.11.0
-  checksum: 136a87bfa36cb6ca27d2ae0feb3c6cabe0de734c1c1ed38f95b71ddb3eb4b6c461829a2dbb04f18f0f717fc6341f544327598255758c269cec9774ccee035afc
+  checksum: 8c3e011cce7ad2b45adce8aea8226db7d79e6ea0900030e86d24ea689152127a7a420f16ac09b9634e461fcd317e32b922a1f3106fe5107b1e8b74b83ed8ae82
   languageName: node
   linkType: hard
 
@@ -20011,6 +20020,13 @@ __metadata:
   dependencies:
     minimatch: ^5.1.0
   checksum: 1dc0f7440ff5d9378b593abe9d42f34ebaf387516615e98ab410cf3a68f840abbf9ff1032d15e0a0dbffa78f9e2c46d4fafdbaac1ca435af2efe3264e3f21874
+  languageName: node
+  linkType: hard
+
+"readdirp@npm:^4.0.1":
+  version: 4.1.2
+  resolution: "readdirp@npm:4.1.2"
+  checksum: 3242ee125422cb7c0e12d51452e993f507e6ed3d8c490bc8bf3366c5cdd09167562224e429b13e9cb2b98d4b8b2b11dc100d3c73883aa92d657ade5a21ded004
   languageName: node
   linkType: hard
 

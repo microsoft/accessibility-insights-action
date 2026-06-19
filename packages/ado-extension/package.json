@@ -41,7 +41,7 @@
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
         "eslint": "^8.57.0",
         "eslint-plugin-security": "^1.7.1",
-        "fork-ts-checker-webpack-plugin": "^9.0.2",
+        "fork-ts-checker-webpack-plugin": "^9.1.0",
         "jest": "^30.4.2",
         "jest-extended": "^4.0.2",
         "jest-file-snapshot": "^0.7.0",
