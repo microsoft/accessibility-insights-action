@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "signal_type": "execution",
+  "timestamp": "2026-06-23T16:20:00Z",
+  "run_id": "6d560bf8-0b3e-4474-9273-3401285d1e2b",
+  "agent_name": "s360-breeze-orchestrator",
+  "invoked_skills": ["sfi-id432-eventhub-msi-migration"],
+  "kpi": {
+    "id": "ID 4.3.2",
+    "name": "EventHub MSI Migration",
+    "program": "SFI"
+  },
+  "skill_used": "sfi-id432-eventhub-msi-migration",
+  "mode": "interactive",
+  "self_assessment": {
+    "accuracy": 4,
+    "completeness": 2,
+    "tsg_alignment": 4,
+    "developer_experience": 4,
+    "confidence": 2
+  },
+  "patterns": {
+    "what_worked": "S360 action-item to resource mapping was precise: extracted both flagged Event Hub namespace resource IDs (one dev, one prod) from CustomDimensions.resourceId and resolved the KPI GUID to its display name. Repo scan across IaC (bicep/arm/tf/jsonnet), client SDK usage, pipelines and config conclusively ruled out any Event Hub footprint, avoiding a fabricated fix.",
+    "what_was_hard": "The two alerted namespaces have no IaC or client code in the alerted repo — it is a TypeScript GitHub Action / ADO extension, while the telemetry Event Hubs are provisioned out-of-band (separate infra repo or portal). There was nothing in this repo to apply disableLocalAuth/MSI/RBAC to.",
+    "improvisation": null,
+    "recurring_pattern": "S360 alerts a service whose Azure telemetry infrastructure (Event Hub namespaces) lives in a separate infra repo or is provisioned manually, so the repo mapped from the service has zero actionable IaC. The skill needs a first-class 'resource not defined in this repo' branch.",
+    "skill_gap": "Skill assumes the mapped repo contains the Event Hub IaC/client code. It should detect the 'no Event Hub footprint here' case early and help locate the owning IaC (search by namespace naming pattern across the org, or query Azure for the resource's deployment/managed-by metadata) instead of having nothing to change.",
+    "tsg_gap": null,
+    "environment_blockers": "Automated SAS-traffic validation (az monitor metrics list) was blocked: no Microsoft.Insights/metrics/read on the dev subscription, and the prod namespace lives in a different tenant requiring a separate az login. Traffic validation therefore falls back to the manual Geneva dashboard path."
+  },
+  "outcome": {
+    "changes_proposed": "Provided ready-to-use Bicep snippets for system-assigned MSI + least-privilege Event Hubs Data Sender RBAC + disableLocalAuth: true, to be applied in the infrastructure repo that actually provisions the two namespaces. No change proposed in the current repo because it has no Event Hub code.",
+    "changes_applied": false,
+    "developer_accepted": false,
+    "developer_modified": false,
+    "escalation_needed": false,
+    "escape_hatch_used": "resource_not_in_repo",
+    "turns_taken": 3,
+    "pr_url": null,
+    "pr_created": false,
+    "full_journey": "Orchestrator mapped the repo to its Service Tree service via S360 and listed active SFI action items; developer chose to remediate ID 4.3.2 (Event Hub Safe Secrets Standard). Routed to the dedicated Event Hub MSI migration skill (fast path). Extracted both flagged namespace resource IDs (one dev in corp tenant, one prod in an external tenant) from the S360 action items. Scanned the full repo for Event Hub IaC and SDK usage and found none — the repo is a TypeScript Action/extension; the telemetry Event Hubs are provisioned out-of-band. Attempted the read-only SAS-traffic check on both namespaces but was blocked (no metrics-read on dev sub; prod in a foreign tenant). Reported the finding honestly, provided remediation snippets for the real infra repo and the Geneva validation path, made no code changes and created no PR, and removed the temporary commit-trailer hook leaving the tree clean."
+  }
+}
