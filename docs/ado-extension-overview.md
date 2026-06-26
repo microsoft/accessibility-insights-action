@@ -16,13 +16,13 @@ While automated checks can detect some common accessibility problems such as mis
 
 ## Features
 
--   Scan all the pages in your website using the crawler, or define a list of URLs to scan
+- Scan all the pages in your website using the crawler, or define a list of URLs to scan
 
--   Get a combined and deduplicated report of all issues found in the scan
+- Get a combined and deduplicated report of all issues found in the scan
 
--   Get a summary of results both in the task log and the Extensions tab of the Azure Pipelines UI
+- Get a summary of results both in the task log and the Extensions tab of the Azure Pipelines UI
 
--   (Optional) Block pull requests if there are accessibility issues found
+- (Optional) Block pull requests if there are accessibility issues found
 
 ## Documentation
 
