@@ -67,7 +67,7 @@ __metadata:
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
     express: ^5.1.0
-    filenamify-url: ^3.1.0
+    filenamify-url: ^4.0.0
     fork-ts-checker-webpack-plugin: ^9.1.0
     get-port: ^7.2.0
     inversify: 6.0.1
@@ -12163,6 +12163,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"filename-reserved-regex@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "filename-reserved-regex@npm:4.0.0"
+  checksum: 451b01f5ee857ac30d62918d0395be18060b51f1945b5285f258f9332e32d88a8dec6a994639748cb5a1390f4b21a75fc5331c68e2387a00dc6d27893fb985f2
+  languageName: node
+  linkType: hard
+
 "filenamify-url@npm:^2.1.2":
   version: 2.1.2
   resolution: "filenamify-url@npm:2.1.2"
@@ -12173,13 +12180,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"filenamify-url@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "filenamify-url@npm:3.1.0"
+"filenamify-url@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "filenamify-url@npm:4.0.0"
   dependencies:
-    filenamify: ^5.0.1
+    filenamify: ^7.0.0
     humanize-url: ^3.0.0
-  checksum: 1b6fb9a82ced85807e0f9db47726aa2f3d9b5ed0e1b1487a6fa6b6ed7de4401342ac00d324369b4c2e4d5d9db7763bb2d472d1f76c6927c3385bd85545fa8e78
+  checksum: 46449acda5d35aa98213b8b5f206c0af5e541b04fce42a3348a5ca023ef96942feaacdee10803bc90c15615acde2810893ebd4a803362da6a5e4b6e7cd4ead3a
   languageName: node
   linkType: hard
 
@@ -12194,14 +12201,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"filenamify@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "filenamify@npm:5.0.1"
+"filenamify@npm:^7.0.0":
+  version: 7.0.2
+  resolution: "filenamify@npm:7.0.2"
   dependencies:
-    filename-reserved-regex: ^2.0.0
-    strip-outer: ^1.0.1
-    trim-repeated: ^1.0.0
-  checksum: 1f9363307d4270b816bc0556f889314420c6083edfedfae5c8ffc50af04430b588a977f3ce93864ca4fda2ecd026e3b4b4135ae7665c93e8c0cf01cb97e320ca
+    filename-reserved-regex: ^4.0.0
+  checksum: 33b5930182a03f8c74a8422ea7367bc026ed6f340a110fe8cb2edade45da39025921906f1ee8a3a0ba487687728414923da242c2ba3e9c916c0bdc9390951bb1
   languageName: node
   linkType: hard
 
