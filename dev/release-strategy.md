@@ -7,10 +7,10 @@ Licensed under the MIT License.
 
 ### Repo
 
--   We will store the both the sources and the releases in the `accessibility-insights-action` repo (unchanged from today). If we later decide to change this, we will move the source code to a new repo and keep the consumption experience unchanged.
--   All code contributions will merge into the main branch
--   All releases will be workflow-controlled and will be external to the main branch
--   The existing ./dist folder of the repo will first be removed, then added to `./.gitignore`. It will exist only for local building and testing
+- We will store the both the sources and the releases in the `accessibility-insights-action` repo (unchanged from today). If we later decide to change this, we will move the source code to a new repo and keep the consumption experience unchanged.
+- All code contributions will merge into the main branch
+- All releases will be workflow-controlled and will be external to the main branch
+- The existing ./dist folder of the repo will first be removed, then added to `./.gitignore`. It will exist only for local building and testing
 
 ### Tags
 
@@ -30,17 +30,17 @@ We will have one build pipeline and one release pipeline. Here are the responsib
 
 This will be implemented as an ADO pipeline that will trigger on each commit to the `main` branch. Once triggered, the **build pipeline** will do the following:
 
--   Clone the repo (`main` branch) at the specified SHA
--   Build the ADO extension
--   Perform any required signing
--   Perform any possible self-validation
--   Publish the ADO extension as the _ADO artifact_
+- Clone the repo (`main` branch) at the specified SHA
+- Build the ADO extension
+- Perform any required signing
+- Perform any possible self-validation
+- Publish the ADO extension as the _ADO artifact_
 
 #### ADO extension release workflow
 
 This will be implemented as an ADO pipeline that is manually triggered. Once triggered, the **ADO extension release workflow** will do the following:
 
--   Download the _ADO artifact_ from the **build pipeline**
--   Publish the _ADO artifact_ to the marketplace
--   Create a `vX.Y.Z-sources-ado` tag that corresponds to the specified source commit
--   Push the new tag
+- Download the _ADO artifact_ from the **build pipeline**
+- Publish the _ADO artifact_ to the marketplace
+- Create a `vX.Y.Z-sources-ado` tag that corresponds to the specified source commit
+- Push the new tag

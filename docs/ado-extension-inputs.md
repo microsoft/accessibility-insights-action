@@ -16,52 +16,52 @@ To rebuild this file, run "yarn docs" or "yarn precheckin"
 
 ## Required inputs
 
--   `url` (string) **Required**. The URL to scan and crawl for accessibility issues.
+- `url` (string) **Required**. The URL to scan and crawl for accessibility issues.
 
 or
 
--   `staticSiteDir` (string) **Required**. The directory containing built HTML files that the extension will serve, scan, and crawl for accessibility issues.
+- `staticSiteDir` (string) **Required**. The directory containing built HTML files that the extension will serve, scan, and crawl for accessibility issues.
 
 ## Optional inputs
 
--   `staticSiteUrlRelativePath` (string). Default: `/`. If using `staticSiteDir`, you can set the base URL when the site lives at a subpath of the domain, such as `/blog`. If unspecified, the site will be scanned at the root.
+- `staticSiteUrlRelativePath` (string). Default: `/`. If using `staticSiteDir`, you can set the base URL when the site lives at a subpath of the domain, such as `/blog`. If unspecified, the site will be scanned at the root.
 
--   `staticSitePort` (int). If using `staticSiteDir`, you can set the local website TCP port for the extension to use when serving the static site. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using `baselineFile`, set the port to make sure future scans will match the baseline file.
+- `staticSitePort` (int). If using `staticSiteDir`, you can set the local website TCP port for the extension to use when serving the static site. If unspecified, a port will be set automatically. If the pipeline serves additional processes, set the port to avoid conflicts. If using `baselineFile`, set the port to make sure future scans will match the baseline file.
 
--   `keepUrlFragment` (boolean). Default: `false`. To keep the hash fragment in the URLs. If set to false, it will remove the hash fragment from URL for example, http://www.example.com/#foo will be considered as http://www.example.com.
+- `keepUrlFragment` (boolean). Default: `false`. To keep the hash fragment in the URLs. If set to false, it will remove the hash fragment from URL for example, http://www.example.com/#foo will be considered as http://www.example.com.
 
--   `authType` (Choose one: `AAD` - Azure Active Directory). For sites with authenticated pages, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to set up authentication](https://aka.ms/AI-action-auth).
+- `authType` (Choose one: `AAD` - Azure Active Directory). For sites with authenticated pages, use with `serviceAccountName` and `serviceAccountPassword` to specify the authentication type. Learn [how to set up authentication](https://aka.ms/AI-action-auth).
 
--   `serviceAccountName` (string). For sites with authenticated pages, set the email address for the non-people service account. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
+- `serviceAccountName` (string). For sites with authenticated pages, set the email address for the non-people service account. Use the Key Vault task to securely set the email address. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
 
--   `serviceAccountPassword` (string). For sites with authenticated pages, set the password for the non-people service account. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
+- `serviceAccountPassword` (string). For sites with authenticated pages, set the password for the non-people service account. Use the Key Vault task to securely set the password. Learn [how to set up authentication with Key Vault](https://aka.ms/AI-action-auth).
 
--   `maxUrls` (int). Default: `100`. Maximum number of pages opened by crawler. The crawl will stop when this limit is reached.
+- `maxUrls` (int). Default: `100`. Maximum number of pages opened by crawler. The crawl will stop when this limit is reached.
 
--   `discoveryPatterns` (string). List of RegEx patterns to crawl in addition to the provided URL, separated by space.
+- `discoveryPatterns` (string). List of RegEx patterns to crawl in addition to the provided URL, separated by space.
 
--   `inputFile` (string). File path that contains list of URLs (each separated by a new line) to scan in addition to URLs discovered from crawling the provided URL.
+- `inputFile` (string). File path that contains list of URLs (each separated by a new line) to scan in addition to URLs discovered from crawling the provided URL.
 
--   `inputUrls` (string). List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space.
+- `inputUrls` (string). List of URLs to crawl in addition to URLs discovered from crawling the provided URL, separated by space.
 
--   `scanTimeout` (int). Default: `90000`. The maximum timeout in milliseconds for the scan (excluding dependency setup).
+- `scanTimeout` (int). Default: `90000`. The maximum timeout in milliseconds for the scan (excluding dependency setup).
 
--   `failOnAccessibilityError` (boolean). Default: `true`. Fail the task if _any_ accessibility issues are detected, even if they are also present in the baseline file.
+- `failOnAccessibilityError` (boolean). Default: `true`. Fail the task if _any_ accessibility issues are detected, even if they are also present in the baseline file.
 
--   `baselineFile` (string). The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled. If a baseline is used, the task will fail if _any_ changes are detected between the baselined results and the current results. This behavior is independent of the value of `failOnAccessibilityError`
+- `baselineFile` (string). The old baseline file path, a new baseline will be generated with the same name. If unspecified, the baseline option will be disabled. If a baseline is used, the task will fail if _any_ changes are detected between the baselined results and the current results. This behavior is independent of the value of `failOnAccessibilityError`
 
--   `singleWorker` (boolean). Default: `true`. To get deterministic scanning results when this value is set to `false`, make sure the value for `maxUrls` is larger than the total number of URLs in the website being scanned.
+- `singleWorker` (boolean). Default: `true`. To get deterministic scanning results when this value is set to `false`, make sure the value for `maxUrls` is larger than the total number of URLs in the website being scanned.
 
--   `uploadOutputArtifact` (boolean). Default: `true`. Automatically upload the result as an artifact to the build. Set to `false` if you need to upload the artifact manually in a separate task or publish step.
+- `uploadOutputArtifact` (boolean). Default: `true`. Automatically upload the result as an artifact to the build. Set to `false` if you need to upload the artifact manually in a separate task or publish step.
 
--   `outputArtifactName` (string). Default: `accessibility-reports`. Name of the report artifact to be uploaded to the build. Ignored if `uploadOutputArtifact` is `false`.
+- `outputArtifactName` (string). Default: `accessibility-reports`. Name of the report artifact to be uploaded to the build. Ignored if `uploadOutputArtifact` is `false`.
 
--   `outputDir` (string). Directory to write the scan output to. Its contents will be uploaded as a pipeline artifact unless `uploadOutputArtifact` is set to `false`. If unspecified, output will be written to a generated temporary directory.
+- `outputDir` (string). Directory to write the scan output to. Its contents will be uploaded as a pipeline artifact unless `uploadOutputArtifact` is set to `false`. If unspecified, output will be written to a generated temporary directory.
 
--   `snapshot` (boolean). Save snapshots of scanned pages as artifacts. These snapshots will show you exactly what the scanner sees when scanning the page. This requires `uploadOutputArtifact` to not be set to `false`.
+- `snapshot` (boolean). Save snapshots of scanned pages as artifacts. These snapshots will show you exactly what the scanner sees when scanning the page. This requires `uploadOutputArtifact` to not be set to `false`.
 
--   `chromePath` (string). Path to Chrome executable. By default, the task downloads a version of Chrome that is tested to work with this task.
+- `chromePath` (string). Path to Chrome executable. By default, the task downloads a version of Chrome that is tested to work with this task.
 
--   `npmRegistryUrl` (string). Default: `https://registry.yarnpkg.com`. NPM registry Url to install the runtime dependencies.
+- `npmRegistryUrl` (string). Default: `https://registry.yarnpkg.com`. NPM registry Url to install the runtime dependencies.
 
--   `npmRegistryCredential` (connectedService:externalnpmregistry). Credentials to use for external registries to install the runtime dependencies. For registries in this organization/collection, leave this blank; the build’s credentials are used automatically.
+- `npmRegistryCredential` (connectedService:externalnpmregistry). Credentials to use for external registries to install the runtime dependencies. For registries in this organization/collection, leave this blank; the build’s credentials are used automatically.
