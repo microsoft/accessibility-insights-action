@@ -38,7 +38,7 @@
     "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
     "packageManager": "yarn@3.4.1",
     "devDependencies": {
-        "@types/express": "^5.0.1",
+        "@types/express": "^5.0.6",
         "@types/jest": "^30.0.0",
         "@types/lodash": "^4.17.24",
         "@types/marked": "^5.0.2",
