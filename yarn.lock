@@ -41,7 +41,7 @@ __metadata:
     typemoq: ^2.1.0
     typescript: ^5.6.3
     webpack: ^5.107.2
-    webpack-cli: ^7.0.3
+    webpack-cli: ^7.1.0
   languageName: unknown
   linkType: soft
 
@@ -7309,7 +7309,7 @@ __metadata:
     typemoq: ^2.1.0
     typescript: ^5.6.3
     webpack: ^5.107.2
-    webpack-cli: ^7.0.3
+    webpack-cli: ^7.1.0
   languageName: unknown
   linkType: soft
 
@@ -11048,12 +11048,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"envinfo@npm:^7.14.0":
-  version: 7.14.0
-  resolution: "envinfo@npm:7.14.0"
+"envinfo@npm:^7.21.0":
+  version: 7.21.0
+  resolution: "envinfo@npm:7.21.0"
   bin:
     envinfo: dist/cli.js
-  checksum: 137c1dd9a4d5781c4a6cdc6b695454ba3c4ba1829f73927198aa4122f11b35b59d7b2cb7e1ceea1364925a30278897548511d22f860c14253a33797d0bebd551
+  checksum: c9526266810a328396c387c0580d6fc10f6ce8464074ae6eaef6798e2a05b5800b480b2eaf739cf523e3bfb407baba2ef23ff8edebb76c2b8fa7fbac995b3b9b
   languageName: node
   linkType: hard
 
@@ -23515,30 +23515,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-cli@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "webpack-cli@npm:7.0.3"
+"webpack-cli@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "webpack-cli@npm:7.1.0"
   dependencies:
     "@discoveryjs/json-ext": ^1.1.0
     commander: ^14.0.3
     cross-spawn: ^7.0.6
-    envinfo: ^7.14.0
-    import-local: ^3.0.2
+    envinfo: ^7.21.0
+    import-local: ^3.2.0
     interpret: ^3.1.1
     rechoir: ^0.8.0
     webpack-merge: ^6.0.1
   peerDependencies:
+    js-yaml: ^4.0.0 || ^5.0.0
+    json5: ^2.2.3
+    toml: ^3.0.0 || ^4.0.0
     webpack: ^5.101.0
     webpack-bundle-analyzer: ^4.0.0 || ^5.0.0
     webpack-dev-server: ^5.0.0
   peerDependenciesMeta:
+    js-yaml:
+      optional: true
+    json5:
+      optional: true
+    toml:
+      optional: true
     webpack-bundle-analyzer:
       optional: true
     webpack-dev-server:
       optional: true
   bin:
     webpack-cli: bin/cli.js
-  checksum: bf3f9ef77c305945a4033b7b08b52ac2fd3c0373aeb8e06abc158d4568e60ecc0f42ddf932fef42bbaf10835b1a34c61ef2a0920ab187822123b907d10b5bf5d
+  checksum: e93798c322f32d186d55c2568b7472ce7ee3461c56aca0ca8786cdc6da852af58ed4a530c30f0a1f1fd1ef50972f7e5a0241db1b12de1210fd0acebdaa7df6dd
   languageName: node
   linkType: hard
 
