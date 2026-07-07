@@ -20,8 +20,7 @@
         "test": "yarn packages run test",
         "test:e2e": "yarn packages run test:e2e",
         "docs": "yarn packages run docs",
-        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test docs",
-        "publish-code-coverage": "npx codecov"
+        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test docs"
     },
     "repository": {
         "type": "git",
@@ -49,7 +48,6 @@
         "@typescript-eslint/eslint-plugin": "^6.18.1",
         "@typescript-eslint/parser": "^6.18.1",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
-        "codecov": "^3.8.3",
         "eslint": "^8.57.0",
         "eslint-plugin-security": "^1.7.1",
         "fork-ts-checker-webpack-plugin": "^9.1.0",
