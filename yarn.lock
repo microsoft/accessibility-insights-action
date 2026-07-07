@@ -20,7 +20,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     applicationinsights: 3.15.1
-    azure-pipelines-task-lib: ^5.2.10
+    azure-pipelines-task-lib: ^5.277.0
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
@@ -8089,9 +8089,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-pipelines-task-lib@npm:^5.2.10":
-  version: 5.2.10
-  resolution: "azure-pipelines-task-lib@npm:5.2.10"
+"azure-pipelines-task-lib@npm:^5.277.0":
+  version: 5.277.0
+  resolution: "azure-pipelines-task-lib@npm:5.277.0"
   dependencies:
     adm-zip: ^0.5.10
     minimatch: ^3.1.5
@@ -8099,8 +8099,7 @@ __metadata:
     q: ^1.5.1
     semver: ^5.7.2
     shelljs: ^0.10.0
-    uuid: ^3.0.1
-  checksum: 3f92dfaeae8ed89ba9482a253d1b6818a9ab12bbfc0b5bc0e45ac8f550b5c246fc66a60da7982e3fa1f28a8edf471d22c37b6d8ca6f8f64e0d0e6b8b11d66721
+  checksum: 89eea5a2fbe723f9f1c7df717409cc1ebdb62f2c49875b8624c4dfdf147ea99d29482f758a1f6d8d64f3b28800b600abd65bb021abcb8424e896243f3e2fac01
   languageName: node
   linkType: hard
 
@@ -23182,15 +23181,6 @@ __metadata:
   bin:
     uuid: dist-node/bin/uuid
   checksum: 08608584a79e987cdae000fa8eb724fa51dd8aafc136cd9fa9a8c87d07b246c56eec5fd9027fdb3e49a863eedf758bc19e325909ce281955c7a027fed67dc89e
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^3.0.1":
-  version: 3.4.0
-  resolution: "uuid@npm:3.4.0"
-  bin:
-    uuid: ./bin/uuid
-  checksum: 58de2feed61c59060b40f8203c0e4ed7fd6f99d42534a499f1741218a1dd0c129f4aa1de797bcf822c8ea5da7e4137aa3673431a96dae729047f7aca7b27866f
   languageName: node
   linkType: hard
 
