@@ -32,7 +32,7 @@ __metadata:
     js-yaml: ^4.2.0
     mockdate: ^3.0.5
     npm-run-all: ^4.1.5
-    prettier: ^3.8.4
+    prettier: ^3.9.4
     reflect-metadata: ^0.2.2
     rimraf: ^6.1.3
     tfx-cli: ^0.23.3
@@ -61,7 +61,7 @@ __metadata:
     "@types/serve-static": ^2.2.0
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
-    accessibility-insights-report: 7.6.0
+    accessibility-insights-report: 7.7.0
     accessibility-insights-scan: ^3.4.0
     axe-core: ^4.10.2
     eslint: ^8.57.0
@@ -82,7 +82,7 @@ __metadata:
     normalize-path: ^3.0.0
     npm-run-all: ^4.1.5
     pony-cause: ^2.1.11
-    prettier: ^3.8.4
+    prettier: ^3.9.4
     reflect-metadata: ^0.2.2
     rimraf: ^6.1.3
     serialize-error: ^13.0.1
@@ -7238,7 +7238,7 @@ __metadata:
     license-check-and-add: ^4.0.5
     mockdate: ^3.0.5
     npm-run-all: ^4.1.5
-    prettier: ^3.8.4
+    prettier: ^3.9.4
     rimraf: ^6.1.3
     simple-git: ^3.36.0
     ts-jest: ^29.4.11
@@ -7264,6 +7264,23 @@ __metadata:
     react-helmet-async: ^2.0.5
     uuid: ^14.0.0
   checksum: fbfa1d756625ea639094dfd42401b6ab9bf1ba8034588cbacb6206632bf601f1b9c46e5d67c7d35c5743facf65c7350083be844a05f3761038a4d5276cdaf646
+  languageName: node
+  linkType: hard
+
+"accessibility-insights-report@npm:7.7.0":
+  version: 7.7.0
+  resolution: "accessibility-insights-report@npm:7.7.0"
+  dependencies:
+    "@fluentui/react": ^8.118.1
+    axe-core: 4.11.3
+    classnames: ^2.5.1
+    lodash: ^4.18.0
+    luxon: ^3.5.0
+    react: ^18.3.1
+    react-dom: ^18.3.1
+    react-helmet-async: ^2.0.5
+    uuid: ^14.0.0
+  checksum: 4dd9905f068f33c2b059af14bf5fc0d1d7c5cfc86dbad9c5fec5cfa7ad7a6c1cccc533cc9f854cb24faf9786f74766f3edef4f2799cb325ebfd45c6cad23abb8
   languageName: node
   linkType: hard
 
@@ -19068,12 +19085,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.8.4":
-  version: 3.8.4
-  resolution: "prettier@npm:3.8.4"
+"prettier@npm:^3.9.4":
+  version: 3.9.4
+  resolution: "prettier@npm:3.9.4"
   bin:
     prettier: bin/prettier.cjs
-  checksum: ef9e00109d9eac7b4a34b2772fffd6a98d9bfeadb8496014a8bd228530052829690d2d74e9d73e135397fecdca5858a65f6acbdced3dcba2990322b44385aabf
+  checksum: 96b0125a8af78e1e3c2c3f916a768934a542d5fa64bf1819cbef5c9cb081b793ebe99eb202f98e230741595be9d14d73819380bd91988a7df422d704a97bb38c
   languageName: node
   linkType: hard
 

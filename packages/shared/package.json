@@ -29,7 +29,7 @@
     "dependencies": {
         "@types/react": "^19.2.15",
         "@types/react-dom": "^19.2.3",
-        "accessibility-insights-report": "7.6.0",
+        "accessibility-insights-report": "7.7.0",
         "accessibility-insights-scan": "^3.4.0",
         "axe-core": "^4.10.2",
         "express": "^5.2.1",
@@ -65,7 +65,7 @@
         "jest-junit": "^17.0.0",
         "mockdate": "^3.0.5",
         "npm-run-all": "^4.1.5",
-        "prettier": "^3.8.4",
+        "prettier": "^3.9.4",
         "rimraf": "^6.1.3",
         "ts-jest": "^29.4.11",
         "ts-loader": "^9.6.0",
