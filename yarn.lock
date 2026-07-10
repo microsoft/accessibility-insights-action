@@ -41,7 +41,7 @@ __metadata:
     typemoq: ^2.1.0
     typescript: ^5.6.3
     webpack: ^5.107.2
-    webpack-cli: ^7.1.0
+    webpack-cli: ^7.2.1
   languageName: unknown
   linkType: soft
 
@@ -7311,7 +7311,7 @@ __metadata:
     typemoq: ^2.1.0
     typescript: ^5.6.3
     webpack: ^5.107.2
-    webpack-cli: ^7.1.0
+    webpack-cli: ^7.2.1
   languageName: unknown
   linkType: soft
 
@@ -23529,9 +23529,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-cli@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "webpack-cli@npm:7.1.0"
+"webpack-cli@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "webpack-cli@npm:7.2.1"
   dependencies:
     "@discoveryjs/json-ext": ^1.1.0
     commander: ^14.0.3
@@ -23547,7 +23547,7 @@ __metadata:
     toml: ^3.0.0 || ^4.0.0
     webpack: ^5.101.0
     webpack-bundle-analyzer: ^4.0.0 || ^5.0.0
-    webpack-dev-server: ^5.0.0
+    webpack-dev-server: ^5.0.0 || ^6.0.0
   peerDependenciesMeta:
     js-yaml:
       optional: true
@@ -23561,7 +23561,7 @@ __metadata:
       optional: true
   bin:
     webpack-cli: bin/cli.js
-  checksum: e93798c322f32d186d55c2568b7472ce7ee3461c56aca0ca8786cdc6da852af58ed4a530c30f0a1f1fd1ef50972f7e5a0241db1b12de1210fd0acebdaa7df6dd
+  checksum: 2649aec59f7f46b46d72f33801821ec18c3359daf79ce10c9041806e8af5a6f953ec785ba054c42779fd71566301d25a5092e2f559556a629efab59ddca868c2
   languageName: node
   linkType: hard
 
