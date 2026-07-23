@@ -4715,14 +4715,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/propagator-jaeger@npm:2.8.0":
-  version: 2.8.0
-  resolution: "@opentelemetry/propagator-jaeger@npm:2.8.0"
+"@opentelemetry/propagator-jaeger@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "@opentelemetry/propagator-jaeger@npm:2.9.0::__archiveUrl=https%3A%2F%2Fms-feed-25.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2F%40opentelemetry%2Fpropagator-jaeger%2F-%2Fpropagator-jaeger-2.9.0.tgz"
   dependencies:
-    "@opentelemetry/core": 2.8.0
+    "@opentelemetry/core": 2.9.0
   peerDependencies:
     "@opentelemetry/api": ">=1.0.0 <1.10.0"
-  checksum: e61a64f94c5a19f0d7d3f3c90e0fbacd7697471636678a1e846756adae0c076a92ae74c9aabaa3444bec25608885c9b1ef760050c143608d8c505a9bf375bbf4
+  checksum: f3cd60cf812bc68b17755f919e75e053c8411e444f3cff1e58b89b0105a970607fe1bdda60c0f31e5e0663241d3ca557ad3c61829cf1b8a6db18d634c36da80b
   languageName: node
   linkType: hard
 
