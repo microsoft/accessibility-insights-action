@@ -32,7 +32,7 @@ __metadata:
     js-yaml: ^5.2.1
     mockdate: ^3.0.5
     npm-run-all: ^4.1.5
-    prettier: ^3.9.4
+    prettier: ^3.9.5
     reflect-metadata: ^0.2.2
     rimraf: ^6.1.3
     tfx-cli: ^0.23.3
@@ -82,7 +82,7 @@ __metadata:
     normalize-path: ^3.0.0
     npm-run-all: ^4.1.5
     pony-cause: ^2.1.11
-    prettier: ^3.9.4
+    prettier: ^3.9.5
     reflect-metadata: ^0.2.2
     rimraf: ^6.1.3
     serialize-error: ^13.0.1
@@ -7214,7 +7214,7 @@ __metadata:
     license-check-and-add: ^4.0.5
     mockdate: ^3.0.5
     npm-run-all: ^4.1.5
-    prettier: ^3.9.4
+    prettier: ^3.9.5
     rimraf: ^6.1.3
     simple-git: ^3.36.0
     ts-jest: ^29.4.11
@@ -19021,12 +19021,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.9.4":
-  version: 3.9.4
-  resolution: "prettier@npm:3.9.4"
+"prettier@npm:^3.9.5":
+  version: 3.9.5
+  resolution: "prettier@npm:3.9.5"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 96b0125a8af78e1e3c2c3f916a768934a542d5fa64bf1819cbef5c9cb081b793ebe99eb202f98e230741595be9d14d73819380bd91988a7df422d704a97bb38c
+  checksum: a47508022818548392d02d8d7074c0af4440e1bcb288f912a29bcf82a863925b67a34e5ded63b0c09ede234811d1dc48f49d201633dd740d5e8ee1dd304d16e3
   languageName: node
   linkType: hard
 
