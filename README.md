@@ -5,8 +5,6 @@ Licensed under the MIT License.
 
 # ![Product Logo](./icons/brand-blue-48px.png) Accessibility Insights Azure DevOps (ADO) extension
 
-[![codecov](https://codecov.io/gh/microsoft/accessibility-insights-action/branch/main/graph/badge.svg)](https://codecov.io/gh/microsoft/accessibility-insights-action)
-
 ## About
 
 The Accessibility Insights Azure DevOps (ADO) extension helps integrate automated accessibility tests in your Azure pipeline. You can configure the ADO extension to scan a single page or crawl an entire site. This can work for static HTML files in your repository, a local web server, or remote URLs. It is currently only available for Microsoft internal teams.
