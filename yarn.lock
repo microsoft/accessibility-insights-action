@@ -20,7 +20,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     applicationinsights: 3.15.1
-    azure-pipelines-task-lib: ^5.277.0
+    azure-pipelines-task-lib: ^5.278.0
     case-sensitive-paths-webpack-plugin: ^2.4.0
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
@@ -7431,10 +7431,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"adm-zip@npm:^0.5.10, adm-zip@npm:^0.5.9":
+"adm-zip@npm:^0.5.9":
   version: 0.5.10
   resolution: "adm-zip@npm:0.5.10"
   checksum: 07ed91cf6423bf5dca4ee63977bc7635e91b8d21829c00829d48dce4c6932e1b19e6cfcbe44f1931c956e68795ae97183fc775913883fa48ce88a1ac11fb2034
+  languageName: node
+  linkType: hard
+
+"adm-zip@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "adm-zip@npm:0.6.0"
+  checksum: b564eb6dd877c1c93c52acef5f18f092a6286e3c6392c7d186ede6765e5c7d1b5006cb870284ec04a01aedc18c1e931cdc294f77ee33488d1e93b29a5c74a5ca
   languageName: node
   linkType: hard
 
@@ -8073,17 +8080,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-pipelines-task-lib@npm:^5.277.0":
-  version: 5.277.0
-  resolution: "azure-pipelines-task-lib@npm:5.277.0"
+"azure-pipelines-task-lib@npm:^5.278.0":
+  version: 5.278.0
+  resolution: "azure-pipelines-task-lib@npm:5.278.0"
   dependencies:
-    adm-zip: ^0.5.10
+    adm-zip: ^0.6.0
     minimatch: ^3.1.5
     nodejs-file-downloader: ^4.11.1
     q: ^1.5.1
     semver: ^5.7.2
     shelljs: ^0.10.0
-  checksum: 89eea5a2fbe723f9f1c7df717409cc1ebdb62f2c49875b8624c4dfdf147ea99d29482f758a1f6d8d64f3b28800b600abd65bb021abcb8424e896243f3e2fac01
+  checksum: c3e12a7d31cd000b5fa8785a34d7e0c7b0eac73471083f353cb811579253c5e1dc41451eac7984d945c96a43b826673cd8b78696d08c27035e9dd9fdde76f5c8
   languageName: node
   linkType: hard
 
@@ -11936,9 +11943,9 @@ __metadata:
   linkType: hard
 
 "fast-uri@npm:^3.0.1":
-  version: 3.1.2
-  resolution: "fast-uri@npm:3.1.2"
-  checksum: 73a6e1b04e6fcf7a09ed93316e72d643ef177d26969973784690708612141f2c2f74657120bab75bf5bbc26bfd535a32c90a8c3bc50aca50584cf01f98815afe
+  version: 3.1.4
+  resolution: "fast-uri@npm:3.1.4"
+  checksum: 6e1262dd5901f4f095eeb4c446111f5818320f05a8f11eaa46d9117eec3b5fd6114507a66338c564004eaa002b0eb865ca998b34780373fd205d53b5182c3bd2
   languageName: node
   linkType: hard
 
@@ -20853,9 +20860,9 @@ __metadata:
   linkType: hard
 
 "shell-quote@npm:^1.6.1, shell-quote@npm:^1.7.3, shell-quote@npm:^1.8.4":
-  version: 1.8.4
-  resolution: "shell-quote@npm:1.8.4"
-  checksum: 082dc836baa8ade01144ee3068af487ea45ba570ea6ab13a5eddc11ab16a976b8857b51ef2caf7dc9a1e173ff0aea685b8f78b4f6f5a0a1ef24c7b17c51350e2
+  version: 1.10.0
+  resolution: "shell-quote@npm:1.10.0"
+  checksum: d4bc0757ae0e493d0f6e3327c93be7d5af1d39e9969eb4332ed4e40bb2c3f9112ec31e979d713d302605f7e3431d9f5f061719e0e177077ffd9c03c0b9cc5f73
   languageName: node
   linkType: hard
 
@@ -23489,13 +23496,13 @@ __metadata:
   linkType: hard
 
 "websocket-driver@npm:>=0.5.1, websocket-driver@npm:^0.7.4":
-  version: 0.7.4
-  resolution: "websocket-driver@npm:0.7.4"
+  version: 0.7.5
+  resolution: "websocket-driver@npm:0.7.5"
   dependencies:
     http-parser-js: ">=0.5.1"
     safe-buffer: ">=5.1.0"
     websocket-extensions: ">=0.1.1"
-  checksum: fffe5a33fe8eceafd21d2a065661d09e38b93877eae1de6ab5d7d2734c6ed243973beae10ae48c6613cfd675f200e5a058d1e3531bc9e6c5d4f1396ff1f0bfb9
+  checksum: 2ad622f4627bde71ce0f25a9466ced1cfc4e789603530a67944824cbafffd518224c4cc131da0f0aafe46c1b36f968326e0199845dfa56f7d15e5774aa53119d
   languageName: node
   linkType: hard
 
