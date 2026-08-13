@@ -4,6 +4,7 @@
 .gitattributes
 .github
 .prettierignore
+.vs
 .yarn
 **/.DS_Store
 **/.funcignore
@@ -16,6 +17,7 @@
 **/*.ts.snap
 **/*.snap.md
 **/bin/
+**/build/
 **/obj/
 **/dist/
 **/yarn-*.log
