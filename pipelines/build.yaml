@@ -155,8 +155,20 @@ extends:
                               versionSpec: '20.x'
                           displayName: Use Node 20.x
 
+                        - task: AzureCLI@2
+                          displayName: Mint feed access token from managed identity
+                          inputs:
+                              azureSubscription: ${{ parameters.azureSubscription }}
+                              scriptType: pscore
+                              scriptLocation: 'inlineScript'
+                              inlineScript: |
+                                  $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
+                                  write-host "##vso[task.setvariable variable=feedAccessToken;issecret=true]$accessToken"
+
                         - script: yarn install --immutable
                           displayName: Install dependencies
+                          env:
+                              YARN_NPM_AUTH_TOKEN: $(feedAccessToken)
 
                         - script: yarn cbuild
                           displayName: Build
