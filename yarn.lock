@@ -7431,9 +7431,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"adm-zip@npm:^0.5.9":
+  version: 0.5.10
+  resolution: "adm-zip@npm:0.5.10"
+  checksum: 07ed91cf6423bf5dca4ee63977bc7635e91b8d21829c00829d48dce4c6932e1b19e6cfcbe44f1931c956e68795ae97183fc775913883fa48ce88a1ac11fb2034
+  languageName: node
+  linkType: hard
+
 "adm-zip@npm:^0.6.0":
   version: 0.6.0
-  resolution: "adm-zip@npm:0.6.0::__archiveUrl=https%3A%2F%2Fms-feed-12.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2Fadm-zip%2F-%2Fadm-zip-0.6.0.tgz"
+  resolution: "adm-zip@npm:0.6.0"
   checksum: b564eb6dd877c1c93c52acef5f18f092a6286e3c6392c7d186ede6765e5c7d1b5006cb870284ec04a01aedc18c1e931cdc294f77ee33488d1e93b29a5c74a5ca
   languageName: node
   linkType: hard
@@ -12153,13 +12160,13 @@ __metadata:
   linkType: hard
 
 "fingerprint-generator@npm:^2.1.68, fingerprint-generator@npm:^2.1.80":
-  version: 2.1.87
-  resolution: "fingerprint-generator@npm:2.1.87::__archiveUrl=https%3A%2F%2Fms-feed-25.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2Ffingerprint-generator%2F-%2Ffingerprint-generator-2.1.87.tgz"
+  version: 2.1.80
+  resolution: "fingerprint-generator@npm:2.1.80"
   dependencies:
-    generative-bayesian-network: 2.1.87
-    header-generator: 2.1.87
+    generative-bayesian-network: ^2.1.80
+    header-generator: ^2.1.80
     tslib: ^2.4.0
-  checksum: f12a7af0d187c8bb9cf31a09ed72218be43a6fcf5fd6d5f0319f5669db205523cf66782240491e19d91ea3f2a42225ecfcca39f90e06fa43a464a5dfb9c8cf2d
+  checksum: 535e591a6995f74854c2a9a3ad682494c2ed4b6e966850957f6141d2bf06572311125bc9d9434657815e5d9c77a0b7393408301b98183cf9fcf8f503c22b0ee6
   languageName: node
   linkType: hard
 
@@ -12526,13 +12533,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"generative-bayesian-network@npm:2.1.87":
-  version: 2.1.87
-  resolution: "generative-bayesian-network@npm:2.1.87::__archiveUrl=https%3A%2F%2Fms-feed-17.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2Fgenerative-bayesian-network%2F-%2Fgenerative-bayesian-network-2.1.87.tgz"
+"generative-bayesian-network@npm:^2.1.62":
+  version: 2.1.62
+  resolution: "generative-bayesian-network@npm:2.1.62"
   dependencies:
-    adm-zip: ^0.6.0
+    adm-zip: ^0.5.9
     tslib: ^2.4.0
-  checksum: 9c1c0ddc89d0527728e427b439adccbdf3dd457f690dbbe1db68620cb78527f9721d0b09b1f60f165d0cb4dfa4f661bb90692cc738d14a2e651ea0a7192aacbb
+  checksum: 9e251e1c6779e660ee34c8d41a10dbd4561b3b95afebe0da4540b6b28ecc9574c3adb4c2f9d02c67821a0da0019fe2b3e37e3c9d207e9cbcfb0732a2e5b7255f
+  languageName: node
+  linkType: hard
+
+"generative-bayesian-network@npm:^2.1.80":
+  version: 2.1.80
+  resolution: "generative-bayesian-network@npm:2.1.80"
+  dependencies:
+    adm-zip: ^0.5.9
+    tslib: ^2.4.0
+  checksum: 59f5850ab5685b4dfbb2c5317ae935fd1264933c1268fb70ed595fbbff38c57349467efe28905cbe858eb9dfbcd3b6c39830fc1b49c4f1902942613f53a3735f
   languageName: node
   linkType: hard
 
@@ -13152,15 +13169,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"header-generator@npm:2.1.87, header-generator@npm:^2.1.41":
-  version: 2.1.87
-  resolution: "header-generator@npm:2.1.87::__archiveUrl=https%3A%2F%2Fms-feed-12.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2Fheader-generator%2F-%2Fheader-generator-2.1.87.tgz"
+"header-generator@npm:^2.1.41":
+  version: 2.1.62
+  resolution: "header-generator@npm:2.1.62"
   dependencies:
     browserslist: ^4.21.1
-    generative-bayesian-network: 2.1.87
+    generative-bayesian-network: ^2.1.62
     ow: ^0.28.1
     tslib: ^2.4.0
-  checksum: 523280de9ca9fc9301426ce47ecb7f7ece310a7d528ca1fd0baf5f1d803ad48eab4886d4776821dcf0b08ad6da92fe927301da5103fcb4c848b31b2308f6eeb8
+  checksum: 33bffed8ea09a97693cc0f80a5ea6302b34be2a12ed22e0880e45d8f0682113746b1c5384712382daad7932e64160161a15b44229847b7772a4b24a99aa99f52
+  languageName: node
+  linkType: hard
+
+"header-generator@npm:^2.1.80":
+  version: 2.1.80
+  resolution: "header-generator@npm:2.1.80"
+  dependencies:
+    browserslist: ^4.21.1
+    generative-bayesian-network: ^2.1.80
+    ow: ^0.28.1
+    tslib: ^2.4.0
+  checksum: 990762e2ce1aa5bca2707c95fc6021bfb4993dfeaaf0f77bae953d16901a1169f3bf59970255faad9fd1386bc4fc35ce47fcfbab958baaffd3bc23d048eb2362
   languageName: node
   linkType: hard
 
