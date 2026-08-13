@@ -14,12 +14,28 @@ resources:
           name: 1ESPipelineTemplates/1ESPipelineTemplates
           ref: refs/tags/release
 
+parameters:
+    - name: feedServiceConnection
+      type: string
+      default: 'a11y-insights-public-feed'
+    - name: feedServiceConnectionId
+      type: string
+      default: 'fbd6df0e-39c9-4a5d-912b-3f0ca3166fad'
+    - name: azureSubscription
+      type: string
+      default: 'a11y-insights-corp-tenant-identity'
+
 extends:
     # Do not edit. This is the 1ES template that holds different SDL and compliance tasks that the template injects into the pipeline.
     # It uses the Official template because it's a production pipeline.
     template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
 
     parameters:
+        settings:
+            # SFI ES-4.2.4: block public package feeds. Appended to Permissive.
+            # Registry routing alone does not satisfy the control.
+            networkIsolationPolicy: Permissive,CFSClean
+
         # Accessibility Insights team's 1ES hosted pool.
         # This variable is saved in Azure DevOps from the "Edit" pipeline view.
         pool:
@@ -44,8 +60,24 @@ extends:
                               versionSpec: '20.x'
                           displayName: Use Node 20.x
 
+                        - task: AzureCLI@2
+                          displayName: Mint feed access token from managed identity
+                          inputs:
+                              azureSubscription: ${{ parameters.azureSubscription }}
+                              scriptType: pscore
+                              scriptLocation:
+                                  'inlineScript'
+                                  # 499b84ac-... is the Azure DevOps Services resource ID. The token
+                                  # authenticates the IDENTITY, not the org, which is what makes it
+                                  # work across org boundaries.
+                              inlineScript: |
+                                  $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
+                                  write-host "##vso[task.setvariable variable=feedAccessToken;issecret=true]$accessToken"
+
                         - script: yarn install --immutable
                           displayName: Install dependencies
+                          env:
+                              YARN_NPM_AUTH_TOKEN: $(feedAccessToken)
 
                         - script: yarn copyright:check
                           displayName: Check copyright headers
@@ -123,8 +155,20 @@ extends:
                               versionSpec: '20.x'
                           displayName: Use Node 20.x
 
+                        - task: AzureCLI@2
+                          displayName: Mint feed access token from managed identity
+                          inputs:
+                              azureSubscription: ${{ parameters.azureSubscription }}
+                              scriptType: pscore
+                              scriptLocation: 'inlineScript'
+                              inlineScript: |
+                                  $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
+                                  write-host "##vso[task.setvariable variable=feedAccessToken;issecret=true]$accessToken"
+
                         - script: yarn install --immutable
                           displayName: Install dependencies
+                          env:
+                              YARN_NPM_AUTH_TOKEN: $(feedAccessToken)
 
                         - script: yarn cbuild
                           displayName: Build
