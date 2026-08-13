@@ -59,34 +59,25 @@ extends:
                           inputs:
                               versionSpec: '20.x'
                           displayName: Use Node 20.x
-                        # Same-org pipelines: the build identity works, no service connection needed.
-                        - ${{ if eq(parameters.feedServiceConnection, '') }}:
-                              - task: npmAuthenticate@0
-                                inputs:
-                                    workingFile: '$(Build.SourcesDirectory)/.npmrc'
 
-                        # Cross-org pipelines: mint a token and inject it into the connection.
-                        - ${{ if ne(parameters.feedServiceConnection, '') }}:
-                              - task: AzureCLI@2
-                                displayName: Mint feed access token from managed identity
-                                inputs:
-                                    azureSubscription: ${{ parameters.azureSubscription }}
-                                    scriptType: pscore
-                                    scriptLocation: 'inlineScript'
-                                    # 499b84ac-... is the Azure DevOps Services resource ID. The token
-                                    # authenticates the IDENTITY, not the org, which is what makes it
-                                    # work across org boundaries.
-                                    inlineScript: |
-                                        $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
-                                        write-host "##vso[task.setsecret]$accessToken"
-                                        write-host "##vso[task.setendpoint id=${{ parameters.feedServiceConnectionId }};field=authParameter;key=apitoken]$accessToken"
+                        - task: AzureCLI@2
+                          displayName: Mint feed access token from managed identity
+                          inputs:
+                              azureSubscription: ${{ parameters.azureSubscription }}
+                              scriptType: pscore
+                              scriptLocation:
+                                  'inlineScript'
+                                  # 499b84ac-... is the Azure DevOps Services resource ID. The token
+                                  # authenticates the IDENTITY, not the org, which is what makes it
+                                  # work across org boundaries.
+                              inlineScript: |
+                                  $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
+                                  write-host "##vso[task.setvariable variable=feedAccessToken;issecret=true]$accessToken"
 
-                              - task: npmAuthenticate@0
-                                inputs:
-                                    workingFile: '$(Build.SourcesDirectory)/.npmrc'
-                                    customEndpoint: ${{ parameters.feedServiceConnection }}
                         - script: yarn install --immutable
                           displayName: Install dependencies
+                          env:
+                              YARN_NPM_AUTH_TOKEN: $(feedAccessToken)
 
                         - script: yarn copyright:check
                           displayName: Check copyright headers
