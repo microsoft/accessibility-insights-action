@@ -57,7 +57,7 @@ __metadata:
     "@types/normalize-path": ^3.0.2
     "@types/puppeteer-core": ^7.0.4
     "@types/react": ^19.2.15
-    "@types/react-dom": ^19.2.3
+    "@types/react-dom": ^19.2.4
     "@types/serve-static": ^2.2.0
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
@@ -99,7 +99,7 @@ __metadata:
   resolution: "@accessibility-insights-action/test-website-hashroute@workspace:packages/test-website-hashroute"
   dependencies:
     react: ^19.2.7
-    react-dom: ^19.2.7
+    react-dom: ^19.2.8
     react-router-dom: ^5.3.4
     react-scripts: 5.0.1
   languageName: unknown
@@ -6175,12 +6175,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^19.2.3":
-  version: 19.2.3
-  resolution: "@types/react-dom@npm:19.2.3"
+"@types/react-dom@npm:^19.2.4":
+  version: 19.2.4
+  resolution: "@types/react-dom@npm:19.2.4"
   peerDependencies:
     "@types/react": ^19.2.0
-  checksum: b9c548f7378979cd8384444ae6c96f7a933b98e341c271c33e74231f27bf3082f04ad7c2927f1b1e6d8af35ccf83e549fce4978ebe0a02ded5a8803aa5f80e06
+  checksum: 1a8fdeb22428cfba51c837d635a77ae351f126a7e24dd759a8556c1be7872e8844213bd95495b6e24f5a68a59a0cde1ddf947f27d88a99dd613947354fae6222
   languageName: node
   linkType: hard
 
@@ -19514,14 +19514,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^19.2.7":
-  version: 19.2.7
-  resolution: "react-dom@npm:19.2.7"
+"react-dom@npm:^19.2.8":
+  version: 19.2.8
+  resolution: "react-dom@npm:19.2.8"
   dependencies:
     scheduler: ^0.27.0
   peerDependencies:
-    react: ^19.2.7
-  checksum: 9543b532a070c91751dd9aae77f5ee21d2aeada28e061080162433a5418f8ba98eadb869c76d82eff9f0475e5ff2b9e1cf31916ab6509f8ebc856be77361eb1c
+    react: ^19.2.8
+  checksum: cef5d9493f911f20da5648bbd44a27e7e2e96868be4ed0a6a650499b19d74156d35e8c2eee9c075a2cbce59ef3da483cb55113f2941c1bc17fd005ffa92d7084
   languageName: node
   linkType: hard
 
