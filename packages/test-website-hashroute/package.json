@@ -4,7 +4,7 @@
     "private": true,
     "dependencies": {
         "react": "^19.2.7",
-        "react-dom": "^19.2.7",
+        "react-dom": "^19.2.8",
         "react-router-dom": "^5.3.4"
     },
     "devDependencies": {
