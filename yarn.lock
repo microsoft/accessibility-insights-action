@@ -62,7 +62,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.18.1
     "@typescript-eslint/parser": ^6.18.1
     accessibility-insights-report: 7.7.0
-    accessibility-insights-scan: ^3.4.0
+    accessibility-insights-scan: ^3.5.0
     axe-core: ^4.10.2
     eslint: ^8.57.0
     eslint-plugin-security: ^1.7.1
@@ -187,10 +187,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apify/timeout@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@apify/timeout@npm:0.3.0"
-  checksum: 21bae4745d9ef8f939dcaa6e6fa2e59a7634e222d28b92b31fa2dac4bb6da604c7758cf8add466bed5f0aee0555749a53f0f5522b92f7ee829fe0e1c1d3eda27
+"@apify/timeout@npm:^0.4.0":
+  version: 0.4.14
+  resolution: "@apify/timeout@npm:0.4.14"
+  checksum: a4dcc8f47cadfbe9348aa92063d1e0d9e277ffbb0e8854d6cc2b6528ca42b6d2753522b37c5f5a9a22acc5eeeec10429d824765eb290cdcbf45689e759963d9b
   languageName: node
   linkType: hard
 
@@ -2596,16 +2596,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@crawlee/basic@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@crawlee/basic@npm:3.17.0"
+"@crawlee/basic@npm:3.18.2":
+  version: 3.18.2
+  resolution: "@crawlee/basic@npm:3.18.2"
   dependencies:
+    "@apify/datastructures": ^2.0.0
     "@apify/log": ^2.4.0
-    "@apify/timeout": ^0.3.0
+    "@apify/timeout": ^0.4.0
     "@apify/utilities": ^2.7.10
-    "@crawlee/core": 3.17.0
-    "@crawlee/types": 3.17.0
-    "@crawlee/utils": 3.17.0
+    "@crawlee/core": 3.18.2
+    "@crawlee/types": 3.18.2
+    "@crawlee/utils": 3.18.2
     csv-stringify: ^6.2.0
     fs-extra: ^11.0.0
     got-scraping: ^4.2.1
@@ -2613,18 +2614,18 @@ __metadata:
     tldts: ^7.0.0
     tslib: ^2.4.0
     type-fest: ^4.0.0
-  checksum: 9dce88c746a404db9bcf5abbde38744f818568a9ddb1b4fff5fd46cf210d96c747dff3ac5625a482c4c24e86ff9820f7946971a207d01ea2f6d82b69c051dc12
+  checksum: 05ce369f63eb8dc95d43ff45c9cc34560e1cc1be0048fe2f7fdafb3afe2688f4fcbde4ff357c091c9f3d1e893f13c608edf22bd8f876c2c6f3ef60f77fe0071f
   languageName: node
   linkType: hard
 
-"@crawlee/browser-pool@npm:3.17.0, @crawlee/browser-pool@npm:^3.16.0":
-  version: 3.17.0
-  resolution: "@crawlee/browser-pool@npm:3.17.0"
+"@crawlee/browser-pool@npm:3.18.2, @crawlee/browser-pool@npm:^3.17.0":
+  version: 3.18.2
+  resolution: "@crawlee/browser-pool@npm:3.18.2"
   dependencies:
     "@apify/log": ^2.4.0
-    "@apify/timeout": ^0.3.0
-    "@crawlee/core": 3.17.0
-    "@crawlee/types": 3.17.0
+    "@apify/timeout": ^0.4.0
+    "@crawlee/core": 3.18.2
+    "@crawlee/types": 3.18.2
     fingerprint-generator: ^2.1.68
     fingerprint-injector: ^2.1.68
     lodash.merge: ^4.6.2
@@ -2643,19 +2644,19 @@ __metadata:
       optional: true
     puppeteer:
       optional: true
-  checksum: 1607222e8b54486a78efeaeedc775f45cff6fdf5ed5bc55dd59be649d77f178d16619fbcb5d5b69a72a86b337b73512f7b41981837e8f1a1eeed0d60c123566c
+  checksum: 21e0b5a8d7cc72eb3a0264feef9321aa7e699e112533af8a5534d53918feee9dc16ead8e7a9b020f8e814b5b62a6fdf222a167db8f79eccc00f94be30b410a93
   languageName: node
   linkType: hard
 
-"@crawlee/browser@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@crawlee/browser@npm:3.17.0"
+"@crawlee/browser@npm:3.18.2":
+  version: 3.18.2
+  resolution: "@crawlee/browser@npm:3.18.2"
   dependencies:
-    "@apify/timeout": ^0.3.0
-    "@crawlee/basic": 3.17.0
-    "@crawlee/browser-pool": 3.17.0
-    "@crawlee/types": 3.17.0
-    "@crawlee/utils": 3.17.0
+    "@apify/timeout": ^0.4.0
+    "@crawlee/basic": 3.18.2
+    "@crawlee/browser-pool": 3.18.2
+    "@crawlee/types": 3.18.2
+    "@crawlee/utils": 3.18.2
     ow: ^0.28.1
     tslib: ^2.4.0
     type-fest: ^4.0.0
@@ -2667,24 +2668,25 @@ __metadata:
       optional: true
     puppeteer:
       optional: true
-  checksum: 2ade79a0e93385f6af01dd749c719e17909a603f2417eed140a84a4550a5c62aed7b8316dce954eaf9009b71f5d438542dfc16fc4793d94314db1ffcbcc85b31
+  checksum: d0847d68b9279251f3544eb7a35146e682d28ebf0f8fd4466aae9d6bf66661ed6bb57b6a335513830c20f527d916e6db90042ea30511edf1c2a53ba03544002a
   languageName: node
   linkType: hard
 
-"@crawlee/core@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@crawlee/core@npm:3.17.0"
+"@crawlee/core@npm:3.18.2":
+  version: 3.18.2
+  resolution: "@crawlee/core@npm:3.18.2"
   dependencies:
     "@apify/consts": ^2.20.0
     "@apify/datastructures": ^2.0.0
     "@apify/log": ^2.4.0
     "@apify/pseudo_url": ^2.0.30
-    "@apify/timeout": ^0.3.0
+    "@apify/timeout": ^0.4.0
     "@apify/utilities": ^2.7.10
-    "@crawlee/memory-storage": 3.17.0
-    "@crawlee/types": 3.17.0
-    "@crawlee/utils": 3.17.0
+    "@crawlee/memory-storage": 3.18.2
+    "@crawlee/types": 3.18.2
+    "@crawlee/utils": 3.18.2
     "@sapphire/async-queue": ^1.5.1
+    "@standard-schema/spec": ^1.0.0
     "@vladfrangu/async_event_emitter": ^2.2.2
     csv-stringify: ^6.2.0
     fs-extra: ^11.0.0
@@ -2692,21 +2694,21 @@ __metadata:
     json5: ^2.2.3
     minimatch: ^9.0.0
     ow: ^0.28.1
-    stream-json: ^1.8.0
+    stream-json: ~3.7.0
     tldts: ^7.0.0
     tough-cookie: ^6.0.0
     tslib: ^2.4.0
     type-fest: ^4.0.0
-  checksum: 1e4b7fdd1d40c5453886397ddd977e13d97da44666ccdd7ff121b382b540d8655340d253dd8a206863a0f0655e7f1a974e471d9e7e542c71b9955e2b9b4077f6
+  checksum: 1a4fcd5723a55dc431733bb4b19460035a24c9cc693f63824e94829f99a3bb46f2496218867ad73e8258ef95596c15a004f4300d313ba8016ed8dc2abe62d4dc
   languageName: node
   linkType: hard
 
-"@crawlee/memory-storage@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@crawlee/memory-storage@npm:3.17.0"
+"@crawlee/memory-storage@npm:3.18.2":
+  version: 3.18.2
+  resolution: "@crawlee/memory-storage@npm:3.18.2"
   dependencies:
     "@apify/log": ^2.4.0
-    "@crawlee/types": 3.17.0
+    "@crawlee/types": 3.18.2
     "@sapphire/async-queue": ^1.5.0
     "@sapphire/shapeshift": ^3.0.0
     content-type: ^1.0.4
@@ -2716,20 +2718,20 @@ __metadata:
     p-limit: ^3.1.0
     proper-lockfile: ^4.1.2
     tslib: ^2.4.0
-  checksum: 3acf86b88e66a68d544f92d0e43da39ac91e02abf69276639b3a372c1979c086ddc73b4eb7193260c64ce0f7b824bdcde50ba595b45d534f9c666eec327082f9
+  checksum: e265c09e1567b2857c6f46b93031fce02f064bf32b74a32dc6fb84415f5f54912031cbda71bbb72667d0844a416fa9ca3d96e69562aea2bcf7d0017d56b5b256
   languageName: node
   linkType: hard
 
-"@crawlee/puppeteer@npm:^3.16.0":
-  version: 3.17.0
-  resolution: "@crawlee/puppeteer@npm:3.17.0"
+"@crawlee/puppeteer@npm:^3.17.0":
+  version: 3.18.2
+  resolution: "@crawlee/puppeteer@npm:3.18.2"
   dependencies:
     "@apify/datastructures": ^2.0.0
     "@apify/log": ^2.4.0
-    "@crawlee/browser": 3.17.0
-    "@crawlee/browser-pool": 3.17.0
-    "@crawlee/types": 3.17.0
-    "@crawlee/utils": 3.17.0
+    "@crawlee/browser": 3.18.2
+    "@crawlee/browser-pool": 3.18.2
+    "@crawlee/types": 3.18.2
+    "@crawlee/utils": 3.18.2
     cheerio: 1.0.0-rc.12
     devtools-protocol: "*"
     idcac-playwright: ^0.2.0
@@ -2744,26 +2746,26 @@ __metadata:
       optional: true
     puppeteer:
       optional: true
-  checksum: a9a5ccea5541a3a4bd86b622b245ba633103e12c853d8312d215fb546d3c6d13f7aa22c85950e4cceddd2cec12b79c1b942f3320f6dd73397001ef7200c37c77
+  checksum: 177d8b011e3adc1b4618ec95cc26fc38b3dc650ec2969744181546ba987ab23c06801894ccc280ebe6c56f6248a38d56f35d134c2aca3d5e0edef1edf6ffe7a6
   languageName: node
   linkType: hard
 
-"@crawlee/types@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@crawlee/types@npm:3.17.0"
+"@crawlee/types@npm:3.18.2":
+  version: 3.18.2
+  resolution: "@crawlee/types@npm:3.18.2"
   dependencies:
     tslib: ^2.4.0
-  checksum: f48185e0670690c09fd9a8c14af20aa505b599085465971aede9c937767677ff2728ce7567017617843c602a2c8cb367de623c229e37ae4377a1881c14b8420c
+  checksum: 50b42681f0b2a595e110ab76fc87d6991fe88ff840e7cf3ff40b27c145ee9a0860d0167ba74b0da03203194b05f9bf542de7f2471cea0a08949fd67524c530d6
   languageName: node
   linkType: hard
 
-"@crawlee/utils@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@crawlee/utils@npm:3.17.0"
+"@crawlee/utils@npm:3.18.2":
+  version: 3.18.2
+  resolution: "@crawlee/utils@npm:3.18.2"
   dependencies:
     "@apify/log": ^2.4.0
     "@apify/ps-tree": ^1.2.0
-    "@crawlee/types": 3.17.0
+    "@crawlee/types": 3.18.2
     "@types/sax": ^1.2.7
     cheerio: 1.0.0-rc.12
     file-type: ^21.3.1
@@ -2771,9 +2773,10 @@ __metadata:
     ow: ^0.28.1
     robots-parser: ^3.0.1
     sax: ^1.4.1
+    tldts: ^7.0.0
     tslib: ^2.4.0
     whatwg-mimetype: ^4.0.0
-  checksum: 67464cf50f8953c708000a65107bc50f420b1df722d4b777eb11b071a93850f2762dff5b87e8a98251e65ab952f357c0a64d92ad3a6307a086648049d94b155d
+  checksum: ec6543269d7cbf75e447dca8753ff1840326efa6bfa11fb2258f0feb50dec7fa703a0d4d1e4a162460adeb4042a12fcc82e750cf31a1e4229402cb460fb31418
   languageName: node
   linkType: hard
 
@@ -3264,13 +3267,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:^1.14.3":
-  version: 1.14.4
-  resolution: "@grpc/grpc-js@npm:1.14.4"
+"@grpc/grpc-js@npm:^1.14.5":
+  version: 1.14.5
+  resolution: "@grpc/grpc-js@npm:1.14.5"
   dependencies:
     "@grpc/proto-loader": ^0.8.0
     "@js-sdsl/ordered-map": ^4.4.2
-  checksum: c4b4a4d81f566b483e08bac6ea31f55e63c3befb249d54bd071ece3d156b6b7af4aaaef6bbf8d0e8ee0cb6d86eac304766d5e1f684fde772f248b85f0f2d61f1
+  checksum: 3a32c59e2451420582365d9775038f353ce28761b242160930053e3f9944c1a2aa9c71ccece543d7179e18db6b690bdeb81bbb98e3b28cc8f8cfc367cefeb68e
   languageName: node
   linkType: hard
 
@@ -4205,6 +4208,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@opentelemetry/api-logs@npm:0.221.0":
+  version: 0.221.0
+  resolution: "@opentelemetry/api-logs@npm:0.221.0"
+  dependencies:
+    "@opentelemetry/api": ^1.3.0
+  checksum: 952c22a7cacee244cef225ef32f7c8ba6c1c247d16bb830d819e21018eb4ef5413435f006ceb7e8abd972a945556de4d8f016ca1971220a0ad6912d172b1516a
+  languageName: node
+  linkType: hard
+
 "@opentelemetry/api@npm:^1.3.0, @opentelemetry/api@npm:^1.9.0":
   version: 1.9.0
   resolution: "@opentelemetry/api@npm:1.9.0"
@@ -4541,16 +4553,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-mysql@npm:^0.63.0":
-  version: 0.63.0
-  resolution: "@opentelemetry/instrumentation-mysql@npm:0.63.0"
+"@opentelemetry/instrumentation-mysql@npm:^0.67.0":
+  version: 0.67.0
+  resolution: "@opentelemetry/instrumentation-mysql@npm:0.67.0"
   dependencies:
-    "@opentelemetry/instrumentation": ^0.217.0
+    "@opentelemetry/instrumentation": ^0.221.0
     "@opentelemetry/semantic-conventions": ^1.33.0
     "@types/mysql": 2.15.27
   peerDependencies:
     "@opentelemetry/api": ^1.3.0
-  checksum: f8328bc4bbb3eb3fa1f140062a69fcb42ee487dda3d5385da82e87137059e395d37743875029996445eac427b11d6ea5398ea9ecfbfeceb60c8e8939906ab3cf
+  checksum: b088dbc765f7cfcb82630ef670ac9e804b7c088da02d423f419a3e3563a608ece8d07dfadf4d9e5f68965794320e42f0194c22460442fe64773bb67e7435bba4
   languageName: node
   linkType: hard
 
@@ -4631,6 +4643,19 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ^1.3.0
   checksum: ba8062b34c7e9f0c0c5f00b030916ca13adc4f3da3df62e3b670e8a8a287a517ccd170a7a0cf68ef945f97fc8f42578d919b460b77728a803f3695c77176bf06
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/instrumentation@npm:^0.221.0":
+  version: 0.221.0
+  resolution: "@opentelemetry/instrumentation@npm:0.221.0"
+  dependencies:
+    "@opentelemetry/api-logs": 0.221.0
+    import-in-the-middle: ^3.0.0
+    require-in-the-middle: ^8.0.0
+  peerDependencies:
+    "@opentelemetry/api": ^1.3.0
+  checksum: 7f8b82b72a1b2f24f7d7c1562ff053e9baa6b839220e818152a5520073a7b221680efa7cced1a6d57b411d827a2df27c7324b3017904b33090ef7730443f2c52
   languageName: node
   linkType: hard
 
@@ -5389,6 +5414,13 @@ __metadata:
   dependencies:
     "@sinonjs/commons": ^1.7.0
   checksum: 09b5a158ce013a6c37613258bad79ca4efeb99b1f59c41c73cca36cac00b258aefcf46eeea970fccf06b989414d86fe9f54c1102272c0c3bdd51a313cea80949
+  languageName: node
+  linkType: hard
+
+"@standard-schema/spec@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "@standard-schema/spec@npm:1.1.0"
+  checksum: 6245ebef5e698bb04752a22e996a7cc40406a404d9f68a9d4e1a7a10f2422da287247508e7b495a2f32bb38f3d57b4daf2c9ab4bf22d9bca13e20a3dc5ec575e
   languageName: node
   linkType: hard
 
@@ -7226,23 +7258,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"accessibility-insights-report@npm:7.6.0":
-  version: 7.6.0
-  resolution: "accessibility-insights-report@npm:7.6.0"
-  dependencies:
-    "@fluentui/react": ^8.118.1
-    axe-core: 4.11.3
-    classnames: ^2.5.1
-    lodash: ^4.18.0
-    luxon: ^3.5.0
-    react: ^18.3.1
-    react-dom: ^18.3.1
-    react-helmet-async: ^2.0.5
-    uuid: ^14.0.0
-  checksum: fbfa1d756625ea639094dfd42401b6ab9bf1ba8034588cbacb6206632bf601f1b9c46e5d67c7d35c5743facf65c7350083be844a05f3761038a4d5276cdaf646
-  languageName: node
-  linkType: hard
-
 "accessibility-insights-report@npm:7.7.0":
   version: 7.7.0
   resolution: "accessibility-insights-report@npm:7.7.0"
@@ -7260,14 +7275,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"accessibility-insights-scan@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "accessibility-insights-scan@npm:3.4.0"
+"accessibility-insights-scan@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "accessibility-insights-scan@npm:3.5.0"
   dependencies:
     "@apify/log": 2.5.41
     "@axe-core/puppeteer": 4.11.2
-    "@crawlee/browser-pool": ^3.16.0
-    "@crawlee/puppeteer": ^3.16.0
+    "@crawlee/browser-pool": ^3.17.0
+    "@crawlee/puppeteer": ^3.17.0
     "@medv/finder": ^4.0.2
     "@opentelemetry/api": ^1.9.1
     "@opentelemetry/exporter-metrics-otlp-grpc": ^0.219.0
@@ -7275,7 +7290,7 @@ __metadata:
     "@opentelemetry/sdk-metrics": ^2.8.0
     "@opentelemetry/semantic-conventions": ^1.41.1
     "@sindresorhus/fnv1a": ^2.0.1
-    accessibility-insights-report: 7.6.0
+    accessibility-insights-report: 7.7.0
     ajv: ^8.20.0
     applicationinsights: ^3.15.1
     axe-core: 4.11.3
@@ -7299,11 +7314,11 @@ __metadata:
     reflect-metadata: ^0.2.2
     serialize-error: ^8.1.0
     sha.js: ^2.4.12
-    uuid-with-v6: ^2.0.0
+    uuid: ^11.1.1
     yargs: ^17.7.2
   bin:
     ai-scan: dist/ai-scan-cli.js
-  checksum: bef01cc53872c75b3f04884168a457fb3356053d6d823b3793865366ae32cc2fd769fb06bb1db6cb03c1a24eec2112d84baf820ec4afe41a8ee431f1781b81e5
+  checksum: 86b4aa0c78242253c80993329bc80fdd5cc320fea981d10fa846e3d9a85f76557ecbb036fa75e6e4bf09e680c087c90b9b0cce473acb6af5d053b622d28bdb7c
   languageName: node
   linkType: hard
 
@@ -7431,10 +7446,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"adm-zip@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "adm-zip@npm:0.6.0"
-  checksum: b564eb6dd877c1c93c52acef5f18f092a6286e3c6392c7d186ede6765e5c7d1b5006cb870284ec04a01aedc18c1e931cdc294f77ee33488d1e93b29a5c74a5ca
+"adm-zip@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "adm-zip@npm:0.6.1"
+  checksum: 4e3f4c7744e49329ac871c1b2fc4b2537db197b0b8db3ef2a8813a5aab3a12050ee471281e0d16ceb0e768465ef77ffc7f1f9283d1fef30795c1dbc487a16056
   languageName: node
   linkType: hard
 
@@ -8575,31 +8590,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"brace-expansion@npm:^1.1.18":
-  version: 1.1.18
-  resolution: "brace-expansion@npm:1.1.18::__archiveUrl=https%3A%2F%2Fms-feed-2.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2Fbrace-expansion%2F-%2Fbrace-expansion-1.1.18.tgz"
+"brace-expansion@npm:^1.1.21":
+  version: 1.1.21
+  resolution: "brace-expansion@npm:1.1.21"
   dependencies:
     balanced-match: ^1.0.0
     concat-map: 0.0.1
-  checksum: aa84023a4118f9185b6f8c71ca3467c945878b141ba340261de209676442f81b08db5b7c7c119707cdecb7322fcfcdb71d8ffea55db9d1aad673d7c65469211f
+  checksum: b841b4198a0ab8a1b433920ed65b46a9b4368c0ad1f95b2ed229a682c7d7d5b5839620204b5644a05c967d29e66bdf0a59b1115e74e0f27761d0dc02f5e0d835
   languageName: node
   linkType: hard
 
-"brace-expansion@npm:^2.1.4":
-  version: 2.1.4
-  resolution: "brace-expansion@npm:2.1.4::__archiveUrl=https%3A%2F%2Fms-feed-2.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2Fbrace-expansion%2F-%2Fbrace-expansion-2.1.4.tgz"
+"brace-expansion@npm:^2.1.7":
+  version: 2.1.7
+  resolution: "brace-expansion@npm:2.1.7"
   dependencies:
     balanced-match: ^1.0.0
-  checksum: a2e0b87c1d348fe7a424f8e383e113ac9c4f111753dba60069aa22d55de6855695bf83f56d9a96c92fb14f42be17e272d5a2761eac7e25ca6687fa2b6efa44a8
+  checksum: bc9b64f6b9726b102ade72e0efa77d2ee456fcde51400f8ad7295a18d686a6df0f6a34e3e742c336ab3a46b21b5154d69d81fc00ab25821b1193376549f71fef
   languageName: node
   linkType: hard
 
-"brace-expansion@npm:^5.0.9":
-  version: 5.0.9
-  resolution: "brace-expansion@npm:5.0.9::__archiveUrl=https%3A%2F%2Fms-feed-2.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2Fbrace-expansion%2F-%2Fbrace-expansion-5.0.9.tgz"
+"brace-expansion@npm:^5.0.12":
+  version: 5.0.12
+  resolution: "brace-expansion@npm:5.0.12"
   dependencies:
     balanced-match: ^4.0.2
-  checksum: 81d14bf63c4683fa03163320a0686ee34e67c4fba8525c26949cae42aae6020369a3263f01345ec456a8bc572ab762f85216d6700997ae9ef3eeecb7f3d8b28a
+  checksum: eed95008709cb43e41945d4a4c0427a859ddaa798880bdd36497a719b1487fd9481afaa14f202c232a594a27c21f5c0de196a37994a6e6eed4f680913d5363d3
   languageName: node
   linkType: hard
 
@@ -11849,10 +11864,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-uri@npm:3.1.6":
-  version: 3.1.6
-  resolution: "fast-uri@npm:3.1.6"
-  checksum: 5c895df5b50d91d8e8e8a8b6cfa4e8ca3f3d76ec17c8fcff34f5d68a3fb5494c35166599e4a35506934ff290167286469b2b4c7ececd17ae8d70927199477f1c
+"fast-uri@npm:3.1.8":
+  version: 3.1.8
+  resolution: "fast-uri@npm:3.1.8"
+  checksum: 3319c50163d6d1265d1fd06f677e0d24a4cc4312c48c7222a0dc6641b90463c4476cb83f3c7444e0d1d0cd123d330d300ea46c48386f6924f35c34f6dd865416
   languageName: node
   linkType: hard
 
@@ -13262,9 +13277,9 @@ __metadata:
   linkType: hard
 
 "http-cache-semantics@npm:^4.0.0, http-cache-semantics@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "http-cache-semantics@npm:4.1.1"
-  checksum: 83ac0bc60b17a3a36f9953e7be55e5c8f41acc61b22583060e8dedc9dd5e3607c823a88d0926f9150e571f90946835c7fe150732801010845c72cd8bbff1a236
+  version: 4.3.0
+  resolution: "http-cache-semantics@npm:4.3.0"
+  checksum: ca72a39d6a1a45b1cb1ddb37c9bac9ce69737a20e2f37cbf9866198424c370686c0bb19f125813e15da256a2f9d526a0fdfc7236b1f078826f2742ab95c93040
   languageName: node
   linkType: hard
 
@@ -16890,10 +16905,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.30.1":
-  version: 2.30.1
-  resolution: "moment@npm:2.30.1"
-  checksum: 859236bab1e88c3e5802afcf797fc801acdbd0ee509d34ea3df6eea21eb6bcc2abd4ae4e4e64aa7c986aa6cba563c6e62806218e6412a765010712e5fa121ba6
+"moment@npm:^2.31.0":
+  version: 2.31.0
+  resolution: "moment@npm:2.31.0::__archiveUrl=https%3A%2F%2Fms-feed-25.pkgs.visualstudio.com%2F1es-public%2F_packaging%2Fnpm-public%2Fnpm%2Fregistry%2Fmoment%2F-%2Fmoment-2.31.0.tgz"
+  checksum: e29cff3850438c66228cc43373ea8b6c480c7c3cfaf17ef9327653811d194734e7e2c1108b5cf2527ab0b2ba8907cbcb4f5dc3e764c044d5766eb7c4582759eb
   languageName: node
   linkType: hard
 
@@ -19136,13 +19151,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proxy-addr@npm:~2.0.7":
-  version: 2.0.7
-  resolution: "proxy-addr@npm:2.0.7"
+"proxy-addr@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "proxy-addr@npm:2.0.8"
   dependencies:
     forwarded: 0.2.0
     ipaddr.js: 1.9.1
-  checksum: 29c6990ce9364648255454842f06f8c46fcd124d3e6d7c5066df44662de63cdc0bad032e9bf5a3d653ff72141cc7b6019873d685708ac8210c30458ad99f2b74
+  checksum: 1878fa24a104ac3833f55583918964fbdcc6eedc076450548633dc1b4321e89947a9e93fc61d0c931712d3c46197de18855bc96a4feb73ba7bd4890a45508649
   languageName: node
   linkType: hard
 
@@ -21173,10 +21188,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stream-chain@npm:^2.2.5":
-  version: 2.2.5
-  resolution: "stream-chain@npm:2.2.5"
-  checksum: c83cbf504bd11e2bcbe761a92801295b3decac7ffa4092ceffca2eb1b5d0763bcc511fa22cd8044e8a18c21ca66794fd10c8d9cd1292a3e6c0d83a4194c6b8ed
+"stream-chain@npm:^4.2.5":
+  version: 4.2.6
+  resolution: "stream-chain@npm:4.2.6"
+  checksum: 8cc4ee7ea326a8cbe706d33f62f4a54cd7003bc493d23ee936b56a51636c0cad7b93c81da918402b83bc8e0075dc9ed7aeb208b1ec69f6cc7c22b7c6da2ae7f7
   languageName: node
   linkType: hard
 
@@ -21189,12 +21204,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stream-json@npm:^1.8.0":
-  version: 1.9.1
-  resolution: "stream-json@npm:1.9.1"
+"stream-json@npm:~3.7.0":
+  version: 3.7.0
+  resolution: "stream-json@npm:3.7.0"
   dependencies:
-    stream-chain: ^2.2.5
-  checksum: 2ebf0648f9ed82ee79727a9a47805231a70d5032e0c21cee3e05cd3c449d3ce49c72b371555447eeef55904bae22ac64be8ae6086fc6cce0b83b3aa617736b64
+    stream-chain: ^4.2.5
+  checksum: ef374b460506736a527a95f55b33b254a47ff5e3a55e9171b182c86f550a7bac578a846b6ce5131d647be857dcc99860303880fdf850560e596fe0eaff8f9150
   languageName: node
   linkType: hard
 
@@ -22587,7 +22602,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.6.3#~builtin<compat/typescript>":
   version: 5.6.3
-  resolution: "typescript@patch:typescript@npm%3A5.6.3#~builtin<compat/typescript>::version=5.6.3&hash=85af82"
+  resolution: "typescript@patch:typescript@npm%3A5.6.3#~builtin<compat/typescript>::version=5.6.3&hash=1f5320"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -22925,24 +22940,6 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: c81095493225ecfc28add49c106ca4f09cdf56bc66731aa8dabc2edbbccb1e1bfe2de6a115e5c6a380d3ea166d1636410b62ef216bb07b3feb1cfde1d95d5080
-  languageName: node
-  linkType: hard
-
-"uuid-with-v6@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "uuid-with-v6@npm:2.0.0"
-  dependencies:
-    uuid: 8.3.2
-  checksum: 8d76ee1ac97a891060045fc05b2dbc5303e56308090f63173ab1a7762ea4234624e5313b62fad8132205d564ef4654bfa9282bde8accaa192365f5e3b9587c0d
-  languageName: node
-  linkType: hard
-
-"uuid@npm:8.3.2":
-  version: 8.3.2
-  resolution: "uuid@npm:8.3.2"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
   languageName: node
   linkType: hard
 
