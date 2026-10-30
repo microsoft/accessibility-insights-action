@@ -32,7 +32,7 @@ __metadata:
     js-yaml: ^5.2.1
     mockdate: ^3.0.5
     npm-run-all: ^4.1.5
-    prettier: ^3.9.4
+    prettier: ^3.9.6
     reflect-metadata: ^0.2.2
     rimraf: ^6.1.3
     tfx-cli: ^0.23.4
@@ -76,13 +76,13 @@ __metadata:
     jest-file-snapshot: ^0.7.0
     jest-junit: ^17.0.0
     lodash: ^4.18.0
-    marked: ^18.0.5
+    marked: ^18.0.9
     marked-terminal: ^7.3.0
     mockdate: ^3.0.5
     normalize-path: ^3.0.0
     npm-run-all: ^4.1.5
     pony-cause: ^2.1.11
-    prettier: ^3.9.4
+    prettier: ^3.9.6
     reflect-metadata: ^0.2.2
     rimraf: ^6.1.3
     serialize-error: ^13.0.1
@@ -7246,7 +7246,7 @@ __metadata:
     license-check-and-add: ^4.0.5
     mockdate: ^3.0.5
     npm-run-all: ^4.1.5
-    prettier: ^3.9.4
+    prettier: ^3.9.6
     rimraf: ^6.1.3
     simple-git: ^3.36.0
     ts-jest: ^29.4.11
@@ -11864,10 +11864,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-uri@npm:3.1.8":
-  version: 3.1.8
-  resolution: "fast-uri@npm:3.1.8"
-  checksum: 3319c50163d6d1265d1fd06f677e0d24a4cc4312c48c7222a0dc6641b90463c4476cb83f3c7444e0d1d0cd123d330d300ea46c48386f6924f35c34f6dd865416
+"fast-uri@npm:3.1.9":
+  version: 3.1.9
+  resolution: "fast-uri@npm:3.1.9"
+  checksum: 4f882cff34cb1c4099b07285e5c7a628c62ff06d91f1a5b0aeb12d8ec002080bd2095ce5eec0855949d649dd8aeeff959a6f1db0f584f29b2e3e08fbb99d37fc
   languageName: node
   linkType: hard
 
@@ -12145,13 +12145,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.15.1":
-  version: 1.16.0
-  resolution: "follow-redirects@npm:1.16.0"
+"follow-redirects@npm:1.16.1":
+  version: 1.16.1
+  resolution: "follow-redirects@npm:1.16.1"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: e90dce4607b1f6b8b9883287f912585573c19088209ad82341d550a795b4ba514522b73b1b340cf618279df27975cd46504d09149be60291ba6767384c1fd8f8
+  checksum: d42ff9158fe6c66692567b712fd4bba25ef8736253c1436439642884f9c218df05fe946928d1944367b1b72f7ca5e5d277c26608159e2adf1bad9e42b12d2c30
   languageName: node
   linkType: hard
 
@@ -16447,7 +16447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:*, marked@npm:^18.0.5":
+"marked@npm:*":
   version: 18.0.5
   resolution: "marked@npm:18.0.5"
   bin:
@@ -16462,6 +16462,15 @@ __metadata:
   bin:
     marked: bin/marked.js
   checksum: 80757c268420d58d2fb2dadb8e1f9e80b96160dc667de69fe455cf5fd874e5cfec87a171249f49f28729e90de4bafa1f586562ffaad04836fe6e6c355365f60a
+  languageName: node
+  linkType: hard
+
+"marked@npm:^18.0.9":
+  version: 18.0.9
+  resolution: "marked@npm:18.0.9"
+  bin:
+    marked: bin/marked.js
+  checksum: 9b09278e7b211bd1ca3a668546c1f8937a6dbf842ef8991b5996e8cc23b17182c622e92a77895835e1e26e7c3010432316620435530fd2897998c301f168bcfb
   languageName: node
   linkType: hard
 
@@ -18936,12 +18945,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.9.4":
-  version: 3.9.4
-  resolution: "prettier@npm:3.9.4"
+"prettier@npm:^3.9.6":
+  version: 3.9.10
+  resolution: "prettier@npm:3.9.10"
   bin:
-    prettier: bin/prettier.cjs
-  checksum: 96b0125a8af78e1e3c2c3f916a768934a542d5fa64bf1819cbef5c9cb081b793ebe99eb202f98e230741595be9d14d73819380bd91988a7df422d704a97bb38c
+    prettier: ./bin/prettier.cjs
+  checksum: a031d6ce0d077d46a47424eb367708c426ef3d5a85e06eace273cb1fa9823fd3c5f8b6af7f1f4715474b5f98b7fdfa650b72d97e2742f16ff27006dc0a136d8a
   languageName: node
   linkType: hard
 
@@ -19287,13 +19296,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.16.0":
-  version: 6.16.0
-  resolution: "qs@npm:6.16.0"
+"qs@npm:^6.16.1":
+  version: 6.16.1
+  resolution: "qs@npm:6.16.1"
   dependencies:
     es-define-property: ^1.0.1
     side-channel: ^1.1.1
-  checksum: fb97665d1b481fadbcb17cc056f1af95ae93328195bf9536a56142137f4d9cc16fe2a1dab9cd17186c9fa69a7e6fa64a3766f71ffaa7c248ec5555f34d21047b
+  checksum: 56d617a5e3ea475eaafd1e860a66c0aa362c0d58c23e787ad71a137d67fb52fd9a9fff6aea2d38612443f24825fb23ea4d01bb7222e9d2ac32a5b6007027747c
   languageName: node
   linkType: hard
 
@@ -22602,7 +22611,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.6.3#~builtin<compat/typescript>":
   version: 5.6.3
-  resolution: "typescript@patch:typescript@npm%3A5.6.3#~builtin<compat/typescript>::version=5.6.3&hash=1f5320"
+  resolution: "typescript@patch:typescript@npm%3A5.6.3#~builtin<compat/typescript>::version=5.6.3&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
