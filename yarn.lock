@@ -4586,19 +4586,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-pg@npm:^0.69.0":
-  version: 0.69.0
-  resolution: "@opentelemetry/instrumentation-pg@npm:0.69.0"
+"@opentelemetry/instrumentation-pg@npm:^0.73.0":
+  version: 0.73.0
+  resolution: "@opentelemetry/instrumentation-pg@npm:0.73.0"
   dependencies:
-    "@opentelemetry/core": ^2.0.0
-    "@opentelemetry/instrumentation": ^0.217.0
+    "@opentelemetry/core": ^2.9.0
+    "@opentelemetry/instrumentation": ^0.221.0
     "@opentelemetry/semantic-conventions": ^1.34.0
-    "@opentelemetry/sql-common": ^0.41.2
+    "@opentelemetry/sql-common": ^0.42.0
     "@types/pg": 8.15.6
     "@types/pg-pool": 2.0.7
   peerDependencies:
     "@opentelemetry/api": ^1.3.0
-  checksum: 26a1b28445527150e0d912e35d233a9ad19b39f14eec5d38b62548483caf5a3b9b24a9134bf24b05ea21e4fa4b0c433f9084d2ed29651b8a7045e372f5ebc492
+  checksum: 422b07c527944489f9c484495c03f4042db458f34414b766538f3b1ca3101651a30d114b8470fb838b48eb6890228a786dcbc48e9c7cd7b001487ce1199d2d64
   languageName: node
   linkType: hard
 
@@ -5090,14 +5090,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/sql-common@npm:^0.41.2":
-  version: 0.41.2
-  resolution: "@opentelemetry/sql-common@npm:0.41.2"
+"@opentelemetry/sql-common@npm:^0.42.0":
+  version: 0.42.0
+  resolution: "@opentelemetry/sql-common@npm:0.42.0"
   dependencies:
     "@opentelemetry/core": ^2.0.0
   peerDependencies:
     "@opentelemetry/api": ^1.1.0
-  checksum: e54bf4ed09f406814867159f2cac9e2aa36307b70eabb00ccdec85782577063e11151f01e14b6b7e7016c9d62ba4c24c103bcf17ceed858f78fc42942b201101
+  checksum: 0b87644ea34c4675e9e2033b1f920b98fdb3004c18a4f6c8a2c08de10d6bcb9eea3bbfdbbc4417a575632b4f83123e7cb795f0ad17db3c4b4197e4ac8566293c
   languageName: node
   linkType: hard
 
